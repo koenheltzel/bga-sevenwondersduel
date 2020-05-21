@@ -5,6 +5,7 @@ namespace SWD;
 class Item
 {
 
+    public $id = 0;
     public $name = "";
     public $cost = []; // coins and or resources
     public $resources = []; // and their optional costs
@@ -13,7 +14,8 @@ class Item
     public $playEffects = [];
     public $endEffects = [];
 
-    public function __construct($name) {
+    public function __construct($id, $name) {
+        $this->id = $id;
         $this->name = $name;
     }
 
