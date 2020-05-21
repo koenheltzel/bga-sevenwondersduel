@@ -16,8 +16,21 @@
   *
   */
 
+// SWD namespace autoloader from /modules/ folder.
+$swdNamespaceAutoload = function ($class) {
+    $classParts = explode('\\', $class);
+    if ($classParts[0] == 'SWD') {
+        array_shift($classParts);
+        $file = dirname(__FILE__) . "/modules/" . implode(DIRECTORY_SEPARATOR, $classParts) . ".php";
+        if (file_exists($file)) {
+            require_once($file);
+        }
+    }
+};
+spl_autoload_register($swdNamespaceAutoload, true, true);
 
 require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
+if (0) require_once '_bga_ide_helper.php';
 
 
 class SevenWondersDuel extends Table
