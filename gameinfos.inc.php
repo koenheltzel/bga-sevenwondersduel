@@ -10,19 +10,19 @@
 
 */
 
-$gameinfos = array( 
+$gameinfos = array(
 
 // Name of the game in English (will serve as the basis for translation) 
 'game_name' => "Seven Wonders Duel",
 
 // Game designer (or game designers, separated by commas)
-'designer' => 'John Doe',       
+'designer' => 'Antoine Bauza, Bruno Cathala',
 
 // Game artist (or game artists, separated by commas)
-'artist' => 'Jane Doe',         
+'artist' => 'Miguel Coimbra',
 
 // Year of FIRST publication of this game. Can be negative.
-'year' => 2000,                 
+'year' => 2015,
 
 // Game publisher
 'publisher' => 'Repos Production',                     
@@ -31,10 +31,10 @@ $gameinfos = array(
 'publisher_website' => 'https://www.rprod.com/',   
 
 // Board Game Geek ID of the publisher
-'publisher_bgg_id' => 68,
+'publisher_bgg_id' => 4384,
 
 // Board game geek ID of the game
-'bgg_id' => 0,
+'bgg_id' => 173346,
 
 
 // Players configuration that can be played (ex: 2 to 4 players)
@@ -80,16 +80,16 @@ $gameinfos = array(
 
 
 // Complexity of the game, from 0 (extremely simple) to 5 (extremely complex)
-'complexity' => 1,    
+'complexity' => 2,
 
 // Luck of the game, from 0 (absolutely no luck in this game) to 5 (totally luck driven)
-'luck' => 2,    
+'luck' => 3,
 
 // Strategy of the game, from 0 (no strategy can be setup) to 5 (totally based on strategy)
-'strategy' => 3,    
+'strategy' => 4,
 
 // Diplomacy of the game, from 0 (no interaction in this game) to 5 (totally based on interaction and discussion between players)
-'diplomacy' => 1,    
+'diplomacy' => 3,
 
 // Colors attributed to players
 'player_colors' => array( "ff0000", "008000", "0000ff", "ffa500", "773300" ),
