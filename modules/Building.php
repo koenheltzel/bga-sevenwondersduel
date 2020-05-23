@@ -10,7 +10,8 @@ class Building extends Item {
     public $scienceSymbol = null; // coins and or resources
     public $fixedPriceResources = [];
     public $linkedBuilding = 0;
-    public $coinsNowPerBuildingOfType = [];
+    public $coinsPerBuildingOfType = [];
+    public $coinsPerWonder = 0;
 
     public function __construct($id, $age, $name, $type) {
         $this->age = $age;
@@ -42,6 +43,15 @@ class Building extends Item {
      */
     public function setCoinsPerBuildingOfType(string $type, int $coins) {
         $this->coinsNowPerBuildingOfType = [$type => $coins];
+        return $this;
+    }
+
+    /**
+     * @param int $coinsPerWonder
+     * @return static
+     */
+    public function setCoinsPerWonder(int $coinsPerWonder) {
+        $this->coinsPerWonder = $coinsPerWonder;
         return $this;
     }
 
