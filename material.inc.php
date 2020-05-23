@@ -347,6 +347,72 @@ $age3[] = (new Building($id++, 3, clienttranslate("Armory"), TYPE_YELLOW))
     ->setCoinsPerBuildingOfType(TYPE_RED, 1)
     ->setVictoryPoints(3);
 
+$age3[] = (new Building($id++, 3, clienttranslate("Palace"), TYPE_BLUE))
+    ->setCost([CLAY => 1, STONE => 1, WOOD => 1, GLASS => 2])
+    ->setVictoryPoints(7);
+
+$age3[] = (new Building($id++, 3, clienttranslate("Town Hall"), TYPE_BLUE))
+    ->setCost([STONE => 3, WOOD => 2])
+    ->setVictoryPoints(7);
+
+$age3[] = (new Building($id++, 3, clienttranslate("Obelisk"), TYPE_BLUE))
+    ->setCost([STONE => 2, GLASS => 1])
+    ->setVictoryPoints(5);
+
+$age3[] = (new Building($id++, 3, clienttranslate("Fortifications"), TYPE_RED))
+    ->setCost([STONE => 2, CLAY => 1, PAPYRUS => 1])
+    ->setLinkedBuilding(29) // Palisade
+    ->setMilitary(2);
+
+$age3[] = (new Building($id++, 3, clienttranslate("Siege Workshop"), TYPE_RED))
+    ->setCost([WOOD => 3, GLASS => 1])
+    ->setLinkedBuilding(48) // Archery Range
+    ->setMilitary(2);
+
+$age3[] = (new Building($id++, 3, clienttranslate("Circus"), TYPE_RED))
+    ->setCost([CLAY => 2, STONE => 2])
+    ->setLinkedBuilding(49) // Parade Ground
+    ->setMilitary(2);
+
+$age3[] = (new Building($id++, 3, clienttranslate("University"), TYPE_GREEN))
+    ->setCost([CLAY => 1, GLASS => 1, PAPYRUS => 1])
+    ->setLinkedBuilding(52) // School
+    ->setScientificSymbol(1)
+    ->setVictoryPoints(2);
+
+$age3[] = (new Building($id++, 3, clienttranslate("Observatory"), TYPE_GREEN))
+    ->setCost([STONE => 1, PAPYRUS => 2])
+    ->setLinkedBuilding(53) // Laboratory
+    ->setScientificSymbol(1)
+    ->setVictoryPoints(2);
+
+$age3[] = (new Building($id++, 3, clienttranslate("Gardens"), TYPE_BLUE))
+    ->setCost([CLAY => 2, WOOD => 2])
+    ->setLinkedBuilding(54) // Statue
+    ->setVictoryPoints(6);
+
+$age3[] = (new Building($id++, 3, clienttranslate("Pantheon"), TYPE_BLUE))
+    ->setCost([CLAY => 1, WOOD => 1, PAPYRUS => 2])
+    ->setLinkedBuilding(55) // Temple
+    ->setVictoryPoints(6);
+
+$age3[] = (new Building($id++, 3, clienttranslate("Senate"), TYPE_BLUE))
+    ->setCost([CLAY => 2, STONE => 1, PAPYRUS => 1])
+    ->setLinkedBuilding(57) // Rostrum
+    ->setVictoryPoints(5);
+
+$age3[] = (new Building($id++, 3, clienttranslate("Lighthouse"), TYPE_YELLOW))
+    ->setCost([CLAY => 2, GLASS => 1])
+    ->setLinkedBuilding(35) // Tavern
+    ->setCoinsPerBuildingOfType(TYPE_YELLOW, 1)
+    ->setVictoryPoints(3);
+
+$age3[] = (new Building($id++, 3, clienttranslate("Arena"), TYPE_YELLOW))
+    ->setCost([CLAY => 1, STONE => 1, WOOD => 1])
+    ->setLinkedBuilding(58) // Brewery
+    ->setCoinsPerWonder(2)
+    ->setVictoryPoints(3);
+
 
 
 //   ____       _ _     _
