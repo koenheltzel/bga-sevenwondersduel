@@ -8,7 +8,8 @@ class Item
     public $id = 0;
     public $name = "";
     public $cost = []; // coins and or resources
-    public $resources = []; // and their optional costs
+    public $resources = [];
+    public $resourceChoice = [];
     public $military = 0;
     public $victoryPoints = 0;
     public $coins = 0; // coins as a reward, not cost
@@ -72,6 +73,15 @@ class Item
      */
     public function setScientificSymbol(int $scientificSymbol) {
         $this->scientificSymbol = $scientificSymbol;
+        return $this;
+    }
+
+    /**
+     * @param array $resourceChoice
+     * @return static
+     */
+    public function setResourceChoice(array $resourceChoice) {
+        $this->resourceChoice = $resourceChoice;
         return $this;
     }
 
