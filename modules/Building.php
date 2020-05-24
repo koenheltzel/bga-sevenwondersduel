@@ -12,6 +12,9 @@ class Building extends Item {
     public $linkedBuilding = 0;
     public $coinsPerBuildingOfType = [];
     public $coinsPerWonder = 0;
+    public $guildRewardWonders = false;
+    public $guildRewardCoinTriplets = false;
+    public $guildRewardBuildingTypes = [];
 
     public function __construct($id, $age, $name, $type) {
         $this->age = $age;
@@ -52,6 +55,33 @@ class Building extends Item {
      */
     public function setCoinsPerWonder(int $coinsPerWonder) {
         $this->coinsPerWonder = $coinsPerWonder;
+        return $this;
+    }
+
+    /**
+     * @param bool $guildRewardWonders
+     * @return static
+     */
+    public function setGuildRewardWonders(bool $guildRewardWonders) {
+        $this->guildRewardWonders = $guildRewardWonders;
+        return $this;
+    }
+
+    /**
+     * @param bool $guildRewardCoinTriplets
+     * @return static
+     */
+    public function setGuildRewardCoinTriplets(bool $guildRewardCoinTriplets) {
+        $this->guildRewardCoinTriplets = $guildRewardCoinTriplets;
+        return $this;
+    }
+
+    /**
+     * @param array $guildRewardBuildingTypes
+     * @return static
+     */
+    public function setGuildRewardBuildingTypes(array $guildRewardBuildingTypes) {
+        $this->guildRewardBuildingTypes = $guildRewardBuildingTypes;
         return $this;
     }
 
