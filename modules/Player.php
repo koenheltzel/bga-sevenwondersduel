@@ -26,10 +26,28 @@ class Player {
         self::$instances[$id] = $this;
     }
 
+    public function resourceCount($searchResource) {
+        global $items;
+        $count = 0;
+        foreach ($this->items as $id) {
+            /** @var Building $item */
+            $item = $items[$id];
+            if ($item instanceof Building && in_array($item->type, [TYPE_BROWN, TYPE_GREY])) {
+                foreach($item->resources as $resource => $amount) {
+                    if ($searchResource == $resource) {
+                        $count += $amount;
+                    }
+                }
+            }
+        }
+        return $count;
+    }
+
     /**
      * @param Item $buyingItem
      */
-    public function pay($buyingItem) {
+    public function calculateCost($buyingItem) {
+        print "<PRE>Calculate cost for player to buy \"{$buyingItem->name}\" card.</PRE>";
         global $items;
         $costLeft = $buyingItem->cost;
         print "<PRE>" . print_r($costLeft, true) . "</PRE>";
@@ -41,7 +59,7 @@ class Player {
             foreach($item->resources as $resource => $amount) {
                 if (array_key_exists($resource, $costLeft)) {
                     $canProduce = min($costLeft[$resource], $amount);
-                    print "<PRE>Player produces {$canProduce} {$resource} with building {$item->name}.</PRE>";
+                    print "<PRE>Player produces {$canProduce} {$resource} with building \"{$item->name}\".</PRE>";
                     $costLeft[$resource] -= $canProduce;
                     if ($costLeft[$resource] <= 0) {
                         unset($costLeft[$resource]);
@@ -61,7 +79,7 @@ class Player {
                 foreach($item->fixedPriceResources as $resource => $amount) {
                     if (array_key_exists($resource, $costLeft)) {
                         $tmpCost = $costLeft[$resource] * $amount;
-                        print "<PRE>Player pays {$tmpCost} coins for {$amount} {$resource} because of the fixed cost through building {$item->name}.</PRE>";
+                        print "<PRE>Player pays {$tmpCost} coin(s) for {$amount} {$resource} using the fixed cost building \"{$item->name}\" offers.</PRE>";
                         $cost += $tmpCost;
                         unset($costLeft[$resource]);
                         print "<PRE>" . print_r($costLeft, true) . "</PRE>";
@@ -72,12 +90,12 @@ class Player {
 
         // What should the player pay for the remaining resources?
         foreach ($costLeft as $resource => $amount) {
-            $opponentHas = 0;
-            $tmpCost = $amount * 2 + $opponentHas;
+            $opponentResourceCount = Player::opponent()->resourceCount($resource);
+            $tmpCost = $amount * 2 + $opponentResourceCount;
             $cost += $tmpCost;
             unset($costLeft[$resource]);
-            if ($opponentHas > 0) {
-                print "<PRE>Player pays {$tmpCost} coins for {$amount} {$resource} because opponent can produce {$opponentHas} {$resource}.</PRE>";
+            if ($opponentResourceCount > 0) {
+                print "<PRE>Player pays {$tmpCost} coins for {$amount} {$resource} because opponent can produce {$opponentResourceCount} {$resource}.</PRE>";
             }
             else {
                 print "<PRE>Player pays {$tmpCost} coins for {$amount} {$resource}.</PRE>";

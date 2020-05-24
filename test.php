@@ -24,9 +24,13 @@ $items = /*$wonders +*/ $age1 + $age2 + $age3;
 $player1 = new \SWD\Player(1);
 $player2 = new \SWD\Player(2);
 
-//shuffle($items);
-$player1->items = [13, 19, 26];
-$player2->items = [36];
+// Calculate "Study" cost, testing fixed cost and oponent resource production.
+//$player1->items = [13, 19, 26];
+//$player2->items = [36, 20, 40];
+//Player::me()->calculateCost($items[62]); // Study
 
-Player::me()->pay($items[62]); // Study
+// Calculate "Study" cost, testing fixed cost and oponent resource production.
+$player1->items = [13, 19, 26];
+$player2->items = [36, 20, 40];
+Player::me()->calculateCost($items[62]); // Study
 
