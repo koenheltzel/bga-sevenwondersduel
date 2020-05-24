@@ -25,7 +25,7 @@ $player1 = new \SWD\Player(1);
 $player2 = new \SWD\Player(2);
 
 //shuffle($items);
-$player1->items = [13, 19];
+$player1->items = [13, 19, 26];
 $player2->items = [36];
 
 Player::me()->pay($items[62]); // Study

@@ -40,9 +40,9 @@ class Player {
             $item = $items[$id];
             foreach($item->resources as $resource => $amount) {
                 if (array_key_exists($resource, $costLeft)) {
-                    $canPay = min($costLeft[$resource], $amount);
-                    print "<PRE>Player pays {$canPay} {$resource} with building {$item->name}.</PRE>";
-                    $costLeft[$resource] -= $canPay;
+                    $canProduce = min($costLeft[$resource], $amount);
+                    print "<PRE>Player produces {$canProduce} {$resource} with building {$item->name}.</PRE>";
+                    $costLeft[$resource] -= $canProduce;
                     if ($costLeft[$resource] <= 0) {
                         unset($costLeft[$resource]);
                     }
@@ -51,18 +51,41 @@ class Player {
             }
         }
 
-        // What should the played pay for the remaining resources?
+        $cost = 0;
+
+        // Any fixed price resources?
+        foreach ($this->items as $id) {
+            /** @var Building $item */
+            $item = $items[$id];
+            if ($item instanceof Building) {
+                foreach($item->fixedPriceResources as $resource => $amount) {
+                    if (array_key_exists($resource, $costLeft)) {
+                        $tmpCost = $costLeft[$resource] * $amount;
+                        print "<PRE>Player pays {$tmpCost} coins for {$amount} {$resource} because of the fixed cost through building {$item->name}.</PRE>";
+                        $cost += $tmpCost;
+                        unset($costLeft[$resource]);
+                        print "<PRE>" . print_r($costLeft, true) . "</PRE>";
+                    }
+                }
+            }
+        }
+
+        // What should the player pay for the remaining resources?
         foreach ($costLeft as $resource => $amount) {
             $opponentHas = 0;
-            $cost = $amount * 2 + $opponentHas;
+            $tmpCost = $amount * 2 + $opponentHas;
+            $cost += $tmpCost;
+            unset($costLeft[$resource]);
             if ($opponentHas > 0) {
-                print "<PRE>Player pays {$cost} coins for {$amount} {$resource} because opponent can produce {$opponentHas} {$resource}.</PRE>";
+                print "<PRE>Player pays {$tmpCost} coins for {$amount} {$resource} because opponent can produce {$opponentHas} {$resource}.</PRE>";
             }
             else {
-                print "<PRE>Player pays {$cost} coins for {$amount} {$resource}.</PRE>";
+                print "<PRE>Player pays {$tmpCost} coins for {$amount} {$resource}.</PRE>";
             }
 
         }
+
+        print "<PRE>Total cost: {$cost}</PRE>";
     }
 
 }
