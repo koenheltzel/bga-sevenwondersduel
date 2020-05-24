@@ -69,6 +69,10 @@ class Player {
             }
         }
 
+        // What about resource "choice" cards? In order to make the most optimal choice we should consider all combinations
+        // and the costs of the remaining resources.
+        // TODO
+
         $cost = 0;
 
         // Any fixed price resources?
