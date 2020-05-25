@@ -71,11 +71,38 @@ class Player {
 
         // What about resource "choice" cards? In order to make the most optimal choice we should consider all combinations
         // and the costs of the remaining resources.
-        // TODO
+        $choices = [];
+        $itemIds = [];
+        foreach ($this->items as $id) {
+            /** @var Building $item */
+            $item = $items[$id];
+            if (count($item->resourceChoice) > 0) {
+                $choices[] = $item->resourceChoice;
+                $itemIds[] = array_fill(0, count($item->resourceChoice), $item->id);
+            }
+//            foreach($item->resourceChoice as $resource) {
+//                print "<PRE>" . print_r($item->name . " " . $resource, true) . "</PRE>";
+//            }
+        }
+        $combinations = $this->combinations($choices);
+//        print "<PRE>" . print_r($combinations, true) . "</PRE>";
+//        exit;
 
-        $cost = 0;
+        $costExplanation = $this->resourceCostToPlayer($costLeft);
 
-        // Any fixed price resources?
+        print "<PRE>Total cost: {$costExplanation->totalCost()}</PRE>";
+    }
+
+
+    /**
+     * If the player needs to buy a resource with coins, how much is it?
+     */
+    public function resourceCostToPlayer($costLeft) {
+        global $items;
+
+        $costExplanation = new CostExplanation();
+
+        // Any fixed price resources (Stone Reserve, Clay Reserve, Wood Reserve)?
         foreach ($this->items as $id) {
             /** @var Building $item */
             $item = $items[$id];
@@ -83,8 +110,9 @@ class Player {
                 foreach($item->fixedPriceResources as $resource => $amount) {
                     if (array_key_exists($resource, $costLeft)) {
                         $tmpCost = $costLeft[$resource] * $amount;
-                        print "<PRE>Player pays {$tmpCost} coin(s) for {$amount} {$resource} using the fixed cost building \"{$item->name}\" offers.</PRE>";
-                        $cost += $tmpCost;
+                        $string = "Player pays {$tmpCost} coin(s) for {$amount} {$resource} using the fixed cost building \"{$item->name}\" offers.";
+                        $costExplanation->addRow($tmpCost, $item->id, $string);
+                        print "<PRE>" . print_r($string, true) . "</PRE>";
                         unset($costLeft[$resource]);
                         print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                     }
@@ -96,18 +124,47 @@ class Player {
         foreach ($costLeft as $resource => $amount) {
             $opponentResourceCount = Player::opponent()->resourceCount($resource);
             $tmpCost = $amount * 2 + $opponentResourceCount;
-            $cost += $tmpCost;
-            unset($costLeft[$resource]);
+            $string = null;
             if ($opponentResourceCount > 0) {
-                print "<PRE>Player pays {$tmpCost} coins for {$amount} {$resource} because opponent can produce {$opponentResourceCount} {$resource}.</PRE>";
+                $string = "Player pays {$tmpCost} coins for {$amount} {$resource} because opponent can produce {$opponentResourceCount} {$resource}.";
             }
             else {
-                print "<PRE>Player pays {$tmpCost} coins for {$amount} {$resource}.</PRE>";
+                $string = "Player pays {$tmpCost} coins for {$amount} {$resource}.";
             }
-
+            print "<PRE>" . print_r($string, true) . "</PRE>";
+            $costExplanation->addRow($tmpCost, $item->id, $string);
+            unset($costLeft[$resource]);
         }
 
-        print "<PRE>Total cost: {$cost}</PRE>";
+        return $costExplanation;
+    }
+
+    /**
+     * Thanks to Krzysztof https://stackoverflow.com/a/8567199
+     */
+    private function combinations($arrays, $i = 0) {
+        if (!isset($arrays[$i])) {
+            return array();
+        }
+        if ($i == count($arrays) - 1) {
+            return $arrays[$i];
+        }
+
+        // get combinations from subsequent arrays
+        $tmp = $this->combinations($arrays, $i + 1);
+
+        $result = array();
+
+        // concat each array from tmp with each element from $arrays[$i]
+        foreach ($arrays[$i] as $v) {
+            foreach ($tmp as $t) {
+                $result[] = is_array($t) ?
+                    array_merge(array($v), $t) :
+                    array($v, $t);
+            }
+        }
+
+        return $result;
     }
 
 }
