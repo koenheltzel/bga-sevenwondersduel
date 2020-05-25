@@ -89,8 +89,39 @@ class Player {
 //                print "<PRE>" . print_r($item->name . " " . $resource, true) . "</PRE>";
 //            }
         }
-        $combinations = $this->combinations($choices);
-//        print "<PRE>" . print_r($combinations, true) . "</PRE>";
+        if (count($choices) > 0) {
+            if($print) print "<PRE>=========================================================</PRE>";
+            $combinations = $this->combinations($choices);
+            /** @var CostExplanation $cheapestCombination */
+            $cheapestCombination = null;
+            foreach($combinations as $combinationIndex => $combination) {
+                $costLeftCopy = $costLeft;
+                $combination = array_count_values($combination);
+                $resourcesFound = false;
+                foreach ($costLeftCopy as $resource => $amount) {
+                    if(isset($combination[$resource])) {
+                        $resourcesFound = true;
+                        $costLeftCopy[$resource] -= $combination[$resource];
+                        if ($costLeftCopy[$resource] <= 0) {
+                            unset($costLeftCopy[$resource]);
+                        }
+                    }
+                }
+                if ($resourcesFound) {
+                    if($print) print "<PRE>Considering combination of choice card resources: " . print_r($combination, true) . "</PRE>";
+                    if($print) print "<PRE>Resources needed afterwards: " . print_r($costLeftCopy, true) . "</PRE>";
+                    $tmpCostExplanation = $this->resourceCostToPlayer($costLeftCopy, null, $print);
+                    if(is_null($cheapestCombination) || $tmpCostExplanation->totalCost() < $cheapestCombination->totalCost()) {
+                        $cheapestCombination = $tmpCostExplanation;
+                    }
+                    if($print) print "<PRE>Cost to player: " . print_r($tmpCostExplanation->totalCost(), true) . "</PRE>";
+                }
+                if($print) print "<PRE>=========================================================</PRE>";
+            }
+            if (is_null($cheapestCombination)) {
+                // TODO we need $costLeftCopy of the cheapest combination here.
+            }
+        }
 //        exit;
 
         $this->resourceCostToPlayer($costLeft, $costExplanation, $print);
