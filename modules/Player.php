@@ -52,7 +52,7 @@ class Player {
         $costLeft = $buyingItem->cost;
         if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
 
-        $costExplanation = new CostExplanation();
+        $payment = new Payment();
 
         // What can the player produce with basic brown / grey cards?
         foreach ($this->items as $id) {
@@ -63,7 +63,7 @@ class Player {
                     $canProduce = min($costLeft[$resource], $amount);
 
                     $string = "Player produces {$canProduce} {$resource} with building \"{$item->name}\".";
-                    $costExplanation->addRow(0, $item->id, $string);
+                    $payment->addStep(0, $item->id, $string);
                     if($print) print "<PRE>$string</PRE>";
                     $costLeft[$resource] -= $canProduce;
                     if ($costLeft[$resource] <= 0) {
@@ -89,7 +89,7 @@ class Player {
         if (count($choices) > 0) {
             if($printChoices) print "<PRE>=========================================================</PRE>";
             $combinations = $this->combinations($choices);
-            /** @var CostExplanation $cheapestCombination */
+            /** @var Payment $cheapestCombination */
             $cheapestCombination = null;
             $cheapestCombinationIndex = null;
             $cheapestCombinationCostLeft = null;
@@ -109,13 +109,13 @@ class Player {
                 if ($resourcesFound) {
                     if($printChoices) print "<PRE>Considering combination of choice card resources: " . print_r($combination, true) . "</PRE>";
                     if($printChoices) print "<PRE>Resources needed afterwards: " . print_r($costLeftCopy, true) . "</PRE>";
-                    $tmpCostExplanation = $this->resourceCostToPlayer($costLeftCopy, null, $printChoices);
-                    if(is_null($cheapestCombination) || $tmpCostExplanation->totalCost() < $cheapestCombination->totalCost()) {
-                        $cheapestCombination = $tmpCostExplanation;
+                    $tmpPayment = $this->resourceCostToPlayer($costLeftCopy, null, $printChoices);
+                    if(is_null($cheapestCombination) || $tmpPayment->totalCost() < $cheapestCombination->totalCost()) {
+                        $cheapestCombination = $tmpPayment;
                         $cheapestCombinationIndex = $combinationIndex;
                         $cheapestCombinationCostLeft = $costLeftCopy;
                     }
-                    if($printChoices) print "<PRE>Cost to player: " . print_r($tmpCostExplanation->totalCost(), true) . "</PRE>";
+                    if($printChoices) print "<PRE>Cost to player: " . print_r($tmpPayment->totalCost(), true) . "</PRE>";
                 }
                 if($printChoices) print "<PRE>=========================================================</PRE>";
             }
@@ -127,7 +127,7 @@ class Player {
                     $type = $wonder ? 'wonder' : 'building';
                     $string = "Player produces 1 {$resource} with {$type} \"{$item->name}\".";
                     if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
-                    $costExplanation->addRow(0, $item->id, $string);
+                    $payment->addStep(0, $item->id, $string);
                 }
                 if($printChoices) print "<PRE>Cheapest combination: " . print_r($cheapestCombination, true) . "</PRE>";
                 if($printChoices) print "<PRE>Cheapest combination: " . print_r($combinations[$cheapestCombinationIndex], true) . "</PRE>";
@@ -135,21 +135,21 @@ class Player {
         }
 
         // Any remaining cost should be paid with coins - let's calculate how much:
-        $this->resourceCostToPlayer($costLeft, $costExplanation, $print);
+        $this->resourceCostToPlayer($costLeft, $payment, $print);
 
-        if($print) print "<PRE>Total cost: {$costExplanation->totalCost()}</PRE>";
+        if($print) print "<PRE>Total cost: {$payment->totalCost()}</PRE>";
 
-        return $costExplanation;
+        return $payment;
     }
 
 
     /**
      * If the player needs to buy a resource with coins, how much is it?
      */
-    public function resourceCostToPlayer($costLeft, $costExplanation = null, $print = false) {
+    public function resourceCostToPlayer($costLeft, $payment = null, $print = false) {
         global $items;
 
-        if(is_null($costExplanation)) $costExplanation = new CostExplanation();
+        if(is_null($payment)) $payment = new Payment();
 
         // Any fixed price resources (Stone Reserve, Clay Reserve, Wood Reserve)?
         foreach ($this->items as $id) {
@@ -160,7 +160,7 @@ class Player {
                     if (array_key_exists($resource, $costLeft)) {
                         $cost = $costLeft[$resource] * $price;
                         $string = "Player pays {$cost} coin(s) for {$costLeft[$resource]} {$resource} using the fixed cost building \"{$item->name}\" offers.";
-                        $costExplanation->addRow($cost, $item->id, $string);
+                        $payment->addStep($cost, $item->id, $string);
                         if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
                         unset($costLeft[$resource]);
                         if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
@@ -181,11 +181,11 @@ class Player {
                 $string = "Player pays {$cost} coins for {$amount} {$resource}.";
             }
             if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
-            $costExplanation->addRow($cost, $item->id, $string);
+            $payment->addStep($cost, $item->id, $string);
             unset($costLeft[$resource]);
         }
 
-        return $costExplanation;
+        return $payment;
     }
 
     /**

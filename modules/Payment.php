@@ -2,25 +2,25 @@
 
 namespace SWD;
 
-class CostExplanation
+class Payment
 {
 
     /**
-     * @var CostExplanationRow[] array
+     * @var PaymentStep[] array
      */
-    public $rows = [];
+    public $steps = [];
 
     public function __construct() {
 
     }
 
-    public function addRow($cost, $itemId, $string) {
-        $this->rows[] = new CostExplanationRow($cost, $itemId, $string);
+    public function addStep($cost, $itemId, $string) {
+        $this->steps[] = new PaymentStep($cost, $itemId, $string);
     }
 
     public function totalCost() {
         $cost = 0;
-        foreach($this->rows as $row) {
+        foreach($this->steps as $row) {
             $cost += $row->cost;
         }
         return $cost;
@@ -28,7 +28,7 @@ class CostExplanation
 
 }
 
-class CostExplanationRow
+class PaymentStep
 {
 
     public $cost = 0;
