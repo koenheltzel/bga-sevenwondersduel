@@ -46,11 +46,11 @@ class Player {
     /**
      * @param Item $buyingItem
      */
-    public function calculateCost($buyingItem, $print = false) {
+    public function calculateCost($buyingItem, $print = false, $printChoices = false) {
         if($print) print "<PRE>Calculate cost for player to buy \"{$buyingItem->name}\" card.</PRE>";
         global $items;
         $costLeft = $buyingItem->cost;
-        if($print) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
+        if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
 
         $costExplanation = new CostExplanation();
 
@@ -69,7 +69,7 @@ class Player {
                     if ($costLeft[$resource] <= 0) {
                         unset($costLeft[$resource]);
                     }
-                    if($print) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
+                    if($print && $costLeft > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                 }
             }
         }
@@ -77,23 +77,22 @@ class Player {
         // What about resource "choice" cards? In order to make the most optimal choice we should consider all combinations
         // and the costs of the remaining resources to pick the cheapest solution.
         $choices = [];
-        $itemIds = [];
+        $choiceItemIds = [];
         foreach ($this->items as $id) {
             /** @var Building $item */
             $item = $items[$id];
             if (count($item->resourceChoice) > 0) {
                 $choices[] = $item->resourceChoice;
-                $itemIds[] = array_fill(0, count($item->resourceChoice), $item->id);
+                $choiceItemIds[] = $id;
             }
-//            foreach($item->resourceChoice as $resource) {
-//                print "<PRE>" . print_r($item->name . " " . $resource, true) . "</PRE>";
-//            }
         }
         if (count($choices) > 0) {
-            if($print) print "<PRE>=========================================================</PRE>";
+            if($printChoices) print "<PRE>=========================================================</PRE>";
             $combinations = $this->combinations($choices);
             /** @var CostExplanation $cheapestCombination */
             $cheapestCombination = null;
+            $cheapestCombinationIndex = null;
+            $cheapestCombinationCostLeft = null;
             foreach($combinations as $combinationIndex => $combination) {
                 $costLeftCopy = $costLeft;
                 $combination = array_count_values($combination);
@@ -108,22 +107,34 @@ class Player {
                     }
                 }
                 if ($resourcesFound) {
-                    if($print) print "<PRE>Considering combination of choice card resources: " . print_r($combination, true) . "</PRE>";
-                    if($print) print "<PRE>Resources needed afterwards: " . print_r($costLeftCopy, true) . "</PRE>";
-                    $tmpCostExplanation = $this->resourceCostToPlayer($costLeftCopy, null, $print);
+                    if($printChoices) print "<PRE>Considering combination of choice card resources: " . print_r($combination, true) . "</PRE>";
+                    if($printChoices) print "<PRE>Resources needed afterwards: " . print_r($costLeftCopy, true) . "</PRE>";
+                    $tmpCostExplanation = $this->resourceCostToPlayer($costLeftCopy, null, $printChoices);
                     if(is_null($cheapestCombination) || $tmpCostExplanation->totalCost() < $cheapestCombination->totalCost()) {
                         $cheapestCombination = $tmpCostExplanation;
+                        $cheapestCombinationIndex = $combinationIndex;
+                        $cheapestCombinationCostLeft = $costLeftCopy;
                     }
-                    if($print) print "<PRE>Cost to player: " . print_r($tmpCostExplanation->totalCost(), true) . "</PRE>";
+                    if($printChoices) print "<PRE>Cost to player: " . print_r($tmpCostExplanation->totalCost(), true) . "</PRE>";
                 }
-                if($print) print "<PRE>=========================================================</PRE>";
+                if($printChoices) print "<PRE>=========================================================</PRE>";
             }
-            if (is_null($cheapestCombination)) {
-                // TODO we need $costLeftCopy of the cheapest combination here.
+            if (!is_null($cheapestCombination)) {
+                $costLeft = $cheapestCombinationCostLeft;
+                foreach($combinations[$cheapestCombinationIndex] as $choiceItemIndex => $resource) {
+                    $item = $items[$choiceItemIds[$choiceItemIndex]];
+                    $wonder = $item instanceof Wonder;
+                    $type = $wonder ? 'wonder' : 'building';
+                    $string = "Player produces 1 {$resource} with {$type} \"{$item->name}\".";
+                    if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
+                    $costExplanation->addRow(0, $item->id, $string);
+                }
+                if($printChoices) print "<PRE>Cheapest combination: " . print_r($cheapestCombination, true) . "</PRE>";
+                if($printChoices) print "<PRE>Cheapest combination: " . print_r($combinations[$cheapestCombinationIndex], true) . "</PRE>";
             }
         }
-//        exit;
 
+        // Any remaining cost should be paid with coins - let's calculate how much:
         $this->resourceCostToPlayer($costLeft, $costExplanation, $print);
 
         if($print) print "<PRE>Total cost: {$costExplanation->totalCost()}</PRE>";
@@ -145,14 +156,14 @@ class Player {
             /** @var Building $item */
             $item = $items[$id];
             if ($item instanceof Building) {
-                foreach($item->fixedPriceResources as $resource => $amount) {
+                foreach($item->fixedPriceResources as $resource => $price) {
                     if (array_key_exists($resource, $costLeft)) {
-                        $cost = $costLeft[$resource] * $amount;
-                        $string = "Player pays {$cost} coin(s) for {$amount} {$resource} using the fixed cost building \"{$item->name}\" offers.";
+                        $cost = $costLeft[$resource] * $price;
+                        $string = "Player pays {$cost} coin(s) for {$costLeft[$resource]} {$resource} using the fixed cost building \"{$item->name}\" offers.";
                         $costExplanation->addRow($cost, $item->id, $string);
                         if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
                         unset($costLeft[$resource]);
-                        if($print) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
+                        if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                     }
                 }
             }
