@@ -32,5 +32,6 @@ $player2 = new \SWD\Player(2);
 // Calculate "Study" cost, testing fixed cost and oponent resource production.
 $player1->items = [13, 19, 26, 5, 8];
 $player2->items = [36, 20, 40];
-Player::me()->calculateCost($items[62]); // Study
+$costExplanation = Player::me()->calculateCost($items[62], true); // Study
+print "<PRE>" . print_r($costExplanation, true) . "</PRE>";
 
