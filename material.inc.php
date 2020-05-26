@@ -35,12 +35,12 @@ $this->card_types = array(
 use SWD\Building;
 use SWD\Wonder;
 
-define('COINS', 'COINS');
-define('CLAY', 'CLAY');
-define('WOOD', 'WOOD');
-define('STONE', 'STONE');
-define('GLASS', 'GLASS');
-define('PAPYRUS', 'PAPYRUS');
+define('COINS', 'Coin(s)');
+define('CLAY', 'Clay');
+define('WOOD', 'Wood');
+define('STONE', 'Stone');
+define('GLASS', 'Glass');
+define('PAPYRUS', 'Papyrus');
 
 define('TYPE_BROWN', 'TYPE_BROWN');
 define('TYPE_GREY', 'TYPE_GREY');
