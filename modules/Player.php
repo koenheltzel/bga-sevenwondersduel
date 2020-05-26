@@ -4,6 +4,7 @@ namespace SWD;
 
 class Player {
 
+    public $playerId = null;
     public $wonderIds = [];
     public $buildingIds = [];
     public $progressTokenIds = [];
@@ -25,9 +26,12 @@ class Player {
     }
 
     public function __construct($id) {
+        if(is_numeric($id)) {
+            $this->playerId = $id;
+        }
         self::$instances[$id] = $this;
     }
-
+    
     /**
      * Count resources of the specified type as provided by Brown and Grey cards only.
      * @param $searchResource
@@ -60,22 +64,19 @@ class Player {
         $payment = new Payment();
 
         // What can the player produce with basic brown / grey cards?
-        foreach ($this->buildingIds as $id) {
-            $building = Building::get($id);
-            if (in_array($building->type, [TYPE_BROWN, TYPE_GREY])) {
-                foreach($building->resources as $resource => $amount) {
-                    if (array_key_exists($resource, $costLeft)) {
-                        $canProduce = min($costLeft[$resource], $amount);
-    
-                        $string = "Player produces {$canProduce} {$resource} with building \"{$building->name}\".";
-                        $payment->addStep(0, $building->id, $string);
-                        if($print) print "<PRE>$string</PRE>";
-                        $costLeft[$resource] -= $canProduce;
-                        if ($costLeft[$resource] <= 0) {
-                            unset($costLeft[$resource]);
-                        }
-                        if($print && $costLeft > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
+        foreach ($this->getBuildings()->filterByTypes([TYPE_BROWN, TYPE_GREY]) as $building) {
+            foreach($building->resources as $resource => $amount) {
+                if (array_key_exists($resource, $costLeft)) {
+                    $canProduce = min($costLeft[$resource], $amount);
+
+                    $string = "Player produces {$canProduce} {$resource} with building \"{$building->name}\".";
+                    $payment->addStep(0, $building->id, $string);
+                    if($print) print "<PRE>$string</PRE>";
+                    $costLeft[$resource] -= $canProduce;
+                    if ($costLeft[$resource] <= 0) {
+                        unset($costLeft[$resource]);
                     }
+                    if($print && $costLeft > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                 }
             }
         }
@@ -84,18 +85,16 @@ class Player {
         // and the costs of the remaining resources to pick the cheapest solution.
         $choices = [];
         $choiceItemIds = [];
-        foreach ($this->buildingIds as $id) {
-            $building = Building::get($id);
+        foreach ($this->getBuildings() as $building) {
             if (count($building->resourceChoice) > 0) {
                 $choices[] = $building->resourceChoice;
-                $choiceItemIds[] = "B{$id}";
+                $choiceItemIds[] = "B{$building->id}";
             }
         }
-        foreach ($this->wonderIds as $id) {
-            $wonder = Wonder::get($id);
+        foreach ($this->getWonders() as $wonder) {
             if (count($wonder->resourceChoice) > 0) {
                 $choices[] = $wonder->resourceChoice;
-                $choiceItemIds[] = "W{$id}";
+                $choiceItemIds[] = "W{$wonder->id}";
             }
         }
         if (count($choices) > 0) {
@@ -171,18 +170,15 @@ class Player {
         if(is_null($payment)) $payment = new Payment();
 
         // Any fixed price resources (Stone Reserve, Clay Reserve, Wood Reserve)?
-        foreach ($this->buildingIds as $id) {
-            $building = Building::get($id);
-            if (in_array($building->type, [TYPE_YELLOW])) {
-                foreach($building->fixedPriceResources as $resource => $price) {
-                    if (array_key_exists($resource, $costLeft)) {
-                        $cost = $costLeft[$resource] * $price;
-                        $string = "Player pays {$cost} coin(s) for {$costLeft[$resource]} {$resource} using the fixed cost building \"{$building->name}\" offers.";
-                        $payment->addStep($cost, $building->id, $string);
-                        if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
-                        unset($costLeft[$resource]);
-                        if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
-                    }
+        foreach ($this->getBuildings()->filterByTypes([TYPE_YELLOW]) as $building) {
+            foreach($building->fixedPriceResources as $resource => $price) {
+                if (array_key_exists($resource, $costLeft)) {
+                    $cost = $costLeft[$resource] * $price;
+                    $string = "Player pays {$cost} coin(s) for {$costLeft[$resource]} {$resource} using the fixed cost building \"{$building->name}\" offers.";
+                    $payment->addStep($cost, $building->id, $string);
+                    if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
+                    unset($costLeft[$resource]);
+                    if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                 }
             }
         }
@@ -210,6 +206,14 @@ class Player {
      * Thanks to Krzysztof https://stackoverflow.com/a/8567199
      */
     private function combinations($arrays, $i = 0) {
+        // Custom by Koen, in case of 1 record, it wouldn't return the possibilities as separate records.
+        if($i == 0 && count($arrays) == 1) {
+            $result = [];
+            foreach($arrays[0] as $resource) {
+                $result[] = [$resource];
+            }
+            return $result;
+        }
         if (!isset($arrays[$i])) {
             return array();
         }
@@ -232,6 +236,27 @@ class Player {
         }
 
         return $result;
+    }
+
+    /**
+     * @return Wonders
+     */
+    public function getWonders(): Wonders {
+        return Wonders::createByWonderIds($this->wonderIds);
+    }
+
+    /**
+     * @return Buildings
+     */
+    public function getBuildings(): Buildings {
+        return Buildings::createByBuildingIds($this->buildingIds);
+    }
+
+    /**
+     * @return array
+     */
+    public function getProgressTokens(): array {
+        return $this->progressTokenIds;
     }
 
 }
