@@ -34,6 +34,7 @@ $this->card_types = array(
 
 use SWD\Building;
 use SWD\Wonder;
+use SWD\ProgressToken;
 
 define('COINS', 'Coin(s)');
 define('CLAY', 'Clay');
@@ -457,3 +458,28 @@ $guilds[73] = (new Building(73, 4, clienttranslate("Tacticians Guild"), TYPE_PUR
 //                  |___/
 
 $progressTokens = [];
+
+$guilds[1] = (new ProgressToken(1, clienttranslate("Agriculture")))
+    ->setCoins(6)
+    ->setVictoryPoints(4);
+
+$guilds[2] = (new ProgressToken(2, clienttranslate("Architecture")));
+
+$guilds[3] = (new ProgressToken(3, clienttranslate("Economy")));
+
+$guilds[4] = (new ProgressToken(4, clienttranslate("Law")))
+    ->setScientificSymbol(2);
+
+$guilds[5] = (new ProgressToken(5, clienttranslate("Masonry")));
+
+$guilds[6] = (new ProgressToken(6, clienttranslate("Mathematics")));
+
+$guilds[7] = (new ProgressToken(7, clienttranslate("Philosophy")))
+    ->setVictoryPoints(7);
+
+$guilds[8] = (new ProgressToken(8, clienttranslate("Strategy")));
+
+$guilds[9] = (new ProgressToken(9, clienttranslate("Theology")));
+
+$guilds[10] = (new ProgressToken(10, clienttranslate("Urbanism")))
+    ->setCoins(6);
