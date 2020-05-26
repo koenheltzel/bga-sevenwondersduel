@@ -70,7 +70,7 @@ class Player {
                     $canProduce = min($costLeft[$resource], $amount);
 
                     $string = "Player produces {$canProduce} {$resource} with building \"{$building->name}\".";
-                    $payment->addStep(0, $building->id, $string);
+                    $payment->addStep($resource, $canProduce, 0, Item::TYPE_BUILDING, $building->id, $string);
                     if($print) print "<PRE>$string</PRE>";
                     $costLeft[$resource] -= $canProduce;
                     if ($costLeft[$resource] <= 0) {
@@ -88,13 +88,13 @@ class Player {
         foreach ($this->getBuildings() as $building) {
             if (count($building->resourceChoice) > 0) {
                 $choices[] = $building->resourceChoice;
-                $choiceItemIds[] = "B{$building->id}";
+                $choiceItemIds[] = Item::TYPE_BUILDING . $building->id;
             }
         }
         foreach ($this->getWonders() as $wonder) {
             if (count($wonder->resourceChoice) > 0) {
                 $choices[] = $wonder->resourceChoice;
-                $choiceItemIds[] = "W{$wonder->id}";
+                $choiceItemIds[] = Item::TYPE_WONDER . $wonder->id;;
             }
         }
         if (count($choices) > 0) {
@@ -133,20 +133,20 @@ class Player {
             if (!is_null($cheapestCombination)) {
                 $costLeft = $cheapestCombinationCostLeft;
                 foreach($combinations[$cheapestCombinationIndex] as $choiceItemIndex => $resource) {
-                    $cardType = substr($choiceItemIds[$choiceItemIndex], 0, 1);
+                    $itemType = substr($choiceItemIds[$choiceItemIndex], 0, 1);
                     $cardId = substr($choiceItemIds[$choiceItemIndex], 1);
-                    switch ($cardType) {
-                        case 'B':
+                    switch ($itemType) {
+                        case Item::TYPE_BUILDING:
                             $building = Building::get($cardId);
                             $string = "Player produces 1 {$resource} with building \"{$building->name}\".";
                             if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
-                            $payment->addStep(0, $building->id, $string);
+                            $payment->addStep($resource, 1, 0, Item::TYPE_BUILDING, $building->id, $string);
                             break;
-                        case 'W':
+                        case Item::TYPE_WONDER:
                             $wonder = Wonder::get($cardId);
                             $string = "Player produces 1 {$resource} with wonder \"{$wonder->name}\".";
                             if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
-                            $payment->addStep(0, $wonder->id, $string);
+                            $payment->addStep($resource, 1, 0, Item::TYPE_WONDER, $wonder->id, $string);
                             break;
                     }
                 }
@@ -165,6 +165,10 @@ class Player {
 
     /**
      * If the player needs to buy a resource with coins, how much is it?
+     * @param $costLeft
+     * @param Payment|null $payment
+     * @param bool $print
+     * @return Payment|null
      */
     public function resourceCostToPlayer($costLeft, $payment = null, $print = false) {
         if(is_null($payment)) $payment = new Payment();
@@ -175,7 +179,7 @@ class Player {
                 if (array_key_exists($resource, $costLeft)) {
                     $cost = $costLeft[$resource] * $price;
                     $string = "Player pays {$cost} coin(s) for {$costLeft[$resource]} {$resource} using the fixed cost building \"{$building->name}\" offers.";
-                    $payment->addStep($cost, $building->id, $string);
+                    $payment->addStep($resource, $costLeft[$resource], $cost, Item::TYPE_BUILDING, $building->id, $string);
                     if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
                     unset($costLeft[$resource]);
                     if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
@@ -195,7 +199,7 @@ class Player {
                 $string = "Player pays {$cost} coins for {$amount} {$resource}.";
             }
             if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
-            $payment->addStep($cost, null, $string);
+            $payment->addStep($resource, $amount, $cost, null, null, $string);
             unset($costLeft[$resource]);
         }
 
@@ -257,6 +261,10 @@ class Player {
      */
     public function getProgressTokens(): array {
         return $this->progressTokenIds;
+    }
+
+    public function hasProgressToken($id) : bool {
+        return in_array($id, $this->progressTokenIds);
     }
 
 }

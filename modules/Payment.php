@@ -14,8 +14,8 @@ class Payment
 
     }
 
-    public function addStep($cost, $itemId, $string) {
-        $this->steps[] = new PaymentStep($cost, $itemId, $string);
+    public function addStep($resource, $amount, $cost, $itemType, $itemId, $string) {
+        $this->steps[] = new PaymentStep($resource, $amount, $cost, $itemType, $itemId, $string);
     }
 
     public function totalCost() {
@@ -31,14 +31,20 @@ class Payment
 class PaymentStep
 {
 
+    public $resource;
+    public $amount;
     public $cost = 0;
-    public $string = "";
+    public $itemType;
     public $itemId;
+    public $string = "";
 
-    public function __construct($cost, $itemId, $string) {
+    public function __construct($resource, $amount, $cost, $itemType, $itemId, $string) {
+        $this->resource = $resource;
+        $this->amount = $amount;
         $this->cost = $cost;
-        $this->string = $string;
+        $this->itemType = $itemType;
         $this->itemId = $itemId;
+        $this->string = $string;
     }
 
 }

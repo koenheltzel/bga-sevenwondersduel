@@ -5,6 +5,11 @@ namespace SWD;
 class Item
 {
 
+    // Don't change these values without looking at their use in the Player class. Right now they need to stay 1 char.
+    const TYPE_BUILDING = 'B';
+    const TYPE_WONDER = 'W';
+    const TYPE_PROGRESSTOKEN = 'P';
+
     public $id = 0;
     public $name = "";
     public $cost = []; // coins and or resources
