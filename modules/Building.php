@@ -16,6 +16,15 @@ class Building extends Item {
     public $guildRewardCoinTriplets = false;
     public $guildRewardBuildingTypes = [];
 
+    /**
+     * @param $id
+     * @return Building
+     */
+    public static function get($id) {
+        global $buildings;
+        return $buildings[$id];
+    }
+
     public function __construct($id, $age, $name, $type) {
         $this->age = $age;
         $this->type = $type;

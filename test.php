@@ -1,5 +1,6 @@
 <?php
 // SWD namespace autoloader from /modules/ folder.
+use SWD\Building;
 use SWD\Player;
 
 $swdNamespaceAutoload = function ($class) {
@@ -19,20 +20,21 @@ function clienttranslate($translation) {
 }
 
 require_once 'material.inc.php';
-$items = $wonders + $age1 + $age2 + $age3;
+$buildings = $age1 + $age2 + $age3 + $guilds;
 
 $player1 = new \SWD\Player(1);
 $player2 = new \SWD\Player(2);
 
 // Calculate "Study" cost, testing fixed cost and oponent resource production.
-$player1->items = [13, 19, 26];
-$player2->items = [36, 20, 40];
-$payment = Player::me()->calculateCost($items[62]); // Study
-print "<PRE>" . print_r($payment, true) . "</PRE>";
+//$player1->buildingIds = [1, 7, 14];
+//$player2->buildingIds = [24, 8, 28];
+//$payment = Player::me()->calculateCost($buildings[62]); // Study
+//print "<PRE>" . print_r($payment, true) . "</PRE>";
 
 // Calculate "Study" cost, testing fixed cost and oponent resource production.
-//$player1->items = [/*13, 19,*/ 26, 5, 8, 42];
-//$player2->items = [36, 20, 40];
-//$payment = Player::me()->calculateCost($items[62], true); // Study
-//print "<PRE>" . print_r($payment, true) . "</PRE>";
+$player1->wonderIds = [5, 8];
+$player1->buildingIds = [14, 30];
+$player2->buildingIds = [24, 8, 28];
+$payment = Player::me()->calculateCost(Building::get(50), true); // Study
+print "<PRE>" . print_r($payment, true) . "</PRE>";
 

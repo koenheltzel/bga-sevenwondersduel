@@ -4,7 +4,9 @@ namespace SWD;
 
 class Player {
 
-    public $items = [];
+    public $wonderIds = [];
+    public $buildingIds = [];
+    public $progressTokenIds = [];
 
     public static $instances = [];
 
@@ -26,14 +28,17 @@ class Player {
         self::$instances[$id] = $this;
     }
 
+    /**
+     * Count resources of the specified type as provided by Brown and Grey cards only.
+     * @param $searchResource
+     * @return int
+     */
     public function resourceCount($searchResource) {
-        global $items;
         $count = 0;
-        foreach ($this->items as $id) {
-            /** @var Building $item */
-            $item = $items[$id];
-            if ($item instanceof Building && in_array($item->type, [TYPE_BROWN, TYPE_GREY])) {
-                foreach($item->resources as $resource => $amount) {
+        foreach ($this->buildingIds as $id) {
+            $building = Building::get($id);
+            if (in_array($building->type, [TYPE_BROWN, TYPE_GREY])) {
+                foreach($building->resources as $resource => $amount) {
                     if ($searchResource == $resource) {
                         $count += $amount;
                     }
@@ -48,28 +53,29 @@ class Player {
      */
     public function calculateCost($buyingItem, $print = false, $printChoices = false) {
         if($print) print "<PRE>Calculate cost for player to buy \"{$buyingItem->name}\" card.</PRE>";
-        global $items;
+
         $costLeft = $buyingItem->cost;
         if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
 
         $payment = new Payment();
 
         // What can the player produce with basic brown / grey cards?
-        foreach ($this->items as $id) {
-            /** @var Item $item */
-            $item = $items[$id];
-            foreach($item->resources as $resource => $amount) {
-                if (array_key_exists($resource, $costLeft)) {
-                    $canProduce = min($costLeft[$resource], $amount);
-
-                    $string = "Player produces {$canProduce} {$resource} with building \"{$item->name}\".";
-                    $payment->addStep(0, $item->id, $string);
-                    if($print) print "<PRE>$string</PRE>";
-                    $costLeft[$resource] -= $canProduce;
-                    if ($costLeft[$resource] <= 0) {
-                        unset($costLeft[$resource]);
+        foreach ($this->buildingIds as $id) {
+            $building = Building::get($id);
+            if (in_array($building->type, [TYPE_BROWN, TYPE_GREY])) {
+                foreach($building->resources as $resource => $amount) {
+                    if (array_key_exists($resource, $costLeft)) {
+                        $canProduce = min($costLeft[$resource], $amount);
+    
+                        $string = "Player produces {$canProduce} {$resource} with building \"{$building->name}\".";
+                        $payment->addStep(0, $building->id, $string);
+                        if($print) print "<PRE>$string</PRE>";
+                        $costLeft[$resource] -= $canProduce;
+                        if ($costLeft[$resource] <= 0) {
+                            unset($costLeft[$resource]);
+                        }
+                        if($print && $costLeft > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                     }
-                    if($print && $costLeft > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                 }
             }
         }
@@ -78,12 +84,18 @@ class Player {
         // and the costs of the remaining resources to pick the cheapest solution.
         $choices = [];
         $choiceItemIds = [];
-        foreach ($this->items as $id) {
-            /** @var Building $item */
-            $item = $items[$id];
-            if (count($item->resourceChoice) > 0) {
-                $choices[] = $item->resourceChoice;
-                $choiceItemIds[] = $id;
+        foreach ($this->buildingIds as $id) {
+            $building = Building::get($id);
+            if (count($building->resourceChoice) > 0) {
+                $choices[] = $building->resourceChoice;
+                $choiceItemIds[] = "B{$id}";
+            }
+        }
+        foreach ($this->wonderIds as $id) {
+            $wonder = Wonder::get($id);
+            if (count($wonder->resourceChoice) > 0) {
+                $choices[] = $wonder->resourceChoice;
+                $choiceItemIds[] = "W{$id}";
             }
         }
         if (count($choices) > 0) {
@@ -122,15 +134,24 @@ class Player {
             if (!is_null($cheapestCombination)) {
                 $costLeft = $cheapestCombinationCostLeft;
                 foreach($combinations[$cheapestCombinationIndex] as $choiceItemIndex => $resource) {
-                    $item = $items[$choiceItemIds[$choiceItemIndex]];
-                    $wonder = $item instanceof Wonder;
-                    $type = $wonder ? 'wonder' : 'building';
-                    $string = "Player produces 1 {$resource} with {$type} \"{$item->name}\".";
-                    if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
-                    $payment->addStep(0, $item->id, $string);
+                    $cardType = substr($choiceItemIds[$choiceItemIndex], 0, 1);
+                    $cardId = substr($choiceItemIds[$choiceItemIndex], 1);
+                    switch ($cardType) {
+                        case 'B':
+                            $building = Building::get($cardId);
+                            $string = "Player produces 1 {$resource} with building \"{$building->name}\".";
+                            if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
+                            $payment->addStep(0, $building->id, $string);
+                            break;
+                        case 'W':
+                            $wonder = Wonder::get($cardId);
+                            $string = "Player produces 1 {$resource} with wonder \"{$wonder->name}\".";
+                            if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
+                            $payment->addStep(0, $wonder->id, $string);
+                            break;
+                    }
                 }
-                if($printChoices) print "<PRE>Cheapest combination: " . print_r($cheapestCombination, true) . "</PRE>";
-                if($printChoices) print "<PRE>Cheapest combination: " . print_r($combinations[$cheapestCombinationIndex], true) . "</PRE>";
+                if($printChoices) print "<PRE>Cheapest combination: " . print_r([$combinations[$cheapestCombinationIndex], $cheapestCombination], true) . "</PRE>";
             }
         }
 
@@ -147,20 +168,17 @@ class Player {
      * If the player needs to buy a resource with coins, how much is it?
      */
     public function resourceCostToPlayer($costLeft, $payment = null, $print = false) {
-        global $items;
-
         if(is_null($payment)) $payment = new Payment();
 
         // Any fixed price resources (Stone Reserve, Clay Reserve, Wood Reserve)?
-        foreach ($this->items as $id) {
-            /** @var Building $item */
-            $item = $items[$id];
-            if ($item instanceof Building) {
-                foreach($item->fixedPriceResources as $resource => $price) {
+        foreach ($this->buildingIds as $id) {
+            $building = Building::get($id);
+            if (in_array($building->type, [TYPE_YELLOW])) {
+                foreach($building->fixedPriceResources as $resource => $price) {
                     if (array_key_exists($resource, $costLeft)) {
                         $cost = $costLeft[$resource] * $price;
-                        $string = "Player pays {$cost} coin(s) for {$costLeft[$resource]} {$resource} using the fixed cost building \"{$item->name}\" offers.";
-                        $payment->addStep($cost, $item->id, $string);
+                        $string = "Player pays {$cost} coin(s) for {$costLeft[$resource]} {$resource} using the fixed cost building \"{$building->name}\" offers.";
+                        $payment->addStep($cost, $building->id, $string);
                         if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
                         unset($costLeft[$resource]);
                         if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
@@ -181,7 +199,7 @@ class Player {
                 $string = "Player pays {$cost} coins for {$amount} {$resource}.";
             }
             if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
-            $payment->addStep($cost, $item->id, $string);
+            $payment->addStep($cost, null, $string);
             unset($costLeft[$resource]);
         }
 
