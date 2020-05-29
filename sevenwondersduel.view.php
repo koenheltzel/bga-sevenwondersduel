@@ -23,6 +23,8 @@
  * Note: if the HTML of your game interface is always the same, you don't have to place anything here.
  *
  */
+
+use \SWD\Building;
   
   require_once( APP_BASE_PATH."view/common/game.view.php" );
   
@@ -37,6 +39,10 @@
         $players = $this->game->loadPlayersBasicInfos();
         $players_nbr = count( $players );
 
+        /*********** Place your code below:  ************/
+        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "building" );
+        $this->page->reset_subblocks( 'building' );
+
         $age1 = [
             [5,7],
             [4,6,8],
@@ -45,9 +51,6 @@
             [1,3,5,7,9,11],
         ];
 
-        /*********** Place your code below:  ************/
-        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "building" );
-        $this->page->reset_subblocks( 'building' );
         foreach($age1 as $rowIndex => $columns) {
             $row = $rowIndex + 1;
             foreach($columns as $column) {
