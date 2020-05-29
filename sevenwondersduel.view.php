@@ -37,7 +37,28 @@
         $players = $this->game->loadPlayersBasicInfos();
         $players_nbr = count( $players );
 
+        $age1 = [
+            [5,7],
+            [4,6,8],
+            [3,5,7,9],
+            [2,4,6,8,10],
+            [1,3,5,7,9,11],
+        ];
+
         /*********** Place your code below:  ************/
+        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "building" );
+        $this->page->reset_subblocks( 'building' );
+        foreach($age1 as $rowIndex => $columns) {
+            $row = $rowIndex + 1;
+            foreach($columns as $column) {
+                $this->page->insert_block("building", [
+                    'id' => random_int(1, 73),
+                    'zindex' => $row * 10,
+                    'column' => $column,
+                    'row' => $row,
+                ]);
+            }
+        }
 
 
         /*
