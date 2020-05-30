@@ -20,7 +20,6 @@ function clienttranslate($translation) {
 }
 
 require_once 'material.inc.php';
-$buildings = $age1 + $age2 + $age3 + $guilds;
 
 $player1 = new \SWD\Player(1);
 $player2 = new \SWD\Player(2);
