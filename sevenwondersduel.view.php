@@ -55,13 +55,23 @@ use \SWD\Building;
             foreach($columns as $column) {
                 $id = random_int(1, 73);
 //                $building = Building::get($id); // This doesn't work here. Even $buildings doesn't exist. So we'll have to do this via js?
+                if ($row % 2 == 0) {
+                    $x = 3;
+                    $y = 7;
+                }
+                else {
+                    $x = ($id % 10) - 1;
+                    $y = floor($id / 10);
+                };
+
+                $array = [];
                 $this->page->insert_block("building", [
                     'id' => $id,
                     'zindex' => $row * 10,
                     'column' => $column,
                     'row' => $row,
-                    'x' => ($id % 10) - 1,
-                    'y' => floor($id / 10),
+                    'x' => $x,
+                    'y' => $y,
                 ]);
             }
         }

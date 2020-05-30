@@ -62,46 +62,47 @@ if (!defined('COINS')) {
 //    \_/\_/ \___/|_| |_|\__,_|\___|_|  |___/
 
     $wonders = [];
-    $wonders[1] = (new Wonder(1, clienttranslate("The Appian Way")))
-        ->setCost([STONE => 2, CLAY => 2, PAPYRUS => 1])
-        ->setCoins(3);
 
-    $wonders[2] = (new Wonder(2, clienttranslate("Circus Maximus")))
-        ->setCost([STONE => 2, WOOD => 1, GLASS => 1]);
+    $wonders[1] = (new Wonder(1, clienttranslate("The Pyramids")))
+        ->setCost([STONE => 3, PAPYRUS => 1]);
 
-    $wonders[3] = (new Wonder(3, clienttranslate("The Colossus")))
+    $wonders[2] = (new Wonder(2, clienttranslate("The Colossus")))
         ->setCost([CLAY => 3, GLASS => 1]);
 
-    $wonders[4] = (new Wonder(4, clienttranslate("The Great Library")))
-        ->setCost([WOOD => 3, GLASS => 1, PAPYRUS => 1]);
+    $wonders[3] = (new Wonder(3, clienttranslate("The Great Lighthouse")))
+        ->setCost([WOOD => 1, STONE => 1, PAPYRUS => 2]);
 
-    $wonders[5] = (new Wonder(5, clienttranslate("The Great Lighthouse")))
-        ->setCost([WOOD => 1, STONE => 1, PAPYRUS => 2])
-        ->setResourceChoice([WOOD, STONE, CLAY]);
+    $wonders[4] = (new Wonder(4, clienttranslate("The Temple of Artemis")))
+        ->setCost([WOOD => 1, STONE => 1, GLASS => 1, PAPYRUS => 1])
+        ->setCoins(12);
 
-    $wonders[6] = (new Wonder(6, clienttranslate("The Hanging Gardens")))
-        ->setCost([WOOD => 2, GLASS => 1, PAPYRUS => 1])
-        ->setCoins(6);
-
-    $wonders[7] = (new Wonder(7, clienttranslate("The Mausoleum")))
+    $wonders[5] = (new Wonder(5, clienttranslate("The Mausoleum")))
         ->setCost([CLAY => 2, GLASS => 2, PAPYRUS => 1]);
 
-    $wonders[8] = (new Wonder(8, clienttranslate("Piraeus")))
+    $wonders[6] = (new Wonder(6, clienttranslate("The Great Library")))
+        ->setCost([WOOD => 3, GLASS => 1, PAPYRUS => 1]);
+
+    $wonders[7] = (new Wonder(7, clienttranslate("Piraeus")))
         ->setCost([WOOD => 2, STONE => 1, CLAY => 1])
         ->setResourceChoice([PAPYRUS, GLASS]);
 
-    $wonders[9] = (new Wonder(9, clienttranslate("The Pyramids")))
-        ->setCost([STONE => 3, PAPYRUS => 1]);
+    $wonders[8] = (new Wonder(8, clienttranslate("The Hanging Gardens")))
+        ->setCost([WOOD => 2, GLASS => 1, PAPYRUS => 1])
+        ->setCoins(6);
+
+    $wonders[9] = (new Wonder(9, clienttranslate("The Statue of Zeus")))
+        ->setCost([STONE => 1, WOOD => 1, CLAY => 2, PAPYRUS => 2]);
 
     $wonders[10] = (new Wonder(10, clienttranslate("The Sphinx")))
         ->setCost([STONE => 1, CLAY => 1, GLASS => 1]);
 
-    $wonders[11] = (new Wonder(11, clienttranslate("The Statue of Zeus")))
-        ->setCost([STONE => 1, WOOD => 1, CLAY => 2, PAPYRUS => 2]);
+    $wonders[11] = (new Wonder(11, clienttranslate("The Appian Way")))
+        ->setCost([STONE => 2, CLAY => 2, PAPYRUS => 1])
+        ->setCoins(3);
 
-    $wonders[12] = (new Wonder(12, clienttranslate("The Temple of Artemis")))
-        ->setCost([WOOD => 1, STONE => 1, GLASS => 1, PAPYRUS => 1])
-        ->setCoins(12);
+    $wonders[12] = (new Wonder(12, clienttranslate("Circus Maximus")))
+        ->setCost([STONE => 2, WOOD => 1, GLASS => 1])
+        ->setResourceChoice([WOOD, STONE, CLAY]);
 
 //     _                  ___
 //    / \   __ _  ___    |_ _|

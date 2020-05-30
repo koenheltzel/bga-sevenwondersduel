@@ -86,9 +86,13 @@
 
 .building_small {
     width: 104px;
-    height: 160px;
+    height: 160.5px;
 }
 
+.age1_back { background-position: -300% -700%; }
+.age2_back { background-position: -400% -700%; }
+.age3_back { background-position: -500% -700%; }
+.guild_back { background-position: -600% -700%; }
 
 .column1 { left: calc(62px * (1 - 1)); }
 .column2 { left: calc(62px * (2 - 1)); }

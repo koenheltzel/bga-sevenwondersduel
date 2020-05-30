@@ -30,13 +30,8 @@ This is your game interface. You can edit this HTML in your ".tpl" file.
 
 <div>
     <div class="whiteblock draftpool">
-        <!--<div class="building building1 building_small"></div>
-        <div class="building building10 building_small"></div>
-        <div class="building building11"></div>
-        <div class="building building12"></div>
-        <div class="building building13"></div>-->
         <!-- BEGIN building -->
-        <div class="building building{id} building_small column{column} row{row}" style="z-index: {zindex}; background-position: -{x}00% -{y}00%;"></div>
+        <div class="building building_small column{column} row{row}" style="z-index: {zindex}; background-position: -{x}00% -{y}00%;"></div>
         <!-- END building -->
     </div>
 </div>
