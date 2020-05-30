@@ -70,7 +70,8 @@ if (!defined('COINS')) {
         ->setCost([CLAY => 3, GLASS => 1]);
 
     $wonders[3] = (new Wonder(3, clienttranslate("The Great Lighthouse")))
-        ->setCost([WOOD => 1, STONE => 1, PAPYRUS => 2]);
+        ->setCost([WOOD => 1, STONE => 1, PAPYRUS => 2])
+        ->setResourceChoice([WOOD, STONE, CLAY]);
 
     $wonders[4] = (new Wonder(4, clienttranslate("The Temple of Artemis")))
         ->setCost([WOOD => 1, STONE => 1, GLASS => 1, PAPYRUS => 1])
@@ -101,8 +102,7 @@ if (!defined('COINS')) {
         ->setCoins(3);
 
     $wonders[12] = (new Wonder(12, clienttranslate("Circus Maximus")))
-        ->setCost([STONE => 2, WOOD => 1, GLASS => 1])
-        ->setResourceChoice([WOOD, STONE, CLAY]);
+        ->setCost([STONE => 2, WOOD => 1, GLASS => 1]);
 
 //     _                  ___
 //    / \   __ _  ___    |_ _|

@@ -27,13 +27,13 @@ $player2 = new \SWD\Player(2);
 // Calculate "Study" cost, testing fixed cost and oponent resource production.
 $player1->buildingIds = [1, 7, 20];
 $player2->buildingIds = [24, 8, 28];
-$payment = Player::me()->calculateCost(Building::get(54), true, true); // Study
+$payment = Player::me()->calculateCost(Building::get(54), 1, 0); // Study
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
 
 // Calculate "Study" cost, testing fixed cost and oponent resource production.
 $player1->wonderIds = [3, 7];
 $player1->buildingIds = [20, 39];
 $player2->buildingIds = [24, 8, 28];
-$payment = Player::me()->calculateCost(Building::get(54), true, true); // Study
+$payment = Player::me()->calculateCost(Building::get(54), 1, 0); // Study
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
 
