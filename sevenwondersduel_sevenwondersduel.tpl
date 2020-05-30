@@ -26,13 +26,14 @@
 -->
 
 
-This is your game interface. You can edit this HTML in your ".tpl" file.
-
 <div>
-    <div class="whiteblock draftpool">
-        <!-- BEGIN building -->
-        <div class="building building_small column{column} row{row}" style="z-index: {zindex}; background-position: -{x}00% -{y}00%;"></div>
-        <!-- END building -->
+    <div class="whiteblock">
+        <h3>Age 1:</h3>
+        <div class="draftpool" style="height: 550px;">
+            <!-- BEGIN building -->
+            <div class="building building_small column{column} row{row}" style="z-index: {zindex}; background-position: -{x}00% -{y}00%;"></div>
+            <!-- END building -->
+        </div>
     </div>
 </div>
 
