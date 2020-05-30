@@ -50,12 +50,13 @@ use \SWD\Building;
             [2,4,6,8,10],
             [1,3,5,7,9,11],
         ];
-
         foreach($age1 as $rowIndex => $columns) {
             $row = $rowIndex + 1;
             foreach($columns as $column) {
+                $id = random_int(1, 73);
+//                $building = Building::get($id); // This doesn't work here. Even $buildings doesn't exist. So we'll have to do this via js?
                 $this->page->insert_block("building", [
-                    'id' => random_int(1, 73),
+                    'id' => $id,
                     'zindex' => $row * 10,
                     'column' => $column,
                     'row' => $row,

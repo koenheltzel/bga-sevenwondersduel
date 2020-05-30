@@ -543,10 +543,10 @@
 .column10 { left: calc(62px * (10 - 1)); }
 .column11 { left: calc(62px * (11 - 1)); }
 
-.row1 { top: calc(75px * (1 - 1)); }
-.row2 { top: calc(75px * (2 - 1)); }
-.row3 { top: calc(75px * (3 - 1)); }
-.row4 { top: calc(75px * (4 - 1)); }
-.row5 { top: calc(75px * (5 - 1)); }
-.row6 { top: calc(75px * (6 - 1)); }
-.row7 { top: calc(75px * (7 - 1)); }
+.row1 { top: calc(86px * (1 - 1)); }
+.row2 { top: calc(86px * (2 - 1)); }
+.row3 { top: calc(86px * (3 - 1)); }
+.row4 { top: calc(86px * (4 - 1)); }
+.row5 { top: calc(86px * (5 - 1)); }
+.row6 { top: calc(86px * (6 - 1)); }
+.row7 { top: calc(86px * (7 - 1)); }
