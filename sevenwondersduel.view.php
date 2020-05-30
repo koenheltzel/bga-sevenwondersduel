@@ -60,6 +60,8 @@ use \SWD\Building;
                     'zindex' => $row * 10,
                     'column' => $column,
                     'row' => $row,
+                    'x' => ($id % 10) - 1,
+                    'y' => floor($id / 10),
                 ]);
             }
         }
