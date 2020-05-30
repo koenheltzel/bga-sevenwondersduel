@@ -43,20 +43,39 @@ use \SWD\Building;
         $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "building" );
         $this->page->reset_subblocks( 'building' );
 
-        $age1 = [
-            [5,7],
-            [4,6,8],
-            [3,5,7,9],
-            [2,4,6,8,10],
-            [1,3,5,7,9,11],
+        $age = 2;
+        $ages = [
+            1 => [
+                [5,7],
+                [4,6,8],
+                [3,5,7,9],
+                [2,4,6,8,10],
+                [1,3,5,7,9,11],
+            ],
+            2 => [
+                [1,3,5,7,9,11],
+                [2,4,6,8,10],
+                [3,5,7,9],
+                [4,6,8],
+                [5,7],
+            ],
+            3 => [
+                [5,7],
+                [4,6,8],
+                [3,5,7,9],
+                [4,8],
+                [3,5,7,9],
+                [4,6,8],
+                [5,7],
+            ]
         ];
-        foreach($age1 as $rowIndex => $columns) {
+        foreach($ages[$age] as $rowIndex => $columns) {
             $row = $rowIndex + 1;
             foreach($columns as $column) {
                 $id = random_int(1, 73);
 //                $building = Building::get($id); // This doesn't work here. Even $buildings doesn't exist. So we'll have to do this via js?
                 if ($row % 2 == 0) {
-                    $x = 3;
+                    $x = 2 + $age;
                     $y = 7;
                 }
                 else {
