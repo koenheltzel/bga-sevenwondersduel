@@ -40,10 +40,12 @@ use \SWD\Building;
         $players_nbr = count( $players );
 
         /*********** Place your code below:  ************/
-        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "building" );
-        $this->page->reset_subblocks( 'building' );
 
-        $age = 3;
+        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_building" );
+        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_age" );
+
+        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_wonder" );
+
         $ages = [
             1 => [
                 [5,7],
@@ -69,41 +71,46 @@ use \SWD\Building;
                 [5,7],
             ]
         ];
-        foreach($ages[$age] as $rowIndex => $columns) {
-            $row = $rowIndex + 1;
-            foreach($columns as $column) {
-                $id = random_int(1, 73);
-//                $building = Building::get($id); // This doesn't work here. Even $buildings doesn't exist. So we'll have to do this via js?
-                if ($row % 2 == 0) {
-                    $x = 2 + $age;
-                    $y = 7;
-                }
-                else {
-                    $spritesheetColumns = 10;
-                    $x = (($id - 1) % $spritesheetColumns);
-                    $y = floor(($id - 1) / $spritesheetColumns);
-                };
+        $this->page->reset_subblocks( 'age' );
+        foreach($ages as $age => $rows) {
+            $this->page->reset_subblocks( 'block_building' );
+            foreach($rows as $rowIndex => $columns) {
+                $row = $rowIndex + 1;
+                foreach($columns as $column) {
+                    $id = random_int(1, 73);
+                    if ($row % 2 == 0) {
+                        $x = 2 + $age;
+                        $y = 7;
+                    }
+                    else {
+                        $spritesheetColumns = 10;
+                        $x = (($id - 1) % $spritesheetColumns);
+                        $y = floor(($id - 1) / $spritesheetColumns);
+                    };
 
-                $array = [];
-                $this->page->insert_block("building", [
-                    'id' => $id,
-                    'zindex' => $row * 10,
-                    'column' => $column,
-                    'row' => $row,
-                    'x' => $x,
-                    'y' => $y,
-                ]);
+                    $this->page->insert_block("block_building", [
+                        'id' => $id,
+                        'zindex' => $row * 10,
+                        'column' => $column,
+                        'row' => $row,
+                        'x' => $x,
+                        'y' => $y,
+                    ]);
+                }
             }
+            $this->page->insert_block("block_age", [
+                'age' => $age
+            ]);
         }
 
-        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "wonder" );
-        $this->page->reset_subblocks( 'wonder' );
+
+        $this->page->reset_subblocks( 'block_wonder' );
         for($id = 1; $id <= 13; $id++) {
             $spritesheetColumns = 5;
             $x = (($id - 1) % $spritesheetColumns);
             $y = floor(($id - 1) / $spritesheetColumns);
 
-            $this->page->insert_block("wonder", [
+            $this->page->insert_block("block_wonder", [
                 'id' => $id,
                 'x' => $x,
                 'y' => $y,

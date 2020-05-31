@@ -27,22 +27,23 @@
 
 
 <div>
+    <!-- BEGIN block_age -->
     <div class="whiteblock">
-        <h3>Age 1:</h3>
+        <h3>Age {age}:</h3>
         <div class="draftpool" style="height: 550px;">
-            <!-- BEGIN building -->
+            <!-- BEGIN block_building -->
             <div class="building building_small column{column} row{row}" style="z-index: {zindex}; background-position: -{x}00% -{y}00%;"></div>
-            <!-- END building -->
+            <!-- END block_building -->
         </div>
     </div>
-</div>
-<div>
+    <!-- END block_age -->
+
     <div class="whiteblock">
         <h3>Wonders:</h3>
         <div>
-            <!-- BEGIN wonder -->
+            <!-- BEGIN block_wonder -->
             <div class="wonder" style="background-position: -{x}00% -{y}00%;"></div>
-            <!-- END wonder -->
+            <!-- END block_wonder -->
         </div>
     </div>
 </div>
