@@ -31,9 +31,9 @@
     <div class="whiteblock">
         <h3>Age {age}:</h3>
         <div class="draftpool" style="height: 550px;">
-            <!-- BEGIN block_building -->
+            <!-- BEGIN block_age_building -->
             <div class="building building_small column{column} row{row}" style="z-index: {zindex}; background-position: -{x}00% -{y}00%;"></div>
-            <!-- END block_building -->
+            <!-- END block_age_building -->
         </div>
     </div>
     <!-- END block_age -->
@@ -44,6 +44,15 @@
             <!-- BEGIN block_wonder -->
             <div class="wonder" style="background-position: -{x}00% -{y}00%;"></div>
             <!-- END block_wonder -->
+        </div>
+    </div>
+
+    <div class="whiteblock">
+        <h3>Age cards:</h3>
+        <div>
+            <!-- BEGIN block_building -->
+            <div class="building" style="background-position: -{x}00% -{y}00%;"></div>
+            <!-- END block_building -->
         </div>
     </div>
 </div>

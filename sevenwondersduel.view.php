@@ -41,10 +41,11 @@ use \SWD\Building;
 
         /*********** Place your code below:  ************/
 
-        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_building" );
+        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_age_building" );
         $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_age" );
 
         $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_wonder" );
+        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_building" );
 
         $ages = [
             1 => [
@@ -73,7 +74,7 @@ use \SWD\Building;
         ];
         $this->page->reset_subblocks( 'age' );
         foreach($ages as $age => $rows) {
-            $this->page->reset_subblocks( 'block_building' );
+            $this->page->reset_subblocks( 'block_age_building' );
             foreach($rows as $rowIndex => $columns) {
                 $row = $rowIndex + 1;
                 foreach($columns as $column) {
@@ -88,7 +89,7 @@ use \SWD\Building;
                         $y = floor(($id - 1) / $spritesheetColumns);
                     };
 
-                    $this->page->insert_block("block_building", [
+                    $this->page->insert_block("block_age_building", [
                         'id' => $id,
                         'zindex' => $row * 10,
                         'column' => $column,
@@ -103,6 +104,19 @@ use \SWD\Building;
             ]);
         }
 
+
+        $this->page->reset_subblocks( 'block_building' );
+        for($id = 1; $id <= 77; $id++) {
+            $spritesheetColumns = 10;
+            $x = (($id - 1) % $spritesheetColumns);
+            $y = floor(($id - 1) / $spritesheetColumns);
+
+            $this->page->insert_block("block_building", [
+                'id' => $id,
+                'x' => $x,
+                'y' => $y,
+            ]);
+        }
 
         $this->page->reset_subblocks( 'block_wonder' );
         for($id = 1; $id <= 13; $id++) {

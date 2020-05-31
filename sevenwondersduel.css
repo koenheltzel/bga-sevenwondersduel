@@ -76,11 +76,13 @@
     width: 208px;
     height: 321px;
     background-image: url('img/buildings.jpg');
-    position: absolute;
-    cursor: pointer;
     border-radius: 14px;
     box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.4);
     /* border: 1px black solid; */
+
+    /* Temporary?: */
+    display: inline-block;
+    position: inherit;
 }
 
 .building_small {
@@ -89,6 +91,8 @@
     background-size: 1040px 1284px;
     border-radius: 7px;
     box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.4);
+    position: absolute;
+    cursor: pointer;
 }
 
 .wonder {
