@@ -44,7 +44,7 @@ class SevenWondersDuel extends Table
         //  the corresponding ID in gameoptions.inc.php.
         // Note: afterwards, you can get/set the global variables with getGameStateValue/setGameStateInitialValue/setGameStateValue
         parent::__construct();
-        
+
         self::initGameStateLabels( array( 
             //    "my_first_global_variable" => 10,
             //    "my_second_global_variable" => 11,
@@ -58,7 +58,7 @@ class SevenWondersDuel extends Table
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
-        return "sevenwondersduel";
+        return "7 Wonders Duel";
     }	
 
     /*
