@@ -100,6 +100,7 @@ class Player {
         if (count($choices) > 0) {
             if($printChoices) print "<PRE>=========================================================</PRE>";
             $combinations = $this->combinations($choices);
+//            print "<PRE>" . print_r($combinations, true) . "</PRE>";
             /** @var Payment $cheapestCombination */
             $cheapestCombination = null;
             $cheapestCombinationIndex = null;
@@ -157,7 +158,7 @@ class Player {
         // Any remaining cost should be paid with coins - let's calculate how much:
         $this->resourceCostToPlayer($costLeft, $payment, $print);
 
-        if($print) print "<PRE>Total cost: {$payment->totalCost()}</PRE>";
+        if($print) print "<PRE>Total cost: {$payment->totalCost()} coin(s)</PRE>";
 
         return $payment;
     }
