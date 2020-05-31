@@ -78,15 +78,40 @@
     background-image: url('img/buildings.jpg');
     position: absolute;
     cursor: pointer;
-    border-radius: 10px;
-    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.4);;
-    background-size: 1040px 1284px;
+    border-radius: 14px;
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.4);
     /* border: 1px black solid; */
 }
 
 .building_small {
     width: 104px;
     height: 160.5px;
+    background-size: 1040px 1284px;
+    border-radius: 7px;
+    box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.4);
+}
+
+.wonder {
+    width: 369px;
+    height: 240px;
+    background-image: url('img/wonders.jpg');
+    position: absolute;
+    cursor: pointer;
+    border-radius: 20px;
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.4);
+    /* border: 1px black solid; */
+
+    /* Temporary: */
+    display: inline-block;
+    position: inherit;
+}
+
+.wonder_small {
+    width: 104px;
+    height: 160.5px;
+    background-size: 1040px 1284px;
+    border-radius: 7px;
+    box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.4);
 }
 
 .age1_back { background-position: -300% -700%; }

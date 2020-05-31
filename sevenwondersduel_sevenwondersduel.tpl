@@ -36,6 +36,16 @@
         </div>
     </div>
 </div>
+<div>
+    <div class="whiteblock">
+        <h3>Wonders:</h3>
+        <div>
+            <!-- BEGIN wonder -->
+            <div class="wonder" style="background-position: -{x}00% -{y}00%;"></div>
+            <!-- END wonder -->
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
 

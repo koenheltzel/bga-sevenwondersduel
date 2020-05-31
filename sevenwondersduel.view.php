@@ -43,7 +43,7 @@ use \SWD\Building;
         $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "building" );
         $this->page->reset_subblocks( 'building' );
 
-        $age = 2;
+        $age = 3;
         $ages = [
             1 => [
                 [5,7],
@@ -79,8 +79,9 @@ use \SWD\Building;
                     $y = 7;
                 }
                 else {
-                    $x = ($id % 10) - 1;
-                    $y = floor($id / 10);
+                    $spritesheetColumns = 10;
+                    $x = (($id - 1) % $spritesheetColumns);
+                    $y = floor(($id - 1) / $spritesheetColumns);
                 };
 
                 $array = [];
@@ -93,6 +94,20 @@ use \SWD\Building;
                     'y' => $y,
                 ]);
             }
+        }
+
+        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "wonder" );
+        $this->page->reset_subblocks( 'wonder' );
+        for($id = 1; $id <= 13; $id++) {
+            $spritesheetColumns = 5;
+            $x = (($id - 1) % $spritesheetColumns);
+            $y = floor(($id - 1) / $spritesheetColumns);
+
+            $this->page->insert_block("wonder", [
+                'id' => $id,
+                'x' => $x,
+                'y' => $y,
+            ]);
         }
 
 
