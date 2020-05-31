@@ -16,11 +16,15 @@
  */
 
 define([
-    "dojo","dojo/_base/declare",
+    "dojo",
+    "dojo/dom-attr",
+    "dojo/dom-style",
+    "dojo/_base/declare",
+    "dojo/query",
     "ebg/core/gamegui",
     "ebg/counter"
 ],
-function (dojo, declare) {
+function (dojo, domAttr, domStyle, declare) {
     return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
         constructor: function(){
             console.log('sevenwondersduel constructor');
@@ -57,7 +61,20 @@ function (dojo, declare) {
             }
             
             // TODO: Set up your game interface here, according to "gamedatas"
-            
+
+            // Adjust the height of the age divs based on the age cards absolutely positioned within.
+            dojo.query(".age").forEach(function(node){
+                let maxY = 0;
+                let height = 0;
+                dojo.query(".building",node).forEach(function(building){
+                    let y = domStyle.get(building, "top");
+                    if (y > maxY) {
+                        maxY = y;
+                        height = domStyle.get(building, "height");
+                    }
+                });
+                domStyle.set(node, "height", (maxY + height + 5) + "px");
+            });
  
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
