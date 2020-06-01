@@ -5,7 +5,7 @@ namespace SWD;
 class Collection implements \ArrayAccess, \Iterator {
 
     private $position = 0;
-    protected $array = array();
+    public $array = array();
 
     // Required ArrayAccess functions:
 

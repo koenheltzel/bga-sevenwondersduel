@@ -19,8 +19,8 @@ class Item
     public $victoryPoints = 0;
     public $coins = 0; // coins as a reward, not cost
     public $scientificSymbol = 0;
-    public $playEffects = [];
-    public $endEffects = [];
+//    public $playEffects = [];
+//    public $endEffects = [];
 
     public function __construct($id, $name) {
         $this->id = $id;
