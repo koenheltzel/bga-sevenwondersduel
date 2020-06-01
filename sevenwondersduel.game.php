@@ -58,8 +58,8 @@ class SevenWondersDuel extends Table
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
-        return "7 Wonders Duel";
-    }	
+        return "sevenwondersduel";
+    }
 
     /*
         setupNewGame:
@@ -121,7 +121,7 @@ class SevenWondersDuel extends Table
     protected function getAllDatas()
     {
         $result = array();
-    
+
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
     
         // Get information about players

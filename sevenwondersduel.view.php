@@ -31,7 +31,7 @@ use \SWD\Building;
   class view_sevenwondersduel_sevenwondersduel extends game_view
   {
     function getGameName() {
-        return "7 Wonders Duel";
+        return "sevenwondersduel";
     }    
   	function build_page( $viewArgs )
   	{		
