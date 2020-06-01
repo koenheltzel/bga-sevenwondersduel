@@ -21,8 +21,7 @@ class Building extends Item {
      * @return Building
      */
     public static function get($id) {
-        global $buildings;
-        return $buildings[$id];
+        return Material::get()->buildings[$id];
     }
 
     public function __construct($id, $age, $name, $type) {

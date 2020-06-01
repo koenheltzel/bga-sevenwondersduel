@@ -9,8 +9,7 @@ class Wonder extends Item {
      * @return Wonder
      */
     public static function get($id) {
-        global $wonders;
-        return $wonders[$id];
+        return Material::get()->wonders[$id];
     }
 
 }
