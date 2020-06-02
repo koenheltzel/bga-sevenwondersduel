@@ -26,13 +26,13 @@
 -->
 
 
-<div>
+<div id="swd_wrap">
     <!-- BEGIN block_age -->
     <div class="whiteblock">
         <h3>Age {age}:</h3>
         <div class="draftpool age" style="height: 550px;">
             <!-- BEGIN block_age_building -->
-            <div class="building building_small column{column} row{row}" style="z-index: {zindex}; background-position: -{x}00% -{y}00%;"></div>
+            <div id="building{id}" class="building building_small column{column} row{row}" data-building-id="{id}" style="z-index: {zindex}; background-position: -{x}00% -{y}00%;"></div>
             <!-- END block_age_building -->
         </div>
     </div>
@@ -66,6 +66,15 @@
 var jstpl_some_game_item='<div class="my_game_item" id="my_game_item_${MY_ITEM_ID}"></div>';
 
 */
+
+var jstpl_card_tooltip = '<div class="cardtooltip">\
+                            <div class="cardinfos">\
+                                <h3>${name}</h3>\
+                            </div>\
+                            <div class="building" style="background-position: -${backx}00% -${backy}00%;">\
+                            </div>\
+                            <div class="clear"></div>\
+                          </div>';
 
 </script>  
 

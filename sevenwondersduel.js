@@ -53,6 +53,8 @@ function (dojo, domAttr, domStyle, declare) {
             console.log( "Starting game setup" );
             console.log( "gamedatas", gamedatas );
 
+            this.gamedatas = gamedatas;
+
             // Setting up player boards
             for( var player_id in gamedatas.players )
             {
@@ -76,13 +78,36 @@ function (dojo, domAttr, domStyle, declare) {
                 });
                 domStyle.set(node, "height", (maxY + height + 5) + "px");
             });
+
+            // Test card tooltips
+            dojo.query( '.building_small' ).forEach( dojo.hitch( this, function( node ) {
+                let id = domAttr.get(node, "data-building-id");
+                var html = this.getBuildingTooltip( id );
+                this.addTooltipHtml( node.id, html, 0 );
+            } ) );
  
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 
             console.log( "Ending game setup" );
+
+            // Debug tooltip content by placing a tooltip at the top of the screen.
+            //dojo.place( this.getBuildingTooltip( 22 ), 'swd_wrap', 'first' );
         },
-       
+
+        getBuildingTooltip: function( id )
+        {
+            let building = this.gamedatas.buildings[id];
+
+            let spritesheetColumns = 10;
+
+            let data = {};
+            data.name = building.name;
+            data.backx = ((id - 1) % spritesheetColumns);
+            data.backy = Math.floor((id - 1) / spritesheetColumns);
+            data.name = building.name;
+            return this.format_block( 'jstpl_card_tooltip', data );
+        },
 
         ///////////////////////////////////////////////////
         //// Game & client states
