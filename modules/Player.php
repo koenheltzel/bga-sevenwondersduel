@@ -41,7 +41,7 @@ class Player {
         $count = 0;
         foreach ($this->buildingIds as $id) {
             $building = Building::get($id);
-            if (in_array($building->type, [TYPE_BROWN, TYPE_GREY])) {
+            if (in_array($building->type, [Building::TYPE_BROWN, Building::TYPE_GREY])) {
                 foreach($building->resources as $resource => $amount) {
                     if ($searchResource == $resource) {
                         $count += $amount;
@@ -64,7 +64,7 @@ class Player {
         $payment = new Payment();
 
         // What can the player produce with basic brown / grey cards?
-        foreach ($this->getBuildings()->filterByTypes([TYPE_BROWN, TYPE_GREY]) as $building) {
+        foreach ($this->getBuildings()->filterByTypes([Building::TYPE_BROWN, Building::TYPE_GREY]) as $building) {
             foreach($building->resources as $resource => $amount) {
                 if (array_key_exists($resource, $costLeft)) {
                     $canProduce = min($costLeft[$resource], $amount);
@@ -175,7 +175,7 @@ class Player {
         if(is_null($payment)) $payment = new Payment();
 
         // Any fixed price resources (Stone Reserve, Clay Reserve, Wood Reserve)?
-        foreach ($this->getBuildings()->filterByTypes([TYPE_YELLOW]) as $building) {
+        foreach ($this->getBuildings()->filterByTypes([Building::TYPE_YELLOW]) as $building) {
             foreach($building->fixedPriceResources as $resource => $price) {
                 if (array_key_exists($resource, $costLeft)) {
                     $cost = $costLeft[$resource] * $price;

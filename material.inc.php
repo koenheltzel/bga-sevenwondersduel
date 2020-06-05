@@ -47,12 +47,4 @@ if (!defined('COINS')) {
     define('GLASS', 'Glass');
     define('PAPYRUS', 'Papyrus');
 
-    define('TYPE_BROWN', 'TYPE_BROWN');
-    define('TYPE_GREY', 'TYPE_GREY');
-    define('TYPE_BLUE', 'TYPE_BLUE');
-    define('TYPE_GREEN', 'TYPE_GREEN');
-    define('TYPE_YELLOW', 'TYPE_YELLOW');
-    define('TYPE_RED', 'TYPE_RED');
-    define('TYPE_PURPLE', 'TYPE_PURPLE');
-
 }

@@ -4,6 +4,14 @@ namespace SWD;
 
 class Building extends Item {
 
+    public const TYPE_BROWN = 'Brown';
+    public const TYPE_GREY = 'Grey';
+    public const TYPE_BLUE = 'Blue';
+    public const TYPE_GREEN = 'Green';
+    public const TYPE_YELLOW = 'Yellow';
+    public const TYPE_RED = 'Red';
+    public const TYPE_PURPLE = 'Purple';
+
     public $age;
     public $type;
     public $chain = null; // coins and or resources
