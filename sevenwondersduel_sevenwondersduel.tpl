@@ -28,9 +28,9 @@
 
 <div id="swd_wrap">
     <!-- BEGIN block_age -->
-    <div class="whiteblock">
+    <div class="whiteblock" style="display: inline-block">
         <h3>Age {age}:</h3>
-        <div class="draftpool age" style="height: 550px;">
+        <div class="draftpool age">
             <!-- BEGIN block_age_building -->
             <div id="building{id}" class="building building_small column{column} row{row}" data-building-id="{id}" style="z-index: {zindex}; background-position: -{x}00% -{y}00%;"></div>
             <!-- END block_age_building -->

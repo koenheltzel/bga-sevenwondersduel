@@ -70,6 +70,9 @@
 
 .draftpool {
     position: relative;
+
+    /* 5px for rightmost card's shadow, else it will look too narrox. */
+    width: calc(62px * 10 + 104px + 5px);
 }
 
 .building {
