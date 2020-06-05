@@ -67,10 +67,10 @@ function (dojo, domAttr, domStyle, declare) {
 
             // Adjust the height of the age divs based on the age cards absolutely positioned within.
             dojo.query(".age").forEach(function(node){
-                let maxY = 0;
-                let height = 0;
+                var maxY = 0;
+                var height = 0;
                 dojo.query(".building",node).forEach(function(building){
-                    let y = domStyle.get(building, "top");
+                    var y = domStyle.get(building, "top");
                     if (y > maxY) {
                         maxY = y;
                         height = domStyle.get(building, "height");
@@ -81,7 +81,7 @@ function (dojo, domAttr, domStyle, declare) {
 
             // Test card tooltips
             dojo.query( '.building_small' ).forEach( dojo.hitch( this, function( node ) {
-                let id = domAttr.get(node, "data-building-id");
+                var id = domAttr.get(node, "data-building-id");
                 var html = this.getBuildingTooltip( id );
                 this.addTooltipHtml( node.id, html, 0 );
             } ) );
@@ -97,11 +97,11 @@ function (dojo, domAttr, domStyle, declare) {
 
         getBuildingTooltip: function( id )
         {
-            let building = this.gamedatas.buildings[id];
+            var building = this.gamedatas.buildings[id];
 
-            let spritesheetColumns = 10;
+            var spritesheetColumns = 10;
 
-            let data = {};
+            var data = {};
             data.name = building.name;
             data.backx = ((id - 1) % spritesheetColumns);
             data.backy = Math.floor((id - 1) / spritesheetColumns);
@@ -273,7 +273,7 @@ function (dojo, domAttr, domStyle, declare) {
             // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
             
             // Example 2: standard notification handling + tell the user interface to wait
-            //            during 3 seconds after calling the method in order to let the players
+            //            during 3 seconds after calling the method in order to var the players
             //            see what is happening in the game.
             // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
