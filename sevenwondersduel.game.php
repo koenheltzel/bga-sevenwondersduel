@@ -48,6 +48,16 @@ class SevenWondersDuel extends Table
      */
     public $buildingDeck;
 
+    /**
+     * @var Deck
+     */
+    public $wonderDeck;
+
+    /**
+     * @var Deck
+     */
+    public $progressTokenDeck;
+
 	function __construct( )
 	{
 	    self::$instance = $this;
@@ -71,6 +81,12 @@ class SevenWondersDuel extends Table
 
         $this->buildingDeck = self::getNew( "module.common.deck" );
         $this->buildingDeck->init( "building" );
+
+        $this->wonderDeck = self::getNew( "module.common.deck" );
+        $this->wonderDeck->init( "wonder" );
+
+        $this->progressTokenDeck = self::getNew( "module.common.deck" );
+        $this->progressTokenDeck->init( "progress_token" );
 	}
 	
     public function get() {
@@ -125,6 +141,16 @@ class SevenWondersDuel extends Table
 
         // TODO: setup the initial game situation here
 
+        // Set up two 4-wonders selection pools, rest of the wonders go back to the box.
+        $this->wonderDeck->shuffle('deck');
+        $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards());
+        $this->wonderDeck->pickCardsForLocation(4, 'deck', 'selection1');
+        $this->buildingDeck->shuffle('selection1'); // Ensures we have defined card_location_arg
+        $this->wonderDeck->pickCardsForLocation(4, 'deck', 'selection2');
+        $this->buildingDeck->shuffle('selection2'); // Ensures we have defined card_location_arg
+        $this->wonderDeck->moveAllCardsInLocation('deck', 'box');
+
+        // Set up card piles for the 3 ages.
         // "Return to the box, without looking at them, 3 cards from each Age deck.
         for ($age = 1; $age <= 3; $age++) {
             $this->buildingDeck->createCards(Material::get()->buildings->filterByAge($age)->getDeckCards(), "age{$age}" );

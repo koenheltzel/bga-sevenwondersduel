@@ -5,7 +5,22 @@ namespace SWD;
 class Collection implements \ArrayAccess, \Iterator {
 
     private $position = 0;
+    /**
+     * @var Item[] array
+     */
     public $array = array();
+
+    public function getDeckCards() {
+        $cards = [];
+        foreach ($this->array as $item) {
+            $cards[] = [
+                'type' => $item->name,
+                'type_arg' => $item->id,
+                'nbr' => 1
+            ];
+        }
+        return $cards;
+    }
 
     // Required ArrayAccess functions:
 

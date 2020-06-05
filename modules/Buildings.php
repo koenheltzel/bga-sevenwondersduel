@@ -46,16 +46,4 @@ class Buildings extends Collection {
         }
         return $buildings;
     }
-
-    public function getDeckCards() {
-        $cards = [];
-        foreach ($this->array as $building) {
-            $cards[] = [
-                'type' => $building->name,
-                'type_arg' => $building->id,
-                'nbr' => 1
-            ];
-        }
-        return $cards;
-    }
 }
