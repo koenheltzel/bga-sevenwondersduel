@@ -54,7 +54,10 @@ class SevenWondersDuel extends Table
             //    "my_first_game_variant" => 100,
             //    "my_second_game_variant" => 101,
             //      ...
-        ) );        
+        ) );
+
+        $this->cards = self::getNew( "module.common.deck" );
+        $this->cards->init( "card" );
 	}
 	
     protected function getGameName( )
@@ -103,7 +106,20 @@ class SevenWondersDuel extends Table
         //self::initStat( 'player', 'player_teststat1', 0 );  // Init a player statistics (for all players)
 
         // TODO: setup the initial game situation here
-       
+
+        // "Return to the box, without looking at them, 3 cards from each Age deck.
+        for ($age = 1; $age <= 3; $age++) {
+            $this->cards->createCards(Material::get()->buildings->filterByAge($age)->getDeckCards(), "age{$age}" );
+            $this->cards->shuffle("age{$age}");
+            $this->cards->pickCardsForLocation(3, "age{$age}", 'box');
+        }
+        // Then randomly draw 3 Guild cards and add them to the Age 3 deck.
+        $this->cards->createCards(Material::get()->buildings->filterByAge(4)->getDeckCards(), 'guilds' );
+        $this->cards->shuffle( 'guilds' );
+        $this->cards->pickCardsForLocation(3, 'guilds', 'age3');
+        $this->cards->shuffle( 'age3' );
+        // Return the remaining Guilds to the box.
+        $this->cards->moveAllCardsInLocation( 'guilds', 'box');
 
         // Activate first player (which is in general a good idea :) )
         $this->activeNextPlayer();
@@ -133,6 +149,7 @@ class SevenWondersDuel extends Table
   
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
         $result['buildings'] = Material::get()->buildings->array;
+        $result['cards'] = $this->cards;
 
         return $result;
     }

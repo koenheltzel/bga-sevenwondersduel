@@ -32,4 +32,30 @@ class Buildings extends Collection {
         }
         return $buildings;
     }
+
+    /**
+     * @param $types
+     * @return Buildings
+     */
+    public function filterByAge($age) {
+        $buildings = new Buildings();
+        foreach ($this->array as $building) {
+            if ($building->age == $age) {
+                $buildings[] = $building;
+            }
+        }
+        return $buildings;
+    }
+
+    public function getDeckCards() {
+        $cards = [];
+        foreach ($this->array as $building) {
+            $cards[] = [
+                'type' => $building->name,
+                'type_arg' => $building->id,
+                'nbr' => 1
+            ];
+        }
+        return $cards;
+    }
 }
