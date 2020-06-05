@@ -37,8 +37,21 @@ if (0) require_once '_bga_ide_helper.php';
 
 class SevenWondersDuel extends Table
 {
+
+    /**
+     * @var SevenWondersDuel
+     */
+    public static $instance;
+
+    /**
+     * @var Deck
+     */
+    public $buildingDeck;
+
 	function __construct( )
 	{
+	    self::$instance = $this;
+
         // Your global variables labels:
         //  Here, you can assign labels to global variables you are using for this game.
         //  You can use any number of global variables with IDs between 10 and 99.
@@ -56,10 +69,15 @@ class SevenWondersDuel extends Table
             //      ...
         ) );
 
-        $this->cards = self::getNew( "module.common.deck" );
-        $this->cards->init( "card" );
+        $this->buildingDeck = self::getNew( "module.common.deck" );
+        $this->buildingDeck->init( "building" );
 	}
 	
+    public function get() {
+	    // We can assume self::$instance exists since SevenWondersDuel's constructor is the entry point for SWD code.
+	    return self::$instance;
+    }
+
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
@@ -109,17 +127,17 @@ class SevenWondersDuel extends Table
 
         // "Return to the box, without looking at them, 3 cards from each Age deck.
         for ($age = 1; $age <= 3; $age++) {
-            $this->cards->createCards(Material::get()->buildings->filterByAge($age)->getDeckCards(), "age{$age}" );
-            $this->cards->shuffle("age{$age}");
-            $this->cards->pickCardsForLocation(3, "age{$age}", 'box');
+            $this->buildingDeck->createCards(Material::get()->buildings->filterByAge($age)->getDeckCards(), "age{$age}" );
+            $this->buildingDeck->shuffle("age{$age}");
+            $this->buildingDeck->pickCardsForLocation(3, "age{$age}", 'box');
         }
         // Then randomly draw 3 Guild cards and add them to the Age 3 deck.
-        $this->cards->createCards(Material::get()->buildings->filterByAge(4)->getDeckCards(), 'guilds' );
-        $this->cards->shuffle( 'guilds' );
-        $this->cards->pickCardsForLocation(3, 'guilds', 'age3');
-        $this->cards->shuffle( 'age3' );
+        $this->buildingDeck->createCards(Material::get()->buildings->filterByAge(4)->getDeckCards(), 'guilds' );
+        $this->buildingDeck->shuffle( 'guilds' );
+        $this->buildingDeck->pickCardsForLocation(3, 'guilds', 'age3');
+        $this->buildingDeck->shuffle( 'age3' );
         // Return the remaining Guilds to the box.
-        $this->cards->moveAllCardsInLocation( 'guilds', 'box');
+        $this->buildingDeck->moveAllCardsInLocation( 'guilds', 'box');
 
         // Activate first player (which is in general a good idea :) )
         $this->activeNextPlayer();
@@ -149,7 +167,7 @@ class SevenWondersDuel extends Table
   
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
         $result['buildings'] = Material::get()->buildings->array;
-        $result['cards'] = $this->cards;
+//        $result['cards'] = $this->buildingDeck;
 
         return $result;
     }
