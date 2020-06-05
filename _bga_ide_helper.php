@@ -656,6 +656,312 @@ class APP_GameAction
 class Deck
 {
 
+    /**
+     * To enable auto-reshuffle you must do "$this->cards->autoreshuffle = true" during the setup of the component.
+     * Every time a card must be retrieved from the "deck" location, if it is empty the "discard" location will be automatically reshuffled into the "deck" location.
+     * If you need to notify players when the deck is shuffled, you can setup a callback method using this feature: $this->cards->autoreshuffle_trigger = array('obj' => $this, 'method' => 'deckAutoReshuffle');
+     * If you need to use other locations than "deck" and "discard" for auto-reshuffle feature, you can configure it this way: $this->cards->autoreshuffle_custom = array('deck' => 'discard'); (replace 'deck' and 'discard' with your custom locations).
+     * @var bool
+     */
+    public $autoreshuffle = false;
+
+    /**
+     * Must be called before any other Deck method.
+     * @param string $table_name name of the DB table used by this Deck component
+     */
+    public function init(string $table_name ) {
+
+    }
+
+    /**
+     * Create card items in your deck component. Usually, all card items are created once, during the setup phase of the game.
+     * Note: During the "createCards" process, Deck generates unique IDs for all card items.
+     * Note: createCards is optimized to create a lot of cards at once. Do not use it to create cards one by one.
+     * If "location" and "location_arg" arguments are not set, newly created cards are placed in the "deck" location.
+     * If "location" (and optionally location_arg) is specified, cards are created for this specific location.
+     * @param array $cards describe all cards that need to be created. "cards" is an array with the following format:
+     * @param string $location
+     * @param int $location_arg
+     */
+    public function createCards(array $cards, string $location='deck', int $location_arg=null ) {
+
+    }
+
+    /**
+     * Pick a card from a "pile" location (ex: "deck") and place it in the "hand" of specified player.
+     * Return the card picked or "null" if there are no more card in given location.
+     * This method supports auto-reshuffle (see "auto-reshuffle" below).
+     * @param $location
+     * @param $player_id
+     * @return array|null
+     */
+    public function pickCard(string $location, int $player_id ) : ?array {
+
+    }
+
+    /**
+     * Pick "$nbr" cards from a "pile" location (ex: "deck") and place them in the "hand" of specified player.
+     * Return an array with the cards picked, or "null" if there are no more card in given location.
+     * Note that the number of cards picked can be less than "$nbr" in case there are not enough cards in the pile location.
+     * This method supports auto-reshuffle (see "auto-reshuffle" below). In case there are not enough cards in the pile, all remaining cards are picked first, then the auto-reshuffle is triggered, then the other cards are picked.
+     * @param $nbr
+     * @param $location
+     * @param $player_id
+     * @return array|null
+     */
+    public function pickCards(int $nbr, string $location, int $player_id ) : ?array {
+
+    }
+
+    /**
+     * This method is similar to 'pickCard', except that you can pick a card for any sort of location and not only the "hand" location.
+     * This method supports auto-reshuffle (see "auto-reshuffle" below).
+     * @param string $from_location is the "pile" style location from where you are picking a card
+     * @param string $to_location is the location where you will place the card picked
+     * @param int $location_arg if "location_arg" is specified, the card picked will be set with this "location_arg"
+     */
+    public function pickCardForLocation(string $from_location, string $to_location, int $location_arg=0 ) {
+
+    }
+
+    /**
+     * This method is similar to 'pickCards', except that you can pick cards for any sort of location and not only the "hand" location.
+     * This method supports auto-reshuffle (see "auto-reshuffle" below).
+     * @param int $nbr
+     * @param string $from_location is the "pile" style location from where you are picking some cards.
+     * @param string $to_location is the location where you will place the cards picked.
+     * @param int $location_arg if "location_arg" is specified, the cards picked will be set with this "location_arg".
+     * @param bool $no_deck_reform if "no_deck_reform" is set to "true", the auto-reshuffle feature is disabled during this method call.
+     */
+    public function pickCardsForLocation(int $nbr, string $from_location, string $to_location, int $location_arg=0, bool $no_deck_reform=false ) {
+
+    }
+
+    /**
+     * Move the specific card to given location.
+     * @param int $card_id ID of the card to move.
+     * @param string $location location where to move the card.
+     * @param int $location_arg if specified, location_arg where to move the card. If not specified "location_arg" will be set to 0.
+     */
+    public function moveCard(int $card_id, string $location, int $location_arg=0 ) {
+
+    }
+
+    /**
+     * Move the specific cards to given location.
+     * @param array $cards an array of IDs of cards to move.
+     * @param string $location location where to move the cards.
+     * @param int $location_arg if specified, location_arg where to move the cards. If not specified "location_arg" will be set to 0.
+     */
+    public function moveCards(array $cards, string $location, int $location_arg ) {
+
+    }
+
+    /**
+     * Move a card to a specific "pile" location where card are ordered.
+     * If location_arg place is already taken, increment all cards after location_arg in order to insert new card at this precise location.
+     * (note: insertCardOnExtremePosition method below is more useful in most of the case)
+     * @param $card_id
+     * @param $location
+     * @param $location_arg
+     */
+    public function insertCard(int $card_id, string $location, int $location_arg ) {
+
+    }
+
+    /**
+     * Move a card on top or at bottom of given "pile" type location.
+     * @param $card_id
+     * @param $location
+     * @param $bOnTop
+     */
+    public function insertCardOnExtremePosition(int $card_id, string $location, bool $bOnTop ) {
+
+    }
+
+    /**
+     * Move all cards in specified "from" location to given location.
+     * @param string $from_location where to take the cards
+     * @param string $to_location where to put the cards
+     * @param int $from_location_arg if specified, only cards with given "location_arg" are moved.
+     * @param int $to_location_arg if specified, cards moved "location_arg" is set to given value. Otherwise location_arg is set to zero.
+     */
+    public function moveAllCardsInLocation(string $from_location, string $to_location, int $from_location_arg=null, int $to_location_arg=0 ) {
+
+    }
+
+    /**
+     * Move all cards in specified "from" location to given "to" location. This method does not modify the "location_arg" of cards.
+     * @param $from_location
+     * @param $to_location
+     */
+    public function moveAllCardsInLocationKeepOrder(string $from_location, string $to_location ) {
+
+    }
+
+    /**
+     * Move specified card at the top of the "discard" location.
+     * Note: this is an alias for: insertCardOnExtremePosition( $card_id, "discard", true )
+     * @param $card_id
+     */
+    public function playCard(int $card_id ) {
+
+    }
+
+    /**
+     * Get specific card information.
+     * Return null if this card is not found.
+     * @param $card_id
+     * @return array|null
+     */
+    public function getCard(int $card_id ) : ?array {
+
+    }
+
+    /**
+     * Get specific cards information.
+     * If some cards are not found or if some cards IDs are specified multiple times, the method throws an (unexpected) Exception.
+     * @param array $cards_array an array of cards ID.
+     */
+    public function getCards(array $cards_array ) {
+
+    }
+
+    /**
+     * Get all cards in specific location, as an array. Return an empty array if the location is empty.
+     * @param $location the location where to get the cards.
+     * @param null $location_arg if specified, return only cards with the specified "location_arg".
+     * @param null $order_by if specified, returned cards are ordered by the given database field. Example: "card_id" or "card_type".
+     * @return array
+     */
+    public function getCardsInLocation(string $location, int $location_arg = null, string $order_by = null ) : array {
+
+    }
+
+    /**
+     * Return the number of cards in specified location.
+     * @param string $location the location where to count the cards.
+     * @param int|null $location_arg if specified, count only cards with the specified "location_arg".
+     * @return int
+     */
+    public function countCardInLocation(string $location, int $location_arg=null ) : int {
+
+    }
+
+    /**
+     * Return the number of cards in each location of the game.
+     * The method returns an associative array with the format "location" => "number of cards".
+     * Example:
+     *     array(
+     *         'deck' => 12,
+     *         'hand' => 21,
+     *         'discard' => 54,
+     *         'ontable' => 3
+     *     );
+     * @return array
+     */
+    public function countCardsInLocations() : array {
+
+    }
+
+    /**
+     * Return the number of cards in each "location_arg" for the given location.
+     * The method returns an associative array with the format "location_arg" => "number of cards".
+     * Example: count the number of cards in each player's hand:
+     *     countCardsByLocationArgs( 'hand' );
+     *     // Result:
+     *     array(
+     *         122345 => 5,    // player 122345 has 5 cards in hand
+     *         123456 => 4     // and player 123456 has 4 cards in hand
+     *     );
+     * @param string $location
+     * @return int
+     */
+    public function countCardsByLocationArgs(string $location ) : int {
+
+    }
+
+    /**
+     * Get all cards in given player hand.
+     * Note: This is an alias for: getCardsInLocation( "hand", $player_id )
+     * @param int $player_id
+     * @return array
+     */
+    public function getPlayerHand(int $player_id ) : array {
+
+    }
+
+    /**
+     * Get the card on top of the given ("pile" style) location, or null if the location is empty.
+     * Note that the card pile won't be "auto-reshuffled" if there is no more card available.
+     * @param string $location
+     * @return array
+     */
+    public function getCardOnTop(string $location ) : array {
+
+    }
+
+    /**
+     * Get the "$nbr" cards on top of the given ("pile" style) location.
+     * The method return an array with at most "$nbr" elements (or a void array if there is no card in this location).
+     * Note that the card pile won't be "auto-reshuffled" if there is not enough cards available.
+     * @param int $nbr
+     * @param string $location
+     * @return array
+     */
+    public function getCardsOnTop(int $nbr, string $location ) : array {
+
+    }
+
+    /**
+     * (rarely used)
+     * Get the position of cards at the top of the given location / at the bottom of the given location.
+     * Of course this method works only on location in "pile" where you are using "location_arg" to specify the position of each card (example: "deck" location).
+     * If bGetMax=true, return the location of the top card of the pile.
+     * If bGetMax=false, return the location of the bottom card of the pile.
+     * @param bool $bGetMax
+     * @param string $location
+     * @return int
+     */
+    public function getExtremePosition(bool $bGetMax, string $location ) : int {
+
+    }
+
+    /**
+     * Get all cards of a specific type (rarely used).
+     * Return an array of cards, or an empty array if there is no cards of the specified type.
+     * type: the type of cards
+     * type_arg: if specified, return only cards with the specified "type_arg".
+     * @param string $type the type of cards
+     * @param int|null $type_arg if specified, return only cards with the specified "type_arg".
+     * @return array
+     */
+    public function getCardsOfType(string $type, int $type_arg=null) : array {
+
+    }
+
+    /**
+     * Get all cards of a specific type in a specific location (rarely used).
+     * Return an array of cards, or an empty array if there is no cards of the specified type.
+     * @param string $type the type of cards
+     * @param int|null $type_arg if specified, return only cards with the specified "type_arg".
+     * @param string $location the location where to get the cards.
+     * @param int|null $location_arg if specified, return only cards with the specified "location_arg".
+     * @return array
+     */
+    public function getCardsOfTypeInLocation(string $type, int $type_arg=null, string $location, int $location_arg = null ) : array {
+
+    }
+
+    /**
+     * Shuffle all cards in specific location.
+     * Shuffle only works on locations where cards are on a "pile" (ex: "deck").
+     * Please note that all "location_arg" will be reset to reflect the new order of the cards in the pile.
+     * @param string $location
+     */
+    public function shuffle(string $location ) {
+
+    }
 }
 
 /**
