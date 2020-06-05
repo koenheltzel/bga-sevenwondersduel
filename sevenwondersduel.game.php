@@ -16,6 +16,8 @@
   *
   */
 
+use SWD\Material;
+
 // SWD namespace autoloader from /modules/ folder.
 $swdNamespaceAutoload = function ($class) {
     $classParts = explode('\\', $class);
@@ -130,7 +132,7 @@ class SevenWondersDuel extends Table
         $result['players'] = self::getCollectionFromDb( $sql );
   
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
-        $result['buildings'] = json_decode(json_encode(\SWD\Material::get()->buildings->array));
+        $result['buildings'] = Material::get()->buildings->array;
 
         return $result;
     }
