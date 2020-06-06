@@ -429,32 +429,32 @@ class Material
         // |_|   |_|  \___/ \__, |_|  \___||___/___/   |_|\___/|_|\_\___|_| |_|___/
         //                  |___/
 
-//        $progressTokens = [];
-//
-//        $progressTokens[1] = (new ProgressToken(1, clienttranslate("Agriculture")))
-//            ->setCoins(6)
-//            ->setVictoryPoints(4);
-//
-//        $progressTokens[2] = (new ProgressToken(2, clienttranslate("Architecture")));
-//
-//        $progressTokens[3] = (new ProgressToken(3, clienttranslate("Economy")));
-//
-//        $progressTokens[4] = (new ProgressToken(4, clienttranslate("Law")))
-//            ->setScientificSymbol(2);
-//
-//        $progressTokens[5] = (new ProgressToken(5, clienttranslate("Masonry")));
-//
-//        $progressTokens[6] = (new ProgressToken(6, clienttranslate("Mathematics")));
-//
-//        $progressTokens[7] = (new ProgressToken(7, clienttranslate("Philosophy")))
-//            ->setVictoryPoints(7);
-//
-//        $progressTokens[8] = (new ProgressToken(8, clienttranslate("Strategy")));
-//
-//        $progressTokens[9] = (new ProgressToken(9, clienttranslate("Theology")));
-//
-//        $progressTokens[10] = (new ProgressToken(10, clienttranslate("Urbanism")))
-//            ->setCoins(6);
+        $progressTokens = [];
+
+        $progressTokens[1] = (new ProgressToken(1, clienttranslate("Agriculture")))
+            ->setCoins(6)
+            ->setVictoryPoints(4);
+
+        $progressTokens[2] = (new ProgressToken(2, clienttranslate("Architecture")));
+
+        $progressTokens[3] = (new ProgressToken(3, clienttranslate("Economy")));
+
+        $progressTokens[4] = (new ProgressToken(4, clienttranslate("Law")))
+            ->setScientificSymbol(2);
+
+        $progressTokens[5] = (new ProgressToken(5, clienttranslate("Masonry")));
+
+        $progressTokens[6] = (new ProgressToken(6, clienttranslate("Mathematics")));
+
+        $progressTokens[7] = (new ProgressToken(7, clienttranslate("Philosophy")))
+            ->setVictoryPoints(7);
+
+        $progressTokens[8] = (new ProgressToken(8, clienttranslate("Strategy")));
+
+        $progressTokens[9] = (new ProgressToken(9, clienttranslate("Theology")));
+
+        $progressTokens[10] = (new ProgressToken(10, clienttranslate("Urbanism")))
+            ->setCoins(6);
 
     }
 

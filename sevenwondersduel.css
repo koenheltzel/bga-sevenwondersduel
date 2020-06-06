@@ -94,7 +94,6 @@
     background-size: 1040px 1284px;
     border-radius: 7px;
     box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.4);
-    position: absolute;
     cursor: pointer;
 }
 
@@ -114,10 +113,33 @@
 }
 
 .wonder_small {
-    width: 104px;
-    height: 160.5px;
-    background-size: 1040px 1284px;
+    width: calc(369px * 0.63);
+    height: calc(240px * 0.63);
+    background-size: calc(1845px * 0.63) calc(720px * 0.63);
     border-radius: 7px;
+    box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.4);
+}
+
+.progress_token {
+    width: 200px;
+    height: 200px;
+    background-image: url('img/progress_tokens.jpg');
+    position: absolute;
+    cursor: pointer;
+    border-radius: 100px;
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.4);
+    /* border: 1px black solid; */
+
+    /* Temporary: */
+    display: inline-block;
+    position: inherit;
+}
+
+.progress_token_small {
+    width: calc(200px * 0.4);
+    height: calc(200px * 0.4);
+    background-size: calc(800px * 0.4) calc(600px * 0.4);
+    border-radius: calc(100px * 0.4);
     box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.4);
 }
 

@@ -46,6 +46,7 @@ use \SWD\Building;
 
         $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_wonder" );
         $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_building" );
+        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_progress_token" );
 
         $ages = [
             1 => [
@@ -125,6 +126,19 @@ use \SWD\Building;
             $y = floor(($id - 1) / $spritesheetColumns);
 
             $this->page->insert_block("block_wonder", [
+                'id' => $id,
+                'x' => $x,
+                'y' => $y,
+            ]);
+        }
+
+        $this->page->reset_subblocks( 'block_progress_token' );
+        for($id = 1; $id <= 11; $id++) {
+            $spritesheetColumns = 4;
+            $x = (($id - 1) % $spritesheetColumns);
+            $y = floor(($id - 1) / $spritesheetColumns);
+
+            $this->page->insert_block("block_progress_token", [
                 'id' => $id,
                 'x' => $x,
                 'y' => $y,

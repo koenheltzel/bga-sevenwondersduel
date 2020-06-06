@@ -79,11 +79,21 @@ function (dojo, domAttr, domStyle, declare) {
                 domStyle.set(node, "height", (maxY + height + 5) + "px");
             });
 
-            // Test card tooltips
             dojo.query( '.building_small' ).forEach( dojo.hitch( this, function( node ) {
                 var id = domAttr.get(node, "data-building-id");
                 var html = this.getBuildingTooltip( id );
-                this.addTooltipHtml( node.id, html, 0 );
+                if (html) {
+                    this.addTooltipHtml( node.id, html, 0 );
+                }
+            } ) );
+
+            dojo.query( '.wonder_small' ).forEach( dojo.hitch( this, function( node ) {
+                // console.log(node);
+                var id = domAttr.get(node, "data-wonder-id");
+                var html = this.getWonderTooltip( id );
+                if (html) {
+                    this.addTooltipHtml( node.id, html, 0 );
+                }
             } ) );
  
             // Setup game notifications to handle (see "setupNotifications" method below)
@@ -97,16 +107,36 @@ function (dojo, domAttr, domStyle, declare) {
 
         getBuildingTooltip: function( id )
         {
-            var building = this.gamedatas.buildings[id];
+            if (typeof this.gamedatas.buildings[id] != 'undefined') {
+                var building = this.gamedatas.buildings[id];
 
-            var spritesheetColumns = 10;
+                var spritesheetColumns = 10;
 
-            var data = {};
-            data.name = building.name;
-            data.backx = ((id - 1) % spritesheetColumns);
-            data.backy = Math.floor((id - 1) / spritesheetColumns);
-            data.name = building.name;
-            return this.format_block( 'jstpl_card_tooltip', data );
+                var data = {};
+                data.name = building.name;
+                data.backx = ((id - 1) % spritesheetColumns);
+                data.backy = Math.floor((id - 1) / spritesheetColumns);
+                data.name = building.name;
+                return this.format_block( 'jstpl_building_tooltip', data );
+            }
+            return false;
+        },
+
+        getWonderTooltip: function( id )
+        {
+            if (typeof this.gamedatas.wonders[id] != 'undefined') {
+                var wonder = this.gamedatas.wonders[id];
+
+                var spritesheetColumns = 5;
+
+                var data = {};
+                data.name = wonder.name;
+                data.backx = ((id - 1) % spritesheetColumns);
+                data.backy = Math.floor((id - 1) / spritesheetColumns);
+                data.name = wonder.name;
+                return this.format_block( 'jstpl_wonder_tooltip', data );
+            }
+            return false;
         },
 
         ///////////////////////////////////////////////////
