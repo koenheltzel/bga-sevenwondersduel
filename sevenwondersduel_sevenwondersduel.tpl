@@ -32,7 +32,7 @@
         <h3>Age {age}:</h3>
         <div class="draftpool age">
             <!-- BEGIN block_age_building -->
-            <div id="building{id}" class="building building_small column{column} row{row}" data-building-id="{id}" style="position: absolute; z-index: {zindex}; background-position: -{x}00% -{y}00%;"></div>
+            <div id="building{id}" data-building-id="{id}" class="building building_small column{column} row{row}" style="position: absolute; z-index: {zindex}; background-position: -{x}00% -{y}00%;"></div>
             <!-- END block_age_building -->
         </div>
     </div>
@@ -42,7 +42,7 @@
         <h3>Wonders:</h3>
         <div>
             <!-- BEGIN block_wonder -->
-            <div id="catalog_wonder_{id}" class="wonder wonder_small"  data-wonder-id="{id}" style="background-position: -{x}00% -{y}00%;"></div>
+            <div id="catalog_wonder_{id}" data-wonder-id="{id}" class="wonder wonder_small" style="background-position: -{x}00% -{y}00%;"></div>
             <!-- END block_wonder -->
         </div>
     </div>
@@ -51,7 +51,7 @@
         <h3>Age cards:</h3>
         <div>
             <!-- BEGIN block_building -->
-            <div id="catalog_building_{id}" class="building building_small" data-building-id="{id}" style="background-position: -{x}00% -{y}00%;"></div>
+            <div id="catalog_building_{id}" data-building-id="{id}" class="building building_small" style="background-position: -{x}00% -{y}00%;"></div>
             <!-- END block_building -->
         </div>
     </div>
@@ -60,7 +60,7 @@
         <h3>Progress tokens:</h3>
         <div>
             <!-- BEGIN block_progress_token -->
-            <div class="progress_token progress_token_small" style="background-position: -{x}00% -{y}00%;"></div>
+            <div id="catalog_progress_token_{id}" data-progress-token-id="{id}" class="progress_token progress_token_small" style="background-position: -{x}00% -{y}00%;"></div>
             <!-- END block_progress_token -->
         </div>
     </div>
@@ -90,6 +90,15 @@ var jstpl_wonder_tooltip = '<div class="cardtooltip">\
                                 <h3>${name}</h3>\
                             </div>\
                             <div class="wonder" style="background-position: -${backx}00% -${backy}00%;">\
+                            </div>\
+                            <div class="clear"></div>\
+                          </div>';
+
+var jstpl_progress_token_tooltip = '<div class="cardtooltip">\
+                            <div class="cardinfos">\
+                                <h3>${name}</h3>\
+                            </div>\
+                            <div class="progress_token" style="background-position: -${backx}00% -${backy}00%;">\
                             </div>\
                             <div class="clear"></div>\
                           </div>';

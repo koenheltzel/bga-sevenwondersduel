@@ -95,6 +95,15 @@ function (dojo, domAttr, domStyle, declare) {
                     this.addTooltipHtml( node.id, html, 0 );
                 }
             } ) );
+
+            dojo.query( '.progress_token_small' ).forEach( dojo.hitch( this, function( node ) {
+                // console.log(node);
+                var id = domAttr.get(node, "data-progress-token-id");
+                var html = this.getProgressTokenTooltip( id );
+                if (html) {
+                    this.addTooltipHtml( node.id, html, 0 );
+                }
+            } ) );
  
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
@@ -116,7 +125,6 @@ function (dojo, domAttr, domStyle, declare) {
                 data.name = building.name;
                 data.backx = ((id - 1) % spritesheetColumns);
                 data.backy = Math.floor((id - 1) / spritesheetColumns);
-                data.name = building.name;
                 return this.format_block( 'jstpl_building_tooltip', data );
             }
             return false;
@@ -133,8 +141,23 @@ function (dojo, domAttr, domStyle, declare) {
                 data.name = wonder.name;
                 data.backx = ((id - 1) % spritesheetColumns);
                 data.backy = Math.floor((id - 1) / spritesheetColumns);
-                data.name = wonder.name;
                 return this.format_block( 'jstpl_wonder_tooltip', data );
+            }
+            return false;
+        },
+
+        getProgressTokenTooltip: function( id )
+        {
+            if (typeof this.gamedatas.progressTokens[id] != 'undefined') {
+                var progressToken = this.gamedatas.progressTokens[id];
+
+                var spritesheetColumns = 4;
+
+                var data = {};
+                data.name = progressToken.name;
+                data.backx = ((id - 1) % spritesheetColumns);
+                data.backy = Math.floor((id - 1) / spritesheetColumns);
+                return this.format_block( 'jstpl_progress_token_tooltip', data );
             }
             return false;
         },

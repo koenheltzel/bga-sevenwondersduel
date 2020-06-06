@@ -194,6 +194,7 @@ class SevenWondersDuel extends Table
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
         $result['buildings'] = Material::get()->buildings->array;
         $result['wonders'] = Material::get()->wonders->array;
+        $result['progressTokens'] = Material::get()->progressTokens->array;
 //        $result['cards'] = $this->buildingDeck;
 
         return $result;
