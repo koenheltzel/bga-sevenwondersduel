@@ -27,16 +27,12 @@
 
 
 <div id="swd_wrap">
-    <!-- BEGIN block_age -->
     <div class="whiteblock" style="display: inline-block">
-        <h3>Age {age}:</h3>
-        <div class="draftpool age">
-            <!-- BEGIN block_age_building -->
-            <div id="building{id}" data-building-id="{id}" class="building building_small column{column} row{row}" style="position: absolute; z-index: {zindex}; background-position: -{x}00% -{y}00%;"></div>
-            <!-- END block_age_building -->
+        <h3>Age 1:</h3>
+        <div id="draftpool" class="draftpool age">
+
         </div>
     </div>
-    <!-- END block_age -->
 
     <div class="whiteblock">
         <h3>Wonders:</h3>
@@ -75,6 +71,8 @@
 var jstpl_some_game_item='<div class="my_game_item" id="my_game_item_${MY_ITEM_ID}"></div>';
 
 */
+
+var jstpl_draftpool_building = '<div id="${jsRow}_${jsColumn}" ${jsData} class="building building_small column${jsColumn} row${jsRow}" style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"></div>';
 
 var jstpl_building_tooltip = '<div class="cardtooltip">\
                             <div class="cardinfos">\

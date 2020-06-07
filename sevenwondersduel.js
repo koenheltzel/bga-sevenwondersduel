@@ -64,6 +64,7 @@ function (dojo, domAttr, domStyle, declare) {
             }
             
             // TODO: Set up your game interface here, according to "gamedatas"
+            this.updateDraftpool(this.gamedatas.draftpool)
 
             // Adjust the height of the age divs based on the age cards absolutely positioned within.
             dojo.query(".age").forEach(function(node){
@@ -114,6 +115,36 @@ function (dojo, domAttr, domStyle, declare) {
             //dojo.place( this.getBuildingTooltip( 22 ), 'swd_wrap', 'first' );
         },
 
+        updateDraftpool: function (draftpool) {
+            console.log('updateDraftpool: ', draftpool);
+            this.draftpool = draftpool;
+            dojo.empty("draftpool");
+
+            for (var i = 0; i < draftpool.length; i++) {
+                var position = draftpool[i];
+                var spriteId = null;
+                var data = {
+                    jsData: '',
+                    jsRow: position.row,
+                    jsColumn: position.column,
+                    jsZindex: position.row * 10
+                }
+                if (typeof position.building != 'undefined') {
+                    spriteId = position.building;
+                    data.jsData = 'data-building-id="' + position.building + '"';
+                }
+                else {
+                    spriteId = position.back;
+                }
+                var spritesheetColumns = 10;
+                data.jsX = (spriteId - 1) % spritesheetColumns;
+                data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
+
+                dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
+            }
+            // dojo.style('draftpool-container', 'display', draftpool.length > 0 ? 'inline-block' : 'none');
+        },
+        
         getBuildingTooltip: function( id )
         {
             if (typeof this.gamedatas.buildings[id] != 'undefined') {

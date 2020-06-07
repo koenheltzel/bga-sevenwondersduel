@@ -41,70 +41,9 @@ use \SWD\Building;
 
         /*********** Place your code below:  ************/
 
-        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_age_building" );
-        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_age" );
-
         $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_wonder" );
         $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_building" );
         $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_progress_token" );
-
-        $ages = [
-            1 => [
-                [5,7],
-                [4,6,8],
-                [3,5,7,9],
-                [2,4,6,8,10],
-                [1,3,5,7,9,11],
-            ],
-            2 => [
-                [1,3,5,7,9,11],
-                [2,4,6,8,10],
-                [3,5,7,9],
-                [4,6,8],
-                [5,7],
-            ],
-            3 => [
-                [5,7],
-                [4,6,8],
-                [3,5,7,9],
-                [4,8],
-                [3,5,7,9],
-                [4,6,8],
-                [5,7],
-            ]
-        ];
-        $this->page->reset_subblocks( 'age' );
-        foreach($ages as $age => $rows) {
-            $this->page->reset_subblocks( 'block_age_building' );
-            foreach($rows as $rowIndex => $columns) {
-                $row = $rowIndex + 1;
-                foreach($columns as $column) {
-                    $id = random_int(1, 73);
-                    if ($row % 2 == 0) {
-                        $x = 2 + $age;
-                        $y = 7;
-                    }
-                    else {
-                        $spritesheetColumns = 10;
-                        $x = (($id - 1) % $spritesheetColumns);
-                        $y = floor(($id - 1) / $spritesheetColumns);
-                    };
-
-                    $this->page->insert_block("block_age_building", [
-                        'id' => $id,
-                        'zindex' => $row * 10,
-                        'column' => $column,
-                        'row' => $row,
-                        'x' => $x,
-                        'y' => $y,
-                    ]);
-                }
-            }
-            $this->page->insert_block("block_age", [
-                'age' => $age
-            ]);
-        }
-
 
         $this->page->reset_subblocks( 'block_building' );
         for($id = 1; $id <= 77; $id++) {

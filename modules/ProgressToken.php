@@ -10,8 +10,7 @@ class ProgressToken extends Item
      * @return ProgressToken
      */
     public static function get($id) {
-        global $progressTokens;
-        return $progressTokens[$id];
+        return Material::get()->progressTokens[$id];
     }
 
 }

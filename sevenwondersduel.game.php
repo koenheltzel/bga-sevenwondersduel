@@ -16,6 +16,7 @@
   *
   */
 
+use SWD\Draftpool;
 use SWD\Material;
 
 // SWD namespace autoloader from /modules/ folder.
@@ -32,11 +33,14 @@ $swdNamespaceAutoload = function ($class) {
 spl_autoload_register($swdNamespaceAutoload, true, true);
 
 require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
+require_once ('modules/functions.php');
 if (0) require_once '_bga_ide_helper.php';
 
 
 class SevenWondersDuel extends Table
 {
+
+    use SWD\States\PlayerTurnTrait;
 
     /**
      * @var SevenWondersDuel
@@ -195,7 +199,10 @@ class SevenWondersDuel extends Table
         $result['buildings'] = Material::get()->buildings->array;
         $result['wonders'] = Material::get()->wonders->array;
         $result['progressTokens'] = Material::get()->progressTokens->array;
+        $result['draftpool'] = Draftpool::get($current_player_id);
 //        $result['cards'] = $this->buildingDeck;
+
+        $this->notifyPlayersOfDraftpool();
 
         return $result;
     }
