@@ -72,7 +72,11 @@ var jstpl_some_game_item='<div class="my_game_item" id="my_game_item_${MY_ITEM_I
 
 */
 
-var jstpl_draftpool_building = '<div id="${jsRow}_${jsColumn}" ${jsData} class="building building_small column${jsColumn} row${jsRow}" style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"></div>';
+var jstpl_draftpool_building = '<div id="${jsRow}_${jsColumn}"\
+    ${jsData}\
+    class="building building_small column${jsColumn} row${jsRow}"\
+    style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
+    ></div>';
 
 var jstpl_building_tooltip = '<div class="cardtooltip">\
                             <div class="cardinfos">\

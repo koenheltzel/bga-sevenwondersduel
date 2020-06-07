@@ -84,7 +84,15 @@ function (dojo, domAttr, domStyle, declare) {
                 var id = domAttr.get(node, "data-building-id");
                 var html = this.getBuildingTooltip( id );
                 if (html) {
-                    this.addTooltipHtml( node.id, html, 0 );
+                    // We could use addTooltipHtml here, but the downside is the tooltip will often point from an
+                    // invisible part of the card where another card overlaps it. The top and bottom of the draftpool
+                    // cards are always visible, so the pointer will point correctly.
+                    dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
+                    new dijit.Tooltip({
+                        connectId: [node.id],
+                        label: html
+                    });
+                    // this.addTooltipHtml( node.id, html, 0 );
                 }
             } ) );
 
