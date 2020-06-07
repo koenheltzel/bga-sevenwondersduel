@@ -27,12 +27,9 @@ define([
 function (dojo, domAttr, domStyle, declare) {
     return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
         constructor: function(){
-            console.log('sevenwondersduel constructor');
-              
-            // Here, you can init the global variables of your user interface
-            // Example:
-            // this.myGlobalValue = 0;
-
+            // Tooltip settings
+            this.toolTipDelay = 100;
+            dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
         },
         
         /*
@@ -89,12 +86,12 @@ function (dojo, domAttr, domStyle, declare) {
                     // cards are always visible, so the pointer will point correctly.
                     // So instead we manually instantiate a dijit tooltip and also take advantage of the getContent
                     // functionality so the tooltip's html gets generated when it is needed.
-                    dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
                     new dijit.Tooltip({
                         connectId: [node.id],
                         getContent: dojo.hitch( this, function(node) {
                             return this.getTooltipHtml(node);
-                        } )
+                        } ),
+                        showDelay: this.toolTipDelay
                     });
                 }
             } ) );
@@ -104,7 +101,7 @@ function (dojo, domAttr, domStyle, declare) {
                 var id = domAttr.get(node, "data-wonder-id");
                 var html = this.getWonderTooltip( id );
                 if (html) {
-                    this.addTooltipHtml( node.id, html, 0 );
+                    this.addTooltipHtml( node.id, html, this.toolTipDelay );
                 }
             } ) );
 
@@ -113,7 +110,7 @@ function (dojo, domAttr, domStyle, declare) {
                 var id = domAttr.get(node, "data-progress-token-id");
                 var html = this.getProgressTokenTooltip( id );
                 if (html) {
-                    this.addTooltipHtml( node.id, html, 0 );
+                    this.addTooltipHtml( node.id, html, this.toolTipDelay );
                 }
             } ) );
  
