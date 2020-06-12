@@ -77,7 +77,7 @@ function (dojo, domAttr, domStyle, declare) {
                 domStyle.set(node, "height", (maxY + height + 5) + "px");
             });
 
-            dojo.query( '.building_small' ).forEach( dojo.hitch( this, function( node ) {
+            dojo.query( '.building_small, .building_header_small' ).forEach( dojo.hitch( this, function( node ) {
                 var id = domAttr.get(node, "data-building-id");
                 var html = this.getBuildingTooltip( id );
                 if (html) {
@@ -93,6 +93,8 @@ function (dojo, domAttr, domStyle, declare) {
                         } ),
                         showDelay: this.toolTipDelay
                     });
+                    // Default tooltip implementation:
+                    // this.addTooltipHtml( node.id, this.getTooltipHtml(node), this.toolTipDelay );
                 }
             } ) );
 

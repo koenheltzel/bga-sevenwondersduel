@@ -88,10 +88,19 @@
     position: inherit;
 }
 
+.building_header_small {
+    width: calc(208px / 2);
+    height: calc(62px / 2);
+    background-size: calc(2080px / 2) calc(2568px / 2);
+    border-radius: 7px;
+    box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.4);
+    cursor: pointer;
+}
+
 .building_small {
-    width: 104px;
-    height: 160.5px;
-    background-size: 1040px 1284px;
+    width: calc(208px / 2);
+    height: calc(321px / 2);
+    background-size: calc(2080px / 2) calc(2568px / 2);
     border-radius: 7px;
     box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.4);
     cursor: pointer;

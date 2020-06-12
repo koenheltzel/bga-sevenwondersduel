@@ -47,7 +47,7 @@
         <h3>Age cards:</h3>
         <div>
             <!-- BEGIN block_building -->
-            <div id="catalog_building_{id}" data-building-id="{id}" class="building building_small" style="background-position: -{x}00% -{y}00%;"></div>
+            <div id="catalog_building_{id}" data-building-id="{id}" class="building building_header_small" style="background-position: -{x}00% calc(-5px + -{y} * 321px / 2);"></div>
             <!-- END block_building -->
         </div>
     </div>
