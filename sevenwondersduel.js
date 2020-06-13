@@ -61,7 +61,25 @@ function (dojo, domAttr, domStyle, declare) {
             }
             
             // TODO: Set up your game interface here, according to "gamedatas"
-            this.updateDraftpool(this.gamedatas.draftpool)
+            this.updateDraftpool(this.gamedatas.draftpool);
+
+            // Dummy divide cards over both players
+            var playerFlag = 0;
+            Object.keys(this.gamedatas.buildings).forEach(dojo.hitch(this, function(id) {
+                var building = this.gamedatas.buildings[id];
+                var playerId = gamedatas.playerIds[playerFlag % 2];
+                var spriteId = null;
+                var data = {
+                    jsData: 'data-building-id=' + id + '',
+                    jsId: id
+                };
+                var spritesheetColumns = 10;
+                data.jsX = (id - 1) % spritesheetColumns;
+                data.jsY = Math.floor((id - 1) / spritesheetColumns);
+
+                dojo.place(this.format_block('jstpl_player_building', data), dojo.query('#player_board_content_' + playerId + ' .' + building.type)[0]);
+                playerFlag++;
+            }));
 
             // Adjust the height of the age divs based on the age cards absolutely positioned within.
             dojo.query(".age").forEach(function(node){
@@ -143,7 +161,7 @@ function (dojo, domAttr, domStyle, declare) {
                     jsRow: position.row,
                     jsColumn: position.column,
                     jsZindex: position.row * 10
-                }
+                };
                 if (typeof position.building != 'undefined') {
                     spriteId = position.building;
                     data.jsData = 'data-building-id="' + position.building + '"';

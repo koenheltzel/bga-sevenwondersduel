@@ -75,6 +75,51 @@
     width: calc(62px * 10 + 104px + 5px);
 }
 
+
+
+/* Copied from Seven Wonders: */
+
+.player_board_wrap {
+    width: 1000px;
+    position: relative;
+}
+
+.player_board_name {
+    position: relative;
+    top: -4px;
+}
+
+.sw_coins {
+    position: absolute;
+    top: 0px;
+    right: 2px;
+}
+.sw_coins span.tcoin {
+    position: relative;
+    top: -4px;
+}
+.sicon {
+    background-image: url('img/icons.png');
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+}
+.siconmini {
+    background-image: url('img/icons.png');
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    top: 4px;
+}
+
+.sicon_coin {    background-position: -0px -0px;    }
+
+/* End Copied from Seven Wonders: */
+
+
+
+
 .building {
     width: 208px;
     height: 321px;

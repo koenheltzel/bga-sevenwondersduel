@@ -41,9 +41,19 @@ use \SWD\Building;
 
         /*********** Place your code below:  ************/
 
+        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "player" );
         $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_wonder" );
         $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_building" );
         $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_progress_token" );
+
+        foreach( $players as $player_id => $player )
+        {
+            $this->page->insert_block( "player", array(
+                "PLAYER_ID" => $player_id,
+                "PLAYER_NAME" => $player['player_name'],
+                "PLAYER_COLOR" => $player['player_color']
+            ) );
+        }
 
         $this->page->reset_subblocks( 'block_building' );
         for($id = 1; $id <= 77; $id++) {
