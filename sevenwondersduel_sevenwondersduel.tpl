@@ -27,8 +27,13 @@
 
 
 <div id="swd_wrap">
+    <div class="board">
+        <!-- BEGIN block_board_progresstoken_container -->
+        <div id="progress_token_container{i}" class="progress_token_container{i}"></div>
+        <!-- END block_board_progresstoken_container -->
+    </div>
     <div class="whiteblock" style="display: inline-block">
-        <h3>Age 1:</h3>
+        <h3 class="area_label">Age 1:</h3>
         <div id="draftpool" class="draftpool age">
 
         </div>
@@ -37,7 +42,7 @@
     <!-- BEGIN player -->
     <div id="player_board_wrap_{PLAYER_ID}" class="player_board_wrap whiteblock">
         <h3 style="color:#{PLAYER_COLOR}">
-            <div id="player_board_name_{PLAYER_ID}" class="player_board_name">{PLAYER_NAME}</div>
+            <div id="player_board_name_{PLAYER_ID}" class="player_board_name player-name">{PLAYER_NAME}</div>
         </h3>
         <div class="sw_coins">
             <div id="ttcoin{PLAYER_ID}" class="sicon sicon_coin imgtext tcoin"></div> <span id="coin_{PLAYER_ID}" class="tcoin">0</span>

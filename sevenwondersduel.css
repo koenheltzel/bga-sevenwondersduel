@@ -67,6 +67,46 @@
     }
 */
 
+.board {
+    width: calc(1440px * 0.63);
+    height: calc(400px * 0.63);
+    background-image: url('img/board.png');
+    background-size: calc(1440px * 0.63) calc(400px * 0.63);
+    /*border-radius: 7px;*/
+    filter: drop-shadow(0px 0px 3px #000000);
+    display: block;
+    position: relative;
+}
+
+.progress_token_container1, .progress_token_container2, .progress_token_container3, .progress_token_container4, .progress_token_container5 {
+    position: absolute;
+    top: 12px;
+    width: 80px;
+    height: 80px;
+}
+.progress_token_container1 {
+    left: 226px;
+}
+.progress_token_container2 {
+    left: 318px;
+}
+.progress_token_container3 {
+    left: 410px;
+}
+.progress_token_container4 {
+    left: 502px;
+}
+.progress_token_container5 {
+    left: 591px;
+}
+.whiteblock {
+    border-radius: 8px;
+}
+
+.player-name, .area_label {
+    /* Borrowed from Potion Explosion */
+    text-shadow: 1px 1px 1px #FFFFFF;
+}
 
 .draftpool {
     position: relative;

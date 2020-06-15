@@ -25,38 +25,42 @@
  */
 
 use \SWD\Building;
-  
-  require_once( APP_BASE_PATH."view/common/game.view.php" );
-  
-  class view_sevenwondersduel_sevenwondersduel extends game_view
-  {
+
+require_once(APP_BASE_PATH . "view/common/game.view.php");
+
+class view_sevenwondersduel_sevenwondersduel extends game_view
+{
     function getGameName() {
         return "sevenwondersduel";
-    }    
-  	function build_page( $viewArgs )
-  	{		
-  	    // Get players & players number
+    }
+
+    function build_page($viewArgs) {
+        // Get players & players number
         $players = $this->game->loadPlayersBasicInfos();
-        $players_nbr = count( $players );
+        $players_nbr = count($players);
 
         /*********** Place your code below:  ************/
 
-        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "player" );
-        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_wonder" );
-        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_building" );
-        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "block_progress_token" );
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_board_progresstoken_container");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_wonder");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_building");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_progress_token");
 
-        foreach( $players as $player_id => $player )
-        {
-            $this->page->insert_block( "player", array(
+        for ($i = 1; $i <= 5; $i++) {
+            $this->page->insert_block("block_board_progresstoken_container", ["i" => $i]);
+        }
+
+        foreach ($players as $player_id => $player) {
+            $this->page->insert_block("player", array(
                 "PLAYER_ID" => $player_id,
                 "PLAYER_NAME" => $player['player_name'],
                 "PLAYER_COLOR" => $player['player_color']
-            ) );
+            ));
         }
 
-        $this->page->reset_subblocks( 'block_building' );
-        for($id = 1; $id <= 77; $id++) {
+        $this->page->reset_subblocks('block_building');
+        for ($id = 1; $id <= 77; $id++) {
             $spritesheetColumns = 10;
             $x = (($id - 1) % $spritesheetColumns);
             $y = floor(($id - 1) / $spritesheetColumns);
@@ -68,8 +72,8 @@ use \SWD\Building;
             ]);
         }
 
-        $this->page->reset_subblocks( 'block_wonder' );
-        for($id = 1; $id <= 13; $id++) {
+        $this->page->reset_subblocks('block_wonder');
+        for ($id = 1; $id <= 13; $id++) {
             $spritesheetColumns = 5;
             $x = (($id - 1) % $spritesheetColumns);
             $y = floor(($id - 1) / $spritesheetColumns);
@@ -81,8 +85,8 @@ use \SWD\Building;
             ]);
         }
 
-        $this->page->reset_subblocks( 'block_progress_token' );
-        for($id = 1; $id <= 11; $id++) {
+        $this->page->reset_subblocks('block_progress_token');
+        for ($id = 1; $id <= 11; $id++) {
             $spritesheetColumns = 4;
             $x = (($id - 1) % $spritesheetColumns);
             $y = floor(($id - 1) / $spritesheetColumns);
@@ -109,7 +113,7 @@ use \SWD\Building;
         $this->tpl['MY_VARIABLE_ELEMENT'] = self::raw( $some_html_code );
         
         */
-        
+
         /*
         
         // Example: display a specific HTML block for each player in this game.
@@ -132,9 +136,8 @@ use \SWD\Building;
         */
 
 
-
         /*********** Do not change anything below this line  ************/
-  	}
-  }
+    }
+}
   
 

@@ -149,9 +149,9 @@ class SevenWondersDuel extends Table
         $this->wonderDeck->shuffle('deck');
         $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards());
         $this->wonderDeck->pickCardsForLocation(4, 'deck', 'selection1');
-        $this->buildingDeck->shuffle('selection1'); // Ensures we have defined card_location_arg
+        $this->wonderDeck->shuffle('selection1'); // Ensures we have defined card_location_arg
         $this->wonderDeck->pickCardsForLocation(4, 'deck', 'selection2');
-        $this->buildingDeck->shuffle('selection2'); // Ensures we have defined card_location_arg
+        $this->wonderDeck->shuffle('selection2'); // Ensures we have defined card_location_arg
         $this->wonderDeck->moveAllCardsInLocation('deck', 'box');
 
         // Set up card piles for the 3 ages.
