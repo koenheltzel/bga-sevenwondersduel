@@ -50,6 +50,7 @@
             <div class="player_board_building_column Red"></div>
             <div class="player_board_building_column Green"></div>
             <div class="player_board_building_column Purple"></div>
+            <div class="player_board_wonders"></div>
         </div>
     </div>
     <!-- END player -->
@@ -67,7 +68,7 @@
         <h3>Age cards:</h3>
         <div>
             <!-- BEGIN block_building -->
-            <div id="catalog_building_{id}" data-building-id="{id}" class="building building_header_small" style="background-position: -{x}00% calc(-5px + -{y} * 321px / 2);"></div>
+            <div id="catalog_building_{id}" data-building-id="{id}" class="building building_small" style="background-position: -{x}00% -{y}00%;"></div>
             <!-- END block_building -->
         </div>
     </div>
@@ -92,45 +93,71 @@ var jstpl_some_game_item='<div class="my_game_item" id="my_game_item_${MY_ITEM_I
 
 */
 
-var jstpl_draftpool_building = '<div id="${jsRow}_${jsColumn}"\
-    ${jsData}\
-    class="building building_small column${jsColumn} row${jsRow}"\
-    style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
-    ></div>';
+var jstpl_draftpool_building = '\
+    <div id="${jsRow}_${jsColumn}"\
+        ${jsData}\
+        class="building building_small column${jsColumn} row${jsRow}"\
+        style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
+    >\
+    </div>';
 
-var jstpl_player_building = '<div id="player_building_${jsId}"\
-    ${jsData}\
-    class="building building_header_small"\
-    style="position: inline-block; background-position: -${jsX}00% calc(-5px + -${jsY} * 321px / 2);"\
-    ></div>';
+var jstpl_player_building = '\
+    <div id="player_building_${jsId}"\
+        ${jsData}\
+        class="building building_header_small"\
+        style="position: inline-block; background-position: -${jsX}00% calc(-5px + -${jsY} * 321px / 2);"\
+    >\
+    </div>';
+
+var jstpl_player_wonder = '\
+    <div id="player_wonder_${jsId}" style="display: inline-block;">\
+        <div\
+            ${jsData}\
+            class="wonder wonder_small"\
+            style="background-position: -${jsX}00% -${jsY}00%; "\
+        >\
+        </div>\
+        <div class="age_card_container" style="">\
+        </div>\
+    </div>';
+
+var jstpl_player_wonder_age_card = '\
+    <div ${jsData}\
+        class="building building_small"\
+        style="background-position: -${jsX}00% -${jsY}00%;"\
+    >\
+    </div>';
 
 
-var jstpl_building_tooltip = '<div class="cardtooltip">\
-                            <div class="cardinfos">\
-                                <h3>${name}</h3>\
-                            </div>\
-                            <div class="building" style="background-position: -${backx}00% -${backy}00%;">\
-                            </div>\
-                            <div class="clear"></div>\
-                          </div>';
+var jstpl_building_tooltip = '\
+    <div class="cardtooltip">\
+        <div class="cardinfos">\
+            <h3>${name}</h3>\
+        </div>\
+        <div class="building" style="background-position: -${backx}00% -${backy}00%;">\
+        </div>\
+        <div class="clear"></div>\
+    </div>';
 
-var jstpl_wonder_tooltip = '<div class="cardtooltip">\
-                            <div class="cardinfos">\
-                                <h3>${name}</h3>\
-                            </div>\
-                            <div class="wonder" style="background-position: -${backx}00% -${backy}00%;">\
-                            </div>\
-                            <div class="clear"></div>\
-                          </div>';
+var jstpl_wonder_tooltip = '\
+    <div class="cardtooltip">\
+        <div class="cardinfos">\
+            <h3>${name}</h3>\
+        </div>\
+        <div class="wonder" style="background-position: -${backx}00% -${backy}00%;">\
+        </div>\
+        <div class="clear"></div>\
+    </div>';
 
-var jstpl_progress_token_tooltip = '<div class="cardtooltip">\
-                            <div class="cardinfos">\
-                                <h3>${name}</h3>\
-                            </div>\
-                            <div class="progress_token" style="background-position: -${backx}00% -${backy}00%;">\
-                            </div>\
-                            <div class="clear"></div>\
-                          </div>';
+var jstpl_progress_token_tooltip = '\
+    <div class="cardtooltip">\
+        <div class="cardinfos">\
+            <h3>${name}</h3>\
+        </div>\
+        <div class="progress_token" style="background-position: -${backx}00% -${backy}00%;">\
+        </div>\
+        <div class="clear"></div>\
+    </div>';
 
 </script>  
 

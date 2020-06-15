@@ -80,7 +80,6 @@
 /* Copied from Seven Wonders: */
 
 .player_board_wrap {
-    width: 1000px;
     position: relative;
 }
 
@@ -91,6 +90,25 @@
 
 .player_board_building_column {
     display: inline-block;
+}
+
+.player_board_wrap .wonder_small {
+    margin-right: 40px;
+    z-index: 2;
+    position: relative;
+}
+.player_board_wrap .age_card_container {
+    transform: rotate(-90deg);
+    position: relative;
+    top: -159px;
+    left: -40px;
+}
+.player_board_wrap .age_card_container .building_small {
+    position: absolute;
+}
+
+.player_board_wonders {
+    height: 152px;
 }
 
 .sw_coins {

@@ -83,6 +83,38 @@ function (dojo, domAttr, domStyle, declare) {
                 playerFlag++;
             }));
 
+            // Dummy divide wonders over both players
+            var playerFlag = 0;
+            Object.keys(this.gamedatas.wonders).forEach(dojo.hitch(this, function(id) {
+                var wonder = this.gamedatas.wonders[id];
+                var playerId = gamedatas.playerIds[playerFlag % 2];
+                var spriteId = null;
+                var data = {
+                    jsData: 'data-wonder-id=' + id + '',
+                    jsId: id
+                };
+                var spritesheetColumns = 5;
+                data.jsX = (id - 1) % spritesheetColumns;
+                data.jsY = Math.floor((id - 1) / spritesheetColumns);
+
+                if (id <= 8){
+                    var wonderContainerNode = dojo.place(this.format_block('jstpl_player_wonder', data), dojo.query('#player_board_content_' + playerId + ' .player_board_wonders')[0]);
+                    if(Math.random() > 0.3) {
+                        var randomAge = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+                        var id = 73 + randomAge;
+                        var data = {
+                            jsData: '',
+                            jsId: id
+                        };
+                        var spritesheetColumns = 10;
+                        data.jsX = (id - 1) % spritesheetColumns;
+                        data.jsY = Math.floor((id - 1) / spritesheetColumns);
+                        dojo.place(this.format_block('jstpl_player_wonder_age_card', data), dojo.query('.age_card_container', wonderContainerNode)[0]);
+                    }
+                }
+                playerFlag++;
+            }));
+
             // Adjust the height of the age divs based on the age cards absolutely positioned within.
             dojo.query(".age").forEach(function(node){
                 var maxY = 0;
