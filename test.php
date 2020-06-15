@@ -29,6 +29,7 @@ $player1->buildingIds = [1, 7, 20]; // 1 Wood, 1 Glass,  Wood fixed price
 $player2->buildingIds = [24, 8, 28];
 $payment = Player::me()->calculateCost(Building::get(54), 1, 0); // Study
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
+print "====================================================================================================================================";
 
 // Calculate "Study" cost, testing fixed cost and oponent resource production.
 $player1->wonderIds = [3, 7]; // Wood/Stone/Clay, Papyrus/Glass
@@ -36,6 +37,7 @@ $player1->buildingIds = [20, 39]; // Glass/Papyrus, Wood fixed price
 $player2->buildingIds = [24, 8, 28];
 $payment = Player::me()->calculateCost(Building::get(54), 1, 0); // Study
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
+print "====================================================================================================================================";
 
 // Calculate "Study" cost, with all 4 choice cars/wonders.
 $player1->wonderIds = [3, 7]; // Wood/Stone/Clay, Papyrus/Glass
@@ -43,4 +45,5 @@ $player1->buildingIds = [39, 40]; // Glass/Papyrus, Wood/Stone/Clay
 $player2->buildingIds = [24, 8, 28];
 $payment = Player::me()->calculateCost(Building::get(54), 1, 0); // Study
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
+print "====================================================================================================================================";
 
