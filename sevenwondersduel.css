@@ -67,6 +67,15 @@
     }
 */
 
+#swd_wrap {
+    /* Use flexbox properties https://www.youtube.com/watch?v=JJSoEo8JSnc */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
 .board, #board_container {
     width: calc(1440px * 0.63);
     height: calc(400px * 0.63);
@@ -75,7 +84,6 @@
 #board_container {
     position: relative;
     display: inline-block;
-    vertical-align: middle; /* When the display is wide enough to show draftpool_container next to board_container */
 }
 
 .board {
@@ -138,7 +146,7 @@ h3 {
 }
 
 #draftpool_container {
-    vertical-align: middle; /* When the display is wide enough to show draftpool_container next to board_container */
+
 }
 
 .draftpool {
