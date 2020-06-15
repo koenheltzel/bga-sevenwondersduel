@@ -21,8 +21,8 @@ function clienttranslate($translation) {
 
 require_once 'material.inc.php';
 
-$player1 = new \SWD\Player(1);
-$player2 = new \SWD\Player(2);
+$player1 = Player::me();
+$player2 = Player::opponent();
 
 // Calculate "Study" cost, testing fixed cost and oponent resource production.
 $player1->buildingIds = [1, 7, 20]; // 1 Wood, 1 Glass,  Wood fixed price

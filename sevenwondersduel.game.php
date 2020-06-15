@@ -92,8 +92,8 @@ class SevenWondersDuel extends Table
         $this->progressTokenDeck = self::getNew( "module.common.deck" );
         $this->progressTokenDeck->init( "progress_token" );
 	}
-	
-    public function get() {
+
+    public static function get() {
 	    // We can assume self::$instance exists since SevenWondersDuel's constructor is the entry point for SWD code.
 	    return self::$instance;
     }

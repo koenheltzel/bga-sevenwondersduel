@@ -4,7 +4,7 @@ namespace SWD;
 
 class Player {
 
-    public $playerId = null;
+    public $id = null;
     public $wonderIds = [];
     public $buildingIds = [];
     public $progressTokenIds = [];
@@ -14,24 +14,49 @@ class Player {
     /**
      * @return Player
      */
+    public static function get($playerId) {
+        if (!isset(self::$instances[$playerId])) {
+            self::$instances[$playerId] = new Player($playerId);
+        }
+        return self::$instances[$playerId];
+    }
+
+    /**
+     * @return Player
+     */
     public static function me() {
-        return self::$instances[1];
+        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+            return self::get(1);
+        } else {
+            $playerId = SevenWondersDuel::get()->getCurrentPlayerId();
+            return self::get($playerId);
+        }
     }
 
     /**
      * @return Player
      */
     public static function opponent() {
-        return self::$instances[2];
+        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+            return self::get(2);
+        } else {
+            $players = SevenWondersDuel::get()->loadPlayersBasicInfos();
+            $playerIds = array_keys($players);
+            foreach ($playerIds as $playerId) {
+                // This is a 2-player game so we just look for a playerId not matching currentPlayerId.
+                if ($playerId <> SevenWondersDuel::get()->getCurrentPlayerId()) {
+                    return self::get($playerId);
+                }
+            }
+            throw new BgaSystemException(self::_("Opponent object couldn't be constructed."));
+        }
     }
 
-    public function __construct($id) {
-        if(is_numeric($id)) {
-            $this->playerId = $id;
-        }
+    private function __construct($id) {
+        $this->id = $id;
         self::$instances[$id] = $this;
     }
-    
+
     /**
      * Count resources of the specified type as provided by Brown and Grey cards only.
      * @param $searchResource
@@ -195,8 +220,7 @@ class Player {
             $string = null;
             if ($opponentResourceCount > 0) {
                 $string = "Player pays {$cost} coins for {$amount} {$resource} because opponent can produce {$opponentResourceCount} {$resource}.";
-            }
-            else {
+            } else {
                 $string = "Player pays {$cost} coins for {$amount} {$resource}.";
             }
             if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
