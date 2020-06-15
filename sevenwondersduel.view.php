@@ -24,8 +24,6 @@
  *
  */
 
-use \SWD\Building;
-
 require_once(APP_BASE_PATH . "view/common/game.view.php");
 
 class view_sevenwondersduel_sevenwondersduel extends game_view
@@ -47,7 +45,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_building");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_progress_token");
 
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $this->page->insert_block("block_board_progresstoken_container", ["i" => $i]);
         }
 

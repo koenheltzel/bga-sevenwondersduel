@@ -78,34 +78,40 @@
     position: relative;
 }
 
-.progress_token_container1, .progress_token_container2, .progress_token_container3, .progress_token_container4, .progress_token_container5 {
+.progress_token_container0, .progress_token_container1, .progress_token_container2, .progress_token_container3, .progress_token_container4 {
     position: absolute;
-    top: 12px;
+    top: 9px;
     width: 80px;
     height: 80px;
 }
-.progress_token_container1 {
-    left: 226px;
-}
-.progress_token_container2 {
-    left: 318px;
-}
-.progress_token_container3 {
-    left: 410px;
-}
-.progress_token_container4 {
-    left: 502px;
-}
-.progress_token_container5 {
-    left: 591px;
-}
-.whiteblock {
-    border-radius: 8px;
+
+.progress_token_container0 {
+    left: 227px;
 }
 
-.player-name, .area_label {
+.progress_token_container1 {
+    left: 320px;
+}
+
+.progress_token_container2 {
+    left: 413px;
+}
+
+.progress_token_container3 {
+    left: 507px;
+}
+
+.progress_token_container4 {
+    left: 596px;
+}
+
+.whiteblock h3 {
     /* Borrowed from Potion Explosion */
     text-shadow: 1px 1px 1px #FFFFFF;
+}
+
+.whiteblock {
+    border-radius: 8px;
 }
 
 .draftpool {

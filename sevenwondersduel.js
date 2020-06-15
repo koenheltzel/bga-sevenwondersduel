@@ -62,6 +62,7 @@ function (dojo, domAttr, domStyle, declare) {
             
             // TODO: Set up your game interface here, according to "gamedatas"
             this.updateDraftpool(this.gamedatas.draftpool);
+            this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
 
             // Dummy divide cards over both players
             var playerFlag = 0;
@@ -182,6 +183,28 @@ function (dojo, domAttr, domStyle, declare) {
             return this.getBuildingTooltip(id);
         },
 
+        updateProgressTokensBoard: function (progressTokensBoard) {
+            console.log('updateProgressTokensBoard: ', progressTokensBoard);
+            this.progressTokensBoard = progressTokensBoard;
+
+            for (var i = 0; i < 5; i++) {
+                var location = progressTokensBoard[i];
+                var progressToken = this.gamedatas.progressTokens[location.type_arg];
+                var container = dojo.query('.progress_token_container' + i)[0];
+                dojo.empty(container);
+                if (typeof location != 'undefined') {
+                    var data = {
+                        jsId: progressToken.id,
+                        jsData: 'data-progress-token-id="' + progressToken.id + '"',
+                    };
+                    var spritesheetColumns = 4;
+                    data.jsX = (progressToken.id - 1) % spritesheetColumns;
+                    data.jsY = Math.floor((progressToken.id - 1) / spritesheetColumns);
+                    dojo.place(this.format_block('jstpl_board_progress_token', data), container);
+                }
+            }
+        },
+
         updateDraftpool: function (draftpool) {
             console.log('updateDraftpool: ', draftpool);
             this.draftpool = draftpool;
@@ -199,8 +222,7 @@ function (dojo, domAttr, domStyle, declare) {
                 if (typeof position.building != 'undefined') {
                     spriteId = position.building;
                     data.jsData = 'data-building-id="' + position.building + '"';
-                }
-                else {
+                } else {
                     spriteId = position.back;
                 }
                 var spritesheetColumns = 10;
@@ -209,7 +231,6 @@ function (dojo, domAttr, domStyle, declare) {
 
                 dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
             }
-            // dojo.style('draftpool-container', 'display', draftpool.length > 0 ? 'inline-block' : 'none');
         },
         
         getBuildingTooltip: function( id )

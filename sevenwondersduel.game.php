@@ -169,6 +169,14 @@ class SevenWondersDuel extends Table
         // Return the remaining Guilds to the box.
         $this->buildingDeck->moveAllCardsInLocation( 'guilds', 'box');
 
+        // Set up progress tokens
+        $this->progressTokenDeck->shuffle('deck');
+        $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards());
+        $this->progressTokenDeck->pickCardsForLocation(5, 'deck', 'board');
+        $this->progressTokenDeck->shuffle('board'); // Ensures we have defined card_location_arg
+        // Return the remaining Progress Tokens to the box.
+        $this->progressTokenDeck->moveAllCardsInLocation('deck', 'box');
+
         // Activate first player (which is in general a good idea :) )
         $this->activeNextPlayer();
 
@@ -205,9 +213,10 @@ class SevenWondersDuel extends Table
         $result['wonders'] = Material::get()->wonders->array;
         $result['progressTokens'] = Material::get()->progressTokens->array;
         $result['draftpool'] = Draftpool::get($current_player_id);
+        $result['progressTokensBoard'] = arrayWithPropertyAsKeys($this->progressTokenDeck->getCardsInLocation('board'), 'location_arg');
 //        $result['cards'] = $this->buildingDeck;
 
-        $this->notifyPlayersOfDraftpool();
+//        $this->notifyPlayersOfDraftpool();
 
         return $result;
     }

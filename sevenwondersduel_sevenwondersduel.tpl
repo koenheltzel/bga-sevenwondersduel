@@ -33,7 +33,7 @@
         <!-- END block_board_progresstoken_container -->
     </div>
     <div class="whiteblock" style="display: inline-block">
-        <h3 class="area_label">Age 1:</h3>
+        <h3>Age 1:</h3>
         <div id="draftpool" class="draftpool age">
 
         </div>
@@ -41,9 +41,7 @@
 
     <!-- BEGIN player -->
     <div id="player_board_wrap_{PLAYER_ID}" class="player_board_wrap whiteblock">
-        <h3 style="color:#{PLAYER_COLOR}">
-            <div id="player_board_name_{PLAYER_ID}" class="player_board_name player-name">{PLAYER_NAME}</div>
-        </h3>
+        <h3 style="color:#{PLAYER_COLOR}" class="player_board_name">{PLAYER_NAME}</h3>
         <div class="sw_coins">
             <div id="ttcoin{PLAYER_ID}" class="sicon sicon_coin imgtext tcoin"></div> <span id="coin_{PLAYER_ID}" class="tcoin">0</span>
         </div>
@@ -130,6 +128,15 @@ var jstpl_player_wonder_age_card = '\
     <div ${jsData}\
         class="building building_small"\
         style="background-position: -${jsX}00% -${jsY}00%;"\
+    >\
+    </div>';
+
+
+var jstpl_board_progress_token = '\
+    <div id="board_progress_token_${jsId}"\
+        ${jsData}\
+        class="progress_token progress_token_small"\
+        style="position: inline-block; background-position: -${jsX}00% -${jsY}00%;"\
     >\
     </div>';
 
