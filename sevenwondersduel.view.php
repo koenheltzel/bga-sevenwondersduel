@@ -40,6 +40,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         /*********** Place your code below:  ************/
 
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_board_progresstoken_container");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_wonder");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_building");
@@ -49,12 +50,22 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
             $this->page->insert_block("block_board_progresstoken_container", ["i" => $i]);
         }
 
+        $boardPlayerClasses = ["board_player_left", "board_player_right"];
+        $index = 0;
         foreach ($players as $player_id => $player) {
+            $this->page->insert_block("board_player", array(
+                "CLASS" => $boardPlayerClasses[$index],
+                "PLAYER_ID" => $player_id,
+                "PLAYER_NAME" => $player['player_name'],
+                "PLAYER_COLOR" => $player['player_color']
+            ));
+
             $this->page->insert_block("player", array(
                 "PLAYER_ID" => $player_id,
                 "PLAYER_NAME" => $player['player_name'],
                 "PLAYER_COLOR" => $player['player_color']
             ));
+            $index++;
         }
 
         $this->page->reset_subblocks('block_building');

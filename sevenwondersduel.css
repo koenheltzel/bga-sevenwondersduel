@@ -67,15 +67,23 @@
     }
 */
 
-.board {
+.board, #board_container {
     width: calc(1440px * 0.63);
     height: calc(400px * 0.63);
+}
+
+#board_container {
+    display: inline-block;
+    /*vertical-align: middle;*/
+}
+
+.board {
     background-image: url('img/board.png');
     background-size: calc(1440px * 0.63) calc(400px * 0.63);
     /*border-radius: 7px;*/
     filter: drop-shadow(0px 0px 3px #000000);
-    display: block;
-    position: relative;
+    position: absolute;
+    display: inline-block;
 }
 
 .progress_token_container0, .progress_token_container1, .progress_token_container2, .progress_token_container3, .progress_token_container4 {
@@ -105,6 +113,20 @@
     left: 596px;
 }
 
+.board_player_left, .board_player_right {
+    position: relative;
+    display: inline-block;
+    top: 40px;
+}
+
+.board_player_right {
+    float: right;
+}
+
+h3 {
+    margin: 0px;
+}
+
 .whiteblock h3 {
     /* Borrowed from Potion Explosion */
     text-shadow: 1px 1px 1px #FFFFFF;
@@ -112,6 +134,10 @@
 
 .whiteblock {
     border-radius: 8px;
+}
+
+#draftpool_container {
+    /*vertical-align: middle;*/
 }
 
 .draftpool {
@@ -131,7 +157,7 @@
 
 .player_board_name {
     position: relative;
-    top: -4px;
+    display: inline-block;
 }
 
 .player_board_building_column {
@@ -158,9 +184,9 @@
 }
 
 .sw_coins {
-    position: absolute;
-    top: 0px;
-    right: 2px;
+    position: relative;
+    display: inline-block;
+    float: right;
 }
 .sw_coins span.tcoin {
     position: relative;

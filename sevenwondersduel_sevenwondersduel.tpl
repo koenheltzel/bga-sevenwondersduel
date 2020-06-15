@@ -27,12 +27,18 @@
 
 
 <div id="swd_wrap">
-    <div class="board">
+    <div id="board_container">
+        <div class="board"></div>
         <!-- BEGIN block_board_progresstoken_container -->
         <div id="progress_token_container{i}" class="progress_token_container{i}"></div>
         <!-- END block_board_progresstoken_container -->
+        <!-- BEGIN board_player -->
+        <div class="whiteblock {CLASS}">
+            <h3 style="color:#{PLAYER_COLOR}">{PLAYER_NAME}</h3>
+        </div>
+        <!-- END board_player -->
     </div>
-    <div class="whiteblock" style="display: inline-block">
+    <div id="draftpool_container" class="whiteblock" style="display: inline-block">
         <h3>Age 1:</h3>
         <div id="draftpool" class="draftpool age">
 
