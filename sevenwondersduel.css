@@ -89,6 +89,10 @@
     top: -4px;
 }
 
+.player_board_building_column {
+    display: inline-block;
+}
+
 .sw_coins {
     position: absolute;
     top: 0px;
@@ -125,8 +129,9 @@
     height: 321px;
     background-image: url('img/buildings.jpg');
     border-radius: 14px;
-    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.4);
-    /* border: 1px black solid; */
+    box-shadow:
+        5px 5px 5px 0px rgba(0,0,0,0.4),
+        inset 0px 0px 0px 1px #00000060;
 
     /* Temporary?: */
     display: inline-block;
@@ -138,8 +143,11 @@
     height: calc(62px / 2);
     background-size: calc(2080px / 2) calc(2568px / 2);
     border-radius: 7px;
-    box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.4);
+    box-shadow:
+        3px 3px 3px 0px rgba(0,0,0,0.4),
+        inset 0px 0px 0px 0.5px #00000060;
     cursor: pointer;
+    display: block;
 }
 
 .building_small {
@@ -147,7 +155,9 @@
     height: calc(321px / 2);
     background-size: calc(2080px / 2) calc(2568px / 2);
     border-radius: 7px;
-    box-shadow: 0px 0px 3px 3px rgba(0,0,0,0.4);
+    box-shadow:
+        0px 0px 3px 3px rgba(0,0,0,0.4),
+        inset 0px 0px 0px 0.5px #00000060;
     cursor: pointer;
 }
 
@@ -158,8 +168,9 @@
     position: absolute;
     cursor: pointer;
     border-radius: 20px;
-    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.4);
-    /* border: 1px black solid; */
+    box-shadow:
+        5px 5px 5px 0px rgba(0,0,0,0.4),
+        inset 0px 0px 0px 1px #00000060;
 
     /* Temporary: */
     display: inline-block;
@@ -171,7 +182,9 @@
     height: calc(240px * 0.63);
     background-size: calc(1845px * 0.63) calc(720px * 0.63);
     border-radius: 7px;
-    box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.4);
+    box-shadow:
+        3px 3px 3px 0px rgba(0,0,0,0.4),
+        inset 0px 0px 0px 0.5px #00000060;
 }
 
 .progress_token {
@@ -181,8 +194,9 @@
     position: absolute;
     cursor: pointer;
     border-radius: 100px;
-    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.4);
-    /* border: 1px black solid; */
+    box-shadow:
+        5px 5px 5px 0px rgba(0,0,0,0.4),
+        inset 0px 0px 0px 1px #00000060;
 
     /* Temporary: */
     display: inline-block;
@@ -194,7 +208,9 @@
     height: calc(200px * 0.4);
     background-size: calc(800px * 0.4) calc(600px * 0.4);
     border-radius: calc(100px * 0.4);
-    box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.4);
+    box-shadow:
+        3px 3px 3px 0px rgba(0,0,0,0.4),
+        inset 0px 0px 0px 0.5px #00000060;
 }
 
 .age1_back { background-position: -300% -700%; }

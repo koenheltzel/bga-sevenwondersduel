@@ -77,7 +77,9 @@ function (dojo, domAttr, domStyle, declare) {
                 data.jsX = (id - 1) % spritesheetColumns;
                 data.jsY = Math.floor((id - 1) / spritesheetColumns);
 
-                dojo.place(this.format_block('jstpl_player_building', data), dojo.query('#player_board_content_' + playerId + ' .' + building.type)[0]);
+                if (id <= 73){
+                    dojo.place(this.format_block('jstpl_player_building', data), dojo.query('#player_board_content_' + playerId + ' .' + building.type)[0]);
+                }
                 playerFlag++;
             }));
 
