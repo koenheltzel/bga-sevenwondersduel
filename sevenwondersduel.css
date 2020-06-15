@@ -73,8 +73,9 @@
 }
 
 #board_container {
+    position: relative;
     display: inline-block;
-    /*vertical-align: middle;*/
+    vertical-align: middle; /* When the display is wide enough to show draftpool_container next to board_container */
 }
 
 .board {
@@ -137,7 +138,7 @@ h3 {
 }
 
 #draftpool_container {
-    /*vertical-align: middle;*/
+    vertical-align: middle; /* When the display is wide enough to show draftpool_container next to board_container */
 }
 
 .draftpool {
