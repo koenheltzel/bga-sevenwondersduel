@@ -177,6 +177,13 @@ class SevenWondersDuel extends Table
         // Return the remaining Progress Tokens to the box.
         $this->progressTokenDeck->moveAllCardsInLocation('deck', 'box');
 
+        // TODO: Remove, this will be done by player interaction:
+        $playerIds = array_keys($players);
+        $this->wonderDeck->moveAllCardsInLocation('selection1', 'player' . $playerIds[0]);
+        $this->wonderDeck->shuffle('player' . $playerIds[0]); // Ensures we have defined card_location_arg
+        $this->wonderDeck->moveAllCardsInLocation('selection2', 'player' . $playerIds[1]);
+        $this->wonderDeck->shuffle('player' . $playerIds[1]); // Ensures we have defined card_location_arg
+
         // Activate first player (which is in general a good idea :) )
         $this->activeNextPlayer();
 
