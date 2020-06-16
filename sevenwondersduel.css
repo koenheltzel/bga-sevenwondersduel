@@ -176,12 +176,15 @@ h3 {
 
 .draftpool {
     position: relative;
+    margin-top: 10px;
 
     /* 5px for rightmost card's shadow, else it will look too narrox. */
     width: calc(var(--draftpool-column-width) * 10 + calc(var(--building-width) * var(--building-small-scale)) + 5px);
 }
 
-
+.draftpool_actions {
+    text-align: center;
+}
 
 .player_board_wrap {
     position: relative;
@@ -317,6 +320,18 @@ h3 {
     margin-top: 10px;
 }
 
+.drafpool_building_cost {
+    top: calc(var(--building-height) * var(--building-small-scale) * 0.953);
+    position: relative;
+}
+.drafpool_building_cost span {
+    top: 4px;
+    position: relative;
+    font-weight: bold;
+    font-size: 18px;
+    text-shadow: 0 0 4px white, 0 0 4px white, 0 0 4px white;
+}
+
 .player_board_coins {
     float: right;
     text-align: center;
@@ -404,6 +419,7 @@ h3 {
         0px 0px 3px 3px rgba(0,0,0,0.4),
         inset 0px 0px 0px 0.5px #00000060;
     cursor: pointer;
+    text-align: center;
 }
 
 .wonder {

@@ -43,7 +43,7 @@
         <div id="draftpool" class="draftpool age">
 
         </div>
-        <div>
+        <div class="draftpool_actions">
             <a href="#" id="building" class="turn_button bgabutton bgabutton_blue"><div class="menuplay"></div><span>Construct building</span></a>
             <a href="#" id="building" class="turn_button bgabutton bgabutton_blue"><div class="menudiscard"></div><span>Discard to obtain coins</span></a>
             <a href="#" id="building" class="turn_button bgabutton bgabutton_blue"><div class="menuwonder"></div><span>Construct a wonder</span></a>
@@ -131,6 +131,7 @@ var jstpl_draftpool_building = '\
         class="building building_small column${jsColumn} row${jsRow}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\
+    <div class="drafpool_building_cost"><div class="coin" style="zoom: 0.75; display: ${jsDisplayCost}"><span>${jsCost}</span></div></div>\
     </div>';
 
 // Keep title attribute empty. This overrides the title attribute of the player_board_building_column div.

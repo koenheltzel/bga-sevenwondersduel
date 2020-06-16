@@ -129,7 +129,7 @@ function (dojo, domAttr, domStyle, declare) {
                         height = domStyle.get(building, "height");
                     }
                 });
-                domStyle.set(node, "height", (maxY + height + 5) + "px");
+                domStyle.set(node, "height", (maxY + height + 15) + "px");
             });
 
             // Add tooltips to buildings (draftpool, player boards).
@@ -217,11 +217,14 @@ function (dojo, domAttr, domStyle, declare) {
             for (var i = 0; i < draftpool.length; i++) {
                 var position = draftpool[i];
                 var spriteId = null;
+                var cost = Math.floor(Math.random() * 5);
                 var data = {
                     jsData: '',
                     jsRow: position.row,
                     jsColumn: position.column,
-                    jsZindex: position.row * 10
+                    jsZindex: position.row * 10,
+                    jsDisplayCost: position.row == 5 && cost > 0 ? 'inline-block' : 'none',
+                    jsCost: cost
                 };
                 if (typeof position.building != 'undefined') {
                     spriteId = position.building;
