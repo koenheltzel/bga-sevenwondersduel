@@ -128,23 +128,23 @@
 }
 
 .progress_token_container0 {
-    left: 227px;
+    left: calc(var(--board-width) * var(--board-scale) * 0.25);
 }
 
 .progress_token_container1 {
-    left: 320px;
+    left: calc(var(--board-width) * var(--board-scale) * 0.353);
 }
 
 .progress_token_container2 {
-    left: 413px;
+    left: calc(var(--board-width) * var(--board-scale) * 0.455);
 }
 
 .progress_token_container3 {
-    left: 507px;
+    left: calc(var(--board-width) * var(--board-scale) * 0.559);
 }
 
 .progress_token_container4 {
-    left: 596px;
+    left: calc(var(--board-width) * var(--board-scale) * 0.657);
 }
 
 .board_player_left, .board_player_right {
@@ -292,7 +292,7 @@ h3 {
     flex-wrap: wrap;
 }
 
-@media (min-width: 2400px) {
+@media (min-width: 2500px) {
     .player_board_wonders {
         flex-direction: row;
     }
