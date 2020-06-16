@@ -86,6 +86,7 @@ function (dojo, domAttr, domStyle, declare) {
 
             // Dummy divide wonders over both players
             var playerFlag = 0;
+            var containerNumber = 0;
             Object.keys(this.gamedatas.wonders).forEach(dojo.hitch(this, function(id) {
                 var wonder = this.gamedatas.wonders[id];
                 var playerId = gamedatas.playerIds[playerFlag % 2];
@@ -99,7 +100,7 @@ function (dojo, domAttr, domStyle, declare) {
                 data.jsY = Math.floor((id - 1) / spritesheetColumns);
 
                 if (id <= 8){
-                    var wonderContainerNode = dojo.place(this.format_block('jstpl_player_wonder', data), dojo.query('#player_board_content_' + playerId + ' .player_board_wonders')[0]);
+                    var wonderContainerNode = dojo.place(this.format_block('jstpl_player_wonder', data), dojo.query('#player_board_content_' + playerId + ' .player_board_wonder_container' + Math.floor(containerNumber))[0]);
                     if(Math.random() > 0.3) {
                         var randomAge = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
                         var id = 73 + randomAge;
@@ -114,6 +115,7 @@ function (dojo, domAttr, domStyle, declare) {
                     }
                 }
                 playerFlag++;
+                containerNumber += 0.5;
             }));
 
             // Adjust the height of the age divs based on the age cards absolutely positioned within.
