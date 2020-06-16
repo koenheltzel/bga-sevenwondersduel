@@ -67,6 +67,12 @@
     }
 */
 
+:root {
+    --building-width: 208px;
+    --building-height: 321px;
+    --building-small-scale: 0.5;
+}
+
 #swd_wrap {
     /* Use flexbox properties https://www.youtube.com/watch?v=JJSoEo8JSnc */
     display: flex;
@@ -153,15 +159,14 @@ h3 {
     position: relative;
 
     /* 5px for rightmost card's shadow, else it will look too narrox. */
-    width: calc(62px * 10 + 104px + 5px);
+    width: calc(62px * 10 + calc(var(--building-width) * var(--building-small-scale)) + 5px);
 }
 
 
 
-/* Copied from Seven Wonders: */
-
 .player_board_wrap {
     position: relative;
+    align-self: stretch;
 }
 
 .player_board_name {
@@ -169,9 +174,80 @@ h3 {
     display: inline-block;
 }
 
-.player_board_building_column {
-    display: inline-block;
+.player_board_building_column_container {
+    /* Flexbox setup */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
 }
+
+.player_board_building_column {
+    /*display: inline-block;*/
+    min-width: calc(var(--building-width) * var(--building-small-scale));
+    min-height: 31px;
+    border-radius: 7px;
+    background-size: calc(var(--building-width) * var(--building-small-scale)) 31px !important;
+    background-repeat: no-repeat !important;
+    background-position: bottom !important;
+    margin: 10px 1px 0px 1px;
+}
+
+.player_board_building_column.Brown {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#702c12+0,702c12+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00702c12', endColorstr='#66702c12', GradientType=0); /* IE6-9 */
+}
+
+.player_board_building_column.Grey {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00858680', endColorstr='#66858680', GradientType=0); /* IE6-9 */
+}
+
+.player_board_building_column.Yellow {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f8b305+0,f8b305+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00f8b305', endColorstr='#66f8b305', GradientType=0); /* IE6-9 */
+}
+
+.player_board_building_column.Blue {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#0275aa+0,0275aa+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000275aa', endColorstr='#660275aa', GradientType=0); /* IE6-9 */
+}
+
+.player_board_building_column.Red {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#b7110e+0,b7110e+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00b7110e', endColorstr='#66b7110e', GradientType=0); /* IE6-9 */
+}
+
+.player_board_building_column.Green {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#027234+0,027234+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00027234', endColorstr='#66027234', GradientType=0); /* IE6-9 */
+}
+
+.player_board_building_column.Purple {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6f488b+0,6f488b+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#006f488b', endColorstr='#666f488b', GradientType=0); /* IE6-9 */
+}
+
 
 .player_board_wrap .wonder_small {
     margin-right: 40px;
@@ -189,7 +265,29 @@ h3 {
 }
 
 .player_board_wonders {
-    height: 152px;
+    /* Flexbox setup */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+@media (min-width: 2400px) {
+    .player_board_wonders {
+        flex-direction: row;
+    }
+}
+
+.player_board_wonders_row {
+    /* Flexbox setup */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+
+    margin-top: 10px;
 }
 
 .sw_coins {
@@ -201,6 +299,9 @@ h3 {
     position: relative;
     top: -4px;
 }
+
+
+/* WIP, Copied from Seven Wonders: */
 .sicon {
     background-image: url('img/icons.png');
     width: 30px;
@@ -224,8 +325,8 @@ h3 {
 
 
 .building {
-    width: 208px;
-    height: 321px;
+    width: var(--building-width);
+    height: var(--building-height);
     background-image: url('img/buildings.jpg');
     border-radius: 14px;
     box-shadow:
@@ -238,9 +339,9 @@ h3 {
 }
 
 .building_header_small {
-    width: calc(208px / 2);
-    height: calc(62px / 2);
-    background-size: calc(2080px / 2) calc(2568px / 2);
+    width: calc(var(--building-width) * var(--building-small-scale));
+    height: calc(62px * var(--building-small-scale));
+    background-size: calc(2080px * var(--building-small-scale)) calc(2568px * var(--building-small-scale));
     border-radius: 7px;
     box-shadow:
         3px 3px 3px 0px rgba(0,0,0,0.4),
@@ -250,9 +351,9 @@ h3 {
 }
 
 .building_small {
-    width: calc(208px / 2);
-    height: calc(321px / 2);
-    background-size: calc(2080px / 2) calc(2568px / 2);
+    width: calc(var(--building-width) * var(--building-small-scale));
+    height: calc(var(--building-height) * var(--building-small-scale));
+    background-size: calc(2080px * var(--building-small-scale)) calc(2568px * var(--building-small-scale));
     border-radius: 7px;
     box-shadow:
         0px 0px 3px 3px rgba(0,0,0,0.4),
