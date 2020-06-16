@@ -66,15 +66,19 @@
                 <div class="player_board_building_column Green" title="Scientific Buildings"></div>
                 <div class="player_board_building_column Purple" title="Guilds"></div>
             </div>
-            <div class="player_board_wonders">
-                <div class="player_board_wonders_row">
-                    <div class="player_board_wonder_container0"></div>
-                    <div class="player_board_wonder_container1"></div>
+            <div style="display: inline-block">
+                <div class="player_board_wonders">
+                    <div class="player_board_wonders_row">
+                        <div class="player_board_wonder_container0"></div>
+                        <div class="player_board_wonder_container1"></div>
+                    </div>
+                    <div class="player_board_wonders_row">
+                        <div class="player_board_wonder_container2"></div>
+                        <div class="player_board_wonder_container3"></div>
+                    </div>
                 </div>
-                <div class="player_board_wonders_row">
-                    <div class="player_board_wonder_container2"></div>
-                    <div class="player_board_wonder_container3"></div>
-                </div>
+            </div>
+            <div class="player_board_progress_tokens">
             </div>
         </div>
     </div>
@@ -160,6 +164,14 @@ var jstpl_player_wonder_age_card = '\
     <div ${jsData}\
         class="building building_small"\
         style="background-position: -${jsX}00% -${jsY}00%;"\
+    >\
+    </div>';
+
+var jstpl_player_progress_token = '\
+    <div id="player_progress_token_${jsId}"\
+        ${jsData}\
+        class="progress_token progress_token_small"\
+        style="position: inline-block; background-position: -${jsX}00% -${jsY}00%;"\
     >\
     </div>';
 

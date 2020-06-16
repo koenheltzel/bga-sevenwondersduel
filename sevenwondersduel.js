@@ -103,7 +103,7 @@ function (dojo, domAttr, domStyle, declare) {
                     var wonderContainerNode = dojo.place(this.format_block('jstpl_player_wonder', data), dojo.query('#player_board_content_' + playerId + ' .player_board_wonder_container' + Math.floor(containerNumber))[0]);
                     if(Math.random() > 0.3) {
                         var randomAge = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-                        var id = 73 + randomAge;
+                        id = 73 + randomAge;
                         var data = {
                             jsData: '',
                             jsId: id
@@ -113,6 +113,26 @@ function (dojo, domAttr, domStyle, declare) {
                         data.jsY = Math.floor((id - 1) / spritesheetColumns);
                         dojo.place(this.format_block('jstpl_player_wonder_age_card', data), dojo.query('.age_card_container', wonderContainerNode)[0]);
                     }
+                }
+                playerFlag++;
+                containerNumber += 0.5;
+            }));
+
+            // Dummy divide progress tokens over both players
+            var playerFlag = 0;
+            var containerNumber = 0;
+            Object.keys(this.gamedatas.progressTokens).forEach(dojo.hitch(this, function(id) {
+                // var wonder = this.gamedatas.progressTokens[id];
+                var playerId = gamedatas.playerIds[playerFlag % 2];
+                var data = {
+                    jsData: 'data-progress-token-id=' + id + '',
+                    jsId: id
+                };
+                var spritesheetColumns = 4;
+                data.jsX = (id - 1) % spritesheetColumns;
+                data.jsY = Math.floor((id - 1) / spritesheetColumns);
+                if (id <= 10 && Math.random() > 0.3) {
+                    dojo.place(this.format_block('jstpl_player_progress_token', data), dojo.query('#player_board_content_' + playerId + ' .player_board_progress_tokens')[0]);
                 }
                 playerFlag++;
                 containerNumber += 0.5;
