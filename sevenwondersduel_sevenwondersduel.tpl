@@ -52,44 +52,62 @@
             <div id="ttcoin{PLAYER_ID}" class="sicon sicon_coin imgtext tcoin"></div> <span id="coin_{PLAYER_ID}" class="tcoin">0</span>
         </div>
         <div id="player_board_content_{PLAYER_ID}" class="player_board_content">
-            <div class="player_board_building_column Brown"></div>
-            <div class="player_board_building_column Grey"></div>
-            <div class="player_board_building_column Yellow"></div>
-            <div class="player_board_building_column Blue"></div>
-            <div class="player_board_building_column Red"></div>
-            <div class="player_board_building_column Green"></div>
-            <div class="player_board_building_column Purple"></div>
-            <div class="player_board_wonders"></div>
+            <div class="player_board_building_column_container">
+                <div class="player_board_building_column Brown"></div>
+                <div class="player_board_building_column Grey"></div>
+                <div class="player_board_building_column Yellow"></div>
+                <div class="player_board_building_column Blue"></div>
+                <div class="player_board_building_column Red"></div>
+                <div class="player_board_building_column Green"></div>
+                <div class="player_board_building_column Purple"></div>
+            </div>
+            <div class="player_board_wonders">
+                <div class="player_board_wonders_row">
+                    <div class="player_board_wonder_container0"></div>
+                    <div class="player_board_wonder_container1"></div>
+                </div>
+                <div class="player_board_wonders_row">
+                    <div class="player_board_wonder_container2"></div>
+                    <div class="player_board_wonder_container3"></div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- END player -->
 
-    <div class="whiteblock">
-        <h3>Wonders:</h3>
-        <div>
-            <!-- BEGIN block_wonder -->
-            <div id="catalog_wonder_{id}" data-wonder-id="{id}" class="wonder wonder_small" style="background-position: -{x}00% -{y}00%;"></div>
-            <!-- END block_wonder -->
+    <!-- BEGIN block_catalog -->
+    <div>
+        <div class="whiteblock">
+            <h3>Wonders:</h3>
+            <div>
+                <!-- BEGIN block_catalog_wonder -->
+                <div id="catalog_wonder_{id}" data-wonder-id="{id}" class="wonder wonder_small"
+                     style="background-position: -{x}00% -{y}00%;"></div>
+                <!-- END block_catalog_wonder -->
+            </div>
         </div>
-    </div>
 
-    <div class="whiteblock">
-        <h3>Age cards:</h3>
-        <div>
-            <!-- BEGIN block_building -->
-            <div id="catalog_building_{id}" data-building-id="{id}" class="building building_small" style="background-position: -{x}00% -{y}00%;"></div>
-            <!-- END block_building -->
+        <div class="whiteblock">
+            <h3>Age cards:</h3>
+            <div>
+                <!-- BEGIN block_catalog_building -->
+                <div id="catalog_building_{id}" data-building-id="{id}" class="building building_small"
+                     style="background-position: -{x}00% -{y}00%;"></div>
+                <!-- END block_catalog_building -->
+            </div>
         </div>
-    </div>
 
-    <div class="whiteblock">
-        <h3>Progress tokens:</h3>
-        <div>
-            <!-- BEGIN block_progress_token -->
-            <div id="catalog_progress_token_{id}" data-progress-token-id="{id}" class="progress_token progress_token_small" style="background-position: -{x}00% -{y}00%;"></div>
-            <!-- END block_progress_token -->
+        <div class="whiteblock">
+            <h3>Progress tokens:</h3>
+            <div>
+                <!-- BEGIN block_catalog_progress_token -->
+                <div id="catalog_progress_token_{id}" data-progress-token-id="{id}"
+                     class="progress_token progress_token_small" style="background-position: -{x}00% -{y}00%;"></div>
+                <!-- END block_catalog_progress_token -->
+            </div>
         </div>
     </div>
+    <!-- END block_catalog -->
 </div>
 
 <script type="text/javascript">

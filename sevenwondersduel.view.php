@@ -42,9 +42,6 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_board_progresstoken_container");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_wonder");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_building");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_progress_token");
 
         for ($i = 0; $i < 5; $i++) {
             $this->page->insert_block("block_board_progresstoken_container", ["i" => $i]);
@@ -68,43 +65,51 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
             $index++;
         }
 
-        $this->page->reset_subblocks('block_building');
-        for ($id = 1; $id <= 77; $id++) {
-            $spritesheetColumns = 10;
-            $x = (($id - 1) % $spritesheetColumns);
-            $y = floor(($id - 1) / $spritesheetColumns);
+        // The "catalog". For testing spritesheets / tooltips.
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_wonder");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_building");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_progress_token");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog");
+        if (0) {
+            $this->page->reset_subblocks('block_catalog_building');
+            for ($id = 1; $id <= 77; $id++) {
+                $spritesheetColumns = 10;
+                $x = (($id - 1) % $spritesheetColumns);
+                $y = floor(($id - 1) / $spritesheetColumns);
 
-            $this->page->insert_block("block_building", [
-                'id' => $id,
-                'x' => $x,
-                'y' => $y,
-            ]);
-        }
+                $this->page->insert_block("block_catalog_building", [
+                    'id' => $id,
+                    'x' => $x,
+                    'y' => $y,
+                ]);
+            }
 
-        $this->page->reset_subblocks('block_wonder');
-        for ($id = 1; $id <= 13; $id++) {
-            $spritesheetColumns = 5;
-            $x = (($id - 1) % $spritesheetColumns);
-            $y = floor(($id - 1) / $spritesheetColumns);
+            $this->page->reset_subblocks('block_catalog_wonder');
+            for ($id = 1; $id <= 13; $id++) {
+                $spritesheetColumns = 5;
+                $x = (($id - 1) % $spritesheetColumns);
+                $y = floor(($id - 1) / $spritesheetColumns);
 
-            $this->page->insert_block("block_wonder", [
-                'id' => $id,
-                'x' => $x,
-                'y' => $y,
-            ]);
-        }
+                $this->page->insert_block("block_catalog_wonder", [
+                    'id' => $id,
+                    'x' => $x,
+                    'y' => $y,
+                ]);
+            }
 
-        $this->page->reset_subblocks('block_progress_token');
-        for ($id = 1; $id <= 11; $id++) {
-            $spritesheetColumns = 4;
-            $x = (($id - 1) % $spritesheetColumns);
-            $y = floor(($id - 1) / $spritesheetColumns);
+            $this->page->reset_subblocks('block_catalog_progress_token');
+            for ($id = 1; $id <= 11; $id++) {
+                $spritesheetColumns = 4;
+                $x = (($id - 1) % $spritesheetColumns);
+                $y = floor(($id - 1) / $spritesheetColumns);
 
-            $this->page->insert_block("block_progress_token", [
-                'id' => $id,
-                'x' => $x,
-                'y' => $y,
-            ]);
+                $this->page->insert_block("block_catalog_progress_token", [
+                    'id' => $id,
+                    'x' => $x,
+                    'y' => $y,
+                ]);
+            }
+            $this->page->insert_block("block_catalog");
         }
 
 
