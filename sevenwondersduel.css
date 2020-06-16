@@ -71,6 +71,13 @@
     --building-width: 208px;
     --building-height: 321px;
     --building-small-scale: 0.5;
+
+    --wonder-small-scale: 0.63;
+
+    --board-scale: 0.63;
+
+    --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.6);
+    --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * 0.536);
 }
 
 #swd_wrap {
@@ -83,8 +90,8 @@
 }
 
 .board, #board_container {
-    width: calc(1440px * 0.63);
-    height: calc(400px * 0.63);
+    width: calc(1440px * var(--board-scale));
+    height: calc(400px * var(--board-scale));
 }
 
 #board_container {
@@ -94,7 +101,7 @@
 
 .board {
     background-image: url('img/board.png');
-    background-size: calc(1440px * 0.63) calc(400px * 0.63);
+    background-size: calc(1440px * var(--board-scale)) calc(400px * var(--board-scale));
     /*border-radius: 7px;*/
     filter: drop-shadow(0px 0px 3px #000000);
     position: absolute;
@@ -159,7 +166,7 @@ h3 {
     position: relative;
 
     /* 5px for rightmost card's shadow, else it will look too narrox. */
-    width: calc(62px * 10 + calc(var(--building-width) * var(--building-small-scale)) + 5px);
+    width: calc(var(--draftpool-column-width) * 10 + calc(var(--building-width) * var(--building-small-scale)) + 5px);
 }
 
 
@@ -378,9 +385,9 @@ h3 {
 }
 
 .wonder_small {
-    width: calc(369px * 0.63);
-    height: calc(240px * 0.63);
-    background-size: calc(1845px * 0.63) calc(720px * 0.63);
+    width: calc(369px * var(--wonder-small-scale));
+    height: calc(240px * var(--wonder-small-scale));
+    background-size: calc(1845px * var(--wonder-small-scale)) calc(720px * var(--wonder-small-scale));
     border-radius: 7px;
     box-shadow:
         3px 3px 3px 0px rgba(0,0,0,0.4),
@@ -418,22 +425,23 @@ h3 {
 .age3_back { background-position: -500% -700%; }
 .guild_back { background-position: -600% -700%; }
 
-.column1 { left: calc(62px * (1 - 1)); }
-.column2 { left: calc(62px * (2 - 1)); }
-.column3 { left: calc(62px * (3 - 1)); }
-.column4 { left: calc(62px * (4 - 1)); }
-.column5 { left: calc(62px * (5 - 1)); }
-.column6 { left: calc(62px * (6 - 1)); }
-.column7 { left: calc(62px * (7 - 1)); }
-.column8 { left: calc(62px * (8 - 1)); }
-.column9 { left: calc(62px * (9 - 1)); }
-.column10 { left: calc(62px * (10 - 1)); }
-.column11 { left: calc(62px * (11 - 1)); }
 
-.row1 { top: calc(86px * (1 - 1)); }
-.row2 { top: calc(86px * (2 - 1)); }
-.row3 { top: calc(86px * (3 - 1)); }
-.row4 { top: calc(86px * (4 - 1)); }
-.row5 { top: calc(86px * (5 - 1)); }
-.row6 { top: calc(86px * (6 - 1)); }
-.row7 { top: calc(86px * (7 - 1)); }
+.column1 { left: calc(var(--draftpool-column-width) * (1 - 1)); }
+.column2 { left: calc(var(--draftpool-column-width) * (2 - 1)); }
+.column3 { left: calc(var(--draftpool-column-width) * (3 - 1)); }
+.column4 { left: calc(var(--draftpool-column-width) * (4 - 1)); }
+.column5 { left: calc(var(--draftpool-column-width) * (5 - 1)); }
+.column6 { left: calc(var(--draftpool-column-width) * (6 - 1)); }
+.column7 { left: calc(var(--draftpool-column-width) * (7 - 1)); }
+.column8 { left: calc(var(--draftpool-column-width) * (8 - 1)); }
+.column9 { left: calc(var(--draftpool-column-width) * (9 - 1)); }
+.column10 { left: calc(var(--draftpool-column-width) * (10 - 1)); }
+.column11 { left: calc(var(--draftpool-column-width) * (11 - 1)); }
+
+.row1 { top: calc(var(--draftpool-row-height) * (1 - 1)); }
+.row2 { top: calc(var(--draftpool-row-height) * (2 - 1)); }
+.row3 { top: calc(var(--draftpool-row-height) * (3 - 1)); }
+.row4 { top: calc(var(--draftpool-row-height) * (4 - 1)); }
+.row5 { top: calc(var(--draftpool-row-height) * (5 - 1)); }
+.row6 { top: calc(var(--draftpool-row-height) * (6 - 1)); }
+.row7 { top: calc(var(--draftpool-row-height) * (7 - 1)); }
