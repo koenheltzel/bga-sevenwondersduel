@@ -132,6 +132,7 @@ function (dojo, domAttr, domStyle, declare) {
                 domStyle.set(node, "height", (maxY + height + 5) + "px");
             });
 
+            // Add tooltips to buildings (draftpool, player boards).
             dojo.query( '.building_small, .building_header_small' ).forEach( dojo.hitch( this, function( node ) {
                 var id = domAttr.get(node, "data-building-id");
                 var html = this.getBuildingTooltip( id );
@@ -153,6 +154,7 @@ function (dojo, domAttr, domStyle, declare) {
                 }
             } ) );
 
+            // Add tooltips to wonders (player boards)
             dojo.query( '.wonder_small' ).forEach( dojo.hitch( this, function( node ) {
                 // console.log(node);
                 var id = domAttr.get(node, "data-wonder-id");

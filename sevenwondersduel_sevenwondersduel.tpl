@@ -137,8 +137,8 @@ var jstpl_player_building = '\
     </div>';
 
 var jstpl_player_wonder = '\
-    <div id="player_wonder_${jsId}" style="display: inline-block;">\
-        <div\
+    <div id="player_wonder_${jsId}_container" style="display: inline-block;">\
+        <div id="player_wonder_${jsId}"\
             ${jsData}\
             class="wonder wonder_small"\
             style="background-position: -${jsX}00% -${jsY}00%; "\
