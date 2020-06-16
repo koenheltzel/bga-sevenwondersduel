@@ -68,8 +68,12 @@
 */
 
 :root {
-    --building-width: 208px;
-    --building-height: 321px;
+    --building-spritesheet-width: 2080px;
+    --building-spritesheet-height: 2568px;
+    --building-spritesheet-columns: 10;
+    --building-spritesheet-rows: 8;
+    --building-width: calc(var(--building-spritesheet-width) / var(--building-spritesheet-columns));
+    --building-height: calc(var(--building-spritesheet-height) / var(--building-spritesheet-rows));
     --building-small-scale: 0.5;
 
     --wonder-small-scale: 0.63;
@@ -348,7 +352,7 @@ h3 {
 .building_header_small {
     width: calc(var(--building-width) * var(--building-small-scale));
     height: calc(62px * var(--building-small-scale));
-    background-size: calc(2080px * var(--building-small-scale)) calc(2568px * var(--building-small-scale));
+    background-size: calc(var(--building-spritesheet-width) * var(--building-small-scale)) calc(var(--building-spritesheet-height) * var(--building-small-scale));
     border-radius: 7px;
     box-shadow:
         3px 3px 3px 0px rgba(0,0,0,0.4),
@@ -360,7 +364,7 @@ h3 {
 .building_small {
     width: calc(var(--building-width) * var(--building-small-scale));
     height: calc(var(--building-height) * var(--building-small-scale));
-    background-size: calc(2080px * var(--building-small-scale)) calc(2568px * var(--building-small-scale));
+    background-size: calc(var(--building-spritesheet-width) * var(--building-small-scale)) calc(var(--building-spritesheet-height) * var(--building-small-scale));
     border-radius: 7px;
     box-shadow:
         0px 0px 3px 3px rgba(0,0,0,0.4),
@@ -424,7 +428,6 @@ h3 {
 .age2_back { background-position: -400% -700%; }
 .age3_back { background-position: -500% -700%; }
 .guild_back { background-position: -600% -700%; }
-
 
 .column1 { left: calc(var(--draftpool-column-width) * (1 - 1)); }
 .column2 { left: calc(var(--draftpool-column-width) * (2 - 1)); }
