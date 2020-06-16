@@ -185,13 +185,21 @@ h3 {
 
 .player_board_wrap {
     position: relative;
-    align-self: stretch;
+    /*align-self: stretch;*/
 }
 
 .player_board_name {
     position: relative;
     display: inline-block;
 }
+
+/*.player_board_content {*/
+/*    !* Flexbox setup *!*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: space-evenly;*/
+/*    align-items: center;*/
+/*}*/
 
 .player_board_building_column_container {
     /* Flexbox setup */
@@ -309,38 +317,56 @@ h3 {
     margin-top: 10px;
 }
 
-.sw_coins {
-    position: relative;
-    display: inline-block;
+.player_board_coins {
     float: right;
+    text-align: center;
 }
-.sw_coins span.tcoin {
+.player_board_coins span {
+    top: 4px;
     position: relative;
-    top: -4px;
+    font-weight: bold;
+    font-size: 18px;
+    text-shadow: 0 0 4px white, 0 0 4px white, 0 0 4px white;
 }
 
 
 /* WIP, Copied from Seven Wonders: */
-.sicon {
+.coin {
     background-image: url('img/icons.png');
+    background-position: -0px -0px;
     width: 30px;
     height: 30px;
     display: inline-block;
 }
-.siconmini {
-    background-image: url('img/icons.png');
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    position: relative;
-    top: 4px;
+
+.menuplay {
+    background-image: url(img/icons.png);
+    background-position: -0px -170px;
+    width: 60px;
+    height: 44px;
 }
 
-.sicon_coin {    background-position: -0px -0px;    }
+.menuwonder {
+    background-image: url(img/icons.png);
+    background-position: -60px -170px;
+    width: 60px;
+    height: 41px;
+}
+
+.menudiscard {
+    background-image: url(img/icons.png);
+    background-position: -120px -170px;
+    width: 40px;
+    height: 40px;
+}
 
 /* End Copied from Seven Wonders: */
 
-
+.turn_button * {
+    display: inline-block;
+    vertical-align: middle;
+    overflow-wrap: normal;
+}
 
 
 .building {

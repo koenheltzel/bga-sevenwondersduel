@@ -43,23 +43,28 @@
         <div id="draftpool" class="draftpool age">
 
         </div>
+        <div>
+            <a href="#" id="building" class="turn_button bgabutton bgabutton_blue"><div class="menuplay"></div><span>Construct building</span></a>
+            <a href="#" id="building" class="turn_button bgabutton bgabutton_blue"><div class="menudiscard"></div><span>Discard to obtain coins</span></a>
+            <a href="#" id="building" class="turn_button bgabutton bgabutton_blue"><div class="menuwonder"></div><span>Construct a wonder</span></a>
+        </div>
     </div>
 
     <!-- BEGIN player -->
     <div id="player_board_wrap_{PLAYER_ID}" class="player_board_wrap whiteblock">
         <h3 style="color:#{PLAYER_COLOR}" class="player_board_name">{PLAYER_NAME}</h3>
-        <div class="sw_coins">
-            <div id="ttcoin{PLAYER_ID}" class="sicon sicon_coin imgtext tcoin"></div> <span id="coin_{PLAYER_ID}" class="tcoin">0</span>
+        <div id="player_board_{PLAYER_ID}_coins" class="player_board_coins coin">
+            <span>24</span>
         </div>
         <div id="player_board_content_{PLAYER_ID}" class="player_board_content">
             <div class="player_board_building_column_container">
-                <div class="player_board_building_column Brown"></div>
-                <div class="player_board_building_column Grey"></div>
-                <div class="player_board_building_column Yellow"></div>
-                <div class="player_board_building_column Blue"></div>
-                <div class="player_board_building_column Red"></div>
-                <div class="player_board_building_column Green"></div>
-                <div class="player_board_building_column Purple"></div>
+                <div class="player_board_building_column Brown" title="Raw materials"></div>
+                <div class="player_board_building_column Grey" title="Manufactured goods"></div>
+                <div class="player_board_building_column Yellow" title="Commercial Buildings"></div>
+                <div class="player_board_building_column Red" title="Military Buildings"></div>
+                <div class="player_board_building_column Blue" title="Civilian Buildings"></div>
+                <div class="player_board_building_column Green" title="Scientific Buildings"></div>
+                <div class="player_board_building_column Purple" title="Guilds"></div>
             </div>
             <div class="player_board_wonders">
                 <div class="player_board_wonders_row">
@@ -128,9 +133,11 @@ var jstpl_draftpool_building = '\
     >\
     </div>';
 
+// Keep title attribute empty. This overrides the title attribute of the player_board_building_column div.
 var jstpl_player_building = '\
     <div id="player_building_${jsId}"\
         ${jsData}\
+        title=""\
         class="building building_header_small"\
         style="position: inline-block; background-position: -${jsX}00% calc(-5px + -${jsY} * 321px / 2);"\
     >\
