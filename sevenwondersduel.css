@@ -76,8 +76,16 @@
     --building-height: calc(var(--building-spritesheet-height) / var(--building-spritesheet-rows));
     --building-small-scale: 0.5;
 
+    --wonder-spritesheet-width: 1845px;
+    --wonder-spritesheet-height: 720px;
+    --wonder-spritesheet-columns: 5;
+    --wonder-spritesheet-rows: 3;
+    --wonder-width: calc(var(--wonder-spritesheet-width) / var(--wonder-spritesheet-columns));
+    --wonder-height: calc(var(--wonder-spritesheet-height) / var(--wonder-spritesheet-rows));
     --wonder-small-scale: 0.63;
 
+    --board-width: 1440px;
+    --board-height: 400px;
     --board-scale: 0.63;
 
     --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.6);
@@ -94,8 +102,8 @@
 }
 
 .board, #board_container {
-    width: calc(1440px * var(--board-scale));
-    height: calc(400px * var(--board-scale));
+    width: calc(var(--board-width) * var(--board-scale));
+    height: calc(var(--board-height) * var(--board-scale));
 }
 
 #board_container {
@@ -105,7 +113,7 @@
 
 .board {
     background-image: url('img/board.png');
-    background-size: calc(1440px * var(--board-scale)) calc(400px * var(--board-scale));
+    background-size: calc(var(--board-width) * var(--board-scale)) calc(var(--board-height) * var(--board-scale));
     /*border-radius: 7px;*/
     filter: drop-shadow(0px 0px 3px #000000);
     position: absolute;
@@ -373,8 +381,8 @@ h3 {
 }
 
 .wonder {
-    width: 369px;
-    height: 240px;
+    width: var(--wonder-width);
+    height: var(--wonder-height);
     background-image: url('img/wonders.jpg');
     position: absolute;
     cursor: pointer;
@@ -389,9 +397,9 @@ h3 {
 }
 
 .wonder_small {
-    width: calc(369px * var(--wonder-small-scale));
-    height: calc(240px * var(--wonder-small-scale));
-    background-size: calc(1845px * var(--wonder-small-scale)) calc(720px * var(--wonder-small-scale));
+    width: calc(var(--wonder-width) * var(--wonder-small-scale));
+    height: calc(var(--wonder-height) * var(--wonder-small-scale));
+    background-size: calc(var(--wonder-spritesheet-width) * var(--wonder-small-scale)) calc(var(--wonder-spritesheet-height) * var(--wonder-small-scale));
     border-radius: 7px;
     box-shadow:
         3px 3px 3px 0px rgba(0,0,0,0.4),
