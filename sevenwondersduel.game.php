@@ -40,12 +40,77 @@ if (0) require_once '_bga_ide_helper.php';
 class SevenWondersDuel extends Table
 {
 
+    use SWD\States\SelectWonderTrait;
     use SWD\States\PlayerTurnTrait;
 
     /**
      * @var SevenWondersDuel
      */
     public static $instance;
+
+    const STATE_GAME_SETUP = 1;
+    const STATENAME_GAME_SETUP = "gameSetup";
+    
+    const STATE_SELECT_WONDER = 5;
+    const STATENAME_SELECT_WONDER = "selectWonder";
+    
+    const STATE_WONDER_SELECTED = 10;
+    const STATENAME_WONDER_SELECTED = "wonderSelected";
+    
+    const STATE_NEXT_AGE = 15;
+    const STATENAME_NEXT_AGE = "nextAge";
+    
+    const STATE_SELECT_START_PLAYER = 20;
+    const STATENAME_SELECT_START_PLAYER = "selectStartPlayer";
+    
+    const STATE_START_PLAYER_SELECTED = 25;
+    const STATENAME_START_PLAYER_SELECTED = "startPlayerSelected";
+    
+    const STATE_PLAYER_TURN = 30;
+    const STATENAME_PLAYER_TURN = "playerTurn";
+    
+    const STATE_CONSTRUCT_BUILDING = 35;
+    const STATENAME_CONSTRUCT_BUILDING = "constructBuilding";
+    
+    const STATE_BUILDING_CONSTRUCTED = 40;
+    const STATENAME_BUILDING_CONSTRUCTED = "buildingConstructed";
+    
+    const STATE_CHOOSE_PROGRESS_TOKEN = 45;
+    const STATENAME_CHOOSE_PROGRESS_TOKEN = "chooseProgressToken";
+    
+    const STATE_PROGRESS_TOKEN_PLAYED = 50;
+    const STATENAME_PROGRESS_TOKEN_PLAYED = "progressTokenPlayed";
+    
+    const STATE_DISCARD_BUILDING = 55;
+    const STATENAME_DISCARD_BUILDING = "discardBuilding";
+    
+    const STATE_CONSTRUCT_WONDER = 60;
+    const STATENAME_CONSTRUCT_WONDER = "constructWonder";
+    
+    const STATE_CHOOSE_OPPONENT_BUILDING = 65;
+    const STATENAME_CHOOSE_OPPONENT_BUILDING = "chooseOpponentBuilding";
+    
+    const STATE_OPPONENT_BUILDING_DISCARDED = 70;
+    const STATENAME_OPPONENT_BUILDING_DISCARDED = "opponentBuildingDiscarded";
+    
+    const STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN = 75;
+    const STATENAME_CHOOSE_DISCARDED_PROGRESS_TOKEN = "chooseDiscardedProgressToken";
+    
+    const STATE_DISCARDED_PROGRESS_TOKEN_PLAYED = 80;
+    const STATENAME_DISCARDED_PROGRESS_TOKEN_PLAYED = "discardedProgressTokenPlayer";
+    
+    const STATE_CHOOSE_DISCARDED_BUILDING = 85;
+    const STATENAME_CHOOSE_DISCARDED_BUILDING = "chooseDiscardedBuilding";
+    
+    const STATE_CONSTRUCT_DISCARDED_BUILDING = 90;
+    const STATENAME_CONSTRUCT_DISCARDED_BUILDING = "constructDiscardedBuilding";
+    
+    const STATE_NEXT_PLAYER_TURN = 95;
+    const STATENAME_NEXT_PLAYER_TURN = "nextPlayerTurn";
+    
+    const STATE_GAME_END = 99;
+    const STATENAME_GAME_END = "gameEnd";
+    
 
     /**
      * @var Deck
