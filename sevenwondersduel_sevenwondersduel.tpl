@@ -30,7 +30,7 @@
     <div id="board_container">
         <div class="board"></div>
         <!-- BEGIN block_board_progresstoken_container -->
-        <div id="progress_token_container{i}" class="progress_token_container{i}"></div>
+        <div id="board_progress_token_container{i}"></div>
         <!-- END block_board_progresstoken_container -->
         <!-- BEGIN board_player -->
         <div class="whiteblock {CLASS}">
@@ -44,9 +44,9 @@
 
         </div>
         <div class="draftpool_actions">
-            <a href="#" id="building" class="turn_button bgabutton bgabutton_blue"><div class="menuplay"></div><span>Construct building</span></a>
-            <a href="#" id="building" class="turn_button bgabutton bgabutton_blue"><div class="menudiscard"></div><span>Discard to obtain coins</span></a>
-            <a href="#" id="building" class="turn_button bgabutton bgabutton_blue"><div class="menuwonder"></div><span>Construct a wonder</span></a>
+            <a href="#" id="building" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>Construct building</span></a>
+            <a href="#" id="building" class="action_button bgabutton bgabutton_blue"><div class="action_discard"></div><span>Discard to obtain coins</span></a>
+            <a href="#" id="building" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>Construct a wonder</span></a>
         </div>
     </div>
 
