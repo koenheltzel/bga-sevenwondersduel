@@ -51,34 +51,34 @@
     </div>
 
     <!-- BEGIN player -->
-    <div id="player_board_wrap_{PLAYER_ID}" class="player_board_wrap whiteblock">
-        <h3 style="color:#{PLAYER_COLOR}" class="player_board_name">{PLAYER_NAME}</h3>
-        <div id="player_board_{PLAYER_ID}_coins" class="player_board_coins coin">
+    <div id="player_area_wrap_{PLAYER_ID}" class="player_area_wrap whiteblock">
+        <h3 style="color:#{PLAYER_COLOR}" class="player_area_name">{PLAYER_NAME}</h3>
+        <div id="player_area_{PLAYER_ID}_coins" class="player_area_coins coin">
             <span>24</span>
         </div>
-        <div id="player_board_content_{PLAYER_ID}" class="player_board_content">
-            <div class="player_board_building_column_container">
-                <div class="player_board_building_column Brown" title="Raw materials"></div>
-                <div class="player_board_building_column Grey" title="Manufactured goods"></div>
-                <div class="player_board_building_column Yellow" title="Commercial Buildings"></div>
-                <div class="player_board_building_column Red" title="Military Buildings"></div>
-                <div class="player_board_building_column Blue" title="Civilian Buildings"></div>
-                <div class="player_board_building_column Green" title="Scientific Buildings"></div>
-                <div class="player_board_building_column Purple" title="Guilds"></div>
+        <div id="player_area_content_{PLAYER_ID}" class="player_area_content">
+            <div class="player_area_building_column_container">
+                <div class="player_area_building_column Brown" title="Raw materials"></div>
+                <div class="player_area_building_column Grey" title="Manufactured goods"></div>
+                <div class="player_area_building_column Yellow" title="Commercial Buildings"></div>
+                <div class="player_area_building_column Red" title="Military Buildings"></div>
+                <div class="player_area_building_column Blue" title="Civilian Buildings"></div>
+                <div class="player_area_building_column Green" title="Scientific Buildings"></div>
+                <div class="player_area_building_column Purple" title="Guilds"></div>
             </div>
             <div style="display: inline-block">
-                <div class="player_board_wonders">
-                    <div class="player_board_wonders_row">
-                        <div class="player_board_wonder_container0"></div>
-                        <div class="player_board_wonder_container1"></div>
+                <div class="player_area_wonders">
+                    <div class="player_area_wonders_row">
+                        <div class="player_area_wonder_container0"></div>
+                        <div class="player_area_wonder_container1"></div>
                     </div>
-                    <div class="player_board_wonders_row">
-                        <div class="player_board_wonder_container2"></div>
-                        <div class="player_board_wonder_container3"></div>
+                    <div class="player_area_wonders_row">
+                        <div class="player_area_wonder_container2"></div>
+                        <div class="player_area_wonder_container3"></div>
                     </div>
                 </div>
             </div>
-            <div class="player_board_progress_tokens">
+            <div class="player_area_progress_tokens">
             </div>
         </div>
     </div>
@@ -138,7 +138,7 @@ var jstpl_draftpool_building = '\
     <div class="drafpool_building_cost"><div class="coin" style="zoom: 0.75; display: ${jsDisplayCost}"><span>${jsCost}</span></div></div>\
     </div>';
 
-// Keep title attribute empty. This overrides the title attribute of the player_board_building_column div.
+// Keep title attribute empty. This overrides the title attribute of the player_area_building_column div.
 var jstpl_player_building = '\
     <div id="player_building_${jsId}"\
         ${jsData}\

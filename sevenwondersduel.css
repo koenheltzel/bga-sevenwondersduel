@@ -65,6 +65,7 @@ __     __         _       _     _
     --building-width: calc(var(--building-spritesheet-width) / var(--building-spritesheet-columns));
     --building-height: calc(var(--building-spritesheet-height) / var(--building-spritesheet-rows));
     --building-small-scale: 0.5;
+    --building-small-width: calc(var(--building-width) * var(--building-small-scale));
 
     --wonder-spritesheet-width: 1845px;
     --wonder-spritesheet-height: 720px;
@@ -109,6 +110,14 @@ h3 {
 
 .whiteblock {
     border-radius: 8px;
+}
+
+.coin {
+    background-image: url('img/icons.png');
+    background-position: -0px -0px;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
 }
 
 /*
@@ -211,176 +220,7 @@ h3 {
     margin-top: 10px;
 
     /* 5px for rightmost card's shadow, else it will look too narrox. */
-    width: calc(var(--draftpool-column-width) * 10 + calc(var(--building-width) * var(--building-small-scale)) + 5px);
-}
-
-.draftpool_actions {
-    text-align: center;
-}
-
-.player_board_wrap {
-    position: relative;
-    /*align-self: stretch;*/
-}
-
-.player_board_name {
-    position: relative;
-    display: inline-block;
-}
-
-/*.player_board_content {*/
-/*    !* Flexbox setup *!*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    justify-content: space-evenly;*/
-/*    align-items: center;*/
-/*}*/
-
-.player_board_building_column_container {
-    /* Flexbox setup */
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-}
-
-.player_board_building_column {
-    /*display: inline-block;*/
-    min-width: calc(var(--building-width) * var(--building-small-scale));
-    min-height: 31px;
-    border-radius: 7px;
-    background-size: calc(var(--building-width) * var(--building-small-scale)) 31px !important;
-    background-repeat: no-repeat !important;
-    background-position: bottom !important;
-    margin: 10px 1px 0px 1px;
-}
-
-.player_board_building_column.Brown {
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#702c12+0,702c12+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00702c12', endColorstr='#66702c12', GradientType=0); /* IE6-9 */
-}
-
-.player_board_building_column.Grey {
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00858680', endColorstr='#66858680', GradientType=0); /* IE6-9 */
-}
-
-.player_board_building_column.Yellow {
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f8b305+0,f8b305+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00f8b305', endColorstr='#66f8b305', GradientType=0); /* IE6-9 */
-}
-
-.player_board_building_column.Blue {
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#0275aa+0,0275aa+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000275aa', endColorstr='#660275aa', GradientType=0); /* IE6-9 */
-}
-
-.player_board_building_column.Red {
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#b7110e+0,b7110e+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00b7110e', endColorstr='#66b7110e', GradientType=0); /* IE6-9 */
-}
-
-.player_board_building_column.Green {
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#027234+0,027234+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00027234', endColorstr='#66027234', GradientType=0); /* IE6-9 */
-}
-
-.player_board_building_column.Purple {
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6f488b+0,6f488b+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#006f488b', endColorstr='#666f488b', GradientType=0); /* IE6-9 */
-}
-
-
-.player_board_wrap .wonder_small {
-    margin-right: 40px;
-    z-index: 2;
-    position: relative;
-}
-.player_board_wrap .age_card_container {
-    transform: rotate(-90deg);
-    position: relative;
-    top: -159px;
-    left: -40px;
-}
-.player_board_wrap .age_card_container .building_small {
-    position: absolute;
-}
-
-.player_board_wonders {
-    /* Flexbox setup */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-@media (min-width: 2500px) {
-    .player_board_wonders {
-        flex-direction: row;
-    }
-}
-
-.player_board_wonders_row {
-    /* Flexbox setup */
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-
-    margin-top: 10px;
-}
-
-.player_board_progress_tokens {
-    display: inline-block;
-    vertical-align: top;
-    position: relative;
-    margin-top: 10px;
-}
-.player_board_progress_tokens .progress_token_small {
-    position: absolute;
-}
-
-.player_board_progress_tokens .progress_token_small:nth-of-type(2) {
-    left: 80px;
-    top: 45px;
-}
-.player_board_progress_tokens .progress_token_small:nth-of-type(3) {
-    left: 0px;
-    top: 90px;
-}
-.player_board_progress_tokens .progress_token_small:nth-of-type(4) {
-    left: 80px;
-    top: 135px;
-}
-.player_board_progress_tokens .progress_token_small:nth-of-type(5) {
-    left: 0px;
-    top: 180px;
-}
-.player_board_progress_tokens .progress_token_small:nth-of-type(6) {
-    left: 80px;
-    top: 225px;
+    width: calc(var(--draftpool-column-width) * 10 + var(--building-small-width) + 5px);
 }
 
 .drafpool_building_cost {
@@ -395,11 +235,208 @@ h3 {
     text-shadow: 0 0 4px white, 0 0 4px white, 0 0 4px white;
 }
 
-.player_board_coins {
+.draftpool_actions {
+    text-align: center;
+}
+
+.column1 { left: calc(var(--draftpool-column-width) * (1 - 1)); }
+.column2 { left: calc(var(--draftpool-column-width) * (2 - 1)); }
+.column3 { left: calc(var(--draftpool-column-width) * (3 - 1)); }
+.column4 { left: calc(var(--draftpool-column-width) * (4 - 1)); }
+.column5 { left: calc(var(--draftpool-column-width) * (5 - 1)); }
+.column6 { left: calc(var(--draftpool-column-width) * (6 - 1)); }
+.column7 { left: calc(var(--draftpool-column-width) * (7 - 1)); }
+.column8 { left: calc(var(--draftpool-column-width) * (8 - 1)); }
+.column9 { left: calc(var(--draftpool-column-width) * (9 - 1)); }
+.column10 { left: calc(var(--draftpool-column-width) * (10 - 1)); }
+.column11 { left: calc(var(--draftpool-column-width) * (11 - 1)); }
+
+.row1 { top: calc(var(--draftpool-row-height) * (1 - 1)); }
+.row2 { top: calc(var(--draftpool-row-height) * (2 - 1)); }
+.row3 { top: calc(var(--draftpool-row-height) * (3 - 1)); }
+.row4 { top: calc(var(--draftpool-row-height) * (4 - 1)); }
+.row5 { top: calc(var(--draftpool-row-height) * (5 - 1)); }
+.row6 { top: calc(var(--draftpool-row-height) * (6 - 1)); }
+.row7 { top: calc(var(--draftpool-row-height) * (7 - 1)); }
+
+/*
+ ____  _                            _
+|  _ \| | __ _ _   _  ___ _ __     / \   _ __ ___  __ _
+| |_) | |/ _` | | | |/ _ \ '__|   / _ \ | '__/ _ \/ _` |
+|  __/| | (_| | |_| |  __/ |     / ___ \| | |  __/ (_| |
+|_|   |_|\__,_|\__, |\___|_|    /_/   \_\_|  \___|\__,_|
+               |___/
+ */
+
+.player_area_wrap {
+    position: relative;
+    /*align-self: stretch;*/
+}
+
+.player_area_name {
+    position: relative;
+    display: inline-block;
+}
+
+/*.player_area_content {*/
+/*    !* Flexbox setup *!*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: space-evenly;*/
+/*    align-items: center;*/
+/*}*/
+
+.player_area_building_column_container {
+    /* Flexbox setup */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.player_area_building_column {
+    /*display: inline-block;*/
+    min-width: var(--building-small-width);
+    min-height: 31px;
+    border-radius: 7px;
+    background-size: var(--building-small-width) 31px !important;
+    background-repeat: no-repeat !important;
+    background-position: bottom !important;
+    margin: 10px 1px 0px 1px;
+}
+
+.player_area_building_column.Brown {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#702c12+0,702c12+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00702c12', endColorstr='#66702c12', GradientType=0); /* IE6-9 */
+}
+
+.player_area_building_column.Grey {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00858680', endColorstr='#66858680', GradientType=0); /* IE6-9 */
+}
+
+.player_area_building_column.Yellow {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f8b305+0,f8b305+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00f8b305', endColorstr='#66f8b305', GradientType=0); /* IE6-9 */
+}
+
+.player_area_building_column.Blue {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#0275aa+0,0275aa+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000275aa', endColorstr='#660275aa', GradientType=0); /* IE6-9 */
+}
+
+.player_area_building_column.Red {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#b7110e+0,b7110e+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00b7110e', endColorstr='#66b7110e', GradientType=0); /* IE6-9 */
+}
+
+.player_area_building_column.Green {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#027234+0,027234+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00027234', endColorstr='#66027234', GradientType=0); /* IE6-9 */
+}
+
+.player_area_building_column.Purple {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6f488b+0,6f488b+100&0+0,0.4+100 */
+    background: -moz-linear-gradient(top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#006f488b', endColorstr='#666f488b', GradientType=0); /* IE6-9 */
+}
+
+.player_area_wrap .wonder_small {
+    margin-right: 40px;
+    z-index: 2;
+    position: relative;
+}
+.player_area_wrap .age_card_container {
+    transform: rotate(-90deg);
+    position: relative;
+    top: -159px;
+    left: -40px;
+}
+.player_area_wrap .age_card_container .building_small {
+    position: absolute;
+}
+
+.player_area_wonders {
+    /* Flexbox setup */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+@media (min-width: 2500px) {
+    .player_area_wonders {
+        flex-direction: row;
+    }
+}
+
+.player_area_wonders_row {
+    /* Flexbox setup */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+
+    margin-top: 10px;
+}
+
+.player_area_progress_tokens {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    margin-top: 10px;
+}
+.player_area_progress_tokens .progress_token_small {
+    position: absolute;
+}
+
+.player_area_progress_tokens .progress_token_small:nth-of-type(2) {
+    left: 80px;
+    top: 45px;
+}
+.player_area_progress_tokens .progress_token_small:nth-of-type(3) {
+    left: 0px;
+    top: 90px;
+}
+.player_area_progress_tokens .progress_token_small:nth-of-type(4) {
+    left: 80px;
+    top: 135px;
+}
+.player_area_progress_tokens .progress_token_small:nth-of-type(5) {
+    left: 0px;
+    top: 180px;
+}
+.player_area_progress_tokens .progress_token_small:nth-of-type(6) {
+    left: 80px;
+    top: 225px;
+}
+
+.player_area_coins {
     float: right;
     text-align: center;
 }
-.player_board_coins span {
+.player_area_coins span {
     top: 4px;
     position: relative;
     font-weight: bold;
@@ -407,14 +444,14 @@ h3 {
     text-shadow: 0 0 4px white, 0 0 4px white, 0 0 4px white;
 }
 
-
-.coin {
-    background-image: url('img/icons.png');
-    background-position: -0px -0px;
-    width: 30px;
-    height: 30px;
-    display: inline-block;
-}
+/*
+ ____  _                            _        _   _
+|  _ \| | __ _ _   _  ___ _ __     / \   ___| |_(_) ___  _ __  ___
+| |_) | |/ _` | | | |/ _ \ '__|   / _ \ / __| __| |/ _ \| '_ \/ __|
+|  __/| | (_| | |_| |  __/ |     / ___ \ (__| |_| | (_) | | | \__ \
+|_|   |_|\__,_|\__, |\___|_|    /_/   \_\___|\__|_|\___/|_| |_|___/
+               |___/
+ */
 
 .action_construct {
     background-image: url(img/icons.png);
@@ -443,6 +480,15 @@ h3 {
     overflow-wrap: normal;
 }
 
+/*
+ ____        _ _     _ _
+| __ ) _   _(_) | __| (_)_ __   __ _ ___
+|  _ \| | | | | |/ _` | | '_ \ / _` / __|
+| |_) | |_| | | | (_| | | | | | (_| \__ \
+|____/ \__,_|_|_|\__,_|_|_| |_|\__, |___/
+                               |___/
+ */
+
 .building {
     width: var(--building-width);
     height: var(--building-height);
@@ -458,7 +504,7 @@ h3 {
 }
 
 .building_header_small {
-    width: calc(var(--building-width) * var(--building-small-scale));
+    width: var(--building-small-width);
     height: calc(62px * var(--building-small-scale));
     background-size: calc(var(--building-spritesheet-width) * var(--building-small-scale)) calc(var(--building-spritesheet-height) * var(--building-small-scale));
     border-radius: 7px;
@@ -470,7 +516,7 @@ h3 {
 }
 
 .building_small {
-    width: calc(var(--building-width) * var(--building-small-scale));
+    width: var(--building-small-width);
     height: calc(var(--building-height) * var(--building-small-scale));
     background-size: calc(var(--building-spritesheet-width) * var(--building-small-scale)) calc(var(--building-spritesheet-height) * var(--building-small-scale));
     border-radius: 7px;
@@ -480,6 +526,19 @@ h3 {
     cursor: pointer;
     text-align: center;
 }
+
+.age1_back { background-position: -300% -700%; }
+.age2_back { background-position: -400% -700%; }
+.age3_back { background-position: -500% -700%; }
+.guild_back { background-position: -600% -700%; }
+
+/*
+__        __              _
+\ \      / /__  _ __   __| | ___ _ __ ___
+ \ \ /\ / / _ \| '_ \ / _` |/ _ \ '__/ __|
+  \ V  V / (_) | | | | (_| |  __/ |  \__ \
+   \_/\_/ \___/|_| |_|\__,_|\___|_|  |___/
+ */
 
 .wonder {
     width: var(--wonder-width);
@@ -507,6 +566,15 @@ h3 {
         inset 0px 0px 0px 0.5px #00000060;
 }
 
+/*
+ ____                                      _____     _
+|  _ \ _ __ ___   __ _ _ __ ___  ___ ___  |_   _|__ | | _____ _ __  ___
+| |_) | '__/ _ \ / _` | '__/ _ \/ __/ __|   | |/ _ \| |/ / _ \ '_ \/ __|
+|  __/| | | (_) | (_| | | |  __/\__ \__ \   | | (_) |   <  __/ | | \__ \
+|_|   |_|  \___/ \__, |_|  \___||___/___/   |_|\___/|_|\_\___|_| |_|___/
+                 |___/
+ */
+
 .progress_token {
     width: var(--progress-token-width);
     height: var(--progress-token-height);
@@ -532,28 +600,3 @@ h3 {
         3px 3px 3px 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px 0.5px #00000060;
 }
-
-.age1_back { background-position: -300% -700%; }
-.age2_back { background-position: -400% -700%; }
-.age3_back { background-position: -500% -700%; }
-.guild_back { background-position: -600% -700%; }
-
-.column1 { left: calc(var(--draftpool-column-width) * (1 - 1)); }
-.column2 { left: calc(var(--draftpool-column-width) * (2 - 1)); }
-.column3 { left: calc(var(--draftpool-column-width) * (3 - 1)); }
-.column4 { left: calc(var(--draftpool-column-width) * (4 - 1)); }
-.column5 { left: calc(var(--draftpool-column-width) * (5 - 1)); }
-.column6 { left: calc(var(--draftpool-column-width) * (6 - 1)); }
-.column7 { left: calc(var(--draftpool-column-width) * (7 - 1)); }
-.column8 { left: calc(var(--draftpool-column-width) * (8 - 1)); }
-.column9 { left: calc(var(--draftpool-column-width) * (9 - 1)); }
-.column10 { left: calc(var(--draftpool-column-width) * (10 - 1)); }
-.column11 { left: calc(var(--draftpool-column-width) * (11 - 1)); }
-
-.row1 { top: calc(var(--draftpool-row-height) * (1 - 1)); }
-.row2 { top: calc(var(--draftpool-row-height) * (2 - 1)); }
-.row3 { top: calc(var(--draftpool-row-height) * (3 - 1)); }
-.row4 { top: calc(var(--draftpool-row-height) * (4 - 1)); }
-.row5 { top: calc(var(--draftpool-row-height) * (5 - 1)); }
-.row6 { top: calc(var(--draftpool-row-height) * (6 - 1)); }
-.row7 { top: calc(var(--draftpool-row-height) * (7 - 1)); }

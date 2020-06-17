@@ -79,7 +79,7 @@ function (dojo, domAttr, domStyle, declare) {
                 data.jsY = Math.floor((id - 1) / spritesheetColumns);
 
                 if (id <= 73){
-                    dojo.place(this.format_block('jstpl_player_building', data), dojo.query('#player_board_content_' + playerId + ' .' + building.type)[0]);
+                    dojo.place(this.format_block('jstpl_player_building', data), dojo.query('#player_area_content_' + playerId + ' .' + building.type)[0]);
                 }
                 playerFlag++;
             }));
@@ -100,7 +100,7 @@ function (dojo, domAttr, domStyle, declare) {
                 data.jsY = Math.floor((id - 1) / spritesheetColumns);
 
                 if (id <= 8){
-                    var wonderContainerNode = dojo.place(this.format_block('jstpl_player_wonder', data), dojo.query('#player_board_content_' + playerId + ' .player_board_wonder_container' + Math.floor(containerNumber))[0]);
+                    var wonderContainerNode = dojo.place(this.format_block('jstpl_player_wonder', data), dojo.query('#player_area_content_' + playerId + ' .player_area_wonder_container' + Math.floor(containerNumber))[0]);
                     if(Math.random() > 0.3) {
                         var randomAge = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
                         id = 73 + randomAge;
@@ -132,7 +132,7 @@ function (dojo, domAttr, domStyle, declare) {
                 data.jsX = (id - 1) % spritesheetColumns;
                 data.jsY = Math.floor((id - 1) / spritesheetColumns);
                 if (id <= 10 && Math.random() > 0.3) {
-                    dojo.place(this.format_block('jstpl_player_progress_token', data), dojo.query('#player_board_content_' + playerId + ' .player_board_progress_tokens')[0]);
+                    dojo.place(this.format_block('jstpl_player_progress_token', data), dojo.query('#player_area_content_' + playerId + ' .player_area_progress_tokens')[0]);
                 }
                 playerFlag++;
                 containerNumber += 0.5;
