@@ -53,88 +53,266 @@
 $machinestates = [
 
     // The initial state. Please do not modify.
-    SevenWondersDuel::STATE_GAME_SETUP => [
-        "name" => "gameSetup",
+    SevenWondersDuel::STATE_GAME_SETUP_ID => [
+        "name" => SevenWondersDuel::STATE_GAME_SETUP_NAME,
         "description" => "",
         "type" => "manager",
         "action" => "stGameSetup",
-        "transitions" => ["" => SevenWondersDuel::STATE_SELECT_WONDER]
+        "transitions" => ["" => SevenWondersDuel::STATE_SELECT_WONDER_ID]
     ],
 
-    // Note: ID=2 => your first state
-
-    SevenWondersDuel::STATE_SELECT_WONDER => [
-        "name" => "selectWonder",
+    SevenWondersDuel::STATE_SELECT_WONDER_ID => [
+        "name" => SevenWondersDuel::STATE_WONDER_SELECTED_NAME,
         "description" => clienttranslate('${actplayer} must choose a wonder'),
         "descriptionmyturn" => clienttranslate('${you} must choose a wonder'),
         "type" => "activeplayer",
         "action" => "stSelectWonder",
-        "possibleactions" => [SevenWondersDuel::STATENAME_WONDER_SELECTED],
-        "transitions" => [SevenWondersDuel::STATENAME_WONDER_SELECTED => SevenWondersDuel::STATE_WONDER_SELECTED]
+        "possibleactions" => [
+            SevenWondersDuel::STATE_WONDER_SELECTED_NAME
+        ],
+        "transitions" => [SevenWondersDuel::STATE_WONDER_SELECTED_NAME => SevenWondersDuel::STATE_WONDER_SELECTED_ID]
     ],
 
-    SevenWondersDuel::STATE_WONDER_SELECTED => [
-        "name" => "wonderSelected",
+    SevenWondersDuel::STATE_WONDER_SELECTED_ID => [
+        "name" => SevenWondersDuel::STATE_WONDER_SELECTED_NAME,
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
         "action" => "stWonderSelected",
+        "updateGameProgression" => true,
         "transitions" => [
-            SevenWondersDuel::STATENAME_SELECT_WONDER => SevenWondersDuel::STATE_SELECT_WONDER,
-            SevenWondersDuel::STATENAME_NEXT_AGE => SevenWondersDuel::STATE_NEXT_AGE
+            SevenWondersDuel::STATE_SELECT_WONDER_NAME => SevenWondersDuel::STATE_SELECT_WONDER_ID,
+            SevenWondersDuel::STATE_NEXT_AGE_NAME => SevenWondersDuel::STATE_NEXT_AGE_ID
         ]
     ],
 
-    SevenWondersDuel::STATE_NEXT_AGE => [
-        "name" => "nextAge",
+    SevenWondersDuel::STATE_NEXT_AGE_ID => [
+        "name" => SevenWondersDuel::STATE_NEXT_AGE_NAME,
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
         "action" => "stNextAge",
         "transitions" => [
-            SevenWondersDuel::STATENAME_SELECT_START_PLAYER => SevenWondersDuel::STATE_SELECT_START_PLAYER,
-            SevenWondersDuel::STATENAME_PLAYER_TURN => SevenWondersDuel::STATE_PLAYER_TURN,
-            SevenWondersDuel::STATENAME_GAME_END => SevenWondersDuel::STATE_GAME_END
+            SevenWondersDuel::STATE_SELECT_START_PLAYER_NAME => SevenWondersDuel::STATE_SELECT_START_PLAYER_ID,
+            SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
+            SevenWondersDuel::STATE_GAME_END_NAME => SevenWondersDuel::STATE_GAME_END_ID
         ]
     ],
 
-    SevenWondersDuel::STATE_PLAYER_TURN => [
-        "name" => "playerTurn",
+    SevenWondersDuel::STATE_PLAYER_TURN_ID => [
+        "name" => SevenWondersDuel::STATE_PLAYER_TURN_NAME,
+        "description" => clienttranslate('${actplayer} select an age card.'),
+        "descriptionmyturn" => clienttranslate('${you} must select an age card to construct, discard or construct a wonder with.'),
+        "type" => "activeplayer",
+        "action" => "stPlayerTurn",
+        "possibleactions" => [
+            SevenWondersDuel::STATE_CONSTRUCT_BUILDING_NAME,
+            SevenWondersDuel::STATE_DISCARD_BUILDING_NAME,
+            SevenWondersDuel::STATE_CONSTRUCT_WONDER_NAME,
+        ],
+        "transitions" => [
+            SevenWondersDuel::STATE_CONSTRUCT_BUILDING_NAME => SevenWondersDuel::STATE_CONSTRUCT_BUILDING_ID,
+            SevenWondersDuel::STATE_DISCARD_BUILDING_NAME => SevenWondersDuel::STATE_DISCARD_BUILDING_ID,
+            SevenWondersDuel::STATE_CONSTRUCT_WONDER_NAME => SevenWondersDuel::STATE_CONSTRUCT_WONDER_ID,
+        ]
+    ],
+
+    SevenWondersDuel::STATE_CONSTRUCT_BUILDING_ID => [
+        "name" => SevenWondersDuel::STATE_CONSTRUCT_BUILDING_NAME,
+        "description" => '',
+        "descriptionmyturn" => '',
+        "type" => "game",
+        "action" => "stConstructBuilding",
+        "transitions" => [
+            SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_NAME => SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_ID,
+        ]
+    ],
+
+    SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_ID => [
+        "name" => SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_NAME,
+        "description" => '',
+        "descriptionmyturn" => '',
+        "type" => "game",
+        "action" => "stBuildingConstructed",
+        "transitions" => [
+            SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID,
+            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME,
         "description" => clienttranslate('${actplayer} must play a card or pass'),
         "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
         "type" => "activeplayer",
-        "action" => "stPlayerTurn",
-        "possibleactions" => ["playCard", "pass"],
-        "transitions" => ["playCard" => 2, "pass" => 2]
+        "action" => "stChooseProgressToken",
+        "possibleactions" => [
+            SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_NAME,
+        ],
+        "transitions" => [
+            SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_NAME => SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_ID,
+        ]
     ],
 
-    /*
-        Examples:
+    SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_ID => [
+        "name" => SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_NAME,
+        "description" => '',
+        "descriptionmyturn" => '',
+        "type" => "game",
+        "action" => "stProgressTokenPlayed",
+        "transitions" => [
+            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
 
-        2 => array(
-            "name" => "nextPlayer",
-            "description" => '',
-            "type" => "game",
-            "action" => "stNextPlayer",
-            "updateGameProgression" => true,
-            "transitions" => array( "endGame" => 99, "nextPlayer" => 10 )
-        ),
+    SevenWondersDuel::STATE_DISCARD_BUILDING_ID => [
+        "name" => SevenWondersDuel::STATE_DISCARD_BUILDING_NAME,
+        "description" => '',
+        "descriptionmyturn" => '',
+        "type" => "game",
+        "action" => "stDiscardBuilding",
+        "transitions" => [
+            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
 
-        10 => array(
-            "name" => "playerTurn",
-            "description" => clienttranslate('${actplayer} must play a card or pass'),
-            "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
-            "type" => "activeplayer",
-            "possibleactions" => array( "playCard", "pass" ),
-            "transitions" => array( "playCard" => 2, "pass" => 2 )
-        ),
+    SevenWondersDuel::STATE_CONSTRUCT_WONDER_ID => [
+        "name" => SevenWondersDuel::STATE_CONSTRUCT_WONDER_NAME,
+        "description" => '',
+        "descriptionmyturn" => '',
+        "type" => "game",
+        "action" => "stConstructWonder",
+        "transitions" => [
+            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_ID,
+            SevenWondersDuel::STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN_ID,
+            SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_ID,
+        ]
+    ],
 
-    */
+    SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_NAME,
+        "description" => clienttranslate('${actplayer} must choose one of your buildings to discard.'),
+        "descriptionmyturn" => clienttranslate('${you} must choose one of your opponent\'s buildings to discard.'),
+        "type" => "activeplayer",
+        "action" => "stChooseOpponentBuilding",
+        "possibleactions" => [
+            SevenWondersDuel::STATE_OPPONENT_BUILDING_DISCARDED_NAME
+            // If there is no building to discard, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
+        ],
+        "transitions" => [
+            SevenWondersDuel::STATE_OPPONENT_BUILDING_DISCARDED_NAME => SevenWondersDuel::STATE_OPPONENT_BUILDING_DISCARDED_ID,
+            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuel::STATE_OPPONENT_BUILDING_DISCARDED_ID => [
+        "name" => SevenWondersDuel::STATE_OPPONENT_BUILDING_DISCARDED_NAME,
+        "description" => '',
+        "descriptionmyturn" => '',
+        "type" => "game",
+        "action" => "stOpponentBuildingDiscarded",
+        "transitions" => [
+            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuel::STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN_NAME,
+        "description" => clienttranslate('${actplayer} must choose a progress token from the box'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a progress token from the box'),
+        "type" => "activeplayer",
+        "action" => "stChooseDiscardedProgressToken",
+        "possibleactions" => [
+            SevenWondersDuel::STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_NAME,
+        ],
+        "transitions" => [
+            SevenWondersDuel::STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_NAME => SevenWondersDuel::STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_ID,
+        ]
+    ],
+
+    SevenWondersDuel::STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_ID => [
+        "name" => SevenWondersDuel::STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_NAME,
+        "description" => '',
+        "descriptionmyturn" => '',
+        "type" => "game",
+        "action" => "stDiscardedProgressTokenPlayed",
+        "transitions" => [
+            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_NAME,
+        "description" => clienttranslate('${actplayer} must choose a discarded building to construct.'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a discarded building to construct.'),
+        "type" => "activeplayer",
+        "action" => "stChooseDiscardedBuilding",
+        "possibleactions" => [
+            SevenWondersDuel::STATE_CONSTRUCT_DISCARDED_BUILDING_NAME
+            // If there is no discarded building to construct, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
+        ],
+        "transitions" => [
+            SevenWondersDuel::STATE_CONSTRUCT_DISCARDED_BUILDING_NAME => SevenWondersDuel::STATE_CONSTRUCT_DISCARDED_BUILDING_ID,
+            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuel::STATE_CONSTRUCT_DISCARDED_BUILDING_ID => [
+        "name" => SevenWondersDuel::STATE_CONSTRUCT_DISCARDED_BUILDING_NAME,
+        "description" => '',
+        "descriptionmyturn" => '',
+        "type" => "game",
+        "action" => "stConstructDiscardedBuilding",
+        "transitions" => [
+            SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_NAME => SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_ID,
+        ]
+    ],
+
+    SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID => [
+        "name" => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME,
+        "description" => '',
+        "descriptionmyturn" => '',
+        "type" => "game",
+        "action" => "stNextPlayerTurn",
+        "updateGameProgression" => true,
+        "transitions" => [
+            SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
+            SevenWondersDuel::STATE_NEXT_AGE_NAME => SevenWondersDuel::STATE_NEXT_AGE_ID,
+        ]
+    ],
+
+    // Dummy Active player state
+//    SevenWondersDuel::STATE_ID_ => [
+//        "name" => SevenWondersDuel::STATE_NAME_,
+//        "description" => clienttranslate('${actplayer} must play a card or pass'),
+//        "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
+//        "type" => "activeplayer",
+//        "action" => "st",
+//        "possibleactions" => [
+//            SevenWondersDuel::STATE_NAME_,
+//        ],
+//        "transitions" => [
+//            SevenWondersDuel::STATE_NAME_ => SevenWondersDuel::STATE_ID_,
+//        ]
+//    ],
+
+    // Dummy Game state
+//    SevenWondersDuel::STATE_ID_ => [
+//        "name" => SevenWondersDuel::STATE_NAME_,
+//        "description" => '',
+//        "descriptionmyturn" => '',
+//        "type" => "game",
+//        "action" => "st",
+//        "transitions" => [
+//            SevenWondersDuel::STATE_NAME_ => SevenWondersDuel::STATE_ID_,
+//        ]
+//    ],
 
     // Final state.
     // Please do not modify (and do not overload action/args methods).
-    99 => [
-        "name" => "gameEnd",
+    SevenWondersDuel::STATE_GAME_END_ID => [
+        "name" => SevenWondersDuel::STATE_GAME_END_NAME,
         "description" => clienttranslate("End of game"),
         "type" => "manager",
         "action" => "stGameEnd",

@@ -40,76 +40,92 @@ if (0) require_once '_bga_ide_helper.php';
 class SevenWondersDuel extends Table
 {
 
-    use SWD\States\SelectWonderTrait;
+    use SWD\States\BuildingConstructedTrait;
+    use SWD\States\ChooseDiscardedBuildingTrait;
+    use SWD\States\ChooseDiscardedProgressTokenTrait;
+    use SWD\States\ChooseOpponentBuildingTrait;
+    use SWD\States\ChooseProgressTokenTrait;
+    use SWD\States\ConstructBuildingTrait;
+    use SWD\States\ConstructDiscardedBuildingTrait;
+    use SWD\States\ConstructWonderTrait;
+    use SWD\States\DiscardBuildingTrait;
+    use SWD\States\DiscardedProgressTokenPlayedTrait;
+    use SWD\States\GameSetupTrait;
+    use SWD\States\NextAgeTrait;
+    use SWD\States\NextPlayerTurnTrait;
+    use SWD\States\OpponentBuildingDiscardedTrait;
     use SWD\States\PlayerTurnTrait;
+    use SWD\States\ProgressTokenPlayedTrait;
+    use SWD\States\SelectWonderTrait;
+    use SWD\States\WonderSelectedTrait;
 
     /**
      * @var SevenWondersDuel
      */
     public static $instance;
 
-    const STATE_GAME_SETUP = 1;
-    const STATENAME_GAME_SETUP = "gameSetup";
+    const STATE_GAME_SETUP_ID = 1;
+    const STATE_GAME_SETUP_NAME = "gameSetup";
     
-    const STATE_SELECT_WONDER = 5;
-    const STATENAME_SELECT_WONDER = "selectWonder";
+    const STATE_SELECT_WONDER_ID = 5;
+    const STATE_SELECT_WONDER_NAME = "selectWonder";
     
-    const STATE_WONDER_SELECTED = 10;
-    const STATENAME_WONDER_SELECTED = "wonderSelected";
+    const STATE_WONDER_SELECTED_ID = 10;
+    const STATE_WONDER_SELECTED_NAME = "wonderSelected";
     
-    const STATE_NEXT_AGE = 15;
-    const STATENAME_NEXT_AGE = "nextAge";
+    const STATE_NEXT_AGE_ID = 15;
+    const STATE_NEXT_AGE_NAME = "nextAge";
     
-    const STATE_SELECT_START_PLAYER = 20;
-    const STATENAME_SELECT_START_PLAYER = "selectStartPlayer";
+    const STATE_SELECT_START_PLAYER_ID = 20;
+    const STATE_SELECT_START_PLAYER_NAME = "selectStartPlayer";
     
-    const STATE_START_PLAYER_SELECTED = 25;
-    const STATENAME_START_PLAYER_SELECTED = "startPlayerSelected";
+    const STATE_START_PLAYER_SELECTED_ID = 25;
+    const STATE_START_PLAYER_SELECTED_NAME = "startPlayerSelected";
     
-    const STATE_PLAYER_TURN = 30;
-    const STATENAME_PLAYER_TURN = "playerTurn";
+    const STATE_PLAYER_TURN_ID = 30;
+    const STATE_PLAYER_TURN_NAME = "playerTurn";
     
-    const STATE_CONSTRUCT_BUILDING = 35;
-    const STATENAME_CONSTRUCT_BUILDING = "constructBuilding";
+    const STATE_CONSTRUCT_BUILDING_ID = 35;
+    const STATE_CONSTRUCT_BUILDING_NAME = "constructBuilding";
     
-    const STATE_BUILDING_CONSTRUCTED = 40;
-    const STATENAME_BUILDING_CONSTRUCTED = "buildingConstructed";
+    const STATE_BUILDING_CONSTRUCTED_ID = 40;
+    const STATE_BUILDING_CONSTRUCTED_NAME = "buildingConstructed";
     
-    const STATE_CHOOSE_PROGRESS_TOKEN = 45;
-    const STATENAME_CHOOSE_PROGRESS_TOKEN = "chooseProgressToken";
+    const STATE_CHOOSE_PROGRESS_TOKEN_ID = 45;
+    const STATE_CHOOSE_PROGRESS_TOKEN_NAME = "chooseProgressToken";
     
-    const STATE_PROGRESS_TOKEN_PLAYED = 50;
-    const STATENAME_PROGRESS_TOKEN_PLAYED = "progressTokenPlayed";
+    const STATE_PROGRESS_TOKEN_PLAYED_ID = 50;
+    const STATE_PROGRESS_TOKEN_PLAYED_NAME = "progressTokenPlayed";
     
-    const STATE_DISCARD_BUILDING = 55;
-    const STATENAME_DISCARD_BUILDING = "discardBuilding";
+    const STATE_DISCARD_BUILDING_ID = 55;
+    const STATE_DISCARD_BUILDING_NAME = "discardBuilding";
     
-    const STATE_CONSTRUCT_WONDER = 60;
-    const STATENAME_CONSTRUCT_WONDER = "constructWonder";
+    const STATE_CONSTRUCT_WONDER_ID = 60;
+    const STATE_CONSTRUCT_WONDER_NAME = "constructWonder";
     
-    const STATE_CHOOSE_OPPONENT_BUILDING = 65;
-    const STATENAME_CHOOSE_OPPONENT_BUILDING = "chooseOpponentBuilding";
+    const STATE_CHOOSE_OPPONENT_BUILDING_ID = 65;
+    const STATE_CHOOSE_OPPONENT_BUILDING_NAME = "chooseOpponentBuilding";
     
-    const STATE_OPPONENT_BUILDING_DISCARDED = 70;
-    const STATENAME_OPPONENT_BUILDING_DISCARDED = "opponentBuildingDiscarded";
+    const STATE_OPPONENT_BUILDING_DISCARDED_ID = 70;
+    const STATE_OPPONENT_BUILDING_DISCARDED_NAME = "opponentBuildingDiscarded";
     
-    const STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN = 75;
-    const STATENAME_CHOOSE_DISCARDED_PROGRESS_TOKEN = "chooseDiscardedProgressToken";
+    const STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN_ID = 75;
+    const STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN_NAME = "chooseDiscardedProgressToken";
     
-    const STATE_DISCARDED_PROGRESS_TOKEN_PLAYED = 80;
-    const STATENAME_DISCARDED_PROGRESS_TOKEN_PLAYED = "discardedProgressTokenPlayer";
+    const STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_ID = 80;
+    const STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_NAME = "discardedProgressTokenPlayer";
     
-    const STATE_CHOOSE_DISCARDED_BUILDING = 85;
-    const STATENAME_CHOOSE_DISCARDED_BUILDING = "chooseDiscardedBuilding";
+    const STATE_CHOOSE_DISCARDED_BUILDING_ID = 85;
+    const STATE_CHOOSE_DISCARDED_BUILDING_NAME = "chooseDiscardedBuilding";
     
-    const STATE_CONSTRUCT_DISCARDED_BUILDING = 90;
-    const STATENAME_CONSTRUCT_DISCARDED_BUILDING = "constructDiscardedBuilding";
+    const STATE_CONSTRUCT_DISCARDED_BUILDING_ID = 90;
+    const STATE_CONSTRUCT_DISCARDED_BUILDING_NAME = "constructDiscardedBuilding";
     
-    const STATE_NEXT_PLAYER_TURN = 95;
-    const STATENAME_NEXT_PLAYER_TURN = "nextPlayerTurn";
+    const STATE_NEXT_PLAYER_TURN_ID = 95;
+    const STATE_NEXT_PLAYER_TURN_NAME = "nextPlayerTurn";
     
-    const STATE_GAME_END = 99;
-    const STATENAME_GAME_END = "gameEnd";
+    const STATE_GAME_END_ID = 99;
+    const STATE_GAME_END_NAME = "gameEnd";
     
 
     /**
@@ -210,47 +226,7 @@ class SevenWondersDuel extends Table
 
         // TODO: setup the initial game situation here
 
-        // Set up two 4-wonders selection pools, rest of the wonders go back to the box.
-        $this->wonderDeck->shuffle('deck');
-        $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards());
-        $this->wonderDeck->pickCardsForLocation(4, 'deck', 'selection1');
-        $this->wonderDeck->shuffle('selection1'); // Ensures we have defined card_location_arg
-        $this->wonderDeck->pickCardsForLocation(4, 'deck', 'selection2');
-        $this->wonderDeck->shuffle('selection2'); // Ensures we have defined card_location_arg
-        $this->wonderDeck->moveAllCardsInLocation('deck', 'box');
-
-        // Set up card piles for the 3 ages.
-        // "Return to the box, without looking at them, 3 cards from each Age deck.
-        for ($age = 1; $age <= 3; $age++) {
-            $this->buildingDeck->createCards(Material::get()->buildings->filterByAge($age)->getDeckCards(), "age{$age}" );
-            $this->buildingDeck->shuffle("age{$age}");
-            $this->buildingDeck->pickCardsForLocation(3, "age{$age}", 'box');
-        }
-        // Then randomly draw 3 Guild cards and add them to the Age 3 deck.
-        $this->buildingDeck->createCards(Material::get()->buildings->filterByAge(4)->getDeckCards(), 'guilds' );
-        $this->buildingDeck->shuffle( 'guilds' );
-        $this->buildingDeck->pickCardsForLocation(3, 'guilds', 'age3');
-        $this->buildingDeck->shuffle( 'age3' );
-        // Return the remaining Guilds to the box.
-        $this->buildingDeck->moveAllCardsInLocation( 'guilds', 'box');
-
-        // Set up progress tokens
-        $this->progressTokenDeck->shuffle('deck');
-        $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards());
-        $this->progressTokenDeck->pickCardsForLocation(5, 'deck', 'board');
-        $this->progressTokenDeck->shuffle('board'); // Ensures we have defined card_location_arg
-        // Return the remaining Progress Tokens to the box.
-        $this->progressTokenDeck->moveAllCardsInLocation('deck', 'box');
-
-        // TODO: Remove, this will be done by player interaction:
-        $playerIds = array_keys($players);
-        $this->wonderDeck->moveAllCardsInLocation('selection1', 'player' . $playerIds[0]);
-        $this->wonderDeck->shuffle('player' . $playerIds[0]); // Ensures we have defined card_location_arg
-        $this->wonderDeck->moveAllCardsInLocation('selection2', 'player' . $playerIds[1]);
-        $this->wonderDeck->shuffle('player' . $playerIds[1]); // Ensures we have defined card_location_arg
-
-        // Activate first player (which is in general a good idea :) )
-        $this->activeNextPlayer();
+        $this->stGameSetup(); // This state function isn't called automatically (?!?)
 
         /************ End of the game initialization *****/
     }
