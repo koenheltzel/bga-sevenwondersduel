@@ -42,21 +42,23 @@ class SevenWondersDuel extends Table
 
     use SWD\States\BuildingConstructedTrait;
     use SWD\States\ChooseDiscardedBuildingTrait;
-    use SWD\States\ChooseDiscardedProgressTokenTrait;
+    use SWD\States\ChooseProgressTokenFromBoxTrait;
     use SWD\States\ChooseOpponentBuildingTrait;
     use SWD\States\ChooseProgressTokenTrait;
     use SWD\States\ConstructBuildingTrait;
     use SWD\States\ConstructDiscardedBuildingTrait;
     use SWD\States\ConstructWonderTrait;
     use SWD\States\DiscardBuildingTrait;
-    use SWD\States\DiscardedProgressTokenPlayedTrait;
+    use SWD\States\ProgressTokenFromBoxPlayedTrait;
     use SWD\States\GameSetupTrait;
     use SWD\States\NextAgeTrait;
     use SWD\States\NextPlayerTurnTrait;
     use SWD\States\OpponentBuildingDiscardedTrait;
     use SWD\States\PlayerTurnTrait;
     use SWD\States\ProgressTokenPlayedTrait;
+    use SWD\States\SelectStartPlayerTrait;
     use SWD\States\SelectWonderTrait;
+    use SWD\States\StartPlayerSelectedTrait;
     use SWD\States\WonderSelectedTrait;
 
     /**
@@ -109,11 +111,11 @@ class SevenWondersDuel extends Table
     const STATE_OPPONENT_BUILDING_DISCARDED_ID = 70;
     const STATE_OPPONENT_BUILDING_DISCARDED_NAME = "opponentBuildingDiscarded";
     
-    const STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN_ID = 75;
-    const STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN_NAME = "chooseDiscardedProgressToken";
+    const STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID = 75;
+    const STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME = "chooseProgressTokenFromBox";
     
-    const STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_ID = 80;
-    const STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_NAME = "discardedProgressTokenPlayer";
+    const STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_ID = 80;
+    const STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_NAME = "progressTokenFromBoxPlayed";
     
     const STATE_CHOOSE_DISCARDED_BUILDING_ID = 85;
     const STATE_CHOOSE_DISCARDED_BUILDING_NAME = "chooseDiscardedBuilding";
@@ -155,8 +157,8 @@ class SevenWondersDuel extends Table
         // Note: afterwards, you can get/set the global variables with getGameStateValue/setGameStateInitialValue/setGameStateValue
         parent::__construct();
 
-        self::initGameStateLabels( array( 
-            //    "my_first_global_variable" => 10,
+        self::initGameStateLabels( array(
+                "current_wonder_selection" => 1,
             //    "my_second_global_variable" => 11,
             //      ...
             //    "my_first_game_variant" => 100,

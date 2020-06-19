@@ -99,6 +99,31 @@ $machinestates = [
         ]
     ],
 
+    SevenWondersDuel::STATE_SELECT_START_PLAYER_ID => [
+        "name" => SevenWondersDuel::STATE_SELECT_START_PLAYER_NAME,
+        "description" => clienttranslate('${actplayer} must choose which player starts the next age.'),
+        "descriptionmyturn" => clienttranslate('${you} must choose which player starts the next age.'),
+        "type" => "activeplayer",
+        "action" => "stSelectStartPlayer",
+        "possibleactions" => [
+            SevenWondersDuel::STATE_START_PLAYER_SELECTED_NAME,
+        ],
+        "transitions" => [
+            SevenWondersDuel::STATE_START_PLAYER_SELECTED_NAME => SevenWondersDuel::STATE_START_PLAYER_SELECTED_ID
+        ]
+    ],
+
+    SevenWondersDuel::STATE_START_PLAYER_SELECTED_ID => [
+        "name" => SevenWondersDuel::STATE_START_PLAYER_SELECTED_NAME,
+        "description" => '',
+        "descriptionmyturn" => '',
+        "type" => "game",
+        "action" => "stStartPlayerSelected",
+        "transitions" => [
+            SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
+        ]
+    ],
+
     SevenWondersDuel::STATE_PLAYER_TURN_ID => [
         "name" => SevenWondersDuel::STATE_PLAYER_TURN_NAME,
         "description" => clienttranslate('${actplayer} select an age card.'),
@@ -185,7 +210,7 @@ $machinestates = [
         "transitions" => [
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_ID,
-            SevenWondersDuel::STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN_ID,
+            SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
             SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_ID,
         ]
     ],
@@ -217,26 +242,26 @@ $machinestates = [
         ]
     ],
 
-    SevenWondersDuel::STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN_ID => [
-        "name" => SevenWondersDuel::STATE_CHOOSE_DISCARDED_PROGRESS_TOKEN_NAME,
+    SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME,
         "description" => clienttranslate('${actplayer} must choose a progress token from the box'),
         "descriptionmyturn" => clienttranslate('${you} must choose a progress token from the box'),
         "type" => "activeplayer",
-        "action" => "stChooseDiscardedProgressToken",
+        "action" => "stChooseProgressTokenFromBox",
         "possibleactions" => [
-            SevenWondersDuel::STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_NAME,
+            SevenWondersDuel::STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_NAME,
         ],
         "transitions" => [
-            SevenWondersDuel::STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_NAME => SevenWondersDuel::STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_ID,
+            SevenWondersDuel::STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_NAME => SevenWondersDuel::STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_ID,
         ]
     ],
 
-    SevenWondersDuel::STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_ID => [
-        "name" => SevenWondersDuel::STATE_DISCARDED_PROGRESS_TOKEN_PLAYED_NAME,
+    SevenWondersDuel::STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_ID => [
+        "name" => SevenWondersDuel::STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_NAME,
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
-        "action" => "stDiscardedProgressTokenPlayed",
+        "action" => "stProgressTokenFromBoxPlayed",
         "transitions" => [
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ]
