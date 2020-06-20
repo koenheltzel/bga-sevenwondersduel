@@ -269,12 +269,7 @@ class SevenWondersDuel extends Table
 
         // Wonder selection stuff
         $wonderSelection = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION);
-        if ($wonderSelection <= 2) {
-            $result['wonderSelection'] = SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}");
-        }
-        else {
-            $result['wonderSelection'] = false;
-        }
+        $result['wonderSelection'] = SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}");
 
         $result['buildings'] = Material::get()->buildings->array;
         $result['wonders'] = Material::get()->wonders->array;

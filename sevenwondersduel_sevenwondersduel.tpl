@@ -154,9 +154,9 @@ var jstpl_player_building = '\
     >\
     </div>';
 
-var jstpl_player_wonder = '\
-    <div id="player_wonder_${jsId}_container" class="wonder_container" style="display: inline-block;">\
-        <div id="player_wonder_${jsId}"\
+var jstpl_wonder = '\
+    <div id="wonder_${jsId}_container" class="wonder_container" style="display: inline-block;">\
+        <div id="wonder_${jsId}"\
             data-wonder-id="${jsId}"\
             data-card-id="${jsCardId}"\
             class="wonder wonder_small"\
@@ -167,7 +167,7 @@ var jstpl_player_wonder = '\
         </div>\
     </div>';
 
-var jstpl_player_wonder_age_card = '\
+var jstpl_wonder_age_card = '\
     <div ${jsData}\
         class="building building_small"\
         style="background-position: -${jsX}00% -${jsY}00%;"\

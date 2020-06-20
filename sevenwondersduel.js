@@ -107,7 +107,7 @@ function (dojo, domAttr, domStyle, declare, on) {
             //     data.jsY = Math.floor((id - 1) / spritesheetColumns);
             //
             //     if (id <= 8){
-            //         var wonderContainerNode = dojo.place(this.format_block('jstpl_player_wonder', data), dojo.query('#player_area_content_' + playerId + ' .player_area_wonder_container' + Math.floor(containerNumber))[0]);
+            //         var wonderContainerNode = dojo.place(this.format_block('jstpl_wonder', data), dojo.query('#player_area_content_' + playerId + ' .player_area_wonder_container' + Math.floor(containerNumber))[0]);
             //         if(Math.random() > 0.3) {
             //             var randomAge = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
             //             id = 73 + randomAge;
@@ -118,7 +118,7 @@ function (dojo, domAttr, domStyle, declare, on) {
             //             var spritesheetColumns = 10;
             //             data.jsX = (id - 1) % spritesheetColumns;
             //             data.jsY = Math.floor((id - 1) / spritesheetColumns);
-            //             dojo.place(this.format_block('jstpl_player_wonder_age_card', data), dojo.query('.age_card_container', wonderContainerNode)[0]);
+            //             dojo.place(this.format_block('jstpl_wonder_age_card', data), dojo.query('.age_card_container', wonderContainerNode)[0]);
             //         }
             //     }
             //     playerFlag++;
@@ -253,7 +253,7 @@ function (dojo, domAttr, domStyle, declare, on) {
                     data.jsX = (id - 1) % spritesheetColumns;
                     data.jsY = Math.floor((id - 1) / spritesheetColumns);
 
-                    dojo.place(this.format_block('jstpl_player_wonder', data), container);
+                    dojo.place(this.format_block('jstpl_wonder', data), container);
                 }));
 
                 dojo.style(block, "display", "block");
@@ -554,8 +554,8 @@ function (dojo, domAttr, domStyle, declare, on) {
         {
             console.log( 'notification_wonderSelected' );
             console.log( notif );
-            // var wonderNode = dojo.query('#player_wonder_' + notif.args.wonderId);
-            var wonderNodeId = 'player_wonder_' + notif.args.wonderId;
+            // var wonderNode = dojo.query('#wonder_' + notif.args.wonderId);
+            var wonderNodeId = 'wonder_' + notif.args.wonderId;
             var targetNodeId = 'player_area_content_' + notif.args.playerId + '_wonder_position_' + notif.args.playerWonderCount;
             this.attachToNewParent(wonderNodeId, targetNodeId);
             this.slideToObjectPos(wonderNodeId, targetNodeId, 0, 0).play();
