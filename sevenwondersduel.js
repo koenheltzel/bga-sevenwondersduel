@@ -235,10 +235,11 @@ function (dojo, domAttr, domStyle, declare, on) {
         },
 
         updateWonderSelection: function (wonderSelection) {
-            for (var i = 0; i < wonderSelection.length; i++) {
-                var id = wonderSelection[i];
+            Object.keys(wonderSelection).forEach(dojo.hitch(this, function(cardId) {
+                var wonderCard = wonderSelection[cardId];
+                var id = wonderCard.type_arg;
                 var data = {
-                    jsData: 'data-wonder-id=' + id + '',
+                    jsCardId: cardId,
                     jsId: id
                 };
                 var spritesheetColumns = 5;
@@ -249,8 +250,7 @@ function (dojo, domAttr, domStyle, declare, on) {
                 var node = dojo.query('#wonder_selection_' + id)[0]
                 console.log('node', node);
                 dojo.connect(node, 'onclick', this, this.onWonderSelectionClick);
-            }
-
+            }));
         },
 
         updateDraftpool: function (draftpool) {
@@ -480,7 +480,7 @@ function (dojo, domAttr, domStyle, declare, on) {
 
             var wonder = dojo.query(e.target);
             console.log('wonder ', wonder);
-            console.log('data-wonder-id ', wonder.attr('data-wonder-id').pop());
+            console.log('data-card-id ', wonder.attr('data-card-id').pop());
 
             // Check that this action is possible (see "possibleactions" in states.inc.php)
             if (!this.checkAction('wonderSelected')) {
@@ -488,7 +488,7 @@ function (dojo, domAttr, domStyle, declare, on) {
             }
 
             this.ajaxcall("/sevenwondersduel/sevenwondersduel/wonderSelected.html", {
-                wonderId: wonder.attr('data-wonder-id')
+                cardId: wonder.attr('data-card-id')
             },
             this, function (result) {
                 console.log('success result: ', result);

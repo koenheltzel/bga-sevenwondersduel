@@ -151,7 +151,7 @@ var jstpl_player_building = '\
 
 var jstpl_wonder_selection = '\
     <div id="wonder_selection_${jsId}"\
-            ${jsData}\
+            data-card-id="${jsCardId}"\
             class="wonder wonder_small"\
             style="background-position: -${jsX}00% -${jsY}00%; "\
         >\
