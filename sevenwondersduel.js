@@ -62,9 +62,11 @@ function (dojo, domAttr, domStyle, declare, on) {
             }
             
             // TODO: Set up your game interface here, according to "gamedatas"
-            console.log('laat', dojo.query('#wonder_selection_container'));
+
+            // Click handlers using event delegation:
+            dojo.query('#wonder_selection_container').on(".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
+
             this.updateWonderSelection(this.gamedatas.wonderSelection);
-            on(dojo.query('#wonder_selection_container'), ".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
 
             this.updateDraftpool(this.gamedatas.draftpool);
             this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
@@ -235,6 +237,8 @@ function (dojo, domAttr, domStyle, declare, on) {
         },
 
         updateWonderSelection: function (wonderSelection) {
+            var container = dojo.query('#wonder_selection_container')[0];
+            dojo.empty(container);
             Object.keys(wonderSelection).forEach(dojo.hitch(this, function(cardId) {
                 var wonderCard = wonderSelection[cardId];
                 var id = wonderCard.type_arg;
@@ -246,10 +250,7 @@ function (dojo, domAttr, domStyle, declare, on) {
                 data.jsX = (id - 1) % spritesheetColumns;
                 data.jsY = Math.floor((id - 1) / spritesheetColumns);
 
-                var wonderNode = dojo.place(this.format_block('jstpl_wonder_selection', data), dojo.query('#wonder_selection_container')[0]);
-                var node = dojo.query('#wonder_selection_' + id)[0]
-                console.log('node', node);
-                dojo.connect(node, 'onclick', this, this.onWonderSelectionClick);
+                dojo.place(this.format_block('jstpl_wonder_selection', data), container);
             }));
         },
 
@@ -533,11 +534,24 @@ function (dojo, domAttr, domStyle, declare, on) {
             //            see what is happening in the game.
             // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
-            // 
+            //
+
+            dojo.subscribe( 'wonderSelected', this, "notification_wonderSelected" );
         },  
         
         // TODO: from this point and below, you can write your game notifications handling methods
-        
+
+        notification_wonderSelected: function( notif )
+        {
+            console.log( 'notification_wonderSelected' );
+            console.log( notif );
+            this.updateWonderSelection(notif.args.wonderSelection);
+
+            // Note: notif.args contains the arguments specified during you "notifyAllPlayers" / "notifyPlayer" PHP call
+
+            // TODO: play the card in the user interface.
+        },
+
         /*
         Example:
         
@@ -549,7 +563,7 @@ function (dojo, domAttr, domStyle, declare, on) {
             // Note: notif.args contains the arguments specified during you "notifyAllPlayers" / "notifyPlayer" PHP call
             
             // TODO: play the card in the user interface.
-        },    
+        },
         
         */
    });             

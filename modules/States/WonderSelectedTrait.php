@@ -17,14 +17,16 @@ trait WonderSelectedTrait {
         if (!array_key_exists($cardId, $cards)) {
             throw new \BgaUserException( self::_("The wonder you selected is not available.") );
         }
+        $card = $cards[$cardId]; // Get before we re-set the $cards variable.
         SevenWondersDuel::get()->wonderDeck->moveCard($cardId, $playerId);
+        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}");
 
         $this->notifyAllPlayers(
             'wonderSelected',
             clienttranslate('${playerName} selected wonder ${wonderName}.'),
             [
-//                'boards' => Boards::get()->boards,
-                'wonderName' => Wonder::get($cards[$cardId]['type_arg'])->name,
+                'wonderSelection' => $cards,
+                'wonderName' => Wonder::get($card['type_arg'])->name,
                 'playerName' => $this->getCurrentPlayerName(),
                 'playerColor' => $this->getCurrentPlayerColor(),
                 'playerId' => $playerId
