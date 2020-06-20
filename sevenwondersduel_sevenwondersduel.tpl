@@ -77,15 +77,11 @@
                 <div class="player_area_building_column Purple" title="Guilds"></div>
             </div>
             <div style="display: inline-block">
-                <div class="player_area_wonders">
-                    <div class="player_area_wonders_row">
-                        <div class="player_area_wonder_container0"></div>
-                        <div class="player_area_wonder_container1"></div>
-                    </div>
-                    <div class="player_area_wonders_row">
-                        <div class="player_area_wonder_container2"></div>
-                        <div class="player_area_wonder_container3"></div>
-                    </div>
+                <div id="player_area_content_{PLAYER_ID}_wonders" class="player_area_wonders">
+                    <div id="player_area_content_{PLAYER_ID}_wonder_position_1" class="player_area_wonder_position_1"></div>
+                    <div id="player_area_content_{PLAYER_ID}_wonder_position_2" class="player_area_wonder_position_2"></div>
+                    <div id="player_area_content_{PLAYER_ID}_wonder_position_3" class="player_area_wonder_position_3"></div>
+                    <div id="player_area_content_{PLAYER_ID}_wonder_position_4" class="player_area_wonder_position_4"></div>
                 </div>
             </div>
             <div class="player_area_progress_tokens">
@@ -158,19 +154,11 @@ var jstpl_player_building = '\
     >\
     </div>';
 
-var jstpl_wonder_selection = '\
-    <div id="wonder_selection_${jsId}"\
-            data-card-id="${jsCardId}"\
-            class="wonder wonder_small"\
-            style="background-position: -${jsX}00% -${jsY}00%; "\
-        >\
-        </div>\
-    </div>';
-
 var jstpl_player_wonder = '\
-    <div id="player_wonder_${jsId}_container" style="display: inline-block;">\
+    <div id="player_wonder_${jsId}_container" class="wonder_container" style="display: inline-block;">\
         <div id="player_wonder_${jsId}"\
-            ${jsData}\
+            data-wonder-id="${jsId}"\
+            data-card-id="${jsCardId}"\
             class="wonder wonder_small"\
             style="background-position: -${jsX}00% -${jsY}00%; "\
         >\

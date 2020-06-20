@@ -138,6 +138,11 @@ h3 {
     flex-wrap: wrap;
 }
 
+#wonder_selection_container .wonder_container {
+    margin-right: 10px;
+    display: inline-block;
+}
+
 /*
  ____                      _
 | __ )  ___   __ _ _ __ __| |
@@ -376,29 +381,28 @@ h3 {
 }
 
 .player_area_wonders {
-    /* Flexbox setup */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-@media (min-width: 2500px) {
-    .player_area_wonders {
-        flex-direction: row;
-    }
-}
-
-.player_area_wonders_row {
-    /* Flexbox setup */
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-
     margin-top: 10px;
+    position: relative;
+}
+
+.player_area_wonder_position_1 {
+    position: absolute;
+    left: 0px;
+}
+
+.player_area_wonder_position_2 {
+    position: absolute;
+    left: calc(275px * 1);
+}
+
+.player_area_wonder_position_3 {
+    position: absolute;
+    left: calc(275px * 2);
+}
+
+.player_area_wonder_position_4 {
+    position: absolute;
+    left: calc(275px * 3);
 }
 
 .player_area_progress_tokens {
@@ -539,6 +543,10 @@ __        __              _
   \ V  V / (_) | | | | (_| |  __/ |  \__ \
    \_/\_/ \___/|_| |_|\__,_|\___|_|  |___/
  */
+
+.wonder_container {
+
+}
 
 .wonder {
     width: var(--wonder-width);

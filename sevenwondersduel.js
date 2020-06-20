@@ -92,38 +92,38 @@ function (dojo, domAttr, domStyle, declare, on) {
             }));
 
             // Dummy divide wonders over both players
-            var playerFlag = 0;
-            var containerNumber = 0;
-            Object.keys(this.gamedatas.wonders).forEach(dojo.hitch(this, function(id) {
-                var wonder = this.gamedatas.wonders[id];
-                var playerId = gamedatas.playerIds[playerFlag % 2];
-                var spriteId = null;
-                var data = {
-                    jsData: 'data-wonder-id=' + id + '',
-                    jsId: id
-                };
-                var spritesheetColumns = 5;
-                data.jsX = (id - 1) % spritesheetColumns;
-                data.jsY = Math.floor((id - 1) / spritesheetColumns);
-
-                if (id <= 8){
-                    var wonderContainerNode = dojo.place(this.format_block('jstpl_player_wonder', data), dojo.query('#player_area_content_' + playerId + ' .player_area_wonder_container' + Math.floor(containerNumber))[0]);
-                    if(Math.random() > 0.3) {
-                        var randomAge = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-                        id = 73 + randomAge;
-                        var data = {
-                            jsData: '',
-                            jsId: id
-                        };
-                        var spritesheetColumns = 10;
-                        data.jsX = (id - 1) % spritesheetColumns;
-                        data.jsY = Math.floor((id - 1) / spritesheetColumns);
-                        dojo.place(this.format_block('jstpl_player_wonder_age_card', data), dojo.query('.age_card_container', wonderContainerNode)[0]);
-                    }
-                }
-                playerFlag++;
-                containerNumber += 0.5;
-            }));
+            // var playerFlag = 0;
+            // var containerNumber = 0;
+            // Object.keys(this.gamedatas.wonders).forEach(dojo.hitch(this, function(id) {
+            //     var wonder = this.gamedatas.wonders[id];
+            //     var playerId = gamedatas.playerIds[playerFlag % 2];
+            //     var spriteId = null;
+            //     var data = {
+            //         jsData: 'data-wonder-id=' + id + '',
+            //         jsId: id
+            //     };
+            //     var spritesheetColumns = 5;
+            //     data.jsX = (id - 1) % spritesheetColumns;
+            //     data.jsY = Math.floor((id - 1) / spritesheetColumns);
+            //
+            //     if (id <= 8){
+            //         var wonderContainerNode = dojo.place(this.format_block('jstpl_player_wonder', data), dojo.query('#player_area_content_' + playerId + ' .player_area_wonder_container' + Math.floor(containerNumber))[0]);
+            //         if(Math.random() > 0.3) {
+            //             var randomAge = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+            //             id = 73 + randomAge;
+            //             var data = {
+            //                 jsData: '',
+            //                 jsId: id
+            //             };
+            //             var spritesheetColumns = 10;
+            //             data.jsX = (id - 1) % spritesheetColumns;
+            //             data.jsY = Math.floor((id - 1) / spritesheetColumns);
+            //             dojo.place(this.format_block('jstpl_player_wonder_age_card', data), dojo.query('.age_card_container', wonderContainerNode)[0]);
+            //         }
+            //     }
+            //     playerFlag++;
+            //     containerNumber += 0.5;
+            // }));
 
             // Dummy divide progress tokens over both players
             var playerFlag = 0;
@@ -240,8 +240,8 @@ function (dojo, domAttr, domStyle, declare, on) {
             dojo.query('#wonder_selection_block')[0];
             var block = dojo.query('#wonder_selection_block')[0];
             var container = dojo.query('#wonder_selection_container')[0];
-            dojo.empty(container);
             if (wonderSelection.constructor == Object) {
+                dojo.empty(container);
                 Object.keys(wonderSelection).forEach(dojo.hitch(this, function(cardId) {
                     var wonderCard = wonderSelection[cardId];
                     var id = wonderCard.type_arg;
@@ -253,7 +253,7 @@ function (dojo, domAttr, domStyle, declare, on) {
                     data.jsX = (id - 1) % spritesheetColumns;
                     data.jsY = Math.floor((id - 1) / spritesheetColumns);
 
-                    dojo.place(this.format_block('jstpl_wonder_selection', data), container);
+                    dojo.place(this.format_block('jstpl_player_wonder', data), container);
                 }));
 
                 dojo.style(block, "display", "block");
@@ -554,6 +554,12 @@ function (dojo, domAttr, domStyle, declare, on) {
         {
             console.log( 'notification_wonderSelected' );
             console.log( notif );
+            // var wonderNode = dojo.query('#player_wonder_' + notif.args.wonderId);
+            var wonderNodeId = 'player_wonder_' + notif.args.wonderId;
+            var targetNodeId = 'player_area_content_' + notif.args.playerId + '_wonder_position_' + notif.args.playerWonderCount;
+            this.attachToNewParent(wonderNodeId, targetNodeId);
+            this.slideToObjectPos(wonderNodeId, targetNodeId, 0, 0).play();
+
             this.updateWonderSelection(notif.args.wonderSelection);
 
             // Note: notif.args contains the arguments specified during you "notifyAllPlayers" / "notifyPlayer" PHP call

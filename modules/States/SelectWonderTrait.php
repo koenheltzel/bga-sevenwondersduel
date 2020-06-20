@@ -3,6 +3,7 @@
 namespace SWD\States;
 
 use SevenWondersDuel;
+use SWD\Player;
 use SWD\Wonder;
 
 trait SelectWonderTrait {
@@ -31,15 +32,18 @@ trait SelectWonderTrait {
             $wonderSelection = 2;
         }
 
+        $wonder = Wonder::get($card['type_arg']);
         $this->notifyAllPlayers(
             'wonderSelected',
             clienttranslate('${playerName} selected wonder ${wonderName}.'),
             [
-                'wonderSelection' => SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}"),
-                'wonderName' => Wonder::get($card['type_arg'])->name,
+                'wonderName' => $wonder->name,
                 'playerName' => $this->getCurrentPlayerName(),
                 'playerColor' => $this->getCurrentPlayerColor(),
-                'playerId' => $playerId
+                'playerId' => $playerId,
+                'playerWonderCount' => count(Player::me()->getWonders()->array),
+                'wonderId' => $wonder->id,
+                'wonderSelection' => SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}"),
             ]
         );
 

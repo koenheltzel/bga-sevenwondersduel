@@ -18,6 +18,7 @@
 
 use SWD\Draftpool;
 use SWD\Material;
+use SWD\Player;
 
 // SWD namespace autoloader from /modules/ folder.
 $swdNamespaceAutoload = function ($class) {
@@ -183,6 +184,10 @@ class SevenWondersDuel extends Table
 	    return self::$instance;
     }
 
+    public function getCurrentPlayerId($bReturnNullIfNotLogged = false) {
+        return parent::getCurrentPlayerId($bReturnNullIfNotLogged);
+    }
+
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
@@ -276,6 +281,10 @@ class SevenWondersDuel extends Table
         $result['progressTokens'] = Material::get()->progressTokens->array;
         $result['draftpool'] = Draftpool::get($current_player_id);
         $result['progressTokensBoard'] = arrayWithPropertyAsKeys($this->progressTokenDeck->getCardsInLocation('board'), 'location_arg');
+        $result['players'] = [
+        Player::me()->id => json_decode(json_encode(Player::me()), true),
+        Player::opponent()->id => json_decode(json_encode(Player::opponent()), true),
+    ];
 //        $result['cards'] = $this->buildingDeck;
 
 //        $this->notifyPlayersOfDraftpool();

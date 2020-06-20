@@ -2,6 +2,8 @@
 
 namespace SWD;
 
+use SevenWondersDuel;
+
 class Player {
 
     public $id = null;
@@ -271,7 +273,17 @@ class Player {
      * @return Wonders
      */
     public function getWonders(): Wonders {
+        if ($_SERVER['HTTP_HOST'] <> 'localhost') {
+            $this->wonderIds = [];
+            foreach ($this->getWonderDeckCards() as $cardId => $card) {
+                $this->wonderIds[] = $card['type_arg'];
+            }
+        }
         return Wonders::createByWonderIds($this->wonderIds);
+    }
+
+    public function getWonderDeckCards(): array {
+        return SevenWondersDuel::get()->wonderDeck->getCardsInLocation($this->id);
     }
 
     /**
