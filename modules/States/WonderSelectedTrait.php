@@ -7,59 +7,25 @@ use SWD\Wonder;
 
 trait WonderSelectedTrait {
 
-    public function wonderSelected($cardId){
-        $this->checkAction(SevenWondersDuel::STATE_WONDER_SELECTED_NAME);
-
-        $playerId = self::getCurrentPlayerId();
-
-        $wonderSelection = $this->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_WONDER_SELECTION);
-        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}");
-        if (!array_key_exists($cardId, $cards)) {
-            throw new \BgaUserException( self::_("The wonder you selected is not available.") );
-        }
-        $card = $cards[$cardId]; // Get before we re-set the $cards variable.
-        SevenWondersDuel::get()->wonderDeck->moveCard($cardId, $playerId);
-        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}");
-
-        $this->notifyAllPlayers(
-            'wonderSelected',
-            clienttranslate('${playerName} selected wonder ${wonderName}.'),
-            [
-                'wonderSelection' => $cards,
-                'wonderName' => Wonder::get($card['type_arg'])->name,
-                'playerName' => $this->getCurrentPlayerName(),
-                'playerColor' => $this->getCurrentPlayerColor(),
-                'playerId' => $playerId
-            ]
-        );
-
-        $this->giveExtraTime($playerId);
-
-        $this->gamestate->nextState( SevenWondersDuel::STATE_WONDER_SELECTED_NAME );
-    }
-
     public function stWonderSelected() {
-        // Wonders are selected A-B-B-A, then B-A-A-B. Meaning we switch player after selections 1, 3 and 4, then repeat.
+        // Wonders are selected A-B-B-A, then B-A-A-B. Meaning we switch player when there are 3 or 1 cards left, and when there are 4 cards left (= second draft pool).
         $wonderSelection = $this->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_WONDER_SELECTION);
-        $wonders = SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}");
-        if (count($wonders) == 3 || count($wonders) == 1) {
-            $this->activeNextPlayer();
-            $this->gamestate->nextState( SevenWondersDuel::STATE_SELECT_WONDER_NAME );
-        }
-        elseif(count($wonders) == 2) {
-            // Same player chooses again
-            $this->gamestate->nextState( SevenWondersDuel::STATE_SELECT_WONDER_NAME );
-        }
-        elseif(count($wonders) == 0) {
-            if ($wonderSelection == 1) {
-                $this->setGameStateValue(SevenWondersDuel::VALUE_CURRENT_WONDER_SELECTION, 2);
+        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}");
+        switch (count($cards)) {
+            case 1:
+            case 3:
+            case 4:
                 $this->activeNextPlayer();
                 $this->gamestate->nextState( SevenWondersDuel::STATE_SELECT_WONDER_NAME );
-            }
-            else {
-                $this->activeNextPlayer();
+                break;
+            case 2:
+                // Same player chooses again
+                $this->gamestate->nextState( SevenWondersDuel::STATE_SELECT_WONDER_NAME );
+                break;
+            case 0:
                 $this->gamestate->nextState( SevenWondersDuel::STATE_NEXT_AGE_NAME );
-            }
+                break;
+
         }
     }
 }
