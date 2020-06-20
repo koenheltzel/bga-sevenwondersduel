@@ -27,6 +27,7 @@
 
 
 <div id="swd_wrap">
+    <div id="wonder_selection_container"></div>
     <div id="board_container">
         <div class="board"></div>
         <!-- BEGIN block_board_progresstoken_container -->
@@ -146,6 +147,15 @@ var jstpl_player_building = '\
         class="building building_header_small"\
         style="position: inline-block; background-position: -${jsX}00% calc(-5px + -${jsY} * 321px / 2);"\
     >\
+    </div>';
+
+var jstpl_wonder_selection = '\
+    <div id="wonder_selection_${jsId}"\
+            ${jsData}\
+            class="wonder wonder_small"\
+            style="background-position: -${jsX}00% -${jsY}00%; "\
+        >\
+        </div>\
     </div>';
 
 var jstpl_player_wonder = '\

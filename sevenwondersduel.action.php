@@ -61,6 +61,9 @@ class action_sevenwondersduel extends APP_GameAction
     public function wonderSelected() {
         self::setAjaxMode();
 
+        $wonderId = self::getArg("wonderId", AT_posint, true);
+        SevenWondersDuel::get()->wonderSelected($wonderId);
+
         self::ajaxResponse();
     }
 

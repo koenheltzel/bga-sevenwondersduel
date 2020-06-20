@@ -21,10 +21,11 @@ define([
     "dojo/dom-style",
     "dojo/_base/declare",
     "dojo/query",
+    "dojo/on",
     "ebg/core/gamegui",
     "ebg/counter"
 ],
-function (dojo, domAttr, domStyle, declare) {
+function (dojo, domAttr, domStyle, declare, on) {
     return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
         constructor: function(){
             // Tooltip settings
@@ -61,6 +62,10 @@ function (dojo, domAttr, domStyle, declare) {
             }
             
             // TODO: Set up your game interface here, according to "gamedatas"
+            console.log('laat', dojo.query('#wonder_selection_container'));
+            this.updateWonderSelection(this.gamedatas.wonderSelection);
+            on(dojo.query('#wonder_selection_container'), ".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
+
             this.updateDraftpool(this.gamedatas.draftpool);
             this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
 
@@ -227,6 +232,25 @@ function (dojo, domAttr, domStyle, declare) {
                     dojo.place(this.format_block('jstpl_board_progress_token', data), container);
                 }
             }
+        },
+
+        updateWonderSelection: function (wonderSelection) {
+            for (var i = 0; i < wonderSelection.length; i++) {
+                var id = wonderSelection[i];
+                var data = {
+                    jsData: 'data-wonder-id=' + id + '',
+                    jsId: id
+                };
+                var spritesheetColumns = 5;
+                data.jsX = (id - 1) % spritesheetColumns;
+                data.jsY = Math.floor((id - 1) / spritesheetColumns);
+
+                var wonderNode = dojo.place(this.format_block('jstpl_wonder_selection', data), dojo.query('#wonder_selection_container')[0]);
+                var node = dojo.query('#wonder_selection_' + id)[0]
+                console.log('node', node);
+                dojo.connect(node, 'onclick', this, this.onWonderSelectionClick);
+            }
+
         },
 
         updateDraftpool: function (draftpool) {
@@ -448,6 +472,39 @@ function (dojo, domAttr, domStyle, declare) {
         },        
         
         */
+
+        onWonderSelectionClick: function (e) {
+            console.log('onWonderSelectionClick');
+            // Preventing default browser reaction
+            dojo.stopEvent(e);
+
+            var wonder = dojo.query(e.target);
+            console.log('wonder ', wonder);
+            console.log('data-wonder-id ', wonder.attr('data-wonder-id').pop());
+
+            // Check that this action is possible (see "possibleactions" in states.inc.php)
+            if (!this.checkAction('wonderSelected')) {
+                return;
+            }
+
+            this.ajaxcall("/sevenwondersduel/sevenwondersduel/wonderSelected.html", {
+                wonderId: wonder.attr('data-wonder-id')
+            },
+            this, function (result) {
+                console.log('success result: ', result);
+                // What to do after the server call if it succeeded
+                // (most of the time: nothing)
+
+                // Hide wonder selection
+                // dojo.style('pattern_selection', 'display', 'none');
+
+            }, function (is_error) {
+                console.log('error result: ', is_error);
+                // What to do after the server call in anyway (success or failure)
+                // (most of the time: nothing)
+
+            });
+        },
 
         
         ///////////////////////////////////////////////////

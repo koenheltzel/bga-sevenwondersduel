@@ -128,7 +128,9 @@ class SevenWondersDuel extends Table
     
     const STATE_GAME_END_ID = 99;
     const STATE_GAME_END_NAME = "gameEnd";
-    
+
+    const VALUE_CURRENT_WONDER_SELECTION = "current_wonder_selection";
+
 
     /**
      * @var Deck
@@ -158,7 +160,7 @@ class SevenWondersDuel extends Table
         parent::__construct();
 
         self::initGameStateLabels( array(
-                "current_wonder_selection" => 1,
+                self::VALUE_CURRENT_WONDER_SELECTION => 10,
             //    "my_second_global_variable" => 11,
             //      ...
             //    "my_first_game_variant" => 100,
@@ -219,8 +221,8 @@ class SevenWondersDuel extends Table
         /************ Start the game initialization *****/
 
         // Init global values with their initial values
-        //self::setGameStateInitialValue( 'my_first_global_variable', 0 );
-        
+        self::setGameStateInitialValue( self::VALUE_CURRENT_WONDER_SELECTION, 1);
+
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)
         //self::initStat( 'table', 'table_teststat1', 0 );    // Init a table statistics
@@ -228,7 +230,7 @@ class SevenWondersDuel extends Table
 
         // TODO: setup the initial game situation here
 
-        $this->stGameSetup(); // This state function isn't called automatically (?!?)
+        $this->stGameSetup(); // This state function isn't called automatically apparently.
 
         /************ End of the game initialization *****/
     }
@@ -259,6 +261,16 @@ class SevenWondersDuel extends Table
         }
 
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
+
+        // Wonder selection stuff
+        $wonderSelection = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION);
+        if ($wonderSelection <= 2) {
+            $result['wonderSelection'] = array_keys(arrayWithPropertyAsKeys(SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}"), 'type_arg'));
+        }
+        else {
+            $result['wonderSelection'] = false;
+        }
+
         $result['buildings'] = Material::get()->buildings->array;
         $result['wonders'] = Material::get()->wonders->array;
         $result['progressTokens'] = Material::get()->progressTokens->array;
