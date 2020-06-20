@@ -237,21 +237,30 @@ function (dojo, domAttr, domStyle, declare, on) {
         },
 
         updateWonderSelection: function (wonderSelection) {
+            dojo.query('#wonder_selection_block')[0];
+            var block = dojo.query('#wonder_selection_block')[0];
             var container = dojo.query('#wonder_selection_container')[0];
             dojo.empty(container);
-            Object.keys(wonderSelection).forEach(dojo.hitch(this, function(cardId) {
-                var wonderCard = wonderSelection[cardId];
-                var id = wonderCard.type_arg;
-                var data = {
-                    jsCardId: cardId,
-                    jsId: id
-                };
-                var spritesheetColumns = 5;
-                data.jsX = (id - 1) % spritesheetColumns;
-                data.jsY = Math.floor((id - 1) / spritesheetColumns);
+            if (wonderSelection.constructor == Object) {
+                Object.keys(wonderSelection).forEach(dojo.hitch(this, function(cardId) {
+                    var wonderCard = wonderSelection[cardId];
+                    var id = wonderCard.type_arg;
+                    var data = {
+                        jsCardId: cardId,
+                        jsId: id
+                    };
+                    var spritesheetColumns = 5;
+                    data.jsX = (id - 1) % spritesheetColumns;
+                    data.jsY = Math.floor((id - 1) / spritesheetColumns);
 
-                dojo.place(this.format_block('jstpl_wonder_selection', data), container);
-            }));
+                    dojo.place(this.format_block('jstpl_wonder_selection', data), container);
+                }));
+
+                dojo.style(block, "display", "block");
+            }
+            else {
+                dojo.style(block, "display", "none");
+            }
         },
 
         updateDraftpool: function (draftpool) {

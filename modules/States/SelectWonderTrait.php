@@ -30,13 +30,12 @@ trait SelectWonderTrait {
             $this->setGameStateValue(SevenWondersDuel::VALUE_CURRENT_WONDER_SELECTION, 2);
             $wonderSelection = 2;
         }
-        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}");
 
         $this->notifyAllPlayers(
             'wonderSelected',
             clienttranslate('${playerName} selected wonder ${wonderName}.'),
             [
-                'wonderSelection' => $cards,
+                'wonderSelection' => SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}"),
                 'wonderName' => Wonder::get($card['type_arg'])->name,
                 'playerName' => $this->getCurrentPlayerName(),
                 'playerColor' => $this->getCurrentPlayerColor(),

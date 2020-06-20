@@ -26,8 +26,17 @@
 -->
 
 
+<div id="wonder_selection_block" class="whiteblock">
+    <h3>Wonders selection:</h3>
+    <div id="wonder_selection_container">
+        <!-- BEGIN block_catalog_wonder -->
+        <div id="catalog_wonder_{id}" data-wonder-id="{id}" class="wonder wonder_small"
+             style="background-position: -{x}00% -{y}00%;"></div>
+        <!-- END block_catalog_wonder -->
+    </div>
+</div>
+
 <div id="swd_wrap">
-    <div id="wonder_selection_container"></div>
     <div id="board_container">
         <div class="board"></div>
         <!-- BEGIN block_board_progresstoken_container -->
