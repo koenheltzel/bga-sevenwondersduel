@@ -305,7 +305,7 @@ class Table {
      *
      * @param $value_label
      */
-    protected function getGameStateValue($value_label)
+    protected function getGameStateValue($value_label, $default = NULL)
     {
     }
 

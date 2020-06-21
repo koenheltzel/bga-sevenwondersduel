@@ -9,8 +9,8 @@ trait WonderSelectedTrait {
 
     public function stWonderSelected() {
         // Wonders are selected A-B-B-A, then B-A-A-B. Meaning we switch player when there are 3 or 1 cards left, and when there are 4 cards left (= second draft pool).
-        $wonderSelection = $this->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_WONDER_SELECTION);
-        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}");
+        $wonderSelectionRound = $this->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_WONDER_SELECTION_ROUND);
+        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelectionRound}");
         switch (count($cards)) {
             case 1:
             case 3:

@@ -57,8 +57,9 @@ function (dojo, domAttr, domStyle, declare, on) {
             for( var player_id in gamedatas.players )
             {
                 var player = gamedatas.players[player_id];
-                         
+
                 // TODO: Setting up players boards if needed
+                this.updatePlayerWonders(player_id, this.gamedatas.wondersSituation[player_id]);
             }
             
             // TODO: Set up your game interface here, according to "gamedatas"
@@ -66,7 +67,7 @@ function (dojo, domAttr, domStyle, declare, on) {
             // Click handlers using event delegation:
             dojo.query('#wonder_selection_container').on(".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
 
-            this.updateWonderSelection(this.gamedatas.wonderSelection);
+            this.updateWonderSelection(this.gamedatas.wondersSituation.selection);
 
             this.updateDraftpool(this.gamedatas.draftpool);
             this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
@@ -236,24 +237,37 @@ function (dojo, domAttr, domStyle, declare, on) {
             }
         },
 
-        updateWonderSelection: function (wonderSelection) {
-            dojo.query('#wonder_selection_block')[0];
+        getWonderDiv: function (card) {
+            var id = card.type_arg;
+            var data = {
+                jsCardId: card.id,
+                jsId: id
+            };
+            var spritesheetColumns = 5;
+            data.jsX = (id - 1) % spritesheetColumns;
+            data.jsY = Math.floor((id - 1) / spritesheetColumns);
+
+            return this.format_block('jstpl_wonder', data);
+        },
+
+        updatePlayerWonders: function (playerId, cards) {
+            if (cards.constructor == Object) {
+                var i = 1;
+                Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
+                    var container = dojo.query('#player_area_content_' + playerId + '_wonder_position_' + i)[0];
+                    dojo.place(this.getWonderDiv(cards[cardId]), container);
+                    i++;
+                }));
+            }
+        },
+
+        updateWonderSelection: function (cards) {
             var block = dojo.query('#wonder_selection_block')[0];
             var container = dojo.query('#wonder_selection_container')[0];
-            if (wonderSelection.constructor == Object) {
+            if (cards.constructor == Object) {
                 dojo.empty(container);
-                Object.keys(wonderSelection).forEach(dojo.hitch(this, function(cardId) {
-                    var wonderCard = wonderSelection[cardId];
-                    var id = wonderCard.type_arg;
-                    var data = {
-                        jsCardId: cardId,
-                        jsId: id
-                    };
-                    var spritesheetColumns = 5;
-                    data.jsX = (id - 1) % spritesheetColumns;
-                    data.jsY = Math.floor((id - 1) / spritesheetColumns);
-
-                    dojo.place(this.format_block('jstpl_wonder', data), container);
+                Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
+                    dojo.place(this.getWonderDiv(cards[cardId]), container);
                 }));
 
                 dojo.style(block, "display", "block");
@@ -560,7 +574,9 @@ function (dojo, domAttr, domStyle, declare, on) {
             this.attachToNewParent(wonderNodeId, targetNodeId);
             this.slideToObjectPos(wonderNodeId, targetNodeId, 0, 0).play();
 
-            this.updateWonderSelection(notif.args.wonderSelection);
+            if (notif.args.updateWonderSelection) {
+                this.updateWonderSelection(notif.args.wonderSelection);
+            }
 
             // Note: notif.args contains the arguments specified during you "notifyAllPlayers" / "notifyPlayer" PHP call
 

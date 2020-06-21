@@ -383,6 +383,7 @@ h3 {
 .player_area_wonders {
     margin-top: 10px;
     position: relative;
+    height: calc(var(--wonder-small-scale) * var(--wonder-height));
 }
 
 .player_area_wonder_position_1 {

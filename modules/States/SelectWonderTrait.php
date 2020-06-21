@@ -17,19 +17,19 @@ trait SelectWonderTrait {
 
         $playerId = self::getCurrentPlayerId();
 
-        $wonderSelection = $this->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_WONDER_SELECTION);
-        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}");
+        $wonderSelectionRound = $this->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_WONDER_SELECTION_ROUND);
+        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelectionRound}");
         if (!array_key_exists($cardId, $cards)) {
             throw new \BgaUserException( self::_("The wonder you selected is not available.") );
         }
         $card = $cards[$cardId]; // Get before we re-set the $cards variable.
+        unset($cards[$cardId]);
         SevenWondersDuel::get()->wonderDeck->moveCard($cardId, $playerId);
 
         // Renew the selection pool after the last wonder from the first pool was selected.
-        if (count($cards) == 1 && $wonderSelection == 1) {
-            // That was the last wonder.
-            $this->setGameStateValue(SevenWondersDuel::VALUE_CURRENT_WONDER_SELECTION, 2);
-            $wonderSelection = 2;
+        if (count($cards) == 0 && $wonderSelectionRound == 1) {
+            $this->setGameStateValue(SevenWondersDuel::VALUE_CURRENT_WONDER_SELECTION_ROUND, 2);
+            $wonderSelectionRound = 2;
         }
 
         $wonder = Wonder::get($card['type_arg']);
@@ -39,11 +39,11 @@ trait SelectWonderTrait {
             [
                 'wonderName' => $wonder->name,
                 'playerName' => $this->getCurrentPlayerName(),
-                'playerColor' => $this->getCurrentPlayerColor(),
                 'playerId' => $playerId,
-                'playerWonderCount' => count(Player::me()->getWonders()->array),
+                'playerWonderCount' => count(Player::me()->getWonders()->array), // Used to correctly position the wonder in the player area.
                 'wonderId' => $wonder->id,
-                'wonderSelection' => SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}"),
+                'updateWonderSelection' => count($cards) == 0, // Update the wonder selection at the end of the first and second selection rounds (second to hide the block).
+                'wonderSelection' => count($cards) == 0 ? SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelectionRound}") : null,
             ]
         );
 

@@ -130,7 +130,7 @@ class SevenWondersDuel extends Table
     const STATE_GAME_END_ID = 99;
     const STATE_GAME_END_NAME = "gameEnd";
 
-    const VALUE_CURRENT_WONDER_SELECTION = "current_wonder_selection";
+    const VALUE_CURRENT_WONDER_SELECTION_ROUND = "current_wonder_selection_round";
 
 
     /**
@@ -161,7 +161,7 @@ class SevenWondersDuel extends Table
         parent::__construct();
 
         self::initGameStateLabels( array(
-                self::VALUE_CURRENT_WONDER_SELECTION => 10,
+                self::VALUE_CURRENT_WONDER_SELECTION_ROUND => 10,
             //    "my_second_global_variable" => 11,
             //      ...
             //    "my_first_game_variant" => 100,
@@ -186,6 +186,16 @@ class SevenWondersDuel extends Table
 
     public function getCurrentPlayerId($bReturnNullIfNotLogged = false) {
         return parent::getCurrentPlayerId($bReturnNullIfNotLogged);
+    }
+
+    public function getGameStateValue($value_label, $default = NULL)
+    {
+        return parent::getGameStateValue($value_label, $default);
+    }
+
+    public function setGameStateValue($value_label, $value_value)
+    {
+        return parent::setGameStateValue($value_label, $value_value);
     }
 
     protected function getGameName( )
@@ -226,7 +236,7 @@ class SevenWondersDuel extends Table
         /************ Start the game initialization *****/
 
         // Init global values with their initial values
-        self::setGameStateInitialValue( self::VALUE_CURRENT_WONDER_SELECTION, 1);
+        self::setGameStateInitialValue( self::VALUE_CURRENT_WONDER_SELECTION_ROUND, 1);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)
@@ -268,8 +278,11 @@ class SevenWondersDuel extends Table
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
 
         // Wonder selection stuff
-        $wonderSelection = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION);
-        $result['wonderSelection'] = SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$wonderSelection}");
+        $result['wondersSituation'] = [
+            'selection' => SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND)}"),
+            Player::me()->id => SevenWondersDuel::get()->wonderDeck->getCardsInLocation(Player::me()->id),
+            Player::opponent()->id => SevenWondersDuel::get()->wonderDeck->getCardsInLocation(Player::opponent()->id),
+        ];
 
         $result['buildings'] = Material::get()->buildings->array;
         $result['wonders'] = Material::get()->wonders->array;
@@ -277,9 +290,9 @@ class SevenWondersDuel extends Table
         $result['draftpool'] = Draftpool::get($current_player_id);
         $result['progressTokensBoard'] = arrayWithPropertyAsKeys($this->progressTokenDeck->getCardsInLocation('board'), 'location_arg');
         $result['players'] = [
-        Player::me()->id => json_decode(json_encode(Player::me()), true),
-        Player::opponent()->id => json_decode(json_encode(Player::opponent()), true),
-    ];
+            Player::me()->id => json_decode(json_encode(Player::me()), true),
+            Player::opponent()->id => json_decode(json_encode(Player::opponent()), true),
+        ];
 //        $result['cards'] = $this->buildingDeck;
 
 //        $this->notifyPlayersOfDraftpool();
