@@ -559,14 +559,14 @@ function (dojo, domAttr, domStyle, declare, on) {
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
             //
 
-            dojo.subscribe( 'wonderSelected', this, "notification_wonderSelected" );
+            dojo.subscribe( 'wonderSelected', this, "notif_wonderSelected" );
         },  
         
         // TODO: from this point and below, you can write your game notifications handling methods
 
-        notification_wonderSelected: function( notif )
+        notif_wonderSelected: function( notif )
         {
-            console.log( 'notification_wonderSelected' );
+            console.log( 'notif_wonderSelected' );
             console.log( notif );
             // var wonderNode = dojo.query('#wonder_' + notif.args.wonderId);
             var wonderNodeId = 'wonder_' + notif.args.wonderId;
