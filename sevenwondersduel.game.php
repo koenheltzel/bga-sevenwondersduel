@@ -188,16 +188,6 @@ class SevenWondersDuel extends Table
         return parent::getCurrentPlayerId($bReturnNullIfNotLogged);
     }
 
-    public function getGameStateValue($value_label, $default = NULL)
-    {
-        return parent::getGameStateValue($value_label, $default);
-    }
-
-    public function setGameStateValue($value_label, $value_value)
-    {
-        return parent::setGameStateValue($value_label, $value_value);
-    }
-
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.

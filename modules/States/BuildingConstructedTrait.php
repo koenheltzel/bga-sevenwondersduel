@@ -2,9 +2,8 @@
 
 namespace SWD\States;
 
-use SevenWondersDuel;
-
-trait BuildingConstructedTrait {
+trait BuildingConstructedTrait
+{
 
     public function stBuildingConstructed() {
 

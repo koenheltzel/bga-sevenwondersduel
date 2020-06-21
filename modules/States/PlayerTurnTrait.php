@@ -1,9 +1,6 @@
 <?php
 
-namespace SWD\States;
-
-use SevenWondersDuel;
-use SWD\Draftpool;
+namespace SWD\States;use SWD\Draftpool;
 
 trait PlayerTurnTrait {
 
@@ -22,7 +19,7 @@ trait PlayerTurnTrait {
                 '',
                 [
                     'draftpool' => Draftpool::get($playerId),
-                    'progress_tokens' => SevenWondersDuel::get()->progressTokenDeck->getCardsInLocation("board"),
+                    'progress_tokens' => $this->progressTokenDeck->getCardsInLocation("board"),
                 ]
             );
         }

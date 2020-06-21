@@ -2,9 +2,8 @@
 
 namespace SWD\States;
 
-use SevenWondersDuel;
-
-trait ChooseDiscardedBuildingTrait {
+trait ChooseDiscardedBuildingTrait
+{
 
     public function stChooseDiscardedBuilding() {
 
