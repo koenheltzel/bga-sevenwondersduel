@@ -1,6 +1,8 @@
 <?php
 
-namespace SWD\States;use SWD\Wonder;
+namespace SWD\States;
+
+use SWD\Wonder;
 
 trait WonderSelectedTrait {
 
