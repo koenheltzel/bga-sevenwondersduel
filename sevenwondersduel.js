@@ -148,20 +148,6 @@ function (dojo, domAttr, domStyle, declare, on) {
             //     containerNumber += 0.5;
             // }));
 
-            // Adjust the height of the age divs based on the age cards absolutely positioned within.
-            dojo.query(".age").forEach(function(node){
-                var maxY = 0;
-                var height = 0;
-                dojo.query(".building",node).forEach(function(building){
-                    var y = domStyle.get(building, "top");
-                    if (y > maxY) {
-                        maxY = y;
-                        height = domStyle.get(building, "height");
-                    }
-                });
-                domStyle.set(node, "height", (maxY + height + 15) + "px");
-            });
-
             // Add tooltips to buildings everywhere.
             new dijit.Tooltip({
                 connectId: "game_play_area",
@@ -327,6 +313,20 @@ function (dojo, domAttr, domStyle, declare, on) {
 
                 dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
             }
+
+            // Adjust the height of the age divs based on the age cards absolutely positioned within.
+            dojo.query(".age").forEach(function(node){
+                var maxY = 0;
+                var height = 0;
+                dojo.query(".building",node).forEach(function(building){
+                    var y = domStyle.get(building, "top");
+                    if (y > maxY) {
+                        maxY = y;
+                        height = domStyle.get(building, "height");
+                    }
+                });
+                domStyle.set(node, "height", (maxY + height + 15) + "px");
+            });
         },
         
         getBuildingTooltip: function( id )
@@ -615,6 +615,7 @@ function (dojo, domAttr, domStyle, declare, on) {
             //
 
             dojo.subscribe( 'wonderSelected', this, "notif_wonderSelected" );
+            dojo.subscribe( 'nextAge', this, "notif_nextAge" );
             dojo.subscribe( 'constructBuilding', this, "notif_constructBuilding" );
         },
         
@@ -624,7 +625,7 @@ function (dojo, domAttr, domStyle, declare, on) {
         {
             console.log( 'notif_wonderSelected' );
             console.log( notif );
-            var wonderNode = dojo.query('#wonder_' + notif.args.wonderId);
+            var wonderNode = dojo.query('#wonder_' + notif.args.wonderId)[0];
             dijit.Tooltip.hide(wonderNode);
 
             var wonderNodeId = 'wonder_' + notif.args.wonderId;
@@ -635,6 +636,10 @@ function (dojo, domAttr, domStyle, declare, on) {
             if (notif.args.updateWonderSelection) {
                 this.updateWonderSelection(notif.args.wonderSelection);
             }
+        },
+
+        notif_nextAge: function(notif) {
+            this.updateDraftpool(notif.args.draftpool);
         },
 
         notif_constructBuilding: function(notif) {
