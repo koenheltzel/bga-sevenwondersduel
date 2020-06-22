@@ -162,47 +162,40 @@ function (dojo, domAttr, domStyle, declare, on) {
                 domStyle.set(node, "height", (maxY + height + 15) + "px");
             });
 
-            // Add tooltips to buildings (draftpool, player boards).
-            dojo.query( '.building_small, .building_header_small' ).forEach( dojo.hitch( this, function( node ) {
-                var id = domAttr.get(node, "data-building-id");
-                var html = this.getBuildingTooltip( id );
-                if (html) {
-                    // We could use addTooltipHtml here, but the downside is the tooltip will often point from an
-                    // invisible part of the card where another card overlaps it. The top and bottom of the draftpool
-                    // cards are always visible, so the pointer will point correctly.
-                    // So instead we manually instantiate a dijit tooltip and also take advantage of the getContent
-                    // functionality so the tooltip's html gets generated when it is needed.
-                    new dijit.Tooltip({
-                        connectId: [node.id],
-                        getContent: dojo.hitch( this, function(node) {
-                            return this.getTooltipHtml(node);
-                        } ),
-                        showDelay: this.toolTipDelay
-                    });
-                    // Default tooltip implementation:
-                    // this.addTooltipHtml( node.id, this.getTooltipHtml(node), this.toolTipDelay );
-                }
-            } ) );
+            // Add tooltips to buildings everywhere.
+            new dijit.Tooltip({
+                connectId: "game_play_area",
+                selector: '.building_small, .building_header_small',
+                showDelay: this.toolTipDelay,
+                getContent: dojo.hitch( this, function(node) {
+                    console.log('building node', node);
+                    var id = domAttr.get(node, "data-building-id");
+                    return this.getTooltipHtml(node);
+                })
+            });
 
-            // Add tooltips to wonders (player boards)
-            dojo.query( '.wonder_small' ).forEach( dojo.hitch( this, function( node ) {
-                // console.log(node);
-                var id = domAttr.get(node, "data-wonder-id");
-                var html = this.getWonderTooltip( id );
-                if (html) {
-                    this.addTooltipHtml( node.id, html, this.toolTipDelay );
-                }
-            } ) );
+            // Add tooltips to wonders everywhere.
+            new dijit.Tooltip({
+                connectId: "game_play_area",
+                selector: '.wonder_small',
+                showDelay: this.toolTipDelay,
+                getContent: dojo.hitch( this, function(node) {
+                    var id = domAttr.get(node, "data-wonder-id");
+                    return this.getWonderTooltip(id);
+                })
+            });
 
-            dojo.query( '.progress_token_small' ).forEach( dojo.hitch( this, function( node ) {
-                // console.log(node);
-                var id = domAttr.get(node, "data-progress-token-id");
-                var html = this.getProgressTokenTooltip( id );
-                if (html) {
-                    this.addTooltipHtml( node.id, html, this.toolTipDelay );
-                }
-            } ) );
- 
+            // Add tooltips to progress tokens everywhere.
+            new dijit.Tooltip({
+                connectId: "game_play_area",
+                selector: '.progress_token_small',
+                showDelay: this.toolTipDelay,
+                getContent: dojo.hitch( this, function(node) {
+                    var id = domAttr.get(node, "data-progress-token-id");
+                    return this.getProgressTokenTooltip( id );
+                })
+            });
+
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 
@@ -632,6 +625,8 @@ function (dojo, domAttr, domStyle, declare, on) {
             console.log( 'notif_wonderSelected' );
             console.log( notif );
             var wonderNode = dojo.query('#wonder_' + notif.args.wonderId);
+            dijit.Tooltip.hide(wonderNode);
+
             var wonderNodeId = 'wonder_' + notif.args.wonderId;
             var targetNodeId = 'player_area_content_' + notif.args.playerId + '_wonder_position_' + notif.args.playerWonderCount;
             this.attachToNewParent(wonderNodeId, targetNodeId);
@@ -648,6 +643,7 @@ function (dojo, domAttr, domStyle, declare, on) {
 
             // var buildingNodeId = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0].attr('id');
             var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
+            dijit.Tooltip.hide(buildingNode);
 
             var building = this.gamedatas.buildings[notif.args.buildingId];
             var container = dojo.query('#player_area_content_' + notif.args.playerId + ' .' + building.type)[0];
