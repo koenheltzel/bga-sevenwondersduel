@@ -34,10 +34,10 @@ trait SelectWonderTrait {
         $wonder = Wonder::get($card['type_arg']);
         $this->notifyAllPlayers(
             'wonderSelected',
-            clienttranslate('${playerName} selected wonder ${wonderName}.'),
+            clienttranslate('${player_name} selected wonder ${wonderName}.'),
             [
                 'wonderName' => $wonder->name,
-                'playerName' => $this->getCurrentPlayerName(),
+                'player_name' => $this->getCurrentPlayerName(),
                 'playerId' => $playerId,
                 'playerWonderCount' => count(Player::me()->getWonders()->array), // Used to correctly position the wonder in the player area.
                 'wonderId' => $wonder->id,
