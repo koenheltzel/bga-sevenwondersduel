@@ -653,6 +653,8 @@ function (dojo, domAttr, domStyle, declare, on) {
             var container = dojo.query('#player_area_content_' + notif.args.playerId + ' .' + building.type)[0];
             dojo.place(this.getBuildingDiv(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container);
             this.fadeOutAndDestroy(buildingNode);
+
+            this.updateDraftpool(notif.args.draftpool);
         }
 
         /*

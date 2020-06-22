@@ -42,6 +42,7 @@ class Draftpool
 
         $draftpool = [];
         $locationArg = 19; // Each age has 20 cards. Make this dynamic when it works: count(self::$ages[$age], COUNT_RECURSIVE) - count(self::$ages[$age]))
+        $positionsFound = [];
         for($row_index = count(self::$ages[$age]) - 1; $row_index >= 0; $row_index--) {
             $columns = self::$ages[$age][$row_index];
             foreach($columns as $column) {
@@ -50,7 +51,13 @@ class Draftpool
                         'row' => $row_index + 1,
                         'column' => $column
                     ];
+                    $positionsFound[] = ($row_index + 1) . "_" . $column;
                     $cardvisible = $row_index % 2 == 0;
+                    if (!$cardvisible) {
+                        if (!in_array(($row_index + 2) . "_" . ($column - 1), $positionsFound) && !in_array(($row_index + 2) . "_" . ($column + 1), $positionsFound)) {
+                            $cardvisible = true;
+                        }
+                    }
                     // TODO determine if card is available because other cards have revealed it.
                     if ($cardvisible) {
                         $position['building'] = (int)$cards[$locationArg]['type_arg'];

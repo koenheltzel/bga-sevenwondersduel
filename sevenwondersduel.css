@@ -242,6 +242,7 @@ h3 {
 
 .draftpool_actions {
     text-align: center;
+    display: none;
 }
 
 .column1 { left: calc(var(--draftpool-column-width) * (1 - 1)); }
