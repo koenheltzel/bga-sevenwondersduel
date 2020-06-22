@@ -58,59 +58,84 @@ class action_sevenwondersduel extends APP_GameAction
 
     */
 
-    public function wonderSelected() {
+    public function actionSelectWonder() {
         self::setAjaxMode();
 
         $cardId = self::getArg("cardId", AT_posint, true);
-        SevenWondersDuel::get()->wonderSelected($cardId);
+        SevenWondersDuel::get()->actionSelectWonder($cardId);
 
         self::ajaxResponse();
     }
 
-    public function startPlayerSelected() {
+    public function actionSelectStartPlayer() {
         self::setAjaxMode();
+
+        $playerId = self::getArg("playerId", AT_posint, true);
+        SevenWondersDuel::get()->actionSelectStartPlayer($playerId);
 
         self::ajaxResponse();
     }
 
-    public function constructBuilding() {
+    public function actionConstructBuilding() {
         self::setAjaxMode();
+
+        $cardId = self::getArg("cardId", AT_posint, true);
+        SevenWondersDuel::get()->actionConstructBuilding($cardId);
 
         self::ajaxResponse();
     }
 
-    public function discardBuilding() {
+    public function actionDiscardBuilding() {
         self::setAjaxMode();
+
+        $cardId = self::getArg("cardId", AT_posint, true);
+        SevenWondersDuel::get()->actionDiscardBuilding($cardId);
 
         self::ajaxResponse();
     }
 
-    public function constructWonder() {
+    public function actionConstructWonder() {
         self::setAjaxMode();
+
+        $cardId = self::getArg("cardId", AT_posint, true);
+        $wonderId = self::getArg("wonderId", AT_posint, true);
+        SevenWondersDuel::get()->actionConstructWonder($cardId, $wonderId);
 
         self::ajaxResponse();
     }
 
-    public function progressTokenPlayed() {
+    public function actionChooseProgressToken() {
         self::setAjaxMode();
+
+        $cardId = self::getArg("cardId", AT_posint, true);
+        SevenWondersDuel::get()->actionChooseProgressToken($cardId);
 
         self::ajaxResponse();
     }
 
-    public function opponentBuildingDiscarded() {
+    public function actionChooseOpponentBuilding() {
         self::setAjaxMode();
+
+        $cardId = self::getArg("cardId", AT_posint, true);
+        SevenWondersDuel::get()->actionChooseOpponentBuilding($cardId);
 
         self::ajaxResponse();
     }
 
-    public function progressTokenFromBoxPlayed() {
+    public function actionChooseProgressTokenFromBox() {
         self::setAjaxMode();
+
+        $cardId = self::getArg("cardId", AT_posint, true);
+        SevenWondersDuel::get()->actionChooseProgressTokenFromBox($cardId);
 
         self::ajaxResponse();
     }
 
-    public function constructDiscardedBuilding() {
+    public function actionChooseDiscardedBuilding() {
         self::setAjaxMode();
+
+        $cardId = self::getArg("cardId", AT_posint, true);
+        SevenWondersDuel::get()->actionChooseDiscardedBuilding($cardId);
 
         self::ajaxResponse();
     }

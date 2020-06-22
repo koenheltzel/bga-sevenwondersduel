@@ -9,7 +9,7 @@ use SWD\Material;
 trait GameSetupTrait
 {
 
-    public function stGameSetup() {
+    public function enterStateGameSetup() {
         $players = $this->loadPlayersBasicInfos();
 
         // Set up two 4-wonders selection pools, rest of the wonders go back to the box.

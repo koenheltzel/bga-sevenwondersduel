@@ -4,7 +4,7 @@ namespace SWD\States;
 
 trait DiscardBuildingTrait {
 
-    public function stDiscardBuilding() {
+    public function enterStateDiscardBuilding() {
 
     }
 }

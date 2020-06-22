@@ -57,7 +57,7 @@ $machinestates = [
         "name" => SevenWondersDuel::STATE_GAME_SETUP_NAME,
         "description" => "",
         "type" => "manager",
-        "action" => "stGameSetup",
+        "action" => "enterStateGameSetup",
         "transitions" => ["" => SevenWondersDuel::STATE_SELECT_WONDER_ID]
     ],
 
@@ -66,9 +66,9 @@ $machinestates = [
         "description" => clienttranslate('${actplayer} must choose a wonder'),
         "descriptionmyturn" => clienttranslate('${you} must choose a wonder'),
         "type" => "activeplayer",
-        "action" => "stSelectWonder",
+        "action" => "enterStateSelectWonder",
         "possibleactions" => [
-            SevenWondersDuel::STATE_WONDER_SELECTED_NAME
+            "actionSelectWonder",
         ],
         "transitions" => [SevenWondersDuel::STATE_WONDER_SELECTED_NAME => SevenWondersDuel::STATE_WONDER_SELECTED_ID]
     ],
@@ -78,7 +78,7 @@ $machinestates = [
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
-        "action" => "stWonderSelected",
+        "action" => "enterStateWonderSelected",
         "updateGameProgression" => true,
         "transitions" => [
             SevenWondersDuel::STATE_SELECT_WONDER_NAME => SevenWondersDuel::STATE_SELECT_WONDER_ID,
@@ -91,7 +91,7 @@ $machinestates = [
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
-        "action" => "stNextAge",
+        "action" => "enterStateNextAge",
         "transitions" => [
             SevenWondersDuel::STATE_SELECT_START_PLAYER_NAME => SevenWondersDuel::STATE_SELECT_START_PLAYER_ID,
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
@@ -104,9 +104,9 @@ $machinestates = [
         "description" => clienttranslate('${actplayer} must choose which player starts the next age.'),
         "descriptionmyturn" => clienttranslate('${you} must choose which player starts the next age.'),
         "type" => "activeplayer",
-        "action" => "stSelectStartPlayer",
+        "action" => "enterStateSelectStartPlayer",
         "possibleactions" => [
-            SevenWondersDuel::STATE_START_PLAYER_SELECTED_NAME,
+            "actionSelectStartPlayer",
         ],
         "transitions" => [
             SevenWondersDuel::STATE_START_PLAYER_SELECTED_NAME => SevenWondersDuel::STATE_START_PLAYER_SELECTED_ID
@@ -118,7 +118,7 @@ $machinestates = [
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
-        "action" => "stStartPlayerSelected",
+        "action" => "enterStateStartPlayerSelected",
         "transitions" => [
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
         ]
@@ -129,11 +129,11 @@ $machinestates = [
         "description" => clienttranslate('${actplayer} must select an age card.'),
         "descriptionmyturn" => clienttranslate('${you} must select an age card to construct, discard or construct a wonder with.'),
         "type" => "activeplayer",
-        "action" => "stPlayerTurn",
+        "action" => "enterStatePlayerTurn",
         "possibleactions" => [
-            SevenWondersDuel::STATE_CONSTRUCT_BUILDING_NAME,
-            SevenWondersDuel::STATE_DISCARD_BUILDING_NAME,
-            SevenWondersDuel::STATE_CONSTRUCT_WONDER_NAME,
+            "actionConstructBuilding",
+            "actionDiscardBuilding",
+            "actionConstructWonder",
         ],
         "transitions" => [
             SevenWondersDuel::STATE_CONSTRUCT_BUILDING_NAME => SevenWondersDuel::STATE_CONSTRUCT_BUILDING_ID,
@@ -147,7 +147,7 @@ $machinestates = [
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
-        "action" => "stConstructBuilding",
+        "action" => "enterStateConstructBuilding",
         "transitions" => [
             SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_NAME => SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_ID,
         ]
@@ -158,7 +158,7 @@ $machinestates = [
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
-        "action" => "stBuildingConstructed",
+        "action" => "enterStateBuildingConstructed",
         "transitions" => [
             SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID,
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
@@ -170,9 +170,9 @@ $machinestates = [
         "description" => clienttranslate('${actplayer} must play a card or pass'),
         "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
         "type" => "activeplayer",
-        "action" => "stChooseProgressToken",
+        "action" => "enterStateChooseProgressToken",
         "possibleactions" => [
-            SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_NAME,
+            "actionChooseProgressToken",
         ],
         "transitions" => [
             SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_NAME => SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_ID,
@@ -184,7 +184,7 @@ $machinestates = [
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
-        "action" => "stProgressTokenPlayed",
+        "action" => "enterStateProgressTokenPlayed",
         "transitions" => [
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ]
@@ -195,7 +195,7 @@ $machinestates = [
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
-        "action" => "stDiscardBuilding",
+        "action" => "enterStateDiscardBuilding",
         "transitions" => [
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ]
@@ -206,7 +206,7 @@ $machinestates = [
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
-        "action" => "stConstructWonder",
+        "action" => "enterStateConstructWonder",
         "transitions" => [
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_ID,
@@ -220,9 +220,9 @@ $machinestates = [
         "description" => clienttranslate('${actplayer} must choose one of your buildings to discard.'),
         "descriptionmyturn" => clienttranslate('${you} must choose one of your opponent\'s buildings to discard.'),
         "type" => "activeplayer",
-        "action" => "stChooseOpponentBuilding",
+        "action" => "enterStateChooseOpponentBuilding",
         "possibleactions" => [
-            SevenWondersDuel::STATE_OPPONENT_BUILDING_DISCARDED_NAME
+            "actionChooseOpponentBuilding",
             // If there is no building to discard, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
         ],
         "transitions" => [
@@ -236,7 +236,7 @@ $machinestates = [
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
-        "action" => "stOpponentBuildingDiscarded",
+        "action" => "enterStateOpponentBuildingDiscarded",
         "transitions" => [
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ]
@@ -247,9 +247,9 @@ $machinestates = [
         "description" => clienttranslate('${actplayer} must choose a progress token from the box'),
         "descriptionmyturn" => clienttranslate('${you} must choose a progress token from the box'),
         "type" => "activeplayer",
-        "action" => "stChooseProgressTokenFromBox",
+        "action" => "enterStateChooseProgressTokenFromBox",
         "possibleactions" => [
-            SevenWondersDuel::STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_NAME,
+            "actionChooseProgressTokenFromBox",
         ],
         "transitions" => [
             SevenWondersDuel::STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_NAME => SevenWondersDuel::STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_ID,
@@ -261,7 +261,7 @@ $machinestates = [
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
-        "action" => "stProgressTokenFromBoxPlayed",
+        "action" => "enterStateProgressTokenFromBoxPlayed",
         "transitions" => [
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ]
@@ -272,9 +272,9 @@ $machinestates = [
         "description" => clienttranslate('${actplayer} must choose a discarded building to construct.'),
         "descriptionmyturn" => clienttranslate('${you} must choose a discarded building to construct.'),
         "type" => "activeplayer",
-        "action" => "stChooseDiscardedBuilding",
+        "action" => "enterStateChooseDiscardedBuilding",
         "possibleactions" => [
-            SevenWondersDuel::STATE_CONSTRUCT_DISCARDED_BUILDING_NAME
+            "actionChooseDiscardedBuilding",
             // If there is no discarded building to construct, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
         ],
         "transitions" => [
@@ -288,7 +288,7 @@ $machinestates = [
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
-        "action" => "stConstructDiscardedBuilding",
+        "action" => "enterStateConstructDiscardedBuilding",
         "transitions" => [
             SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_NAME => SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_ID,
         ]
@@ -299,7 +299,7 @@ $machinestates = [
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
-        "action" => "stNextPlayerTurn",
+        "action" => "enterStateNextPlayerTurn",
         "updateGameProgression" => true,
         "transitions" => [
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
@@ -313,7 +313,7 @@ $machinestates = [
 //        "description" => clienttranslate('${actplayer} must play a card or pass'),
 //        "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
 //        "type" => "activeplayer",
-//        "action" => "st",
+//        "action" => "enterState",
 //        "possibleactions" => [
 //            SevenWondersDuel::STATE_NAME_,
 //        ],
@@ -328,7 +328,7 @@ $machinestates = [
 //        "description" => '',
 //        "descriptionmyturn" => '',
 //        "type" => "game",
-//        "action" => "st",
+//        "action" => "enterState",
 //        "transitions" => [
 //            SevenWondersDuel::STATE_NAME_ => SevenWondersDuel::STATE_ID_,
 //        ]
@@ -340,7 +340,7 @@ $machinestates = [
         "name" => SevenWondersDuel::STATE_GAME_END_NAME,
         "description" => clienttranslate("End of game"),
         "type" => "manager",
-        "action" => "stGameEnd",
+        "action" => "enterStateGameEnd",
         "args" => "argGameEnd"
     ]
 

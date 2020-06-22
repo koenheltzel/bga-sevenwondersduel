@@ -4,7 +4,12 @@ namespace SWD\States;
 
 trait SelectStartPlayerTrait {
 
-    public function stSelectStartPlayer() {
+    public function enterStateSelectStartPlayer() {
+
+    }
+
+    public function actionSelectStartPlayer($playerId) {
+        $this->checkAction("actionSelectStartPlayer");
 
     }
 }

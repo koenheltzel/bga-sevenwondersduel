@@ -235,7 +235,7 @@ class SevenWondersDuel extends Table
 
         // TODO: setup the initial game situation here
 
-        $this->stGameSetup(); // This state function isn't called automatically apparently.
+        $this->enterStateGameSetup(); // This state function isn't called automatically apparently.
 
         /************ End of the game initialization *****/
     }
@@ -394,7 +394,7 @@ class SevenWondersDuel extends Table
     
     Example for game state "MyGameState":
 
-    function stMyGameState()
+    function enterStateMyGameState()
     {
         // Do some stuff ...
         

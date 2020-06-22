@@ -4,7 +4,7 @@ namespace SWD\States;
 
 trait ConstructDiscardedBuildingTrait {
 
-    public function stConstructDiscardedBuilding() {
+    public function enterStateConstructDiscardedBuilding() {
 
     }
 }

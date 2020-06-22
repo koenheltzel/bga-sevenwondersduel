@@ -4,7 +4,7 @@ namespace SWD\States;
 
 trait NextPlayerTurnTrait {
 
-    public function stNextPlayerTurn() {
+    public function enterStateNextPlayerTurn() {
 
     }
 }

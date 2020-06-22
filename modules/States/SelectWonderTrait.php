@@ -1,16 +1,18 @@
 <?php
 
-namespace SWD\States;use SWD\Player;
+namespace SWD\States;
+
+use SWD\Player;
 use SWD\Wonder;
 
 trait SelectWonderTrait {
 
-    public function stSelectWonder() {
+    public function enterStateSelectWonder() {
 
     }
 
-    public function wonderSelected($cardId){
-        $this->checkAction(self::STATE_WONDER_SELECTED_NAME);
+    public function actionSelectWonder($cardId){
+        $this->checkAction("actionSelectWonder");
 
         $playerId = self::getCurrentPlayerId();
 

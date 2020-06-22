@@ -4,7 +4,12 @@ namespace SWD\States;
 
 trait ChooseProgressTokenTrait {
 
-    public function stChooseProgressToken() {
+    public function enterStateChooseProgressToken() {
+
+    }
+
+    public function actionChooseProgressToken($cardId) {
+        $this->checkAction("actionChooseProgressToken");
 
     }
 }

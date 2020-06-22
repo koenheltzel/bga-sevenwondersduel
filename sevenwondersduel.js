@@ -507,11 +507,11 @@ function (dojo, domAttr, domStyle, declare, on) {
             console.log('data-card-id ', wonder.attr('data-card-id').pop());
 
             // Check that this action is possible (see "possibleactions" in states.inc.php)
-            if (!this.checkAction('wonderSelected')) {
+            if (!this.checkAction('actionSelectWonder')) {
                 return;
             }
 
-            this.ajaxcall("/sevenwondersduel/sevenwondersduel/wonderSelected.html", {
+            this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSelectWonder.html", {
                 cardId: wonder.attr('data-card-id')
             },
             this, function (result) {

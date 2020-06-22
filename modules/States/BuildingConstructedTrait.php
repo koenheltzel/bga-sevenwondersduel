@@ -5,7 +5,7 @@ namespace SWD\States;
 trait BuildingConstructedTrait
 {
 
-    public function stBuildingConstructed() {
+    public function enterStateBuildingConstructed() {
 
     }
 }

@@ -4,7 +4,7 @@ namespace SWD\States;
 
 trait ProgressTokenPlayedTrait {
 
-    public function stProgressTokenPlayed() {
+    public function enterStateProgressTokenPlayed() {
 
     }
 }

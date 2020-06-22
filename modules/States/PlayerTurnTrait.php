@@ -25,7 +25,7 @@ trait PlayerTurnTrait {
         }
     }
 
-    public function stPlayerTurn() {
+    public function enterStatePlayerTurn() {
 //        $this->notifyAllPlayers(
 //            'playerTurn',
 //            "playerTurn notification log",
@@ -33,5 +33,20 @@ trait PlayerTurnTrait {
 //        );
 
         $this->notifyPlayersOfDraftpool();
+    }
+
+    public function actionConstructBuilding($cardId) {
+        $this->checkAction("actionConstructBuilding");
+
+    }
+
+    public function actionDiscardBuilding($cardId) {
+        $this->checkAction("actionDiscardBuilding");
+
+    }
+
+    public function actionConstructWonder($cardId, $wonderId) {
+        $this->checkAction("actionConstructWonder");
+
     }
 }

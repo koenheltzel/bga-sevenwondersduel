@@ -4,7 +4,7 @@ namespace SWD\States;
 
 trait ConstructWonderTrait {
 
-    public function stConstructWonder() {
+    public function enterStateConstructWonder() {
 
     }
 }

@@ -4,7 +4,7 @@ namespace SWD\States;
 
 trait StartPlayerSelectedTrait {
 
-    public function stStartPlayerSelected() {
+    public function enterStateStartPlayerSelected() {
 
     }
 }
