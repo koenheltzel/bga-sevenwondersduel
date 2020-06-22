@@ -53,6 +53,10 @@ trait PlayerTurnTrait {
         $card = $cards[$cardId];
 
         $building = Building::get($card['type_arg']);
+        if (isset($building->cost[COINS])) {
+            Player::me()->increaseCoins(-$building->cost[COINS]);
+        }
+
         $this->notifyAllPlayers(
             'constructBuilding',
             clienttranslate('${player_name} constructed building ${buildingName}.'),
@@ -62,10 +66,7 @@ trait PlayerTurnTrait {
                 'playerId' => $playerId,
                 'buildingId' => $building->id,
                 'draftpool' => Draftpool::get($playerId),
-                'playerCoins' => [
-                    Player::me()->id => Player::me()->getCoins(),
-                    Player::opponent()->id => Player::me()->getCoins(),
-                ],
+                'playerCoins' => Player::me()->getCoins(),
             ]
         );
 

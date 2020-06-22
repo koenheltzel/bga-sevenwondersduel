@@ -54,11 +54,11 @@ class Draftpool
                     $positionsFound[] = ($row_index + 1) . "_" . $column;
                     $cardvisible = $row_index % 2 == 0;
                     if (!$cardvisible) {
+                        // Determine if card is available because other cards have revealed it.
                         if (!in_array(($row_index + 2) . "_" . ($column - 1), $positionsFound) && !in_array(($row_index + 2) . "_" . ($column + 1), $positionsFound)) {
                             $cardvisible = true;
                         }
                     }
-                    // TODO determine if card is available because other cards have revealed it.
                     if ($cardvisible) {
                         $position['building'] = (int)$cards[$locationArg]['type_arg'];
                         $position['card'] = (int)$cards[$locationArg]['id'];

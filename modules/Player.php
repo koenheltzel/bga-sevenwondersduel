@@ -63,6 +63,10 @@ class Player {
         return SevenWondersDuel::get()->getPlayerValue($this->id, "player_coins");
     }
 
+    public function increaseCoins($increase) {
+        return SevenWondersDuel::get()->increasePlayerValue($this->id, "player_coins", $increase);
+    }
+
     /**
      * Count resources of the specified type as provided by Brown and Grey cards only.
      * @param $searchResource

@@ -575,6 +575,8 @@ function (dojo, domAttr, domStyle, declare, on) {
             console.log( 'notif_constructBuilding' );
             console.log( notif );
 
+            this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
+
             // var buildingNodeId = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0].attr('id');
             var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
             dijit.Tooltip.hide(buildingNode);
