@@ -59,8 +59,8 @@ class Draftpool
                     else {
                         $position['back'] = 73 + $age;
                     }
+                    array_unshift($draftpool, $position);
                 }
-                array_unshift($draftpool, $position);
                 $locationArg--;
             }
         }

@@ -129,24 +129,24 @@ function (dojo, domAttr, domStyle, declare, on) {
             // }));
 
             // Dummy divide progress tokens over both players
-            var playerFlag = 0;
-            var containerNumber = 0;
-            Object.keys(this.gamedatas.progressTokens).forEach(dojo.hitch(this, function(id) {
-                // var wonder = this.gamedatas.progressTokens[id];
-                var playerId = gamedatas.playerIds[playerFlag % 2];
-                var data = {
-                    jsData: 'data-progress-token-id=' + id + '',
-                    jsId: id
-                };
-                var spritesheetColumns = 4;
-                data.jsX = (id - 1) % spritesheetColumns;
-                data.jsY = Math.floor((id - 1) / spritesheetColumns);
-                if (id <= 10 && Math.random() > 0.3) {
-                    dojo.place(this.format_block('jstpl_player_progress_token', data), dojo.query('#player_area_content_' + playerId + ' .player_area_progress_tokens')[0]);
-                }
-                playerFlag++;
-                containerNumber += 0.5;
-            }));
+            // var playerFlag = 0;
+            // var containerNumber = 0;
+            // Object.keys(this.gamedatas.progressTokens).forEach(dojo.hitch(this, function(id) {
+            //     // var wonder = this.gamedatas.progressTokens[id];
+            //     var playerId = gamedatas.playerIds[playerFlag % 2];
+            //     var data = {
+            //         jsData: 'data-progress-token-id=' + id + '',
+            //         jsId: id
+            //     };
+            //     var spritesheetColumns = 4;
+            //     data.jsX = (id - 1) % spritesheetColumns;
+            //     data.jsY = Math.floor((id - 1) / spritesheetColumns);
+            //     if (id <= 10 && Math.random() > 0.3) {
+            //         dojo.place(this.format_block('jstpl_player_progress_token', data), dojo.query('#player_area_content_' + playerId + ' .player_area_progress_tokens')[0]);
+            //     }
+            //     playerFlag++;
+            //     containerNumber += 0.5;
+            // }));
 
             // Adjust the height of the age divs based on the age cards absolutely positioned within.
             dojo.query(".age").forEach(function(node){
@@ -239,10 +239,9 @@ function (dojo, domAttr, domStyle, declare, on) {
             }
         },
 
-        getBuildingDiv: function (card) {
-            var id = card.type_arg;
+        getBuildingDiv: function (id, cardId) {
             var data = {
-                jsCardId: card.id,
+                jsCardId: cardId,
                 jsId: id,
             };
             var spritesheetColumns = 10;
@@ -282,7 +281,7 @@ function (dojo, domAttr, domStyle, declare, on) {
                 Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
                     var building = this.gamedatas.buildings[cards[cardId].type_arg];
                     var container = dojo.query('#player_area_content_' + playerId + ' .' + building.type)[0];
-                    dojo.place(this.getBuildingDiv(cards[cardId]), container);
+                    dojo.place(this.getBuildingDiv(cards[cardId].type_arg, cardId), container);
                     i++;
                 }));
             }
@@ -632,7 +631,7 @@ function (dojo, domAttr, domStyle, declare, on) {
         {
             console.log( 'notif_wonderSelected' );
             console.log( notif );
-            // var wonderNode = dojo.query('#wonder_' + notif.args.wonderId);
+            var wonderNode = dojo.query('#wonder_' + notif.args.wonderId);
             var wonderNodeId = 'wonder_' + notif.args.wonderId;
             var targetNodeId = 'player_area_content_' + notif.args.playerId + '_wonder_position_' + notif.args.playerWonderCount;
             this.attachToNewParent(wonderNodeId, targetNodeId);
@@ -646,21 +645,14 @@ function (dojo, domAttr, domStyle, declare, on) {
         notif_constructBuilding: function(notif) {
             console.log( 'notif_constructBuilding' );
             console.log( notif );
-            // // var wonderNode = dojo.query('#wonder_' + notif.args.wonderId);
-            // var wonderNodeId = 'wonder_' + notif.args.wonderId;
-            // var targetNodeId = 'player_area_content_' + notif.args.playerId + '_wonder_position_' + notif.args.playerWonderCount;
-            // this.attachToNewParent(wonderNodeId, targetNodeId);
-            // this.slideToObjectPos(wonderNodeId, targetNodeId, 0, 0).play();
-            //
-            //
-            // var data = {
-            //     jsId: id,
-            // };
-            // var spritesheetColumns = 10;
-            // data.jsX = (id - 1) % spritesheetColumns;
-            // data.jsY = Math.floor((id - 1) / spritesheetColumns);
-            //
-            // dojo.place(this.format_block('jstpl_player_building', data), dojo.query('#player_area_content_' + playerId + ' .' + notif.buildingType)[0]);
+
+            // var buildingNodeId = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0].attr('id');
+            var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
+
+            var building = this.gamedatas.buildings[notif.args.buildingId];
+            var container = dojo.query('#player_area_content_' + notif.args.playerId + ' .' + building.type)[0];
+            dojo.place(this.getBuildingDiv(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container);
+            this.fadeOutAndDestroy(buildingNode);
         }
 
         /*
