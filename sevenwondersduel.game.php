@@ -289,7 +289,10 @@ class SevenWondersDuel extends Table
             Player::me()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::me()->id),
             Player::opponent()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::opponent()->id),
         ];
-
+        $result['playerCoins'] = [
+            Player::me()->id => Player::me()->getCoins(),
+            Player::opponent()->id => Player::opponent()->getCoins(),
+        ];
         $result['buildings'] = Material::get()->buildings->array;
         $result['wonders'] = Material::get()->wonders->array;
         $result['progressTokens'] = Material::get()->progressTokens->array;

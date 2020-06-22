@@ -63,8 +63,8 @@
     <!-- BEGIN player -->
     <div id="player_area_wrap_{PLAYER_ID}" class="player_area_wrap whiteblock">
         <h3 style="color:#{PLAYER_COLOR}" class="player_area_name">{PLAYER_NAME}</h3>
-        <div id="player_area_{PLAYER_ID}_coins" class="player_area_coins coin">
-            <span>24</span>
+        <div class="player_area_coins coin">
+            <span id="player_area_{PLAYER_ID}_coins">24</span>
         </div>
         <div id="player_area_content_{PLAYER_ID}" class="player_area_content">
             <div class="player_area_building_column_container">

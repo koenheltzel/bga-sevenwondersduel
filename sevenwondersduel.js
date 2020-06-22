@@ -61,93 +61,30 @@ function (dojo, domAttr, domStyle, declare, on) {
                 // TODO: Setting up players boards if needed
                 this.updatePlayerWonders(player_id, this.gamedatas.wondersSituation[player_id]);
                 this.updatePlayerBuildings(player_id, this.gamedatas.playerBuildings[player_id]);
+                this.updatePlayerCoins(player_id, this.gamedatas.playerCoins[player_id]);
             }
-            
-            // TODO: Set up your game interface here, according to "gamedatas"
 
             // Click handlers using event delegation:
             dojo.query('#wonder_selection_container').on(".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
             dojo.query('#draftpool').on(".building:click", dojo.hitch(this, "onDraftpoolBuildingClick"));
 
-            this.updateWonderSelection(this.gamedatas.wondersSituation.selection);
+            // Tool tips using event delegation:
+            this.setupTooltips();
 
+            this.updateWonderSelection(this.gamedatas.wondersSituation.selection);
             this.updateDraftpool(this.gamedatas.draftpool);
             this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
 
-            // Dummy divide cards over both players
-            // var playerFlag = 0;
-            // Object.keys(this.gamedatas.buildings).forEach(dojo.hitch(this, function(id) {
-            //     var building = this.gamedatas.buildings[id];
-            //     var playerId = gamedatas.playerIds[playerFlag % 2];
-            //     var spriteId = null;
-            //     var data = {
-            //         jsId: id,
-            //         jsCardId: id,
-            //     };
-            //     var spritesheetColumns = 10;
-            //     data.jsX = (id - 1) % spritesheetColumns;
-            //     data.jsY = Math.floor((id - 1) / spritesheetColumns);
-            //
-            //     if (id <= 73){
-            //         dojo.place(this.format_block('jstpl_player_building', data), dojo.query('#player_area_content_' + playerId + ' .' + building.type)[0]);
-            //     }
-            //     playerFlag++;
-            // }));
+            // Setup game notifications to handle (see "setupNotifications" method below)
+            this.setupNotifications();
 
-            // Dummy divide wonders over both players
-            // var playerFlag = 0;
-            // var containerNumber = 0;
-            // Object.keys(this.gamedatas.wonders).forEach(dojo.hitch(this, function(id) {
-            //     var wonder = this.gamedatas.wonders[id];
-            //     var playerId = gamedatas.playerIds[playerFlag % 2];
-            //     var spriteId = null;
-            //     var data = {
-            //         jsData: 'data-wonder-id=' + id + '',
-            //         jsId: id
-            //     };
-            //     var spritesheetColumns = 5;
-            //     data.jsX = (id - 1) % spritesheetColumns;
-            //     data.jsY = Math.floor((id - 1) / spritesheetColumns);
-            //
-            //     if (id <= 8){
-            //         var wonderContainerNode = dojo.place(this.format_block('jstpl_wonder', data), dojo.query('#player_area_content_' + playerId + ' .player_area_wonder_container' + Math.floor(containerNumber))[0]);
-            //         if(Math.random() > 0.3) {
-            //             var randomAge = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-            //             id = 73 + randomAge;
-            //             var data = {
-            //                 jsData: '',
-            //                 jsId: id
-            //             };
-            //             var spritesheetColumns = 10;
-            //             data.jsX = (id - 1) % spritesheetColumns;
-            //             data.jsY = Math.floor((id - 1) / spritesheetColumns);
-            //             dojo.place(this.format_block('jstpl_wonder_age_card', data), dojo.query('.age_card_container', wonderContainerNode)[0]);
-            //         }
-            //     }
-            //     playerFlag++;
-            //     containerNumber += 0.5;
-            // }));
+            console.log( "Ending game setup" );
 
-            // Dummy divide progress tokens over both players
-            // var playerFlag = 0;
-            // var containerNumber = 0;
-            // Object.keys(this.gamedatas.progressTokens).forEach(dojo.hitch(this, function(id) {
-            //     // var wonder = this.gamedatas.progressTokens[id];
-            //     var playerId = gamedatas.playerIds[playerFlag % 2];
-            //     var data = {
-            //         jsData: 'data-progress-token-id=' + id + '',
-            //         jsId: id
-            //     };
-            //     var spritesheetColumns = 4;
-            //     data.jsX = (id - 1) % spritesheetColumns;
-            //     data.jsY = Math.floor((id - 1) / spritesheetColumns);
-            //     if (id <= 10 && Math.random() > 0.3) {
-            //         dojo.place(this.format_block('jstpl_player_progress_token', data), dojo.query('#player_area_content_' + playerId + ' .player_area_progress_tokens')[0]);
-            //     }
-            //     playerFlag++;
-            //     containerNumber += 0.5;
-            // }));
+            // Debug tooltip content by placing a tooltip at the top of the screen.
+            //dojo.place( this.getBuildingTooltip( 22 ), 'swd_wrap', 'first' );
+        },
 
+        setupTooltips: function () {
             // Add tooltips to buildings everywhere.
             new dijit.Tooltip({
                 connectId: "game_play_area",
@@ -156,7 +93,7 @@ function (dojo, domAttr, domStyle, declare, on) {
                 getContent: dojo.hitch( this, function(node) {
                     console.log('building node', node);
                     var id = domAttr.get(node, "data-building-id");
-                    return this.getTooltipHtml(node);
+                    return this.getBuildingTooltip(id);
                 })
             });
 
@@ -181,19 +118,6 @@ function (dojo, domAttr, domStyle, declare, on) {
                     return this.getProgressTokenTooltip( id );
                 })
             });
-
-            // Setup game notifications to handle (see "setupNotifications" method below)
-            this.setupNotifications();
-
-            console.log( "Ending game setup" );
-
-            // Debug tooltip content by placing a tooltip at the top of the screen.
-            //dojo.place( this.getBuildingTooltip( 22 ), 'swd_wrap', 'first' );
-        },
-
-        getTooltipHtml: function (node) {
-            var id = domAttr.get(node, "data-building-id");
-            return this.getBuildingTooltip(id);
         },
 
         updateProgressTokensBoard: function (progressTokensBoard) {
@@ -216,6 +140,11 @@ function (dojo, domAttr, domStyle, declare, on) {
                     dojo.place(this.format_block('jstpl_board_progress_token', data), container);
                 }
             }
+        },
+
+        updatePlayerCoins: function (playerId, coins) {
+            var node = dojo.query('#player_area_' + playerId + '_coins')[0];
+            node.innerHTML = coins;
         },
 
         getBuildingDiv: function (id, cardId) {

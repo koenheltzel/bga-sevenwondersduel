@@ -59,6 +59,10 @@ class Player {
         self::$instances[$id] = $this;
     }
 
+    public function getCoins() {
+        return SevenWondersDuel::get()->getPlayerValue($this->id, "player_coins");
+    }
+
     /**
      * Count resources of the specified type as provided by Brown and Grey cards only.
      * @param $searchResource

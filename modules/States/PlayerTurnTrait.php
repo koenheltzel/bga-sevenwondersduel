@@ -4,6 +4,7 @@ namespace SWD\States;
 
 use SWD\Building;
 use SWD\Draftpool;
+use SWD\Player;
 
 trait PlayerTurnTrait {
 
@@ -61,6 +62,10 @@ trait PlayerTurnTrait {
                 'playerId' => $playerId,
                 'buildingId' => $building->id,
                 'draftpool' => Draftpool::get($playerId),
+                'playerCoins' => [
+                    Player::me()->id => Player::me()->getCoins(),
+                    Player::opponent()->id => Player::me()->getCoins(),
+                ],
             ]
         );
 
