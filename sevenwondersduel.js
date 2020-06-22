@@ -60,12 +60,14 @@ function (dojo, domAttr, domStyle, declare, on) {
 
                 // TODO: Setting up players boards if needed
                 this.updatePlayerWonders(player_id, this.gamedatas.wondersSituation[player_id]);
+                this.updatePlayerBuildings(player_id, this.gamedatas.playerBuildings[player_id]);
             }
             
             // TODO: Set up your game interface here, according to "gamedatas"
 
             // Click handlers using event delegation:
             dojo.query('#wonder_selection_container').on(".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
+            dojo.query('#draftpool').on(".building:click", dojo.hitch(this, "onDraftpoolBuildingClick"));
 
             this.updateWonderSelection(this.gamedatas.wondersSituation.selection);
 
@@ -73,24 +75,24 @@ function (dojo, domAttr, domStyle, declare, on) {
             this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
 
             // Dummy divide cards over both players
-            var playerFlag = 0;
-            Object.keys(this.gamedatas.buildings).forEach(dojo.hitch(this, function(id) {
-                var building = this.gamedatas.buildings[id];
-                var playerId = gamedatas.playerIds[playerFlag % 2];
-                var spriteId = null;
-                var data = {
-                    jsData: 'data-building-id=' + id + '',
-                    jsId: id
-                };
-                var spritesheetColumns = 10;
-                data.jsX = (id - 1) % spritesheetColumns;
-                data.jsY = Math.floor((id - 1) / spritesheetColumns);
-
-                if (id <= 73){
-                    dojo.place(this.format_block('jstpl_player_building', data), dojo.query('#player_area_content_' + playerId + ' .' + building.type)[0]);
-                }
-                playerFlag++;
-            }));
+            // var playerFlag = 0;
+            // Object.keys(this.gamedatas.buildings).forEach(dojo.hitch(this, function(id) {
+            //     var building = this.gamedatas.buildings[id];
+            //     var playerId = gamedatas.playerIds[playerFlag % 2];
+            //     var spriteId = null;
+            //     var data = {
+            //         jsId: id,
+            //         jsCardId: id,
+            //     };
+            //     var spritesheetColumns = 10;
+            //     data.jsX = (id - 1) % spritesheetColumns;
+            //     data.jsY = Math.floor((id - 1) / spritesheetColumns);
+            //
+            //     if (id <= 73){
+            //         dojo.place(this.format_block('jstpl_player_building', data), dojo.query('#player_area_content_' + playerId + ' .' + building.type)[0]);
+            //     }
+            //     playerFlag++;
+            // }));
 
             // Dummy divide wonders over both players
             // var playerFlag = 0;
@@ -237,11 +239,24 @@ function (dojo, domAttr, domStyle, declare, on) {
             }
         },
 
+        getBuildingDiv: function (card) {
+            var id = card.type_arg;
+            var data = {
+                jsCardId: card.id,
+                jsId: id,
+            };
+            var spritesheetColumns = 10;
+            data.jsX = (id - 1) % spritesheetColumns;
+            data.jsY = Math.floor((id - 1) / spritesheetColumns);
+
+            return this.format_block('jstpl_player_building', data);
+        },
+
         getWonderDiv: function (card) {
             var id = card.type_arg;
             var data = {
                 jsCardId: card.id,
-                jsId: id
+                jsId: id,
             };
             var spritesheetColumns = 5;
             data.jsX = (id - 1) % spritesheetColumns;
@@ -256,6 +271,18 @@ function (dojo, domAttr, domStyle, declare, on) {
                 Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
                     var container = dojo.query('#player_area_content_' + playerId + '_wonder_position_' + i)[0];
                     dojo.place(this.getWonderDiv(cards[cardId]), container);
+                    i++;
+                }));
+            }
+        },
+
+        updatePlayerBuildings: function (playerId, cards) {
+            if (cards.constructor == Object) {
+                var i = 1;
+                Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
+                    var building = this.gamedatas.buildings[cards[cardId].type_arg];
+                    var container = dojo.query('#player_area_content_' + playerId + ' .' + building.type)[0];
+                    dojo.place(this.getBuildingDiv(cards[cardId]), container);
                     i++;
                 }));
             }
@@ -287,7 +314,8 @@ function (dojo, domAttr, domStyle, declare, on) {
                 var spriteId = null;
                 var cost = Math.floor(Math.random() * 5);
                 var data = {
-                    jsData: '',
+                    jsId: '',
+                    jsCardId: '',
                     jsRow: position.row,
                     jsColumn: position.column,
                     jsZindex: position.row * 10,
@@ -296,7 +324,8 @@ function (dojo, domAttr, domStyle, declare, on) {
                 };
                 if (typeof position.building != 'undefined') {
                     spriteId = position.building;
-                    data.jsData = 'data-building-id="' + position.building + '"';
+                    data.jsId = position.building;
+                    data.jsCardId = position.card;
                 } else {
                     spriteId = position.back;
                 }
@@ -530,6 +559,40 @@ function (dojo, domAttr, domStyle, declare, on) {
             });
         },
 
+        onDraftpoolBuildingClick: function (e) {
+            console.log('onDraftpoolBuildingClick');
+            // Preventing default browser reaction
+            dojo.stopEvent(e);
+
+            var building = dojo.query(e.target);
+            console.log('building ', building);
+            console.log('data-card-id ', building.attr('data-card-id').pop());
+
+            // Check that this action is possible (see "possibleactions" in states.inc.php)
+            if (!this.checkAction('actionConstructBuilding')) {
+                return;
+            }
+
+            this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
+                    cardId: building.attr('data-card-id')
+                },
+                this, function (result) {
+                    console.log('success result: ', result);
+                    // What to do after the server call if it succeeded
+                    // (most of the time: nothing)
+
+                    // Hide wonder selection
+                    // dojo.style('pattern_selection', 'display', 'none');
+
+                }, function (is_error) {
+                    console.log('error result: ', is_error);
+                    // What to do after the server call in anyway (success or failure)
+                    // (most of the time: nothing)
+
+                }
+            );
+        },
+
         
         ///////////////////////////////////////////////////
         //// Reaction to cometD notifications
@@ -560,7 +623,8 @@ function (dojo, domAttr, domStyle, declare, on) {
             //
 
             dojo.subscribe( 'wonderSelected', this, "notif_wonderSelected" );
-        },  
+            dojo.subscribe( 'constructBuilding', this, "notif_constructBuilding" );
+        },
         
         // TODO: from this point and below, you can write your game notifications handling methods
 
@@ -577,11 +641,27 @@ function (dojo, domAttr, domStyle, declare, on) {
             if (notif.args.updateWonderSelection) {
                 this.updateWonderSelection(notif.args.wonderSelection);
             }
-
-            // Note: notif.args contains the arguments specified during you "notifyAllPlayers" / "notifyPlayer" PHP call
-
-            // TODO: play the card in the user interface.
         },
+
+        notif_constructBuilding: function(notif) {
+            console.log( 'notif_constructBuilding' );
+            console.log( notif );
+            // // var wonderNode = dojo.query('#wonder_' + notif.args.wonderId);
+            // var wonderNodeId = 'wonder_' + notif.args.wonderId;
+            // var targetNodeId = 'player_area_content_' + notif.args.playerId + '_wonder_position_' + notif.args.playerWonderCount;
+            // this.attachToNewParent(wonderNodeId, targetNodeId);
+            // this.slideToObjectPos(wonderNodeId, targetNodeId, 0, 0).play();
+            //
+            //
+            // var data = {
+            //     jsId: id,
+            // };
+            // var spritesheetColumns = 10;
+            // data.jsX = (id - 1) % spritesheetColumns;
+            // data.jsY = Math.floor((id - 1) / spritesheetColumns);
+            //
+            // dojo.place(this.format_block('jstpl_player_building', data), dojo.query('#player_area_content_' + playerId + ' .' + notif.buildingType)[0]);
+        }
 
         /*
         Example:

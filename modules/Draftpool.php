@@ -53,7 +53,8 @@ class Draftpool
                     $cardvisible = $row_index % 2 == 0;
                     // TODO determine if card is available because other cards have revealed it.
                     if ($cardvisible) {
-                        $position['building'] = (int)$cards[$locationArg]['id'];
+                        $position['building'] = (int)$cards[$locationArg]['type_arg'];
+                        $position['card'] = (int)$cards[$locationArg]['id'];
                     }
                     else {
                         $position['back'] = 73 + $age;

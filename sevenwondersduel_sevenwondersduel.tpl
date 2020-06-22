@@ -137,7 +137,8 @@ var jstpl_some_game_item='<div class="my_game_item" id="my_game_item_${MY_ITEM_I
 
 var jstpl_draftpool_building = '\
     <div id="${jsRow}_${jsColumn}"\
-        ${jsData}\
+        data-building-id="${jsId}"\
+        data-card-id="${jsCardId}"\
         class="building building_small column${jsColumn} row${jsRow}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\
@@ -147,7 +148,8 @@ var jstpl_draftpool_building = '\
 // Keep title attribute empty. This overrides the title attribute of the player_area_building_column div.
 var jstpl_player_building = '\
     <div id="player_building_${jsId}"\
-        ${jsData}\
+        data-building-id="${jsId}"\
+        data-card-id="${jsCardId}"\
         title=""\
         class="building building_header_small"\
         style="position: inline-block; background-position: -${jsX}00% calc(-5px + -${jsY} * 321px / 2);"\
