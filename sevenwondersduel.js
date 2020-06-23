@@ -65,7 +65,7 @@ function (dojo, domAttr, domStyle, declare, on) {
 
             // Click handlers using event delegation:
             dojo.query('#wonder_selection_container').on(".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
-            dojo.query('#draftpool').on(".building:click", dojo.hitch(this, "onDraftpoolBuildingClick"));
+            dojo.query('#draftpool').on(".building.available:click", dojo.hitch(this, "onDraftpoolBuildingClick"));
 
             // Tool tips using event delegation:
             this.setupTooltips();
@@ -221,7 +221,7 @@ function (dojo, domAttr, domStyle, declare, on) {
                         jsRow: position.row,
                         jsColumn: position.column,
                         jsZindex: position.row * 10,
-                        jsAvailable: position.available,
+                        jsAvailable: position.available ? 'available' : '',
                         jsDisplayCost: 'none',
                         jsCost: -1,
                     };

@@ -86,7 +86,6 @@ class Draftpool
                     $position = [
                         'row' => $row_index + 1,
                         'column' => $column,
-                        'available' => true,
                     ];
                     $positionsFound[] = ($row_index + 1) . "_" . $column;
                     $cardvisible = $row_index % 2 == 0;

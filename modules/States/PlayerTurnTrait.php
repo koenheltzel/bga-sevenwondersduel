@@ -34,6 +34,10 @@ trait PlayerTurnTrait {
         $card = $cards[$cardId];
         $building = Building::get($card['type_arg']);
 
+        if (!Draftpool::buildingAvailable($building->id)) {
+            throw new \BgaUserException( self::_("The building you selected is still covered by other buildings, so it can't be picked.") );
+        }
+
         $payment = Player::me()->calculateCost($building);
         $totalCost = $payment->totalCost();
         if ($totalCost > Player::me()->getCoins()) {
