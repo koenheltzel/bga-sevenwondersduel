@@ -22,6 +22,7 @@ trait WonderSelectedTrait {
                 $this->gamestate->nextState( self::STATE_SELECT_WONDER_NAME );
                 break;
             case 0:
+                $this->activeNextPlayer(); // Switch back to the original starting player.
                 $this->gamestate->nextState( self::STATE_NEXT_AGE_NAME );
                 break;
 
