@@ -281,24 +281,22 @@ class Player {
      * @return Wonders
      */
     public function getWonders(): Wonders {
-        if ($_SERVER['HTTP_HOST'] <> 'localhost') {
-            $this->wonderIds = [];
-            foreach ($this->getWonderDeckCards() as $cardId => $card) {
-                $this->wonderIds[] = $card['type_arg'];
-            }
-        }
-        return Wonders::createByWonderIds($this->wonderIds);
+        return Wonders::createByWonderIds($this->getWonderIds());
     }
 
     public function getWonderDeckCards(): array {
         return SevenWondersDuel::get()->wonderDeck->getCardsInLocation($this->id);
     }
 
+    public function getBuildingDeckCards(): array {
+        return SevenWondersDuel::get()->buildingDeck->getCardsInLocation($this->id);
+    }
+
     /**
      * @return Buildings
      */
     public function getBuildings(): Buildings {
-        return Buildings::createByBuildingIds($this->buildingIds);
+        return Buildings::createByBuildingIds($this->getBuildingIds());
     }
 
     /**
@@ -310,6 +308,38 @@ class Player {
 
     public function hasProgressToken($id) : bool {
         return in_array($id, $this->progressTokenIds);
+    }
+
+    /**
+     * @return array
+     */
+    public function getBuildingIds(): array {
+        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+            return $this->buildingIds;
+        }
+        else {
+            $buildingIds = [];
+            foreach ($this->getBuildingDeckCards() as $cardId => $card) {
+                $buildingIds[] = $card['type_arg'];
+            }
+            return $buildingIds;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getWonderIds(): array {
+        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+            return $this->wonderIds;
+        }
+        else {
+            $wonderIds = [];
+            foreach ($this->getWonderDeckCards() as $cardId => $card) {
+                $wonderIds[] = $card['type_arg'];
+            }
+            return $wonderIds;
+        }
     }
 
 }

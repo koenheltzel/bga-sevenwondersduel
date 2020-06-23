@@ -47,6 +47,7 @@ class Draftpool
             $columns = self::$ages[$age][$row_index];
             foreach($columns as $column) {
                 if(isset($cards[$locationArg])) {
+                    $building = Building::get($cards[$locationArg]['type_arg']);
                     $position = [
                         'row' => $row_index + 1,
                         'column' => $column
@@ -60,7 +61,10 @@ class Draftpool
                         }
                     }
                     if ($cardvisible) {
-                        $position['building'] = (int)$cards[$locationArg]['type_arg'];
+                        $payment = Player::me()->calculateCost($building);
+                        $position['building'] = $building->id;
+                        $position['cost'] = $payment->totalCost();
+                        $position['payment'] = $payment;
                         $position['card'] = (int)$cards[$locationArg]['id'];
                     }
                     else {

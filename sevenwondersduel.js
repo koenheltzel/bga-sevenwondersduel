@@ -48,8 +48,7 @@ function (dojo, domAttr, domStyle, declare, on) {
         
         setup: function( gamedatas )
         {
-            console.log( "Starting game setup" );
-            console.log( "gamedatas", gamedatas );
+            console.log( "setup(gamedatas)", gamedatas );
 
             this.gamedatas = gamedatas;
 
@@ -78,8 +77,6 @@ function (dojo, domAttr, domStyle, declare, on) {
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 
-            console.log( "Ending game setup" );
-
             // Debug tooltip content by placing a tooltip at the top of the screen.
             //dojo.place( this.getBuildingTooltip( 22 ), 'swd_wrap', 'first' );
         },
@@ -91,7 +88,6 @@ function (dojo, domAttr, domStyle, declare, on) {
                 selector: '.building_small, .building_header_small',
                 showDelay: this.toolTipDelay,
                 getContent: dojo.hitch( this, function(node) {
-                    console.log('building node', node);
                     var id = domAttr.get(node, "data-building-id");
                     return this.getBuildingTooltip(id);
                 })
@@ -219,20 +215,21 @@ function (dojo, domAttr, domStyle, declare, on) {
             for (var i = 0; i < draftpool.length; i++) {
                 var position = draftpool[i];
                 var spriteId = null;
-                var cost = Math.floor(Math.random() * 5);
                 var data = {
                     jsId: '',
                     jsCardId: '',
                     jsRow: position.row,
                     jsColumn: position.column,
                     jsZindex: position.row * 10,
-                    jsDisplayCost: position.row == 5 && cost > 0 ? 'inline-block' : 'none',
-                    jsCost: cost
+                    jsDisplayCost: 'none',
+                    jsCost: -1,
                 };
                 if (typeof position.building != 'undefined') {
                     spriteId = position.building;
                     data.jsId = position.building;
                     data.jsCardId = position.card;
+                    data.jsDisplayCost = position.cost > 0 ? 'inline-block' : 'none',
+                    data.jsCost = position.cost;
                 } else {
                     spriteId = position.back;
                 }
