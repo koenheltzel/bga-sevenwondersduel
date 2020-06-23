@@ -50,6 +50,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "draftpool");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "middle_column_block");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_wonders");
 
         for ($i = 0; $i < 5; $i++) {
             $this->page->insert_block("block_board_progresstoken_container", ["i" => $i]);
@@ -89,6 +90,14 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                 "PLAYER_ID" => $playerId,
                 "PLAYER_NAME" => $player['player_name'],
                 "PLAYER_COLOR" => $player['player_color']
+            ));
+
+            $this->page->insert_block("player_wonders", array(
+                "CLASS" => $boardPlayerClasses[$index],
+                "PLAYER_ID" => $playerId,
+                "PLAYER_NAME" => $player['player_name'],
+                "PLAYER_COLOR" => $player['player_color'],
+                "WHICH_PLAYER" => $playerId == Player::me()->id ? 'me' : 'opponent'
             ));
 
             $this->page->insert_block("player", array(

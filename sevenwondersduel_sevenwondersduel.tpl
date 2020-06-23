@@ -50,7 +50,16 @@
     </div>
 
 
-
+    <div id="wonder_column">
+        <!-- BEGIN player_wonders -->
+        <div id="player_area_content_{PLAYER_ID}_wonders" class="whiteblock player_area_wonders {WHICH_PLAYER}">
+            <div id="player_area_content_{PLAYER_ID}_wonder_position_1" class="player_area_wonder_position_1"></div>
+            <div id="player_area_content_{PLAYER_ID}_wonder_position_2" class="player_area_wonder_position_2"></div>
+            <div id="player_area_content_{PLAYER_ID}_wonder_position_3" class="player_area_wonder_position_3"></div>
+            <div id="player_area_content_{PLAYER_ID}_wonder_position_4" class="player_area_wonder_position_4"></div>
+        </div>
+        <!-- END player_wonders -->
+    </div>
     <div id="middle_column">
         <!-- BEGIN middle_column_block -->
             <!-- BEGIN draftpool -->
@@ -84,14 +93,6 @@
                             <div class="player_area_building_column Blue" title="Civilian Buildings"></div>
                             <div class="player_area_building_column Green" title="Scientific Buildings"></div>
                             <div class="player_area_building_column Purple" title="Guilds"></div>
-                        </div>
-                        <div style="display: inline-block; display: none">
-                            <div id="player_area_content_{PLAYER_ID}_wonders" class="player_area_wonders">
-                                <div id="player_area_content_{PLAYER_ID}_wonder_position_1" class="player_area_wonder_position_1"></div>
-                                <div id="player_area_content_{PLAYER_ID}_wonder_position_2" class="player_area_wonder_position_2"></div>
-                                <div id="player_area_content_{PLAYER_ID}_wonder_position_3" class="player_area_wonder_position_3"></div>
-                                <div id="player_area_content_{PLAYER_ID}_wonder_position_4" class="player_area_wonder_position_4"></div>
-                            </div>
                         </div>
                         <div class="player_area_progress_tokens">
                         </div>

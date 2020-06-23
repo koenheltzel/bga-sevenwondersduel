@@ -58,6 +58,8 @@ __     __         _       _     _
 */
 
 :root {
+    --gutter: 10px;
+
     --building-spritesheet-width: 2080px;
     --building-spritesheet-height: 2568px;
     --building-spritesheet-columns: 10;
@@ -73,7 +75,8 @@ __     __         _       _     _
     --wonder-spritesheet-rows: 3;
     --wonder-width: calc(var(--wonder-spritesheet-width) / var(--wonder-spritesheet-columns));
     --wonder-height: calc(var(--wonder-spritesheet-height) / var(--wonder-spritesheet-rows));
-    --wonder-small-scale: 0.63;
+    --wonder-small-scale: 0.58;
+    --wonder-plus-age-card-scale: 1.12;
 
     --progress-token-spritesheet-width: 800px;
     --progress-token-spritesheet-height: 600px;
@@ -139,7 +142,7 @@ h3 {
 }
 
 #wonder_selection_container .wonder_container {
-    margin-right: 10px;
+    margin-right: var(--gutter);
     display: inline-block;
 }
 
@@ -223,7 +226,7 @@ h3 {
 
 .draftpool {
     position: relative;
-    margin-top: 10px;
+    margin-top: var(--gutter);
 
     /* 5px for rightmost card's shadow, else it will look too narrox. */
     width: calc(var(--draftpool-column-width) * 10 + var(--building-small-width) + 5px);
@@ -311,7 +314,7 @@ h3 {
     background-size: var(--building-small-width) 31px !important;
     background-repeat: no-repeat !important;
     background-position: bottom !important;
-    margin: 10px 1px 0px 1px;
+    margin: var(--gutter) 1px 0px 1px;
 }
 
 /* Gradients for opponent */
@@ -402,37 +405,37 @@ h3 {
 }
 
 .player_area_wonders {
-    margin-top: 10px;
+    margin-top: var(--gutter);
     position: relative;
-    width: calc(275px * 4);
-    height: calc(var(--wonder-small-scale) * var(--wonder-height));
+    width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
+    height: calc(4 * var(--wonder-small-scale) * var(--wonder-height) + 3 * var(--gutter));
 }
 
 .player_area_wonder_position_1 {
     position: absolute;
-    left: 0px;
+    top: var(--gutter);
 }
 
 .player_area_wonder_position_2 {
     position: absolute;
-    left: calc(275px * 1);
+    top: calc(1 * var(--wonder-small-scale) * var(--wonder-height) + 2 * var(--gutter));
 }
 
 .player_area_wonder_position_3 {
     position: absolute;
-    left: calc(275px * 2);
+    top: calc(2 * var(--wonder-small-scale) * var(--wonder-height) + 3 * var(--gutter));
 }
 
 .player_area_wonder_position_4 {
     position: absolute;
-    left: calc(275px * 3);
+    top: calc(3 * var(--wonder-small-scale) * var(--wonder-height) + 4 * var(--gutter));
 }
 
 .player_area_progress_tokens {
     display: inline-block;
     vertical-align: top;
     position: relative;
-    margin-top: 10px;
+    margin-top: var(--gutter);
 }
 .player_area_progress_tokens .progress_token_small {
     position: absolute;
