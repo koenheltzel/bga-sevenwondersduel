@@ -166,7 +166,7 @@ var jstpl_player_building = '\
         data-card-id="${jsCardId}"\
         title=""\
         class="building building_header_small"\
-        style="position: inline-block; background-position: -${jsX}00% calc(-5px + -${jsY} * 321px / 2);"\
+        style="position: inline-block; background-position: -${jsX}00% calc(-5px + -${jsY} * var(--building-height) * var(--building-small-scale));"\
     >\
     </div>';
 

@@ -58,7 +58,7 @@ __     __         _       _     _
 */
 
 :root {
-    --gutter: 10px;
+    --gutter: 7.5px;
 
     --building-spritesheet-width: 2080px;
     --building-spritesheet-height: 2568px;
@@ -113,6 +113,8 @@ h3 {
 
 .whiteblock {
     border-radius: 8px;
+    padding: var(--gutter);
+    margin: 0px;
 }
 
 .coin {
@@ -136,7 +138,17 @@ h3 {
     /* Use flexbox properties https://www.youtube.com/watch?v=JJSoEo8JSnc */
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#wonder_column {
+    min-height: calc(8 * var(--wonder-small-scale) * var(--wonder-height) + 11 * var(--gutter));
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
 }
@@ -144,6 +156,10 @@ h3 {
 #wonder_selection_container .wonder_container {
     margin-right: var(--gutter);
     display: inline-block;
+}
+
+#middle_column {
+    text-align: center;
 }
 
 /*
@@ -300,10 +316,12 @@ h3 {
     align-items: flex-start;
 }
 .player_area_building_column_container {
+    width: calc(7 * var(--building-small-width) + 6 * 2px);
     /* Flexbox setup */
     display: flex;
     flex-direction: row;
     align-items: flex-end;
+    justify-content: space-between;
 }
 
 .player_area_building_column {
@@ -405,7 +423,6 @@ h3 {
 }
 
 .player_area_wonders {
-    margin-top: var(--gutter);
     position: relative;
     width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
     height: calc(4 * var(--wonder-small-scale) * var(--wonder-height) + 3 * var(--gutter));
