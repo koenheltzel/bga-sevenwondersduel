@@ -62,18 +62,14 @@
             </div>
             <!-- END draftpool -->
             <!-- BEGIN player_buildings -->
-            <div id="player_area_wrap_{PLAYER_ID}" class="player_area_wrap whiteblock {WHICH_PLAYER}">
-                <div id="player_area_content_{PLAYER_ID}" class="player_area_content">
-                    <div class="player_area_building_column_container">
-                        <div class="player_area_building_column Brown" title="Raw materials"></div>
-                        <div class="player_area_building_column Grey" title="Manufactured goods"></div>
-                        <div class="player_area_building_column Yellow" title="Commercial Buildings"></div>
-                        <div class="player_area_building_column Red" title="Military Buildings"></div>
-                        <div class="player_area_building_column Blue" title="Civilian Buildings"></div>
-                        <div class="player_area_building_column Green" title="Scientific Buildings"></div>
-                        <div class="player_area_building_column Purple" title="Guilds"></div>
-                    </div>
-                </div>
+            <div id="player_area_content_{PLAYER_ID}" class="player_area_building_column_container player_area_wrap whiteblock {WHICH_PLAYER}">
+                <div class="player_area_building_column Brown" title="Raw materials"></div>
+                <div class="player_area_building_column Grey" title="Manufactured goods"></div>
+                <div class="player_area_building_column Yellow" title="Commercial Buildings"></div>
+                <div class="player_area_building_column Red" title="Military Buildings"></div>
+                <div class="player_area_building_column Blue" title="Civilian Buildings"></div>
+                <div class="player_area_building_column Green" title="Scientific Buildings"></div>
+                <div class="player_area_building_column Purple" title="Guilds"></div>
             </div>
             <!-- END player_buildings -->
         <!-- END middle_column_block -->
@@ -98,7 +94,7 @@
                     </div>
                     <!-- END board_player_row_info -->
                     <!-- BEGIN board_player_row_progress_tokens -->
-                    <div id="player_area_content_{PLAYER_ID}" class="player_area_content">
+                    <div id="player_area_content_{PLAYER_ID}">
                         <div class="player_area_progress_tokens">
                         </div>
                     </div>

@@ -249,6 +249,7 @@ h3 {
 
 #draftpool_container {
     /* Height is being set by updateDraftpool */
+    flex-grow: 1;
 }
 
 .draftpool {
@@ -307,6 +308,7 @@ h3 {
 
 .player_area_wrap {
     position: relative;
+    flex-grow: 2; /* Make player building div grow more than the draftpool container, so the buildings will be most toward the middle as possible. */
     /*align-self: stretch;*/
 }
 
@@ -315,18 +317,12 @@ h3 {
     display: inline-block;
 }
 
-/*.player_area_content {*/
-/*    !* Flexbox setup *!*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    justify-content: space-evenly;*/
-/*    align-items: center;*/
-/*}*/
-
-.player_area_wrap.me .player_area_building_column_container {
+.player_area_building_column_container.me {
     align-items: flex-start;
 }
 .player_area_building_column_container {
+    min-height: 150px;
+
     width: calc(7 * var(--building-small-width) + 6 * 2px);
     /* Flexbox setup */
     display: flex;
