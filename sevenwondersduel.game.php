@@ -131,6 +131,7 @@ class SevenWondersDuel extends Table
     const STATE_GAME_END_NAME = "gameEnd";
 
     const VALUE_CURRENT_WONDER_SELECTION_ROUND = "current_wonder_selection_round";
+    const VALUE_CURRENT_AGE = "current_age";
 
 
     /**
@@ -162,6 +163,7 @@ class SevenWondersDuel extends Table
 
         self::initGameStateLabels( array(
                 self::VALUE_CURRENT_WONDER_SELECTION_ROUND => 10,
+                self::VALUE_CURRENT_AGE => 11,
             //    "my_second_global_variable" => 11,
             //      ...
             //    "my_first_game_variant" => 100,
@@ -186,6 +188,10 @@ class SevenWondersDuel extends Table
 
     public function getCurrentPlayerId($bReturnNullIfNotLogged = false) {
         return parent::getCurrentPlayerId($bReturnNullIfNotLogged);
+    }
+
+    public function getCurrentAge() {
+	    return $this->getGameStateValue(self::VALUE_CURRENT_AGE);
     }
 
     protected function getGameName( )
@@ -227,6 +233,7 @@ class SevenWondersDuel extends Table
 
         // Init global values with their initial values
         self::setGameStateInitialValue( self::VALUE_CURRENT_WONDER_SELECTION_ROUND, 1);
+        self::setGameStateInitialValue( self::VALUE_CURRENT_AGE, 0);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)

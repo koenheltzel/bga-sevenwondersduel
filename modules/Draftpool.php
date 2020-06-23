@@ -36,7 +36,7 @@ class Draftpool
     ];
 
     public static function get($playerId) {
-        $age = 1;
+        $age = SevenWondersDuel::get()->getCurrentAge();
         $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
 
@@ -72,6 +72,12 @@ class Draftpool
             }
         }
         return $draftpool;
+    }
+
+    public static function countCardsInCurrentAge() {
+        $age = SevenWondersDuel::get()->getCurrentAge();
+        $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
+        return count($cards);
     }
 
 }
