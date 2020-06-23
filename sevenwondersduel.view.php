@@ -49,9 +49,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_column_block");
 
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_row_buildings");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_row");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", 'player_buildings');
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "draftpool");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "middle_column_block");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_wonders");
@@ -77,7 +75,6 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
             if ($playerId == Player::opponent()->id) {
                 $playerInfoBlocks = array_reverse($playerInfoBlocks);
             }
-            $this->page->reset_subblocks("player_row");
             foreach($playerInfoBlocks as $block) {
                 foreach($playerInfoBlocks as $tmpBlock) $this->page->reset_subblocks($tmpBlock);
 
@@ -100,30 +97,13 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
             // Middle column
             $this->page->reset_subblocks('draftpool');
-            $this->page->reset_subblocks('player');
+            $this->page->reset_subblocks('player_buildings');
 
             if ($playerId == Player::me()->id) {
                 $this->page->insert_block("draftpool");
             }
 
-            $middleColumnBlocks = ["player_row_buildings"];
-            if ($playerId == Player::opponent()->id) {
-                $middleColumnBlocks = array_reverse($middleColumnBlocks);
-            }
-
-            $this->page->reset_subblocks("player_row");
-            foreach($middleColumnBlocks as $block) {
-                foreach($middleColumnBlocks as $tmpBlock) $this->page->reset_subblocks($tmpBlock);
-
-                $this->page->insert_block($block, array(
-                    "PLAYER_ID" => $playerId,
-                    "PLAYER_NAME" => $player['player_name'],
-                    "PLAYER_COLOR" => $player['player_color']
-                ));
-                $this->page->insert_block("player_row");
-            }
-
-            $this->page->insert_block("player", array(
+            $this->page->insert_block('player_buildings', array(
                 "PLAYER_ID" => $playerId,
                 "PLAYER_NAME" => $player['player_name'],
                 "PLAYER_COLOR" => $player['player_color'],
