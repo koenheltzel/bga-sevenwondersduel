@@ -209,11 +209,10 @@ function (dojo, domAttr, domStyle, declare, on) {
 
         updateDraftpool: function (draftpool) {
             console.log('updateDraftpool: ', draftpool);
-            this.draftpool = draftpool;
             dojo.empty("draftpool");
 
-            for (var i = 0; i < draftpool.length; i++) {
-                var position = draftpool[i];
+            for (var i = 0; i < draftpool.cards.length; i++) {
+                var position = draftpool.cards[i];
                 var spriteId = null;
                 var data = {
                     jsId: '',
@@ -241,18 +240,8 @@ function (dojo, domAttr, domStyle, declare, on) {
             }
 
             // Adjust the height of the age divs based on the age cards absolutely positioned within.
-            dojo.query(".age").forEach(function(node){
-                var maxY = 0;
-                var height = 0;
-                dojo.query(".building",node).forEach(function(building){
-                    var y = domStyle.get(building, "top");
-                    if (y > maxY) {
-                        maxY = y;
-                        height = domStyle.get(building, "height");
-                    }
-                });
-                domStyle.set(node, "height", (maxY + height + 15) + "px");
-            });
+            var rows = draftpool.age == 3 ? 7 : 5;
+            domStyle.set(dojo.query('.draftpool')[0], "height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + " * var(--draftpool-row-height))");
         },
         
         getBuildingTooltip: function( id )

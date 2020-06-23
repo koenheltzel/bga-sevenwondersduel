@@ -139,8 +139,6 @@ h3 {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
 }
 
 #wonder_column {
@@ -160,6 +158,12 @@ h3 {
 
 #middle_column {
     text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 /*
@@ -237,7 +241,7 @@ h3 {
  */
 
 #draftpool_container {
-
+    /* Height is being set by updateDraftpool */
 }
 
 .draftpool {

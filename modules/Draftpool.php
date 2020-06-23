@@ -40,7 +40,11 @@ class Draftpool
         $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
 
-        $draftpool = [];
+        $draftpool = [
+            'age' => $age,
+            'cards' => []
+        ];
+
         $locationArg = 19; // Each age has 20 cards. Make this dynamic when it works: count(self::$ages[$age], COUNT_RECURSIVE) - count(self::$ages[$age]))
         $positionsFound = [];
         for($row_index = count(self::$ages[$age]) - 1; $row_index >= 0; $row_index--) {
@@ -78,7 +82,7 @@ class Draftpool
                     else {
                         $position['back'] = 73 + $age;
                     }
-                    array_unshift($draftpool, $position);
+                    array_unshift($draftpool['cards'], $position);
                 }
                 $locationArg--;
             }
