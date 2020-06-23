@@ -329,9 +329,15 @@ class SevenWondersDuel extends Table
     */
     function getGameProgression()
     {
-        // TODO: compute and return the game progression
+        $wonderSelection1 = count($this->wonderDeck->getCardsInLocation("selection1"));
+        $wonderSelection2 = count($this->wonderDeck->getCardsInLocation("selection2"));
+        $wonderPercentage = (8 - $wonderSelection1 - $wonderSelection2) / 8;
 
-        return 0;
+        $cardsPerAge = 20;
+        $totalCards = $cardsPerAge * 3;
+        $agePercentage = ((($this->getCurrentAge() - 1) * $cardsPerAge) + Draftpool::countCardsInCurrentAge()) / $totalCards;
+
+        return (int)($wonderPercentage * 10 + $agePercentage * 90);
     }
 
 
