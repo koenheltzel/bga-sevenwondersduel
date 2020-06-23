@@ -26,30 +26,8 @@
 -->
 
 
-<div id="wonder_selection_block" class="whiteblock">
-    <h3>Wonders selection:</h3>
-    <div id="wonder_selection_container">
-        <!-- BEGIN block_catalog_wonder -->
-        <div id="catalog_wonder_{id}" data-wonder-id="{id}" class="wonder wonder_small"
-             style="background-position: -{x}00% -{y}00%;"></div>
-        <!-- END block_catalog_wonder -->
-    </div>
-</div>
-
 <div id="swd_wrap">
-    <div id="board_container">
-        <div class="board"></div>
-        <!-- BEGIN block_board_progresstoken_container -->
-        <div id="board_progress_token_container{i}"></div>
-        <!-- END block_board_progresstoken_container -->
-        <!-- BEGIN board_player -->
-        <div class="whiteblock {CLASS}">
-            <h3 style="color:#{PLAYER_COLOR}">{PLAYER_NAME}</h3>
-        </div>
-        <!-- END board_player -->
-    </div>
-
-
+    
     <div id="wonder_column">
         <!-- BEGIN player_wonders -->
         <div id="player_area_content_{PLAYER_ID}_wonders" class="whiteblock player_area_wonders {WHICH_PLAYER}">
@@ -63,6 +41,15 @@
     <div id="middle_column">
         <!-- BEGIN middle_column_block -->
             <!-- BEGIN draftpool -->
+            <div id="wonder_selection_block" class="whiteblock">
+                <h3>Wonders selection:</h3>
+                <div id="wonder_selection_container">
+                    <!-- BEGIN block_catalog_wonder -->
+                    <div id="catalog_wonder_{id}" data-wonder-id="{id}" class="wonder wonder_small"
+                         style="background-position: -{x}00% -{y}00%;"></div>
+                    <!-- END block_catalog_wonder -->
+                </div>
+            </div>
             <div id="draftpool_container" style="display: inline-block">
                 <div id="draftpool" class="draftpool age">
 
@@ -77,12 +64,6 @@
             <!-- BEGIN player -->
             <div id="player_area_wrap_{PLAYER_ID}" class="player_area_wrap whiteblock {WHICH_PLAYER}">
                 <!-- BEGIN player_row -->
-                    <!-- BEGIN player_row_info -->
-                    <h3 style="color:#{PLAYER_COLOR}" class="player_area_name">{PLAYER_NAME}</h3>
-                    <div class="player_area_coins coin">
-                        <span id="player_area_{PLAYER_ID}_coins">24</span>
-                    </div>
-                    <!-- END player_row_info -->
                     <!-- BEGIN player_row_buildings -->
                     <div id="player_area_content_{PLAYER_ID}" class="player_area_content">
                         <div class="player_area_building_column_container">
@@ -94,14 +75,42 @@
                             <div class="player_area_building_column Green" title="Scientific Buildings"></div>
                             <div class="player_area_building_column Purple" title="Guilds"></div>
                         </div>
-                        <div class="player_area_progress_tokens">
-                        </div>
                     </div>
                     <!-- END player_row_buildings -->
                 <!-- END player_row -->
             </div>
             <!-- END player -->
         <!-- END middle_column_block -->
+    </div>
+    <div id="board_column">
+        <!-- BEGIN board_column_block -->
+            <!-- BEGIN board -->
+            <div id="board_container">
+                <div class="board"></div>
+                <!-- BEGIN block_board_progresstoken_container -->
+                <div id="board_progress_token_container{i}"></div>
+                <!-- END block_board_progresstoken_container -->
+            </div>
+            <!-- END board -->
+            <!-- BEGIN board_player -->
+            <div id="player_area_wrap_{PLAYER_ID}" class="player_area_wrap whiteblock {WHICH_PLAYER}">
+                <!-- BEGIN board_player_row -->
+                    <!-- BEGIN board_player_row_info -->
+                    <h3 style="color:#{PLAYER_COLOR}" class="player_area_name">{PLAYER_NAME}</h3>
+                    <div class="player_area_coins coin">
+                        <span id="player_area_{PLAYER_ID}_coins">24</span>
+                    </div>
+                    <!-- END board_player_row_info -->
+                    <!-- BEGIN board_player_row_progress_tokens -->
+                    <div id="player_area_content_{PLAYER_ID}" class="player_area_content">
+                        <div class="player_area_progress_tokens">
+                        </div>
+                    </div>
+                    <!-- END board_player_row_progress_tokens -->
+                <!-- END board_player_row -->
+            </div>
+            <!-- END board_player -->
+        <!-- END board_column_block -->
     </div>
 
     <!-- BEGIN block_catalog -->
@@ -153,7 +162,7 @@ var jstpl_draftpool_building = '\
     <div id="${jsRow}_${jsColumn}"\
         data-building-id="${jsId}"\
         data-card-id="${jsCardId}"\
-        class="building building_small column${jsColumn} row${jsRow}"\
+        class="building building_small column${jsColumn} row${jsRow} ${jsAvailable}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\
     <div class="drafpool_building_cost"><div class="coin" style="zoom: 0.75; display: ${jsDisplayCost}"><span>${jsCost}</span></div></div>\

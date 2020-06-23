@@ -42,9 +42,13 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         /*********** Place your code below:  ************/
 
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_board_progresstoken_container");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row_info");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row_progress_tokens");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_column_block");
 
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_row_info");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_row_buildings");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_row");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player");
@@ -52,37 +56,37 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "middle_column_block");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_wonders");
 
-        for ($i = 0; $i < 5; $i++) {
-            $this->page->insert_block("block_board_progresstoken_container", ["i" => $i]);
-        }
-
         $boardPlayerClasses = ["board_player_left", "board_player_right"];
         $index = 0;
         foreach ([Player::opponent()->id, Player::me()->id] as $playerId) {
-            $this->page->reset_subblocks('draftpool');
-            $this->page->reset_subblocks('player');
+            $player = $players[$playerId];
+
+            // Board column
+            $this->page->reset_subblocks('board');
+            $this->page->reset_subblocks('board_player');
+            $this->page->reset_subblocks('board_player_row');
 
             if ($playerId == Player::me()->id) {
-                $this->page->insert_block("draftpool");
-
+                for ($i = 0; $i < 5; $i++) {
+                    $this->page->insert_block("block_board_progresstoken_container", ["i" => $i]);
+                }
+                $this->page->insert_block("board");
             }
 
-            $player = $players[$playerId];
-            $blocks = ["player_row_info", "player_row_buildings"];
+            $playerInfoBlocks = ["board_player_row_info", "board_player_row_progress_tokens"];
             if ($playerId == Player::opponent()->id) {
-                $blocks = array_reverse($blocks);
+                $playerInfoBlocks = array_reverse($playerInfoBlocks);
             }
-
             $this->page->reset_subblocks("player_row");
-            foreach($blocks as $block) {
-                foreach($blocks as $tmpBlock) $this->page->reset_subblocks($tmpBlock);
+            foreach($playerInfoBlocks as $block) {
+                foreach($playerInfoBlocks as $tmpBlock) $this->page->reset_subblocks($tmpBlock);
 
                 $this->page->insert_block($block, array(
                     "PLAYER_ID" => $playerId,
                     "PLAYER_NAME" => $player['player_name'],
                     "PLAYER_COLOR" => $player['player_color']
                 ));
-                $this->page->insert_block("player_row");
+                $this->page->insert_block("board_player_row");
             }
 
             $this->page->insert_block("board_player", array(
@@ -92,6 +96,43 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                 "PLAYER_COLOR" => $player['player_color']
             ));
 
+            $this->page->insert_block("board_column_block");
+
+            // Middle column
+            $this->page->reset_subblocks('draftpool');
+            $this->page->reset_subblocks('player');
+
+            if ($playerId == Player::me()->id) {
+                $this->page->insert_block("draftpool");
+            }
+
+            $middleColumnBlocks = ["player_row_buildings"];
+            if ($playerId == Player::opponent()->id) {
+                $middleColumnBlocks = array_reverse($middleColumnBlocks);
+            }
+
+            $this->page->reset_subblocks("player_row");
+            foreach($middleColumnBlocks as $block) {
+                foreach($middleColumnBlocks as $tmpBlock) $this->page->reset_subblocks($tmpBlock);
+
+                $this->page->insert_block($block, array(
+                    "PLAYER_ID" => $playerId,
+                    "PLAYER_NAME" => $player['player_name'],
+                    "PLAYER_COLOR" => $player['player_color']
+                ));
+                $this->page->insert_block("player_row");
+            }
+
+            $this->page->insert_block("player", array(
+                "PLAYER_ID" => $playerId,
+                "PLAYER_NAME" => $player['player_name'],
+                "PLAYER_COLOR" => $player['player_color'],
+                "WHICH_PLAYER" => $playerId == Player::me()->id ? 'me' : 'opponent'
+            ));
+            $this->page->insert_block("middle_column_block");
+
+            // Wonder column
+
             $this->page->insert_block("player_wonders", array(
                 "CLASS" => $boardPlayerClasses[$index],
                 "PLAYER_ID" => $playerId,
@@ -100,16 +141,9 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                 "WHICH_PLAYER" => $playerId == Player::me()->id ? 'me' : 'opponent'
             ));
 
-            $this->page->insert_block("player", array(
-                "PLAYER_ID" => $playerId,
-                "PLAYER_NAME" => $player['player_name'],
-                "PLAYER_COLOR" => $player['player_color'],
-                "WHICH_PLAYER" => $playerId == Player::me()->id ? 'me' : 'opponent'
-            ));
             $index++;
 
 
-            $this->page->insert_block("middle_column_block");
         }
 
         // The "catalog". For testing spritesheets / tooltips.

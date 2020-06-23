@@ -211,37 +211,41 @@ function (dojo, domAttr, domStyle, declare, on) {
             console.log('updateDraftpool: ', draftpool);
             dojo.empty("draftpool");
 
-            for (var i = 0; i < draftpool.cards.length; i++) {
-                var position = draftpool.cards[i];
-                var spriteId = null;
-                var data = {
-                    jsId: '',
-                    jsCardId: '',
-                    jsRow: position.row,
-                    jsColumn: position.column,
-                    jsZindex: position.row * 10,
-                    jsDisplayCost: 'none',
-                    jsCost: -1,
-                };
-                if (typeof position.building != 'undefined') {
-                    spriteId = position.building;
-                    data.jsId = position.building;
-                    data.jsCardId = position.card;
-                    data.jsDisplayCost = position.cost[this.player_id] > 0 ? 'inline-block' : 'none',
-                    data.jsCost = position.cost[this.player_id];
-                } else {
-                    spriteId = position.back;
-                }
-                var spritesheetColumns = 10;
-                data.jsX = (spriteId - 1) % spritesheetColumns;
-                data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
+            if (draftpool.age > 0) {
+                for (var i = 0; i < draftpool.cards.length; i++) {
+                    var position = draftpool.cards[i];
+                    var spriteId = null;
+                    var data = {
+                        jsId: '',
+                        jsCardId: '',
+                        jsRow: position.row,
+                        jsColumn: position.column,
+                        jsZindex: position.row * 10,
+                        jsAvailable: position.available,
+                        jsDisplayCost: 'none',
+                        jsCost: -1,
+                    };
+                    if (typeof position.building != 'undefined') {
+                        spriteId = position.building;
+                        data.jsId = position.building;
+                        data.jsCardId = position.card;
+                        data.jsDisplayCost = position.cost[this.player_id] > 0 ? 'inline-block' : 'none',
+                            data.jsCost = position.cost[this.player_id];
+                    } else {
+                        spriteId = position.back;
+                    }
+                    var spritesheetColumns = 10;
+                    data.jsX = (spriteId - 1) % spritesheetColumns;
+                    data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
 
-                dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
+                    dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
+                }
+
+                // Adjust the height of the age divs based on the age cards absolutely positioned within.
+                var rows = draftpool.age == 3 ? 7 : 5;
+                domStyle.set(dojo.query('.draftpool')[0], "height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + " * var(--draftpool-row-height))");
             }
 
-            // Adjust the height of the age divs based on the age cards absolutely positioned within.
-            var rows = draftpool.age == 3 ? 7 : 5;
-            domStyle.set(dojo.query('.draftpool')[0], "height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + " * var(--draftpool-row-height))");
         },
         
         getBuildingTooltip: function( id )

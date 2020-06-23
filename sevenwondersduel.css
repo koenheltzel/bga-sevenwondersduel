@@ -86,8 +86,8 @@ __     __         _       _     _
     --progress-token-height: calc(var(--progress-token-spritesheet-height) / var(--progress-token-spritesheet-rows));
     --progress-token-small-scale: 0.4;
 
-    --board-width: 1440px;
-    --board-height: 400px;
+    --board-width: 400px;
+    --board-height: 1440px;
     --board-scale: 0.63;
 
     --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.6);
@@ -166,6 +166,14 @@ h3 {
     flex-wrap: wrap;
 }
 
+#board_column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: initial;
+    flex-wrap: wrap;
+}
+
 /*
  ____                      _
 | __ )  ___   __ _ _ __ __| |
@@ -177,7 +185,6 @@ h3 {
 #board_container {
     position: relative;
     display: inline-block;
-    display: none;
 }
 
 .board, #board_container {
@@ -196,29 +203,29 @@ h3 {
 
 #board_progress_token_container0, #board_progress_token_container1, #board_progress_token_container2, #board_progress_token_container3, #board_progress_token_container4 {
     position: absolute;
-    top: 9px;
+    left: calc(var(--board-width) * var(--board-scale) * 0.65);
     width: 80px;
     height: 80px;
 }
 
 #board_progress_token_container0 {
-    left: calc(var(--board-width) * var(--board-scale) * 0.25);
+    top: calc(var(--board-height) * var(--board-scale) * 0.25);
 }
 
 #board_progress_token_container1 {
-    left: calc(var(--board-width) * var(--board-scale) * 0.353);
+    top: calc(var(--board-height) * var(--board-scale) * 0.353);
 }
 
 #board_progress_token_container2 {
-    left: calc(var(--board-width) * var(--board-scale) * 0.455);
+    top: calc(var(--board-height) * var(--board-scale) * 0.455);
 }
 
 #board_progress_token_container3 {
-    left: calc(var(--board-width) * var(--board-scale) * 0.559);
+    top: calc(var(--board-height) * var(--board-scale) * 0.559);
 }
 
 #board_progress_token_container4 {
-    left: calc(var(--board-width) * var(--board-scale) * 0.657);
+    top: calc(var(--board-height) * var(--board-scale) * 0.657);
 }
 
 .board_player_left, .board_player_right {
@@ -566,6 +573,10 @@ h3 {
     display: block;
 }
 
+.building_small.available {
+    cursor: pointer;
+}
+
 .building_small {
     width: var(--building-small-width);
     height: calc(var(--building-height) * var(--building-small-scale));
@@ -574,7 +585,6 @@ h3 {
     box-shadow:
         0px 0px 3px 3px rgba(0,0,0,0.4),
         inset 0px 0px 0px 0.5px #00000060;
-    cursor: pointer;
     text-align: center;
 }
 
