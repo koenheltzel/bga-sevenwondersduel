@@ -71,7 +71,7 @@ function (dojo, domAttr, domStyle, declare, on) {
             this.setupTooltips();
 
             this.updateWonderSelection(this.gamedatas.wondersSituation.selection);
-            this.updateDraftpool(this.gamedatas.draftpool[this.player_id]);
+            this.updateDraftpool(this.gamedatas.draftpool);
             this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
@@ -228,8 +228,8 @@ function (dojo, domAttr, domStyle, declare, on) {
                     spriteId = position.building;
                     data.jsId = position.building;
                     data.jsCardId = position.card;
-                    data.jsDisplayCost = position.cost > 0 ? 'inline-block' : 'none',
-                    data.jsCost = position.cost;
+                    data.jsDisplayCost = position.cost[this.player_id] > 0 ? 'inline-block' : 'none',
+                    data.jsCost = position.cost[this.player_id];
                 } else {
                     spriteId = position.back;
                 }
@@ -565,7 +565,7 @@ function (dojo, domAttr, domStyle, declare, on) {
         },
 
         notif_nextAge: function(notif) {
-            this.updateDraftpool(notif.args.draftpool[this.player_id]);
+            this.updateDraftpool(notif.args.draftpool);
         },
 
         notif_constructBuilding: function(notif) {
@@ -583,7 +583,7 @@ function (dojo, domAttr, domStyle, declare, on) {
             dojo.place(this.getBuildingDiv(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container);
             this.fadeOutAndDestroy(buildingNode);
 
-            this.updateDraftpool(notif.args.draftpool[this.player_id]);
+            this.updateDraftpool(notif.args.draftpool);
         }
 
         /*

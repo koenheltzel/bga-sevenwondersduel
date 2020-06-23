@@ -54,7 +54,7 @@ trait PlayerTurnTrait {
                 'player_name' => $this->getCurrentPlayerName(),
                 'playerId' => $playerId,
                 'buildingId' => $building->id,
-                'draftpool' => Draftpool::get($playerId),
+                'draftpool' => Draftpool::get(),
                 'playerCoins' => Player::me()->getCoins(),
             ]
         );

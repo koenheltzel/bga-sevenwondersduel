@@ -36,13 +36,6 @@ class Draftpool
     ];
 
     public static function get() {
-        return [
-            Player::me()->id => Draftpool::getPlayer(Player::me()->id),
-            Player::opponent()->id => Draftpool::getPlayer(Player::opponent()->id),
-        ];
-    }
-
-    private static function getPlayer($playerId) {
         $age = SevenWondersDuel::get()->getCurrentAge();
         $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
@@ -68,11 +61,19 @@ class Draftpool
                         }
                     }
                     if ($cardvisible) {
-                        $payment = Player::get($playerId)->calculateCost($building);
                         $position['building'] = $building->id;
-                        $position['cost'] = $payment->totalCost();
-                        $position['payment'] = $payment;
                         $position['card'] = (int)$cards[$locationArg]['id'];
+
+                        // Cost and payment plan for each player
+                        $position['cost'] = [];
+                        $position['payment'] = [];
+                        $players = SevenWondersDuel::get()->loadPlayersBasicInfos();
+                        $playerIds = array_keys($players);
+                        foreach ($playerIds as $playerId) {
+                            $payment = Player::get($playerId)->calculateCost($building);
+                            $position['cost'][$playerId] = $payment->totalCost();
+                            $position['payment'][$playerId] = $payment;
+                        }
                     }
                     else {
                         $position['back'] = 73 + $age;
