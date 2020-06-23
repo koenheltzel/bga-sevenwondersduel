@@ -154,6 +154,7 @@ h3 {
 #board_container {
     position: relative;
     display: inline-block;
+    display: none;
 }
 
 .board, #board_container {
@@ -292,6 +293,9 @@ h3 {
 /*    align-items: center;*/
 /*}*/
 
+.player_area_wrap.me .player_area_building_column_container {
+    align-items: flex-start;
+}
 .player_area_building_column_container {
     /* Flexbox setup */
     display: flex;
@@ -310,60 +314,76 @@ h3 {
     margin: 10px 1px 0px 1px;
 }
 
-.player_area_building_column.Brown {
+/* Gradients for opponent */
+.player_area_wrap.opponent .player_area_building_column.Brown {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#702c12+0,702c12+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00702c12', endColorstr='#66702c12', GradientType=0); /* IE6-9 */
 }
 
-.player_area_building_column.Grey {
+.player_area_wrap.opponent .player_area_building_column.Grey {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00858680', endColorstr='#66858680', GradientType=0); /* IE6-9 */
 }
 
-.player_area_building_column.Yellow {
+.player_area_wrap.opponent .player_area_building_column.Yellow {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f8b305+0,f8b305+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00f8b305', endColorstr='#66f8b305', GradientType=0); /* IE6-9 */
 }
 
-.player_area_building_column.Blue {
+.player_area_wrap.opponent .player_area_building_column.Blue {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#0275aa+0,0275aa+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000275aa', endColorstr='#660275aa', GradientType=0); /* IE6-9 */
 }
 
-.player_area_building_column.Red {
+.player_area_wrap.opponent .player_area_building_column.Red {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#b7110e+0,b7110e+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00b7110e', endColorstr='#66b7110e', GradientType=0); /* IE6-9 */
 }
 
-.player_area_building_column.Green {
+.player_area_wrap.opponent .player_area_building_column.Green {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#027234+0,027234+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00027234', endColorstr='#66027234', GradientType=0); /* IE6-9 */
 }
 
-.player_area_building_column.Purple {
+.player_area_wrap.opponent .player_area_building_column.Purple {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6f488b+0,6f488b+100&0+0,0.4+100 */
-    background: -moz-linear-gradient(top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#006f488b', endColorstr='#666f488b', GradientType=0); /* IE6-9 */
+}
+
+/* Gradients for me */
+.player_area_wrap.me .player_area_building_column.Brown {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#702c12+0,702c12+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_area_wrap.me .player_area_building_column.Grey {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_area_wrap.me .player_area_building_column.Yellow {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f8b305+0,f8b305+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_area_wrap.me .player_area_building_column.Blue {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#0275aa+0,0275aa+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_area_wrap.me .player_area_building_column.Red {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#b7110e+0,b7110e+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_area_wrap.me .player_area_building_column.Green {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#027234+0,027234+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_area_wrap.me .player_area_building_column.Purple {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6f488b+0,6f488b+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 .player_area_wrap .wonder_small {

@@ -48,47 +48,60 @@
         </div>
         <!-- END board_player -->
     </div>
-    <div id="draftpool_container" class="whiteblock" style="display: inline-block">
-        <h3>Age 1:</h3>
-        <div id="draftpool" class="draftpool age">
 
-        </div>
-        <div class="draftpool_actions">
-            <a href="#" id="building" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>Construct building</span></a>
-            <a href="#" id="building" class="action_button bgabutton bgabutton_blue"><div class="action_discard"></div><span>Discard to obtain coins</span></a>
-            <a href="#" id="building" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>Construct a wonder</span></a>
-        </div>
-    </div>
 
-    <!-- BEGIN player -->
-    <div id="player_area_wrap_{PLAYER_ID}" class="player_area_wrap whiteblock">
-        <h3 style="color:#{PLAYER_COLOR}" class="player_area_name">{PLAYER_NAME}</h3>
-        <div class="player_area_coins coin">
-            <span id="player_area_{PLAYER_ID}_coins">24</span>
-        </div>
-        <div id="player_area_content_{PLAYER_ID}" class="player_area_content">
-            <div class="player_area_building_column_container">
-                <div class="player_area_building_column Brown" title="Raw materials"></div>
-                <div class="player_area_building_column Grey" title="Manufactured goods"></div>
-                <div class="player_area_building_column Yellow" title="Commercial Buildings"></div>
-                <div class="player_area_building_column Red" title="Military Buildings"></div>
-                <div class="player_area_building_column Blue" title="Civilian Buildings"></div>
-                <div class="player_area_building_column Green" title="Scientific Buildings"></div>
-                <div class="player_area_building_column Purple" title="Guilds"></div>
-            </div>
-            <div style="display: inline-block">
-                <div id="player_area_content_{PLAYER_ID}_wonders" class="player_area_wonders">
-                    <div id="player_area_content_{PLAYER_ID}_wonder_position_1" class="player_area_wonder_position_1"></div>
-                    <div id="player_area_content_{PLAYER_ID}_wonder_position_2" class="player_area_wonder_position_2"></div>
-                    <div id="player_area_content_{PLAYER_ID}_wonder_position_3" class="player_area_wonder_position_3"></div>
-                    <div id="player_area_content_{PLAYER_ID}_wonder_position_4" class="player_area_wonder_position_4"></div>
+
+    <div id="middle_column">
+        <!-- BEGIN middle_column_block -->
+            <!-- BEGIN draftpool -->
+            <div id="draftpool_container" style="display: inline-block">
+                <div id="draftpool" class="draftpool age">
+
+                </div>
+                <div class="draftpool_actions">
+                    <a href="#" id="building" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>Construct building</span></a>
+                    <a href="#" id="building" class="action_button bgabutton bgabutton_blue"><div class="action_discard"></div><span>Discard to obtain coins</span></a>
+                    <a href="#" id="building" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>Construct a wonder</span></a>
                 </div>
             </div>
-            <div class="player_area_progress_tokens">
+            <!-- END draftpool -->
+            <!-- BEGIN player -->
+            <div id="player_area_wrap_{PLAYER_ID}" class="player_area_wrap whiteblock {WHICH_PLAYER}">
+                <!-- BEGIN player_row -->
+                    <!-- BEGIN player_row_info -->
+                    <h3 style="color:#{PLAYER_COLOR}" class="player_area_name">{PLAYER_NAME}</h3>
+                    <div class="player_area_coins coin">
+                        <span id="player_area_{PLAYER_ID}_coins">24</span>
+                    </div>
+                    <!-- END player_row_info -->
+                    <!-- BEGIN player_row_buildings -->
+                    <div id="player_area_content_{PLAYER_ID}" class="player_area_content">
+                        <div class="player_area_building_column_container">
+                            <div class="player_area_building_column Brown" title="Raw materials"></div>
+                            <div class="player_area_building_column Grey" title="Manufactured goods"></div>
+                            <div class="player_area_building_column Yellow" title="Commercial Buildings"></div>
+                            <div class="player_area_building_column Red" title="Military Buildings"></div>
+                            <div class="player_area_building_column Blue" title="Civilian Buildings"></div>
+                            <div class="player_area_building_column Green" title="Scientific Buildings"></div>
+                            <div class="player_area_building_column Purple" title="Guilds"></div>
+                        </div>
+                        <div style="display: inline-block; display: none">
+                            <div id="player_area_content_{PLAYER_ID}_wonders" class="player_area_wonders">
+                                <div id="player_area_content_{PLAYER_ID}_wonder_position_1" class="player_area_wonder_position_1"></div>
+                                <div id="player_area_content_{PLAYER_ID}_wonder_position_2" class="player_area_wonder_position_2"></div>
+                                <div id="player_area_content_{PLAYER_ID}_wonder_position_3" class="player_area_wonder_position_3"></div>
+                                <div id="player_area_content_{PLAYER_ID}_wonder_position_4" class="player_area_wonder_position_4"></div>
+                            </div>
+                        </div>
+                        <div class="player_area_progress_tokens">
+                        </div>
+                    </div>
+                    <!-- END player_row_buildings -->
+                <!-- END player_row -->
             </div>
-        </div>
+            <!-- END player -->
+        <!-- END middle_column_block -->
     </div>
-    <!-- END player -->
 
     <!-- BEGIN block_catalog -->
     <div>
@@ -224,6 +237,6 @@ var jstpl_progress_token_tooltip = '\
         <div class="clear"></div>\
     </div>';
 
-</script>  
+</script>
 
 {OVERALL_GAME_FOOTER}

@@ -24,6 +24,8 @@
  *
  */
 
+use SWD\Player;
+
 require_once(APP_BASE_PATH . "view/common/game.view.php");
 
 class view_sevenwondersduel_sevenwondersduel extends game_view
@@ -41,7 +43,13 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_board_progresstoken_container");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player");
+
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_row_info");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_row_buildings");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_row");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "draftpool");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "middle_column_block");
 
         for ($i = 0; $i < 5; $i++) {
             $this->page->insert_block("block_board_progresstoken_container", ["i" => $i]);
@@ -49,20 +57,50 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
         $boardPlayerClasses = ["board_player_left", "board_player_right"];
         $index = 0;
-        foreach ($players as $player_id => $player) {
+        foreach ([Player::opponent()->id, Player::me()->id] as $playerId) {
+            $this->page->reset_subblocks('draftpool');
+            $this->page->reset_subblocks('player');
+
+            if ($playerId == Player::me()->id) {
+                $this->page->insert_block("draftpool");
+
+            }
+
+            $player = $players[$playerId];
+            $blocks = ["player_row_info", "player_row_buildings"];
+            if ($playerId == Player::opponent()->id) {
+                $blocks = array_reverse($blocks);
+            }
+
+            $this->page->reset_subblocks("player_row");
+            foreach($blocks as $block) {
+                foreach($blocks as $tmpBlock) $this->page->reset_subblocks($tmpBlock);
+
+                $this->page->insert_block($block, array(
+                    "PLAYER_ID" => $playerId,
+                    "PLAYER_NAME" => $player['player_name'],
+                    "PLAYER_COLOR" => $player['player_color']
+                ));
+                $this->page->insert_block("player_row");
+            }
+
             $this->page->insert_block("board_player", array(
                 "CLASS" => $boardPlayerClasses[$index],
-                "PLAYER_ID" => $player_id,
+                "PLAYER_ID" => $playerId,
                 "PLAYER_NAME" => $player['player_name'],
                 "PLAYER_COLOR" => $player['player_color']
             ));
 
             $this->page->insert_block("player", array(
-                "PLAYER_ID" => $player_id,
+                "PLAYER_ID" => $playerId,
                 "PLAYER_NAME" => $player['player_name'],
-                "PLAYER_COLOR" => $player['player_color']
+                "PLAYER_COLOR" => $player['player_color'],
+                "WHICH_PLAYER" => $playerId == Player::me()->id ? 'me' : 'opponent'
             ));
             $index++;
+
+
+            $this->page->insert_block("middle_column_block");
         }
 
         // The "catalog". For testing spritesheets / tooltips.
