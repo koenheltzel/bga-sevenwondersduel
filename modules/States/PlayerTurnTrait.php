@@ -2,41 +2,22 @@
 
 namespace SWD\States;
 
+use SevenWondersDuel;
 use SWD\Building;
 use SWD\Draftpool;
 use SWD\Player;
 
 trait PlayerTurnTrait {
 
-    public function getPlayerTurnData($playerId) {
-        return [
-            'draftpool' => Draftpool::get($playerId)
-        ];
-    }
-
-    public function notifyPlayersOfDraftpool() {
-        $players = $this->loadPlayersBasicInfos();
-        foreach ($players AS $playerId => $player) {
-            $this->notifyPlayer(
-                $playerId,
-                'updateDraftpool',
-                '',
-                [
-                    'draftpool' => Draftpool::get($playerId),
-                    'progress_tokens' => $this->progressTokenDeck->getCardsInLocation("board"),
-                ]
-            );
-        }
-    }
-
     public function enterStatePlayerTurn() {
 //        $this->notifyAllPlayers(
-//            'playerTurn',
-//            "playerTurn notification log",
-//            []
+//            'updateDraftpool',
+//            '',
+//            [
+//                'draftpool' => Draftpool::get(),
+//                'progress_tokens' => $this->progressTokenDeck->getCardsInLocation("board"),
+//            ]
 //        );
-
-        $this->notifyPlayersOfDraftpool();
     }
 
     public function actionConstructBuilding($cardId) {
@@ -44,24 +25,32 @@ trait PlayerTurnTrait {
 
         $playerId = self::getCurrentPlayerId();
 
-        $cards = $this->buildingDeck->getCardsInLocation("age1");
+        $age = SevenWondersDuel::get()->getCurrentAge();
+        $cards = $this->buildingDeck->getCardsInLocation("age{$age}");
         if (!array_key_exists($cardId, $cards)) {
             throw new \BgaUserException( self::_("The building you selected is not available.") );
         }
 
-        $this->buildingDeck->moveCard($cardId, $playerId);
         $card = $cards[$cardId];
-
         $building = Building::get($card['type_arg']);
-        if (isset($building->cost[COINS])) {
-            Player::me()->increaseCoins(-$building->cost[COINS]);
+
+        $payment = Player::me()->calculateCost($building);
+        $totalCost = $payment->totalCost();
+        if ($totalCost > Player::me()->getCoins()) {
+            throw new \BgaUserException( self::_("You can't afford the building you selected.") );
         }
+
+        if ($totalCost > 0) {
+            Player::me()->increaseCoins(-$totalCost);
+        }
+        $this->buildingDeck->moveCard($cardId, $playerId);
 
         $this->notifyAllPlayers(
             'constructBuilding',
-            clienttranslate('${player_name} constructed building ${buildingName}.'),
+            clienttranslate('${player_name} constructed building ${buildingName} for ${cost}.'),
             [
                 'buildingName' => $building->name,
+                'cost' => $totalCost > 0 ? $totalCost . " " . COINS : 'free',
                 'player_name' => $this->getCurrentPlayerName(),
                 'playerId' => $playerId,
                 'buildingId' => $building->id,

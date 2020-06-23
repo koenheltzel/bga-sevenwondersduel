@@ -137,7 +137,7 @@ class Player {
                 }
             }
             foreach ($this->getWonders() as $wonder) {
-                if (count($wonder->resourceChoice) > 0) {
+                if ($wonder->isConstructed() && $wonder->count(resourceChoice) > 0) {
                     $choices[] = $wonder->resourceChoice;
                     $choiceItemIds[] = Item::TYPE_WONDER . $wonder->id;;
                 }

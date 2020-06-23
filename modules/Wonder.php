@@ -12,4 +12,8 @@ class Wonder extends Item {
         return Material::get()->wonders[$id];
     }
 
+    public function isConstructed() {
+        \SevenWondersDuel::get()->wonderDeck->getCardsInLocation('wonder' . $this->id);
+    }
+
 }

@@ -71,7 +71,7 @@ function (dojo, domAttr, domStyle, declare, on) {
             this.setupTooltips();
 
             this.updateWonderSelection(this.gamedatas.wondersSituation.selection);
-            this.updateDraftpool(this.gamedatas.draftpool);
+            this.updateDraftpool(this.gamedatas.draftpool[this.player_id]);
             this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
@@ -565,7 +565,7 @@ function (dojo, domAttr, domStyle, declare, on) {
         },
 
         notif_nextAge: function(notif) {
-            this.updateDraftpool(notif.args.draftpool);
+            this.updateDraftpool(notif.args.draftpool[this.player_id]);
         },
 
         notif_constructBuilding: function(notif) {
@@ -583,7 +583,7 @@ function (dojo, domAttr, domStyle, declare, on) {
             dojo.place(this.getBuildingDiv(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container);
             this.fadeOutAndDestroy(buildingNode);
 
-            this.updateDraftpool(notif.args.draftpool);
+            this.updateDraftpool(notif.args.draftpool[this.player_id]);
         }
 
         /*

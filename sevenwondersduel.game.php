@@ -303,15 +303,16 @@ class SevenWondersDuel extends Table
         $result['buildings'] = Material::get()->buildings->array;
         $result['wonders'] = Material::get()->wonders->array;
         $result['progressTokens'] = Material::get()->progressTokens->array;
-        $result['draftpool'] = count($result['wondersSituation']['selection']) == 0 ? Draftpool::get($current_player_id) : [];
+        $result['draftpool'] = [];
+        if (count($result['wondersSituation']['selection']) == 0) {
+            $result['draftpool'] = Draftpool::get();
+        }
         $result['progressTokensBoard'] = arrayWithPropertyAsKeys($this->progressTokenDeck->getCardsInLocation('board'), 'location_arg');
         $result['players'] = [
             Player::me()->id => json_decode(json_encode(Player::me()), true),
             Player::opponent()->id => json_decode(json_encode(Player::opponent()), true),
         ];
 //        $result['cards'] = $this->buildingDeck;
-
-//        $this->notifyPlayersOfDraftpool();
 
         return $result;
     }
