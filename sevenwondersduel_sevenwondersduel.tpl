@@ -28,17 +28,19 @@
 
 <!-- BEGIN swd -->
 <div id="swd_wrap" data-wonder-columns="1">
-    <div id="mobile_wonders_{PLAYER_OPPONENT_ID}">
+    <div id="player_wonders_mobile_container_{PLAYER_OPPONENT_ID}">
         <div></div>
     </div>
     <div id="layout_flexbox">
         <div id="wonder_column">
             <!-- BEGIN player_wonders -->
-            <div id="player_area_content_{PLAYER_ID}_wonders" class="whiteblock player_area_wonders player_area_wrap {WHICH_PLAYER}">
-                <div id="player_area_content_{PLAYER_ID}_wonder_position_1" class="player_area_wonder_position_1 card_outline"></div>
-                <div id="player_area_content_{PLAYER_ID}_wonder_position_2" class="player_area_wonder_position_2 card_outline"></div>
-                <div id="player_area_content_{PLAYER_ID}_wonder_position_3" class="player_area_wonder_position_3 card_outline"></div>
-                <div id="player_area_content_{PLAYER_ID}_wonder_position_4" class="player_area_wonder_position_4 card_outline"></div>
+            <div id="player_wonders_container_{PLAYER_ID}">
+                <div id="player_wonders_{PLAYER_ID}" class="whiteblock player_area_wonders player_area_wrap {WHICH_PLAYER}">
+                    <div id="player_area_content_wonder_position_1_{PLAYER_ID}" class="player_area_wonder_position_1 card_outline"></div>
+                    <div id="player_area_content_wonder_position_2_{PLAYER_ID}" class="player_area_wonder_position_2 card_outline"></div>
+                    <div id="player_area_content_wonder_position_3_{PLAYER_ID}" class="player_area_wonder_position_3 card_outline"></div>
+                    <div id="player_area_content_wonder_position_4_{PLAYER_ID}" class="player_area_wonder_position_4 card_outline"></div>
+                </div>
             </div>
             <!-- END player_wonders -->
         </div>
@@ -141,7 +143,7 @@
         </div>
         <!-- END block_catalog -->
     </div>
-    <div id="mobile_wonders_{PLAYER_ME_ID}">
+    <div id="player_wonders_mobile_container_{PLAYER_ME_ID}">
         <div></div>
     </div>
 </div>

@@ -176,7 +176,7 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
             if (cards.constructor == Object) {
                 var i = 1;
                 Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
-                    var container = dojo.query('#player_area_content_' + playerId + '_wonder_position_' + i)[0];
+                    var container = dojo.query('#player_area_content_wonder_position_' + i + '_' + playerId)[0];
                     dojo.place(this.getWonderDiv(cards[cardId]), container);
                     i++;
                 }));
@@ -522,11 +522,43 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
 
         onWindowResize: function (e) {
             console.log('onWindowResize', e);
-            var width = dojo.query('#swd_wrap').style('width')[0];
             var titlePosition = domGeom.position(dojo.query('#page-title')[0], false);
             var titleMarginBottom = 5;
+            var width = titlePosition.w;
             var height = window.innerHeight - titlePosition.y - titlePosition.h - titleMarginBottom;
-            console.log('available play area: ', width, height)
+
+            console.log('titlePosition: ', titlePosition);
+            console.log('available play area: ', width, height);
+            var ratio = width / height;
+
+            // Measured in 75% view, without any player buildings (meaning the height can become heigher:
+            var portrait = 747 / 987; // 0.76
+            var square = 947 / 897; // 1.056
+            var landscape = 1131/ 756; // 1.50
+
+            var swdNode = dojo.query('#swd_wrap')[0];
+            if(ratio >= landscape){
+                console.log('ratio: ', ratio, 'choosing landscape');
+                domAttr.set(swdNode, 'data-wonder-columns', 2);
+                dojo.style(swdNode, "zoom", height / dojo.style(dojo.query('#swd_wrap')[0], 'height'));
+            }
+            else if(ratio < landscape && ratio > portrait){
+                Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function(playerId) {
+                    dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
+                }));
+
+                console.log('ratio: ', ratio, 'choosing square');
+                domAttr.set(swdNode, 'data-wonder-columns', 1);
+            }
+            else { // ratio <= portrait
+                Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function(playerId) {
+                    dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
+                }));
+
+                console.log('ratio: ', ratio, 'choosing portrait');
+                dojo.style(swdNode, "zoom", width / dojo.style(dojo.query('#layout_flexbox')[0], 'width'));
+            }
+            console.log('swd_wrap height: ', dojo.query('#swd_wrap')[0], 'height');
         },
 
         
@@ -573,7 +605,7 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
             dijit.Tooltip.hide(wonderNode);
 
             var wonderNodeId = 'wonder_' + notif.args.wonderId;
-            var targetNodeId = 'player_area_content_' + notif.args.playerId + '_wonder_position_' + notif.args.playerWonderCount;
+            var targetNodeId = 'player_area_content_wonder_position_' + notif.args.playerWonderCount + '_' + notif.args.playerId;
             this.attachToNewParent(wonderNodeId, targetNodeId);
             this.slideToObjectPos(wonderNodeId, targetNodeId, 0, 0).play();
 
