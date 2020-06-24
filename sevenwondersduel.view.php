@@ -54,6 +54,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "middle_column_block");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_wonders");
 
+
         $boardPlayerClasses = ["board_player_left", "board_player_right"];
         $index = 0;
         foreach ([Player::opponent()->id, Player::me()->id] as $playerId) {
@@ -173,6 +174,11 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
             $this->page->insert_block("block_catalog");
         }
 
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "swd");
+        $this->page->insert_block("swd", [
+            "PLAYER_ME_ID" => Player::me()->id,
+            "PLAYER_OPPONENT_ID" => Player::opponent()->id,
+        ]);
 
         /*
         

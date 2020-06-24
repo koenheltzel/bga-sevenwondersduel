@@ -138,6 +138,13 @@ __     __         _       _     _
  */
 
 #swd_wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#layout_flexbox {
     /* Use flexbox properties https://www.youtube.com/watch?v=JJSoEo8JSnc */
     display: flex;
     flex-direction: row;
@@ -145,13 +152,16 @@ __     __         _       _     _
 }
 
 #wonder_column {
-    min-height: calc(8 * var(--wonder-small-scale) * var(--wonder-height) + 11 * var(--gutter));
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+}
+
+#wonder_column .player_area_wonders:first-child {
+    /* Space between top player's and bottom player's wonders */
+    margin-bottom: var(--gutter);
 }
 
 #wonder_selection_container .wonder_container {
@@ -450,15 +460,15 @@ __     __         _       _     _
     position: absolute;
 }
 
-.player_area_wonders_1_wide {
+#swd_wrap[data-wonder-columns="1"] .player_area_wonders {
     width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
     height: calc(4 * var(--wonder-small-scale) * var(--wonder-height) + 3 * var(--gutter));
 }
-.player_area_wonders_2_wide {
+#swd_wrap[data-wonder-columns="2"] .player_area_wonders {
     width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
     height: calc(2 * var(--wonder-small-scale) * var(--wonder-height) + 1 * var(--gutter));
 }
-.player_area_wonders_4_wide {
+#swd_wrap[data-wonder-columns="4"] .player_area_wonders {
     min-width: calc(4 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 3 * var(--gutter));
     height: calc(var(--wonder-small-scale) * var(--wonder-height));
 }
