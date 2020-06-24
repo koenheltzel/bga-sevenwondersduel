@@ -556,6 +556,7 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
                 }));
 
                 console.log('ratio: ', ratio, 'choosing portrait');
+                domAttr.set(swdNode, 'data-wonder-columns', 4);
                 dojo.style(swdNode, "zoom", width / dojo.style(dojo.query('#layout_flexbox')[0], 'width'));
             }
             console.log('swd_wrap height: ', dojo.query('#swd_wrap')[0], 'height');
