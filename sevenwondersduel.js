@@ -19,13 +19,14 @@ define([
     "dojo",
     "dojo/dom-attr",
     "dojo/dom-style",
+    "dojo/dom-geometry",
     "dojo/_base/declare",
     "dojo/query",
     "dojo/on",
     "ebg/core/gamegui",
     "ebg/counter"
 ],
-function (dojo, domAttr, domStyle, declare, on) {
+function (dojo, domAttr, domStyle, domGeom, declare, on) {
     return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
         constructor: function(){
             // Tooltip settings
@@ -66,6 +67,9 @@ function (dojo, domAttr, domStyle, declare, on) {
             // Click handlers using event delegation:
             dojo.query('#wonder_selection_container').on(".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
             dojo.query('#draftpool').on(".building.available:click", dojo.hitch(this, "onDraftpoolBuildingClick"));
+
+            // Resize handler
+            window.addEventListener('resize', dojo.hitch(this, "onWindowResize"));
 
             // Tool tips using event delegation:
             this.setupTooltips();
@@ -506,6 +510,23 @@ function (dojo, domAttr, domStyle, declare, on) {
 
                 }
             );
+        },
+
+        getOffset: function(el) {
+            var rect = el.getBoundingClientRect();
+            return {
+                left: rect.left + window.scrollX,
+                top: rect.top + window.scrollY
+            };
+        },
+
+        onWindowResize: function (e) {
+            console.log('onWindowResize', e);
+            var width = dojo.query('#swd_wrap').style('width')[0];
+            var titlePosition = domGeom.position(dojo.query('#page-title')[0], false);
+            var titleMarginBottom = 5;
+            var height = window.innerHeight - titlePosition.y - titlePosition.h - titleMarginBottom;
+            console.log('available play area: ', width, height)
         },
 
         
