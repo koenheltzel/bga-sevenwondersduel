@@ -105,16 +105,16 @@ __     __         _       _     _
  \____|\___|_| |_|\___|_|  \__,_|_|
  */
 
-h3 {
-    margin: 0px;
+#swd_wrap h3 {
+    margin: 0px 0px var(--gutter) 0px;
 }
 
-.whiteblock h3 {
+#swd_wrap .whiteblock h3 {
     /* Borrowed from Potion Explosion */
     text-shadow: 1px 1px 1px #FFFFFF;
 }
 
-.whiteblock {
+#swd_wrap .whiteblock {
     border-radius: 8px;
     padding: var(--gutter);
     margin: 0px;
