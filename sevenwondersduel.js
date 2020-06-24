@@ -31,6 +31,7 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
         constructor: function(){
             // Tooltip settings
             this.toolTipDelay = 100;
+            this.windowResizeTimeoutId = null;
             dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
         },
         
@@ -69,7 +70,8 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
             dojo.query('#draftpool').on(".building.available:click", dojo.hitch(this, "onDraftpoolBuildingClick"));
 
             // Resize handler
-            window.addEventListener('resize', dojo.hitch(this, "onWindowResize"));
+            window.addEventListener('resize', dojo.hitch(this, "onWindowUpdate"));
+            window.addEventListener('scroll', dojo.hitch(this, "onWindowUpdate"));
 
             // Tool tips using event delegation:
             this.setupTooltips();
@@ -520,21 +522,27 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
             };
         },
 
-        onWindowResize: function (e) {
-            console.log('onWindowResize', e);
+        layoutUpdate: function() {
             var titlePosition = domGeom.position(dojo.query('#page-title')[0], false);
             var titleMarginBottom = 5;
-            var width = titlePosition.w;
+            var width = titlePosition.w - 5;
             var height = window.innerHeight - titlePosition.y - titlePosition.h - titleMarginBottom;
+
+            var playarea = dojo.query('#playarea')[0];
+            dojo.style(playarea, "width", width + 'px');
+            dojo.style(playarea, "height", height + 'px');
 
             console.log('titlePosition: ', titlePosition);
             console.log('available play area: ', width, height);
-            var ratio = width / height;
+            var ratio = window.innerWidth / window.innerHeight;
+
+            var pageZoom = dojo.style(dojo.query('#page-content')[0], "zoom");
+            console.log('pageZoom', pageZoom);
 
             // Measured in 75% view, without any player buildings (meaning the height can become heigher:
-            var portrait = 747 / 987; // 0.76
-            var square = 947 / 897; // 1.056
-            var landscape = 1131/ 756; // 1.50
+            var portrait = 0.8;//747 / 987; // 0.76
+            // var square = 947 / 897; // 1.056
+            var landscape = 1.57; //1131/ 756; // 1.60
 
             var swdNode = dojo.query('#swd_wrap')[0];
             if(ratio >= landscape){
@@ -549,6 +557,13 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
 
                 console.log('ratio: ', ratio, 'choosing square');
                 domAttr.set(swdNode, 'data-wonder-columns', 1);
+                if (width > height) {
+                    dojo.style(swdNode, "zoom", height / dojo.style(dojo.query('#swd_wrap')[0], 'height'));
+                }
+                else {
+                    dojo.style(swdNode, "zoom", width / dojo.style(dojo.query('#layout_flexbox')[0], 'width'));
+                }
+
             }
             else { // ratio <= portrait
                 Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function(playerId) {
@@ -560,6 +575,14 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
                 dojo.style(swdNode, "zoom", width / dojo.style(dojo.query('#layout_flexbox')[0], 'width'));
             }
             console.log('swd_wrap height: ', dojo.query('#swd_wrap')[0], 'height');
+        },
+
+        onWindowUpdate: function (e) {
+            console.log('onWindowUpdate', e);
+
+            clearTimeout(this.windowResizeTimeoutId);
+            // Set up the callback
+            this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "layoutUpdate"), 100);
         },
 
         
