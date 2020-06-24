@@ -7,8 +7,8 @@ use SevenWondersDuel;
 class Player {
 
     public $id = null;
-    public $wonderIds = [];
-    public $buildingIds = [];
+    private $wonderIds = [];
+    private $buildingIds = [];
     public $progressTokenIds = [];
 
     public static $instances = [];
@@ -74,7 +74,7 @@ class Player {
      */
     public function resourceCount($searchResource) {
         $count = 0;
-        foreach ($this->buildingIds as $id) {
+        foreach ($this->getBuildingIds() as $id) {
             $building = Building::get($id);
             if (in_array($building->type, [Building::TYPE_BROWN, Building::TYPE_GREY])) {
                 foreach($building->resources as $resource => $amount) {
@@ -351,6 +351,20 @@ class Player {
             }
             return $wonderIds;
         }
+    }
+
+    /**
+     * @param array $wonderIds
+     */
+    public function setWonderIds(array $wonderIds): void {
+        $this->wonderIds = $wonderIds;
+    }
+
+    /**
+     * @param array $buildingIds
+     */
+    public function setBuildingIds(array $buildingIds): void {
+        $this->buildingIds = $buildingIds;
     }
 
 }

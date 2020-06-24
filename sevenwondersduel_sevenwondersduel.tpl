@@ -97,8 +97,10 @@
                     <!-- BEGIN board_player_row -->
                         <!-- BEGIN board_player_row_info -->
                         <h3 style="color:#{PLAYER_COLOR}" class="player_area_name">{PLAYER_NAME}</h3>
-                        <div class="player_area_coins coin">
+                        <div class="player_area_coins">
+                        <div class="coin">
                             <span id="player_area_{PLAYER_ID}_coins">24</span>
+                        </div>
                         </div>
                         <!-- END board_player_row_info -->
                         <!-- BEGIN board_player_row_progress_tokens -->
@@ -170,7 +172,7 @@ var jstpl_draftpool_building = '\
         class="building building_small column${jsColumn} row${jsRow} ${jsAvailable}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\
-    <div class="drafpool_building_cost"><div class="coin" style="zoom: 0.75; display: ${jsDisplayCost}"><span>${jsCost}</span></div></div>\
+    <div class="drafpool_building_cost"><div class="coin" style="display: ${jsDisplayCost}"><span>${jsCost}</span></div></div>\
     </div>';
 
 // Keep title attribute empty. This overrides the title attribute of the player_area_building_column div.

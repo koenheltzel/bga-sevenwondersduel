@@ -13,7 +13,13 @@ class Wonder extends Item {
     }
 
     public function isConstructed() {
-        \SevenWondersDuel::get()->wonderDeck->getCardsInLocation('wonder' . $this->id);
+        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+            // Asume we are testing cost calculation
+            return true;
+        }
+        else {
+            \SevenWondersDuel::get()->wonderDeck->getCardsInLocation('wonder' . $this->id);
+        }
     }
 
 }

@@ -524,6 +524,7 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
 
         setScale: function(scale) {
             console.log('setScale', scale);
+            // scale = 0.5;
             document.documentElement.style.setProperty('--scale', scale);
             // dojo.style(swdNode, "zoom", scale);
         },

@@ -69,6 +69,7 @@ __     __         _       _     _
     --building-height: calc(var(--building-spritesheet-height) / var(--building-spritesheet-rows));
     --building-small-scale: calc(0.5 * var(--scale));
     --building-small-width: calc(var(--building-width) * var(--building-small-scale));
+    --building-header-small-height: calc(62px * var(--building-small-scale));
 
     --wonder-spritesheet-width: 1845px;
     --wonder-spritesheet-height: 720px;
@@ -86,7 +87,7 @@ __     __         _       _     _
     --progress-token-spritesheet-rows: 3;
     --progress-token-width: calc(var(--progress-token-spritesheet-width) / var(--progress-token-spritesheet-columns));
     --progress-token-height: calc(var(--progress-token-spritesheet-height) / var(--progress-token-spritesheet-rows));
-    --progress-token-small-scale: 0.4;
+    --progress-token-small-scale: calc(0.4 * (0.5 / 0.63) * var(--scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
 
     --board-width: 400px;
     --board-height: 1440px;
@@ -108,6 +109,7 @@ __     __         _       _     _
 
 #swd_wrap h3 {
     margin: 0px 0px var(--gutter) 0px;
+    font-size: max(12px, calc(16px * var(--scale)));
 }
 
 #swd_wrap .whiteblock h3 {
@@ -121,11 +123,16 @@ __     __         _       _     _
     margin: 0px;
 }
 
+.drafpool_building_cost .coin {
+    zoom: calc(0.75 * var(--scale));
+}
+
 .coin {
     background-image: url('img/icons.png');
     background-position: -0px -0px;
     width: 30px;
     height: 30px;
+    zoom: var(--scale);
     display: inline-block;
 }
 
@@ -352,7 +359,7 @@ __     __         _       _     _
     align-items: flex-start;
 }
 .player_area_building_column_container {
-    min-height: 150px;
+    min-height: calc(150px * var(--scale));
 
     width: calc(7 * var(--building-small-width) + 6 * 2px);
     /* Flexbox setup */
@@ -365,9 +372,9 @@ __     __         _       _     _
 .player_area_building_column {
     /*display: inline-block;*/
     min-width: var(--building-small-width);
-    min-height: 31px;
+    min-height: var(--building-header-small-height);
     border-radius: var(--small-border-radius);
-    background-size: var(--building-small-width) 31px !important;
+    background-size: var(--building-small-width) var(--building-header-small-height) !important;
     background-repeat: no-repeat !important;
     background-position: bottom !important;
     margin: var(--gutter) 1px 0px 1px;
@@ -521,6 +528,9 @@ __     __         _       _     _
 .player_area_coins {
     float: right;
     text-align: center;
+
+    width: calc(var(--scale) * 30px);
+    height: calc(var(--scale) * 30px);
 }
 .player_area_coins span {
     top: 4px;
@@ -591,7 +601,7 @@ __     __         _       _     _
 
 .building_header_small {
     width: var(--building-small-width);
-    height: calc(62px * var(--building-small-scale));
+    height: var(--building-header-small-height);
     background-size: calc(var(--building-spritesheet-width) * var(--building-small-scale)) calc(var(--building-spritesheet-height) * var(--building-small-scale));
     border-radius: var(--small-border-radius);
     box-shadow:
