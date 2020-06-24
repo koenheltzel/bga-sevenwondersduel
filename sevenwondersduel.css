@@ -160,8 +160,7 @@ __     __         _       _     _
     flex-wrap: wrap;
 }
 
-#wonder_column .player_area_wonders:first-child {
-    /* Space between top player's and bottom player's wonders */
+#wonder_column>div:first-child .player_area_wonders {
     margin-bottom: var(--gutter);
 }
 
