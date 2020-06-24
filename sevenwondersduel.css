@@ -167,13 +167,13 @@ h3 {
 .wonder_selection_position {
     width: calc(var(--wonder-small-scale) * var(--wonder-width));
     height: calc(var(--wonder-small-scale) * var(--wonder-height));
-    display: inline-block;
+    float: left;
 }
 
-#wonder_selection_position_1, #wonder_selection_position_2 {
+#wonder_selection_position_0, #wonder_selection_position_1 {
     margin-bottom: var(--gutter);
 }
-#wonder_selection_position_1, #wonder_selection_position_3 {
+#wonder_selection_position_0, #wonder_selection_position_2 {
     margin-right: var(--gutter);
 }
 

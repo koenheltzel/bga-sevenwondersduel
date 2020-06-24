@@ -196,7 +196,7 @@ function (dojo, domAttr, domStyle, declare, on) {
             if (cards.constructor == Object) {
                 var position = 1;
                 Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
-                    var container = dojo.query('#wonder_selection_position_' + position)[0];
+                    var container = dojo.query('#wonder_selection_position_' + cards[cardId]['location_arg'])[0];
                     dojo.empty(container);
                     dojo.place(this.getWonderDiv(cards[cardId]), container);
                     position++;
