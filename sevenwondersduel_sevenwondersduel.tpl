@@ -30,7 +30,7 @@
     
     <div id="wonder_column">
         <!-- BEGIN player_wonders -->
-        <div id="player_area_content_{PLAYER_ID}_wonders" class="whiteblock player_area_wonders player_area_wrap {WHICH_PLAYER}">
+        <div id="player_area_content_{PLAYER_ID}_wonders" class="whiteblock player_area_wonders player_area_wonders_1_wide player_area_wrap {WHICH_PLAYER}">
             <div id="player_area_content_{PLAYER_ID}_wonder_position_1" class="player_area_wonder_position_1 card_outline"></div>
             <div id="player_area_content_{PLAYER_ID}_wonder_position_2" class="player_area_wonder_position_2 card_outline"></div>
             <div id="player_area_content_{PLAYER_ID}_wonder_position_3" class="player_area_wonder_position_3 card_outline"></div>
