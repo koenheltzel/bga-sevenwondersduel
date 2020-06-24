@@ -522,6 +522,12 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
             };
         },
 
+        setScale: function(scale) {
+            console.log('setScale', scale);
+            document.documentElement.style.setProperty('--scale', scale);
+            // dojo.style(swdNode, "zoom", scale);
+        },
+
         layoutUpdate: function() {
             var titlePosition = domGeom.position(dojo.query('#page-title')[0], false);
             var titleMarginBottom = 5;
@@ -548,7 +554,8 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
             if(ratio >= landscape){
                 console.log('ratio: ', ratio, 'choosing landscape');
                 domAttr.set(swdNode, 'data-wonder-columns', 2);
-                dojo.style(swdNode, "zoom", height / dojo.style(dojo.query('#swd_wrap')[0], 'height'));
+                this.setScale(1);
+                this.setScale(height / dojo.style(dojo.query('#swd_wrap')[0], 'height'));
             }
             else if(ratio < landscape && ratio > portrait){
                 Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function(playerId) {
@@ -558,10 +565,12 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
                 console.log('ratio: ', ratio, 'choosing square');
                 domAttr.set(swdNode, 'data-wonder-columns', 1);
                 if (width > height) {
-                    dojo.style(swdNode, "zoom", height / dojo.style(dojo.query('#swd_wrap')[0], 'height'));
+                    this.setScale(1);
+                    this.setScale(height / dojo.style(dojo.query('#swd_wrap')[0], 'height'));
                 }
                 else {
-                    dojo.style(swdNode, "zoom", width / dojo.style(dojo.query('#layout_flexbox')[0], 'width'));
+                    this.setScale(1);
+                    this.setScale(width / dojo.style(dojo.query('#layout_flexbox')[0], 'width'));
                 }
 
             }
@@ -572,7 +581,8 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
 
                 console.log('ratio: ', ratio, 'choosing portrait');
                 domAttr.set(swdNode, 'data-wonder-columns', 4);
-                dojo.style(swdNode, "zoom", width / dojo.style(dojo.query('#layout_flexbox')[0], 'width'));
+                this.setScale(1);
+                this.setScale(width / dojo.style(dojo.query('#layout_flexbox')[0], 'width'));
             }
             console.log('swd_wrap height: ', dojo.query('#swd_wrap')[0], 'height');
         },

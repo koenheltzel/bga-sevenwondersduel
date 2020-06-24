@@ -58,7 +58,8 @@ __     __         _       _     _
 */
 
 :root {
-    --gutter: 7.5px;
+    --scale: 0.5;
+    --gutter: calc(7.5px * var(--scale));
 
     --building-spritesheet-width: 2080px;
     --building-spritesheet-height: 2568px;
@@ -66,7 +67,7 @@ __     __         _       _     _
     --building-spritesheet-rows: 8;
     --building-width: calc(var(--building-spritesheet-width) / var(--building-spritesheet-columns));
     --building-height: calc(var(--building-spritesheet-height) / var(--building-spritesheet-rows));
-    --building-small-scale: 0.5;
+    --building-small-scale: calc(0.5 * var(--scale));
     --building-small-width: calc(var(--building-width) * var(--building-small-scale));
 
     --wonder-spritesheet-width: 1845px;
@@ -76,7 +77,7 @@ __     __         _       _     _
     --wonder-width: calc(var(--wonder-spritesheet-width) / var(--wonder-spritesheet-columns));
     --wonder-height: calc(var(--wonder-spritesheet-height) / var(--wonder-spritesheet-rows));
     --wonder-border-radius: 15px;
-    --wonder-small-scale: 0.58;
+    --wonder-small-scale: calc(0.58 * var(--scale));
     --wonder-plus-age-card-scale: 1.12;
 
     --progress-token-spritesheet-width: 800px;
@@ -89,7 +90,7 @@ __     __         _       _     _
 
     --board-width: 400px;
     --board-height: 1440px;
-    --board-scale: 0.63;
+    --board-scale: calc(0.5 * var(--scale));
 
     --small-border-radius: 7px;
 
