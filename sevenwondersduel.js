@@ -193,11 +193,13 @@ function (dojo, domAttr, domStyle, declare, on) {
 
         updateWonderSelection: function (cards) {
             var block = dojo.query('#wonder_selection_block')[0];
-            var container = dojo.query('#wonder_selection_container')[0];
             if (cards.constructor == Object) {
-                dojo.empty(container);
+                var position = 1;
                 Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
+                    var container = dojo.query('#wonder_selection_position_' + position)[0];
+                    dojo.empty(container);
                     dojo.place(this.getWonderDiv(cards[cardId]), container);
+                    position++;
                 }));
 
                 dojo.style(block, "display", "block");
@@ -209,9 +211,11 @@ function (dojo, domAttr, domStyle, declare, on) {
 
         updateDraftpool: function (draftpool) {
             console.log('updateDraftpool: ', draftpool);
-            dojo.empty("draftpool");
 
+            dojo.style('draftpool_container', 'display', draftpool.age > 0 ? 'block' : 'none');
             if (draftpool.age > 0) {
+                dojo.empty("draftpool");
+
                 for (var i = 0; i < draftpool.cards.length; i++) {
                     var position = draftpool.cards[i];
                     var spriteId = null;

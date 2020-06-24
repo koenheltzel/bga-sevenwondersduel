@@ -75,6 +75,7 @@ __     __         _       _     _
     --wonder-spritesheet-rows: 3;
     --wonder-width: calc(var(--wonder-spritesheet-width) / var(--wonder-spritesheet-columns));
     --wonder-height: calc(var(--wonder-spritesheet-height) / var(--wonder-spritesheet-rows));
+    --wonder-border-radius: 15px;
     --wonder-small-scale: 0.58;
     --wonder-plus-age-card-scale: 1.12;
 
@@ -89,6 +90,8 @@ __     __         _       _     _
     --board-width: 400px;
     --board-height: 1440px;
     --board-scale: 0.63;
+
+    --small-border-radius: 7px;
 
     --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.6);
     --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * 0.536);
@@ -156,6 +159,24 @@ h3 {
     display: inline-block;
 }
 
+.card_outline {
+    box-shadow: inset 0px 0px 4px 1px #0000001f;
+    border-radius: var(--small-border-radius);
+}
+
+.wonder_selection_position {
+    width: calc(var(--wonder-small-scale) * var(--wonder-width));
+    height: calc(var(--wonder-small-scale) * var(--wonder-height));
+    display: inline-block;
+}
+
+#wonder_selection_position_1, #wonder_selection_position_2 {
+    margin-bottom: var(--gutter);
+}
+#wonder_selection_position_1, #wonder_selection_position_3 {
+    margin-right: var(--gutter);
+}
+
 #middle_column {
     text-align: center;
 
@@ -195,7 +216,7 @@ h3 {
 .board {
     background-image: url('img/board.png');
     background-size: calc(var(--board-width) * var(--board-scale)) calc(var(--board-height) * var(--board-scale));
-    /*border-radius: 7px;*/
+    /*border-radius: var(--small-border-radius);*/
     filter: drop-shadow(0px 0px 3px #000000);
     position: absolute;
     display: inline-block;
@@ -308,7 +329,7 @@ h3 {
 
 .player_area_wrap {
     position: relative;
-    flex-grow: 2; /* Make player building div grow more than the draftpool container, so the buildings will be most toward the middle as possible. */
+    /*flex-grow: 2; !* Make player building div grow more than the draftpool container, so the buildings will be most toward the middle as possible. *!*/
     /*align-self: stretch;*/
 }
 
@@ -335,7 +356,7 @@ h3 {
     /*display: inline-block;*/
     min-width: var(--building-small-width);
     min-height: 31px;
-    border-radius: 7px;
+    border-radius: var(--small-border-radius);
     background-size: var(--building-small-width) 31px !important;
     background-repeat: no-repeat !important;
     background-position: bottom !important;
@@ -435,23 +456,25 @@ h3 {
     height: calc(4 * var(--wonder-small-scale) * var(--wonder-height) + 3 * var(--gutter));
 }
 
-.player_area_wonder_position_1 {
+.player_area_wonders > div {
     position: absolute;
+    width: calc(var(--wonder-small-scale) * var(--wonder-width));
+    height: calc(var(--wonder-small-scale) * var(--wonder-height));
+}
+
+.player_area_wonder_position_1 {
     top: var(--gutter);
 }
 
 .player_area_wonder_position_2 {
-    position: absolute;
     top: calc(1 * var(--wonder-small-scale) * var(--wonder-height) + 2 * var(--gutter));
 }
 
 .player_area_wonder_position_3 {
-    position: absolute;
     top: calc(2 * var(--wonder-small-scale) * var(--wonder-height) + 3 * var(--gutter));
 }
 
 .player_area_wonder_position_4 {
-    position: absolute;
     top: calc(3 * var(--wonder-small-scale) * var(--wonder-height) + 4 * var(--gutter));
 }
 
@@ -561,7 +584,7 @@ h3 {
     width: var(--building-small-width);
     height: calc(62px * var(--building-small-scale));
     background-size: calc(var(--building-spritesheet-width) * var(--building-small-scale)) calc(var(--building-spritesheet-height) * var(--building-small-scale));
-    border-radius: 7px;
+    border-radius: var(--small-border-radius);
     box-shadow:
         3px 3px 3px 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px 0.5px #00000060;
@@ -577,7 +600,7 @@ h3 {
     width: var(--building-small-width);
     height: calc(var(--building-height) * var(--building-small-scale));
     background-size: calc(var(--building-spritesheet-width) * var(--building-small-scale)) calc(var(--building-spritesheet-height) * var(--building-small-scale));
-    border-radius: 7px;
+    border-radius: var(--small-border-radius);
     box-shadow:
         0px 0px 3px 3px rgba(0,0,0,0.4),
         inset 0px 0px 0px 0.5px #00000060;
@@ -607,7 +630,7 @@ __        __              _
     background-image: url('img/wonders.jpg');
     position: absolute;
     cursor: pointer;
-    border-radius: 20px;
+    border-radius: var(--wonder-border-radius);
     box-shadow:
         5px 5px 5px 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px 1px #00000060;
@@ -621,7 +644,7 @@ __        __              _
     width: calc(var(--wonder-width) * var(--wonder-small-scale));
     height: calc(var(--wonder-height) * var(--wonder-small-scale));
     background-size: calc(var(--wonder-spritesheet-width) * var(--wonder-small-scale)) calc(var(--wonder-spritesheet-height) * var(--wonder-small-scale));
-    border-radius: 7px;
+    border-radius: var(--small-border-radius);
     box-shadow:
         3px 3px 3px 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px 0.5px #00000060;

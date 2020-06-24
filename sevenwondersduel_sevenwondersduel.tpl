@@ -30,11 +30,11 @@
     
     <div id="wonder_column">
         <!-- BEGIN player_wonders -->
-        <div id="player_area_content_{PLAYER_ID}_wonders" class="whiteblock player_area_wonders {WHICH_PLAYER}">
-            <div id="player_area_content_{PLAYER_ID}_wonder_position_1" class="player_area_wonder_position_1"></div>
-            <div id="player_area_content_{PLAYER_ID}_wonder_position_2" class="player_area_wonder_position_2"></div>
-            <div id="player_area_content_{PLAYER_ID}_wonder_position_3" class="player_area_wonder_position_3"></div>
-            <div id="player_area_content_{PLAYER_ID}_wonder_position_4" class="player_area_wonder_position_4"></div>
+        <div id="player_area_content_{PLAYER_ID}_wonders" class="whiteblock player_area_wonders player_area_wrap {WHICH_PLAYER}">
+            <div id="player_area_content_{PLAYER_ID}_wonder_position_1" class="player_area_wonder_position_1 card_outline"></div>
+            <div id="player_area_content_{PLAYER_ID}_wonder_position_2" class="player_area_wonder_position_2 card_outline"></div>
+            <div id="player_area_content_{PLAYER_ID}_wonder_position_3" class="player_area_wonder_position_3 card_outline"></div>
+            <div id="player_area_content_{PLAYER_ID}_wonder_position_4" class="player_area_wonder_position_4 card_outline"></div>
         </div>
         <!-- END player_wonders -->
     </div>
@@ -44,10 +44,8 @@
             <div id="wonder_selection_block" class="whiteblock">
                 <h3>Wonders selection:</h3>
                 <div id="wonder_selection_container">
-                    <!-- BEGIN block_catalog_wonder -->
-                    <div id="catalog_wonder_{id}" data-wonder-id="{id}" class="wonder wonder_small"
-                         style="background-position: -{x}00% -{y}00%;"></div>
-                    <!-- END block_catalog_wonder -->
+                    <div id="wonder_selection_position_1" class="wonder_selection_position card_outline"></div><div id="wonder_selection_position_2" class="wonder_selection_position card_outline"></div><br/>
+                    <div id="wonder_selection_position_3" class="wonder_selection_position card_outline"></div><div id="wonder_selection_position_4" class="wonder_selection_position card_outline"></div>
                 </div>
             </div>
             <div id="draftpool_container" style="display: inline-block">
