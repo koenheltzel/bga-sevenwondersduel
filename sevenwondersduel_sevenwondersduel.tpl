@@ -100,7 +100,10 @@
                 <div class="whiteblock player_info {WHICH_PLAYER}">
                     <!-- BEGIN board_player_row -->
                         <!-- BEGIN board_player_row_info -->
-                        <h3 style="color:#{PLAYER_COLOR}" class="player_area_name">{PLAYER_NAME}</h3>
+
+                        <div class="player_area_name">
+                            <h3 style="color:#{PLAYER_COLOR}" class="">{PLAYER_NAME}</h3>
+                        </div>
                         <div class="player_area_coins">
                             <div class="coin">
                                 <span id="player_area_{PLAYER_ID}_coins">24</span>

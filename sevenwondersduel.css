@@ -206,7 +206,7 @@ __     __         _       _     _
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: initial;
+    align-items: center;
     flex-wrap: wrap;
     width: calc(238px * var(--scale));
 }
@@ -360,6 +360,11 @@ __     __         _       _     _
 .player_area_name {
     position: relative;
     display: inline-block;
+    width: 65%;
+    text-align: center;
+}
+.player_area_name h3 {
+    margin:0px !important;
 }
 
 .player_buildings.me {
@@ -537,7 +542,6 @@ __     __         _       _     _
     vertical-align: top;
     text-align: center;
     position: relative;
-    margin-top: var(--gutter);
 }
 .player_area_progress_tokens>div {
     display: inline-block;
