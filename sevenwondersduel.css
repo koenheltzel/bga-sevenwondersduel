@@ -203,6 +203,7 @@ __     __         _       _     _
     justify-content: space-between;
     align-items: initial;
     flex-wrap: wrap;
+    width: calc(238px * var(--scale));
 }
 
 /*
@@ -341,6 +342,16 @@ __     __         _       _     _
                |___/
  */
 
+#swd_wrap.portrait .player_info.opponent {
+    border-radius: 0px var(--small-border-radius) 0px 0px;
+}
+#swd_wrap.portrait .player_info.me {
+    border-radius:  0px 0px var(--small-border-radius) 0px;
+}
+#swd_wrap.square .player_info, #swd_wrap.landscape .player_info {
+    border-radius: 0px var(--small-border-radius) var(--small-border-radius) 0px;
+}
+
 .player_area_name {
     position: relative;
     display: inline-block;
@@ -349,6 +360,7 @@ __     __         _       _     _
 .player_buildings.me {
     align-items: flex-start;
 }
+
 .player_buildings {
     min-height: calc(150px * var(--scale));
 
@@ -361,6 +373,18 @@ __     __         _       _     _
 
     /*flex-grow: 2; !* Make player building div grow more than the draftpool container, so the buildings will be most toward the middle as possible. *!*/
     /*align-self: stretch;*/
+}
+#swd_wrap.square .player_buildings.opponent, #swd_wrap.landscape .player_buildings.opponent {
+    border-radius: 0px 0px var(--small-border-radius) 0px;
+}
+#swd_wrap.square .player_buildings.me, #swd_wrap.landscape .player_buildings.me {
+    border-radius: 0px var(--small-border-radius) 0px 0px;
+}
+#swd_wrap.portrait .player_buildings.opponent {
+    border-radius: 0px 0px var(--small-border-radius) var(--small-border-radius);
+}
+#swd_wrap.portrait .player_buildings.me {
+    border-radius: var(--small-border-radius) var(--small-border-radius) 0px 0px;
 }
 
 .player_building_column {
@@ -446,6 +470,19 @@ __     __         _       _     _
     background: linear-gradient(to top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
+
+#swd_wrap.portrait .player_wonders.opponent {
+    border-radius: var(--small-border-radius) var(--small-border-radius) 0px 0px;
+}
+#swd_wrap.portrait .player_wonders.me {
+    border-radius: 0px 0px var(--small-border-radius) var(--small-border-radius);
+}
+#swd_wrap.square .player_wonders.opponent, #swd_wrap.landscape .player_wonders.opponent {
+    border-radius: var(--small-border-radius) 0px var(--small-border-radius) var(--small-border-radius);
+}
+#swd_wrap.square .player_wonders.me, #swd_wrap.landscape .player_wonders.me {
+    border-radius: var(--small-border-radius) var(--small-border-radius) 0px var(--small-border-radius);
+}
 .player_wonders .wonder_small {
     margin-right: 40px;
     z-index: 2;
