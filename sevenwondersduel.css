@@ -208,11 +208,11 @@ __     __         _       _     _
     justify-content: space-between;
     flex-wrap: wrap;
 }
-#swd_wrap.portrait board_column {
+#swd_wrap.portrait #board_column {
     /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
     width: calc(238px * var(--scale));
 }
-#swd_wrap.square board_column, #swd_wrap.square board_column {
+#swd_wrap.square #board_column, #swd_wrap.square #board_column {
     /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
     width: calc(215px * var(--scale));
 }
