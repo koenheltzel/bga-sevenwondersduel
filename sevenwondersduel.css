@@ -448,13 +448,15 @@ __     __         _       _     _
 .player_wonders .wonder_small {
     margin-right: 40px;
     z-index: 2;
-    position: relative;
+    position: absolute;
 }
 .player_wonders .age_card_container {
-    transform: rotate(-90deg);
     position: relative;
-    top: -159px;
-    left: -40px;
+    transform: rotate(-90deg);
+    top: calc(-10px * var(--scale));
+    left: calc(103px * var(--scale));
+    width: var(--building-small-width);
+    height: calc(var(--building-height) * var(--building-small-scale));
 }
 .player_wonders .age_card_container .building_small {
     position: absolute;
