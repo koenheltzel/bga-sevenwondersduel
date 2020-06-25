@@ -174,6 +174,11 @@ __     __         _       _     _
     border-radius: var(--small-border-radius);
 }
 
+.progress_token_outline {
+    box-shadow: inset 0px 0px 4px 1px #0000001f;
+    border-radius: calc(var(--progress-token-width) * var(--progress-token-small-scale) * 0.5);
+}
+
 #wonder_selection_container>div {
     width: calc(var(--wonder-small-scale) * var(--wonder-width));
     height: calc(var(--wonder-small-scale) * var(--wonder-height));
@@ -233,30 +238,30 @@ __     __         _       _     _
     display: inline-block;
 }
 
-#board_progress_token_container0, #board_progress_token_container1, #board_progress_token_container2, #board_progress_token_container3, #board_progress_token_container4 {
+#board_progress_tokens>div {
     position: absolute;
     left: calc(var(--board-width) * var(--board-scale) * 0.65);
     width: 80px;
     height: 80px;
 }
 
-#board_progress_token_container0 {
+#board_progress_tokens>div:nth-of-type(1) {
     top: calc(var(--board-height) * var(--board-scale) * 0.25);
 }
 
-#board_progress_token_container1 {
+#board_progress_tokens>div:nth-of-type(2) {
     top: calc(var(--board-height) * var(--board-scale) * 0.353);
 }
 
-#board_progress_token_container2 {
+#board_progress_tokens>div:nth-of-type(3) {
     top: calc(var(--board-height) * var(--board-scale) * 0.455);
 }
 
-#board_progress_token_container3 {
+#board_progress_tokens>div:nth-of-type(4) {
     top: calc(var(--board-height) * var(--board-scale) * 0.559);
 }
 
-#board_progress_token_container4 {
+#board_progress_tokens>div:nth-of-type(5) {
     top: calc(var(--board-height) * var(--board-scale) * 0.657);
 }
 
@@ -530,32 +535,19 @@ __     __         _       _     _
 .player_area_progress_tokens {
     display: inline-block;
     vertical-align: top;
+    text-align: center;
     position: relative;
     margin-top: var(--gutter);
 }
-.player_area_progress_tokens .progress_token_small {
-    position: absolute;
+.player_area_progress_tokens>div {
+    display: inline-block;
+    width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
+    height: calc(var(--progress-token-height) * var(--progress-token-small-scale));
 }
-
-.player_area_progress_tokens .progress_token_small:nth-of-type(2) {
-    left: 80px;
-    top: 45px;
-}
-.player_area_progress_tokens .progress_token_small:nth-of-type(3) {
-    left: 0px;
-    top: 90px;
-}
-.player_area_progress_tokens .progress_token_small:nth-of-type(4) {
-    left: 80px;
-    top: 135px;
-}
-.player_area_progress_tokens .progress_token_small:nth-of-type(5) {
-    left: 0px;
-    top: 180px;
-}
-.player_area_progress_tokens .progress_token_small:nth-of-type(6) {
-    left: 80px;
-    top: 225px;
+.player_area_progress_tokens>div:nth-of-type(4), .player_area_progress_tokens>div:nth-of-type(5) {
+    position: relative;
+    top:-8px;
+    display: none;
 }
 
 .player_area_coins {

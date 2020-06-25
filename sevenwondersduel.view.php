@@ -41,7 +41,6 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
         /*********** Place your code below:  ************/
 
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_board_progresstoken_container");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row_info");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row_progress_tokens");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row");
@@ -66,9 +65,6 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
             $this->page->reset_subblocks('board_player_row');
 
             if ($playerId == Player::me()->id) {
-                for ($i = 0; $i < 5; $i++) {
-                    $this->page->insert_block("block_board_progresstoken_container", ["i" => $i]);
-                }
                 $this->page->insert_block("board");
             }
 

@@ -87,9 +87,13 @@
                 <!-- BEGIN board -->
                 <div id="board_container">
                     <div class="board"></div>
-                    <!-- BEGIN block_board_progresstoken_container -->
-                    <div id="board_progress_token_container{i}"></div>
-                    <!-- END block_board_progresstoken_container -->
+                    <div id="board_progress_tokens">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
                 </div>
                 <!-- END board -->
                 <!-- BEGIN board_player -->
@@ -98,13 +102,18 @@
                         <!-- BEGIN board_player_row_info -->
                         <h3 style="color:#{PLAYER_COLOR}" class="player_area_name">{PLAYER_NAME}</h3>
                         <div class="player_area_coins">
-                        <div class="coin">
-                            <span id="player_area_{PLAYER_ID}_coins">24</span>
-                        </div>
+                            <div class="coin">
+                                <span id="player_area_{PLAYER_ID}_coins">24</span>
+                            </div>
                         </div>
                         <!-- END board_player_row_info -->
                         <!-- BEGIN board_player_row_progress_tokens -->
                         <div class="player_area_progress_tokens">
+                            <div class="progress_token_outline"><div></div></div>
+                            <div class="progress_token_outline"><div></div></div>
+                            <div class="progress_token_outline"><div></div></div>
+                            <div class="progress_token_outline"><div></div></div>
+                            <div class="progress_token_outline"><div></div></div>
                         </div>
                         <!-- END board_player_row_progress_tokens -->
                     <!-- END board_player_row -->

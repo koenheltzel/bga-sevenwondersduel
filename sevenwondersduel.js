@@ -127,7 +127,7 @@ function (dojo, declare, on) {
             for (var i = 0; i < 5; i++) {
                 var location = progressTokensBoard[i];
                 var progressToken = this.gamedatas.progressTokens[location.type_arg];
-                var container = dojo.query('#board_progress_token_container' + i)[0];
+                var container = dojo.query('#board_progress_tokens>div:nth-of-type(' + (i + 1) + ')')[0];
                 dojo.empty(container);
                 if (typeof location != 'undefined') {
                     var data = {
