@@ -39,7 +39,7 @@
         <div id="wonder_column">
             <!-- BEGIN player_wonders -->
             <div id="player_wonders_container_{PLAYER_ID}">
-                <div id="player_wonders_{PLAYER_ID}" class="whiteblock player_wonders player_area_wrap player{PLAYER_ID} {WHICH_PLAYER}">
+                <div id="player_wonders_{PLAYER_ID}" class="whiteblock player_wonders player{PLAYER_ID} {WHICH_PLAYER}">
                     <div class="card_outline"></div>
                     <div class="card_outline"></div>
                     <div class="card_outline"></div>
