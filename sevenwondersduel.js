@@ -268,6 +268,8 @@ function (dojo, declare, on) {
                 // Adjust the height of the age divs based on the age cards absolutely positioned within.
                 var rows = draftpool.age == 3 ? 7 : 5;
                 dojo.setStyle(dojo.query('.draftpool')[0], "height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + " * var(--draftpool-row-height))");
+
+                this.updateLayout();
             }
 
         },
@@ -543,7 +545,7 @@ function (dojo, declare, on) {
             // dojo.style(swdNode, "zoom", scale);
         },
 
-        layoutUpdate: function() {
+        updateLayout: function() {
             var titlePosition = dojo.position(dojo.query('#page-title')[0], false);
             var titleMarginBottom = 5;
             var width = titlePosition.w - 5;
@@ -609,11 +611,11 @@ function (dojo, declare, on) {
         onWindowUpdate: function (e) {
             console.log('onWindowUpdate', e);
 
-            this.layoutUpdate();
+            this.updateLayout();
 
             // clearTimeout(this.windowResizeTimeoutId);
             // // Set up the callback
-            // this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "layoutUpdate"), 10);
+            // this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "updateLayout"), 10);
         },
 
         
