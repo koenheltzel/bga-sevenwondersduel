@@ -31,7 +31,7 @@
     box-shadow: rgba(0, 0, 0, 1) 0px 0px 0px 10px inset;
     background-color: red;
     z-index: 50; opacity: 0.5; display: none"></div>
-<div id="swd_wrap" data-wonder-columns="1">
+<div id="swd_wrap" class="square" data-wonder-columns="1">
     <div id="player_wonders_mobile_container_{PLAYER_OPPONENT_ID}">
         <div></div>
     </div>

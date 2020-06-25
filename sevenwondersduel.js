@@ -533,7 +533,7 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
             var titlePosition = domGeom.position(dojo.query('#page-title')[0], false);
             var titleMarginBottom = 5;
             var width = titlePosition.w - 5;
-            var height = window.innerHeight - titlePosition.y - titlePosition.h - titleMarginBottom;
+            var height = window.innerHeight - titlePosition.y - titlePosition.h - 2 * titleMarginBottom;
 
             var playarea = dojo.query('#playarea')[0];
             dojo.style(playarea, "width", width + 'px');
@@ -549,12 +549,16 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
             // Measured in 75% view, without any player buildings (meaning the height can become heigher:
             var portrait = 0.8;//747 / 987; // 0.76
             // var square = 947 / 897; // 1.056
-            var landscape = 1.57; //1131/ 756; // 1.60
+            var landscape = 1.74; //1131/ 756; // 1.60
 
             var swdNode = dojo.query('#swd_wrap')[0];
+            dojo.removeClass(swdNode, 'square');
+            dojo.removeClass(swdNode, 'portrait');
+            dojo.removeClass(swdNode, 'landscape');
+
             if(ratio >= landscape){
                 console.log('ratio: ', ratio, 'choosing landscape');
-                domAttr.set(swdNode, 'data-wonder-columns', 2);
+                dojo.addClass(swdNode, 'landscape');
                 this.setScale(1);
                 this.setScale(height / dojo.style(dojo.query('#swd_wrap')[0], 'height'));
             }
@@ -564,7 +568,7 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
                 }));
 
                 console.log('ratio: ', ratio, 'choosing square');
-                domAttr.set(swdNode, 'data-wonder-columns', 1);
+                dojo.addClass(swdNode, 'square');
                 if (width > height) {
                     this.setScale(1);
                     this.setScale(height / dojo.style(dojo.query('#swd_wrap')[0], 'height'));
@@ -581,7 +585,7 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
                 }));
 
                 console.log('ratio: ', ratio, 'choosing portrait');
-                domAttr.set(swdNode, 'data-wonder-columns', 4);
+                dojo.addClass(swdNode, 'portrait');
                 this.setScale(1);
                 this.setScale(width / dojo.style(dojo.query('#layout_flexbox')[0], 'width'));
             }
@@ -593,7 +597,7 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
 
             clearTimeout(this.windowResizeTimeoutId);
             // Set up the callback
-            this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "layoutUpdate"), 100);
+            this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "layoutUpdate"), 10);
         },
 
         
