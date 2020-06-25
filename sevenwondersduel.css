@@ -206,11 +206,16 @@ __     __         _       _     _
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: flex-end;
     flex-wrap: wrap;
+}
+#swd_wrap.portrait board_column {
+    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
     width: calc(238px * var(--scale));
 }
-
+#swd_wrap.square board_column, #swd_wrap.square board_column {
+    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
+    width: calc(215px * var(--scale));
+}
 /*
  ____                      _
 | __ )  ___   __ _ _ __ __| |
@@ -222,6 +227,7 @@ __     __         _       _     _
 #board_container {
     position: relative;
     display: inline-block;
+    align-self: flex-end;
 }
 
 .board, #board_container {
@@ -347,6 +353,15 @@ __     __         _       _     _
                |___/
  */
 
+.player_info_sub {
+    display : flex;
+    align-items : center;
+    justify-content: space-between;
+}
+
+.player_info {
+    text-align: center;
+}
 .player_info.opponent {
     margin-bottom: var(--gutter) !important;
 }
@@ -354,11 +369,10 @@ __     __         _       _     _
     margin-top: var(--gutter) !important;
 }
 #swd_wrap.portrait .player_info.opponent {
-    border-radius: 0px var(--small-border-radius) 0px 0px;
+    border-radius:  0px 0px var(--small-border-radius) 0px;
 }
 #swd_wrap.portrait .player_info.me {
-    border-radius:  0px 0px var(--small-border-radius) 0px;
-    margin-top: var(--gutter);
+    border-radius: 0px var(--small-border-radius) 0px 0px;
 }
 #swd_wrap.square .player_info, #swd_wrap.landscape .player_info {
     border-radius: 0px var(--small-border-radius) var(--small-border-radius) 0px;
@@ -367,7 +381,7 @@ __     __         _       _     _
 .player_area_name {
     position: relative;
     display: inline-block;
-    width: 65%;
+    width: 75%;
     text-align: center;
 }
 .player_area_name h3 {
