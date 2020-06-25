@@ -147,7 +147,7 @@ function (dojo, declare, on) {
             node.innerHTML = coins;
         },
 
-        getBuildingDiv: function (id, cardId) {
+        getBuildingDivHtml: function (id, cardId) {
             var data = {
                 jsCardId: cardId,
                 jsId: id,
@@ -159,7 +159,7 @@ function (dojo, declare, on) {
             return this.format_block('jstpl_player_building', data);
         },
 
-        getWonderDiv: function (card) {
+        getWonderDivHtml: function (card) {
             var id = card.type_arg;
             var data = {
                 jsCardId: card.id,
@@ -177,7 +177,22 @@ function (dojo, declare, on) {
                 var i = 1;
                 Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
                     var container = dojo.query('.player_wonders.player' + playerId + '>div:nth-of-type(' + i + ')')[0];
-                    dojo.place(this.getWonderDiv(cards[cardId]), container);
+
+                    var wonderDivHtml = this.getWonderDivHtml(cards[cardId]);
+                    var wonderDiv = dojo.place(wonderDivHtml, container);
+
+                    if(1) {
+                        var randomAge = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+                        id = 73 + randomAge;
+                        var data = {
+                            jsData: '',
+                            jsId: id
+                        };
+                        var spritesheetColumns = 10;
+                        data.jsX = (id - 1) % spritesheetColumns;
+                        data.jsY = Math.floor((id - 1) / spritesheetColumns);
+                        dojo.place(this.format_block('jstpl_wonder_age_card', data), dojo.query('.age_card_container', wonderDiv)[0]);
+                    }
                     i++;
                 }));
             }
@@ -189,7 +204,7 @@ function (dojo, declare, on) {
                 Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
                     var building = this.gamedatas.buildings[cards[cardId].type_arg];
                     var container = dojo.query('.player_buildings.player' + playerId + ' .' + building.type)[0];
-                    dojo.place(this.getBuildingDiv(cards[cardId].type_arg, cardId), container);
+                    dojo.place(this.getBuildingDivHtml(cards[cardId].type_arg, cardId), container);
                     i++;
                 }));
             }
@@ -202,7 +217,7 @@ function (dojo, declare, on) {
                 Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
                     var container = dojo.query('#wonder_selection_container>div:nth-of-type(' + (parseInt(cards[cardId]['location_arg']) + 1) + ')')[0];
                     dojo.empty(container);
-                    dojo.place(this.getWonderDiv(cards[cardId]), container);
+                    dojo.place(this.getWonderDivHtml(cards[cardId]), container);
                     position++;
                 }));
 
@@ -667,7 +682,7 @@ function (dojo, declare, on) {
 
             var building = this.gamedatas.buildings[notif.args.buildingId];
             var container = dojo.query('.player_buildings.player' + notif.args.playerId + ' .' + building.type)[0];
-            dojo.place(this.getBuildingDiv(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container);
+            dojo.place(this.getBuildingDivHtml(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container);
             this.fadeOutAndDestroy(buildingNode);
 
             this.updateDraftpool(notif.args.draftpool);
