@@ -133,6 +133,15 @@ __     __         _       _     _
     display: inline-block;
 }
 
+@keyframes glow {
+    from {
+        box-shadow: 0 0 5px 1px #f8b305;
+    }
+    to {
+        box-shadow: 0 0 5px 5px #f8b305;
+    }
+}
+
 /*
  _                            _   
 | |    __ _ _   _  ___  _   _| |_ 

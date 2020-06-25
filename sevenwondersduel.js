@@ -508,7 +508,15 @@ function (dojo, declare, on, dom) {
             // Preventing default browser reaction
             dojo.stopEvent(e);
 
+
+            if (this.playerTurnCardId) {
+                dojo.setStyle(dojo.query("[data-card-id=" + this.playerTurnCardId + "]")[0], 'animation', 'none');
+            }
+
             var building = dojo.query(e.target);
+
+            dojo.setStyle(e.target, 'animation', 'glow 1s infinite alternate');
+
             this.playerTurnCardId = building.attr('data-card-id').pop();
             this.playerTurnBuildingId = building.attr('data-building-id').pop();
 
