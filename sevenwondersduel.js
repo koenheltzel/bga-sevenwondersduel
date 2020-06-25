@@ -17,7 +17,6 @@
 
 define([
     "dojo",
-    "dojo/dom-attr",
     "dojo/dom-geometry",
     "dojo/_base/declare",
     "dojo/query",
@@ -25,7 +24,7 @@ define([
     "ebg/core/gamegui",
     "ebg/counter"
 ],
-function (dojo, domAttr, domGeom, declare, on) {
+function (dojo, domGeom, declare, on) {
     return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
         constructor: function(){
             // Tooltip settings
@@ -93,7 +92,7 @@ function (dojo, domAttr, domGeom, declare, on) {
                 selector: '.building_small, .building_header_small',
                 showDelay: this.toolTipDelay,
                 getContent: dojo.hitch( this, function(node) {
-                    var id = domAttr.get(node, "data-building-id");
+                    var id = dojo.attr(node, "data-building-id");
                     return this.getBuildingTooltip(id);
                 })
             });
@@ -104,7 +103,7 @@ function (dojo, domAttr, domGeom, declare, on) {
                 selector: '.wonder_small',
                 showDelay: this.toolTipDelay,
                 getContent: dojo.hitch( this, function(node) {
-                    var id = domAttr.get(node, "data-wonder-id");
+                    var id = dojo.attr(node, "data-wonder-id");
                     return this.getWonderTooltip(id);
                 })
             });
@@ -115,7 +114,7 @@ function (dojo, domAttr, domGeom, declare, on) {
                 selector: '.progress_token_small',
                 showDelay: this.toolTipDelay,
                 getContent: dojo.hitch( this, function(node) {
-                    var id = domAttr.get(node, "data-progress-token-id");
+                    var id = dojo.attr(node, "data-progress-token-id");
                     return this.getProgressTokenTooltip( id );
                 })
             });
