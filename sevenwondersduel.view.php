@@ -87,7 +87,8 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                 "CLASS" => $boardPlayerClasses[$index],
                 "PLAYER_ID" => $playerId,
                 "PLAYER_NAME" => $player['player_name'],
-                "PLAYER_COLOR" => $player['player_color']
+                "PLAYER_COLOR" => $player['player_color'],
+                "WHICH_PLAYER" => $playerId == Player::me()->id ? 'me' : 'opponent'
             ));
 
             $this->page->insert_block("board_column_block");

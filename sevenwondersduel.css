@@ -206,7 +206,7 @@ __     __         _       _     _
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     flex-wrap: wrap;
     width: calc(238px * var(--scale));
 }
@@ -347,11 +347,18 @@ __     __         _       _     _
                |___/
  */
 
+.player_info.opponent {
+    margin-bottom: var(--gutter) !important;
+}
+.player_info.me {
+    margin-top: var(--gutter) !important;
+}
 #swd_wrap.portrait .player_info.opponent {
     border-radius: 0px var(--small-border-radius) 0px 0px;
 }
 #swd_wrap.portrait .player_info.me {
     border-radius:  0px 0px var(--small-border-radius) 0px;
+    margin-top: var(--gutter);
 }
 #swd_wrap.square .player_info, #swd_wrap.landscape .player_info {
     border-radius: 0px var(--small-border-radius) var(--small-border-radius) 0px;
