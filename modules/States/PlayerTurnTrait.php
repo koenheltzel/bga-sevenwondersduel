@@ -69,6 +69,42 @@ trait PlayerTurnTrait {
     public function actionDiscardBuilding($cardId) {
         $this->checkAction("actionDiscardBuilding");
 
+        $playerId = self::getCurrentPlayerId();
+
+        $age = SevenWondersDuel::get()->getCurrentAge();
+        $cards = $this->buildingDeck->getCardsInLocation("age{$age}");
+        if (!array_key_exists($cardId, $cards)) {
+            throw new \BgaUserException( self::_("The building you selected is not available.") );
+        }
+
+        $card = $cards[$cardId];
+        $building = Building::get($card['type_arg']);
+
+        if (!Draftpool::buildingAvailable($building->id)) {
+            throw new \BgaUserException( self::_("The building you selected is still covered by other buildings, so it can't be picked.") );
+        }
+
+        $discardGain = Player::me()->calculateDiscardGain($building);
+        Player::me()->increaseCoins($discardGain);
+
+        $this->buildingDeck->moveCard($cardId, 'discard');
+
+        $this->notifyAllPlayers(
+            'discardBuilding',
+            clienttranslate('${player_name} discarded building ${buildingName} for ${gain}.'),
+            [
+                'buildingName' => $building->name,
+                'gain' => $discardGain . " " . COINS,
+                'player_name' => $this->getCurrentPlayerName(),
+                'playerId' => $playerId,
+                'buildingId' => $building->id,
+                'draftpool' => Draftpool::get(),
+                'playerCoins' => Player::me()->getCoins(),
+            ]
+        );
+
+        $this->gamestate->nextState( self::STATE_DISCARD_BUILDING_NAME);
+
     }
 
     public function actionConstructWonder($cardId, $wonderId) {

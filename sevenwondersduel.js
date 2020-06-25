@@ -20,15 +20,18 @@ define([
     "dojo/_base/declare",
     "dojo/query",
     "dojo/on",
+    "dojo/dom",
     "ebg/core/gamegui",
     "ebg/counter"
 ],
-function (dojo, declare, on) {
+function (dojo, declare, on, dom) {
     return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
         constructor: function(){
             // Tooltip settings
             this.toolTipDelay = 100;
             this.windowResizeTimeoutId = null;
+            this.playerTurnCardId = null;
+            this.playerTurnBuildingId = null;
             dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
         },
         
@@ -69,7 +72,11 @@ function (dojo, declare, on) {
 
             // Click handlers using event delegation:
             dojo.query('#wonder_selection_container').on(".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
-            dojo.query('#draftpool').on(".building.available:click", dojo.hitch(this, "onDraftpoolBuildingClick"));
+            dojo.query('#draftpool').on(".building.available:click", dojo.hitch(this, "onPlayerTurnDraftpoolClick"));
+            // Click handlers without event delegation:
+            dojo.query("#buttonConstructBuilding").on("click", dojo.hitch(this, "onPlayerTurnConstructBuildingClick"));
+            dojo.query("#buttonDiscardBuilding").on("click", dojo.hitch(this, "onPlayerTurnDiscardBuildingClick"));
+            dojo.query("#buttonConstructBuilding").on("click", dojo.hitch(this, "onPlayerTurnConstructWonderClick"));
 
             // Resize/scroll handler to determine layout and scale factor
             window.addEventListener('resize', dojo.hitch(this, "onWindowUpdate"));
@@ -496,14 +503,23 @@ function (dojo, declare, on) {
             });
         },
 
-        onDraftpoolBuildingClick: function (e) {
-            console.log('onDraftpoolBuildingClick');
+        onPlayerTurnDraftpoolClick: function (e) {
+            console.log('onPlayerTurnDraftpoolClick');
             // Preventing default browser reaction
             dojo.stopEvent(e);
 
             var building = dojo.query(e.target);
-            console.log('building ', building);
-            console.log('data-card-id ', building.attr('data-card-id').pop());
+            this.playerTurnCardId = building.attr('data-card-id').pop();
+            this.playerTurnBuildingId = building.attr('data-building-id').pop();
+
+            dojo.setStyle('draftpool_actions', 'display', 'block');
+        },
+
+        onPlayerTurnConstructBuildingClick: function (e) {
+            // Preventing default browser reaction
+            dojo.stopEvent(e);
+
+            console.log('onPlayerTurnConstructBuildingClick');
 
             // Check that this action is possible (see "possibleactions" in states.inc.php)
             if (!this.checkAction('actionConstructBuilding')) {
@@ -511,10 +527,11 @@ function (dojo, declare, on) {
             }
 
             this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
-                    cardId: building.attr('data-card-id')
+                    cardId: this.playerTurnCardId
                 },
                 this, function (result) {
                     console.log('success result: ', result);
+                    dojo.setStyle('draftpool_actions', 'display', 'none');
                     // What to do after the server call if it succeeded
                     // (most of the time: nothing)
 
@@ -528,6 +545,45 @@ function (dojo, declare, on) {
 
                 }
             );
+        },
+
+        onPlayerTurnDiscardBuildingClick: function (e) {
+            // Preventing default browser reaction
+            dojo.stopEvent(e);
+
+            console.log('onPlayerTurnDiscardBuildingClick');
+
+            // Check that this action is possible (see "possibleactions" in states.inc.php)
+            if (!this.checkAction('actionDiscardBuilding')) {
+                return;
+            }
+
+            this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
+                    cardId: this.playerTurnCardId
+                },
+                this, function (result) {
+                    console.log('success result: ', result);
+                    dojo.setStyle('draftpool_actions', 'display', 'none');
+                    // What to do after the server call if it succeeded
+                    // (most of the time: nothing)
+
+                    // Hide wonder selection
+                    // dojo.style('pattern_selection', 'display', 'none');
+
+                }, function (is_error) {
+                    console.log('error result: ', is_error);
+                    // What to do after the server call in anyway (success or failure)
+                    // (most of the time: nothing)
+
+                }
+            );
+        },
+
+        onPlayerTurnConstructWonderClick: function (e) {
+            // Preventing default browser reaction
+            dojo.stopEvent(e);
+
+            console.log('onPlayerTurnConstructWonderClick');
         },
 
         getOffset: function(el) {
@@ -650,6 +706,7 @@ function (dojo, declare, on) {
             dojo.subscribe( 'wonderSelected', this, "notif_wonderSelected" );
             dojo.subscribe( 'nextAge', this, "notif_nextAge" );
             dojo.subscribe( 'constructBuilding', this, "notif_constructBuilding" );
+            dojo.subscribe( 'discardBuilding', this, "notif_discardBuilding" );
         },
         
         // TODO: from this point and below, you can write your game notifications handling methods
@@ -691,7 +748,22 @@ function (dojo, declare, on) {
             this.fadeOutAndDestroy(buildingNode);
 
             this.updateDraftpool(notif.args.draftpool);
-        }
+        },
+
+        notif_discardBuilding: function(notif) {
+            console.log( 'notif_discardBuilding' );
+            console.log( notif );
+
+            this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
+
+            // var buildingNodeId = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0].attr('id');
+            var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
+            dijit.Tooltip.hide(buildingNode);
+
+            this.fadeOutAndDestroy(buildingNode);
+
+            this.updateDraftpool(notif.args.draftpool);
+        },
 
         /*
         Example:

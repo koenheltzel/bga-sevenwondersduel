@@ -319,7 +319,7 @@ __     __         _       _     _
     text-shadow: 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white;
 }
 
-.draftpool_actions {
+#draftpool_actions {
     text-align: center;
     display: none;
 }

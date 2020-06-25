@@ -62,10 +62,10 @@
                     <div id="draftpool" class="draftpool age">
 
                     </div>
-                    <div class="draftpool_actions">
-                        <a href="#" id="building" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>Construct building</span></a>
-                        <a href="#" id="building" class="action_button bgabutton bgabutton_blue"><div class="action_discard"></div><span>Discard to obtain coins</span></a>
-                        <a href="#" id="building" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>Construct a wonder</span></a>
+                    <div id="draftpool_actions" class="whiteblock">
+                        <a href="#" id="buttonConstructBuilding" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>Construct building</span></a>
+                        <a href="#" id="buttonDiscardBuilding" class="action_button bgabutton bgabutton_blue"><div class="action_discard"></div><span>Discard to obtain coins</span></a>
+                        <a href="#" id="buttonConstructWonder" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>Construct a wonder</span></a>
                     </div>
                 </div>
                 <!-- END draftpool -->
