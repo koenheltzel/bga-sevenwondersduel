@@ -70,14 +70,14 @@
                 </div>
                 <!-- END draftpool -->
                 <!-- BEGIN player_buildings -->
-                <div class="player_area_buildings whiteblock player{PLAYER_ID} {WHICH_PLAYER}">
-                    <div class="player_area_building_column Brown" title="Raw materials"></div>
-                    <div class="player_area_building_column Grey" title="Manufactured goods"></div>
-                    <div class="player_area_building_column Yellow" title="Commercial Buildings"></div>
-                    <div class="player_area_building_column Red" title="Military Buildings"></div>
-                    <div class="player_area_building_column Blue" title="Civilian Buildings"></div>
-                    <div class="player_area_building_column Green" title="Scientific Buildings"></div>
-                    <div class="player_area_building_column Purple" title="Guilds"></div>
+                <div class="player_buildings whiteblock player{PLAYER_ID} {WHICH_PLAYER}">
+                    <div class="player_building_column Brown" title="Raw materials"></div>
+                    <div class="player_building_column Grey" title="Manufactured goods"></div>
+                    <div class="player_building_column Yellow" title="Commercial Buildings"></div>
+                    <div class="player_building_column Red" title="Military Buildings"></div>
+                    <div class="player_building_column Blue" title="Civilian Buildings"></div>
+                    <div class="player_building_column Green" title="Scientific Buildings"></div>
+                    <div class="player_building_column Purple" title="Guilds"></div>
                 </div>
                 <!-- END player_buildings -->
             <!-- END middle_column_block -->
@@ -173,7 +173,7 @@ var jstpl_draftpool_building = '\
     <div class="drafpool_building_cost"><div class="coin" style="display: ${jsDisplayCost}"><span>${jsCost}</span></div></div>\
     </div>';
 
-// Keep title attribute empty. This overrides the title attribute of the player_area_building_column div.
+// Keep title attribute empty. This overrides the title attribute of the player_building_column div.
 var jstpl_player_building = '\
     <div id="player_building_${jsId}"\
         data-building-id="${jsId}"\
