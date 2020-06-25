@@ -608,9 +608,11 @@ function (dojo, declare, on) {
         onWindowUpdate: function (e) {
             console.log('onWindowUpdate', e);
 
-            clearTimeout(this.windowResizeTimeoutId);
-            // Set up the callback
-            this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "layoutUpdate"), 10);
+            this.layoutUpdate();
+
+            // clearTimeout(this.windowResizeTimeoutId);
+            // // Set up the callback
+            // this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "layoutUpdate"), 10);
         },
 
         

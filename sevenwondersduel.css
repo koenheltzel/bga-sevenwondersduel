@@ -69,6 +69,7 @@ __     __         _       _     _
     --building-height: calc(var(--building-spritesheet-height) / var(--building-spritesheet-rows));
     --building-small-scale: calc(0.5 * var(--scale));
     --building-small-width: calc(var(--building-width) * var(--building-small-scale));
+    --building-small-height: calc(var(--building-height) * var(--building-small-scale));
     --building-header-small-height: calc(62px * var(--building-small-scale));
 
     --wonder-spritesheet-width: 1845px;
@@ -109,7 +110,7 @@ __     __         _       _     _
 
 #swd_wrap h3 {
     margin: 0px 0px var(--gutter) 0px;
-    font-size: max(12px, calc(16px * var(--scale)));
+    font-size: max(12px, 16px * var(--scale));
 }
 
 #swd_wrap .whiteblock h3 {
@@ -456,7 +457,7 @@ __     __         _       _     _
     top: calc(-10px * var(--scale));
     left: calc(103px * var(--scale));
     width: var(--building-small-width);
-    height: calc(var(--building-height) * var(--building-small-scale));
+    height: var(--building-small-height);
 }
 .player_wonders .age_card_container .building_small {
     position: absolute;
@@ -612,7 +613,7 @@ __     __         _       _     _
 
 .building_small {
     width: var(--building-small-width);
-    height: calc(var(--building-height) * var(--building-small-scale));
+    height: var(--building-small-height);
     background-size: calc(var(--building-spritesheet-width) * var(--building-small-scale)) calc(var(--building-spritesheet-height) * var(--building-small-scale));
     border-radius: var(--small-border-radius);
     box-shadow:
