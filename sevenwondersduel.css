@@ -691,6 +691,11 @@ __        __              _
    \_/\_/ \___/|_| |_|\__,_|\___|_|  |___/
  */
 
+.wonder_container {
+    display: inline-block;
+    position: relative; /* Without this the wonder won't slide properly */
+}
+
 .wonder {
     width: var(--wonder-width);
     height: var(--wonder-height);

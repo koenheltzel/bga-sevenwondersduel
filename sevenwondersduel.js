@@ -661,10 +661,10 @@ function (dojo, declare, on) {
             var wonderNode = dojo.query('#wonder_' + notif.args.wonderId)[0];
             dijit.Tooltip.hide(wonderNode);
 
-            var wonderNodeId = 'wonder_' + notif.args.wonderId;
+            var wonderContainerNodeId = 'wonder_' + notif.args.wonderId + '_container';
             var targetNode = dojo.query('.player_wonders.player' + notif.args.playerId + '>div:nth-of-type(' + notif.args.playerWonderCount + ')')[0];
-            this.attachToNewParent(wonderNodeId, targetNode);
-            this.slideToObjectPos(wonderNodeId, targetNode, 0, 0).play();
+            this.attachToNewParent(wonderContainerNodeId, targetNode);
+            this.slideToObjectPos(wonderContainerNodeId, targetNode, 0, 0).play();
 
             if (notif.args.updateWonderSelection) {
                 this.updateWonderSelection(notif.args.wonderSelection);

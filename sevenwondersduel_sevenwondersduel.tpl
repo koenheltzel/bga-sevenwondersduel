@@ -199,7 +199,7 @@ var jstpl_player_building = '\
     </div>';
 
 var jstpl_wonder = '\
-    <div id="wonder_${jsId}_container" style="display: inline-block;">\
+    <div id="wonder_${jsId}_container" class="wonder_container">\
         <div id="wonder_${jsId}"\
             data-wonder-id="${jsId}"\
             data-card-id="${jsCardId}"\
@@ -207,8 +207,7 @@ var jstpl_wonder = '\
             style="background-position: -${jsX}00% -${jsY}00%; "\
         >\
         </div>\
-        <div class="age_card_container" style="">\
-        </div>\
+        <div class="age_card_container card_outline" style=""></div>\
     </div>';
 
 var jstpl_wonder_age_card = '\
