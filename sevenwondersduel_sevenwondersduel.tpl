@@ -40,10 +40,10 @@
             <!-- BEGIN player_wonders -->
             <div id="player_wonders_container_{PLAYER_ID}">
                 <div id="player_wonders_{PLAYER_ID}" class="whiteblock player_area_wonders player_area_wrap {WHICH_PLAYER}">
-                    <div id="player_area_content_wonder_position_1_{PLAYER_ID}" class="player_area_wonder_position_1 card_outline"></div>
-                    <div id="player_area_content_wonder_position_2_{PLAYER_ID}" class="player_area_wonder_position_2 card_outline"></div>
-                    <div id="player_area_content_wonder_position_3_{PLAYER_ID}" class="player_area_wonder_position_3 card_outline"></div>
-                    <div id="player_area_content_wonder_position_4_{PLAYER_ID}" class="player_area_wonder_position_4 card_outline"></div>
+                    <div id="player_wonder_position_1_{PLAYER_ID}" class="card_outline"></div>
+                    <div id="player_wonder_position_2_{PLAYER_ID}" class="card_outline"></div>
+                    <div id="player_wonder_position_3_{PLAYER_ID}" class="card_outline"></div>
+                    <div id="player_wonder_position_4_{PLAYER_ID}" class="card_outline"></div>
                 </div>
             </div>
             <!-- END player_wonders -->
