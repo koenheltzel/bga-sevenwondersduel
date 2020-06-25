@@ -287,13 +287,14 @@ __     __         _       _     _
  */
 
 #draftpool_container {
-    /* Height is being set by updateDraftpool */
-    flex-grow: 1;
+    /*flex-grow: 1;*/
 }
 
 .draftpool {
     position: relative;
     margin: calc(2 * var(--gutter)) 0px calc(2.5 * var(--gutter)) 0px;
+
+    /* Height is being set by updateDraftpool */
 
     /* 5px for rightmost card's shadow, else it will look too narrox. */
     width: calc(var(--draftpool-column-width) * 10 + var(--building-small-width) + 5px);
@@ -346,7 +347,7 @@ __     __         _       _     _
  */
 
 .player_area_wrap {
-    position: relative;
+    /*position: relative;*/
     /*flex-grow: 2; !* Make player building div grow more than the draftpool container, so the buildings will be most toward the middle as possible. *!*/
     /*align-self: stretch;*/
 }

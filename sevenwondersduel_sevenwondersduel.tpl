@@ -93,7 +93,7 @@
                 </div>
                 <!-- END board -->
                 <!-- BEGIN board_player -->
-                <div id="player_area_wrap_{PLAYER_ID}" class="player_area_wrap whiteblock {WHICH_PLAYER}">
+                <div class="whiteblock {WHICH_PLAYER}">
                     <!-- BEGIN board_player_row -->
                         <!-- BEGIN board_player_row_info -->
                         <h3 style="color:#{PLAYER_COLOR}" class="player_area_name">{PLAYER_NAME}</h3>
