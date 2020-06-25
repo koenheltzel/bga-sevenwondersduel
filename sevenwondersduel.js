@@ -17,14 +17,13 @@
 
 define([
     "dojo",
-    "dojo/dom-geometry",
     "dojo/_base/declare",
     "dojo/query",
     "dojo/on",
     "ebg/core/gamegui",
     "ebg/counter"
 ],
-function (dojo, domGeom, declare, on) {
+function (dojo, declare, on) {
     return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
         constructor: function(){
             // Tooltip settings
@@ -528,7 +527,7 @@ function (dojo, domGeom, declare, on) {
         },
 
         layoutUpdate: function() {
-            var titlePosition = domGeom.position(dojo.query('#page-title')[0], false);
+            var titlePosition = dojo.position(dojo.query('#page-title')[0], false);
             var titleMarginBottom = 5;
             var width = titlePosition.w - 5;
             var height = window.innerHeight - titlePosition.y - titlePosition.h - 2 * titleMarginBottom;
