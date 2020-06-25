@@ -178,7 +178,7 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
             if (cards.constructor == Object) {
                 var i = 1;
                 Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
-                    var container = dojo.query('#player_wonder_position_' + i + '_' + playerId)[0];
+                    var container = dojo.query('.player_wonders.player' + playerId + '>div:nth-child(' + i + ')')[0];
                     dojo.place(this.getWonderDiv(cards[cardId]), container);
                     i++;
                 }));
@@ -644,9 +644,9 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
             dijit.Tooltip.hide(wonderNode);
 
             var wonderNodeId = 'wonder_' + notif.args.wonderId;
-            var targetNodeId = 'player_wonder_position_' + notif.args.playerWonderCount + '_' + notif.args.playerId;
-            this.attachToNewParent(wonderNodeId, targetNodeId);
-            this.slideToObjectPos(wonderNodeId, targetNodeId, 0, 0).play();
+            var targetNode = dojo.query('.player_wonders.player' + notif.args.playerId + '>div:nth-child(' + notif.args.playerWonderCount + ')')[0];
+            this.attachToNewParent(wonderNodeId, targetNode);
+            this.slideToObjectPos(wonderNodeId, targetNode, 0, 0).play();
 
             if (notif.args.updateWonderSelection) {
                 this.updateWonderSelection(notif.args.wonderSelection);

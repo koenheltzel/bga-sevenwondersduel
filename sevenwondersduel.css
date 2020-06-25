@@ -167,7 +167,7 @@ __     __         _       _     _
     flex-wrap: wrap;
 }
 
-#wonder_column>div:first-child .player_area_wonders {
+#wonder_column>div:first-child .player_wonders {
     /* Space between the two player areas with wonders, relevant in square mode where they would otherwise touch. */
     margin-bottom: var(--gutter);
 }
@@ -469,20 +469,20 @@ __     __         _       _     _
     position: absolute;
 }
 
-#swd_wrap.square .player_area_wonders {
+#swd_wrap.square .player_wonders {
     width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
     height: calc(4 * var(--wonder-small-scale) * var(--wonder-height) + 3 * var(--gutter));
 }
-#swd_wrap.landscape .player_area_wonders {
+#swd_wrap.landscape .player_wonders {
     width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
     height: calc(2 * var(--wonder-small-scale) * var(--wonder-height) + 1 * var(--gutter));
 }
-#swd_wrap.portrait .player_area_wonders {
+#swd_wrap.portrait .player_wonders {
     min-width: calc(4 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 3 * var(--gutter));
     height: calc(var(--wonder-small-scale) * var(--wonder-height));
 }
 
-.player_area_wonders {
+.player_wonders {
     position: relative;
 
     display: flex;
@@ -491,7 +491,7 @@ __     __         _       _     _
     justify-content: space-between;
 }
 
-.player_area_wonders > div {
+.player_wonders > div {
     width: calc(var(--wonder-small-scale) * var(--wonder-width));
     height: calc(var(--wonder-small-scale) * var(--wonder-height));
 }
