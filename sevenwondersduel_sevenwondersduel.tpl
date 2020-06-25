@@ -185,7 +185,7 @@ var jstpl_player_building = '\
     </div>';
 
 var jstpl_wonder = '\
-    <div id="wonder_${jsId}_container" class="wonder_container" style="display: inline-block;">\
+    <div id="wonder_${jsId}_container" style="display: inline-block;">\
         <div id="wonder_${jsId}"\
             data-wonder-id="${jsId}"\
             data-card-id="${jsCardId}"\

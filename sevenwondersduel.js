@@ -51,6 +51,11 @@ function (dojo, declare, on) {
 
             this.gamedatas = gamedatas;
 
+            // Setup game situation.
+            this.updateWonderSelection(this.gamedatas.wondersSituation.selection);
+            this.updateDraftpool(this.gamedatas.draftpool);
+            this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
+
             // Setting up player boards
             for( var player_id in gamedatas.players )
             {
@@ -66,16 +71,12 @@ function (dojo, declare, on) {
             dojo.query('#wonder_selection_container').on(".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
             dojo.query('#draftpool').on(".building.available:click", dojo.hitch(this, "onDraftpoolBuildingClick"));
 
-            // Resize handler
+            // Resize/scroll handler to determine layout and scale factor
             window.addEventListener('resize', dojo.hitch(this, "onWindowUpdate"));
             window.addEventListener('scroll', dojo.hitch(this, "onWindowUpdate"));
 
             // Tool tips using event delegation:
             this.setupTooltips();
-
-            this.updateWonderSelection(this.gamedatas.wondersSituation.selection);
-            this.updateDraftpool(this.gamedatas.draftpool);
-            this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
 
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();

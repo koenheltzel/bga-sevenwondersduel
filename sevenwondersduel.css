@@ -123,10 +123,6 @@ __     __         _       _     _
     margin: 0px;
 }
 
-.drafpool_building_cost .coin {
-    zoom: calc(0.75 * var(--scale));
-}
-
 .coin {
     background-image: url('img/icons.png');
     background-position: -0px -0px;
@@ -170,11 +166,6 @@ __     __         _       _     _
 #wonder_column>div:first-child .player_wonders {
     /* Space between the two player areas with wonders, relevant in square mode where they would otherwise touch. */
     margin-bottom: var(--gutter);
-}
-
-#wonder_selection_container .wonder_container {
-    margin-right: var(--gutter);
-    display: inline-block;
 }
 
 .card_outline {
@@ -303,6 +294,9 @@ __     __         _       _     _
 .drafpool_building_cost {
     top: calc(var(--building-height) * var(--building-small-scale) * 0.953);
     position: relative;
+}
+.drafpool_building_cost .coin {
+    zoom: calc(0.75 * var(--scale));
 }
 .drafpool_building_cost span {
     top: 4px;
@@ -637,10 +631,6 @@ __        __              _
   \ V  V / (_) | | | | (_| |  __/ |  \__ \
    \_/\_/ \___/|_| |_|\__,_|\___|_|  |___/
  */
-
-.wonder_container {
-
-}
 
 .wonder {
     width: var(--wonder-width);
