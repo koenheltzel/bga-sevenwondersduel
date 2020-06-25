@@ -80,7 +80,7 @@ __     __         _       _     _
     --wonder-height: calc(var(--wonder-spritesheet-height) / var(--wonder-spritesheet-rows));
     --wonder-border-radius: 15px;
     --wonder-small-scale: calc(0.58 * var(--scale));
-    --wonder-plus-age-card-scale: 1.12;
+    --wonder-plus-age-card-scale: 1.085;
 
     --progress-token-spritesheet-width: 800px;
     --progress-token-spritesheet-height: 600px;
@@ -169,13 +169,13 @@ __     __         _       _     _
     margin-bottom: var(--gutter);
 }
 
-.card_outline {
-    box-shadow: inset 0px 0px 4px 1px #0000001f;
+.card_outline:empty {
+    box-shadow: inset 0px 0px calc(var(--scale) * 4px) calc(var(--scale) * 1px) #0000001f;
     border-radius: var(--small-border-radius);
 }
 
 .progress_token_outline {
-    box-shadow: inset 0px 0px 4px 1px #0000001f;
+    box-shadow: inset 0px 0px calc(var(--scale) * 4px) calc(var(--scale) * 1px) #0000001f;
     border-radius: calc(var(--progress-token-width) * var(--progress-token-small-scale) * 0.5);
 }
 
@@ -239,7 +239,7 @@ __     __         _       _     _
     background-image: url('img/board.png');
     background-size: calc(var(--board-width) * var(--board-scale)) calc(var(--board-height) * var(--board-scale));
     /*border-radius: var(--small-border-radius);*/
-    filter: drop-shadow(0px 0px 3px #000000);
+    filter: drop-shadow(0px 0px calc(var(--scale) * 3px) #000000);
     position: absolute;
     display: inline-block;
 }
@@ -301,7 +301,7 @@ __     __         _       _     _
     /* Height is being set by updateDraftpool */
 
     /* 5px for rightmost card's shadow, else it will look too narrox. */
-    width: calc(var(--draftpool-column-width) * 10 + var(--building-small-width) + 5px);
+    width: calc(var(--draftpool-column-width) * 10 + var(--building-small-width) + calc(var(--scale) * 5px));
 }
 
 .drafpool_building_cost {
@@ -316,7 +316,7 @@ __     __         _       _     _
     position: relative;
     font-weight: bold;
     font-size: 20px;
-    text-shadow: 0 0 4px white, 0 0 4px white, 0 0 4px white;
+    text-shadow: 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white;
 }
 
 .draftpool_actions {
@@ -515,7 +515,6 @@ __     __         _       _     _
     border-radius: var(--small-border-radius) var(--small-border-radius) 0px var(--small-border-radius);
 }
 .player_wonders .wonder_small {
-    margin-right: 40px;
     z-index: 2;
     position: absolute;
 }
@@ -553,8 +552,11 @@ __     __         _       _     _
     justify-content: space-between;
 }
 
+.player_wonders > div:not(:last-child) {
+    margin-right: var(--gutter);
+}
 .player_wonders > div {
-    width: calc(var(--wonder-small-scale) * var(--wonder-width));
+    width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
     height: calc(var(--wonder-small-scale) * var(--wonder-height));
 }
 
@@ -587,7 +589,7 @@ __     __         _       _     _
     position: relative;
     font-weight: bold;
     font-size: 18px;
-    text-shadow: 0 0 4px white, 0 0 4px white, 0 0 4px white;
+    text-shadow: 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white;
 }
 
 /*
@@ -641,8 +643,8 @@ __     __         _       _     _
     background-image: url('img/buildings.jpg');
     border-radius: 14px;
     box-shadow:
-        5px 5px 5px 0px rgba(0,0,0,0.4),
-        inset 0px 0px 0px 1px #00000060;
+        calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0px rgba(0,0,0,0.4),
+        inset 0px 0px 0px calc(var(--scale) * 1px) #00000060;
 
     /* Temporary?: */
     display: inline-block;
@@ -655,8 +657,8 @@ __     __         _       _     _
     background-size: calc(var(--building-spritesheet-width) * var(--building-small-scale)) calc(var(--building-spritesheet-height) * var(--building-small-scale));
     border-radius: var(--small-border-radius);
     box-shadow:
-        3px 3px 3px 0px rgba(0,0,0,0.4),
-        inset 0px 0px 0px 0.5px #00000060;
+        calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
+        inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
     cursor: pointer;
     display: block;
 }
@@ -671,8 +673,8 @@ __     __         _       _     _
     background-size: calc(var(--building-spritesheet-width) * var(--building-small-scale)) calc(var(--building-spritesheet-height) * var(--building-small-scale));
     border-radius: var(--small-border-radius);
     box-shadow:
-        0px 0px 3px 3px rgba(0,0,0,0.4),
-        inset 0px 0px 0px 0.5px #00000060;
+        0px 0px calc(var(--scale) * 3px) calc(var(--scale) * 3px) rgba(0,0,0,0.4),
+        inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
     text-align: center;
 }
 
@@ -697,7 +699,7 @@ __        __              _
     cursor: pointer;
     border-radius: var(--wonder-border-radius);
     box-shadow:
-        5px 5px 5px 0px rgba(0,0,0,0.4),
+        calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px 1px #00000060;
 
     /* Temporary: */
@@ -711,8 +713,8 @@ __        __              _
     background-size: calc(var(--wonder-spritesheet-width) * var(--wonder-small-scale)) calc(var(--wonder-spritesheet-height) * var(--wonder-small-scale));
     border-radius: var(--small-border-radius);
     box-shadow:
-        3px 3px 3px 0px rgba(0,0,0,0.4),
-        inset 0px 0px 0px 0.5px #00000060;
+        calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
+        inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
 }
 
 /*
@@ -732,8 +734,8 @@ __        __              _
     cursor: pointer;
     border-radius: calc(var(--progress-token-width) * 0.5);
     box-shadow:
-        5px 5px 5px 0px rgba(0,0,0,0.4),
-        inset 0px 0px 0px 1px #00000060;
+        calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0px rgba(0,0,0,0.4),
+        inset 0px 0px 0px calc(var(--scale) * 1px) #00000060;
 
     /* Temporary: */
     display: inline-block;
@@ -746,6 +748,6 @@ __        __              _
     background-size: calc(var(--progress-token-spritesheet-width) * var(--progress-token-small-scale)) calc(var(--progress-token-spritesheet-height) * var(--progress-token-small-scale));
     border-radius: calc(var(--progress-token-width) * var(--progress-token-small-scale) * 0.5);
     box-shadow:
-        3px 3px 3px 0px rgba(0,0,0,0.4),
-        inset 0px 0px 0px 0.5px #00000060;
+        calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
+        inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
 }
