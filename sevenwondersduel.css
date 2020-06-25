@@ -168,6 +168,7 @@ __     __         _       _     _
 }
 
 #wonder_column>div:first-child .player_area_wonders {
+    /* Space between the two player areas with wonders, relevant in square mode where they would otherwise touch. */
     margin-bottom: var(--gutter);
 }
 
