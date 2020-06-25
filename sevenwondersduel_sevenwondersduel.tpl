@@ -54,8 +54,8 @@
                 <div id="wonder_selection_block" class="whiteblock">
                     <h3>Wonders selection:</h3>
                     <div id="wonder_selection_container">
-                        <div id="wonder_selection_position_0" class="wonder_selection_position card_outline"></div><div id="wonder_selection_position_1" class="wonder_selection_position card_outline"></div><br/>
-                        <div id="wonder_selection_position_2" class="wonder_selection_position card_outline"></div><div id="wonder_selection_position_3" class="wonder_selection_position card_outline"></div>
+                        <div class="card_outline"></div><div class="card_outline"></div><br/>
+                        <div class="card_outline"></div><div class="card_outline"></div>
                     </div>
                 </div>
                 <div id="draftpool_container" style="display: inline-block">
