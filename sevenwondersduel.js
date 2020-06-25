@@ -18,7 +18,6 @@
 define([
     "dojo",
     "dojo/dom-attr",
-    "dojo/dom-style",
     "dojo/dom-geometry",
     "dojo/_base/declare",
     "dojo/query",
@@ -26,7 +25,7 @@ define([
     "ebg/core/gamegui",
     "ebg/counter"
 ],
-function (dojo, domAttr, domStyle, domGeom, declare, on) {
+function (dojo, domAttr, domGeom, declare, on) {
     return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
         constructor: function(){
             // Tooltip settings
@@ -253,7 +252,7 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
 
                 // Adjust the height of the age divs based on the age cards absolutely positioned within.
                 var rows = draftpool.age == 3 ? 7 : 5;
-                domStyle.set(dojo.query('.draftpool')[0], "height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + " * var(--draftpool-row-height))");
+                dojo.setStyle(dojo.query('.draftpool')[0], "height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + " * var(--draftpool-row-height))");
             }
 
         },
