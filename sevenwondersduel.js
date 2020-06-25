@@ -252,8 +252,8 @@ function (dojo, declare, on) {
                         spriteId = position.building;
                         data.jsId = position.building;
                         data.jsCardId = position.card;
-                        data.jsDisplayCost = position.cost[this.player_id] > 0 ? 'inline-block' : 'none',
-                            data.jsCost = position.cost[this.player_id];
+                        data.jsDisplayCost = position.available && position.cost[this.player_id] > 0 ? 'inline-block' : 'none',
+                        data.jsCost = position.cost[this.player_id];
                     } else {
                         spriteId = position.back;
                     }
