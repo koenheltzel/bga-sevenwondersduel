@@ -190,7 +190,7 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
                 var i = 1;
                 Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
                     var building = this.gamedatas.buildings[cards[cardId].type_arg];
-                    var container = dojo.query('#player_area_content_' + playerId + ' .' + building.type)[0];
+                    var container = dojo.query('.player_area_buildings.player' + playerId + ' .' + building.type)[0];
                     dojo.place(this.getBuildingDiv(cards[cardId].type_arg, cardId), container);
                     i++;
                 }));
@@ -668,7 +668,7 @@ function (dojo, domAttr, domStyle, domGeom, declare, on) {
             dijit.Tooltip.hide(buildingNode);
 
             var building = this.gamedatas.buildings[notif.args.buildingId];
-            var container = dojo.query('#player_area_content_' + notif.args.playerId + ' .' + building.type)[0];
+            var container = dojo.query('.player_area_buildings.player' + notif.args.playerId + ' .' + building.type)[0];
             dojo.place(this.getBuildingDiv(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container);
             this.fadeOutAndDestroy(buildingNode);
 

@@ -70,7 +70,7 @@
                 </div>
                 <!-- END draftpool -->
                 <!-- BEGIN player_buildings -->
-                <div id="player_area_content_{PLAYER_ID}" class="player_area_buildings whiteblock {WHICH_PLAYER}">
+                <div class="player_area_buildings whiteblock player{PLAYER_ID} {WHICH_PLAYER}">
                     <div class="player_area_building_column Brown" title="Raw materials"></div>
                     <div class="player_area_building_column Grey" title="Manufactured goods"></div>
                     <div class="player_area_building_column Yellow" title="Commercial Buildings"></div>
@@ -104,9 +104,7 @@
                         </div>
                         <!-- END board_player_row_info -->
                         <!-- BEGIN board_player_row_progress_tokens -->
-                        <div id="player_area_content_{PLAYER_ID}">
-                            <div class="player_area_progress_tokens">
-                            </div>
+                        <div class="player_area_progress_tokens">
                         </div>
                         <!-- END board_player_row_progress_tokens -->
                     <!-- END board_player_row -->
