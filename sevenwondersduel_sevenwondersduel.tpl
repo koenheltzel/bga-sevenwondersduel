@@ -70,7 +70,7 @@
                 </div>
                 <!-- END draftpool -->
                 <!-- BEGIN player_buildings -->
-                <div id="player_area_content_{PLAYER_ID}" class="player_area_building_column_container player_area_wrap whiteblock {WHICH_PLAYER}">
+                <div id="player_area_content_{PLAYER_ID}" class="player_area_buildings whiteblock {WHICH_PLAYER}">
                     <div class="player_area_building_column Brown" title="Raw materials"></div>
                     <div class="player_area_building_column Grey" title="Manufactured goods"></div>
                     <div class="player_area_building_column Yellow" title="Commercial Buildings"></div>
