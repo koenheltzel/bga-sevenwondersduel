@@ -73,6 +73,10 @@ class Draftpool
 
         $draftpool = [
             'age' => $age,
+            'discardGain' => [
+                Player::me()->id => Player::me()->calculateDiscardGain(),
+                Player::opponent()->id => Player::opponent()->calculateDiscardGain(),
+            ],
             'cards' => []
         ];
 
@@ -109,7 +113,6 @@ class Draftpool
                             $payment = Player::get($playerId)->calculateCost($building);
                             $position['cost'][$playerId] = $payment->totalCost();
                             $position['payment'][$playerId] = $payment;
-                            $position['discardGain'][$playerId] = Player::me()->calculateDiscardGain($building);
                         }
                     }
                     else {

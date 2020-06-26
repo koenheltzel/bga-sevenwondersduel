@@ -533,7 +533,7 @@ function (dojo, declare, on, dom) {
             this.playerTurnNode = e.target;
 
             var cardData = this.getDraftpoolCardData(this.playerTurnCardId);
-            dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + cardData.discardGain[this.player_id];
+            dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + this.gamedatas.draftpool.discardGain[this.player_id];
 
             dojo.setStyle('draftpool_actions', 'display', 'block');
         },

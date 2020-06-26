@@ -87,7 +87,7 @@ class Player {
         return $count;
     }
 
-    public function calculateDiscardGain($buyingItem) {
+    public function calculateDiscardGain() {
         return 2 + count($this->getBuildings()->filterByTypes([Building::TYPE_YELLOW])->array);
     }
 
