@@ -101,6 +101,7 @@ class Draftpool
 
                         // Cost and payment plan for each player
                         $position['cost'] = [];
+                        $position['discardGain'] = [];
                         $position['payment'] = [];
                         $players = SevenWondersDuel::get()->loadPlayersBasicInfos();
                         $playerIds = array_keys($players);
@@ -108,6 +109,7 @@ class Draftpool
                             $payment = Player::get($playerId)->calculateCost($building);
                             $position['cost'][$playerId] = $payment->totalCost();
                             $position['payment'][$playerId] = $payment;
+                            $position['discardGain'][$playerId] = Player::me()->calculateDiscardGain($building);
                         }
                     }
                     else {

@@ -237,7 +237,18 @@ function (dojo, declare, on, dom) {
             }
         },
 
+        getDraftpoolCardData: function (cardId) {
+            for (var i = 0; i < this.gamedatas.draftpool.cards.length; i++) {
+                var position = this.gamedatas.draftpool.cards[i];
+                if (typeof position.card != 'undefined' && position.card == cardId) {
+                    return position;
+                }
+            }
+            return null;
+        },
+
         updateDraftpool: function (draftpool) {
+            this.gamedatas.draftpool = draftpool;
             console.log('updateDraftpool: ', draftpool);
 
             dojo.style('draftpool_container', 'display', draftpool.age > 0 ? 'block' : 'none');
@@ -520,6 +531,9 @@ function (dojo, declare, on, dom) {
             this.playerTurnCardId = dojo.attr(e.target, 'data-card-id');
             this.playerTurnBuildingId = dojo.attr(e.target, 'data-building-id');
             this.playerTurnNode = e.target;
+
+            var cardData = this.getDraftpoolCardData(this.playerTurnCardId);
+            dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + cardData.discardGain[this.player_id];
 
             dojo.setStyle('draftpool_actions', 'display', 'block');
         },
