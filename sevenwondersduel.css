@@ -118,6 +118,10 @@ __     __         _       _     _
     text-shadow: 1px 1px 1px #FFFFFF;
 }
 
+#swd_wrap .bgabutton {
+    padding: var(--gutter) !important;
+}
+
 #swd_wrap .whiteblock {
     border-radius: 8px;
     padding: var(--gutter);
@@ -133,20 +137,19 @@ __     __         _       _     _
     display: inline-block;
 }
 .coin>span {
-    top: calc(3px * var(--scale));
-    position: relative;
     font-weight: bold;
     font-size: 20px;
+    line-height: 30px !important;
     text-shadow: 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white;
     color:black;
 }
 
 @keyframes glow {
     from {
-        box-shadow: 0 0 5px 3px #f1dec8;
+        box-shadow: 0 0 5px 4px #f1dec8;
     }
     to {
-        box-shadow: 0 0 5px 5px #f1dec8;
+        box-shadow: 0 0 5px 6px #f1dec8;
     }
 }
 
@@ -333,8 +336,14 @@ __     __         _       _     _
     text-align: center;
     display: none;
 }
+#draftpool_actions>a>div {
+    margin-right: var(--gutter);
+}
 #draftpool_actions>a {
     margin:0px;
+    height: 34px;
+    line-height: 34px;
+    zoom: var(--scale);
 }
 
 #buttonDiscardBuilding .coin {
@@ -615,21 +624,20 @@ __     __         _       _     _
  */
 
 .action_construct {
-    background-image: url(img/icons.png);
-    background-position: -0px -170px;
-    width: 60px;
-    height: 44px;
+    background-image: url('img/tmp_construct_building_icon.png');
+    /*background-position: -0px -170px;*/
+    width: 82px;
+    height: 32px;
 }
 
 .action_wonder {
-    background-image: url(img/icons.png);
-    background-position: -60px -170px;
-    width: 60px;
-    height: 41px;
+    background-image: url('img/tmp_construct_wonder_icon.png');
+    width: 45px;
+    height: 34px;
 }
 
 .action_discard {
-    background-image: url(img/icons.png);
+    background-image: url('img/icons.png');
     background-position: -120px -170px;
     width: 40px;
     height: 40px;

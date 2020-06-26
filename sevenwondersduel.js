@@ -526,7 +526,7 @@ function (dojo, declare, on, dom) {
 
             var building = dojo.query(e.target);
 
-            dojo.setStyle(e.target, 'animation', 'glow 1s infinite alternate');
+            dojo.setStyle(e.target, 'animation', 'glow 0.5s infinite alternate');
 
             this.playerTurnCardId = dojo.attr(e.target, 'data-card-id');
             this.playerTurnBuildingId = dojo.attr(e.target, 'data-building-id');
