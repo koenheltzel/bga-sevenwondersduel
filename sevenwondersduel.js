@@ -535,7 +535,7 @@ function (dojo, declare, on, dom) {
             var cardData = this.getDraftpoolCardData(this.playerTurnCardId);
             dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + this.gamedatas.draftpool.discardGain[this.player_id];
 
-            dojo.setStyle('draftpool_actions', 'display', 'block');
+            dojo.setStyle('draftpool_actions', 'visibility', 'visible');
         },
 
         onPlayerTurnConstructBuildingClick: function (e) {
@@ -554,7 +554,7 @@ function (dojo, declare, on, dom) {
                 },
                 this, function (result) {
                     console.log('success result: ', result);
-                    dojo.setStyle('draftpool_actions', 'display', 'none');
+                    dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
                     // What to do after the server call if it succeeded
                     // (most of the time: nothing)
 
@@ -586,7 +586,7 @@ function (dojo, declare, on, dom) {
                 },
                 this, function (result) {
                     console.log('success result: ', result);
-                    dojo.setStyle('draftpool_actions', 'display', 'none');
+                    dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
                     // What to do after the server call if it succeeded
                     // (most of the time: nothing)
 

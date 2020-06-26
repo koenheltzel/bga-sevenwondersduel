@@ -334,7 +334,7 @@ __     __         _       _     _
 
 #draftpool_actions {
     text-align: center;
-    display: none;
+    visibility: hidden;
 }
 #draftpool_actions>a>div {
     margin-right: var(--gutter);
