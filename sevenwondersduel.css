@@ -132,13 +132,21 @@ __     __         _       _     _
     zoom: var(--scale);
     display: inline-block;
 }
+.coin>span {
+    top: calc(3px * var(--scale));
+    position: relative;
+    font-weight: bold;
+    font-size: 20px;
+    text-shadow: 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white;
+    color:black;
+}
 
 @keyframes glow {
     from {
-        box-shadow: 0 0 5px 1px #f8b305;
+        box-shadow: 0 0 5px 3px #f1dec8;
     }
     to {
-        box-shadow: 0 0 5px 5px #f8b305;
+        box-shadow: 0 0 5px 5px #f1dec8;
     }
 }
 
@@ -320,17 +328,20 @@ __     __         _       _     _
 .drafpool_building_cost .coin {
     zoom: calc(0.75 * var(--scale));
 }
-.drafpool_building_cost span {
-    top: 4px;
-    position: relative;
-    font-weight: bold;
-    font-size: 20px;
-    text-shadow: 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white;
-}
 
 #draftpool_actions {
     text-align: center;
     display: none;
+}
+#draftpool_actions>a {
+    margin:0px;
+}
+
+#buttonDiscardBuilding .coin {
+    zoom: calc(1.0 * var(--scale));
+}
+#buttonDiscardBuilding .coin>span {
+
 }
 
 .column1 { left: calc(var(--draftpool-column-width) * (1 - 1)); }
@@ -592,13 +603,6 @@ __     __         _       _     _
 
     width: calc(var(--scale) * 30px);
     height: calc(var(--scale) * 30px);
-}
-.player_area_coins span {
-    top: 4px;
-    position: relative;
-    font-weight: bold;
-    font-size: 18px;
-    text-shadow: 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white;
 }
 
 /*

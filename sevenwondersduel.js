@@ -32,6 +32,7 @@ function (dojo, declare, on, dom) {
             this.windowResizeTimeoutId = null;
             this.playerTurnCardId = null;
             this.playerTurnBuildingId = null;
+            this.playerTurnNode = null;
             dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
         },
         
@@ -76,7 +77,7 @@ function (dojo, declare, on, dom) {
             // Click handlers without event delegation:
             dojo.query("#buttonConstructBuilding").on("click", dojo.hitch(this, "onPlayerTurnConstructBuildingClick"));
             dojo.query("#buttonDiscardBuilding").on("click", dojo.hitch(this, "onPlayerTurnDiscardBuildingClick"));
-            dojo.query("#buttonConstructBuilding").on("click", dojo.hitch(this, "onPlayerTurnConstructWonderClick"));
+            dojo.query("#buttonConstructWonder").on("click", dojo.hitch(this, "onPlayerTurnConstructWonderClick"));
 
             // Resize/scroll handler to determine layout and scale factor
             window.addEventListener('resize', dojo.hitch(this, "onWindowUpdate"));
@@ -508,17 +509,17 @@ function (dojo, declare, on, dom) {
             // Preventing default browser reaction
             dojo.stopEvent(e);
 
-
-            if (this.playerTurnCardId) {
-                dojo.setStyle(dojo.query("[data-card-id=" + this.playerTurnCardId + "]")[0], 'animation', 'none');
+            if (this.playerTurnNode) {
+                dojo.setStyle(this.playerTurnNode, 'animation', 'none');
             }
 
             var building = dojo.query(e.target);
 
             dojo.setStyle(e.target, 'animation', 'glow 1s infinite alternate');
 
-            this.playerTurnCardId = building.attr('data-card-id').pop();
-            this.playerTurnBuildingId = building.attr('data-building-id').pop();
+            this.playerTurnCardId = dojo.attr(e.target, 'data-card-id');
+            this.playerTurnBuildingId = dojo.attr(e.target, 'data-building-id');
+            this.playerTurnNode = e.target;
 
             dojo.setStyle('draftpool_actions', 'display', 'block');
         },
