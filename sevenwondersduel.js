@@ -186,13 +186,13 @@ function (dojo, declare, on, dom) {
                 var i = 1;
                 Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
                     var container = dojo.query('.player_wonders.player' + playerId + '>div:nth-of-type(' + i + ')')[0];
-
-                    var wonderDivHtml = this.getWonderDivHtml(cards[cardId]);
+                    var card = cards[cardId];
+                    var wonderDivHtml = this.getWonderDivHtml(card);
                     var wonderDiv = dojo.place(wonderDivHtml, container);
 
-                    if(1) {
-                        var randomAge = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-                        id = 73 + randomAge;
+                    if(card.constructed > 0) {
+                        var age = card.constructed;
+                        id = 73 + age;
                         var data = {
                             jsData: '',
                             jsId: id
