@@ -152,6 +152,7 @@ function (dojo, declare, on, dom) {
         },
 
         updatePlayerCoins: function (playerId, coins) {
+            this.gamedatas.playerCoins[playerId] = coins;
             var node = dojo.query('#player_area_' + playerId + '_coins')[0];
             node.innerHTML = coins;
         },
@@ -266,6 +267,7 @@ function (dojo, declare, on, dom) {
                         jsZindex: position.row * 10,
                         jsAvailable: position.available ? 'available' : '',
                         jsDisplayCost: 'none',
+                        jsCostColor: 'black',
                         jsCost: -1,
                     };
                     if (typeof position.building != 'undefined') {
@@ -273,6 +275,7 @@ function (dojo, declare, on, dom) {
                         data.jsId = position.building;
                         data.jsCardId = position.card;
                         data.jsDisplayCost = position.available && position.cost[this.player_id] > 0 ? 'inline-block' : 'none',
+                        data.jsCostColor = position.cost[this.player_id] <= this.gamedatas.playerCoins[this.player_id] ? 'black' : 'red';
                         data.jsCost = position.cost[this.player_id];
                     } else {
                         spriteId = position.back;

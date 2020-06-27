@@ -183,7 +183,7 @@ var jstpl_draftpool_building = '\
         class="building building_small column${jsColumn} row${jsRow} ${jsAvailable}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\
-    <div class="drafpool_building_cost" style="display: ${jsDisplayCost}"><div class="coin"><span>${jsCost}</span></div></div>\
+    <div class="drafpool_building_cost" style="display: ${jsDisplayCost}"><div class="coin"><span style="color: ${jsCostColor} !important">${jsCost}</span></div></div>\
     </div>';
 
 // Keep title attribute empty. This overrides the title attribute of the player_building_column div.
