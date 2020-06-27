@@ -18,7 +18,7 @@ class Wonder extends Item {
             return true;
         }
         else {
-            \SevenWondersDuel::get()->wonderDeck->getCardsInLocation('wonder' . $this->id);
+            return count(\SevenWondersDuel::get()->wonderDeck->getCardsInLocation('wonder' . $this->id));
         }
     }
 

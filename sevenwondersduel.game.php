@@ -19,6 +19,7 @@
 use SWD\Draftpool;
 use SWD\Material;
 use SWD\Player;
+use SWD\Wonder;
 
 // SWD namespace autoloader from /modules/ folder.
 $swdNamespaceAutoload = function ($class) {
@@ -292,6 +293,13 @@ class SevenWondersDuel extends Table
             Player::me()->id => SevenWondersDuel::get()->wonderDeck->getCardsInLocation(Player::me()->id),
             Player::opponent()->id => SevenWondersDuel::get()->wonderDeck->getCardsInLocation(Player::opponent()->id),
         ];
+        foreach([Player::me()->id, Player::opponent()->id] as $playerId) {
+            foreach($result['wondersSituation'][$playerId] as &$card) {
+                $card['constructed'] = Wonder::get($card['type_arg'])->isConstructed();
+            }
+        }
+
+
         $result['playerBuildings'] = [
             Player::me()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::me()->id),
             Player::opponent()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::opponent()->id),
