@@ -158,6 +158,15 @@ __     __         _       _     _
     }
 }
 
+@keyframes actionglow {
+    from {
+        box-shadow: 0 0 1px 3px #4770b470;
+    }
+    to {
+        box-shadow: 0 0 1px 3px #4770b4;
+    }
+}
+
 /*
  _                            _   
 | |    __ _ _   _  ___  _   _| |_ 
@@ -195,12 +204,12 @@ __     __         _       _     _
 }
 
 .card_outline:empty {
-    box-shadow: inset 0px 0px calc(var(--scale) * 4px) calc(var(--scale) * 1px) #0000001f;
+    box-shadow: inset 0px 0px calc(var(--scale) * 4px) calc(var(--scale) * 1px) #00000029;
     border-radius: var(--small-border-radius);
 }
 
 .progress_token_outline {
-    box-shadow: inset 0px 0px calc(var(--scale) * 4px) calc(var(--scale) * 1px) #0000001f;
+    box-shadow: inset 0px 0px calc(var(--scale) * 4px) calc(var(--scale) * 1px) #00000029;
     border-radius: calc(var(--progress-token-width) * var(--progress-token-small-scale) * 0.5);
 }
 

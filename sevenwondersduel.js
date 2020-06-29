@@ -541,6 +541,7 @@ function (dojo, declare, on, dom) {
             if (this.playerTurnNode) {
                 dojo.setStyle(this.playerTurnNode, 'animation', 'none');
             }
+            this.clearActionGlow();
 
             var building = dojo.query(e.target);
 
@@ -640,11 +641,29 @@ function (dojo, declare, on, dom) {
             );
         },
 
+        clearActionGlow: function() {
+            Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function(index) {
+                var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
+                dojo.setStyle(dojo.query('#wonder_' + wonderData.wonder)[0], 'animation', 'none');
+            }));
+        },
+
         onPlayerTurnConstructWonderClick: function (e) {
             // Preventing default browser reaction
             dojo.stopEvent(e);
 
             console.log('onPlayerTurnConstructWonderClick');
+
+            Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function(index) {
+                var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
+                if (!wonderData.constructed) {
+                    if (wonderData.cost <= this.gamedatas.playerCoins[this.player_id]) {
+                        dojo.setStyle(dojo.query('#wonder_' + wonderData.wonder)[0], 'animation', 'actionglow 0.5s infinite alternate');
+
+                        // canAffordWonder = true;
+                    }
+                }
+            }));
         },
 
         getOffset: function(el) {
