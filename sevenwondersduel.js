@@ -305,6 +305,7 @@ function (dojo, declare, on, dom) {
         },
 
         updateWondersSituation: function(situation) {
+            this.gamedatas.wondersSituation = situation;
             this.updateWonderSelection(situation.selection);
             for( var player_id in this.gamedatas.players )
             {
