@@ -28,7 +28,7 @@ function (dojo, declare, on, dom) {
     return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
         constructor: function(){
             // Tooltip settings
-            this.toolTipDelay = 100;
+            this.toolTipDelay = 500;
             this.windowResizeTimeoutId = null;
             this.playerTurnCardId = null;
             this.playerTurnBuildingId = null;
