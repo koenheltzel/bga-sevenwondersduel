@@ -24,10 +24,16 @@ class Wonders extends Collection {
     public static function getSituation() {
         $selectionRound = SevenWondersDuel::get()->getWonderSelectionRound();
         return [
-            'selection' => SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$selectionRound}"),
+            'selection' => self::getDeckCardsSorted("selection{$selectionRound}"),
             Player::me()->id => Player::me()->getWondersData(),
             Player::opponent()->id => Player::opponent()->getWondersData(),
         ];
+    }
+
+    public static function getDeckCardsSorted($location): array {
+        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation($location);
+        usort($cards, function($a, $b) {return strcmp($a['location_arg'], $b['location_arg']);});
+        return $cards;
     }
 
 }

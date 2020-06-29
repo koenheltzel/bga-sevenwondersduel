@@ -300,7 +300,7 @@ class Player {
     }
 
     public function getWondersData(): array {
-        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation($this->id);
+        $cards = $this->getWonderDeckCards();
         $rows = [];
         foreach($cards as $card) {
             $wonder = Wonder::get($card['type_arg']);
@@ -317,7 +317,7 @@ class Player {
     }
 
     public function getWonderDeckCards(): array {
-        return SevenWondersDuel::get()->wonderDeck->getCardsInLocation($this->id);
+        return Wonders::getDeckCardsSorted($this->id);
     }
 
     public function getBuildingDeckCards(): array {

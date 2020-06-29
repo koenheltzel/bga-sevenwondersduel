@@ -3,13 +3,14 @@
 namespace SWD\States;
 
 use SWD\Wonder;
+use SWD\Wonders;
 
 trait WonderSelectedTrait {
 
     public function enterStateWonderSelected() {
         // Wonders are selected A-B-B-A, then B-A-A-B. Meaning we switch player when there are 3 or 1 cards left, and when there are 4 cards left (= second draft pool).
         $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
-        $cards = $this->wonderDeck->getCardsInLocation("selection{$wonderSelectionRound}");
+        $cards = Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}");
         switch (count($cards)) {
             case 1:
             case 3:

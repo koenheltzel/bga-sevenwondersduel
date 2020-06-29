@@ -229,10 +229,10 @@ function (dojo, declare, on, dom) {
 
         updateWonderSelection: function (cards) {
             var block = dojo.query('#wonder_selection_block')[0];
-            if (cards.constructor == Object) {
+            if (cards.length > 0) {
                 var position = 1;
-                Object.keys(cards).forEach(dojo.hitch(this, function(cardId) {
-                    var card = cards[cardId];
+                Object.keys(cards).forEach(dojo.hitch(this, function(index) {
+                    var card = cards[index];
                     var container = dojo.query('#wonder_selection_container>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
                     dojo.empty(container);
                     dojo.place(this.getWonderDivHtml(card.id, card.type_arg, false), container);
@@ -506,32 +506,34 @@ function (dojo, declare, on, dom) {
             // Preventing default browser reaction
             dojo.stopEvent(e);
 
-            var wonder = dojo.query(e.target);
-            console.log('wonder ', wonder);
-            console.log('data-card-id ', wonder.attr('data-card-id').pop());
+            if (this.isCurrentPlayerActive()) {
+                var wonder = dojo.query(e.target);
+                console.log('wonder ', wonder);
+                console.log('data-card-id ', wonder.attr('data-card-id').pop());
 
-            // Check that this action is possible (see "possibleactions" in states.inc.php)
-            if (!this.checkAction('actionSelectWonder')) {
-                return;
+                // Check that this action is possible (see "possibleactions" in states.inc.php)
+                if (!this.checkAction('actionSelectWonder')) {
+                    return;
+                }
+
+                this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSelectWonder.html", {
+                    cardId: wonder.attr('data-card-id')
+                },
+                this, function (result) {
+                    console.log('success result: ', result);
+                    // What to do after the server call if it succeeded
+                    // (most of the time: nothing)
+
+                    // Hide wonder selection
+                    // dojo.style('pattern_selection', 'display', 'none');
+
+                }, function (is_error) {
+                    console.log('error result: ', is_error);
+                    // What to do after the server call in anyway (success or failure)
+                    // (most of the time: nothing)
+
+                });
             }
-
-            this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSelectWonder.html", {
-                cardId: wonder.attr('data-card-id')
-            },
-            this, function (result) {
-                console.log('success result: ', result);
-                // What to do after the server call if it succeeded
-                // (most of the time: nothing)
-
-                // Hide wonder selection
-                // dojo.style('pattern_selection', 'display', 'none');
-
-            }, function (is_error) {
-                console.log('error result: ', is_error);
-                // What to do after the server call in anyway (success or failure)
-                // (most of the time: nothing)
-
-            });
         },
 
         onPlayerTurnDraftpoolClick: function (e) {
@@ -539,43 +541,45 @@ function (dojo, declare, on, dom) {
             // Preventing default browser reaction
             dojo.stopEvent(e);
 
-            if (this.playerTurnNode) {
-                dojo.removeClass(this.playerTurnNode, 'glow');
-            }
-            this.clearActionGlow();
-
-            var building = dojo.query(e.target);
-
-            dojo.addClass(e.target, 'glow');
-
-            this.playerTurnCardId = dojo.attr(e.target, 'data-card-id');
-            this.playerTurnBuildingId = dojo.attr(e.target, 'data-building-id');
-            this.playerTurnNode = e.target;
-
-            var cardData = this.getDraftpoolCardData(this.playerTurnCardId);
-            dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + this.gamedatas.draftpool.discardGain[this.player_id];
-
-            var playerCoins = this.gamedatas.playerCoins[this.player_id];
-
-            var canAffordBuilding = cardData.cost[this.player_id] <= playerCoins;
-            dojo.removeClass(dojo.query('#buttonConstructBuilding')[0], 'bgabutton_blue');
-            dojo.removeClass(dojo.query('#buttonConstructBuilding')[0], 'bgabutton_darkgray');
-            dojo.addClass(dojo.query('#buttonConstructBuilding')[0], canAffordBuilding ? 'bgabutton_blue' : 'bgabutton_darkgray');
-
-            var canAffordWonder = false;
-            Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function(index) {
-                var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
-                if (!wonderData.constructed) {
-                    if (wonderData.cost <= playerCoins) {
-                        canAffordWonder = true;
-                    }
+            if (this.isCurrentPlayerActive()) {
+                if (this.playerTurnNode) {
+                    dojo.removeClass(this.playerTurnNode, 'glow');
                 }
-            }));
-            dojo.removeClass(dojo.query('#buttonConstructWonder')[0], 'bgabutton_blue');
-            dojo.removeClass(dojo.query('#buttonConstructWonder')[0], 'bgabutton_darkgray');
-            dojo.addClass(dojo.query('#buttonConstructWonder')[0], canAffordWonder ? 'bgabutton_blue' : 'bgabutton_darkgray');
+                this.clearActionGlow();
 
-            dojo.setStyle('draftpool_actions', 'visibility', 'visible');
+                var building = dojo.query(e.target);
+
+                dojo.addClass(e.target, 'glow');
+
+                this.playerTurnCardId = dojo.attr(e.target, 'data-card-id');
+                this.playerTurnBuildingId = dojo.attr(e.target, 'data-building-id');
+                this.playerTurnNode = e.target;
+
+                var cardData = this.getDraftpoolCardData(this.playerTurnCardId);
+                dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + this.gamedatas.draftpool.discardGain[this.player_id];
+
+                var playerCoins = this.gamedatas.playerCoins[this.player_id];
+
+                var canAffordBuilding = cardData.cost[this.player_id] <= playerCoins;
+                dojo.removeClass(dojo.query('#buttonConstructBuilding')[0], 'bgabutton_blue');
+                dojo.removeClass(dojo.query('#buttonConstructBuilding')[0], 'bgabutton_darkgray');
+                dojo.addClass(dojo.query('#buttonConstructBuilding')[0], canAffordBuilding ? 'bgabutton_blue' : 'bgabutton_darkgray');
+
+                var canAffordWonder = false;
+                Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function(index) {
+                    var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
+                    if (!wonderData.constructed) {
+                        if (wonderData.cost <= playerCoins) {
+                            canAffordWonder = true;
+                        }
+                    }
+                }));
+                dojo.removeClass(dojo.query('#buttonConstructWonder')[0], 'bgabutton_blue');
+                dojo.removeClass(dojo.query('#buttonConstructWonder')[0], 'bgabutton_darkgray');
+                dojo.addClass(dojo.query('#buttonConstructWonder')[0], canAffordWonder ? 'bgabutton_blue' : 'bgabutton_darkgray');
+
+                dojo.setStyle('draftpool_actions', 'visibility', 'visible');
+            }
         },
 
         onPlayerTurnConstructBuildingClick: function (e) {
@@ -584,30 +588,32 @@ function (dojo, declare, on, dom) {
 
             console.log('onPlayerTurnConstructBuildingClick');
 
-            // Check that this action is possible (see "possibleactions" in states.inc.php)
-            if (!this.checkAction('actionConstructBuilding')) {
-                return;
-            }
-
-            this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
-                    cardId: this.playerTurnCardId
-                },
-                this, function (result) {
-                    console.log('success result: ', result);
-                    dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
-                    // What to do after the server call if it succeeded
-                    // (most of the time: nothing)
-
-                    // Hide wonder selection
-                    // dojo.style('pattern_selection', 'display', 'none');
-
-                }, function (is_error) {
-                    console.log('error result: ', is_error);
-                    // What to do after the server call in anyway (success or failure)
-                    // (most of the time: nothing)
-
+            if (this.isCurrentPlayerActive()) {
+                // Check that this action is possible (see "possibleactions" in states.inc.php)
+                if (!this.checkAction('actionConstructBuilding')) {
+                    return;
                 }
-            );
+
+                this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
+                        cardId: this.playerTurnCardId
+                    },
+                    this, function (result) {
+                        console.log('success result: ', result);
+                        dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
+                        // What to do after the server call if it succeeded
+                        // (most of the time: nothing)
+
+                        // Hide wonder selection
+                        // dojo.style('pattern_selection', 'display', 'none');
+
+                    }, function (is_error) {
+                        console.log('error result: ', is_error);
+                        // What to do after the server call in anyway (success or failure)
+                        // (most of the time: nothing)
+
+                    }
+                );
+            }
         },
 
         onPlayerTurnDiscardBuildingClick: function (e) {
@@ -616,30 +622,32 @@ function (dojo, declare, on, dom) {
 
             console.log('onPlayerTurnDiscardBuildingClick');
 
-            // Check that this action is possible (see "possibleactions" in states.inc.php)
-            if (!this.checkAction('actionDiscardBuilding')) {
-                return;
-            }
-
-            this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
-                    cardId: this.playerTurnCardId
-                },
-                this, function (result) {
-                    console.log('success result: ', result);
-                    dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
-                    // What to do after the server call if it succeeded
-                    // (most of the time: nothing)
-
-                    // Hide wonder selection
-                    // dojo.style('pattern_selection', 'display', 'none');
-
-                }, function (is_error) {
-                    console.log('error result: ', is_error);
-                    // What to do after the server call in anyway (success or failure)
-                    // (most of the time: nothing)
-
+            if (this.isCurrentPlayerActive()) {
+                // Check that this action is possible (see "possibleactions" in states.inc.php)
+                if (!this.checkAction('actionDiscardBuilding')) {
+                    return;
                 }
-            );
+
+                this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
+                        cardId: this.playerTurnCardId
+                    },
+                    this, function (result) {
+                        console.log('success result: ', result);
+                        dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
+                        // What to do after the server call if it succeeded
+                        // (most of the time: nothing)
+
+                        // Hide wonder selection
+                        // dojo.style('pattern_selection', 'display', 'none');
+
+                    }, function (is_error) {
+                        console.log('error result: ', is_error);
+                        // What to do after the server call in anyway (success or failure)
+                        // (most of the time: nothing)
+
+                    }
+                );
+            }
         },
 
         clearActionGlow: function() {
@@ -655,30 +663,16 @@ function (dojo, declare, on, dom) {
 
             console.log('onPlayerTurnConstructWonderClick');
 
-            Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function(index) {
-                var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
-                if (!wonderData.constructed) {
-                    if (wonderData.cost <= this.gamedatas.playerCoins[this.player_id]) {
-                        dojo.addClass(dojo.query('#wonder_' + wonderData.wonder)[0], 'wonder_selectable');
+            if (this.isCurrentPlayerActive()) {
+                Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
+                    var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
+                    if (!wonderData.constructed) {
+                        if (wonderData.cost <= this.gamedatas.playerCoins[this.player_id]) {
+                            dojo.addClass(dojo.query('#wonder_' + wonderData.wonder)[0], 'wonder_selectable');
+                        }
                     }
-                }
-            }));
-        },
-
-        onPlayerTurnConstructWonderClick: function (e) {
-            // Preventing default browser reaction
-            dojo.stopEvent(e);
-
-            console.log('onPlayerTurnConstructWonderClick');
-
-            Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function(index) {
-                var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
-                if (!wonderData.constructed) {
-                    if (wonderData.cost <= this.gamedatas.playerCoins[this.player_id]) {
-                        dojo.addClass(dojo.query('#wonder_' + wonderData.wonder)[0], 'wonder_selectable');
-                    }
-                }
-            }));
+                }));
+            }
         },
         onPlayerTurnConstructWonderSelectedClick: function (e) {
             // Preventing default browser reaction
@@ -686,31 +680,33 @@ function (dojo, declare, on, dom) {
 
             console.log('onPlayerTurnConstructWonderSelectedClick', e);
 
-            // Check that this action is possible (see "possibleactions" in states.inc.php)
-            if (!this.checkAction('actionConstructWonder')) {
-                return;
-            }
-
-            this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
-                    cardId: this.playerTurnCardId,
-                    wonderId: dojo.attr(e.target, "data-wonder-id"),
-                },
-                this, function (result) {
-                    console.log('success result: ', result);
-                    dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
-                    // What to do after the server call if it succeeded
-                    // (most of the time: nothing)
-
-                    // Hide wonder selection
-                    // dojo.style('pattern_selection', 'display', 'none');
-
-                }, function (is_error) {
-                    console.log('error result: ', is_error);
-                    // What to do after the server call in anyway (success or failure)
-                    // (most of the time: nothing)
-
+            if (this.isCurrentPlayerActive()) {
+                // Check that this action is possible (see "possibleactions" in states.inc.php)
+                if (!this.checkAction('actionConstructWonder')) {
+                    return;
                 }
-            );
+
+                this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
+                        cardId: this.playerTurnCardId,
+                        wonderId: dojo.attr(e.target, "data-wonder-id"),
+                    },
+                    this, function (result) {
+                        console.log('success result: ', result);
+                        dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
+                        // What to do after the server call if it succeeded
+                        // (most of the time: nothing)
+
+                        // Hide wonder selection
+                        // dojo.style('pattern_selection', 'display', 'none');
+
+                    }, function (is_error) {
+                        console.log('error result: ', is_error);
+                        // What to do after the server call in anyway (success or failure)
+                        // (most of the time: nothing)
+
+                    }
+                );
+            }
         },
 
         getOffset: function(el) {
