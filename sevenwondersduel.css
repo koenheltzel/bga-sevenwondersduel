@@ -226,6 +226,10 @@ __     __         _       _     _
     margin-right: var(--gutter);
 }
 
+#wonder_selection_container .wonder {
+    cursor: pointer;
+}
+
 #middle_column {
     text-align: center;
 
@@ -336,6 +340,10 @@ __     __         _       _     _
 
     /* 5px for rightmost card's shadow, else it will look too narrox. */
     width: calc(var(--draftpool-column-width) * 10 + var(--building-small-width) + calc(var(--scale) * 5px));
+}
+
+.glow {
+    animation: glow 0.5s infinite alternate;
 }
 
 .drafpool_building_cost {
@@ -747,7 +755,6 @@ __        __              _
     height: var(--wonder-height);
     background-image: url('img/wonders.jpg');
     position: absolute;
-    cursor: pointer;
     border-radius: var(--wonder-border-radius);
     box-shadow:
         calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0px rgba(0,0,0,0.4),
@@ -766,6 +773,11 @@ __        __              _
     box-shadow:
         calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
+}
+
+.wonder_selectable {
+    cursor: pointer;
+    animation: actionglow 0.5s infinite alternate;
 }
 
 /*

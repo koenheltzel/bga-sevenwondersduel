@@ -539,13 +539,13 @@ function (dojo, declare, on, dom) {
             dojo.stopEvent(e);
 
             if (this.playerTurnNode) {
-                dojo.setStyle(this.playerTurnNode, 'animation', 'none');
+                dojo.removeClass(this.playerTurnNode, 'glow');
             }
             this.clearActionGlow();
 
             var building = dojo.query(e.target);
 
-            dojo.setStyle(e.target, 'animation', 'glow 0.5s infinite alternate');
+            dojo.addClass(e.target, 'glow');
 
             this.playerTurnCardId = dojo.attr(e.target, 'data-card-id');
             this.playerTurnBuildingId = dojo.attr(e.target, 'data-building-id');
@@ -644,7 +644,7 @@ function (dojo, declare, on, dom) {
         clearActionGlow: function() {
             Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function(index) {
                 var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
-                dojo.setStyle(dojo.query('#wonder_' + wonderData.wonder)[0], 'animation', 'none');
+                dojo.removeClass(dojo.query('#wonder_' + wonderData.wonder)[0], 'wonder_selectable');
             }));
         },
 
@@ -658,7 +658,7 @@ function (dojo, declare, on, dom) {
                 var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
                 if (!wonderData.constructed) {
                     if (wonderData.cost <= this.gamedatas.playerCoins[this.player_id]) {
-                        dojo.setStyle(dojo.query('#wonder_' + wonderData.wonder)[0], 'animation', 'actionglow 0.5s infinite alternate');
+                        dojo.addClass(dojo.query('#wonder_' + wonderData.wonder)[0], 'wonder_selectable');
 
                         // canAffordWonder = true;
                     }
@@ -844,6 +844,7 @@ function (dojo, declare, on, dom) {
             this.fadeOutAndDestroy(buildingNode);
 
             this.updateDraftpool(notif.args.draftpool);
+            this.updateWondersSituation(notif.args.wondersSituation)
         },
 
         /*

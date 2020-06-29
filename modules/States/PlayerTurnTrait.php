@@ -101,6 +101,7 @@ trait PlayerTurnTrait {
                 'playerId' => $playerId,
                 'buildingId' => $building->id,
                 'draftpool' => Draftpool::get(),
+                'wondersSituation' => Wonders::getSituation(),
                 'playerCoins' => Player::me()->getCoins(),
             ]
         );
