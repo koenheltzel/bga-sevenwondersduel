@@ -96,8 +96,9 @@ __     __         _       _     _
 
     --small-border-radius: 7px;
 
+    --draftpool-row-height-multiplier: 0.536;
     --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.6);
-    --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * 0.536);
+    --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
 }
 
 /*

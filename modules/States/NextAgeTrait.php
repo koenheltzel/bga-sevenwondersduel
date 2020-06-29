@@ -4,6 +4,7 @@ namespace SWD\States;
 
 use SevenWondersDuel;
 use SWD\Draftpool;
+use SWD\Wonders;
 
 trait NextAgeTrait {
 
@@ -15,6 +16,7 @@ trait NextAgeTrait {
             '',
             [
                 'draftpool' => Draftpool::get(),
+                'wondersSituation' => Wonders::getSituation(),
             ]
         );
 

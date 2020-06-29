@@ -264,6 +264,8 @@ function (dojo, declare, on, dom) {
             if (draftpool.age > 0) {
                 dojo.empty("draftpool");
 
+                document.documentElement.style.setProperty('--draftpool-row-height-multiplier', draftpool.age == 3 ? 0.4 : 0.536);
+
                 for (var i = 0; i < draftpool.cards.length; i++) {
                     var position = draftpool.cards[i];
                     var spriteId = null;
@@ -854,6 +856,7 @@ function (dojo, declare, on, dom) {
         },
 
         notif_nextAge: function(notif) {
+            this.updateWondersSituation(notif.args.wondersSituation);
             this.updateDraftpool(notif.args.draftpool);
         },
 
