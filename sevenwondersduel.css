@@ -80,7 +80,7 @@ __     __         _       _     _
     --wonder-height: calc(var(--wonder-spritesheet-height) / var(--wonder-spritesheet-rows));
     --wonder-border-radius: 15px;
     --wonder-small-scale: calc(0.58 * var(--scale));
-    --wonder-plus-age-card-scale: 1.085;
+    --wonder-plus-age-card-scale: 1.1;
 
     --progress-token-spritesheet-width: 800px;
     --progress-token-spritesheet-height: 600px;
@@ -248,11 +248,11 @@ __     __         _       _     _
 }
 #swd_wrap.portrait #board_column {
     /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
-    width: calc(238px * var(--scale));
+    width: calc(220px * var(--scale));
 }
-#swd_wrap.square #board_column, #swd_wrap.square #board_column {
+#swd_wrap.square #board_column, #swd_wrap.landscape #board_column {
     /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
-    width: calc(215px * var(--scale));
+    width: calc(225px * var(--scale));
 }
 /*
  ____                      _
