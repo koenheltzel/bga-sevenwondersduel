@@ -553,6 +553,26 @@ function (dojo, declare, on, dom) {
             var cardData = this.getDraftpoolCardData(this.playerTurnCardId);
             dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + this.gamedatas.draftpool.discardGain[this.player_id];
 
+            var playerCoins = this.gamedatas.playerCoins[this.player_id];
+
+            var canAffordBuilding = cardData.cost[this.player_id] <= playerCoins;
+            dojo.removeClass(dojo.query('#buttonConstructBuilding')[0], 'bgabutton_blue');
+            dojo.removeClass(dojo.query('#buttonConstructBuilding')[0], 'bgabutton_darkgray');
+            dojo.addClass(dojo.query('#buttonConstructBuilding')[0], canAffordBuilding ? 'bgabutton_blue' : 'bgabutton_darkgray');
+
+            var canAffordWonder = false;
+            Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function(index) {
+                var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
+                if (!wonderData.constructed) {
+                    if (wonderData.cost <= playerCoins) {
+                        canAffordWonder = true;
+                    }
+                }
+            }));
+            dojo.removeClass(dojo.query('#buttonConstructWonder')[0], 'bgabutton_blue');
+            dojo.removeClass(dojo.query('#buttonConstructWonder')[0], 'bgabutton_darkgray');
+            dojo.addClass(dojo.query('#buttonConstructWonder')[0], canAffordWonder ? 'bgabutton_blue' : 'bgabutton_darkgray');
+
             dojo.setStyle('draftpool_actions', 'visibility', 'visible');
         },
 

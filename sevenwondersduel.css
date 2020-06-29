@@ -122,6 +122,10 @@ __     __         _       _     _
     padding: var(--gutter) !important;
 }
 
+#swd_wrap .bgabutton_darkgray {
+    cursor: not-allowed;
+}
+
 #swd_wrap .whiteblock {
     border-radius: 8px;
     padding: var(--gutter);

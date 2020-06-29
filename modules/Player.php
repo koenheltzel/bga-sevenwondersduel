@@ -60,7 +60,7 @@ class Player {
     }
 
     public function getCoins() {
-        return SevenWondersDuel::get()->getPlayerValue($this->id, "player_coins");
+        return (int)SevenWondersDuel::get()->getPlayerValue($this->id, "player_coins");
     }
 
     public function increaseCoins($increase) {
