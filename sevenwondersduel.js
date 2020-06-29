@@ -178,7 +178,7 @@ function (dojo, declare, on, dom) {
                 jsId: wonderId,
                 jsDisplayCost: displayCost && cost > -1 ? 'inline-block' : 'none',
                 jsCost: cost,
-                jsCostColor: cost > canAfford ? 'red' : 'black',
+                jsCostColor: canAfford ? 'black' : 'red',
             };
             var spritesheetColumns = 5;
             data.jsX = (wonderId - 1) % spritesheetColumns;
