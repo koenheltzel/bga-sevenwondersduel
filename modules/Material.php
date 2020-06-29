@@ -75,7 +75,7 @@ class Material
             ->setCost([STONE => 1, WOOD => 1, CLAY => 2, PAPYRUS => 2]);
 
         $this->wonders[10] = (new Wonder(10, clienttranslate("The Sphinx")))
-            ->setCost([STONE => 1, CLAY => 1, GLASS => 1]);
+            ->setCost([STONE => 1, CLAY => 1, GLASS => 2]);
 
         $this->wonders[11] = (new Wonder(11, clienttranslate("The Appian Way")))
             ->setCost([STONE => 2, CLAY => 2, PAPYRUS => 1])

@@ -205,6 +205,7 @@ var jstpl_wonder = '\
             class="wonder wonder_small"\
             style="background-position: -${jsX}00% -${jsY}00%; "\
         >\
+            <div class="player_wonder_cost" style="display: ${jsDisplayCost}"><div class="coin"><span style="color: ${jsCostColor} !important">${jsCost}</span></div></div>\
         </div>\
         <div class="age_card_container card_outline" style=""></div>\
     </div>';

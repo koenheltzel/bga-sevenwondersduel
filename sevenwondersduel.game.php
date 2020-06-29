@@ -290,15 +290,9 @@ class SevenWondersDuel extends Table
         // Wonder selection stuff
         $result['wondersSituation'] = [
             'selection' => SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND)}"),
-            Player::me()->id => SevenWondersDuel::get()->wonderDeck->getCardsInLocation(Player::me()->id),
-            Player::opponent()->id => SevenWondersDuel::get()->wonderDeck->getCardsInLocation(Player::opponent()->id),
+            Player::me()->id => Player::me()->getWondersData(),
+            Player::opponent()->id => Player::opponent()->getWondersData(),
         ];
-        foreach([Player::me()->id, Player::opponent()->id] as $playerId) {
-            foreach($result['wondersSituation'][$playerId] as &$card) {
-                $card['constructed'] = Wonder::get($card['type_arg'])->isConstructed();
-            }
-        }
-
 
         $result['playerBuildings'] = [
             Player::me()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::me()->id),

@@ -299,6 +299,23 @@ class Player {
         return Wonders::createByWonderIds($this->getWonderIds());
     }
 
+    public function getWondersData(): array {
+        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation($this->id);
+        $rows = [];
+        foreach($cards as $card) {
+            $wonder = Wonder::get($card['type_arg']);
+            $row = [];
+            $row['card'] = (int)$card['id'];
+            $row['wonder'] = $wonder->id;
+            $row['constructed'] = $wonder->isConstructed();
+            $payment = $this->calculateCost($wonder);
+            $row['cost'] = $payment->totalCost();
+            $row['payment'] = $payment;
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+
     public function getWonderDeckCards(): array {
         return SevenWondersDuel::get()->wonderDeck->getCardsInLocation($this->id);
     }
