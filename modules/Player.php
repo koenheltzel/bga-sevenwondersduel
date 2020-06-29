@@ -38,15 +38,16 @@ class Player {
     /**
      * @return Player
      */
-    public static function opponent() {
+    public static function opponent($meId = null) {
         if ($_SERVER['HTTP_HOST'] == 'localhost') {
             return self::get(2);
         } else {
+            if (is_null($meId)) $meId = SevenWondersDuel::get()->getCurrentPlayerId();
             $players = SevenWondersDuel::get()->loadPlayersBasicInfos();
             $playerIds = array_keys($players);
             foreach ($playerIds as $playerId) {
                 // This is a 2-player game so we just look for a playerId not matching currentPlayerId.
-                if ($playerId <> SevenWondersDuel::get()->getCurrentPlayerId()) {
+                if ($playerId <> $meId) {
                     return self::get($playerId);
                 }
             }
@@ -240,7 +241,7 @@ class Player {
 
         // What should the player pay for the remaining resources?
         foreach ($costLeft as $resource => $amount) {
-            $opponentResourceCount = Player::opponent()->resourceCount($resource);
+            $opponentResourceCount = Player::opponent($this->id)->resourceCount($resource);
             $cost = $amount * 2 + $opponentResourceCount;
             $string = null;
             if ($opponentResourceCount > 0) {
