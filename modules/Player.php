@@ -309,7 +309,7 @@ class Player {
             $row['wonder'] = $wonder->id;
             $row['constructed'] = $wonder->isConstructed();
             $payment = $this->calculateCost($wonder);
-            $row['cost'] = $payment->totalCost();
+            $row['cost'] = $row['constructed'] ? -1 : $payment->totalCost();
             $row['payment'] = $payment;
             $rows[] = $row;
         }

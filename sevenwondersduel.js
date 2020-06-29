@@ -74,6 +74,7 @@ function (dojo, declare, on, dom) {
             // Click handlers using event delegation:
             dojo.query('#wonder_selection_container').on(".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
             dojo.query('#draftpool').on(".building.available:click", dojo.hitch(this, "onPlayerTurnDraftpoolClick"));
+            dojo.query('#player_wonders_' + this.player_id).on(".wonder_small.wonder_selectable:click", dojo.hitch(this, "onPlayerTurnConstructWonderSelectedClick"));
             // Click handlers without event delegation:
             dojo.query("#buttonConstructBuilding").on("click", dojo.hitch(this, "onPlayerTurnConstructBuildingClick"));
             dojo.query("#buttonDiscardBuilding").on("click", dojo.hitch(this, "onPlayerTurnDiscardBuildingClick"));
@@ -659,11 +660,57 @@ function (dojo, declare, on, dom) {
                 if (!wonderData.constructed) {
                     if (wonderData.cost <= this.gamedatas.playerCoins[this.player_id]) {
                         dojo.addClass(dojo.query('#wonder_' + wonderData.wonder)[0], 'wonder_selectable');
-
-                        // canAffordWonder = true;
                     }
                 }
             }));
+        },
+
+        onPlayerTurnConstructWonderClick: function (e) {
+            // Preventing default browser reaction
+            dojo.stopEvent(e);
+
+            console.log('onPlayerTurnConstructWonderClick');
+
+            Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function(index) {
+                var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
+                if (!wonderData.constructed) {
+                    if (wonderData.cost <= this.gamedatas.playerCoins[this.player_id]) {
+                        dojo.addClass(dojo.query('#wonder_' + wonderData.wonder)[0], 'wonder_selectable');
+                    }
+                }
+            }));
+        },
+        onPlayerTurnConstructWonderSelectedClick: function (e) {
+            // Preventing default browser reaction
+            dojo.stopEvent(e);
+
+            console.log('onPlayerTurnConstructWonderSelectedClick', e);
+
+            // Check that this action is possible (see "possibleactions" in states.inc.php)
+            if (!this.checkAction('actionConstructWonder')) {
+                return;
+            }
+
+            this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
+                    cardId: this.playerTurnCardId,
+                    wonderId: dojo.attr(e.target, "data-wonder-id"),
+                },
+                this, function (result) {
+                    console.log('success result: ', result);
+                    dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
+                    // What to do after the server call if it succeeded
+                    // (most of the time: nothing)
+
+                    // Hide wonder selection
+                    // dojo.style('pattern_selection', 'display', 'none');
+
+                }, function (is_error) {
+                    console.log('error result: ', is_error);
+                    // What to do after the server call in anyway (success or failure)
+                    // (most of the time: nothing)
+
+                }
+            );
         },
 
         getOffset: function(el) {
@@ -787,6 +834,7 @@ function (dojo, declare, on, dom) {
             dojo.subscribe( 'nextAge', this, "notif_nextAge" );
             dojo.subscribe( 'constructBuilding', this, "notif_constructBuilding" );
             dojo.subscribe( 'discardBuilding', this, "notif_discardBuilding" );
+            dojo.subscribe( 'constructWonder', this, "notif_constructWonder" );
         },
         
         // TODO: from this point and below, you can write your game notifications handling methods
@@ -840,6 +888,23 @@ function (dojo, declare, on, dom) {
             // var buildingNodeId = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0].attr('id');
             var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
             dijit.Tooltip.hide(buildingNode);
+
+            this.fadeOutAndDestroy(buildingNode);
+
+            this.updateDraftpool(notif.args.draftpool);
+            this.updateWondersSituation(notif.args.wondersSituation)
+        },
+
+        notif_constructWonder: function(notif) {
+            console.log( 'notif_discardBuilding' );
+            console.log( notif );
+
+            this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
+
+            // var buildingNodeId = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0].attr('id');
+            var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
+            dijit.Tooltip.hide(buildingNode);
+            // TODO: animate building towards wonder
 
             this.fadeOutAndDestroy(buildingNode);
 
