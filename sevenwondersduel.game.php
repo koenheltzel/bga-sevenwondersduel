@@ -20,6 +20,7 @@ use SWD\Draftpool;
 use SWD\Material;
 use SWD\Player;
 use SWD\Wonder;
+use SWD\Wonders;
 
 // SWD namespace autoloader from /modules/ folder.
 $swdNamespaceAutoload = function ($class) {
@@ -192,7 +193,11 @@ class SevenWondersDuel extends Table
     }
 
     public function getCurrentAge() {
-	    return $this->getGameStateValue(self::VALUE_CURRENT_AGE);
+        return $this->getGameStateValue(self::VALUE_CURRENT_AGE);
+    }
+
+    public function getWonderSelectionRound() {
+        return $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
     }
 
     protected function getGameName( )
@@ -288,11 +293,7 @@ class SevenWondersDuel extends Table
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
 
         // Wonder selection stuff
-        $result['wondersSituation'] = [
-            'selection' => SevenWondersDuel::get()->wonderDeck->getCardsInLocation("selection{$this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND)}"),
-            Player::me()->id => Player::me()->getWondersData(),
-            Player::opponent()->id => Player::opponent()->getWondersData(),
-        ];
+        $result['wondersSituation'] = Wonders::getSituation();
 
         $result['playerBuildings'] = [
             Player::me()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::me()->id),

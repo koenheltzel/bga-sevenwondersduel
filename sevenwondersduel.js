@@ -56,7 +56,7 @@ function (dojo, declare, on, dom) {
             this.gamedatas = gamedatas;
 
             // Setup game situation.
-            this.updateWonderSelection(this.gamedatas.wondersSituation.selection);
+            this.updateWondersSituation(this.gamedatas.wondersSituation);
             this.updateDraftpool(this.gamedatas.draftpool);
             this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
 
@@ -191,6 +191,7 @@ function (dojo, declare, on, dom) {
             var i = 1;
             Object.keys(rows).forEach(dojo.hitch(this, function(index) {
                 var container = dojo.query('.player_wonders.player' + playerId + '>div:nth-of-type(' + i + ')')[0];
+                dojo.empty(container);
                 var row = rows[index];
                 var displayCost = playerId == this.player_id && row.cost;
 
@@ -300,6 +301,14 @@ function (dojo, declare, on, dom) {
                 this.updateLayout();
             }
 
+        },
+
+        updateWondersSituation: function(situation) {
+            this.updateWonderSelection(situation.selection);
+            for( var player_id in this.gamedatas.players )
+            {
+                this.updatePlayerWonders(player_id, situation[player_id]);
+            }
         },
         
         getBuildingTooltip: function( id )
@@ -780,6 +789,7 @@ function (dojo, declare, on, dom) {
             this.fadeOutAndDestroy(buildingNode);
 
             this.updateDraftpool(notif.args.draftpool);
+            this.updateWondersSituation(notif.args.wondersSituation)
         },
 
         notif_discardBuilding: function(notif) {

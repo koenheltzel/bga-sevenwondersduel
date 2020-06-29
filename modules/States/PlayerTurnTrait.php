@@ -6,6 +6,7 @@ use SevenWondersDuel;
 use SWD\Building;
 use SWD\Draftpool;
 use SWD\Player;
+use SWD\Wonders;
 
 trait PlayerTurnTrait {
 
@@ -59,6 +60,7 @@ trait PlayerTurnTrait {
                 'playerId' => $playerId,
                 'buildingId' => $building->id,
                 'draftpool' => Draftpool::get(),
+                'wondersSituation' => Wonders::getSituation(),
                 'playerCoins' => Player::me()->getCoins(),
             ]
         );
