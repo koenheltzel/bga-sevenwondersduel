@@ -731,6 +731,7 @@ __     __         _       _     _
     cursor: pointer;
     display: block;
     position: relative; /* For the sliding animation (draftpool to player area) to work */
+    z-index: 15; /* So they are on top of the draftpool buildings during animation */
 }
 
 .building_header_small_container {

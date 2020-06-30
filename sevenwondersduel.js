@@ -723,8 +723,17 @@ function (dojo, declare, on, dom) {
         setScale: function(scale) {
             console.log('setScale', scale);
             // scale = 0.5;
-            document.documentElement.style.setProperty('--scale', scale);
+            this.setCssVariable('--scale', scale);
+
             // dojo.style(swdNode, "zoom", scale);
+        },
+
+        getCssVariable: function(name) {
+            return document.documentElement.style.getPropertyValue(name);
+        },
+
+        setCssVariable: function(name, value) {
+            document.documentElement.style.setProperty(name, value);
         },
 
         updateLayout: function() {
@@ -872,27 +881,36 @@ function (dojo, declare, on, dom) {
             this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
             this.scoreCtrl[notif.args.playerId].setValue( notif.args.playerScore );
 
-            // var buildingNodeId = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0].attr('id');
             var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
             dijit.Tooltip.hide(buildingNode);
 
             var building = this.gamedatas.buildings[notif.args.buildingId];
             var container = dojo.query('.player_buildings.player' + notif.args.playerId + ' .' + building.type)[0];
-            var playerBuilding = dojo.place(this.getBuildingDivHtml(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container);
-            console.log('playerBuilding', playerBuilding);
+            var playerBuildingContainer = dojo.place(this.getBuildingDivHtml(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container);
+            var playerBuildingId = 'player_building_' + notif.args.buildingId;
 
-
-
-            console.log('placeOnObject', dojo.attr(playerBuilding, "id"), dojo.attr(buildingNode, "id"));
-            this.placeOnObjectPos('player_building_' + notif.args.buildingId, dojo.attr(buildingNode, "id"), 0, 5);
-            this.slideToObjectPos('player_building_' + notif.args.buildingId, 'player_building_container_' + notif.args.buildingId, 0, 0, 3000).play();
-
+            this.placeOnObjectPos(playerBuildingId, dojo.attr(buildingNode, "id"), 0.5 * this.getCssVariable('--scale'),  -59.5 * this.getCssVariable('--scale'));
+            dojo.style(playerBuildingId, 'opacity', 0);
+            dojo.style(playerBuildingId, 'z-index', 20);
             // Move buildingNode to #draftpool_animations to fade out in peace while the draftpool will be updated (=emptied).
             dojo.place(buildingNode, dojo.query('#draftpool_animations')[0]);
-            this.fadeOutAndDestroy(buildingNode);
 
-            this.updateDraftpool(notif.args.draftpool);
-            this.updateWondersSituation(notif.args.wondersSituation)
+            var anim = dojo.fx.chain( [
+                dojo.fx.combine( [
+                    dojo.fadeIn( {node:playerBuildingId, duration: 400} ),
+                    dojo.fadeOut( {node:buildingNode, duration: 400} ),
+                ] ),
+                this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, 600),
+            ] );
+
+            dojo.connect( anim, 'onEnd', dojo.hitch( this, function() {
+                dojo.style(playerBuildingId, 'z-index', 15);
+                dojo.destroy(buildingNode);
+                this.updateDraftpool(notif.args.draftpool);
+                this.updateWondersSituation(notif.args.wondersSituation);
+            }));
+
+            anim.play();
         },
 
         notif_discardBuilding: function(notif) {
