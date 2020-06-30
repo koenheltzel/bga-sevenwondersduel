@@ -921,10 +921,15 @@ function (dojo, declare, on, dom) {
             var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
             dijit.Tooltip.hide(buildingNode);
 
-            this.fadeOutAndDestroy(buildingNode);
+            var anim = dojo.fadeOut( {node:buildingNode, duration: 400} );
 
-            this.updateDraftpool(notif.args.draftpool);
-            this.updateWondersSituation(notif.args.wondersSituation)
+            dojo.connect( anim, 'onEnd', dojo.hitch( this, function() {
+                dojo.destroy(buildingNode);
+                this.updateDraftpool(notif.args.draftpool);
+                this.updateWondersSituation(notif.args.wondersSituation);
+            }));
+
+            anim.play();
         },
 
         notif_constructWonder: function(notif) {
