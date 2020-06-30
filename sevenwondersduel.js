@@ -878,7 +878,14 @@ function (dojo, declare, on, dom) {
 
             var building = this.gamedatas.buildings[notif.args.buildingId];
             var container = dojo.query('.player_buildings.player' + notif.args.playerId + ' .' + building.type)[0];
-            dojo.place(this.getBuildingDivHtml(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container);
+            var playerBuilding = dojo.place(this.getBuildingDivHtml(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container);
+            console.log('playerBuilding', playerBuilding);
+
+
+
+            console.log('placeOnObject', dojo.attr(playerBuilding, "id"), dojo.attr(buildingNode, "id"));
+            this.placeOnObjectPos('player_building_' + notif.args.buildingId, dojo.attr(buildingNode, "id"), 0, 5);
+            this.slideToObjectPos('player_building_' + notif.args.buildingId, 'player_building_container_' + notif.args.buildingId, 0, 0, 3000).play();
 
             // Move buildingNode to #draftpool_animations to fade out in peace while the draftpool will be updated (=emptied).
             dojo.place(buildingNode, dojo.query('#draftpool_animations')[0]);

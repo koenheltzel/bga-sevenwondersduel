@@ -488,6 +488,12 @@ __     __         _       _     _
     background-position: bottom !important;
     margin: 0px 1px 0px 1px;
 }
+.player_buildings.opponent .player_building_column {
+    background-position: bottom !important;
+}
+.player_buildings.me .player_building_column {
+    background-position: top !important;
+}
 
 /* Gradients for opponent */
 .player_buildings.opponent .player_building_column.Brown {
@@ -723,6 +729,13 @@ __     __         _       _     _
         calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
     cursor: pointer;
+    display: block;
+    position: relative; /* For the sliding animation (draftpool to player area) to work */
+}
+
+.building_header_small_container {
+    width: var(--building-small-width);
+    height: var(--building-header-small-height);
     display: block;
 }
 

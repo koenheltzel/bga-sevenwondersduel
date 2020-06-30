@@ -190,13 +190,15 @@ var jstpl_draftpool_building = '\
 
 // Keep title attribute empty. This overrides the title attribute of the player_building_column div.
 var jstpl_player_building = '\
-    <div id="player_building_${jsId}"\
-        data-building-id="${jsId}"\
-        data-card-id="${jsCardId}"\
-        title=""\
-        class="building building_header_small"\
-        style="position: inline-block; background-position: -${jsX}00% calc(-5px + -${jsY} * var(--building-height) * var(--building-small-scale));"\
-    >\
+    <div id="player_building_container_${jsId}" class="building_header_small_container">\
+        <div id="player_building_${jsId}"\
+            data-building-id="${jsId}"\
+            data-card-id="${jsCardId}"\
+            title=""\
+            class="building building_header_small"\
+            style="position: inline-block; background-position: -${jsX}00% calc(-5px + -${jsY} * var(--building-height) * var(--building-small-scale));"\
+        >\
+        </div>\
     </div>';
 
 var jstpl_wonder = '\
