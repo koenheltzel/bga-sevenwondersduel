@@ -253,18 +253,6 @@ class SevenWondersDuel extends Table
         /************ End of the game initialization *****/
     }
 
-    public function getPlayerValue(int $playerId, string $column) {
-        return self::getUniqueValueFromDB( "SELECT `$column` FROM player WHERE player_id=$playerId" );
-    }
-
-    public function setPlayerValue(int $playerId, string $column, mixed $value) {
-        self::DbQuery( "UPDATE player SET `$column` = {$this->escapeStringForDB($value)} WHERE player_id=$playerId" );
-    }
-
-    public function increasePlayerValue(int $playerId, string $column, int $increase) {
-        self::DbQuery( "UPDATE player SET `$column` = `$column` + $increase WHERE player_id=$playerId" );
-    }
-
     /*
         getAllDatas: 
         

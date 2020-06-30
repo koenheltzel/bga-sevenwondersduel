@@ -61,11 +61,11 @@ class Player extends \APP_DbObject{
     }
 
     public function getCoins() {
-        return (int)SevenWondersDuel::get()->getPlayerValue($this->id, "player_coins");
+        return (int)$this->getValue("player_coins");
     }
 
     public function increaseCoins($increase) {
-        return SevenWondersDuel::get()->increasePlayerValue($this->id, "player_coins", $increase);
+        return $this->increaseValue("player_coins", $increase);
     }
 
     // get score
@@ -84,6 +84,18 @@ class Player extends \APP_DbObject{
             $this->setScore($count);
         }
         return $count;
+    }
+
+    public function getValue(string $column) {
+        return self::getUniqueValueFromDB( "SELECT `$column` FROM player WHERE player_id='{$this->id}'" );
+    }
+
+    public function setValue(string $column, mixed $value) {
+        self::DbQuery( "UPDATE player SET `$column` = {$this->escapeStringForDB($value)} WHERE player_id='{$this->id}'" );
+    }
+
+    public function increaseValue(string $column, int $increase) {
+        self::DbQuery( "UPDATE player SET `$column` = `$column` + $increase WHERE player_id='{$this->id}'" );
     }
 
     /**
