@@ -331,6 +331,7 @@ __     __         _       _     _
 
 #draftpool_container {
     /*flex-grow: 1;*/
+    position: relative; /* To absolutely position #draftpool_animations */
 }
 
 .draftpool {
@@ -341,6 +342,13 @@ __     __         _       _     _
 
     /* 5px for rightmost card's shadow, else it will look too narrox. */
     width: calc(var(--draftpool-column-width) * 10 + var(--building-small-width) + calc(var(--scale) * 5px));
+}
+
+#draftpool_animations {
+    position: absolute;
+    z-index: 10;
+    top: 0px;
+    pointer-events: none;
 }
 
 .glow {

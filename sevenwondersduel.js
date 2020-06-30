@@ -274,7 +274,7 @@ function (dojo, declare, on, dom) {
                         jsCardId: '',
                         jsRow: position.row,
                         jsColumn: position.column,
-                        jsZindex: position.row * 10,
+                        jsZindex: position.row,
                         jsAvailable: position.available ? 'available' : '',
                         jsDisplayCost: 'none',
                         jsCostColor: 'black',
@@ -299,7 +299,7 @@ function (dojo, declare, on, dom) {
 
                 // Adjust the height of the age divs based on the age cards absolutely positioned within.
                 var rows = draftpool.age == 3 ? 7 : 5;
-                dojo.setStyle(dojo.query('.draftpool')[0], "height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + " * var(--draftpool-row-height))");
+                dojo.query('.draftpool').style("height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + " * var(--draftpool-row-height))");
 
                 this.updateLayout();
             }
@@ -879,6 +879,9 @@ function (dojo, declare, on, dom) {
             var building = this.gamedatas.buildings[notif.args.buildingId];
             var container = dojo.query('.player_buildings.player' + notif.args.playerId + ' .' + building.type)[0];
             dojo.place(this.getBuildingDivHtml(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container);
+
+            // Move buildingNode to #draftpool_animations to fade out in peace while the draftpool will be updated (=emptied).
+            dojo.place(buildingNode, dojo.query('#draftpool_animations')[0]);
             this.fadeOutAndDestroy(buildingNode);
 
             this.updateDraftpool(notif.args.draftpool);

@@ -59,6 +59,8 @@
                     </div>
                 </div>
                 <div id="draftpool_container" style="display: inline-block">
+                    <div id="draftpool_animations" class="draftpool age">
+                    </div>
                     <div id="draftpool" class="draftpool age">
                     </div>
                     <div id="draftpool_actions" class="whiteblock">
