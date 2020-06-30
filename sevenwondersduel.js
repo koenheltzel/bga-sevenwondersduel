@@ -892,8 +892,6 @@ function (dojo, declare, on, dom) {
             this.placeOnObjectPos(playerBuildingId, dojo.attr(buildingNode, "id"), 0.5 * this.getCssVariable('--scale'),  -59.5 * this.getCssVariable('--scale'));
             dojo.style(playerBuildingId, 'opacity', 0);
             dojo.style(playerBuildingId, 'z-index', 20);
-            // Move buildingNode to #draftpool_animations to fade out in peace while the draftpool will be updated (=emptied).
-            dojo.place(buildingNode, dojo.query('#draftpool_animations')[0]);
 
             var anim = dojo.fx.chain( [
                 dojo.fx.combine( [
