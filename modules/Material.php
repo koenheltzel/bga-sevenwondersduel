@@ -155,8 +155,7 @@ class Material
             ->setScientificSymbol(7);
 
         $this->buildings[17] = (new Building(17, 1, clienttranslate("Tavern"), Building::TYPE_YELLOW))
-            ->setCoins(4)
-            ->setFixedPriceResources([WOOD => 1]);
+            ->setCoins(4);
 
         $this->buildings[18] = (new Building(18, 1, clienttranslate("Stone Reserve"), Building::TYPE_YELLOW))
             ->setCost([COINS => 3])
