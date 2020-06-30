@@ -886,7 +886,7 @@ function (dojo, declare, on, dom) {
 
             var building = this.gamedatas.buildings[notif.args.buildingId];
             var container = dojo.query('.player_buildings.player' + notif.args.playerId + ' .' + building.type)[0];
-            var playerBuildingContainer = dojo.place(this.getBuildingDivHtml(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container);
+            var playerBuildingContainer = dojo.place(this.getBuildingDivHtml(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container, notif.args.playerId == this.player_id ? "last" : "first");
             var playerBuildingId = 'player_building_' + notif.args.buildingId;
 
             this.placeOnObjectPos(playerBuildingId, dojo.attr(buildingNode, "id"), 0.5 * this.getCssVariable('--scale'),  -59.5 * this.getCssVariable('--scale'));
