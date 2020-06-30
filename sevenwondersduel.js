@@ -728,7 +728,7 @@ function (dojo, declare, on, dom) {
         },
 
         updateLayout: function() {
-            var titlePosition = dojo.position(dojo.query('#page-title')[0], false);
+            var titlePosition = dojo.position('page-title', false);
             var titleMarginBottom = 5;
             var width = titlePosition.w - 5;
             var height = window.innerHeight - titlePosition.y - titlePosition.h - 2 * titleMarginBottom;
@@ -788,6 +788,11 @@ function (dojo, declare, on, dom) {
                 this.setScale(width / dojo.style(dojo.query('#layout_flexbox')[0], 'width'));
             }
             console.log('swd_wrap height: ', dojo.query('#swd_wrap')[0], 'height');
+        },
+
+        onScreenWidthChange: function () {
+            console.log('onScreenWidthChange');
+            this.updateLayout();
         },
 
         onWindowUpdate: function (e) {
@@ -865,6 +870,7 @@ function (dojo, declare, on, dom) {
             console.log( notif );
 
             this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
+            this.scoreCtrl[notif.args.playerId].setValue( notif.args.playerScore );
 
             // var buildingNodeId = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0].attr('id');
             var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
@@ -900,6 +906,7 @@ function (dojo, declare, on, dom) {
             console.log( notif );
 
             this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
+            this.scoreCtrl[notif.args.playerId].setValue( notif.args.playerScore );
 
             // var buildingNodeId = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0].attr('id');
             var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];

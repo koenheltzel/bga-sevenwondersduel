@@ -43,30 +43,21 @@ trait PlayerTurnTrait {
         $card = $this->checkBuildingAvailable($cardId);
 
         $building = Building::get($card['type_arg']);
-
-        $payment = Player::me()->calculateCost($building);
-        $totalCost = $payment->totalCost();
-        if ($totalCost > Player::me()->getCoins()) {
-            throw new \BgaUserException( self::_("You can't afford the building you selected.") );
-        }
-
-        if ($totalCost > 0) {
-            Player::me()->increaseCoins(-$totalCost);
-        }
-        $this->buildingDeck->moveCard($cardId, $playerId);
+        $cost = $building->construct(Player::get($playerId), $cardId);
 
         $this->notifyAllPlayers(
             'constructBuilding',
             clienttranslate('${player_name} constructed building ${buildingName} for ${cost}.'),
             [
                 'buildingName' => $building->name,
-                'cost' => $totalCost > 0 ? $totalCost . " " . COINS : 'free',
+                'cost' => $cost > 0 ? $cost . " " . COINS : 'free',
                 'player_name' => $this->getCurrentPlayerName(),
                 'playerId' => $playerId,
                 'buildingId' => $building->id,
                 'draftpool' => Draftpool::get(),
                 'wondersSituation' => Wonders::getSituation(),
-                'playerCoins' => Player::me()->getCoins(),
+                'playerCoins' => Player::get($playerId)->getCoins(),
+                'playerScore' => Player::me()->getScore(),
             ]
         );
 
@@ -148,6 +139,7 @@ trait PlayerTurnTrait {
                 'draftpool' => Draftpool::get(),
                 'wondersSituation' => Wonders::getSituation(),
                 'playerCoins' => Player::me()->getCoins(),
+                'playerScore' => Player::me()->getScore(),
             ]
         );
 

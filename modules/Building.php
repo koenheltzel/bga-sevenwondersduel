@@ -2,6 +2,8 @@
 
 namespace SWD;
 
+use SevenWondersDuel;
+
 class Building extends Item {
 
     public const TYPE_BROWN = 'Brown';
@@ -36,6 +38,28 @@ class Building extends Item {
         $this->age = $age;
         $this->type = $type;
         parent::__construct($id, $name);
+    }
+
+    public function construct(Player $player, $cardId) {
+        $payment = $player->calculateCost($this);
+        $totalCost = $payment->totalCost();
+        if ($totalCost > $player->getCoins()) {
+            throw new \BgaUserException(SevenWondersDuel::_("You can't afford the building you selected.") );
+        }
+
+        if ($totalCost > 0) {
+            $player->increaseCoins(-$totalCost);
+        }
+
+        if ($this->victoryPoints > 0) {
+            $player->increaseScore($this->victoryPoints);
+        }
+        if ($this->coins > 0) {
+            $player->increaseCoins($this->coins);
+        }
+
+        SevenWondersDuel::get()->buildingDeck->moveCard($cardId, $player->id);
+        return $totalCost;
     }
 
     /**

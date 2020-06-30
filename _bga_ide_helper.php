@@ -133,8 +133,9 @@ class Table {
      * Raise an exception if more than 1 row is returned.
      *
      * @param $sql
+     * @param $low_priority_select
      */
-    protected function getUniqueValueFromDB($sql)
+    protected static function getUniqueValueFromDB($sql, $low_priority_select = false)
     {
     }
 
@@ -495,6 +496,9 @@ class Table {
     }
 }
 
+class APP_Object {
+
+}
 /**
  * Class GameState
  */

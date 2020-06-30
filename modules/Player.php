@@ -4,7 +4,7 @@ namespace SWD;
 
 use SevenWondersDuel;
 
-class Player {
+class Player extends \APP_DbObject{
 
     public $id = null;
     private $wonderIds = [];
@@ -66,6 +66,24 @@ class Player {
 
     public function increaseCoins($increase) {
         return SevenWondersDuel::get()->increasePlayerValue($this->id, "player_coins", $increase);
+    }
+
+    // get score
+    function getScore() {
+        return $this->getUniqueValueFromDB("SELECT player_score FROM player WHERE player_id='{$this->id}'");
+    }
+    // set score
+    function setScore($score) {
+        $this->DbQuery("UPDATE player SET player_score='$score' WHERE player_id='{$this->id}'");
+    }
+    // increment score (can be negative too)
+    function increaseScore($increase) {
+        $count = $this->getScore();
+        if ($increase != 0) {
+            $count += $increase;
+            $this->setScore($count);
+        }
+        return $count;
     }
 
     /**
