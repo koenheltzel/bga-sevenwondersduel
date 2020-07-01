@@ -594,6 +594,15 @@ __     __         _       _     _
     width: var(--building-small-width);
     height: var(--building-small-height);
 }
+
+.player_wonders .wonder_container .card_outline {
+    position: absolute;
+    top: calc(16px * var(--scale));
+    left: calc(76px * var(--scale));
+    width: var(--building-small-height);
+    height: var(--building-small-width);
+}
+
 .player_wonders .age_card_container .building_small {
     position: absolute;
     transform: rotate(-90deg);

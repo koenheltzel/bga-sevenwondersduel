@@ -209,7 +209,8 @@ var jstpl_wonder = '\
         >\
             <div class="player_wonder_cost" style="display: ${jsDisplayCost}"><div class="coin"><span style="color: ${jsCostColor} !important">${jsCost}</span></div></div>\
         </div>\
-        <div class="age_card_container card_outline" style=""></div>\
+        <div class="age_card_container"></div>\
+        <div class="card_outline"></div>\
     </div>';
 
 var jstpl_wonder_age_card = '\
