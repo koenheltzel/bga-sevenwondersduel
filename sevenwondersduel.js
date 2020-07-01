@@ -933,7 +933,7 @@ function (dojo, declare, on, dom) {
         },
 
         notif_constructWonder: function(notif) {
-            console.log( 'notif_discardBuilding' );
+            console.log( 'notif_constructWonder' );
             console.log( notif );
 
             this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
@@ -944,10 +944,48 @@ function (dojo, declare, on, dom) {
             dijit.Tooltip.hide(buildingNode);
             // TODO: animate building towards wonder
 
-            this.fadeOutAndDestroy(buildingNode);
+            // this.fadeOutAndDestroy(buildingNode);
+            //
+            // this.updateDraftpool(notif.args.draftpool);
+            this.updateWondersSituation(notif.args.wondersSituation);
 
-            this.updateDraftpool(notif.args.draftpool);
-            this.updateWondersSituation(notif.args.wondersSituation)
+            this.clearActionGlow();
+
+            var wonderContainer = dojo.query(
+                '#player_wonders_' + notif.args.playerId +
+                ' #wonder_' + notif.args.wonderId + '_container' +
+                ' .age_card_container'
+            )[0];
+            var ageCardNode = dojo.query(
+                '.building_small', wonderContainer
+            )[0];
+            dojo.style(ageCardNode, 'z-index', 15);
+            dojo.style(ageCardNode, 'opacity', 0);
+            var left = dojo.attr(ageCardNode, "left");
+            var top = dojo.attr(ageCardNode, "top");
+            // console.log('dojo.query(\'#player_wonders_' + notif.args.playerId +' #wonder_' + notif.args.wonderId + ' .building_small\')[0]');
+            console.log('ageCardNode', ageCardNode);
+            this.placeOnObjectPos(ageCardNode, buildingNode, 0, 0);
+            this.slideToObjectPos(ageCardNode, wonderContainer, 0, 0, 5000).play();
+            dojo.require("dojox.fx.ext-dojo.complex");
+            var anim = dojo.fx.chain( [
+                dojo.fx.combine( [
+                    dojo.fadeIn( {node:ageCardNode, duration: 400} ),
+                    dojo.fadeOut( {node:buildingNode, duration: 400} ),
+                ] ),
+                dojo.fx.combine( [
+                    dojo.animateProperty({
+                        node: ageCardNode,
+                        duration: 5000,
+                        properties: {
+                            'z-index': { start: 15, end: 1 },
+                            'transform': { start: "rotate(0)", end: "rotate(-90deg)" },
+                        }
+                    }),
+                    this.slideToObjectPos(ageCardNode, wonderContainer, 0, 0, 5000),
+                ] ),
+            ] );
+            anim.play();
         },
 
         /*

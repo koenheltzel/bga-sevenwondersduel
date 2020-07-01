@@ -62,9 +62,9 @@
                     <div id="draftpool" class="draftpool age">
                     </div>
                     <div id="draftpool_actions" class="whiteblock">
+                        <a href="#" id="buttonConstructWonder" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>Construct a wonder</span></a>
                         <a href="#" id="buttonConstructBuilding" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>Construct building</span></a>
                         <a href="#" id="buttonDiscardBuilding" class="action_button bgabutton bgabutton_blue"><div class="coin"><span>+5</span></div><span>Discard for coins</span></a>
-                        <a href="#" id="buttonConstructWonder" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>Construct a wonder</span></a>
                     </div>
                 </div>
                 <!-- END draftpool -->

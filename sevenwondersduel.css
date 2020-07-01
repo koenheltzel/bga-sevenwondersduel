@@ -369,6 +369,13 @@ __     __         _       _     _
     zoom: var(--scale);
 }
 
+#buttonConstructWonder {
+    float: left;
+}
+
+#buttonDiscardBuilding {
+    float: right;
+}
 #buttonDiscardBuilding .coin {
     zoom: calc(1.0 * var(--scale));
 }
