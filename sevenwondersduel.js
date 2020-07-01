@@ -969,8 +969,6 @@ function (dojo, declare, on, dom) {
                             propertyTransform: { start: 0, end: 90 }
                         },
                         onAnimate: function(values) {
-                            // fired for every step of the animation, passing a value from a dojo._Line for this animation
-                            // dojo.style(ageCardNode, 'z-index', parseInt(values.propertyZIndex.replace("px", "")));
                             dojo.style(buildingNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
                         }
                     }),
@@ -982,8 +980,6 @@ function (dojo, declare, on, dom) {
                             propertyTransform: { start: -90, end: 0 }
                         },
                         onAnimate: function(values) {
-                            // fired for every step of the animation, passing a value from a dojo._Line for this animation
-                            // dojo.style(ageCardNode, 'z-index', parseInt(values.propertyZIndex.replace("px", "")));
                             dojo.style(ageCardNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
                         }
                     }),
@@ -996,8 +992,6 @@ function (dojo, declare, on, dom) {
                                 propertyTransform: { start: 0, end: -90 }
                             },
                             onAnimate: function(values) {
-                                // fired for every step of the animation, passing a value from a dojo._Line for this animation
-                                // dojo.style(ageCardNode, 'z-index', parseInt(values.propertyZIndex.replace("px", "")));
                                 dojo.style(ageCardNode, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
                             }
                         }),
