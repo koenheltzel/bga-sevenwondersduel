@@ -957,9 +957,9 @@ function (dojo, declare, on, dom) {
                 // Move age card to start position and set starting properties.
                 this.placeOnObjectPos(ageCardNode, buildingNode, 0, 0);
                 dojo.style(ageCardNode, 'z-index', 15);
-                dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em) rotateY(-90deg)');
+                dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em)'); // Somehow affects the position of the element after the slide. Otherwise I would delete this line.
 
-                var animDuration = 5000;
+                var animDuration = 1000;
                 var anim = dojo.fx.chain( [
                     dojo.animateProperty({
                         node: buildingNode,
@@ -1005,6 +1005,7 @@ function (dojo, declare, on, dom) {
 
                 dojo.connect( anim, 'beforeBegin', dojo.hitch( this, function() {
                     dojo.style(wonder, 'z-index', 20);
+                    dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em) rotateY(-90deg)'); // The rotateY(-90deg) affects the position the element will end up after the slide. Here's the place to apply it therefor, not before the animation instantiation.
                 }));
                 dojo.connect( anim, 'onEnd', dojo.hitch( this, function() {
                     dojo.destroy(buildingNode);
