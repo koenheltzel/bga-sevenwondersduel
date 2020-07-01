@@ -953,15 +953,14 @@ function (dojo, declare, on, dom) {
 
             var wonderContainer = dojo.query(
                 '#player_wonders_' + notif.args.playerId +
-                ' #wonder_' + notif.args.wonderId + '_container' +
-                ' .age_card_container'
+                ' #wonder_' + notif.args.wonderId + '_container'
+            )[0];
+            var ageCardContainer = dojo.query(
+                '.age_card_container', wonderContainer
             )[0];
             var ageCardNode = dojo.query(
-                '.building_small', wonderContainer
+                '.building_small', ageCardContainer
             )[0];
-            dojo.style(ageCardNode, 'z-index', 15);
-            dojo.style(ageCardNode, 'transform', 'rotate(0)');
-            dojo.style(ageCardNode, 'opacity', 0);
             var left = dojo.attr(ageCardNode, "left");
             var top = dojo.attr(ageCardNode, "top");
             // console.log('dojo.query(\'#player_wonders_' + notif.args.playerId +' #wonder_' + notif.args.wonderId + ' .building_small\')[0]');
@@ -976,7 +975,13 @@ function (dojo, declare, on, dom) {
             var slideDuration = 2000;
             var anim = dojo.fx.chain( [
                 dojo.fx.combine( [
-                    dojo.fadeIn( {node:ageCardNode, duration: 400} ),
+                    dojo.animateProperty( {
+                        node:ageCardNode,
+                        duration: 400,
+                        properties: {
+                            opacity: { start: 0, end: 1 }
+                        },
+                    } ),
                     dojo.fadeOut( {node:buildingNode, duration: 400} ),
                 ] ),
                 dojo.fx.combine( [
@@ -985,17 +990,26 @@ function (dojo, declare, on, dom) {
                         delay: slideDuration / 3,
                         duration: slideDuration / 3,
                         properties: {
-                            propertyZIndex: { start: 15, end: 1 },
+                            // propertyZIndex: { start: 15, end: 1 },
                             propertyTransform: { start: 0, end: -90 }
+                        },
+                        beforeBegin: function() {
+                            dojo.style(ageCardNode, 'z-index', 19);
+                            dojo.style(ageCardNode, 'transform', 'rotate(0)');
+                            dojo.style(wonderContainer, 'z-index', 20);
+                        },
+                        onEnd: function() {
+                            dojo.style(ageCardNode, 'z-index', 1);
+                            dojo.style(wonderContainer, 'z-index', 1);
                         },
                         onAnimate: function(values) {
                             console.log(values);
                             // fired for every step of the animation, passing a value from a dojo._Line for this animation
-                            dojo.style(ageCardNode, 'z-index', parseInt(values.propertyZIndex.replace("px", "")));
+                            // dojo.style(ageCardNode, 'z-index', parseInt(values.propertyZIndex.replace("px", "")));
                             dojo.style(ageCardNode, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
                         }
                     }),
-                    this.slideToObjectPos(ageCardNode, wonderContainer, 0, 0, slideDuration),
+                    this.slideToObjectPos(ageCardNode, ageCardContainer, 0, 0, slideDuration),
                 ] ),
             ] );
 
