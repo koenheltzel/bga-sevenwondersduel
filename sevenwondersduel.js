@@ -957,15 +957,34 @@ function (dojo, declare, on, dom) {
                 // Move age card to start position and set starting properties.
                 this.placeOnObjectPos(ageCardNode, buildingNode, 0, 0);
                 dojo.style(ageCardNode, 'z-index', 15);
-                dojo.style(ageCardNode, 'transform', 'rotate(0)');
-                dojo.style(ageCardNode, 'opacity', 0);
+                dojo.style(ageCardNode, 'transform', 'rotate(0deg) rotateY(-90deg)');
 
-                var animDuration = 800;
+                var animDuration = 5000;
                 var anim = dojo.fx.chain( [
-                    dojo.fx.combine( [
-                        dojo.fadeIn( {node:ageCardNode, duration: 400} ),
-                        dojo.fadeOut( {node:buildingNode, duration: 400} ),
-                    ] ),
+                    dojo.animateProperty({
+                        node: buildingNode,
+                        duration: animDuration / 6,
+                        properties: {
+                            propertyTransform: { start: 0, end: 90 }
+                        },
+                        onAnimate: function(values) {
+                            // fired for every step of the animation, passing a value from a dojo._Line for this animation
+                            // dojo.style(ageCardNode, 'z-index', parseInt(values.propertyZIndex.replace("px", "")));
+                            dojo.style(buildingNode, 'transform', 'rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                        }
+                    }),
+                    dojo.animateProperty({
+                        node: ageCardNode,
+                        duration: animDuration / 6,
+                        properties: {
+                            propertyTransform: { start: -90, end: 0 }
+                        },
+                        onAnimate: function(values) {
+                            // fired for every step of the animation, passing a value from a dojo._Line for this animation
+                            // dojo.style(ageCardNode, 'z-index', parseInt(values.propertyZIndex.replace("px", "")));
+                            dojo.style(ageCardNode, 'transform', 'rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                        }
+                    }),
                     dojo.fx.combine( [
                         dojo.animateProperty({
                             node: ageCardNode,

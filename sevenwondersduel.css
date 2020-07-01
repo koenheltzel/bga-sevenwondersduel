@@ -109,6 +109,10 @@ __     __         _       _     _
  \____|\___|_| |_|\___|_|  \__,_|_|
  */
 
+#swd_wrap {
+    perspective: 40em; /* https://css-tricks.com/things-watch-working-css-3d/ */
+}
+
 #swd_wrap h3 {
     margin: 0px 0px var(--gutter) 0px;
     font-size: max(12px, 16px * var(--scale));
