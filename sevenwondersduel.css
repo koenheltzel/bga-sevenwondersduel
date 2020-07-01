@@ -588,7 +588,7 @@ __     __         _       _     _
 }
 .player_wonders .age_card_container {
     position: relative;
-    transform: rotate(-90deg);
+    /*transform: rotate(-90deg);*/
     top: calc(-10px * var(--scale));
     left: calc(103px * var(--scale));
     width: var(--building-small-width);

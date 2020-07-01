@@ -960,14 +960,20 @@ function (dojo, declare, on, dom) {
                 '.building_small', wonderContainer
             )[0];
             dojo.style(ageCardNode, 'z-index', 15);
+            dojo.style(ageCardNode, 'transform', 'rotate(0)');
             dojo.style(ageCardNode, 'opacity', 0);
             var left = dojo.attr(ageCardNode, "left");
             var top = dojo.attr(ageCardNode, "top");
             // console.log('dojo.query(\'#player_wonders_' + notif.args.playerId +' #wonder_' + notif.args.wonderId + ' .building_small\')[0]');
             console.log('ageCardNode', ageCardNode);
             this.placeOnObjectPos(ageCardNode, buildingNode, 0, 0);
-            this.slideToObjectPos(ageCardNode, wonderContainer, 0, 0, 5000).play();
             dojo.require("dojox.fx.ext-dojo.complex");
+
+            // var halfwayAnim =
+            //
+            //
+            //     rotateAgeCard
+            var slideDuration = 2000;
             var anim = dojo.fx.chain( [
                 dojo.fx.combine( [
                     dojo.fadeIn( {node:ageCardNode, duration: 400} ),
@@ -976,15 +982,28 @@ function (dojo, declare, on, dom) {
                 dojo.fx.combine( [
                     dojo.animateProperty({
                         node: ageCardNode,
-                        duration: 5000,
+                        delay: slideDuration / 3,
+                        duration: slideDuration / 3,
                         properties: {
-                            'z-index': { start: 15, end: 1 },
-                            'transform': { start: "rotate(0)", end: "rotate(-90deg)" },
+                            propertyZIndex: { start: 15, end: 1 },
+                            propertyTransform: { start: 0, end: -90 }
+                        },
+                        onAnimate: function(values) {
+                            console.log(values);
+                            // fired for every step of the animation, passing a value from a dojo._Line for this animation
+                            dojo.style(ageCardNode, 'z-index', parseInt(values.propertyZIndex.replace("px", "")));
+                            dojo.style(ageCardNode, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
                         }
                     }),
-                    this.slideToObjectPos(ageCardNode, wonderContainer, 0, 0, 5000),
+                    this.slideToObjectPos(ageCardNode, wonderContainer, 0, 0, slideDuration),
                 ] ),
             ] );
+
+            dojo.connect( anim, 'onEnd', dojo.hitch( this, function() {
+                dojo.destroy(buildingNode);
+                this.updateDraftpool(notif.args.draftpool);
+            }));
+
             anim.play();
         },
 
