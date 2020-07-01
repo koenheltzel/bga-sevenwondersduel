@@ -967,12 +967,8 @@ function (dojo, declare, on, dom) {
             dojo.style(ageCardNode, 'z-index', 15);
             dojo.style(ageCardNode, 'transform', 'rotate(0)');
             dojo.style(ageCardNode, 'opacity', 0);
-            var left = dojo.attr(ageCardNode, "left");
-            var top = dojo.attr(ageCardNode, "top");
-            // console.log('dojo.query(\'#player_wonders_' + notif.args.playerId +' #wonder_' + notif.args.wonderId + ' .building_small\')[0]');
-            console.log('ageCardNode', ageCardNode);
+
             this.placeOnObjectPos(ageCardNode, buildingNode, 0, 0);
-            dojo.require("dojox.fx.ext-dojo.complex");
 
             var slideDuration = 800;
             var anim = dojo.fx.chain( [
