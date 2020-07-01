@@ -959,11 +959,12 @@ function (dojo, declare, on, dom) {
                 dojo.style(ageCardNode, 'z-index', 15);
                 dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em)'); // Somehow affects the position of the element after the slide. Otherwise I would delete this line.
 
-                var animDuration = 1000;
+                var animDuration = 1200;
                 var anim = dojo.fx.chain( [
                     dojo.animateProperty({
                         node: buildingNode,
                         duration: animDuration / 6,
+                        easing: dojo.fx.easing.linear,
                         properties: {
                             propertyTransform: { start: 0, end: 90 }
                         },
@@ -976,6 +977,7 @@ function (dojo, declare, on, dom) {
                     dojo.animateProperty({
                         node: ageCardNode,
                         duration: animDuration / 6,
+                        easing: dojo.fx.easing.linear,
                         properties: {
                             propertyTransform: { start: -90, end: 0 }
                         },
