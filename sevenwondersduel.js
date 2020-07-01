@@ -961,6 +961,12 @@ function (dojo, declare, on, dom) {
             var ageCardNode = dojo.query(
                 '.building_small', ageCardContainer
             )[0];
+            var wonder = dojo.query(
+                '.wonder_small', wonderContainer
+            )[0];
+            dojo.style(ageCardNode, 'z-index', 15);
+            dojo.style(ageCardNode, 'transform', 'rotate(0)');
+            dojo.style(ageCardNode, 'opacity', 0);
             var left = dojo.attr(ageCardNode, "left");
             var top = dojo.attr(ageCardNode, "top");
             // console.log('dojo.query(\'#player_wonders_' + notif.args.playerId +' #wonder_' + notif.args.wonderId + ' .building_small\')[0]');
@@ -968,20 +974,10 @@ function (dojo, declare, on, dom) {
             this.placeOnObjectPos(ageCardNode, buildingNode, 0, 0);
             dojo.require("dojox.fx.ext-dojo.complex");
 
-            // var halfwayAnim =
-            //
-            //
-            //     rotateAgeCard
-            var slideDuration = 2000;
+            var slideDuration = 800;
             var anim = dojo.fx.chain( [
                 dojo.fx.combine( [
-                    dojo.animateProperty( {
-                        node:ageCardNode,
-                        duration: 400,
-                        properties: {
-                            opacity: { start: 0, end: 1 }
-                        },
-                    } ),
+                    dojo.fadeIn( {node:ageCardNode, duration: 400} ),
                     dojo.fadeOut( {node:buildingNode, duration: 400} ),
                 ] ),
                 dojo.fx.combine( [
@@ -990,17 +986,7 @@ function (dojo, declare, on, dom) {
                         delay: slideDuration / 3,
                         duration: slideDuration / 3,
                         properties: {
-                            // propertyZIndex: { start: 15, end: 1 },
                             propertyTransform: { start: 0, end: -90 }
-                        },
-                        beforeBegin: function() {
-                            dojo.style(ageCardNode, 'z-index', 19);
-                            dojo.style(ageCardNode, 'transform', 'rotate(0)');
-                            dojo.style(wonderContainer, 'z-index', 20);
-                        },
-                        onEnd: function() {
-                            dojo.style(ageCardNode, 'z-index', 1);
-                            dojo.style(wonderContainer, 'z-index', 1);
                         },
                         onAnimate: function(values) {
                             console.log(values);
@@ -1013,8 +999,13 @@ function (dojo, declare, on, dom) {
                 ] ),
             ] );
 
+            dojo.connect( anim, 'beforeBegin', dojo.hitch( this, function() {
+                dojo.style(wonder, 'z-index', 20);
+            }));
             dojo.connect( anim, 'onEnd', dojo.hitch( this, function() {
                 dojo.destroy(buildingNode);
+                dojo.style(ageCardNode, 'z-index', 1);
+                dojo.style(wonder, 'z-index', 2);
                 this.updateDraftpool(notif.args.draftpool);
             }));
 
