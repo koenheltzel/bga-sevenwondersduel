@@ -597,7 +597,7 @@ __     __         _       _     _
 
 .player_wonders .wonder_container .card_outline {
     position: absolute;
-    top: calc(16px * var(--scale));
+    top: calc(17px * var(--scale));
     left: calc(76px * var(--scale));
     width: var(--building-small-height);
     height: var(--building-small-width);
