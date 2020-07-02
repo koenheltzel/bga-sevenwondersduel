@@ -364,15 +364,17 @@ __     __         _       _     _
     animation: glow 0.5s infinite alternate;
 }
 
-.drafpool_building_cost.opponent {
+.draftpool_building_cost {
+    position: relative;
+    pointer-events: none;
+}
+.draftpool_building_cost.opponent {
     top: calc(var(--building-height) * var(--building-small-scale) * 0.73);
-    position: relative;
 }
-.drafpool_building_cost.me {
+.draftpool_building_cost.me {
     top: calc(var(--building-height) * var(--building-small-scale) * 0.80);
-    position: relative;
 }
-.drafpool_building_cost .coin {
+.draftpool_building_cost .coin {
     zoom: calc(0.85 * var(--scale));
 }
 
