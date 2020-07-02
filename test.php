@@ -1,4 +1,7 @@
 <?php
+
+require_once '_bga_ide_helper.php';
+
 // SWD namespace autoloader from /modules/ folder.
 use SWD\Building;
 use SWD\Player;
@@ -14,10 +17,6 @@ $swdNamespaceAutoload = function ($class) {
     }
 };
 spl_autoload_register($swdNamespaceAutoload, true, true);
-
-function clienttranslate($translation) {
-    return $translation;
-}
 
 require_once 'material.inc.php';
 

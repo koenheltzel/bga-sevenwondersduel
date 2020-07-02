@@ -499,6 +499,9 @@ class Table {
 class APP_Object {
 
 }
+class APP_DbObject {
+
+}
 /**
  * Class GameState
  */
@@ -986,7 +989,7 @@ class feException extends Exception
  */
 function totranslate($translation)
 {
-    return '';
+    return $translation;
 }
 
 /**
@@ -995,7 +998,7 @@ function totranslate($translation)
  */
 function clienttranslate($translation)
 {
-    return '';
+    return $translation;
 }
 
 /**
