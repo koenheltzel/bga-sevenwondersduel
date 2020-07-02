@@ -58,7 +58,7 @@ __     __         _       _     _
 */
 
 :root {
-    --scale: 0.5;
+    --scale: 1.0;
     --gutter: calc(7.5px * var(--scale));
 
     --building-spritesheet-width: 2080px;
@@ -158,11 +158,11 @@ __     __         _       _     _
 
 @keyframes tooltipWiggle {
     from {
-        transform: perspective(40em) rotateY(-18deg);
+        transform: perspective(40em) rotateY(-16deg) scale(0.93); /* The 0.95 makes the graphic fit the tooltip better */
         animation-timing-function: ease-in-out;
     }
     to {
-        transform: perspective(40em) rotateY(-12deg);
+        transform: perspective(40em) rotateY(-10deg) scale(0.93); /* The 0.95 makes the graphic fit the tooltip better */
         animation-timing-function: ease-in-out;
     }
 }
@@ -881,6 +881,13 @@ __        __              _
 
 .swd_tooltip {
     zoom: var(--scale);
+    width: calc(700px * var(--scale));
+}
+.building_tooltip .cardinfos {
+    min-height: calc(var(--building-height) * var(--scale));
+}
+.wonder_tooltip .cardinfos {
+    min-height: calc(var(--wonder-height) * var(--scale));
 }
 .tooltipWiggle {
     animation: tooltipWiggle 2s infinite alternate;

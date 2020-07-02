@@ -19,6 +19,7 @@ define([
         "dojo",
         "dojo/_base/declare",
         "dojo/query",
+        "dojo/NodeList-traverse",
         "dojo/on",
         "dojo/dom",
         "ebg/core/gamegui",
@@ -28,6 +29,7 @@ define([
         return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
             constructor: function () {
                 // Tooltip settings
+                this.dontScale = 0;
                 this.toolTipDelay = 500;
                 this.windowResizeTimeoutId = null;
                 this.playerTurnCardId = null;
@@ -93,7 +95,7 @@ define([
                 this.setupNotifications();
 
                 // Debug tooltip content by placing a tooltip at the top of the screen.
-                //dojo.place( this.getBuildingTooltip( 22 ), 'swd_wrap', 'first' );
+                // dojo.place( this.getBuildingTooltip( 22 ), 'swd_wrap', 'first' );
             },
 
             setupTooltips: function () {
@@ -104,7 +106,8 @@ define([
                     showDelay: this.toolTipDelay,
                     getContent: dojo.hitch(this, function (node) {
                         var id = dojo.attr(node, "data-building-id");
-                        return this.getBuildingTooltip(id);
+                        var draftpoolBuilding = dojo.hasClass(node, 'building_small');
+                        return this.getBuildingTooltip(id, draftpoolBuilding);
                     })
                 });
 
@@ -115,7 +118,13 @@ define([
                     showDelay: this.toolTipDelay,
                     getContent: dojo.hitch(this, function (node) {
                         var id = dojo.attr(node, "data-wonder-id");
-                        return this.getWonderTooltip(id);
+
+                        var playerId = undefined;
+                        var playerWondersNode = dojo.query(node).closest(".player_wonders");
+                        if (playerWondersNode) {
+                            playerId = dojo.hasClass(playerWondersNode[0], 'me') ? this.me_id : this.opponent_id;
+                        }
+                        return this.getWonderTooltip(id, playerId);
                     })
                 });
 
@@ -242,10 +251,20 @@ define([
                 }
             },
 
-            getDraftpoolCardData: function (cardId) {
+            getWonderCardData: function (playerId, wonderId) {
+                for (var i = 0; i < this.gamedatas.wondersSituation[playerId].length; i++) {
+                    var cardData = this.gamedatas.wondersSituation[playerId][i];
+                    if (cardData.wonder == wonderId) {
+                        return cardData;
+                    }
+                }
+                return null;
+            },
+
+            getDraftpoolCardData: function (buildingId) {
                 for (var i = 0; i < this.gamedatas.draftpool.cards.length; i++) {
                     var position = this.gamedatas.draftpool.cards[i];
-                    if (typeof position.card != 'undefined' && position.card == cardId) {
+                    if (typeof position.card != 'undefined' && position.building == buildingId) {
                         return position;
                     }
                 }
@@ -337,7 +356,7 @@ define([
                 }
             },
 
-            getBuildingTooltip: function (id) {
+            getBuildingTooltip: function (id, draftpoolBuilding) {
                 if (typeof this.gamedatas.buildings[id] != 'undefined') {
                     var building = this.gamedatas.buildings[id];
 
@@ -347,12 +366,36 @@ define([
                     data.name = building.name;
                     data.backx = ((id - 1) % spritesheetColumns);
                     data.backy = Math.floor((id - 1) / spritesheetColumns);
+                    data.jsCostMe = '';
+                    data.jsCostOpponent = '';
+                    if (draftpoolBuilding) {
+                        var position = this.getDraftpoolCardData(id);
+
+                        data.jsCostMe = this.format_block('jstpl_tooltip_cost_me', {
+                            jsPayment: this.getPaymentPlan(position.payment[this.me_id])
+                        });
+
+                        data.jsCostOpponent = this.format_block('jstpl_tooltip_cost_opponent', {
+                            jsPayment: this.getPaymentPlan(position.payment[this.opponent_id])
+                        });
+                    }
+
                     return this.format_block('jstpl_building_tooltip', data);
                 }
                 return false;
             },
 
-            getWonderTooltip: function (id) {
+            getPaymentPlan: function(data) {
+                var output = '<ul>';
+                var steps = data.steps;
+                for (var i = 0; i < steps.length; i++) {
+                    output += '<li>' + steps[i].string + '</li>';
+                }
+                output += '<ul>';
+                return output;
+            },
+
+            getWonderTooltip: function (id, playerId) {
                 if (typeof this.gamedatas.wonders[id] != 'undefined') {
                     var wonder = this.gamedatas.wonders[id];
 
@@ -362,6 +405,16 @@ define([
                     data.name = wonder.name;
                     data.backx = ((id - 1) % spritesheetColumns);
                     data.backy = Math.floor((id - 1) / spritesheetColumns);
+                    data.jsCost = '';
+                    if (playerId) {
+                        var cardData = this.getWonderCardData(playerId, id);
+                        if (!cardData.constructed) {
+                            data.jsCost = this.format_block(playerId == this.me_id ? 'jstpl_tooltip_cost_me' : 'jstpl_tooltip_cost_opponent', {
+                                jsPayment: this.getPaymentPlan(cardData.payment)
+                            });
+                        }
+                    }
+
                     return this.format_block('jstpl_wonder_tooltip', data);
                 }
                 return false;
@@ -570,7 +623,7 @@ define([
                     this.playerTurnBuildingId = dojo.attr(e.target, 'data-building-id');
                     this.playerTurnNode = e.target;
 
-                    var cardData = this.getDraftpoolCardData(this.playerTurnCardId);
+                    var cardData = this.getDraftpoolCardData(this.playerTurnBuildingId);
                     dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + this.gamedatas.draftpool.discardGain[this.player_id];
 
                     var playerCoins = this.gamedatas.playerCoins[this.player_id];
@@ -733,11 +786,13 @@ define([
             },
 
             setScale: function (scale) {
-                console.log('setScale', scale);
-                // scale = 0.5;
-                this.setCssVariable('--scale', scale);
+                if (!this.dontScale) {
+                    console.log('setScale', scale);
+                    // scale = 0.5;
+                    this.setCssVariable('--scale', scale);
 
-                // dojo.style(swdNode, "zoom", scale);
+                    // dojo.style(swdNode, "zoom", scale);
+                }
             },
 
             getCssVariable: function (name) {

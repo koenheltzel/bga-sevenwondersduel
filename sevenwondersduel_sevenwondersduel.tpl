@@ -208,7 +208,7 @@ var jstpl_wonder = '\
             class="wonder wonder_small"\
             style="background-position: -${jsX}00% -${jsY}00%; "\
         >\
-            <div class="player_wonder_cost" style="display: ${jsDisplayCost}"><div class="coin opponent"><span style="color: ${jsCostColor} !important">${jsCost}</span></div></div>\
+            <div class="player_wonder_cost" style="display: ${jsDisplayCost}"><div class="coin"><span style="color: ${jsCostColor} !important">${jsCost}</span></div></div>\
         </div>\
         <div class="age_card_container"></div>\
         <div class="card_outline"></div>\
@@ -238,23 +238,36 @@ var jstpl_board_progress_token = '\
     >\
     </div>';
 
+var jstpl_tooltip_cost_me = '\
+    <h3>Cost for you:</h3>\
+    ${jsPayment}\
+    ';
+
+var jstpl_tooltip_cost_opponent = '\
+    <h3>Cost for opponent:</h3>\
+    ${jsPayment}\
+    ';
 
 var jstpl_building_tooltip = '\
-    <div class="swd_tooltip">\
+    <div class="swd_tooltip building_tooltip">\
+        <h3>${name}</h3>\
+        <hr\>\
         <div class="cardinfos">\
-            <h3>${name}</h3>\
+            <div class="building tooltipWiggle" style="float:right; background-position: -${backx}00% -${backy}00%;">\
+            </div>\
+            ${jsCostMe}\
+            ${jsCostOpponent}\
         </div>\
-        <div class="building tooltipWiggle" style="background-position: -${backx}00% -${backy}00%;">\
-        </div>\
-        <div class="clear"></div>\
     </div>';
 
 var jstpl_wonder_tooltip = '\
-    <div class="swd_tooltip">\
+    <div class="swd_tooltip wonder_tooltip">\
+        <h3>${name}</h3>\
+        <hr\>\
         <div class="cardinfos">\
-            <h3>${name}</h3>\
-        </div>\
-        <div class="wonder tooltipWiggle" style="background-position: -${backx}00% -${backy}00%;">\
+            <div class="wonder tooltipWiggle" style="float:right; background-position: -${backx}00% -${backy}00%;">\
+            </div>\
+            ${jsCost}\
         </div>\
         <div class="clear"></div>\
     </div>';
