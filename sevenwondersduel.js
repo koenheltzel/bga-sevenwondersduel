@@ -54,6 +54,10 @@ define([
 
                 this.gamedatas = gamedatas;
 
+                // Because of spectators we can't assume everywhere that this.player_id is one of the two players.
+                this.me_id = parseInt(this.gamedatas.playerorder[0]);
+                this.opponent_id = parseInt(this.gamedatas.playerorder[1]);
+
                 // Setup game situation.
                 this.updateWondersSituation(this.gamedatas.wondersSituation);
                 this.updateDraftpool(this.gamedatas.draftpool);
@@ -72,7 +76,7 @@ define([
                 // Click handlers using event delegation:
                 dojo.query('#wonder_selection_container').on(".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
                 dojo.query('#draftpool').on(".building.available:click", dojo.hitch(this, "onPlayerTurnDraftpoolClick"));
-                dojo.query('#player_wonders_' + this.player_id).on(".wonder_small.wonder_selectable:click", dojo.hitch(this, "onPlayerTurnConstructWonderSelectedClick"));
+                dojo.query('#player_wonders_' + this.me_id).on(".wonder_small.wonder_selectable:click", dojo.hitch(this, "onPlayerTurnConstructWonderSelectedClick"));
                 // Click handlers without event delegation:
                 dojo.query("#buttonConstructBuilding").on("click", dojo.hitch(this, "onPlayerTurnConstructBuildingClick"));
                 dojo.query("#buttonDiscardBuilding").on("click", dojo.hitch(this, "onPlayerTurnDiscardBuildingClick"));
@@ -192,7 +196,7 @@ define([
                     var container = dojo.query('.player_wonders.player' + playerId + '>div:nth-of-type(' + i + ')')[0];
                     dojo.empty(container);
                     var row = rows[index];
-                    var displayCost = playerId == this.player_id && row.cost;
+                    var displayCost = row.cost; //playerId == this.me_id && would only show the current player's cost.
 
                     var wonderDivHtml = this.getWonderDivHtml(row.card, row.wonder, displayCost, row.cost, row.cost <= this.gamedatas.playerCoins[playerId]);
                     var wonderDiv = dojo.place(wonderDivHtml, container);
@@ -273,24 +277,29 @@ define([
                             jsColumn: position.column,
                             jsZindex: position.row,
                             jsAvailable: position.available ? 'available' : '',
-                            jsDisplayCost: 'none',
-                            jsCostColor: 'black',
-                            jsCost: -1,
+                            jsDisplayCostMe: 'none',
+                            jsCostColorMe: 'black',
+                            jsCostMe: -1,
+                            jsDisplayCostOpponent: 'none',
+                            jsCostColorOpponent: 'black',
+                            jsCostOpponent: -1,
                         };
                         if (typeof position.building != 'undefined') {
                             spriteId = position.building;
                             data.jsId = position.building;
                             data.jsCardId = position.card;
-                            data.jsDisplayCost = position.available && position.cost[this.player_id] > 0 ? 'inline-block' : 'none',
-                            data.jsCostColor = position.cost[this.player_id] <= this.gamedatas.playerCoins[this.player_id] ? 'black' : 'red',
-                            data.jsCost = position.cost[this.player_id];
+                            data.jsDisplayCostMe = position.available && position.cost[this.me_id] > 0 ? 'block' : 'none',
+                            data.jsCostColorMe = position.cost[this.me_id] <= this.gamedatas.playerCoins[this.me_id] ? 'black' : 'red',
+                            data.jsCostMe = position.cost[this.me_id];
+                            data.jsDisplayCostOpponent = position.available && position.cost[this.opponent_id] > 0 ? 'block' : 'none',
+                            data.jsCostColorOpponent = position.cost[this.opponent_id] <= this.gamedatas.playerCoins[this.opponent_id] ? 'black' : 'red',
+                            data.jsCostOpponent = position.cost[this.opponent_id];
                         } else {
                             spriteId = position.back;
                         }
                         var spritesheetColumns = 10;
                         data.jsX = (spriteId - 1) % spritesheetColumns;
                         data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
-
                         dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
                     }
 
@@ -640,8 +649,8 @@ define([
             },
 
             clearActionGlow: function () {
-                Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
-                    var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
+                Object.keys(this.gamedatas.wondersSituation[this.me_id]).forEach(dojo.hitch(this, function (index) {
+                    var wonderData = this.gamedatas.wondersSituation[this.me_id][index];
                     dojo.removeClass(dojo.query('#wonder_' + wonderData.wonder)[0], 'wonder_selectable');
                 }));
             },
@@ -882,7 +891,7 @@ define([
 
                 var building = this.gamedatas.buildings[notif.args.buildingId];
                 var container = dojo.query('.player_buildings.player' + notif.args.playerId + ' .' + building.type)[0];
-                var playerBuildingContainer = dojo.place(this.getBuildingDivHtml(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container, notif.args.playerId == this.player_id ? "last" : "first");
+                var playerBuildingContainer = dojo.place(this.getBuildingDivHtml(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container, notif.args.playerId == this.me_id ? "last" : "first");
                 var playerBuildingId = 'player_building_' + notif.args.buildingId;
 
                 this.placeOnObjectPos(playerBuildingId, dojo.attr(buildingNode, "id"), 0.5 * this.getCssVariable('--scale'), -59.5 * this.getCssVariable('--scale'));

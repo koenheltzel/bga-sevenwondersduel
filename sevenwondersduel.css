@@ -137,9 +137,11 @@ __     __         _       _     _
     margin: 0px;
 }
 
+.opponent .coin {
+    background-image: url('img/coin_opponent.png');
+}
 .coin {
-    background-image: url('img/icons.png');
-    background-position: -0px -0px;
+    background-image: url('img/coin.png');
     width: 30px;
     height: 30px;
     zoom: var(--scale);
@@ -362,8 +364,12 @@ __     __         _       _     _
     animation: glow 0.5s infinite alternate;
 }
 
-.drafpool_building_cost {
-    top: calc(var(--building-height) * var(--building-small-scale) * 0.94);
+ .drafpool_building_cost.opponent {
+    top: calc(var(--building-height) * var(--building-small-scale) * 0.73);
+    position: relative;
+}
+.drafpool_building_cost.me {
+    top: calc(var(--building-height) * var(--building-small-scale) * 0.80);
     position: relative;
 }
 .drafpool_building_cost .coin {

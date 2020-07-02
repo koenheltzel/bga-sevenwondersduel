@@ -183,7 +183,8 @@ var jstpl_draftpool_building = '\
         class="building building_small column${jsColumn} row${jsRow} ${jsAvailable}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\
-    <div class="drafpool_building_cost" style="display: ${jsDisplayCost}"><div class="coin"><span style="color: ${jsCostColor} !important">${jsCost}</span></div></div>\
+        <div class="drafpool_building_cost opponent" style="display: ${jsDisplayCostOpponent}"><div class="coin"><span style="color: ${jsCostColorOpponent} !important">${jsCostOpponent}</span></div></div>\
+        <div class="drafpool_building_cost me" style="display: ${jsDisplayCostMe}"><div class="coin"><span style="color: ${jsCostColorMe} !important">${jsCostMe}</span></div></div>\
     </div>';
 
 // Keep title attribute empty. This overrides the title attribute of the player_building_column div.
@@ -207,7 +208,7 @@ var jstpl_wonder = '\
             class="wonder wonder_small"\
             style="background-position: -${jsX}00% -${jsY}00%; "\
         >\
-            <div class="player_wonder_cost" style="display: ${jsDisplayCost}"><div class="coin"><span style="color: ${jsCostColor} !important">${jsCost}</span></div></div>\
+            <div class="player_wonder_cost" style="display: ${jsDisplayCost}"><div class="coin opponent"><span style="color: ${jsCostColor} !important">${jsCost}</span></div></div>\
         </div>\
         <div class="age_card_container"></div>\
         <div class="card_outline"></div>\
