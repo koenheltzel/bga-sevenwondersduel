@@ -13,8 +13,8 @@ trait GameSetupTrait
         $players = $this->loadPlayersBasicInfos();
 
         // Set up two 4-wonders selection pools, rest of the wonders go back to the box.
-        $this->wonderDeck->shuffle('deck');
         $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards());
+        $this->wonderDeck->shuffle('deck');
         $this->wonderDeck->pickCardsForLocation(4, 'deck', 'selection1');
         $this->wonderDeck->shuffle('selection1'); // Ensures we have defined card_location_arg
         $this->wonderDeck->pickCardsForLocation(4, 'deck', 'selection2');
@@ -37,8 +37,8 @@ trait GameSetupTrait
         $this->buildingDeck->moveAllCardsInLocation( 'guilds', 'box');
 
         // Set up progress tokens
-        $this->progressTokenDeck->shuffle('deck');
         $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards());
+        $this->progressTokenDeck->shuffle('deck');
         $this->progressTokenDeck->pickCardsForLocation(5, 'deck', 'board');
         $this->progressTokenDeck->shuffle('board'); // Ensures we have defined card_location_arg
         // Return the remaining Progress Tokens to the box.
