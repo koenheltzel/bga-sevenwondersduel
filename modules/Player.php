@@ -242,6 +242,7 @@ class Player extends \APP_DbObject{
             // Any remaining cost should be paid with coins - let's calculate how much:
             $this->resourceCostToPlayer($costLeft, $payment, $print);
         }
+        $payment->sortSteps($buyingItem->cost);
 
         if($print) print "<PRE>Total cost: {$payment->totalCost()} coin(s)</PRE>";
 

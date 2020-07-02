@@ -44,45 +44,45 @@ class Material
         $this->wonders = new Wonders();
 
         $this->wonders[1] = (new Wonder(1, clienttranslate("The Pyramids")))
-            ->setCost([STONE => 3, PAPYRUS => 1]);
+            ->setCost([PAPYRUS => 1, STONE => 3]);
 
         $this->wonders[2] = (new Wonder(2, clienttranslate("The Colossus")))
-            ->setCost([CLAY => 3, GLASS => 1]);
+            ->setCost([GLASS => 1, CLAY => 3]);
 
         $this->wonders[3] = (new Wonder(3, clienttranslate("The Great Lighthouse")))
-            ->setCost([WOOD => 1, STONE => 1, PAPYRUS => 2])
+            ->setCost([PAPYRUS => 2, STONE => 1, WOOD => 1])
             ->setResourceChoice([WOOD, STONE, CLAY]);
 
         $this->wonders[4] = (new Wonder(4, clienttranslate("The Temple of Artemis")))
-            ->setCost([WOOD => 1, STONE => 1, GLASS => 1, PAPYRUS => 1])
+            ->setCost([PAPYRUS => 1, GLASS => 1, STONE => 1, WOOD => 1])
             ->setCoins(12);
 
         $this->wonders[5] = (new Wonder(5, clienttranslate("The Mausoleum")))
-            ->setCost([CLAY => 2, GLASS => 2, PAPYRUS => 1]);
+            ->setCost([PAPYRUS => 1, GLASS => 2, CLAY => 2]);
 
         $this->wonders[6] = (new Wonder(6, clienttranslate("The Great Library")))
-            ->setCost([WOOD => 3, GLASS => 1, PAPYRUS => 1]);
+            ->setCost([PAPYRUS => 1, GLASS => 1, WOOD => 3]);
 
         $this->wonders[7] = (new Wonder(7, clienttranslate("Piraeus")))
-            ->setCost([WOOD => 2, STONE => 1, CLAY => 1])
+            ->setCost([CLAY => 1, STONE => 1, WOOD => 2])
             ->setResourceChoice([PAPYRUS, GLASS]);
 
         $this->wonders[8] = (new Wonder(8, clienttranslate("The Hanging Gardens")))
-            ->setCost([WOOD => 2, GLASS => 1, PAPYRUS => 1])
+            ->setCost([PAPYRUS => 1, GLASS => 1, WOOD => 2])
             ->setCoins(6);
 
         $this->wonders[9] = (new Wonder(9, clienttranslate("The Statue of Zeus")))
-            ->setCost([STONE => 1, WOOD => 1, CLAY => 2, PAPYRUS => 2]);
+            ->setCost([PAPYRUS => 2, CLAY => 2, WOOD => 1, STONE => 1]);
 
         $this->wonders[10] = (new Wonder(10, clienttranslate("The Sphinx")))
-            ->setCost([STONE => 1, CLAY => 1, GLASS => 2]);
+            ->setCost([GLASS => 2, CLAY => 1, STONE => 1]);
 
         $this->wonders[11] = (new Wonder(11, clienttranslate("The Appian Way")))
-            ->setCost([STONE => 2, CLAY => 2, PAPYRUS => 1])
+            ->setCost([PAPYRUS => 1, CLAY => 2, STONE => 2])
             ->setCoins(3);
 
         $this->wonders[12] = (new Wonder(12, clienttranslate("Circus Maximus")))
-            ->setCost([STONE => 2, WOOD => 1, GLASS => 1]);
+            ->setCost([GLASS => 1, WOOD => 1, STONE => 2]);
         
         //     _                  ___
         //    / \   __ _  ___    |_ _|

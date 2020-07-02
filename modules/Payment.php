@@ -26,6 +26,18 @@ class Payment
         return $cost;
     }
 
+    public function sortSteps($cost) {
+        $resources = array_keys($cost);
+        $sortedSteps = [];
+        foreach($resources as $resource) {
+            $tmpSteps = array_filter($this->steps, function($step)use($resource){
+                return $step->resource == $resource;
+            });
+            $sortedSteps = array_merge($sortedSteps, $tmpSteps);
+        }
+        $this->steps = $sortedSteps;
+    }
+
 }
 
 class PaymentStep
