@@ -232,6 +232,7 @@ class Player extends \APP_DbObject{
                             if ($costLeft[$resource] <= 0) {
                                 unset($costLeft[$resource]);
                             }
+                            if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                         }
                     }
                     if($printChoices) print "<PRE>Cheapest combination: " . print_r([$combinations[$cheapestCombinationIndex], $cheapestCombinationPayment], true) . "</PRE>";
