@@ -172,16 +172,13 @@ define([
                 return this.format_block('jstpl_player_building', data);
             },
 
-            getWonderDivHtml: function (cardId, wonderId, displayCost, cost, canAfford) {
-                if (typeof cost == "undefined") {
-                    cost = -1;
-                }
+            getWonderDivHtml: function (cardId, wonderId, displayCost, cost, playerCoins) {
                 var data = {
                     jsCardId: cardId,
                     jsId: wonderId,
-                    jsDisplayCost: displayCost && cost > -1 ? 'inline-block' : 'none',
-                    jsCost: cost,
-                    jsCostColor: canAfford ? 'black' : 'red',
+                    jsDisplayCost: displayCost ? 'inline-block' : 'none',
+                    jsCost: this.getCostValue(cost),
+                    jsCostColor: this.getCostColor(cost, playerCoins),
                 };
                 var spritesheetColumns = 5;
                 data.jsX = (wonderId - 1) % spritesheetColumns;
@@ -196,9 +193,7 @@ define([
                     var container = dojo.query('.player_wonders.player' + playerId + '>div:nth-of-type(' + i + ')')[0];
                     dojo.empty(container);
                     var row = rows[index];
-                    var displayCost = row.cost; //playerId == this.me_id && would only show the current player's cost.
-
-                    var wonderDivHtml = this.getWonderDivHtml(row.card, row.wonder, displayCost, row.cost, row.cost <= this.gamedatas.playerCoins[playerId]);
+                    var wonderDivHtml = this.getWonderDivHtml(row.card, row.wonder, row.constructed == 0, row.cost, this.gamedatas.playerCoins[playerId]);
                     var wonderDiv = dojo.place(wonderDivHtml, container);
                     console.log(wonderDiv);
                     if (row.constructed > 0) {
@@ -288,12 +283,12 @@ define([
                             spriteId = position.building;
                             data.jsId = position.building;
                             data.jsCardId = position.card;
-                            data.jsDisplayCostMe = position.available && position.cost[this.me_id] > 0 ? 'block' : 'none',
-                            data.jsCostColorMe = position.cost[this.me_id] <= this.gamedatas.playerCoins[this.me_id] ? 'black' : 'red',
-                            data.jsCostMe = position.cost[this.me_id];
-                            data.jsDisplayCostOpponent = position.available && position.cost[this.opponent_id] > 0 ? 'block' : 'none',
-                            data.jsCostColorOpponent = position.cost[this.opponent_id] <= this.gamedatas.playerCoins[this.opponent_id] ? 'black' : 'red',
-                            data.jsCostOpponent = position.cost[this.opponent_id];
+                            data.jsDisplayCostMe = position.available ? 'block' : 'none',
+                            data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playerCoins[this.me_id]),
+                            data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
+                            data.jsDisplayCostOpponent = position.available ? 'block' : 'none',
+                            data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playerCoins[this.opponent_id]),
+                            data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
                         } else {
                             spriteId = position.back;
                         }
@@ -310,6 +305,28 @@ define([
                     this.updateLayout();
                 }
 
+            },
+
+            getCostValue: function(cost) {
+                if (typeof cost == "undefined") return false;
+
+                if (cost == 0) {
+                    return '✓';
+                } else {
+                    return cost;
+                }
+            },
+
+            getCostColor: function(cost, playerCoins) {
+                if (typeof cost == "undefined") return false;
+
+                if (cost == 0) {
+                    return '#008000';
+                } else if(cost <= playerCoins) {
+                    return 'black';
+                } else {
+                    return 'red';
+                }
             },
 
             updateWondersSituation: function (situation) {
