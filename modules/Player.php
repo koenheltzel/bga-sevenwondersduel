@@ -180,11 +180,10 @@ class Player extends \APP_DbObject{
             if (count($choices) > 0) {
                 if($printChoices) print "<PRE>=========================================================</PRE>";
                 $combinations = $this->combinations($choices);
-//            print "<PRE>" . print_r($combinations, true) . "</PRE>";
-                /** @var Payment $cheapestCombination */
-                $cheapestCombination = null;
+//                print "<PRE>" . print_r($combinations, true) . "</PRE>";
+                /** @var Payment $cheapestCombinationPayment */
+                $cheapestCombinationPayment = null;
                 $cheapestCombinationIndex = null;
-                $cheapestCombinationCostLeft = null;
                 foreach($combinations as $combinationIndex => $combination) {
                     $costLeftCopy = $costLeft;
                     $combination = array_count_values($combination);
@@ -202,36 +201,40 @@ class Player extends \APP_DbObject{
                         if($printChoices) print "<PRE>Considering combination of choice card resources: " . print_r($combination, true) . "</PRE>";
                         if($printChoices) print "<PRE>Resources needed afterwards: " . print_r($costLeftCopy, true) . "</PRE>";
                         $tmpPayment = $this->resourceCostToPlayer($costLeftCopy, null, $printChoices);
-                        if(is_null($cheapestCombination) || $tmpPayment->totalCost() < $cheapestCombination->totalCost()) {
-                            $cheapestCombination = $tmpPayment;
+                        if(is_null($cheapestCombinationPayment) || $tmpPayment->totalCost() < $cheapestCombinationPayment->totalCost()) {
+                            $cheapestCombinationPayment = $tmpPayment;
                             $cheapestCombinationIndex = $combinationIndex;
-                            $cheapestCombinationCostLeft = $costLeftCopy;
                         }
                         if($printChoices) print "<PRE>Cost to player: " . print_r($tmpPayment->totalCost(), true) . "</PRE>";
                     }
                     if($printChoices) print "<PRE>=========================================================</PRE>";
                 }
-                if (!is_null($cheapestCombination)) {
-                    $costLeft = $cheapestCombinationCostLeft;
+                if (!is_null($cheapestCombinationPayment)) {
                     foreach($combinations[$cheapestCombinationIndex] as $choiceItemIndex => $resource) {
-                        $itemType = substr($choiceItemIds[$choiceItemIndex], 0, 1);
-                        $cardId = substr($choiceItemIds[$choiceItemIndex], 1);
-                        switch ($itemType) {
-                            case Item::TYPE_BUILDING:
-                                $building = Building::get($cardId);
-                                $string = "Player produces 1 {$resource} with building \"{$building->name}\".";
-                                if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
-                                $payment->addStep($resource, 1, 0, Item::TYPE_BUILDING, $building->id, $string);
-                                break;
-                            case Item::TYPE_WONDER:
-                                $wonder = Wonder::get($cardId);
-                                $string = "Player produces 1 {$resource} with wonder \"{$wonder->name}\".";
-                                if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
-                                $payment->addStep($resource, 1, 0, Item::TYPE_WONDER, $wonder->id, $string);
-                                break;
+                        if (isset($costLeft[$resource])) {
+                            $itemType = substr($choiceItemIds[$choiceItemIndex], 0, 1);
+                            $cardId = substr($choiceItemIds[$choiceItemIndex], 1);
+                            switch ($itemType) {
+                                case Item::TYPE_BUILDING:
+                                    $building = Building::get($cardId);
+                                    $string = "Player produces 1 {$resource} with building \"{$building->name}\".";
+                                    if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
+                                    $payment->addStep($resource, 1, 0, Item::TYPE_BUILDING, $building->id, $string);
+                                    break;
+                                case Item::TYPE_WONDER:
+                                    $wonder = Wonder::get($cardId);
+                                    $string = "Player produces 1 {$resource} with wonder \"{$wonder->name}\".";
+                                    if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
+                                    $payment->addStep($resource, 1, 0, Item::TYPE_WONDER, $wonder->id, $string);
+                                    break;
+                            }
+                            $costLeft[$resource] -= 1;
+                            if ($costLeft[$resource] <= 0) {
+                                unset($costLeft[$resource]);
+                            }
                         }
                     }
-                    if($printChoices) print "<PRE>Cheapest combination: " . print_r([$combinations[$cheapestCombinationIndex], $cheapestCombination], true) . "</PRE>";
+                    if($printChoices) print "<PRE>Cheapest combination: " . print_r([$combinations[$cheapestCombinationIndex], $cheapestCombinationPayment], true) . "</PRE>";
                 }
             }
 

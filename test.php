@@ -46,3 +46,11 @@ $payment = Player::me()->calculateCost(Building::get(54), 1, 0); // Study
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
 print "====================================================================================================================================";
 
+// Calculate "Courthouse" cost, with all 4 choice cars/wonders.
+$player1->setWonderIds([]); // Wood/Stone/Clay, Papyrus/Glass
+$player1->setBuildingIds([4, 27, 40, 39]); // Glass/Papyrus, Wood/Stone/Clay
+$player2->setBuildingIds([]);
+$payment = Player::me()->calculateCost(Building::get(44), 1, 0); // Study
+//print "<PRE>" . print_r($payment, true) . "</PRE>";
+print "====================================================================================================================================";
+
