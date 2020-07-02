@@ -824,19 +824,34 @@ define([
                 // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
                 // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
                 //
+                this.constructBuildingAnimationDuration = 1000;
+                this.discardBuildingAnimationDuration = 400;
+                this.constructWonderAnimationDuration = 1600;
 
                 dojo.subscribe('wonderSelected', this, "notif_wonderSelected");
                 dojo.subscribe('nextAge', this, "notif_nextAge");
+
                 dojo.subscribe('constructBuilding', this, "notif_constructBuilding");
+                this.notifqueue.setSynchronous( 'constructBuilding', this.constructBuildingAnimationDuration );
+
                 dojo.subscribe('discardBuilding', this, "notif_discardBuilding");
+                this.notifqueue.setSynchronous( 'constructBuilding', this.discardBuildingAnimationDuration );
+
                 dojo.subscribe('constructWonder', this, "notif_constructWonder");
+                this.notifqueue.setSynchronous( 'constructBuilding', this.constructWonderAnimationDuration );
+
+                dojo.subscribe('updateDraftpool', this, "notif_updateDraftpool");
             },
 
             // TODO: from this point and below, you can write your game notifications handling methods
 
+            notif_updateDraftpool: function (notif) {
+                console.log('notif_updateDraftpool', notif);
+                this.updateDraftpool(notif.args.draftpool)
+            },
+
             notif_wonderSelected: function (notif) {
-                console.log('notif_wonderSelected');
-                console.log(notif);
+                console.log('notif_wonderSelected', notif);
                 var wonderNode = dojo.query('#wonder_' + notif.args.wonderId)[0];
                 dijit.Tooltip.hide(wonderNode);
 
@@ -851,13 +866,13 @@ define([
             },
 
             notif_nextAge: function (notif) {
+                console.log('notif_nextAge', notif);
                 this.updateWondersSituation(notif.args.wondersSituation);
                 this.updateDraftpool(notif.args.draftpool);
             },
 
             notif_constructBuilding: function (notif) {
-                console.log('notif_constructBuilding');
-                console.log(notif);
+                console.log('notif_constructBuilding', notif);
 
                 this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
                 this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
@@ -876,10 +891,10 @@ define([
 
                 var anim = dojo.fx.chain([
                     dojo.fx.combine([
-                        dojo.fadeIn({node: playerBuildingId, duration: 400}),
-                        dojo.fadeOut({node: buildingNode, duration: 400}),
+                        dojo.fadeIn({node: playerBuildingId, duration: this.constructBuildingAnimationDuration * 0.4}),
+                        dojo.fadeOut({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
                     ]),
-                    this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, 600),
+                    this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, this.constructBuildingAnimationDuration * 0.6),
                 ]);
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
@@ -893,8 +908,7 @@ define([
             },
 
             notif_discardBuilding: function (notif) {
-                console.log('notif_discardBuilding');
-                console.log(notif);
+                console.log('notif_discardBuilding', notif);
 
                 this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
 
@@ -902,7 +916,7 @@ define([
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
                 dijit.Tooltip.hide(buildingNode);
 
-                var anim = dojo.fadeOut({node: buildingNode, duration: 400});
+                var anim = dojo.fadeOut({node: buildingNode, duration: this.discardBuildingAnimationDuration});
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     dojo.destroy(buildingNode);
@@ -914,8 +928,7 @@ define([
             },
 
             notif_constructWonder: function (notif) {
-                console.log('notif_constructWonder');
-                console.log(notif);
+                console.log('notif_constructWonder', notif);
 
                 this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
                 this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
@@ -940,11 +953,10 @@ define([
                     dojo.style(ageCardNode, 'z-index', 15);
                     dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em)'); // Somehow affects the position of the element after the slide. Otherwise I would delete this line.
 
-                    var animDuration = 1200;
                     var anim = dojo.fx.chain([
                         dojo.animateProperty({
                             node: buildingNode,
-                            duration: animDuration / 6,
+                            duration: this.constructWonderAnimationDuration / 8,
                             easing: dojo.fx.easing.linear,
                             properties: {
                                 propertyTransform: {start: 0, end: 90}
@@ -955,7 +967,7 @@ define([
                         }),
                         dojo.animateProperty({
                             node: ageCardNode,
-                            duration: animDuration / 6,
+                            duration: this.constructWonderAnimationDuration / 8,
                             easing: dojo.fx.easing.linear,
                             properties: {
                                 propertyTransform: {start: -90, end: 0}
@@ -967,8 +979,8 @@ define([
                         dojo.fx.combine([
                             dojo.animateProperty({
                                 node: ageCardNode,
-                                delay: animDuration / 3,
-                                duration: animDuration / 3,
+                                delay: this.constructWonderAnimationDuration / 4,
+                                duration: this.constructWonderAnimationDuration / 4,
                                 properties: {
                                     propertyTransform: {start: 0, end: -90}
                                 },
@@ -976,7 +988,7 @@ define([
                                     dojo.style(ageCardNode, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
                                 }
                             }),
-                            this.slideToObjectPos(ageCardNode, ageCardContainer, 0, 0, animDuration),
+                            this.slideToObjectPos(ageCardNode, ageCardContainer, 0, 0, this.constructWonderAnimationDuration / 4 * 3),
                         ]),
                     ]);
 
