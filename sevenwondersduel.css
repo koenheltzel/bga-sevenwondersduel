@@ -154,6 +154,17 @@ __     __         _       _     _
     color:black;
 }
 
+@keyframes tooltipWiggle {
+    from {
+        transform: perspective(40em) rotateY(-18deg);
+        animation-timing-function: ease-in-out;
+    }
+    to {
+        transform: perspective(40em) rotateY(-12deg);
+        animation-timing-function: ease-in-out;
+    }
+}
+
 @keyframes glow {
     from {
         box-shadow: 0 0 5px 4px #f1dec8;
@@ -725,7 +736,7 @@ __     __         _       _     _
     background-image: url('img/buildings.jpg');
     border-radius: 14px;
     box-shadow:
-        calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0px rgba(0,0,0,0.4),
+        calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px calc(var(--scale) * 1px) #00000060;
 
     /* Temporary?: */
@@ -849,4 +860,20 @@ __        __              _
     box-shadow:
         calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
+}
+
+/*
+ _____           _ _   _
+|_   _|__   ___ | | |_(_)_ __  ___
+  | |/ _ \ / _ \| | __| | '_ \/ __|
+  | | (_) | (_) | | |_| | |_) \__ \
+  |_|\___/ \___/|_|\__|_| .__/|___/
+                        |_|
+ */
+
+.swd_tooltip {
+    zoom: var(--scale);
+}
+.tooltipWiggle {
+    animation: tooltipWiggle 2s infinite alternate;
 }

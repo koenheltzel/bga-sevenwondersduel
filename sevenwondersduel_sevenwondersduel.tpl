@@ -239,31 +239,31 @@ var jstpl_board_progress_token = '\
 
 
 var jstpl_building_tooltip = '\
-    <div class="cardtooltip">\
+    <div class="swd_tooltip">\
         <div class="cardinfos">\
             <h3>${name}</h3>\
         </div>\
-        <div class="building" style="background-position: -${backx}00% -${backy}00%;">\
+        <div class="building tooltipWiggle" style="background-position: -${backx}00% -${backy}00%;">\
         </div>\
         <div class="clear"></div>\
     </div>';
 
 var jstpl_wonder_tooltip = '\
-    <div class="cardtooltip">\
+    <div class="swd_tooltip">\
         <div class="cardinfos">\
             <h3>${name}</h3>\
         </div>\
-        <div class="wonder" style="background-position: -${backx}00% -${backy}00%;">\
+        <div class="wonder tooltipWiggle" style="background-position: -${backx}00% -${backy}00%;">\
         </div>\
         <div class="clear"></div>\
     </div>';
 
 var jstpl_progress_token_tooltip = '\
-    <div class="cardtooltip">\
+    <div class="swd_tooltip">\
         <div class="cardinfos">\
             <h3>${name}</h3>\
         </div>\
-        <div class="progress_token" style="background-position: -${backx}00% -${backy}00%;">\
+        <div class="progress_token tooltipWiggle" style="background-position: -${backx}00% -${backy}00%;">\
         </div>\
         <div class="clear"></div>\
     </div>';
