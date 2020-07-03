@@ -158,7 +158,7 @@ __     __         _       _     _
 
 @keyframes tooltipWiggle {
     from {
-        transform: perspective(40em) rotateY(-16deg) scale(0.93); /* The 0.95 makes the graphic fit the tooltip better */
+        transform: perspective(40em) rotateY(-18deg) scale(0.93); /* The 0.95 makes the graphic fit the tooltip better */
         animation-timing-function: ease-in-out;
     }
     to {
