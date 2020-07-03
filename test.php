@@ -5,6 +5,7 @@ require_once '_bga_ide_helper.php';
 // SWD namespace autoloader from /modules/ folder.
 use SWD\Building;
 use SWD\Player;
+use SWD\Wonder;
 
 $swdNamespaceAutoload = function ($class) {
     $classParts = explode('\\', $class);
@@ -51,6 +52,14 @@ $player1->setWonderIds([]); // Wood/Stone/Clay, Papyrus/Glass
 $player1->setBuildingIds([4, 27, 40, 39]); // Glass/Papyrus, Wood/Stone/Clay
 $player2->setBuildingIds([]);
 $payment = Player::me()->calculateCost(Building::get(44), 1, 0); // Study
+//print "<PRE>" . print_r($payment, true) . "</PRE>";
+print "====================================================================================================================================";
+
+// Calculate "The Statue of Zeus" cost, with all 4 choice cars/wonders.
+$player1->setWonderIds([]); // Wood/Stone/Clay, Papyrus/Glass
+$player1->setBuildingIds([3, 4, 5, 39, 40]); // Glass/Papyrus, Wood/Stone/Clay
+$player2->setBuildingIds([]);
+$payment = Player::me()->calculateCost(Wonder::get(9), 1, 0); // Study
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
 print "====================================================================================================================================";
 
