@@ -107,7 +107,9 @@ define([
                     getContent: dojo.hitch(this, function (node) {
                         var id = dojo.attr(node, "data-building-id");
                         var draftpoolBuilding = dojo.hasClass(node, 'building_small');
-                        return this.getBuildingTooltip(id, draftpoolBuilding);
+                        var meCoinHtml = dojo.query('.me .coin', node)[0].outerHTML;
+                        var opponentCoinHtml = dojo.query('.opponent .coin', node)[0].outerHTML;
+                        return this.getBuildingTooltip(id, draftpoolBuilding, meCoinHtml, opponentCoinHtml);
                     })
                 });
 
@@ -124,7 +126,8 @@ define([
                         if (playerWondersNode) {
                             playerId = dojo.hasClass(playerWondersNode[0], 'me') ? this.me_id : this.opponent_id;
                         }
-                        return this.getWonderTooltip(id, playerId);
+                        var coinHtml = dojo.query('.coin', node)[0].outerHTML;
+                        return this.getWonderTooltip(id, playerId, coinHtml);
                     })
                 });
 
@@ -356,7 +359,7 @@ define([
                 }
             },
 
-            getBuildingTooltip: function (id, draftpoolBuilding) {
+            getBuildingTooltip: function (id, draftpoolBuilding, meCoinHtml, opponentCoinHtml) {
                 if (typeof this.gamedatas.buildings[id] != 'undefined') {
                     var building = this.gamedatas.buildings[id];
 
@@ -372,10 +375,12 @@ define([
                         var position = this.getDraftpoolCardData(id);
 
                         data.jsCostMe = this.format_block('jstpl_tooltip_cost_me', {
+                            jsCoinHtml: meCoinHtml,
                             jsPayment: this.getPaymentPlan(position.payment[this.me_id])
                         });
 
                         data.jsCostOpponent = this.format_block('jstpl_tooltip_cost_opponent', {
+                            jsCoinHtml: opponentCoinHtml,
                             jsPayment: this.getPaymentPlan(position.payment[this.opponent_id])
                         });
                     }
@@ -391,11 +396,11 @@ define([
                 for (var i = 0; i < steps.length; i++) {
                     output += '<li>' + steps[i].string + '</li>';
                 }
-                output += '<ul>';
+                output += '</ul>';
                 return output;
             },
 
-            getWonderTooltip: function (id, playerId) {
+            getWonderTooltip: function (id, playerId, coinHtml) {
                 if (typeof this.gamedatas.wonders[id] != 'undefined') {
                     var wonder = this.gamedatas.wonders[id];
 
@@ -410,6 +415,7 @@ define([
                         var cardData = this.getWonderCardData(playerId, id);
                         if (!cardData.constructed) {
                             data.jsCost = this.format_block(playerId == this.me_id ? 'jstpl_tooltip_cost_me' : 'jstpl_tooltip_cost_opponent', {
+                                jsCoinHtml: coinHtml,
                                 jsPayment: this.getPaymentPlan(cardData.payment)
                             });
                         }

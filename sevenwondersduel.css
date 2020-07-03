@@ -884,6 +884,10 @@ __        __              _
     width: calc(700px);
     display: block;
 }
+.swd_tooltip * {
+    zoom: 1;
+}
+
 .swd_tooltip li {
     list-style: inside;
 }
