@@ -107,8 +107,12 @@ define([
                     getContent: dojo.hitch(this, function (node) {
                         var id = dojo.attr(node, "data-building-id");
                         var draftpoolBuilding = dojo.hasClass(node, 'building_small');
-                        var meCoinHtml = dojo.query('.me .coin', node)[0].outerHTML;
-                        var opponentCoinHtml = dojo.query('.opponent .coin', node)[0].outerHTML;
+                        var meCoinHtml;
+                        var opponentCoinHtml;
+                        if (draftpoolBuilding) {
+                            meCoinHtml = dojo.query('.me .coin', node)[0].outerHTML;
+                            opponentCoinHtml = dojo.query('.opponent .coin', node)[0].outerHTML;
+                        }
                         return this.getBuildingTooltip(id, draftpoolBuilding, meCoinHtml, opponentCoinHtml);
                     })
                 });
@@ -122,11 +126,12 @@ define([
                         var id = dojo.attr(node, "data-wonder-id");
 
                         var playerId = undefined;
-                        var playerWondersNode = dojo.query(node).closest(".player_wonders");
+                        var coinHtml = undefined;
+                        var playerWondersNode = dojo.query(node).closest(".player_wonders")[0];
                         if (playerWondersNode) {
-                            playerId = dojo.hasClass(playerWondersNode[0], 'me') ? this.me_id : this.opponent_id;
+                            playerId = dojo.hasClass(playerWondersNode, 'me') ? this.me_id : this.opponent_id;
+                            coinHtml = dojo.query('.coin', node)[0].outerHTML;
                         }
-                        var coinHtml = dojo.query('.coin', node)[0].outerHTML;
                         return this.getWonderTooltip(id, playerId, coinHtml);
                     })
                 });
