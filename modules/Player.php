@@ -280,7 +280,8 @@ class Player extends \APP_DbObject{
             $cost = $amount * 2 + $opponentResourceCount;
             $string = null;
             if ($opponentResourceCount > 0) {
-                $string = "Pay {$cost} coins for {$amount} {$resource} because opponent can produce {$opponentResourceCount} {$resource}.";
+                $color = in_array($resource, [GLASS, PAPYRUS]) ? clienttranslate('grey') : clienttranslate('brown');
+                $string = "Pay {$cost} coins for {$amount} {$resource} because opponent can produce {$opponentResourceCount} {$resource} with {$color} card(s).";
             } else {
                 $string = "Pay {$cost} coins for {$amount} {$resource}.";
             }
