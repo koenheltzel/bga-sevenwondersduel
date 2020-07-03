@@ -239,12 +239,12 @@ var jstpl_board_progress_token = '\
     </div>';
 
 var jstpl_tooltip_cost_me = '\
-    <h3>Cost for you:</h3>\
+    <h3>Current cost for you:</h3>\
     ${jsPayment}\
     ';
 
 var jstpl_tooltip_cost_opponent = '\
-    <h3>Cost for opponent:</h3>\
+    <h3>Current cost for opponent:</h3>\
     ${jsPayment}\
     ';
 

@@ -95,7 +95,7 @@ define([
                 this.setupNotifications();
 
                 // Debug tooltip content by placing a tooltip at the top of the screen.
-                // dojo.place( this.getBuildingTooltip( 22 ), 'swd_wrap', 'first' );
+                // dojo.place( this.getBuildingTooltip( 44, true ), 'swd_wrap', 'first' );
             },
 
             setupTooltips: function () {

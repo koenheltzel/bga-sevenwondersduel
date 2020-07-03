@@ -881,13 +881,17 @@ __        __              _
 
 .swd_tooltip {
     zoom: var(--scale);
-    width: calc(700px * var(--scale));
+    width: calc(700px);
+    display: block;
+}
+.swd_tooltip li {
+    list-style: inside;
 }
 .building_tooltip .cardinfos {
-    min-height: calc(var(--building-height) * var(--scale));
+    min-height: var(--building-height);
 }
 .wonder_tooltip .cardinfos {
-    min-height: calc(var(--wonder-height) * var(--scale));
+    min-height: var(--wonder-height);
 }
 .tooltipWiggle {
     animation: tooltipWiggle 2s infinite alternate;

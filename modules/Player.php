@@ -134,7 +134,7 @@ class Player extends \APP_DbObject{
         $payment = new Payment();
         if (isset($costLeft[COINS])) {
             $resource = COINS;
-            $string = "Player pays {$costLeft[COINS]} {$resource}.";
+            $string = "Pay {$costLeft[COINS]} {$resource}.";
             if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
             $payment->addStep(COINS, $costLeft[COINS], $costLeft[COINS], null, null, $string);
 
@@ -149,7 +149,7 @@ class Player extends \APP_DbObject{
                     if (array_key_exists($resource, $costLeft)) {
                         $canProduce = min($costLeft[$resource], $amount);
 
-                        $string = "Player produces {$canProduce} {$resource} with building \"{$building->name}\".";
+                        $string = "Produce {$canProduce} {$resource} with building \"{$building->name}\".";
                         $payment->addStep($resource, $canProduce, 0, Item::TYPE_BUILDING, $building->id, $string);
                         if($print) print "<PRE>$string</PRE>";
                         $costLeft[$resource] -= $canProduce;
@@ -217,13 +217,13 @@ class Player extends \APP_DbObject{
                             switch ($itemType) {
                                 case Item::TYPE_BUILDING:
                                     $building = Building::get($cardId);
-                                    $string = "Player produces 1 {$resource} with building \"{$building->name}\".";
+                                    $string = "Produce 1 {$resource} with building \"{$building->name}\".";
                                     if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
                                     $payment->addStep($resource, 1, 0, Item::TYPE_BUILDING, $building->id, $string);
                                     break;
                                 case Item::TYPE_WONDER:
                                     $wonder = Wonder::get($cardId);
-                                    $string = "Player produces 1 {$resource} with wonder \"{$wonder->name}\".";
+                                    $string = "Produce 1 {$resource} with wonder \"{$wonder->name}\".";
                                     if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
                                     $payment->addStep($resource, 1, 0, Item::TYPE_WONDER, $wonder->id, $string);
                                     break;
@@ -265,7 +265,7 @@ class Player extends \APP_DbObject{
             foreach($building->fixedPriceResources as $resource => $price) {
                 if (array_key_exists($resource, $costLeft)) {
                     $cost = $costLeft[$resource] * $price;
-                    $string = "Player pays {$cost} coin(s) for {$costLeft[$resource]} {$resource} using the fixed cost building \"{$building->name}\" offers.";
+                    $string = "Pay {$cost} coin(s) for {$costLeft[$resource]} {$resource} using the fixed cost building \"{$building->name}\" offers.";
                     $payment->addStep($resource, $costLeft[$resource], $cost, Item::TYPE_BUILDING, $building->id, $string);
                     if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
                     unset($costLeft[$resource]);
@@ -280,9 +280,9 @@ class Player extends \APP_DbObject{
             $cost = $amount * 2 + $opponentResourceCount;
             $string = null;
             if ($opponentResourceCount > 0) {
-                $string = "Player pays {$cost} coins for {$amount} {$resource} because opponent can produce {$opponentResourceCount} {$resource}.";
+                $string = "Pay {$cost} coins for {$amount} {$resource} because opponent can produce {$opponentResourceCount} {$resource}.";
             } else {
-                $string = "Player pays {$cost} coins for {$amount} {$resource}.";
+                $string = "Pay {$cost} coins for {$amount} {$resource}.";
             }
             if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
             $payment->addStep($resource, $amount, $cost, null, null, $string);
