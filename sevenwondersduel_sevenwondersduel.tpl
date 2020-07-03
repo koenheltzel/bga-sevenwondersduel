@@ -255,8 +255,8 @@ var jstpl_building_tooltip = '\
         <div class="cardinfos">\
             <div class="building tooltipWiggle" style="float:right; background-position: -${backx}00% -${backy}00%;">\
             </div>\
-            ${jsCostMe}\
             ${jsCostOpponent}\
+            ${jsCostMe}\
         </div>\
     </div>';
 
