@@ -20,9 +20,11 @@ class Material
     public $wonders;
 
     /**
-     * @var Progre 
+     * @var ProgressTokens
      */
     public $progressTokens;
+
+    public $buildingIdsToLinkIconId;
 
     /**
      * @return Material
@@ -459,6 +461,26 @@ class Material
 
         $this->progressTokens[10] = (new ProgressToken(10, clienttranslate("Urbanism")))
             ->setCoins(6);
+
+        $this->buildingIdsToLinkIconId = [
+            9 => 12, // Horseshoe sybmol
+            10 => 13, // Sword sybmol
+            11 => 14, // Tower sybmol
+            32 => 10, // Target sybmol
+            33 => 11, // Roman helmet sybmol
+            13 => 17, // Book sybmol
+            15 => 16, // Gear sybmol
+            34 => 15, // Lyre sybmol
+            35 => 18, // Oil lamp sybmol
+            21 => 3, // Theatre mask sybmol
+            43 => 7, // Pillar sybmol
+            22 => 8, // Moon sybmol
+            42 => 5, // Sun sybmol
+            23 => 6, // Water drop sybmol
+            46 => 7, // Greek building sybmol
+            17 => 1, // Amphora (vase) sybmol
+            38 => 2, // Barrel sybmol
+        ];
 
     }
 
