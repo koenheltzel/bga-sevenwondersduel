@@ -182,8 +182,7 @@ define([
 
             updatePlayerCoins: function (playerId, coins) {
                 this.gamedatas.playerCoins[playerId] = coins;
-                var node = dojo.query('#player_area_' + playerId + '_coins')[0];
-                node.innerHTML = coins;
+                $('player_area_' + playerId + '_coins').innerHTML = coins;
             },
 
             getBuildingDivHtml: function (id, cardId) {
@@ -256,7 +255,7 @@ define([
             },
 
             updateWonderSelection: function (cards) {
-                var block = dojo.query('#wonder_selection_block')[0];
+                var block = $('wonder_selection_block');
                 if (cards.length > 0) {
                     var position = 1;
                     Object.keys(cards).forEach(dojo.hitch(this, function (index) {
@@ -743,9 +742,9 @@ define([
                     var playerCoins = this.gamedatas.playerCoins[this.player_id];
 
                     var canAffordBuilding = cardData.cost[this.player_id] <= playerCoins;
-                    dojo.removeClass(dojo.query('#buttonConstructBuilding')[0], 'bgabutton_blue');
-                    dojo.removeClass(dojo.query('#buttonConstructBuilding')[0], 'bgabutton_darkgray');
-                    dojo.addClass(dojo.query('#buttonConstructBuilding')[0], canAffordBuilding ? 'bgabutton_blue' : 'bgabutton_darkgray');
+                    dojo.removeClass($('buttonConstructBuilding'), 'bgabutton_blue');
+                    dojo.removeClass($('buttonConstructBuilding'), 'bgabutton_darkgray');
+                    dojo.addClass($('buttonConstructBuilding'), canAffordBuilding ? 'bgabutton_blue' : 'bgabutton_darkgray');
 
                     var canAffordWonder = false;
                     Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
@@ -756,9 +755,9 @@ define([
                             }
                         }
                     }));
-                    dojo.removeClass(dojo.query('#buttonConstructWonder')[0], 'bgabutton_blue');
-                    dojo.removeClass(dojo.query('#buttonConstructWonder')[0], 'bgabutton_darkgray');
-                    dojo.addClass(dojo.query('#buttonConstructWonder')[0], canAffordWonder ? 'bgabutton_blue' : 'bgabutton_darkgray');
+                    dojo.removeClass($('buttonConstructWonder'), 'bgabutton_blue');
+                    dojo.removeClass($('buttonConstructWonder'), 'bgabutton_darkgray');
+                    dojo.addClass($('buttonConstructWonder'), canAffordWonder ? 'bgabutton_blue' : 'bgabutton_darkgray');
 
                     dojo.setStyle('draftpool_actions', 'visibility', 'visible');
                 }
@@ -831,7 +830,7 @@ define([
             clearActionGlow: function () {
                 Object.keys(this.gamedatas.wondersSituation[this.me_id]).forEach(dojo.hitch(this, function (index) {
                     var wonderData = this.gamedatas.wondersSituation[this.me_id][index];
-                    dojo.removeClass(dojo.query('#wonder_' + wonderData.wonder)[0], 'wonder_selectable');
+                    dojo.removeClass($('wonder_' + wonderData.wonder), 'wonder_selectable');
                 }));
             },
 
@@ -846,7 +845,7 @@ define([
                         var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
                         if (!wonderData.constructed) {
                             if (wonderData.cost <= this.gamedatas.playerCoins[this.player_id]) {
-                                dojo.addClass(dojo.query('#wonder_' + wonderData.wonder)[0], 'wonder_selectable');
+                                dojo.addClass($('wonder_' + wonderData.wonder), 'wonder_selectable');
                             }
                         }
                     }));
@@ -913,7 +912,7 @@ define([
                 var width = titlePosition.w - 5;
                 var height = window.innerHeight - titlePosition.y - titlePosition.h - 2 * titleMarginBottom;
 
-                var playarea = dojo.query('#playarea')[0];
+                var playarea = $('playarea');
                 dojo.style(playarea, "width", width + 'px');
                 dojo.style(playarea, "height", height + 'px');
 
@@ -921,7 +920,7 @@ define([
                 // console.log('available play area: ', width, height);
                 var ratio = window.innerWidth / window.innerHeight;
 
-                var pageZoom = dojo.style(dojo.query('#page-content')[0], "zoom");
+                var pageZoom = dojo.style($('page-content'), "zoom");
                 // console.log('pageZoom', pageZoom);
 
                 // Measured in 75% view, without any player buildings (meaning the height can become heigher:
@@ -929,7 +928,7 @@ define([
                 // var square = 947 / 897; // 1.056
                 var landscape = 1.74; //1131/ 756; // 1.60
 
-                var swdNode = dojo.query('#swd_wrap')[0];
+                var swdNode = $('swd_wrap');
                 dojo.removeClass(swdNode, 'square');
                 dojo.removeClass(swdNode, 'portrait');
                 dojo.removeClass(swdNode, 'landscape');
@@ -938,7 +937,7 @@ define([
                     // console.log('ratio: ', ratio, 'choosing landscape');
                     dojo.addClass(swdNode, 'landscape');
                     this.setScale(1);
-                    this.setScale(height / dojo.style(dojo.query('#swd_wrap')[0], 'height'));
+                    this.setScale(height / dojo.style($('swd_wrap'), 'height'));
                 } else if (ratio < landscape && ratio > portrait) {
                     Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
                         dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
@@ -948,10 +947,10 @@ define([
                     dojo.addClass(swdNode, 'square');
                     if (width > height) {
                         this.setScale(1);
-                        this.setScale(height / dojo.style(dojo.query('#swd_wrap')[0], 'height'));
+                        this.setScale(height / dojo.style($('swd_wrap'), 'height'));
                     } else {
                         this.setScale(1);
-                        this.setScale(width / dojo.style(dojo.query('#layout_flexbox')[0], 'width'));
+                        this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
                     }
 
                 } else { // ratio <= portrait
@@ -962,9 +961,9 @@ define([
                     // console.log('ratio: ', ratio, 'choosing portrait');
                     dojo.addClass(swdNode, 'portrait');
                     this.setScale(1);
-                    this.setScale(width / dojo.style(dojo.query('#layout_flexbox')[0], 'width'));
+                    this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
                 }
-                // console.log('swd_wrap height: ', dojo.query('#swd_wrap')[0], 'height');
+                // console.log('swd_wrap height: ', $('swd_wrap'), 'height');
             },
 
             onScreenWidthChange: function () {
