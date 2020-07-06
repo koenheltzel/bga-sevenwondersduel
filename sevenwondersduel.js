@@ -115,7 +115,7 @@ define([
                     showDelay: this.toolTipDelay,
                     getContent: dojo.hitch(this, function (node) {
                         var id = dojo.attr(node, "data-building-id");
-                        var draftpoolBuilding = dojo.hasClass(node, 'building_small');
+                        var draftpoolBuilding = dojo.query(node).closest("#draftpool")[0];
                         var meCoinHtml;
                         var opponentCoinHtml;
                         if (draftpoolBuilding) {
