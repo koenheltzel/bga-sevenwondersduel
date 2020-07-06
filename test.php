@@ -51,7 +51,7 @@ print "=========================================================================
 $player1->setWonderIds([]); // Wood/Stone/Clay, Papyrus/Glass
 $player1->setBuildingIds([4, 27, 40, 39]); // Glass/Papyrus, Wood/Stone/Clay
 $player2->setBuildingIds([]);
-$payment = Player::me()->calculateCost(Building::get(44), 1, 0); // Study
+$payment = Player::me()->calculateCost(Building::get(44), 1, 0); // Courthouse
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
 print "====================================================================================================================================";
 
@@ -59,7 +59,15 @@ print "=========================================================================
 $player1->setWonderIds([]); // Wood/Stone/Clay, Papyrus/Glass
 $player1->setBuildingIds([3, 4, 5, 39, 40]); // Glass/Papyrus, Wood/Stone/Clay
 $player2->setBuildingIds([]);
-$payment = Player::me()->calculateCost(Wonder::get(9), 1, 0); // Study
+$payment = Player::me()->calculateCost(Wonder::get(9), 1, 0); // The Statue of Zeus
+//print "<PRE>" . print_r($payment, true) . "</PRE>";
+print "====================================================================================================================================";
+
+// Calculate "Library" cost, with the linked building.
+$player1->setWonderIds([3, 7]); // Wood/Stone/Clay, Papyrus/Glass
+$player1->setBuildingIds([39, 40, 13]); // Glass/Papyrus, Wood/Stone/Clay
+$player2->setBuildingIds([24, 8, 28]);
+$payment = Player::me()->calculateCost(Building::get(37), 1, 0); // Library
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
 print "====================================================================================================================================";
 

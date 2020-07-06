@@ -46,5 +46,6 @@ if (!defined('COINS')) {
     define('STONE', 'Stone');
     define('GLASS', 'Glass');
     define('PAPYRUS', 'Papyrus');
+    define('LINKED_BUILDING', 'Linked building');
 
 }

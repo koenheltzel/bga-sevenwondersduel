@@ -113,6 +113,7 @@ class Draftpool
                             $payment = Player::get($playerId)->calculateCost($building);
                             $position['cost'][$playerId] = $payment->totalCost();
                             $position['payment'][$playerId] = $payment;
+                            $position['hasLinkedBuilding'] = Player::get($playerId)->hasBuilding($building->linkedBuilding);
                         }
                     }
                     else {
