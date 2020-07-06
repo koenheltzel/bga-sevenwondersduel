@@ -288,7 +288,7 @@ class Player extends \APP_DbObject{
         // What should the player pay for the remaining resources?
         foreach ($costLeft as $resource => $amount) {
             $opponentResourceCount = Player::opponent($this->id)->resourceCount($resource);
-            $cost = $amount * 2 + $opponentResourceCount;
+            $cost = $amount * (2 + $opponentResourceCount);
             $string = null;
             if ($opponentResourceCount > 0) {
                 $color = in_array($resource, [GLASS, PAPYRUS]) ? clienttranslate('grey') : clienttranslate('brown');
