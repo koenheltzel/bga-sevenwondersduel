@@ -35,6 +35,7 @@ define([
                 this.playerTurnCardId = null;
                 this.playerTurnBuildingId = null;
                 this.playerTurnNode = null;
+                this.currentAge = 0;
                 dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
             },
 
@@ -64,7 +65,7 @@ define([
 
                 // Setup game situation.
                 this.updateWondersSituation(this.gamedatas.wondersSituation);
-                this.updateDraftpool(this.gamedatas.draftpool);
+                this.updateDraftpool(this.gamedatas.draftpool, true);
                 this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
 
                 // Setting up player boards
@@ -280,15 +281,18 @@ define([
                 return null;
             },
 
-            updateDraftpool: function (draftpool) {
-                this.gamedatas.draftpool = draftpool;
-                console.log('updateDraftpool: ', draftpool);
+            updateDraftpool: function (draftpool, setupGame) {
+                if (typeof setupGame == 'undefined') setupGame = false;
 
                 dojo.style('draftpool_container', 'display', draftpool.age > 0 ? 'block' : 'none');
-                if (draftpool.age > 0) {
+                if (draftpool.age > 0 && draftpool.age >= this.currentAge) {
+                    this.currentAge = draftpool.age; // This currentAge business is a bit of dirty check to prevent older notifications (due to animations finishing) arriving after newer notifications. Especially when a new age has arrived.
+                    this.gamedatas.draftpool = draftpool;
+                    console.log('updateDraftpool: ', draftpool);
+
                     document.documentElement.style.setProperty('--draftpool-row-height-multiplier', draftpool.age == 3 ? 0.4 : 0.536);
 
-                    var turnAroundDelay = 300; // Have some initial delay, so this function can finish updating the DOM.
+                    var animationDelay = 300; // Have some initial delay, so this function can finish updating the DOM.
                     for (var i = 0; i < draftpool.cards.length; i++) {
                         var position = draftpool.cards[i];
 
@@ -354,7 +358,7 @@ define([
                                     dojo.fx.combine([
                                         dojo.animateProperty({
                                             node: oldNode,
-                                            delay: turnAroundDelay,
+                                            delay: animationDelay,
                                             duration: this.turnAroundCardDuration,
                                             easing: dojo.fx.easing.linear,
                                             properties: {
@@ -369,7 +373,7 @@ define([
                                         }),
                                         dojo.animateProperty({
                                             node: newNode,
-                                            delay: turnAroundDelay,
+                                            delay: animationDelay,
                                             duration: this.turnAroundCardDuration,
                                             easing: dojo.fx.easing.linear,
                                             properties: {
@@ -384,11 +388,30 @@ define([
 
                                 anim.play();
 
-                                turnAroundDelay += this.turnAroundCardDuration * 0.75;
+                                animationDelay += this.turnAroundCardDuration * 0.75;
                             }
                             else {
                                 dojo.destroy(oldNode);
                             }
+                        }
+                        else if (!setupGame) {
+                            dojo.style(newNode, 'opacity', 0);
+                            dojo.animateProperty({
+                                node: newNode,
+                                delay: animationDelay,
+                                duration: this.putDraftpoolCard,
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    opacity: {start: 0.0, end: 1.0},
+                                    propertyScale: {start: 1.15, end: 1},
+                                    propertyTransform: {start: -40, end: 0},
+                                },
+                                onAnimate: function (values) {
+                                    console.log(this.node, values);
+                                    dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg) scale(' + parseFloat(values.propertyScale.replace("px", "")) + ')');
+                                }
+                            }).play();
+                            animationDelay += this.putDraftpoolCard * 0.75;
                         }
                     }
 
@@ -971,6 +994,7 @@ define([
                 this.discardBuildingAnimationDuration = 400;
                 this.constructWonderAnimationDuration = 1600;
                 this.turnAroundCardDuration = 500;
+                this.putDraftpoolCard = 250;
 
                 dojo.subscribe('wonderSelected', this, "notif_wonderSelected");
                 dojo.subscribe('nextAge', this, "notif_nextAge");
@@ -1060,13 +1084,15 @@ define([
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
                 dijit.Tooltip.hide(buildingNode);
 
-                var anim = dojo.fadeOut({node: buildingNode, duration: this.discardBuildingAnimationDuration});
-
-                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
-                    dojo.destroy(buildingNode);
-                    this.updateDraftpool(notif.args.draftpool);
-                    this.updateWondersSituation(notif.args.wondersSituation);
-                }));
+                var anim = dojo.fadeOut({
+                    node: buildingNode,
+                    duration: this.discardBuildingAnimationDuration,
+                    onEnd: dojo.hitch(this, function () {
+                        dojo.destroy(buildingNode);
+                        this.updateDraftpool(notif.args.draftpool);
+                        this.updateWondersSituation(notif.args.wondersSituation);
+                    })
+                });
 
                 anim.play();
             },
