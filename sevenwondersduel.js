@@ -292,6 +292,7 @@ define([
                     for (var i = 0; i < draftpool.cards.length; i++) {
                         var position = draftpool.cards[i];
                         var spriteId = null;
+                        var linkedBuildingId = 0;
                         var data = {
                             jsId: '',
                             jsCardId: '',
@@ -305,6 +306,8 @@ define([
                             jsDisplayCostOpponent: 'none',
                             jsCostColorOpponent: 'black',
                             jsCostOpponent: -1,
+                            jsLinkX: 0,
+                            jsLinkY: 0,
                         };
                         if (typeof position.building != 'undefined') {
                             spriteId = position.building;
@@ -316,13 +319,31 @@ define([
                             data.jsDisplayCostOpponent = position.available ? 'block' : 'none',
                             data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playerCoins[this.opponent_id]),
                             data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
+
+                            // Linked building symbol
+                            linkedBuildingId = this.gamedatas.buildings[position.building].linkedBuilding;
+                            if (linkedBuildingId > 0) {
+                                var spritesheetColumns = 9;
+                                var linkedBuildingSpriteId = this.gamedatas.buildingIdsToLinkIconId[linkedBuildingId];
+                                data.jsLinkX = (linkedBuildingSpriteId - 1) % spritesheetColumns;
+                                data.jsLinkY = Math.floor((linkedBuildingSpriteId - 1) / spritesheetColumns);
+                            }
                         } else {
                             spriteId = position.back;
                         }
                         var spritesheetColumns = 10;
                         data.jsX = (spriteId - 1) % spritesheetColumns;
                         data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
-                        dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
+
+                        var node = dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
+
+                        // Remove linked symbols dom elements that aren't needed.
+                        Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                            if (linkedBuildingId == 0 || !position.hasLinkedBuilding[playerId]) {
+                                dojo.destroy(dojo.query('.' + (playerId == this.me_id ? 'me' : 'opponent') + ' .linked_building_icon', node)[0]);
+                            }
+                        }));
+
                     }
 
                     // Adjust the height of the age divs based on the age cards absolutely positioned within.

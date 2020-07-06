@@ -299,6 +299,7 @@ class SevenWondersDuel extends Table
             $result['draftpool'] = Draftpool::get();
         }
         $result['progressTokensBoard'] = arrayWithPropertyAsKeys($this->progressTokenDeck->getCardsInLocation('board'), 'location_arg');
+        $result['buildingIdsToLinkIconId'] = Material::get()->buildingIdsToLinkIconId;
         $result['players'] = [
             Player::me()->id => json_decode(json_encode(Player::me()), true),
             Player::opponent()->id => json_decode(json_encode(Player::opponent()), true),

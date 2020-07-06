@@ -186,13 +186,13 @@ var jstpl_draftpool_building = '\
         <div class="draftpool_building_cost opponent" style="display: ${jsDisplayCostOpponent}"><div class="coin"><span style="color: ${jsCostColorOpponent} !important">${jsCostOpponent}</span></div>\
             <div\
                 class="linked_building_icon linked_building_icon_small"\
-                style="position: inline-block; background-position: -100% -100%;"\
+                style="position: inline-block; background-position: -${jsLinkX}00% -${jsLinkY}00%;"\
             ></div>\
         </div>\
         <div class="draftpool_building_cost me" style="display: ${jsDisplayCostMe}"><div class="coin"><span style="color: ${jsCostColorMe} !important">${jsCostMe}</span></div>\
             <div\
                 class="linked_building_icon linked_building_icon_small"\
-                style="position: inline-block; background-position: -00% -00%;"\
+                style="position: inline-block; background-position: -${jsLinkX}00% -${jsLinkY}00%;"\
             ></div>\
         </div>\
     </div>';

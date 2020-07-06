@@ -107,13 +107,14 @@ class Draftpool
                         $position['cost'] = [];
                         $position['discardGain'] = [];
                         $position['payment'] = [];
+                        $position['hasLinkedBuilding'] = [];
                         $players = SevenWondersDuel::get()->loadPlayersBasicInfos();
                         $playerIds = array_keys($players);
                         foreach ($playerIds as $playerId) {
                             $payment = Player::get($playerId)->calculateCost($building);
                             $position['cost'][$playerId] = $payment->totalCost();
                             $position['payment'][$playerId] = $payment;
-                            $position['hasLinkedBuilding'] = Player::get($playerId)->hasBuilding($building->linkedBuilding);
+                            $position['hasLinkedBuilding'][$playerId] = Player::get($playerId)->hasBuilding($building->linkedBuilding);
                         }
                     }
                     else {
