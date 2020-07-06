@@ -212,7 +212,6 @@ define([
                     var row = rows[index];
                     var wonderDivHtml = this.getWonderDivHtml(row.card, row.wonder, row.constructed == 0, row.cost, this.gamedatas.playerCoins[playerId]);
                     var wonderDiv = dojo.place(wonderDivHtml, container);
-                    console.log(wonderDiv);
                     if (row.constructed > 0) {
                         var age = row.constructed;
                         id = 73 + age;
@@ -280,7 +279,6 @@ define([
             },
 
             updateDraftpool: function (draftpool) {
-                var animations = [];
                 this.gamedatas.draftpool = draftpool;
                 console.log('updateDraftpool: ', draftpool);
 
@@ -349,8 +347,6 @@ define([
 
                         if (oldNode) {
                             if (dojo.attr(oldNode, "data-building-id") == "" && typeof position.building != 'undefined') {
-                                console.log('Animate card turning around', newNode);
-
                                 dojo.style(newNode, 'transform', 'perspective(40em) rotateY(-180deg)'); // When delay > 0 this is necesarry to hide the new node.
                                 var anim = dojo.fx.chain([
                                     dojo.fx.combine([
@@ -657,8 +653,6 @@ define([
 
                 if (this.isCurrentPlayerActive()) {
                     var wonder = dojo.query(e.target);
-                    console.log('wonder ', wonder);
-                    console.log('data-card-id ', wonder.attr('data-card-id').pop());
 
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
                     if (!this.checkAction('actionSelectWonder')) {
@@ -669,7 +663,6 @@ define([
                             cardId: wonder.attr('data-card-id')
                         },
                         this, function (result) {
-                            console.log('success result: ', result);
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
 
@@ -677,7 +670,6 @@ define([
                             // dojo.style('pattern_selection', 'display', 'none');
 
                         }, function (is_error) {
-                            console.log('error result: ', is_error);
                             // What to do after the server call in anyway (success or failure)
                             // (most of the time: nothing)
 
@@ -747,7 +739,6 @@ define([
                             cardId: this.playerTurnCardId
                         },
                         this, function (result) {
-                            console.log('success result: ', result);
                             dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
@@ -756,7 +747,6 @@ define([
                             // dojo.style('pattern_selection', 'display', 'none');
 
                         }, function (is_error) {
-                            console.log('error result: ', is_error);
                             // What to do after the server call in anyway (success or failure)
                             // (most of the time: nothing)
 
@@ -781,7 +771,6 @@ define([
                             cardId: this.playerTurnCardId
                         },
                         this, function (result) {
-                            console.log('success result: ', result);
                             dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
@@ -790,7 +779,6 @@ define([
                             // dojo.style('pattern_selection', 'display', 'none');
 
                         }, function (is_error) {
-                            console.log('error result: ', is_error);
                             // What to do after the server call in anyway (success or failure)
                             // (most of the time: nothing)
 
@@ -840,7 +828,6 @@ define([
                             wonderId: dojo.attr(e.target, "data-wonder-id"),
                         },
                         this, function (result) {
-                            console.log('success result: ', result);
                             dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
@@ -849,7 +836,6 @@ define([
                             // dojo.style('pattern_selection', 'display', 'none');
 
                         }, function (is_error) {
-                            console.log('error result: ', is_error);
                             // What to do after the server call in anyway (success or failure)
                             // (most of the time: nothing)
 
@@ -868,11 +854,7 @@ define([
 
             setScale: function (scale) {
                 if (!this.dontScale) {
-                    console.log('setScale', scale);
-                    // scale = 0.5;
                     this.setCssVariable('--scale', scale);
-
-                    // dojo.style(swdNode, "zoom", scale);
                 }
             },
 
@@ -894,12 +876,12 @@ define([
                 dojo.style(playarea, "width", width + 'px');
                 dojo.style(playarea, "height", height + 'px');
 
-                console.log('titlePosition: ', titlePosition);
-                console.log('available play area: ', width, height);
+                // console.log('titlePosition: ', titlePosition);
+                // console.log('available play area: ', width, height);
                 var ratio = window.innerWidth / window.innerHeight;
 
                 var pageZoom = dojo.style(dojo.query('#page-content')[0], "zoom");
-                console.log('pageZoom', pageZoom);
+                // console.log('pageZoom', pageZoom);
 
                 // Measured in 75% view, without any player buildings (meaning the height can become heigher:
                 var portrait = 0.8;//747 / 987; // 0.76
@@ -912,7 +894,7 @@ define([
                 dojo.removeClass(swdNode, 'landscape');
 
                 if (ratio >= landscape) {
-                    console.log('ratio: ', ratio, 'choosing landscape');
+                    // console.log('ratio: ', ratio, 'choosing landscape');
                     dojo.addClass(swdNode, 'landscape');
                     this.setScale(1);
                     this.setScale(height / dojo.style(dojo.query('#swd_wrap')[0], 'height'));
@@ -921,7 +903,7 @@ define([
                         dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
                     }));
 
-                    console.log('ratio: ', ratio, 'choosing square');
+                    // console.log('ratio: ', ratio, 'choosing square');
                     dojo.addClass(swdNode, 'square');
                     if (width > height) {
                         this.setScale(1);
@@ -936,22 +918,19 @@ define([
                         dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
                     }));
 
-                    console.log('ratio: ', ratio, 'choosing portrait');
+                    // console.log('ratio: ', ratio, 'choosing portrait');
                     dojo.addClass(swdNode, 'portrait');
                     this.setScale(1);
                     this.setScale(width / dojo.style(dojo.query('#layout_flexbox')[0], 'width'));
                 }
-                console.log('swd_wrap height: ', dojo.query('#swd_wrap')[0], 'height');
+                // console.log('swd_wrap height: ', dojo.query('#swd_wrap')[0], 'height');
             },
 
             onScreenWidthChange: function () {
-                console.log('onScreenWidthChange');
                 this.updateLayout();
             },
 
             onWindowUpdate: function (e) {
-                console.log('onWindowUpdate', e);
-
                 this.updateLayout();
 
                 // clearTimeout(this.windowResizeTimeoutId);
