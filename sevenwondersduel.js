@@ -83,10 +83,8 @@ define([
                 dojo.query('#draftpool').on(".building.available:click", dojo.hitch(this, "onPlayerTurnDraftpoolClick"));
                 dojo.query('#player_wonders_' + this.me_id).on(".wonder_small.wonder_selectable:click", dojo.hitch(this, "onPlayerTurnConstructWonderSelectedClick"));
 
-                // Clicks just to hide the tooltip:
-                dojo.query('#wonder_column').on(".wonder_small:click", dojo.hitch(this, "hideTooltip"));
-                dojo.query('#draftpool').on(".building:click", dojo.hitch(this, "hideTooltip"));
-                dojo.query('.player_buildings').on(".building_header_small:click", dojo.hitch(this, "hideTooltip"));
+                // Click hide the tooltip:
+                dojo.query('#swd_wrap').on("*:click", dojo.hitch(this, "hideTooltip"));
 
                 // Click handlers without event delegation:
                 dojo.query("#buttonConstructBuilding").on("click", dojo.hitch(this, "onPlayerTurnConstructBuildingClick"));
