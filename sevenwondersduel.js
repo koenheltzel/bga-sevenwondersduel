@@ -280,17 +280,20 @@ define([
             },
 
             updateDraftpool: function (draftpool) {
+                var animations = [];
                 this.gamedatas.draftpool = draftpool;
                 console.log('updateDraftpool: ', draftpool);
 
                 dojo.style('draftpool_container', 'display', draftpool.age > 0 ? 'block' : 'none');
                 if (draftpool.age > 0) {
-                    dojo.empty("draftpool");
-
                     document.documentElement.style.setProperty('--draftpool-row-height-multiplier', draftpool.age == 3 ? 0.4 : 0.536);
 
+                    var turnAroundDelay = 300; // Have some initial delay, so this function can finish updating the DOM.
                     for (var i = 0; i < draftpool.cards.length; i++) {
                         var position = draftpool.cards[i];
+
+                        var oldNode = $(position.row + '_' + position.column);
+
                         var spriteId = null;
                         var linkedBuildingId = 0;
                         var data = {
@@ -335,15 +338,60 @@ define([
                         data.jsX = (spriteId - 1) % spritesheetColumns;
                         data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
 
-                        var node = dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
+                        var newNode = dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
 
                         // Remove linked symbols dom elements that aren't needed.
                         Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
                             if (linkedBuildingId == 0 || !position.hasLinkedBuilding[playerId]) {
-                                dojo.destroy(dojo.query('.' + (playerId == this.me_id ? 'me' : 'opponent') + ' .linked_building_icon', node)[0]);
+                                dojo.destroy(dojo.query('.' + (playerId == this.me_id ? 'me' : 'opponent') + ' .linked_building_icon', newNode)[0]);
                             }
                         }));
 
+                        if (oldNode) {
+                            if (dojo.attr(oldNode, "data-building-id") == "" && typeof position.building != 'undefined') {
+                                console.log('Animate card turning around', newNode);
+
+                                dojo.style(newNode, 'transform', 'perspective(40em) rotateY(-180deg)'); // When delay > 0 this is necesarry to hide the new node.
+                                var anim = dojo.fx.chain([
+                                    dojo.fx.combine([
+                                        dojo.animateProperty({
+                                            node: oldNode,
+                                            delay: turnAroundDelay,
+                                            duration: this.turnAroundCardDuration,
+                                            easing: dojo.fx.easing.linear,
+                                            properties: {
+                                                propertyTransform: {start: 0, end: 180}
+                                            },
+                                            onAnimate: function (values) {
+                                                dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                            },
+                                            onEnd: function () {
+                                                dojo.destroy(this.node);
+                                            }
+                                        }),
+                                        dojo.animateProperty({
+                                            node: newNode,
+                                            delay: turnAroundDelay,
+                                            duration: this.turnAroundCardDuration,
+                                            easing: dojo.fx.easing.linear,
+                                            properties: {
+                                                propertyTransform: {start: -180, end: 0}
+                                            },
+                                            onAnimate: function (values) {
+                                                dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                            }
+                                        }),
+                                    ]),
+                                ]);
+
+                                anim.play();
+
+                                turnAroundDelay += this.turnAroundCardDuration * 0.75;
+                            }
+                            else {
+                                dojo.destroy(oldNode);
+                            }
+                        }
                     }
 
                     // Adjust the height of the age divs based on the age cards absolutely positioned within.
@@ -941,6 +989,7 @@ define([
                 this.constructBuildingAnimationDuration = 1000;
                 this.discardBuildingAnimationDuration = 400;
                 this.constructWonderAnimationDuration = 1600;
+                this.turnAroundCardDuration = 500;
 
                 dojo.subscribe('wonderSelected', this, "notif_wonderSelected");
                 dojo.subscribe('nextAge', this, "notif_nextAge");
@@ -1077,7 +1126,7 @@ define([
                                     propertyTransform: {start: 0, end: 180}
                                 },
                                 onAnimate: function (values) {
-                                    dojo.style(buildingNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
                                 }
                             }),
                             dojo.animateProperty({
@@ -1088,7 +1137,7 @@ define([
                                     propertyTransform: {start: -180, end: 0}
                                 },
                                 onAnimate: function (values) {
-                                    dojo.style(ageCardNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
                                 }
                             }),
                         ]),
@@ -1101,7 +1150,7 @@ define([
                                     propertyTransform: {start: 0, end: -90}
                                 },
                                 onAnimate: function (values) {
-                                    dojo.style(ageCardNode, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
                                 }
                             }),
                             this.slideToObjectPos(ageCardNode, ageCardContainer, 0, 0, this.constructWonderAnimationDuration / 3 * 2),

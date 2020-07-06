@@ -84,6 +84,7 @@ class Draftpool
         $positionsFound = [];
         for($row_index = count(self::$ages[$age]) - 1; $row_index >= 0; $row_index--) {
             $columns = self::$ages[$age][$row_index];
+            $columns = array_reverse($columns); // Since we do array_unshift later we reverse here, so when updating the draftpool it happens from left to right.
             foreach($columns as $column) {
                 if(isset($cards[$locationArg])) {
                     $building = Building::get($cards[$locationArg]['type_arg']);
