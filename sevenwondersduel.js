@@ -1068,32 +1068,34 @@ define([
                     dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em)'); // Somehow affects the position of the element after the slide. Otherwise I would delete this line.
 
                     var anim = dojo.fx.chain([
-                        dojo.animateProperty({
-                            node: buildingNode,
-                            duration: this.constructWonderAnimationDuration / 8,
-                            easing: dojo.fx.easing.linear,
-                            properties: {
-                                propertyTransform: {start: 0, end: 90}
-                            },
-                            onAnimate: function (values) {
-                                dojo.style(buildingNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
-                            }
-                        }),
-                        dojo.animateProperty({
-                            node: ageCardNode,
-                            duration: this.constructWonderAnimationDuration / 8,
-                            easing: dojo.fx.easing.linear,
-                            properties: {
-                                propertyTransform: {start: -90, end: 0}
-                            },
-                            onAnimate: function (values) {
-                                dojo.style(ageCardNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
-                            }
-                        }),
+                        dojo.fx.combine([
+                            dojo.animateProperty({
+                                node: buildingNode,
+                                duration: this.constructWonderAnimationDuration / 3,
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    propertyTransform: {start: 0, end: 180}
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(buildingNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                }
+                            }),
+                            dojo.animateProperty({
+                                node: ageCardNode,
+                                duration: this.constructWonderAnimationDuration / 3,
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    propertyTransform: {start: -180, end: 0}
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(ageCardNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                }
+                            }),
+                        ]),
                         dojo.fx.combine([
                             dojo.animateProperty({
                                 node: ageCardNode,
-                                delay: this.constructWonderAnimationDuration / 4,
+                                delay: this.constructWonderAnimationDuration / 6,
                                 duration: this.constructWonderAnimationDuration / 4,
                                 properties: {
                                     propertyTransform: {start: 0, end: -90}
@@ -1102,7 +1104,7 @@ define([
                                     dojo.style(ageCardNode, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
                                 }
                             }),
-                            this.slideToObjectPos(ageCardNode, ageCardContainer, 0, 0, this.constructWonderAnimationDuration / 4 * 3),
+                            this.slideToObjectPos(ageCardNode, ageCardContainer, 0, 0, this.constructWonderAnimationDuration / 3 * 2),
                         ]),
                     ]);
 
