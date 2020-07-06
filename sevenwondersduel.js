@@ -82,6 +82,12 @@ define([
                 dojo.query('#wonder_selection_container').on(".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
                 dojo.query('#draftpool').on(".building.available:click", dojo.hitch(this, "onPlayerTurnDraftpoolClick"));
                 dojo.query('#player_wonders_' + this.me_id).on(".wonder_small.wonder_selectable:click", dojo.hitch(this, "onPlayerTurnConstructWonderSelectedClick"));
+
+                // Clicks just to hide the tooltip:
+                dojo.query('#wonder_column').on(".wonder_small:click", dojo.hitch(this, "hideTooltip"));
+                dojo.query('#draftpool').on(".building:click", dojo.hitch(this, "hideTooltip"));
+                dojo.query('.player_buildings').on(".building_header_small:click", dojo.hitch(this, "hideTooltip"));
+
                 // Click handlers without event delegation:
                 dojo.query("#buttonConstructBuilding").on("click", dojo.hitch(this, "onPlayerTurnConstructBuildingClick"));
                 dojo.query("#buttonDiscardBuilding").on("click", dojo.hitch(this, "onPlayerTurnDiscardBuildingClick"));
@@ -204,6 +210,12 @@ define([
                 data.jsX = (wonderId - 1) % spritesheetColumns;
                 data.jsY = Math.floor((wonderId - 1) / spritesheetColumns);
                 return this.format_block('jstpl_wonder', data);
+            },
+
+            hideTooltip: function() {
+                // Thanks to https://stackoverflow.com/a/35984527
+                dijit.Tooltip._masterTT.containerNode.innerHTML='';
+                dojo.removeClass(dijit.Tooltip._masterTT.id, "dijitTooltip");
             },
 
             updatePlayerWonders: function (playerId, rows) {
@@ -676,6 +688,8 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
+                this.hideTooltip();
+
                 if (this.isCurrentPlayerActive()) {
                     var wonder = dojo.query(e.target);
 
@@ -706,6 +720,8 @@ define([
                 console.log('onPlayerTurnDraftpoolClick');
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
+
+                this.hideTooltip();
 
                 if (this.isCurrentPlayerActive()) {
                     if (this.playerTurnNode) {
@@ -1020,8 +1036,7 @@ define([
 
             notif_wonderSelected: function (notif) {
                 console.log('notif_wonderSelected', notif);
-                var wonderNode = dojo.query('#wonder_' + notif.args.wonderId)[0];
-                dijit.Tooltip.hide(wonderNode);
+                this.hideTooltip();
 
                 var wonderContainerNodeId = 'wonder_' + notif.args.wonderId + '_container';
                 var targetNode = dojo.query('.player_wonders.player' + notif.args.playerId + '>div:nth-of-type(' + notif.args.playerWonderCount + ')')[0];
@@ -1046,7 +1061,6 @@ define([
                 this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
-                dijit.Tooltip.hide(buildingNode);
 
                 var building = this.gamedatas.buildings[notif.args.buildingId];
                 var container = dojo.query('.player_buildings.player' + notif.args.playerId + ' .' + building.type)[0];
@@ -1082,7 +1096,6 @@ define([
 
                 // var buildingNodeId = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0].attr('id');
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
-                dijit.Tooltip.hide(buildingNode);
 
                 var anim = dojo.fadeOut({
                     node: buildingNode,
@@ -1103,9 +1116,7 @@ define([
                 this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
                 this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
 
-                // var buildingNodeId = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0].attr('id');
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
-                dijit.Tooltip.hide(buildingNode);
 
                 this.updateWondersSituation(notif.args.wondersSituation);
 
