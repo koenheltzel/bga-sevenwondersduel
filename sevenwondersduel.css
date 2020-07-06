@@ -90,6 +90,14 @@ __     __         _       _     _
     --progress-token-height: calc(var(--progress-token-spritesheet-height) / var(--progress-token-spritesheet-rows));
     --progress-token-small-scale: calc(0.4 * (0.5 / 0.63) * var(--scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
 
+    --linked-building-icon-spritesheet-width: 288px;
+    --linked-building-icon-spritesheet-height: 64px;
+    --linked-building-icon-spritesheet-columns: 9;
+    --linked-building-icon-spritesheet-rows: 2;
+    --linked-building-icon-width: calc(var(--linked-building-icon-spritesheet-width) / var(--linked-building-icon-spritesheet-columns));
+    --linked-building-icon-height: calc(var(--linked-building-icon-spritesheet-height) / var(--linked-building-icon-spritesheet-rows));
+    --linked-building-icon-small-scale: calc(0.45 * var(--scale));
+
     --board-width: 400px;
     --board-height: 1440px;
     --board-scale: calc(0.5 * var(--scale));
@@ -870,6 +878,34 @@ __        __              _
         inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
 }
 
+.linked_building_icon {
+    width: var(--linked-building-icon-width);
+    height: var(--linked-building-icon-height);
+    background-image: url('img/linked-building-icons.jpg');
+    position: absolute;
+    cursor: pointer;
+    border-radius: calc(var(--scale) * 3px);
+    display: inline-block;
+    box-shadow:
+        calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
+        inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
+}
+
+.linked_building_icon_small {
+    width: calc(var(--linked-building-icon-width) * var(--linked-building-icon-small-scale));
+    height: calc(var(--linked-building-icon-height) * var(--linked-building-icon-small-scale));
+    background-size: calc(var(--linked-building-icon-spritesheet-width) * var(--linked-building-icon-small-scale)) calc(var(--linked-building-icon-spritesheet-height) * var(--linked-building-icon-small-scale));
+    border-radius: calc(var(--scale) * 2px);
+    left: calc(var(--building-small-width) * 0.55);
+    top: calc(var(--scale) * 18px);
+    z-index: 2;
+    box-shadow:
+        calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 1px) 0px rgba(0,0,0,0.3),
+        inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
+}
+.opponent .linked_building_icon_small {
+    top: calc(var(--scale) * -7px);
+}
 /*
  _____           _ _   _
 |_   _|__   ___ | | |_(_)_ __  ___

@@ -106,7 +106,7 @@
                             </div>
                             <div class="player_area_coins">
                                 <div class="coin">
-                                    <span id="player_area_{PLAYER_ID}_coins">24</span>
+                                    <span id="player_area_{PLAYER_ID}_coins"></span>
                                 </div>
                             </div>
                         </div>
@@ -183,8 +183,18 @@ var jstpl_draftpool_building = '\
         class="building building_small column${jsColumn} row${jsRow} ${jsAvailable}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\
-        <div class="draftpool_building_cost opponent" style="display: ${jsDisplayCostOpponent}"><div class="coin"><span style="color: ${jsCostColorOpponent} !important">${jsCostOpponent}</span></div></div>\
-        <div class="draftpool_building_cost me" style="display: ${jsDisplayCostMe}"><div class="coin"><span style="color: ${jsCostColorMe} !important">${jsCostMe}</span></div></div>\
+        <div class="draftpool_building_cost opponent" style="display: ${jsDisplayCostOpponent}"><div class="coin"><span style="color: ${jsCostColorOpponent} !important">${jsCostOpponent}</span></div>\
+            <div\
+                class="linked_building_icon linked_building_icon_small"\
+                style="position: inline-block; background-position: -100% -100%;"\
+            ></div>\
+        </div>\
+        <div class="draftpool_building_cost me" style="display: ${jsDisplayCostMe}"><div class="coin"><span style="color: ${jsCostColorMe} !important">${jsCostMe}</span></div>\
+            <div\
+                class="linked_building_icon linked_building_icon_small"\
+                style="position: inline-block; background-position: -00% -00%;"\
+            ></div>\
+        </div>\
     </div>';
 
 // Keep title attribute empty. This overrides the title attribute of the player_building_column div.
