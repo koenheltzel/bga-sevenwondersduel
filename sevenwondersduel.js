@@ -371,6 +371,7 @@ define([
                     var spritesheetColumns = 10;
 
                     var data = {};
+                    data.ageRoman = "I".repeat(building.age);
                     data.name = building.name;
                     data.backx = ((id - 1) % spritesheetColumns);
                     data.backy = Math.floor((id - 1) / spritesheetColumns);
