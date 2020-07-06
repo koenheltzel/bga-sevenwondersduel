@@ -30,7 +30,7 @@ define([
             constructor: function () {
                 // Tooltip settings
                 this.dontScale = 0;
-                this.toolTipDelay = 500;
+                this.toolTipDelay = 750;
                 this.windowResizeTimeoutId = null;
                 this.playerTurnCardId = null;
                 this.playerTurnBuildingId = null;
@@ -53,6 +53,8 @@ define([
 
             setup: function (gamedatas) {
                 console.log("setup(gamedatas)", gamedatas);
+
+                dojo.destroy('debug_output'); // TODO: Remove? See http://en.doc.boardgamearena.com/Tools_and_tips_of_BGA_Studio#Speed_up_game_re-loading_by_disabling_Input.2FOutput_debug_section
 
                 this.gamedatas = gamedatas;
 
