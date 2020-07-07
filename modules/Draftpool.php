@@ -46,8 +46,7 @@ class Draftpool
             $columns = self::$ages[$age][$row_index];
             foreach($columns as $column) {
                 if(isset($cards[$locationArg])) {
-                    $building = Building::get($cards[$locationArg]['type_arg']);
-                    if ($building->id == $buildingId) {
+                    if ($cards[$locationArg]['id'] == $buildingId) {
                         // Last row is always available
                         $available = $row_index == count(self::$ages[$age]) - 1;
                         // Determine if card is available because other cards have revealed it.
