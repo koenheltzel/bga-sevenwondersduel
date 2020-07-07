@@ -18,6 +18,7 @@
 
 use SWD\Draftpool;
 use SWD\Material;
+use SWD\MilitaryTrack;
 use SWD\Player;
 use SWD\Wonder;
 use SWD\Wonders;
@@ -194,12 +195,21 @@ class SevenWondersDuel extends Table
         return parent::getCurrentPlayerId($bReturnNullIfNotLogged);
     }
 
+    public function getStartPlayerId() {
+        $players = $this->loadPlayersBasicInfos();
+        return array_shift($players)['player_id'];
+    }
+
     public function getCurrentAge() {
         return $this->getGameStateValue(self::VALUE_CURRENT_AGE);
     }
 
     public function getConflictPawnPosition() {
         return $this->getGameStateValue(self::VALUE_CONFLICT_PAWN_POSITION);
+    }
+
+    public function setConflictPawnPosition($value) {
+        return $this->setGameStateValue(self::VALUE_CONFLICT_PAWN_POSITION, $value);
     }
 
     public function getWonderSelectionRound() {
@@ -279,6 +289,7 @@ class SevenWondersDuel extends Table
         $sql = "SELECT player_id id, player_score score FROM player ";
         $players = self::getCollectionFromDb( $sql );
         $result['players'] = $players;
+        $result['startPlayerId'] = $this->getStartPlayerId();
         $result['playerIds'] = [];
         foreach($players as $player) {
             $result['playerIds'][] = $player['id'];
@@ -304,6 +315,7 @@ class SevenWondersDuel extends Table
         if (count($result['wondersSituation']['selection']) == 0) {
             $result['draftpool'] = Draftpool::get();
         }
+        $result['militaryTrack'] = MilitaryTrack::getData();
         $result['progressTokensBoard'] = arrayWithPropertyAsKeys($this->progressTokenDeck->getCardsInLocation('board'), 'location_arg');
         $result['buildingIdsToLinkIconId'] = Material::get()->buildingIdsToLinkIconId;
         $result['players'] = [

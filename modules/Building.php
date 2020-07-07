@@ -57,9 +57,8 @@ class Building extends Item {
      * @param $cardId
      * @return Payment
      */
-    public function construct(Player $player) {
-        $payment = parent::__construct($player);
-
+    public function construct(Player $player, $building = null) {
+        $payment = parent::construct($player);
 
         SevenWondersDuel::get()->buildingDeck->moveCard($this->id, $player->id);
         return $payment;

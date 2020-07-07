@@ -34,23 +34,26 @@ class Item
      * @param $cardId
      * @return Payment
      */
-    public function construct(Player $player) {
+    public function construct(Player $player, $building = null) {
         $payment = $player->calculateCost($this);
         $totalCost = $payment->totalCost();
         if ($totalCost > $player->getCoins()) {
-            throw new \BgaUserException(SevenWondersDuel::_("You can't afford the building you selected.") );
+            throw new \BgaUserException(clienttranslate("You can't afford the building you selected.") );
         }
 
         if ($totalCost > 0) {
             $player->increaseCoins(-$totalCost);
         }
-
         if ($this->victoryPoints > 0) {
             $player->increaseScore($this->victoryPoints);
         }
         if ($this->coins > 0) {
             $player->increaseCoins($this->coins);
         }
+        if ($this->military > 0) {
+            MilitaryTrack::movePawn(Player::me(), $this->military);
+        }
+        return $payment;
     }
 
     /**

@@ -5,6 +5,7 @@ namespace SWD\States;
 use SevenWondersDuel;
 use SWD\Building;
 use SWD\Draftpool;
+use SWD\MilitaryTrack;
 use SWD\Player;
 use SWD\Wonder;
 use SWD\Wonders;
@@ -41,7 +42,7 @@ trait PlayerTurnTrait {
                 'wondersSituation' => Wonders::getSituation(),
                 'playerCoins' => Player::me()->getCoins(),
                 'playerScore' => Player::me()->getScore(),
-                'conflictPawnPosition' => $this->getConflictPawnPosition(),
+                'militaryTrack' => MilitaryTrack::getData(),
             ]
         );
 
@@ -99,7 +100,7 @@ trait PlayerTurnTrait {
                 'wondersSituation' => Wonders::getSituation(),
                 'playerCoins' => Player::me()->getCoins(),
                 'playerScore' => Player::me()->getScore(),
-                'conflictPawnPosition' => $this->getConflictPawnPosition(),
+                'militaryTrack' => MilitaryTrack::getData(),
             ]
         );
 

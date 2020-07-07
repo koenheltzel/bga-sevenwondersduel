@@ -28,9 +28,8 @@ class Wonder extends Item {
      * @param Building $building
      * @return Payment
      */
-    public function construct(Player $player, $building) {
-        $payment = parent::__construct($player);
-
+    public function construct(Player $player, $building = null) {
+        $payment = parent::construct($player);
 
         SevenWondersDuel::get()->buildingDeck->moveCard($building->id, 'wonder' . $this->id);
         return $payment;

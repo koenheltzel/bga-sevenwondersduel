@@ -21,7 +21,7 @@ trait SelectWonderTrait {
         $cards = Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}");
         $index = array_search($wonderId, array_column($cards, 'id'));
         if ($index === false) {
-            throw new \BgaUserException( self::_("The wonder you selected is not available.") );
+            throw new \BgaUserException( clienttranslate("The wonder you selected is not available.") );
         }
         $card = $cards[$index]; // Get before we re-set the $cards variable.
         unset($cards[$index]);

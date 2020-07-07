@@ -66,6 +66,7 @@ define([
                 this.updateWondersSituation(this.gamedatas.wondersSituation);
                 this.updateDraftpool(this.gamedatas.draftpool, true);
                 this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
+                this.updateMilitaryTrack(this.gamedatas.militaryTrack);
 
                 // Setting up player boards
                 for (var player_id in gamedatas.players) {
@@ -299,7 +300,7 @@ define([
                     this.currentAge = draftpool.age; // This currentAge business is a bit of dirty check to prevent older notifications (due to animations finishing) arriving after newer notifications. Especially when a new age has arrived.
                     this.gamedatas.draftpool = draftpool;
 
-                    document.documentElement.style.setProperty('--draftpool-row-height-multiplier', draftpool.age == 3 ? 0.4 : 0.536);
+                    this.setCssVariable('--draftpool-row-height-multiplier', draftpool.age == 3 ? 0.4 : 0.536);
 
                     var animationDelay = 300; // Have some initial delay, so this function can finish updating the DOM.
                     for (var i = 0; i < draftpool.cards.length; i++) {
@@ -414,7 +415,6 @@ define([
                                     propertyTransform: {start: -40, end: 0},
                                 },
                                 onAnimate: function (values) {
-                                    console.log(this.node, values);
                                     dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg) scale(' + parseFloat(values.propertyScale.replace("px", "")) + ')');
                                 }
                             }).play();
@@ -458,6 +458,34 @@ define([
                 this.updateWonderSelection(situation.selection);
                 for (var player_id in this.gamedatas.players) {
                     this.updatePlayerWonders(player_id, situation[player_id]);
+                }
+            },
+
+            updateMilitaryTrack: function(militaryTrack) {
+                var oldPosition = this.gamedatas.militaryTrack.conflictPawn;
+                this.gamedatas.militaryTrack = militaryTrack;
+                var steps = Math.abs(oldPosition - militaryTrack.conflictPawn);
+                console.log('updateMilitaryTrack', 'A', oldPosition, 'B', militaryTrack.conflictPawn, 'C', steps);
+
+                if (oldPosition != militaryTrack.conflictPawn) {
+                    dojo.animateProperty({
+                        node: $('conflict_pawn'),
+                        duration: this.militaryTrackStepDuration * steps,
+                        easing: dojo.fx.easing.linear,
+                        properties: {
+                            propertyConflictPawnPosition: {
+                                start: this.me_id == this.gamedatas.startPlayerId ? -oldPosition : oldPosition,
+                                end: this.me_id == this.gamedatas.startPlayerId ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn
+                            }
+                        },
+                        onAnimate: dojo.hitch(this, function (values) {console.log('onAnimate vaues: ',values);
+                            this.setCssVariable('--conflict-pawn-position', parseFloat(values.propertyConflictPawnPosition.replace("px", "")));
+                        }),
+                    }).play();
+                }
+                else {
+                    // For the start of the game / F5
+                    this.setCssVariable('--conflict-pawn-position', this.me_id == this.gamedatas.startPlayerId ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn);
                 }
             },
 
@@ -1017,6 +1045,7 @@ define([
                 this.constructWonderAnimationDuration = 1600;
                 this.turnAroundCardDuration = 500;
                 this.putDraftpoolCard = 250;
+                this.militaryTrackStepDuration = 200;
 
                 dojo.subscribe('wonderSelected', this, "notif_wonderSelected");
                 dojo.subscribe('nextAge', this, "notif_nextAge");
@@ -1064,6 +1093,7 @@ define([
                 console.log('notif_constructBuilding', notif);
 
                 this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
+                this.updateMilitaryTrack(notif.args.militaryTrack);
                 this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
