@@ -32,6 +32,8 @@
     background-color: red;
     z-index: 50; opacity: 0.5; display: none"></div>
 <div id="swd_wrap" class="square" data-wonder-columns="1">
+    <div id="coin_animations">
+    </div>
     <div id="player_wonders_mobile_container_{PLAYER_OPPONENT_ID}">
         <div></div>
     </div>
@@ -245,6 +247,9 @@ var jstpl_board_progress_token = '\
         style="position: inline-block; background-position: -${jsX}00% -${jsY}00%;"\
     >\
     </div>';
+
+var jstpl_coin_me = '<div class="coin" style="position: absolute"></div>';
+var jstpl_coin_opponent = '<div class="coin opponent" style="position: absolute"></div>';
 
 var jstpl_tooltip_cost_me = '\
     <h3 class="me">Current construction cost for you: ${jsCoinHtml}</h3>\

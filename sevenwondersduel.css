@@ -149,7 +149,7 @@ __     __         _       _     _
     margin: 0px;
 }
 
-.opponent .coin {
+.opponent .coin, .coin.opponent {
     background-image: url('img/tmp_coin_opponent.png');
 }
 .coin {
@@ -163,6 +163,7 @@ __     __         _       _     _
     box-shadow:
         calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px calc(var(--scale) * 1px) #00000060;
+    position: absolute;
 }
 .coin>span {
     font-weight: bold;
@@ -170,6 +171,11 @@ __     __         _       _     _
     line-height: 30px !important;
     text-shadow: 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white;
     color:black;
+}
+#coin_animations {
+    zoom: var(--scale);
+    position: absolute;
+    z-index:100;
 }
 
 @keyframes tooltipWiggle {
@@ -723,6 +729,7 @@ __     __         _       _     _
 
     width: calc(var(--scale) * 30px);
     height: calc(var(--scale) * 30px);
+    position: relative;
 }
 
 /*

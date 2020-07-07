@@ -329,11 +329,11 @@ define([
                             spriteId = position.building;
                             data.jsId = position.building;
                             data.jsDisplayCostMe = position.available ? 'block' : 'none',
-                            data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playerCoins[this.me_id]),
-                            data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
+                                data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playerCoins[this.me_id]),
+                                data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
                             data.jsDisplayCostOpponent = position.available ? 'block' : 'none',
-                            data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playerCoins[this.opponent_id]),
-                            data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
+                                data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playerCoins[this.opponent_id]),
+                                data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
 
                             // Linked building symbol
                             linkedBuildingId = this.gamedatas.buildings[position.building].linkedBuilding;
@@ -429,6 +429,88 @@ define([
                     this.updateLayout();
                 }
 
+            },
+
+            animateCoins: function(sourceNode, targetNode, amount) {
+                this.coin_slide_duration = 400;
+                this.coin_slide_delay = 100;
+
+                if (1) {
+                    console.log('sourceNode', sourceNode, 'targetNode', targetNode);
+                    var anims = [];
+                    var html = this.format_block('jstpl_coin_me');
+                    for (var i = 0; i < amount; i++) {
+                        console.log(html, 'swd_wrap', sourceNode, targetNode, this.coin_slide_duration, i * this.coin_slide_delay );
+                        var anim = this.slideTemporaryObject(html, 'swd_wrap', sourceNode, targetNode, this.coin_slide_duration, i * this.coin_slide_delay );
+                        anims.push(anim);
+                    }
+                    var anim = dojo.fx.chain(
+                        anims
+                    );
+
+                    anim.play();
+                }
+                if (0) {
+                    var targetPosition = dojo.position(targetNode);
+
+                    var anims = [];
+                    var html = this.format_block('jstpl_coin_me');
+                    for (var i = 0; i < amount; i++) {
+                        console.log(html, 'swd_wrap', sourceNode, targetNode, this.coin_slide_duration, i * this.coin_slide_delay );
+
+                        var node = dojo.place(html, 'swd_wrap');
+                        this.placeOnObject(node, sourceNode)
+                        var delay = i * this.coin_slide_delay;
+                        var anim = dojo.fx.combine([
+                            // dojo.fadeIn({
+                            //     node: node,
+                            //     delay: delay,
+                            //     duration: 0.1 * this.coin_slide_duration,
+                            // }),
+                            dojo.fx.slideTo({
+                                node: node,
+                                top: targetPosition.y * this.getCssVariable('--scale'),
+                                left: targetPosition.x * this.getCssVariable('--scale'),
+                                units: "px"
+                            }),
+                            // this.slideToObject(node, targetNode, this.coin_slide_duration, delay ),
+                            // dojo.fadeOut({
+                            //     node: node,
+                            //     delay: delay + 0.9 * this.coin_slide_duration,
+                            //     duration: 0.1 * this.coin_slide_duration,
+                            // }),
+                        ])
+                        anims.push(anim);
+                    }
+                    var anim = dojo.fx.chain(
+                        anims
+                    );
+
+                    anim.play();
+                }
+                if (0) {
+                    var anims = [];
+                    var html = this.format_block('jstpl_coin_me');
+                    for (var i = 0; i < amount; i++) {
+                        console.log(html, 'swd_wrap', sourceNode, targetNode, this.coin_slide_duration, i * this.coin_slide_delay);
+
+                        var node = dojo.place(html, targetNode.parentNode);
+                        this.placeOnObjectPos(node, sourceNode, 0, 0);
+                        // dojo.style(node, 'top')
+
+                        var anim = dojo.fx.combine([
+                            // dojo.fadeIn({
+                            //     node: node,
+                            //     duration: this.constructBuildingAnimationDuration * 0.4
+                            // }),
+                            this.slideToObjectPos(node, targetNode, 0, 0, this.coin_slide_duration, i * this.coin_slide_delay)
+                        // dojo.fadeIn({node: playerBuildingId, duration: this.constructBuildingAnimationDuration * 0.4}),
+                        ]);
+                        anims.push(anim);
+                    }
+                    var anim = dojo.fx.combine(anims);
+                    // anim.play();
+                }
             },
 
             getCostValue: function(cost) {
@@ -1128,22 +1210,28 @@ define([
             notif_discardBuilding: function (notif) {
                 console.log('notif_discardBuilding', notif);
 
+
                 this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
 
                 // var buildingNodeId = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0].attr('id');
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
-                var anim = dojo.fadeOut({
-                    node: buildingNode,
-                    duration: this.discardBuildingAnimationDuration,
-                    onEnd: dojo.hitch(this, function () {
-                        dojo.destroy(buildingNode);
-                        this.updateDraftpool(notif.args.draftpool);
-                        this.updateWondersSituation(notif.args.wondersSituation);
-                    })
-                });
-
-                anim.play();
+                this.animateCoins(
+                    dojo.query('.me .coin', buildingNode)[0],
+                    dojo.query('.player_info.me .coin')[0],
+                    10
+                );
+                // var anim = dojo.fadeOut({
+                //     node: buildingNode,
+                //     duration: this.discardBuildingAnimationDuration,
+                //     onEnd: dojo.hitch(this, function () {
+                //         dojo.destroy(buildingNode);
+                //         this.updateDraftpool(notif.args.draftpool);
+                //         this.updateWondersSituation(notif.args.wondersSituation);
+                //     })
+                // });
+                //
+                // anim.play();
             },
 
             notif_constructWonder: function (notif) {
