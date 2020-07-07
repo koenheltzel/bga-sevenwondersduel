@@ -211,8 +211,10 @@ define([
 
             hideTooltip: function() {
                 // Thanks to https://stackoverflow.com/a/35984527
-                dijit.Tooltip._masterTT.containerNode.innerHTML='';
-                dojo.removeClass(dijit.Tooltip._masterTT.id, "dijitTooltip");
+                if (dijit.Tooltip._masterTT) {
+                    dijit.Tooltip._masterTT.containerNode.innerHTML='';
+                    dojo.removeClass(dijit.Tooltip._masterTT.id, "dijitTooltip");
+                }
             },
 
             updatePlayerWonders: function (playerId, rows) {
@@ -759,6 +761,10 @@ define([
                     dojo.addClass($('buttonConstructWonder'), canAffordWonder ? 'bgabutton_blue' : 'bgabutton_darkgray');
 
                     dojo.setStyle('draftpool_actions', 'visibility', 'visible');
+
+                    this.setClientState("client_useAgeCard", {
+                        descriptionmyturn : "${you} must choose the action for the age card, or select a different age card.",
+                    });
                 }
             },
 
@@ -850,6 +856,10 @@ define([
                             }
                         }
                     }));
+
+                    this.setClientState("client_useAgeCard", {
+                        descriptionmyturn : "${you} must select a wonder to construct, or select a different card or action.",
+                    });
                 }
             },
             onPlayerTurnConstructWonderSelectedClick: function (e) {
@@ -1020,10 +1030,10 @@ define([
                 this.notifqueue.setSynchronous( 'constructBuilding', this.constructBuildingAnimationDuration );
 
                 dojo.subscribe('discardBuilding', this, "notif_discardBuilding");
-                this.notifqueue.setSynchronous( 'constructBuilding', this.discardBuildingAnimationDuration );
+                this.notifqueue.setSynchronous( 'discardBuilding', this.discardBuildingAnimationDuration );
 
                 dojo.subscribe('constructWonder', this, "notif_constructWonder");
-                this.notifqueue.setSynchronous( 'constructBuilding', this.constructWonderAnimationDuration );
+                this.notifqueue.setSynchronous( 'constructWonder', this.constructWonderAnimationDuration );
 
                 dojo.subscribe('updateDraftpool', this, "notif_updateDraftpool");
             },
