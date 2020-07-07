@@ -126,8 +126,8 @@ $machinestates = [
 
     SevenWondersDuel::STATE_PLAYER_TURN_ID => [
         "name" => SevenWondersDuel::STATE_PLAYER_TURN_NAME,
-        "description" => clienttranslate('${actplayer} must select an age card.'),
-        "descriptionmyturn" => clienttranslate('${you} must select an age card to construct, discard or construct a wonder with.'),
+        "description" => clienttranslate('${actplayer} must choose and use an age card.'),
+        "descriptionmyturn" => clienttranslate('${you} must choose an age card.'),
         "type" => "activeplayer",
         "action" => "enterStatePlayerTurn",
         "possibleactions" => [
