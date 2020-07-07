@@ -22,42 +22,27 @@ trait PlayerTurnTrait {
 //        );
     }
 
-    private function checkBuildingAvailable($cardId) {
-        $age = SevenWondersDuel::get()->getCurrentAge();
-        $cards = $this->buildingDeck->getCardsInLocation("age{$age}");
-        if (!array_key_exists($cardId, $cards)) {
-            throw new \BgaUserException( self::_("The building you selected is not available.") );
-        }
-
-        if (!Draftpool::buildingAvailable($cards[$cardId]['type_arg'])) {
-            throw new \BgaUserException( self::_("The building you selected is still covered by other buildings, so it can't be picked.") );
-        }
-        return $cards[$cardId];
-    }
-
     public function actionConstructBuilding($cardId) {
         $this->checkAction("actionConstructBuilding");
 
-        $playerId = self::getCurrentPlayerId();
-
-        $card = $this->checkBuildingAvailable($cardId);
-
+        $card = Building::checkBuildingAvailable($cardId);
         $building = Building::get($card['type_arg']);
-        $cost = $building->construct(Player::get($playerId), $cardId);
+        $payment = $building->construct(Player::me(), $cardId);
 
         $this->notifyAllPlayers(
             'constructBuilding',
             clienttranslate('${player_name} constructed building ${buildingName} for ${cost}.'),
             [
                 'buildingName' => $building->name,
-                'cost' => $cost > 0 ? $cost . " " . COINS : 'free',
+                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : 'free',
                 'player_name' => $this->getCurrentPlayerName(),
-                'playerId' => $playerId,
+                'playerId' => Player::me()->id,
                 'buildingId' => $building->id,
                 'draftpool' => Draftpool::get(),
                 'wondersSituation' => Wonders::getSituation(),
-                'playerCoins' => Player::get($playerId)->getCoins(),
+                'playerCoins' => Player::me()->getCoins(),
                 'playerScore' => Player::me()->getScore(),
+                'conflictPawnPosition' => $this->getConflictPawnPosition(),
             ]
         );
 
@@ -67,16 +52,9 @@ trait PlayerTurnTrait {
     public function actionDiscardBuilding($cardId) {
         $this->checkAction("actionDiscardBuilding");
 
-        $playerId = self::getCurrentPlayerId();
-
-        $card = $this->checkBuildingAvailable($cardId);
-
+        $card = Building::checkBuildingAvailable($cardId);
         $building = Building::get($card['type_arg']);
-
-        $discardGain = Player::me()->calculateDiscardGain($building);
-        Player::me()->increaseCoins($discardGain);
-
-        $this->buildingDeck->moveCard($cardId, 'discard');
+        $discardGain = $building->discard(Player::me(), $cardId);
 
         $this->notifyAllPlayers(
             'discardBuilding',
@@ -85,7 +63,7 @@ trait PlayerTurnTrait {
                 'buildingName' => $building->name,
                 'gain' => $discardGain . " " . COINS,
                 'player_name' => $this->getCurrentPlayerName(),
-                'playerId' => $playerId,
+                'playerId' => Player::me()->id,
                 'buildingId' => $building->id,
                 'draftpool' => Draftpool::get(),
                 'wondersSituation' => Wonders::getSituation(),
@@ -97,32 +75,13 @@ trait PlayerTurnTrait {
 
     }
 
-    public function actionConstructWonder($cardId, $wonderId) {
+    public function actionConstructWonder($buildingCardId, $wonderId) {
         $this->checkAction("actionConstructWonder");
 
-        $playerId = self::getCurrentPlayerId();
-
-        $card = $this->checkBuildingAvailable($cardId);
-
-        if (!in_array($wonderId, Player::me()->getWonderIds())) {
-            throw new \BgaUserException( self::_("The wonder you selected is not available.") );
-        }
+        $card = Building::checkBuildingAvailable($buildingCardId);
         $wonder = Wonder::get($wonderId);
-        if ($wonder->isConstructed()) {
-            throw new \BgaUserException( self::_("The wonder you selected has already been constructed.") );
-        }
-
-        $payment = Player::me()->calculateCost($wonder);
-        $totalCost = $payment->totalCost();
-        if ($totalCost > Player::me()->getCoins()) {
-            throw new \BgaUserException( self::_("You can't afford the wonder you selected.") );
-        }
-
-        if ($totalCost > 0) {
-            Player::me()->increaseCoins(-$totalCost);
-        }
-
-        $this->buildingDeck->moveCard($cardId, 'wonder' . $wonderId);
+        $wonder->checkWonderAvailable();
+        $payment = $wonder->construct($buildingCardId);
 
         $building = Building::get($card['type_arg']);
         $this->notifyAllPlayers(
@@ -130,16 +89,17 @@ trait PlayerTurnTrait {
             clienttranslate('${player_name} constructed wonder ${wonderName} for ${cost} using ${buildingName}.'),
             [
                 'buildingName' => $building->name,
-                'cost' => $totalCost > 0 ? $totalCost . " " . COINS : 'free',
+                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : 'free',
                 'wonderName' => $wonder->name,
                 'player_name' => $this->getCurrentPlayerName(),
-                'playerId' => $playerId,
+                'playerId' => Player::me()->id,
                 'buildingId' => $building->id,
                 'wonderId' => $wonder->id,
                 'draftpool' => Draftpool::get(),
                 'wondersSituation' => Wonders::getSituation(),
                 'playerCoins' => Player::me()->getCoins(),
                 'playerScore' => Player::me()->getScore(),
+                'conflictPawnPosition' => $this->getConflictPawnPosition(),
             ]
         );
 

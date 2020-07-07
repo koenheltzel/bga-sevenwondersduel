@@ -40,6 +40,28 @@ class Building extends Item {
         parent::__construct($id, $name);
     }
 
+    /**
+     * @param $cardId
+     * @return array
+     */
+    public static function checkBuildingAvailable($cardId) {
+        $age = SevenWondersDuel::get()->getCurrentAge();
+        $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
+        if (!array_key_exists($cardId, $cards)) {
+            throw new \BgaUserException( self::_("The building you selected is not available.") );
+        }
+
+        if (!Draftpool::buildingAvailable($cards[$cardId]['type_arg'])) {
+            throw new \BgaUserException( self::_("The building you selected is still covered by other buildings, so it can't be picked.") );
+        }
+        return $cards[$cardId];
+    }
+
+    /**
+     * @param Player $player
+     * @param $cardId
+     * @return Payment
+     */
     public function construct(Player $player, $cardId) {
         $payment = $player->calculateCost($this);
         $totalCost = $payment->totalCost();
@@ -59,7 +81,20 @@ class Building extends Item {
         }
 
         SevenWondersDuel::get()->buildingDeck->moveCard($cardId, $player->id);
-        return $totalCost;
+        return $payment;
+    }
+
+    /**
+     * @param Player $player
+     * @param $cardId
+     * @return int
+     */
+    public function discard(Player $player, $cardId) {
+        $discardGain = $player->calculateDiscardGain($this);
+        $player->increaseCoins($discardGain);
+
+        SevenWondersDuel::get()->buildingDeck->moveCard($cardId, 'discard');
+        return $discardGain;
     }
 
     /**

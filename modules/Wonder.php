@@ -2,6 +2,8 @@
 
 namespace SWD;
 
+use SevenWondersDuel;
+
 class Wonder extends Item {
 
     /**
@@ -10,6 +12,39 @@ class Wonder extends Item {
      */
     public static function get($id) {
         return Material::get()->wonders[$id];
+    }
+
+    /**
+     * @param $cardId
+     * @return array
+     */
+    public function checkWonderAvailable() {
+        if (!in_array($this->id, Player::me()->getWonderIds())) {
+            throw new \BgaUserException( self::_("The wonder you selected is not available.") );
+        }
+
+        if ($this->isConstructed()) {
+            throw new \BgaUserException( self::_("The wonder you selected has already been constructed.") );
+        }
+    }
+
+    /**
+     * @param $buildingCardId
+     * @return Payment
+     */
+    public function construct($buildingCardId) {
+        $payment = Player::me()->calculateCost($this);
+        $totalCost = $payment->totalCost();
+        if ($totalCost > Player::me()->getCoins()) {
+            throw new \BgaUserException( self::_("You can't afford the wonder you selected.") );
+        }
+
+        if ($totalCost > 0) {
+            Player::me()->increaseCoins(-$totalCost);
+        }
+
+        SevenWondersDuel::get()->buildingDeck->moveCard($buildingCardId, 'wonder' . $this->id);
+        return $payment;
     }
 
     /**
