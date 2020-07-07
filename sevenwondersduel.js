@@ -696,6 +696,7 @@ define([
                     }
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSelectWonder.html", {
+                            lock: true,
                             cardId: wonder.attr('data-card-id')
                         },
                         this, function (result) {
@@ -774,6 +775,7 @@ define([
                     }
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
+                            lock: true,
                             cardId: this.playerTurnCardId
                         },
                         this, function (result) {
@@ -806,6 +808,7 @@ define([
                     }
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
+                            lock: true,
                             cardId: this.playerTurnCardId
                         },
                         this, function (result) {
@@ -862,6 +865,7 @@ define([
                     }
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
+                            lock: true,
                             cardId: this.playerTurnCardId,
                             wonderId: dojo.attr(e.target, "data-wonder-id"),
                         },
