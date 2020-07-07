@@ -134,6 +134,7 @@ class SevenWondersDuel extends Table
 
     const VALUE_CURRENT_WONDER_SELECTION_ROUND = "current_wonder_selection_round";
     const VALUE_CURRENT_AGE = "current_age";
+    const VALUE_CONFLICT_PAWN_POSITION = "conflict_pawn_position";
 
 
     /**
@@ -166,6 +167,7 @@ class SevenWondersDuel extends Table
         self::initGameStateLabels( array(
                 self::VALUE_CURRENT_WONDER_SELECTION_ROUND => 10,
                 self::VALUE_CURRENT_AGE => 11,
+                self::VALUE_CONFLICT_PAWN_POSITION => 12,
             //    "my_second_global_variable" => 11,
             //      ...
             //    "my_first_game_variant" => 100,
@@ -194,6 +196,10 @@ class SevenWondersDuel extends Table
 
     public function getCurrentAge() {
         return $this->getGameStateValue(self::VALUE_CURRENT_AGE);
+    }
+
+    public function getConflictPawnPosition() {
+        return $this->getGameStateValue(self::VALUE_CONFLICT_PAWN_POSITION);
     }
 
     public function getWonderSelectionRound() {

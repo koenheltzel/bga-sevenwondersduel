@@ -86,6 +86,7 @@
                 <!-- BEGIN board -->
                 <div id="board_container">
                     <div class="board"></div>
+                    <div class="pawn"></div>
                     <div id="board_progress_tokens">
                         <div></div>
                         <div></div>
