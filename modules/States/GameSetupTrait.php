@@ -20,7 +20,7 @@ trait GameSetupTrait
         $this->wonderDeck->pickCardsForLocation(4, 'deck', 'selection2');
         $this->wonderDeck->shuffle('selection2'); // Ensures we have defined card_location_arg
         $this->wonderDeck->moveAllCardsInLocation('deck', 'box');
-        // Make the card ids match our material ids
+        // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and wonder ids.
         self::DbQuery( "UPDATE wonder SET card_id = card_type_arg + 1000" );
         self::DbQuery( "UPDATE wonder SET card_id = card_id - 1000" );
 
@@ -38,7 +38,7 @@ trait GameSetupTrait
         $this->buildingDeck->shuffle( 'age3' );
         // Return the remaining Guilds to the box.
         $this->buildingDeck->moveAllCardsInLocation( 'guilds', 'box');
-        // Make the card ids match our material ids
+        // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and building ids.
         self::DbQuery( "UPDATE building SET card_id = card_type_arg + 1000" );
         self::DbQuery( "UPDATE building SET card_id = card_id - 1000" );
 
@@ -49,7 +49,7 @@ trait GameSetupTrait
         $this->progressTokenDeck->shuffle('board'); // Ensures we have defined card_location_arg
         // Return the remaining Progress Tokens to the box.
         $this->progressTokenDeck->moveAllCardsInLocation('deck', 'box');
-        // Make the card ids match our material ids
+        // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and progress token ids.
         self::DbQuery( "UPDATE progress_token SET card_id = card_type_arg + 1000" );
         self::DbQuery( "UPDATE progress_token SET card_id = card_id - 1000" );
 
