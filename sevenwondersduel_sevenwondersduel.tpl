@@ -215,7 +215,6 @@ var jstpl_wonder = '\
     <div id="wonder_${jsId}_container" class="wonder_container">\
         <div id="wonder_${jsId}"\
             data-wonder-id="${jsId}"\
-            data-card-id="${jsCardId}"\
             class="wonder wonder_small"\
             style="background-position: -${jsX}00% -${jsY}00%; "\
         >\

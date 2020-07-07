@@ -195,9 +195,8 @@ define([
                 return this.format_block('jstpl_player_building', data);
             },
 
-            getWonderDivHtml: function (cardId, wonderId, displayCost, cost, playerCoins) {
+            getWonderDivHtml: function (wonderId, displayCost, cost, playerCoins) {
                 var data = {
-                    jsCardId: cardId,
                     jsId: wonderId,
                     jsDisplayCost: displayCost ? 'inline-block' : 'none',
                     jsCost: this.getCostValue(cost),
@@ -262,7 +261,7 @@ define([
                         var card = cards[index];
                         var container = dojo.query('#wonder_selection_container>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
                         dojo.empty(container);
-                        dojo.place(this.getWonderDivHtml(card.id, card.type_arg, false), container);
+                        dojo.place(this.getWonderDivHtml(card.id, false), container);
                         position++;
                     }));
 
@@ -699,7 +698,7 @@ define([
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSelectWonder.html", {
                             lock: true,
-                            cardId: wonder.attr('data-card-id')
+                            wonderId: wonder.attr('data-wonder-id')
                         },
                         this, function (result) {
                             // What to do after the server call if it succeeded

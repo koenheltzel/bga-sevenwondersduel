@@ -12,14 +12,14 @@ trait SelectWonderTrait {
 
     }
 
-    public function actionSelectWonder($cardId){
+    public function actionSelectWonder($wonderId){
         $this->checkAction("actionSelectWonder");
 
         $playerId = self::getCurrentPlayerId();
 
         $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
         $cards = Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}");
-        $index = array_search($cardId, array_column($cards, 'id'));
+        $index = array_search($wonderId, array_column($cards, 'id'));
         if ($index === false) {
             throw new \BgaUserException( self::_("The wonder you selected is not available.") );
         }
@@ -27,7 +27,7 @@ trait SelectWonderTrait {
         unset($cards[$index]);
 
         $playerWonderCount = count(Player::me()->getWonders()->array) + 1;
-        $this->wonderDeck->moveCard($cardId, $playerId, $playerWonderCount);
+        $this->wonderDeck->moveCard($wonderId, $playerId, $playerWonderCount);
 
         // Renew the selection pool after the last wonder from the first pool was selected.
         if (count($cards) == 0 && $wonderSelectionRound == 1) {
