@@ -281,7 +281,6 @@ define([
             },
 
             getDraftpoolCardData: function (buildingId) {
-                console.log('this.playerTurnBuildingId', this.playerTurnBuildingId);
                 for (var i = 0; i < this.gamedatas.draftpool.cards.length; i++) {
                     var position = this.gamedatas.draftpool.cards[i];
                     if (typeof position.building != 'undefined' && position.building == buildingId) {
@@ -293,12 +292,12 @@ define([
 
             updateDraftpool: function (draftpool, setupGame) {
                 if (typeof setupGame == 'undefined') setupGame = false;
+                console.log('updateDraftpool: ', draftpool, setupGame, 'age: ', draftpool.age);
 
                 dojo.style('draftpool_container', 'display', draftpool.age > 0 ? 'block' : 'none');
                 if (draftpool.age > 0 && draftpool.age >= this.currentAge) {
                     this.currentAge = draftpool.age; // This currentAge business is a bit of dirty check to prevent older notifications (due to animations finishing) arriving after newer notifications. Especially when a new age has arrived.
                     this.gamedatas.draftpool = draftpool;
-                    console.log('updateDraftpool: ', draftpool);
 
                     document.documentElement.style.setProperty('--draftpool-row-height-multiplier', draftpool.age == 3 ? 0.4 : 0.536);
 
