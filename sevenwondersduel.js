@@ -29,7 +29,7 @@ define([
         return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
             constructor: function () {
                 // Tooltip settings
-                this.dontScale = 0;
+                this.dontScale = 1;
                 this.toolTipDelay = 750;
                 this.windowResizeTimeoutId = null;
                 this.playerTurnBuildingId = null;
@@ -1221,17 +1221,17 @@ define([
                     dojo.query('.player_info.me .coin')[0],
                     10
                 );
-                // var anim = dojo.fadeOut({
-                //     node: buildingNode,
-                //     duration: this.discardBuildingAnimationDuration,
-                //     onEnd: dojo.hitch(this, function () {
-                //         dojo.destroy(buildingNode);
-                //         this.updateDraftpool(notif.args.draftpool);
-                //         this.updateWondersSituation(notif.args.wondersSituation);
-                //     })
-                // });
-                //
-                // anim.play();
+                var anim = dojo.fadeOut({
+                    node: buildingNode,
+                    duration: this.discardBuildingAnimationDuration,
+                    onEnd: dojo.hitch(this, function () {
+                        dojo.destroy(buildingNode);
+                        this.updateDraftpool(notif.args.draftpool);
+                        this.updateWondersSituation(notif.args.wondersSituation);
+                    })
+                });
+
+                anim.play();
             },
 
             notif_constructWonder: function (notif) {
