@@ -51,7 +51,7 @@ class Player extends \APP_DbObject{
                     return self::get($playerId);
                 }
             }
-            throw new BgaSystemException(self::_("Opponent object couldn't be constructed."));
+            throw new \BgaSystemException(clienttranslate("Opponent object couldn't be constructed."));
         }
     }
 
@@ -222,16 +222,16 @@ class Player extends \APP_DbObject{
                         foreach($combinations[$cheapestCombinationIndex] as $choiceItemIndex => $resource) {
                             if (isset($costLeft[$resource])) {
                                 $itemType = substr($choiceItemIds[$choiceItemIndex], 0, 1);
-                                $cardId = substr($choiceItemIds[$choiceItemIndex], 1);
+                                $itemId = substr($choiceItemIds[$choiceItemIndex], 1);
                                 switch ($itemType) {
                                     case Item::TYPE_BUILDING:
-                                        $building = Building::get($cardId);
+                                        $building = Building::get($itemId);
                                         $string = "Produce 1 {$resource} with building “{$building->name}”.";
                                         if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
                                         $payment->addStep($resource, 1, 0, Item::TYPE_BUILDING, $building->id, $string);
                                         break;
                                     case Item::TYPE_WONDER:
-                                        $wonder = Wonder::get($cardId);
+                                        $wonder = Wonder::get($itemId);
                                         $string = "Produce 1 {$resource} with wonder “{$wonder->name}”.";
                                         if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
                                         $payment->addStep($resource, 1, 0, Item::TYPE_WONDER, $wonder->id, $string);
@@ -351,9 +351,8 @@ class Player extends \APP_DbObject{
         $cards = $this->getWonderDeckCards();
         $rows = [];
         foreach($cards as $card) {
-            $wonder = Wonder::get($card['type_arg']);
+            $wonder = Wonder::get($card['id']);
             $row = [];
-            $row['card'] = (int)$card['id'];
             $row['wonder'] = $wonder->id;
             $row['constructed'] = $wonder->isConstructed();
             $payment = $this->calculateCost($wonder);
@@ -402,11 +401,7 @@ class Player extends \APP_DbObject{
             return $this->buildingIds;
         }
         else {
-            $buildingIds = [];
-            foreach ($this->getBuildingDeckCards() as $cardId => $card) {
-                $buildingIds[] = $card['type_arg'];
-            }
-            return $buildingIds;
+            return array_column($this->getBuildingDeckCards(), 'id');
         }
     }
 
@@ -418,11 +413,7 @@ class Player extends \APP_DbObject{
             return $this->wonderIds;
         }
         else {
-            $wonderIds = [];
-            foreach ($this->getWonderDeckCards() as $cardId => $card) {
-                $wonderIds[] = $card['type_arg'];
-            }
-            return $wonderIds;
+            return array_column($this->getWonderDeckCards(), 'id');
         }
     }
 

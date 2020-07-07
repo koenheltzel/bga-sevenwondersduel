@@ -22,12 +22,11 @@ trait PlayerTurnTrait {
 //        );
     }
 
-    public function actionConstructBuilding($cardId) {
+    public function actionConstructBuilding($buildingId) {
         $this->checkAction("actionConstructBuilding");
 
-        $card = Building::checkBuildingAvailable($cardId);
-        $building = Building::get($card['type_arg']);
-        $payment = $building->construct(Player::me(), $cardId);
+        $building = Building::get($buildingId);
+        $payment = $building->construct(Player::me());
 
         $this->notifyAllPlayers(
             'constructBuilding',
@@ -49,12 +48,12 @@ trait PlayerTurnTrait {
         $this->gamestate->nextState( self::STATE_CONSTRUCT_BUILDING_NAME);
     }
 
-    public function actionDiscardBuilding($cardId) {
+    public function actionDiscardBuilding($buildingId) {
         $this->checkAction("actionDiscardBuilding");
 
-        $card = Building::checkBuildingAvailable($cardId);
-        $building = Building::get($card['type_arg']);
-        $discardGain = $building->discard(Player::me(), $cardId);
+        $building = Building::get($buildingId);
+        $building->checkBuildingAvailable();
+        $discardGain = $building->discard(Player::me());
 
         $this->notifyAllPlayers(
             'discardBuilding',
@@ -75,15 +74,16 @@ trait PlayerTurnTrait {
 
     }
 
-    public function actionConstructWonder($buildingCardId, $wonderId) {
+    public function actionConstructWonder($buildingId, $wonderId) {
         $this->checkAction("actionConstructWonder");
 
-        $card = Building::checkBuildingAvailable($buildingCardId);
+        $building = Building::get($buildingId);
+        $building->checkBuildingAvailable();
+
         $wonder = Wonder::get($wonderId);
         $wonder->checkWonderAvailable();
-        $payment = $wonder->construct($buildingCardId);
+        $payment = $wonder->construct($building);
 
-        $building = Building::get($card['type_arg']);
         $this->notifyAllPlayers(
             'constructWonder',
             clienttranslate('${player_name} constructed wonder ${wonderName} for ${cost} using ${buildingName}.'),

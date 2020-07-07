@@ -87,7 +87,7 @@ class Draftpool
             $columns = array_reverse($columns); // Since we do array_unshift later we reverse here, so when updating the draftpool it happens from left to right.
             foreach($columns as $column) {
                 if(isset($cards[$locationArg])) {
-                    $building = Building::get($cards[$locationArg]['type_arg']);
+                    $building = Building::get($cards[$locationArg]['id']);
                     $position = [
                         'row' => $row_index + 1,
                         'column' => $column,
@@ -102,7 +102,6 @@ class Draftpool
                     if ($cardvisible) {
                         $position['available'] = $available;
                         $position['building'] = $building->id;
-                        $position['card'] = (int)$cards[$locationArg]['id'];
 
                         // Cost and payment plan for each player
                         $position['cost'] = [];

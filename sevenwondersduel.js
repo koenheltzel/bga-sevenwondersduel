@@ -32,7 +32,6 @@ define([
                 this.dontScale = 0;
                 this.toolTipDelay = 750;
                 this.windowResizeTimeoutId = null;
-                this.playerTurnCardId = null;
                 this.playerTurnBuildingId = null;
                 this.playerTurnNode = null;
                 this.currentAge = 0;
@@ -162,7 +161,7 @@ define([
 
                 for (var i = 0; i < 5; i++) {
                     var location = progressTokensBoard[i];
-                    var progressToken = this.gamedatas.progressTokens[location.type_arg];
+                    var progressToken = this.gamedatas.progressTokens[location.id];
                     var container = dojo.query('#board_progress_tokens>div:nth-of-type(' + (i + 1) + ')')[0];
                     dojo.empty(container);
                     if (typeof location != 'undefined') {
@@ -183,9 +182,8 @@ define([
                 $('player_area_' + playerId + '_coins').innerHTML = coins;
             },
 
-            getBuildingDivHtml: function (id, cardId) {
+            getBuildingDivHtml: function (id) {
                 var data = {
-                    jsCardId: cardId,
                     jsId: id,
                 };
                 var spritesheetColumns = 10;
@@ -196,6 +194,7 @@ define([
             },
 
             getWonderDivHtml: function (wonderId, displayCost, cost, playerCoins) {
+                console.log('wonderId, displayCost, cost, playerCoins', wonderId, displayCost, cost, playerCoins);
                 var data = {
                     jsId: wonderId,
                     jsDisplayCost: displayCost ? 'inline-block' : 'none',
@@ -223,7 +222,7 @@ define([
                     var container = dojo.query('.player_wonders.player' + playerId + '>div:nth-of-type(' + i + ')')[0];
                     dojo.empty(container);
                     var row = rows[index];
-                    var wonderDivHtml = this.getWonderDivHtml(row.card, row.wonder, row.constructed == 0, row.cost, this.gamedatas.playerCoins[playerId]);
+                    var wonderDivHtml = this.getWonderDivHtml(row.wonder, row.constructed == 0, row.cost, this.gamedatas.playerCoins[playerId]);
                     var wonderDiv = dojo.place(wonderDivHtml, container);
                     if (row.constructed > 0) {
                         var age = row.constructed;
@@ -244,10 +243,10 @@ define([
             updatePlayerBuildings: function (playerId, cards) {
                 if (cards.constructor == Object) {
                     var i = 1;
-                    Object.keys(cards).forEach(dojo.hitch(this, function (cardId) {
-                        var building = this.gamedatas.buildings[cards[cardId].type_arg];
+                    Object.keys(cards).forEach(dojo.hitch(this, function (buildingId) {
+                        var building = this.gamedatas.buildings[buildingId];
                         var container = dojo.query('.player_buildings.player' + playerId + ' .' + building.type)[0];
-                        dojo.place(this.getBuildingDivHtml(cards[cardId].type_arg, cardId), container);
+                        dojo.place(this.getBuildingDivHtml(buildingId), container);
                         i++;
                     }));
                 }
@@ -282,9 +281,10 @@ define([
             },
 
             getDraftpoolCardData: function (buildingId) {
+                console.log('this.playerTurnBuildingId', this.playerTurnBuildingId);
                 for (var i = 0; i < this.gamedatas.draftpool.cards.length; i++) {
                     var position = this.gamedatas.draftpool.cards[i];
-                    if (typeof position.card != 'undefined' && position.building == buildingId) {
+                    if (typeof position.building != 'undefined' && position.building == buildingId) {
                         return position;
                     }
                 }
@@ -312,7 +312,6 @@ define([
                         var linkedBuildingId = 0;
                         var data = {
                             jsId: '',
-                            jsCardId: '',
                             jsRow: position.row,
                             jsColumn: position.column,
                             jsZindex: position.row,
@@ -329,7 +328,6 @@ define([
                         if (typeof position.building != 'undefined') {
                             spriteId = position.building;
                             data.jsId = position.building;
-                            data.jsCardId = position.card;
                             data.jsDisplayCostMe = position.available ? 'block' : 'none',
                             data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playerCoins[this.me_id]),
                             data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
@@ -732,7 +730,6 @@ define([
 
                     dojo.addClass(e.target, 'glow');
 
-                    this.playerTurnCardId = dojo.attr(e.target, 'data-card-id');
                     this.playerTurnBuildingId = dojo.attr(e.target, 'data-building-id');
                     this.playerTurnNode = e.target;
 
@@ -781,7 +778,7 @@ define([
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
                             lock: true,
-                            cardId: this.playerTurnCardId
+                            buildingId: this.playerTurnBuildingId
                         },
                         this, function (result) {
                             dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
@@ -814,7 +811,7 @@ define([
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
                             lock: true,
-                            cardId: this.playerTurnCardId
+                            buildingId: this.playerTurnBuildingId
                         },
                         this, function (result) {
                             dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
@@ -875,7 +872,7 @@ define([
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
                             lock: true,
-                            cardId: this.playerTurnCardId,
+                            buildingId: this.playerTurnBuildingId,
                             wonderId: dojo.attr(e.target, "data-wonder-id"),
                         },
                         this, function (result) {

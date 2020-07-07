@@ -8,7 +8,7 @@ trait ChooseOpponentBuildingTrait {
 
     }
 
-    public function actionChooseOpponentBuilding($cardId) {
+    public function actionChooseOpponentBuilding($buildingId) {
         $this->checkAction("actionChooseOpponentBuilding");
 
     }

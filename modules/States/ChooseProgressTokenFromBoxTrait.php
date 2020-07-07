@@ -8,7 +8,7 @@ trait ChooseProgressTokenFromBoxTrait {
 
     }
 
-    public function actionChooseProgressTokenFromBox($cardId) {
+    public function actionChooseProgressTokenFromBox($progressTokenId) {
         $this->checkAction("actionChooseProgressTokenFromBox");
 
     }

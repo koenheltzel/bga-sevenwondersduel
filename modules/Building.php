@@ -40,21 +40,16 @@ class Building extends Item {
         parent::__construct($id, $name);
     }
 
-    /**
-     * @param $cardId
-     * @return array
-     */
-    public static function checkBuildingAvailable($cardId) {
+    public function checkBuildingAvailable() {
         $age = SevenWondersDuel::get()->getCurrentAge();
         $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
-        if (!array_key_exists($cardId, $cards)) {
-            throw new \BgaUserException( self::_("The building you selected is not available.") );
+        if (!array_key_exists($this->id, $cards)) {
+            throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
         }
 
-        if (!Draftpool::buildingAvailable($cards[$cardId]['type_arg'])) {
-            throw new \BgaUserException( self::_("The building you selected is still covered by other buildings, so it can't be picked.") );
+        if (!Draftpool::buildingAvailable($this->id)) {
+            throw new \BgaUserException( clienttranslate("The building you selected is still covered by other buildings, so it can't be picked.") );
         }
-        return $cards[$cardId];
     }
 
     /**
@@ -62,7 +57,7 @@ class Building extends Item {
      * @param $cardId
      * @return Payment
      */
-    public function construct(Player $player, $cardId) {
+    public function construct(Player $player) {
         $payment = $player->calculateCost($this);
         $totalCost = $payment->totalCost();
         if ($totalCost > $player->getCoins()) {
@@ -80,7 +75,7 @@ class Building extends Item {
             $player->increaseCoins($this->coins);
         }
 
-        SevenWondersDuel::get()->buildingDeck->moveCard($cardId, $player->id);
+        SevenWondersDuel::get()->buildingDeck->moveCard($this->id, $player->id);
         return $payment;
     }
 
@@ -89,11 +84,11 @@ class Building extends Item {
      * @param $cardId
      * @return int
      */
-    public function discard(Player $player, $cardId) {
+    public function discard(Player $player) {
         $discardGain = $player->calculateDiscardGain($this);
         $player->increaseCoins($discardGain);
 
-        SevenWondersDuel::get()->buildingDeck->moveCard($cardId, 'discard');
+        SevenWondersDuel::get()->buildingDeck->moveCard($this->id, 'discard');
         return $discardGain;
     }
 

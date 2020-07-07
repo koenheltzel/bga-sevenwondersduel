@@ -180,7 +180,6 @@ var jstpl_some_game_item='<div class="my_game_item" id="my_game_item_${MY_ITEM_I
 var jstpl_draftpool_building = '\
     <div id="${jsRow}_${jsColumn}"\
         data-building-id="${jsId}"\
-        data-card-id="${jsCardId}"\
         class="building building_small column${jsColumn} row${jsRow} ${jsAvailable}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\
@@ -203,7 +202,6 @@ var jstpl_player_building = '\
     <div id="player_building_container_${jsId}" class="building_header_small_container">\
         <div id="player_building_${jsId}"\
             data-building-id="${jsId}"\
-            data-card-id="${jsCardId}"\
             title=""\
             class="building building_header_small"\
             style="position: inline-block; background-position: -${jsX}00% calc(-5px + -${jsY} * var(--building-height) * var(--building-small-scale));"\

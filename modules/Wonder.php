@@ -14,36 +14,32 @@ class Wonder extends Item {
         return Material::get()->wonders[$id];
     }
 
-    /**
-     * @param $cardId
-     * @return array
-     */
     public function checkWonderAvailable() {
         if (!in_array($this->id, Player::me()->getWonderIds())) {
-            throw new \BgaUserException( self::_("The wonder you selected is not available.") );
+            throw new \BgaUserException( clienttranslate("The wonder you selected is not available.") );
         }
 
         if ($this->isConstructed()) {
-            throw new \BgaUserException( self::_("The wonder you selected has already been constructed.") );
+            throw new \BgaUserException( clienttranslate("The wonder you selected has already been constructed.") );
         }
     }
 
     /**
-     * @param $buildingCardId
+     * @param Building $building
      * @return Payment
      */
-    public function construct($buildingCardId) {
+    public function construct($building) {
         $payment = Player::me()->calculateCost($this);
         $totalCost = $payment->totalCost();
         if ($totalCost > Player::me()->getCoins()) {
-            throw new \BgaUserException( self::_("You can't afford the wonder you selected.") );
+            throw new \BgaUserException( clienttranslate("You can't afford the wonder you selected.") );
         }
 
         if ($totalCost > 0) {
             Player::me()->increaseCoins(-$totalCost);
         }
 
-        SevenWondersDuel::get()->buildingDeck->moveCard($buildingCardId, 'wonder' . $this->id);
+        SevenWondersDuel::get()->buildingDeck->moveCard($building->id, 'wonder' . $this->id);
         return $payment;
     }
 
@@ -60,7 +56,7 @@ class Wonder extends Item {
             $cards = \SevenWondersDuel::get()->buildingDeck->getCardsInLocation('wonder' . $this->id);
             if (count($cards) > 0) {
                 $card = array_shift($cards);
-                return Building::get($card['type_arg'])->age;
+                return Building::get($card['id'])->age;
             }
             return 0;
         }

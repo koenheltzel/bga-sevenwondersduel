@@ -9,7 +9,7 @@ trait ChooseDiscardedBuildingTrait
 
     }
 
-    public function actionChooseDiscardedBuilding($cardId) {
+    public function actionChooseDiscardedBuilding($buildingId) {
         $this->checkAction("actionChooseDiscardedBuilding");
 
     }

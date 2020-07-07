@@ -35,7 +35,7 @@ trait SelectWonderTrait {
             $wonderSelectionRound = 2;
         }
 
-        $wonder = Wonder::get($card['type_arg']);
+        $wonder = Wonder::get($wonderId);
         $this->notifyAllPlayers(
             'wonderSelected',
             clienttranslate('${player_name} selected wonder ${wonderName}.'),
