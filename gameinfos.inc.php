@@ -13,7 +13,7 @@
 $gameinfos = array(
 
 // Name of the game in English (will serve as the basis for translation) 
-'game_name' => "Seven Wonders Duel",
+'game_name' => "7 Wonders Duel",
 
 // Game designer (or game designers, separated by commas)
 'designer' => 'Antoine Bauza, Bruno Cathala',
