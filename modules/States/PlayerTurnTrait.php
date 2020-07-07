@@ -82,7 +82,7 @@ trait PlayerTurnTrait {
 
         $wonder = Wonder::get($wonderId);
         $wonder->checkWonderAvailable();
-        $payment = $wonder->construct($building);
+        $payment = $wonder->construct(Player::me(), $building);
 
         $this->notifyAllPlayers(
             'constructWonder',

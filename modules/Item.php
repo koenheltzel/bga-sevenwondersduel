@@ -2,6 +2,8 @@
 
 namespace SWD;
 
+use SevenWondersDuel;
+
 class Item
 {
 
@@ -25,6 +27,30 @@ class Item
     public function __construct($id, $name) {
         $this->id = $id;
         $this->name = $name;
+    }
+
+    /**
+     * @param Player $player
+     * @param $cardId
+     * @return Payment
+     */
+    public function construct(Player $player) {
+        $payment = $player->calculateCost($this);
+        $totalCost = $payment->totalCost();
+        if ($totalCost > $player->getCoins()) {
+            throw new \BgaUserException(SevenWondersDuel::_("You can't afford the building you selected.") );
+        }
+
+        if ($totalCost > 0) {
+            $player->increaseCoins(-$totalCost);
+        }
+
+        if ($this->victoryPoints > 0) {
+            $player->increaseScore($this->victoryPoints);
+        }
+        if ($this->coins > 0) {
+            $player->increaseCoins($this->coins);
+        }
     }
 
     /**

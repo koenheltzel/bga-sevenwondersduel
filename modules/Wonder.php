@@ -28,16 +28,9 @@ class Wonder extends Item {
      * @param Building $building
      * @return Payment
      */
-    public function construct($building) {
-        $payment = Player::me()->calculateCost($this);
-        $totalCost = $payment->totalCost();
-        if ($totalCost > Player::me()->getCoins()) {
-            throw new \BgaUserException( clienttranslate("You can't afford the wonder you selected.") );
-        }
+    public function construct(Player $player, $building) {
+        $payment = parent::__construct($player);
 
-        if ($totalCost > 0) {
-            Player::me()->increaseCoins(-$totalCost);
-        }
 
         SevenWondersDuel::get()->buildingDeck->moveCard($building->id, 'wonder' . $this->id);
         return $payment;

@@ -10,8 +10,6 @@ trait GameSetupTrait
 {
 
     public function enterStateGameSetup() {
-        $players = $this->loadPlayersBasicInfos();
-
         // Set up two 4-wonders selection pools, rest of the wonders go back to the box.
         $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards());
         $this->wonderDeck->shuffle('deck');
