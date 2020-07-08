@@ -154,6 +154,7 @@ class Material
 
         $this->buildings[16] = (new Building(16, 1, clienttranslate("Apothecary"), Building::TYPE_GREEN))
             ->setCost([GLASS => 1])
+            ->setVictoryPoints(1)
             ->setScientificSymbol(7);
 
         $this->buildings[17] = (new Building(17, 1, clienttranslate("Tavern"), Building::TYPE_YELLOW))
