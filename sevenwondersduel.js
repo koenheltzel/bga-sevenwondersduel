@@ -1175,10 +1175,10 @@ define([
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
-                var whichCoin = notif.args.playerId == this.me_id ? 'me' : 'opponent';
+                var whichPlayer = notif.args.playerId == this.me_id ? 'me' : 'opponent';
                 this.animateCoins(
-                    dojo.query('.' + whichCoin + ' .coin', buildingNode)[0],
-                    dojo.query('.player_info.' + whichCoin + ' .player_area_coins')[0],
+                    dojo.query('.' + whichPlayer + ' .coin', buildingNode)[0],
+                    dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
                     notif.args.gain,
                     notif.args.playerId
                 );
