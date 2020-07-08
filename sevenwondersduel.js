@@ -178,6 +178,10 @@ define([
                 }
             },
 
+            increasePlayerCoins: function (playerId, coins) {
+                $('player_area_' + playerId + '_coins').innerHTML = parseInt($('player_area_' + playerId + '_coins').innerHTML) + coins;
+            },
+
             updatePlayerCoins: function (playerId, coins) {
                 this.gamedatas.playerCoins[playerId] = coins;
                 $('player_area_' + playerId + '_coins').innerHTML = coins;
@@ -375,9 +379,9 @@ define([
                                             onAnimate: function (values) {
                                                 dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
                                             },
-                                            onEnd: function () {
-                                                dojo.destroy(this.node);
-                                            }
+                                            onEnd: dojo.hitch(this, function (node) {
+                                                dojo.destroy(node);
+                                            })
                                         }),
                                         dojo.animateProperty({
                                             node: newNode,
@@ -431,11 +435,11 @@ define([
 
             },
 
-            animateCoins: function(sourceNode, targetNode, amount) {
+            animateCoins: function(sourceNode, targetNode, amount, playerId) {
                 this.coin_slide_duration = 400;
                 this.coin_slide_delay = 100;
 
-                if (1) {
+                if (0) {
                     console.log('sourceNode', sourceNode, 'targetNode', targetNode);
                     var anims = [];
                     var html = this.format_block('jstpl_coin_me');
@@ -488,28 +492,38 @@ define([
 
                     anim.play();
                 }
-                if (0) {
+                if (1) {
                     var anims = [];
                     var html = this.format_block('jstpl_coin_me');
                     for (var i = 0; i < amount; i++) {
-                        console.log(html, 'swd_wrap', sourceNode, targetNode, this.coin_slide_duration, i * this.coin_slide_delay);
+                        // console.log(html, 'swd_wrap', sourceNode, targetNode, this.coin_slide_duration, i * this.coin_slide_delay);
 
                         var node = dojo.place(html, targetNode.parentNode);
                         this.placeOnObjectPos(node, sourceNode, 0, 0);
-                        // dojo.style(node, 'top')
 
+                        dojo.style(node, 'opacity', 0);
                         var anim = dojo.fx.combine([
-                            // dojo.fadeIn({
-                            //     node: node,
-                            //     duration: this.constructBuildingAnimationDuration * 0.4
-                            // }),
-                            this.slideToObjectPos(node, targetNode, 0, 0, this.coin_slide_duration, i * this.coin_slide_delay)
-                        // dojo.fadeIn({node: playerBuildingId, duration: this.constructBuildingAnimationDuration * 0.4}),
+                            dojo.fadeIn({
+                                node: node,
+                                duration: this.coin_slide_duration * 0.1,
+                                delay: i * this.coin_slide_delay,
+                            }),
+                            this.slideToObjectPos(node, targetNode, 0, 0, this.coin_slide_duration, i * this.coin_slide_delay),
+                            dojo.fadeOut({
+                                node: node,
+                                duration: this.coin_slide_duration * 0.1,
+                                delay: (i * this.coin_slide_delay) + (0.9 * this.coin_slide_duration),
+                                onEnd: dojo.hitch(this, function (node) {
+                                    dojo.destroy(node);
+                                    this.increasePlayerCoins(playerId, 1);
+                                }),
+                            }),
                         ]);
+                        // dojo.connect(anim, 'onEnd', );
                         anims.push(anim);
                     }
                     var anim = dojo.fx.combine(anims);
-                    // anim.play();
+                    anim.play();
                 }
             },
 
@@ -918,6 +932,18 @@ define([
                         return;
                     }
 
+
+                    this.animateCoins(
+                        dojo.query('.player2310958  .Brown')[0],
+                        // dojo.query('.player2310958  .Purple')[0],
+                        // dojo.query('.me .coin', buildingNode)[0],
+                        dojo.query('.player_info.me .coin')[0],
+                        10,
+                        this.player_id
+                    );
+                    return;
+
+
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId
@@ -1197,9 +1223,9 @@ define([
                     this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, this.constructBuildingAnimationDuration * 0.6),
                 ]);
 
-                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
                     dojo.style(playerBuildingId, 'z-index', 15);
-                    dojo.destroy(buildingNode);
+                    dojo.destroy(node);
                     this.updateDraftpool(notif.args.draftpool);
                     this.updateWondersSituation(notif.args.wondersSituation);
                 }));
@@ -1217,15 +1243,17 @@ define([
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
                 this.animateCoins(
-                    dojo.query('.me .coin', buildingNode)[0],
-                    dojo.query('.player_info.me .coin')[0],
+                    dojo.query('.player2310958  .Brown')[0],
+                    dojo.query('.player2310958  .Purple')[0],
+                    // dojo.query('.me .coin', buildingNode)[0],
+                    // dojo.query('.player_info.me .coin')[0],
                     10
                 );
                 var anim = dojo.fadeOut({
                     node: buildingNode,
                     duration: this.discardBuildingAnimationDuration,
-                    onEnd: dojo.hitch(this, function () {
-                        dojo.destroy(buildingNode);
+                    onEnd: dojo.hitch(this, function (node) {
+                        dojo.destroy(node);
                         this.updateDraftpool(notif.args.draftpool);
                         this.updateWondersSituation(notif.args.wondersSituation);
                     })
@@ -1303,8 +1331,8 @@ define([
                         dojo.style(wonder, 'z-index', 20);
                         dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em) rotateY(-90deg)'); // The rotateY(-90deg) affects the position the element will end up after the slide. Here's the place to apply it therefor, not before the animation instantiation.
                     }));
-                    dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
-                        dojo.destroy(buildingNode);
+                    dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                        dojo.destroy(node);
                         dojo.style(ageCardNode, 'z-index', 1);
                         dojo.style(wonder, 'z-index', 2);
                         this.updateDraftpool(notif.args.draftpool);
