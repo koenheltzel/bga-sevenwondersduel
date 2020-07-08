@@ -59,6 +59,7 @@ __     __         _       _     _
 
 :root {
     --scale: 1.0;
+    --element-scale: 1.0;
     --gutter: calc(7.5px * var(--scale));
 
     --building-spritesheet-width: 2080px;
@@ -154,10 +155,9 @@ __     __         _       _     _
 }
 .coin {
     background-image: url('img/tmp_coin.png');
-    width: calc(var(--scale) * 30px);
-    height: calc(var(--scale) * 30px);
-    background-size: calc(var(--scale) * 30px) calc(var(--scale) * 30px);
-    /*zoom: var(--scale);*/
+    width: calc(var(--scale) * var(--element-scale) * 30px);
+    height: calc(var(--scale) * var(--element-scale) * 30px);
+    background-size: calc(var(--scale) * var(--element-scale) * 30px) calc(var(--scale) * var(--element-scale) * 30px);
     display: inline-block;
     text-align: center;
     border-radius: calc(30px * 0.5);
@@ -167,8 +167,8 @@ __     __         _       _     _
 }
 .coin>span {
     font-weight: bold;
-    font-size: 20px;
-    line-height: 30px !important;
+    font-size: calc(var(--scale) * var(--element-scale) * 20px);
+    line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
     text-shadow: 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white;
     color:black;
 }
@@ -407,7 +407,7 @@ __     __         _       _     _
     top: calc(var(--building-height) * var(--building-small-scale) * 0.80);
 }
 .draftpool_building_cost .coin {
-    /*zoom: calc(0.85 * var(--scale));*/
+    --element-scale: 0.85;
 }
 
 #draftpool_actions {
@@ -669,7 +669,7 @@ __     __         _       _     _
     z-index: 2;
 }
 .player_wonder_cost .coin {
-    /*zoom: calc(0.85 * var(--scale));*/
+    --element-scale: 0.85;
 }
 
 #swd_wrap.square .player_wonders {

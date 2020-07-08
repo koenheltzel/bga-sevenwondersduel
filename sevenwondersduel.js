@@ -436,118 +436,38 @@ define([
             },
 
             animateCoins: function(sourceNode, targetNode, amount, playerId) {
-                console.log('========================');
-                console.log('sourceNode position false', dojo.position(sourceNode, false));
-                console.log('targetNode position false', dojo.position(targetNode, false));
-                console.log('========================');
-                console.log('sourceNode position true', dojo.position(sourceNode, true));
-                console.log('targetNode position true', dojo.position(targetNode, true));
-                console.log('========================');
                 this.coin_slide_duration = 400;
                 this.coin_slide_delay = 100;
 
-                if (0) {
-                    console.log('sourceNode', sourceNode, 'targetNode', targetNode);
-                    var anims = [];
-                    var html = this.format_block('jstpl_coin_me');
-                    for (var i = 0; i < amount; i++) {
-                        console.log(html, 'swd_wrap', sourceNode, targetNode, this.coin_slide_duration, i * this.coin_slide_delay );
-                        var anim = this.slideTemporaryObject(html, 'swd_wrap', sourceNode, targetNode, this.coin_slide_duration, i * this.coin_slide_delay );
-                        anims.push(anim);
-                    }
-                    var anim = dojo.fx.chain(
-                        anims
-                    );
+                var anims = [];
+                var html = this.format_block('jstpl_coin_me');
+                for (var i = 0; i < amount; i++) {
+                    var node = dojo.place(html, 'swd_wrap');
+                    this.placeOnObjectPos(node, sourceNode, 0, 0);
 
-                    anim.play();
-                }
-                if (0) {
-                    var sourcePosition = dojo.position(sourceNode, false);
-                    var targetPosition = dojo.position(targetNode, false);
-
-                    var titlePosition = dojo.position('page-title', false);
-                    var titleMarginBottom = 5;
-                    var topMargin = titlePosition.y + titlePosition.h + titleMarginBottom;
-
-
-
-                    var container = $('swd_wrap');
-
-                    var anims = [];
-                    var html = this.format_block('jstpl_coin_me');
-                    for (var i = 0; i < amount; i++) {
-                        console.log(html, 'swd_wrap', sourceNode, targetNode, this.coin_slide_duration, i * this.coin_slide_delay );
-
-                        var node = dojo.place(html, container);
-                        dojo.style(node, 'left', sourcePosition.x + 'px');
-                        dojo.style(node, 'top', (sourcePosition.y - topMargin) + 'px');
-                        // this.placeOnObject(node, sourceNode)
-                        // this.placeOnObjectPos( node, container, sourcePosition.x, sourcePosition.y - topMargin);
-                        console.log('placeOnObjectPos', sourcePosition.x, sourcePosition.y - topMargin);
-                        return;
-                        var delay = i * this.coin_slide_delay;
-                        var anim = dojo.fx.combine([
-                            // dojo.fadeIn({
-                            //     node: node,
-                            //     delay: delay,
-                            //     duration: 0.1 * this.coin_slide_duration,
-                            // }),
-                            dojo.fx.slideTo({
-                                node: node,
-                                duration: this.coin_slide_duration * 0.1,
-                                delay: i * this.coin_slide_delay,
-                                top: targetPosition.y - topMargin,
-                                left: targetPosition.x,
-                                units: "px"
+                    dojo.style(node, 'opacity', 0);
+                    var fadeDurationPercentage = 0.2;
+                    var anim = dojo.fx.combine([
+                        dojo.fadeIn({
+                            node: node,
+                            duration: this.coin_slide_duration * fadeDurationPercentage,
+                            delay: i * this.coin_slide_delay,
+                        }),
+                        this.slideToObjectPos(node, targetNode, 0, 0, this.coin_slide_duration, i * this.coin_slide_delay),
+                        dojo.fadeOut({
+                            node: node,
+                            duration: this.coin_slide_duration * fadeDurationPercentage,
+                            delay: (i * this.coin_slide_delay) + ((1 - fadeDurationPercentage) * this.coin_slide_duration),
+                            onEnd: dojo.hitch(this, function (node) {
+                                dojo.destroy(node);
+                                this.increasePlayerCoins(playerId, 1);
                             }),
-                            // this.slideToObject(node, targetNode, this.coin_slide_duration, delay ),
-                            // dojo.fadeOut({
-                            //     node: node,
-                            //     delay: delay + 0.9 * this.coin_slide_duration,
-                            //     duration: 0.1 * this.coin_slide_duration,
-                            // }),
-                        ])
-                        anims.push(anim);
-                    }
-                    var anim = dojo.fx.chain(
-                        anims
-                    );
-
-                    // anim.play();
+                        }),
+                    ]);
+                    anims.push(anim);
                 }
-                if (1) {
-                    var anims = [];
-                    var html = this.format_block('jstpl_coin_me');
-                    for (var i = 0; i < amount; i++) {
-                        // console.log(html, 'swd_wrap', sourceNode, targetNode, this.coin_slide_duration, i * this.coin_slide_delay);
-
-                        var node = dojo.place(html, 'swd_wrap');
-                        this.placeOnObjectPos(node, sourceNode, 0, 0);
-
-                        dojo.style(node, 'opacity', 0);
-                        var anim = dojo.fx.combine([
-                            dojo.fadeIn({
-                                node: node,
-                                duration: this.coin_slide_duration * 0.1,
-                                delay: i * this.coin_slide_delay,
-                            }),
-                            this.slideToObjectPos(node, targetNode, 0, 0, this.coin_slide_duration, i * this.coin_slide_delay),
-                            dojo.fadeOut({
-                                node: node,
-                                duration: this.coin_slide_duration * 0.1,
-                                delay: (i * this.coin_slide_delay) + (0.9 * this.coin_slide_duration),
-                                onEnd: dojo.hitch(this, function (node) {
-                                    dojo.destroy(node);
-                                    this.increasePlayerCoins(playerId, 1);
-                                }),
-                            }),
-                        ]);
-                        // dojo.connect(anim, 'onEnd', );
-                        anims.push(anim);
-                    }
-                    var anim = dojo.fx.combine(anims);
-                    anim.play();
-                }
+                var anim = dojo.fx.combine(anims);
+                anim.play();
             },
 
             getCostValue: function(cost) {
@@ -958,9 +878,9 @@ define([
                     var buildingNode = dojo.query("[data-building-id=" + this.playerTurnBuildingId + "]")[0];
                     this.animateCoins(
                         // dojo.query('.player2310957  .Brown')[0],
-                        dojo.query('#wonder_10  .player_wonder_cost')[0],
+                        // dojo.query('#wonder_10  .player_wonder_cost')[0],
                         // dojo.query('.player2310958  .Purple')[0],
-                        // dojo.query('.me .coin', buildingNode)[0],
+                        dojo.query('.me .coin', buildingNode)[0],
                         dojo.query('.player_info.me .player_area_coins')[0],
                         10,
                         this.player_id
