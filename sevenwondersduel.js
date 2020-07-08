@@ -1025,10 +1025,16 @@ define([
                         return;
                     }
 
+                    var wonderId = dojo.attr(e.target, "data-wonder-id");
+
+                    // Set notification delay dynamically:
+                    var position = this.getWonderCardData(this.player_id, wonderId)
+                    this.notifqueue.setSynchronous( 'constructWonder', this.getCoinAnimationDuration(position.cost) + this.constructWonderAnimationDuration);
+
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId,
-                            wonderId: dojo.attr(e.target, "data-wonder-id"),
+                            wonderId: wonderId,
                         },
                         this, function (result) {
                             dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
@@ -1179,7 +1185,7 @@ define([
                 // Notification delay is set dynamically in onPlayerTurnDiscardBuildingClick
 
                 dojo.subscribe('constructWonder', this, "notif_constructWonder");
-                this.notifqueue.setSynchronous( 'constructWonder', this.constructWonderAnimationDuration );
+                // Notification delay is set dynamically in onPlayerTurnConstructWonderSelectedClick
 
                 dojo.subscribe('updateDraftpool', this, "notif_updateDraftpool");
             },
@@ -1256,6 +1262,7 @@ define([
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
                     dojo.style(playerBuildingId, 'z-index', 15);
+                    this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
                     this.updateDraftpool(notif.args.draftpool);
                     this.updateWondersSituation(notif.args.wondersSituation);
                 }));
@@ -1291,15 +1298,16 @@ define([
 
                 var moveAnim = this.slideToObjectPos(buildingNode, wrapperDiv, 0, 0, this.discardBuildingAnimationDuration);
 
+                dojo.connect(moveAnim, 'onEnd', dojo.hitch(this, function (node) {
+                    this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
+                    this.updateDraftpool(notif.args.draftpool);
+                    this.updateWondersSituation(notif.args.wondersSituation);
+                }));
+
                 var anim = dojo.fx.chain([
                     coinAnimation,
                     moveAnim
                 ]);
-                dojo.connect(moveAnim, 'onEnd', dojo.hitch(this, function (node) {
-                    this.updateDraftpool(notif.args.draftpool);
-                    this.updateWondersSituation(notif.args.wondersSituation);
-                    this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins); // To be sure
-                }));
 
                 anim.play();
             },
@@ -1310,79 +1318,99 @@ define([
                 this.clearPlayerTurnNodeGlow();
                 this.clearActionGlow();
 
-                this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
-                this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
+                var wonderContainer = dojo.query('#player_wonders_' + notif.args.playerId + ' #wonder_' + notif.args.wonderId + '_container')[0];
+                var whichPlayer = notif.args.playerId == this.me_id ? 'me' : 'opponent';
+                var coinNode = dojo.query('.player_wonder_cost', wonderContainer)[0];
+                var position = this.getWonderCardData(notif.args.playerId, notif.args.wonderId);
+                console.log('getCoinAnimation', dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                    coinNode,
+                    -position.cost,
+                    notif.args.playerId);
+                var coinAnimation = this.getCoinAnimation(
+                    dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                    coinNode,
+                    -position.cost,
+                    notif.args.playerId
+                );
 
-                var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
+                dojo.connect(coinAnimation, 'onEnd', dojo.hitch(this, function (node) {
+                    // Update the wonders situation, because now the wonder is constructed and the age card has been rendered.
+                    this.updateWondersSituation(notif.args.wondersSituation);
 
-                this.updateWondersSituation(notif.args.wondersSituation);
+                    var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
-                // Animate age card towards wonder:
-                if (1) {
-                    var wonderContainer = dojo.query('#player_wonders_' + notif.args.playerId + ' #wonder_' + notif.args.wonderId + '_container')[0];
-                    var ageCardContainer = dojo.query('.age_card_container', wonderContainer)[0];
-                    var ageCardNode = dojo.query('.building_small', ageCardContainer)[0];
-                    var wonder = dojo.query('.wonder_small', wonderContainer)[0];
+                    // Animate age card towards wonder:
+                    if (1) {
+                        var wonderContainer = dojo.query('#player_wonders_' + notif.args.playerId + ' #wonder_' + notif.args.wonderId + '_container')[0];
+                        var ageCardContainer = dojo.query('.age_card_container', wonderContainer)[0];
+                        var ageCardNode = dojo.query('.building_small', ageCardContainer)[0];
+                        var wonder = dojo.query('.wonder_small', wonderContainer)[0];
 
-                    // Move age card to start position and set starting properties.
-                    this.placeOnObjectPos(ageCardNode, buildingNode, 0, 0);
-                    dojo.style(ageCardNode, 'z-index', 15);
-                    dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em)'); // Somehow affects the position of the element after the slide. Otherwise I would delete this line.
+                        // Move age card to start position and set starting properties.
+                        this.placeOnObjectPos(ageCardNode, buildingNode, 0, 0);
+                        dojo.style(ageCardNode, 'z-index', 15);
+                        dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em)'); // Somehow affects the position of the element after the slide. Otherwise I would delete this line.
 
-                    var anim = dojo.fx.chain([
-                        dojo.fx.combine([
-                            dojo.animateProperty({
-                                node: buildingNode,
-                                duration: this.constructWonderAnimationDuration / 3,
-                                easing: dojo.fx.easing.linear,
-                                properties: {
-                                    propertyTransform: {start: 0, end: 180}
-                                },
-                                onAnimate: function (values) {
-                                    dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
-                                }
-                            }),
-                            dojo.animateProperty({
-                                node: ageCardNode,
-                                duration: this.constructWonderAnimationDuration / 3,
-                                easing: dojo.fx.easing.linear,
-                                properties: {
-                                    propertyTransform: {start: -180, end: 0}
-                                },
-                                onAnimate: function (values) {
-                                    dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
-                                }
-                            }),
-                        ]),
-                        dojo.fx.combine([
-                            dojo.animateProperty({
-                                node: ageCardNode,
-                                delay: this.constructWonderAnimationDuration / 6,
-                                duration: this.constructWonderAnimationDuration / 4,
-                                properties: {
-                                    propertyTransform: {start: 0, end: -90}
-                                },
-                                onAnimate: function (values) {
-                                    dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
-                                }
-                            }),
-                            this.slideToObjectPos(ageCardNode, ageCardContainer, 0, 0, this.constructWonderAnimationDuration / 3 * 2),
-                        ]),
-                    ]);
+                        var anim = dojo.fx.chain([
+                            dojo.fx.combine([
+                                dojo.animateProperty({
+                                    node: buildingNode,
+                                    duration: this.constructWonderAnimationDuration / 3,
+                                    easing: dojo.fx.easing.linear,
+                                    properties: {
+                                        propertyTransform: {start: 0, end: 180}
+                                    },
+                                    onAnimate: function (values) {
+                                        dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    }
+                                }),
+                                dojo.animateProperty({
+                                    node: ageCardNode,
+                                    duration: this.constructWonderAnimationDuration / 3,
+                                    easing: dojo.fx.easing.linear,
+                                    properties: {
+                                        propertyTransform: {start: -180, end: 0}
+                                    },
+                                    onAnimate: function (values) {
+                                        dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    }
+                                }),
+                            ]),
+                            dojo.fx.combine([
+                                dojo.animateProperty({
+                                    node: ageCardNode,
+                                    delay: this.constructWonderAnimationDuration / 6,
+                                    duration: this.constructWonderAnimationDuration / 4,
+                                    properties: {
+                                        propertyTransform: {start: 0, end: -90}
+                                    },
+                                    onAnimate: function (values) {
+                                        dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    }
+                                }),
+                                this.slideToObjectPos(ageCardNode, ageCardContainer, 0, 0, this.constructWonderAnimationDuration / 3 * 2),
+                            ]),
+                        ]);
 
-                    dojo.connect(anim, 'beforeBegin', dojo.hitch(this, function () {
-                        dojo.style(wonder, 'z-index', 20);
-                        dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em) rotateY(-90deg)'); // The rotateY(-90deg) affects the position the element will end up after the slide. Here's the place to apply it therefor, not before the animation instantiation.
-                    }));
-                    dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                        dojo.destroy(node);
-                        dojo.style(ageCardNode, 'z-index', 1);
-                        dojo.style(wonder, 'z-index', 2);
-                        this.updateDraftpool(notif.args.draftpool);
-                    }));
+                        dojo.connect(anim, 'beforeBegin', dojo.hitch(this, function () {
+                            dojo.style(wonder, 'z-index', 20);
+                            dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em) rotateY(-90deg)'); // The rotateY(-90deg) affects the position the element will end up after the slide. Here's the place to apply it therefor, not before the animation instantiation.
+                        }));
+                        dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                            dojo.style(ageCardNode, 'z-index', 1);
+                            dojo.style(wonder, 'z-index', 2);
+                            this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
+                            this.updateDraftpool(notif.args.draftpool);
+                            this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
+                        }));
 
-                    anim.play();
-                }
+                        anim.play();
+                    }
+
+                }));
+                coinAnimation.play();
+
+
             },
 
             /*
