@@ -153,6 +153,10 @@ __     __         _       _     _
 .opponent .coin, .coin.opponent {
     background-image: url('img/tmp_coin_opponent.png');
 }
+.coin.animated {
+    position: absolute;
+    z-index: 100;
+}
 .coin {
     background-image: url('img/tmp_coin.png');
     width: calc(var(--scale) * var(--element-scale) * 30px);

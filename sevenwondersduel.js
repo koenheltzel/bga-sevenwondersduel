@@ -440,9 +440,12 @@ define([
                 this.coin_slide_delay = 100;
 
                 var anims = [];
-                var html = this.format_block('jstpl_coin_me');
+                var html = this.format_block('jstpl_coin_animated');
                 for (var i = 0; i < amount; i++) {
                     var node = dojo.place(html, 'swd_wrap');
+                    if (playerId == this.opponent_id) {
+                        dojo.addClass(node, 'opponent');
+                    }
                     this.placeOnObjectPos(node, sourceNode, 0, 0);
 
                     dojo.style(node, 'opacity', 0);
@@ -875,18 +878,6 @@ define([
                         return;
                     }
 
-                    var buildingNode = dojo.query("[data-building-id=" + this.playerTurnBuildingId + "]")[0];
-                    this.animateCoins(
-                        // dojo.query('.player2310957  .Brown')[0],
-                        // dojo.query('#wonder_10  .player_wonder_cost')[0],
-                        // dojo.query('.player2310958  .Purple')[0],
-                        dojo.query('.me .coin', buildingNode)[0],
-                        dojo.query('.player_info.me .player_area_coins')[0],
-                        10,
-                        this.player_id
-                    );
-                    return;
-
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId
@@ -1182,16 +1173,16 @@ define([
 
                 this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
 
-                // var buildingNodeId = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0].attr('id');
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
+                var whichCoin = notif.args.playerId == this.me_id ? 'me' : 'opponent';
                 this.animateCoins(
-                    dojo.query('.player2310958  .Brown')[0],
-                    dojo.query('.player2310958  .Purple')[0],
-                    // dojo.query('.me .coin', buildingNode)[0],
-                    // dojo.query('.player_info.me .coin')[0],
-                    10
+                    dojo.query('.' + whichCoin + ' .coin', buildingNode)[0],
+                    dojo.query('.player_info.' + whichCoin + ' .player_area_coins')[0],
+                    notif.args.gain,
+                    notif.args.playerId
                 );
+
                 var anim = dojo.fadeOut({
                     node: buildingNode,
                     duration: this.discardBuildingAnimationDuration,
