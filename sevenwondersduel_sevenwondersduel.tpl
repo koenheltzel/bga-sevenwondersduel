@@ -248,8 +248,8 @@ var jstpl_board_progress_token = '\
     >\
     </div>';
 
-var jstpl_coin_me = '<div class="coin" style="position: absolute"></div>';
-var jstpl_coin_opponent = '<div class="coin opponent" style="position: absolute"></div>';
+var jstpl_coin_me = '<div class="coin" style="position: absolute;z-index:100;"></div>';
+var jstpl_coin_opponent = '<div class="coin opponent" style="position: absolute;z-index:100;"></div>';
 
 var jstpl_tooltip_cost_me = '\
     <h3 class="me">Current construction cost for you: ${jsCoinHtml}</h3>\

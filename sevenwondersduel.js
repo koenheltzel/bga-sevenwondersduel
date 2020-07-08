@@ -498,7 +498,7 @@ define([
                     for (var i = 0; i < amount; i++) {
                         // console.log(html, 'swd_wrap', sourceNode, targetNode, this.coin_slide_duration, i * this.coin_slide_delay);
 
-                        var node = dojo.place(html, targetNode.parentNode);
+                        var node = dojo.place(html, 'swd_wrap');
                         this.placeOnObjectPos(node, sourceNode, 0, 0);
 
                         dojo.style(node, 'opacity', 0);
@@ -932,9 +932,10 @@ define([
                         return;
                     }
 
-
+                    var buildingNode = dojo.query("[data-building-id=" + this.playerTurnBuildingId + "]")[0];
                     this.animateCoins(
-                        dojo.query('.player2310958  .Brown')[0],
+                        // dojo.query('.player2310957  .Brown')[0],
+                        dojo.query('#wonder_10  .player_wonder_cost')[0],
                         // dojo.query('.player2310958  .Purple')[0],
                         // dojo.query('.me .coin', buildingNode)[0],
                         dojo.query('.player_info.me .coin')[0],
@@ -942,7 +943,6 @@ define([
                         this.player_id
                     );
                     return;
-
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
                             lock: true,

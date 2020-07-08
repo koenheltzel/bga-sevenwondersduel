@@ -163,7 +163,6 @@ __     __         _       _     _
     box-shadow:
         calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px calc(var(--scale) * 1px) #00000060;
-    position: absolute;
 }
 .coin>span {
     font-weight: bold;
