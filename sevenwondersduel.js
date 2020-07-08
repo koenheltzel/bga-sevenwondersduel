@@ -28,14 +28,30 @@ define([
     function (dojo, declare, on, dom) {
         return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
             constructor: function () {
-                // Tooltip settings
+                // Debug settings
                 this.dontScale = 0;
+
+                // Tooltip settings
+                dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
                 this.toolTipDelay = 750;
-                this.windowResizeTimeoutId = null;
+
+                // Game logic properties
                 this.playerTurnBuildingId = null;
                 this.playerTurnNode = null;
                 this.currentAge = 0;
-                dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
+
+                // General properties
+                // this.windowResizeTimeoutId = null;
+
+                // Animation
+                this.constructBuildingAnimationDuration = 1000;
+                this.discardBuildingAnimationDuration = 400;
+                this.constructWonderAnimationDuration = 1600;
+                this.turnAroundCardDuration = 500;
+                this.putDraftpoolCard = 250;
+                this.militaryTrackStepDuration = 200;
+                this.coin_slide_duration = 400;
+                this.coin_slide_delay = 100;
             },
 
             /*
@@ -434,10 +450,10 @@ define([
 
             },
 
+            getCoinAnimationDuration: function(amount) {
+                  return this.coin_slide_duration + ((amount - 1) * this.coin_slide_delay);
+            },
             getCoinAnimation: function(sourceNode, targetNode, amount, playerId) {
-                this.coin_slide_duration = 400;
-                this.coin_slide_delay = 100;
-
                 var anims = [];
                 var html = this.format_block('jstpl_coin_animated');
                 for (var i = 0; i < amount; i++) {
@@ -876,6 +892,9 @@ define([
                         return;
                     }
 
+                    // Set notification delay dynamically:
+                    this.notifqueue.setSynchronous( 'discardBuilding', this.getCoinAnimationDuration(this.gamedatas.draftpool.discardGain[this.player_id]) + this.discardBuildingAnimationDuration );
+
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId
@@ -1080,12 +1099,6 @@ define([
                 // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
                 // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
                 //
-                this.constructBuildingAnimationDuration = 1000;
-                this.discardBuildingAnimationDuration = 400;
-                this.constructWonderAnimationDuration = 1600;
-                this.turnAroundCardDuration = 500;
-                this.putDraftpoolCard = 250;
-                this.militaryTrackStepDuration = 200;
 
                 dojo.subscribe('wonderSelected', this, "notif_wonderSelected");
                 dojo.subscribe('nextAge', this, "notif_nextAge");
@@ -1094,7 +1107,7 @@ define([
                 this.notifqueue.setSynchronous( 'constructBuilding', this.constructBuildingAnimationDuration );
 
                 dojo.subscribe('discardBuilding', this, "notif_discardBuilding");
-                this.notifqueue.setSynchronous( 'discardBuilding', this.discardBuildingAnimationDuration );
+                // Notification delay is set dynamically in onPlayerTurnDiscardBuildingClick
 
                 dojo.subscribe('constructWonder', this, "notif_constructWonder");
                 this.notifqueue.setSynchronous( 'constructWonder', this.constructWonderAnimationDuration );
