@@ -171,11 +171,6 @@ __     __         _       _     _
     text-shadow: 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white;
     color:black;
 }
-#coin_animations {
-    zoom: var(--scale);
-    position: absolute;
-    z-index:100;
-}
 
 @keyframes tooltipWiggle {
     from {
