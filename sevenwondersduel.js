@@ -83,6 +83,7 @@ define([
                 this.updateDraftpool(this.gamedatas.draftpool, true);
                 this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
                 this.updateMilitaryTrack(this.gamedatas.militaryTrack);
+                this.updateDiscardedBuildings(this.gamedatas.discardedBuildings);
 
                 // Setting up player boards
                 for (var player_id in gamedatas.players) {
@@ -518,6 +519,46 @@ define([
                 }
             },
 
+            updateDiscardedBuildings: function(discardedBuildings) {
+                this.gamedatas.discardedBuildings = discardedBuildings;
+
+                Object.keys(this.gamedatas.discardedBuildings).forEach(dojo.hitch(this, function (index) {
+                    var building = this.gamedatas.discardedBuildings[index];
+
+                    var spriteId = building.id;
+                    var linkedBuildingId = 0;
+                    var data = {
+                        jsId: building.id,
+                        jsRow: '',
+                        jsColumn: '',
+                        jsZindex: 1,
+                        jsAvailable: '',
+                        jsDisplayCostMe: 'none',
+                        jsCostColorMe: 'black',
+                        jsCostMe: -1,
+                        jsDisplayCostOpponent: 'none',
+                        jsCostColorOpponent: 'black',
+                        jsCostOpponent: -1,
+                        jsLinkX: 0,
+                        jsLinkY: 0,
+                    };
+
+                    var spritesheetColumns = 10;
+                    data.jsX = (spriteId - 1) % spritesheetColumns;
+                    data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
+
+                    // Set up a wrapper div so we can move the building to pos 0,0 of that wrapper
+                    var discardedCardsContainer = $('discarded_cards_container');
+                    var wrapperDiv = dojo.clone(dojo.query('.discarded_cards_cursor', discardedCardsContainer)[0]);
+                    dojo.removeClass(wrapperDiv, 'discarded_cards_cursor');
+                    dojo.place(wrapperDiv, discardedCardsContainer, discardedCardsContainer.children.length - 1);
+
+                    var newNode = dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
+                    dojo.attr(newNode, 'id', ''); // Remove the draftpool specific id
+                    dojo.place(newNode, wrapperDiv);
+                }));
+            },
+
             updateMilitaryTrack: function(militaryTrack) {
                 var oldPosition = this.gamedatas.militaryTrack.conflictPawn;
                 this.gamedatas.militaryTrack = militaryTrack;
@@ -804,9 +845,7 @@ define([
                 this.hideTooltip();
 
                 if (this.isCurrentPlayerActive()) {
-                    if (this.playerTurnNode) {
-                        dojo.removeClass(this.playerTurnNode, 'glow');
-                    }
+                    this.clearPlayerTurnNodeGlow();
                     this.clearActionGlow();
 
                     var building = dojo.query(e.target);
@@ -913,6 +952,12 @@ define([
 
                         }
                     );
+                }
+            },
+
+            clearPlayerTurnNodeGlow: function () {
+                if (this.playerTurnNode) {
+                    dojo.removeClass(this.playerTurnNode, 'glow');
                 }
             },
 
@@ -1181,6 +1226,7 @@ define([
             notif_discardBuilding: function (notif) {
                 console.log('notif_discardBuilding', notif);
 
+                this.clearPlayerTurnNodeGlow();
                 this.clearActionGlow();
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
@@ -1193,13 +1239,17 @@ define([
                     notif.args.playerId
                 );
 
-                var targetNode = $('discarded_cards_container');
-                // this.attachToNewParent(buildingNode, targetNode);
-                // dojo.place(buildingNode, targetNode, "first");
-                buildingNode = this.attachToNewParent(buildingNode, targetNode);
-                dojo.query(".draftpool_building_cost", buildingNode).forEach(dojo.destroy);
-                // this.slideToObjectPos(buildingNode, targetNode, 0, 0).play();
-                var moveAnim = this.slideToObjectPos(buildingNode, $('discarded_cards_cursor'), 0, 0, this.discardBuildingAnimationDuration, coinAnimation.duration);
+                // Set up a wrapper div so we can move the building to pos 0,0 of that wrapper
+                var discardedCardsContainer = $('discarded_cards_container');
+                var wrapperDiv = dojo.clone(dojo.query('.discarded_cards_cursor', discardedCardsContainer)[0]);
+                dojo.removeClass(wrapperDiv, 'discarded_cards_cursor');
+                dojo.place(wrapperDiv, discardedCardsContainer, discardedCardsContainer.children.length - 1);
+
+                buildingNode = this.attachToNewParent(buildingNode, wrapperDiv); // attachToNewParent creates and returns a new instance of the node (replacing the old one).
+                dojo.attr(buildingNode, 'id', ''); // Remove the draftpool specific id
+                dojo.query(".draftpool_building_cost", buildingNode).forEach(dojo.destroy); // Remove cost coins from building
+
+                var moveAnim = this.slideToObjectPos(buildingNode, wrapperDiv, 0, 0, this.discardBuildingAnimationDuration, coinAnimation.duration);
 
                 var anim = dojo.fx.combine([
                     coinAnimation,
@@ -1217,6 +1267,7 @@ define([
             notif_constructWonder: function (notif) {
                 console.log('notif_constructWonder', notif);
 
+                this.clearPlayerTurnNodeGlow();
                 this.clearActionGlow();
 
                 this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);

@@ -949,17 +949,18 @@ __        __              _
 }
 
 #discarded_cards_container {
-    position: relative;
+    margin: 0px calc(0px - var(--gutter)) calc(0px - var(--gutter)) 0px;
 }
 #discarded_cards_container div {
-    position: initial !important;
-    margin-right: var(--gutter);
-}
-
-#discarded_cards_cursor {
+    position: relative !important;
+    display: inline-block;
     width: var(--building-small-width);
     height: var(--building-small-height);
-    display: inline-block;
+    margin: 0px var(--gutter) var(--gutter) 0px;
+}
+
+.discarded_cards_cursor {
+    display: none !important;
 }
 
 /*
