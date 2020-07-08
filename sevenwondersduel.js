@@ -349,11 +349,11 @@ define([
                             spriteId = position.building;
                             data.jsId = position.building;
                             data.jsDisplayCostMe = position.available ? 'block' : 'none',
-                                data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playerCoins[this.me_id]),
-                                data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
+                            data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playerCoins[this.me_id]),
+                            data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
                             data.jsDisplayCostOpponent = position.available ? 'block' : 'none',
-                                data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playerCoins[this.opponent_id]),
-                                data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
+                            data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playerCoins[this.opponent_id]),
+                            data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
 
                             // Linked building symbol
                             linkedBuildingId = this.gamedatas.buildings[position.building].linkedBuilding;
@@ -452,38 +452,56 @@ define([
             },
 
             getCoinAnimationDuration: function(amount) {
-                  return this.coin_slide_duration + ((amount - 1) * this.coin_slide_delay);
+                if (amount != 0) {
+                    return this.coin_slide_duration + ((Math.abs(amount) - 1) * this.coin_slide_delay);
+                }
+                return 0;
             },
             getCoinAnimation: function(sourceNode, targetNode, amount, playerId) {
-                var anims = [];
-                var html = this.format_block('jstpl_coin_animated');
-                for (var i = 0; i < amount; i++) {
-                    var node = dojo.place(html, 'swd_wrap');
-                    if (playerId == this.opponent_id) {
-                        dojo.addClass(node, 'opponent');
-                    }
-                    this.placeOnObjectPos(node, sourceNode, 0, 0);
+                var sourceNodePlayerId = null;
+                var targetNodePlayerId = null;
+                if (dojo.hasClass(sourceNode, 'player_area_coins') && dojo.query(sourceNode).closest(".me")[0]) sourceNodePlayerId = this.me_id;
+                if (dojo.hasClass(sourceNode, 'player_area_coins') && dojo.query(sourceNode).closest(".opponent")[0]) sourceNodePlayerId = this.opponent_id;
+                if (dojo.hasClass(targetNode, 'player_area_coins') && dojo.query(targetNode).closest(".me")[0]) targetNodePlayerId = this.me_id;
+                if (dojo.hasClass(targetNode, 'player_area_coins') && dojo.query(targetNode).closest(".opponent")[0]) targetNodePlayerId = this.opponent_id;
+                console.log('sourceNodePlayerId', sourceNodePlayerId);
+                console.log('targetNodePlayerId', targetNodePlayerId);
 
-                    dojo.style(node, 'opacity', 0);
-                    var fadeDurationPercentage = 0.15;
-                    var anim = dojo.fx.combine([
-                        dojo.fadeIn({
-                            node: node,
-                            duration: this.coin_slide_duration * fadeDurationPercentage,
-                            delay: i * this.coin_slide_delay,
-                        }),
-                        this.slideToObjectPos(node, targetNode, 0, 0, this.coin_slide_duration, i * this.coin_slide_delay),
-                        dojo.fadeOut({
-                            node: node,
-                            duration: this.coin_slide_duration * fadeDurationPercentage,
-                            delay: (i * this.coin_slide_delay) + ((1 - fadeDurationPercentage) * this.coin_slide_duration),
-                            onEnd: dojo.hitch(this, function (node) {
-                                dojo.destroy(node);
-                                this.increasePlayerCoins(playerId, 1);
+                var anims = [];
+                if (amount != 0) {
+                    var html = this.format_block('jstpl_coin_animated');
+                    for (var i = 0; i < Math.abs(amount); i++) {
+                        var node = dojo.place(html, 'swd_wrap');
+                        if (playerId == this.opponent_id) {
+                            dojo.addClass(node, 'opponent');
+                        }
+                        this.placeOnObjectPos(node, sourceNode, 0, 0);
+
+                        dojo.style(node, 'opacity', 0);
+                        var fadeDurationPercentage = 0.15;
+                        var anim = dojo.fx.combine([
+                            dojo.fadeIn({
+                                node: node,
+                                duration: this.coin_slide_duration * fadeDurationPercentage,
+                                delay: i * this.coin_slide_delay,
+                                onStart: dojo.hitch(this, function (node) {
+                                    dojo.destroy(node);
+                                    this.increasePlayerCoins(playerId, -1);
+                                }),
                             }),
-                        }),
-                    ]);
-                    anims.push(anim);
+                            this.slideToObjectPos(node, targetNode, 0, 0, this.coin_slide_duration, i * this.coin_slide_delay),
+                            dojo.fadeOut({
+                                node: node,
+                                duration: this.coin_slide_duration * fadeDurationPercentage,
+                                delay: (i * this.coin_slide_delay) + ((1 - fadeDurationPercentage) * this.coin_slide_duration),
+                                onEnd: dojo.hitch(this, function (node) {
+                                    dojo.destroy(node);
+                                    this.increasePlayerCoins(playerId, 1);
+                                }),
+                            }),
+                        ]);
+                        anims.push(anim);
+                    }
                 }
                 var anim = dojo.fx.combine(anims);
                 return anim;
@@ -898,6 +916,10 @@ define([
                         return;
                     }
 
+                    // Set notification delay dynamically:
+                    var position = this.getDraftpoolCardData(this.playerTurnBuildingId)
+                    this.notifqueue.setSynchronous( 'constructBuilding', this.getCoinAnimationDuration(position.cost[this.player_id]) + this.constructBuildingAnimationDuration);
+
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId
@@ -1149,7 +1171,7 @@ define([
                 dojo.subscribe('nextAge', this, "notif_nextAge");
 
                 dojo.subscribe('constructBuilding', this, "notif_constructBuilding");
-                this.notifqueue.setSynchronous( 'constructBuilding', this.constructBuildingAnimationDuration );
+                // Notification delay is set dynamically in onPlayerTurnConstuctBuildingClick
 
                 dojo.subscribe('discardBuilding', this, "notif_discardBuilding");
                 // Notification delay is set dynamically in onPlayerTurnDiscardBuildingClick
@@ -1205,17 +1227,33 @@ define([
                 dojo.style(playerBuildingId, 'opacity', 0);
                 dojo.style(playerBuildingId, 'z-index', 20);
 
+                var whichPlayer = notif.args.playerId == this.me_id ? 'me' : 'opponent';
+                var coinNode = dojo.query('.draftpool_building_cost.' + whichPlayer + ' .coin', buildingNode)[0];
+                var position = this.getDraftpoolCardData(notif.args.buildingId);
+                var coinAnimation = this.getCoinAnimation(
+                    dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                    coinNode,
+                    -position.cost[notif.args.playerId],
+                    notif.args.playerId
+                );
+
                 var anim = dojo.fx.chain([
+                    coinAnimation,
                     dojo.fx.combine([
                         dojo.fadeIn({node: playerBuildingId, duration: this.constructBuildingAnimationDuration * 0.4}),
-                        dojo.fadeOut({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
+                        dojo.fadeOut({
+                            node: buildingNode,
+                            duration: this.constructBuildingAnimationDuration * 0.4,
+                            onEnd: dojo.hitch(this, function (node) {
+                                dojo.destroy(node);
+                            })
+                        }),
                     ]),
                     this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, this.constructBuildingAnimationDuration * 0.6),
                 ]);
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
                     dojo.style(playerBuildingId, 'z-index', 15);
-                    dojo.destroy(node);
                     this.updateDraftpool(notif.args.draftpool);
                     this.updateWondersSituation(notif.args.wondersSituation);
                 }));
@@ -1249,9 +1287,9 @@ define([
                 dojo.attr(buildingNode, 'id', ''); // Remove the draftpool specific id
                 dojo.query(".draftpool_building_cost", buildingNode).forEach(dojo.destroy); // Remove cost coins from building
 
-                var moveAnim = this.slideToObjectPos(buildingNode, wrapperDiv, 0, 0, this.discardBuildingAnimationDuration, coinAnimation.duration);
+                var moveAnim = this.slideToObjectPos(buildingNode, wrapperDiv, 0, 0, this.discardBuildingAnimationDuration);
 
-                var anim = dojo.fx.combine([
+                var anim = dojo.fx.chain([
                     coinAnimation,
                     moveAnim
                 ]);
