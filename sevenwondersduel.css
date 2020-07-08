@@ -436,7 +436,7 @@ __     __         _       _     _
     float: right;
 }
 #buttonDiscardBuilding .coin {
-    zoom: calc(1.0 * var(--scale));
+    --element-scale: calc(2.0 - var(--scale));
 }
 #buttonDiscardBuilding .coin>span {
 
