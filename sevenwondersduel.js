@@ -29,7 +29,7 @@ define([
         return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
             constructor: function () {
                 // Tooltip settings
-                this.dontScale = 1;
+                this.dontScale = 0;
                 this.toolTipDelay = 750;
                 this.windowResizeTimeoutId = null;
                 this.playerTurnBuildingId = null;
@@ -436,6 +436,13 @@ define([
             },
 
             animateCoins: function(sourceNode, targetNode, amount, playerId) {
+                console.log('========================');
+                console.log('sourceNode position false', dojo.position(sourceNode, false));
+                console.log('targetNode position false', dojo.position(targetNode, false));
+                console.log('========================');
+                console.log('sourceNode position true', dojo.position(sourceNode, true));
+                console.log('targetNode position true', dojo.position(targetNode, true));
+                console.log('========================');
                 this.coin_slide_duration = 400;
                 this.coin_slide_delay = 100;
 
@@ -455,15 +462,29 @@ define([
                     anim.play();
                 }
                 if (0) {
-                    var targetPosition = dojo.position(targetNode);
+                    var sourcePosition = dojo.position(sourceNode, false);
+                    var targetPosition = dojo.position(targetNode, false);
+
+                    var titlePosition = dojo.position('page-title', false);
+                    var titleMarginBottom = 5;
+                    var topMargin = titlePosition.y + titlePosition.h + titleMarginBottom;
+
+
+
+                    var container = $('swd_wrap');
 
                     var anims = [];
                     var html = this.format_block('jstpl_coin_me');
                     for (var i = 0; i < amount; i++) {
                         console.log(html, 'swd_wrap', sourceNode, targetNode, this.coin_slide_duration, i * this.coin_slide_delay );
 
-                        var node = dojo.place(html, 'swd_wrap');
-                        this.placeOnObject(node, sourceNode)
+                        var node = dojo.place(html, container);
+                        dojo.style(node, 'left', sourcePosition.x + 'px');
+                        dojo.style(node, 'top', (sourcePosition.y - topMargin) + 'px');
+                        // this.placeOnObject(node, sourceNode)
+                        // this.placeOnObjectPos( node, container, sourcePosition.x, sourcePosition.y - topMargin);
+                        console.log('placeOnObjectPos', sourcePosition.x, sourcePosition.y - topMargin);
+                        return;
                         var delay = i * this.coin_slide_delay;
                         var anim = dojo.fx.combine([
                             // dojo.fadeIn({
@@ -473,8 +494,10 @@ define([
                             // }),
                             dojo.fx.slideTo({
                                 node: node,
-                                top: targetPosition.y * this.getCssVariable('--scale'),
-                                left: targetPosition.x * this.getCssVariable('--scale'),
+                                duration: this.coin_slide_duration * 0.1,
+                                delay: i * this.coin_slide_delay,
+                                top: targetPosition.y - topMargin,
+                                left: targetPosition.x,
                                 units: "px"
                             }),
                             // this.slideToObject(node, targetNode, this.coin_slide_duration, delay ),
@@ -490,7 +513,7 @@ define([
                         anims
                     );
 
-                    anim.play();
+                    // anim.play();
                 }
                 if (1) {
                     var anims = [];
@@ -938,7 +961,7 @@ define([
                         dojo.query('#wonder_10  .player_wonder_cost')[0],
                         // dojo.query('.player2310958  .Purple')[0],
                         // dojo.query('.me .coin', buildingNode)[0],
-                        dojo.query('.player_info.me .coin')[0],
+                        dojo.query('.player_info.me .player_area_coins')[0],
                         10,
                         this.player_id
                     );

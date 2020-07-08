@@ -154,9 +154,10 @@ __     __         _       _     _
 }
 .coin {
     background-image: url('img/tmp_coin.png');
-    width: 30px;
-    height: 30px;
-    zoom: var(--scale);
+    width: calc(var(--scale) * 30px);
+    height: calc(var(--scale) * 30px);
+    background-size: calc(var(--scale) * 30px) calc(var(--scale) * 30px);
+    /*zoom: var(--scale);*/
     display: inline-block;
     text-align: center;
     border-radius: calc(30px * 0.5);
@@ -406,7 +407,7 @@ __     __         _       _     _
     top: calc(var(--building-height) * var(--building-small-scale) * 0.80);
 }
 .draftpool_building_cost .coin {
-    zoom: calc(0.85 * var(--scale));
+    /*zoom: calc(0.85 * var(--scale));*/
 }
 
 #draftpool_actions {
@@ -668,7 +669,7 @@ __     __         _       _     _
     z-index: 2;
 }
 .player_wonder_cost .coin {
-    zoom: calc(0.85 * var(--scale));
+    /*zoom: calc(0.85 * var(--scale));*/
 }
 
 #swd_wrap.square .player_wonders {
