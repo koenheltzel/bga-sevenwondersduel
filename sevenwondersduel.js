@@ -458,14 +458,13 @@ define([
                 return 0;
             },
             getCoinAnimation: function(sourceNode, targetNode, amount, playerId) {
-                var sourceNodePlayerId = null;
-                var targetNodePlayerId = null;
+                // Auto detect if coins are moving to or from certain players player areas. We use this to update their coin total during the animation.
+                var sourceNodePlayerId = undefined;
+                var targetNodePlayerId = undefined;
                 if (dojo.hasClass(sourceNode, 'player_area_coins') && dojo.query(sourceNode).closest(".me")[0]) sourceNodePlayerId = this.me_id;
                 if (dojo.hasClass(sourceNode, 'player_area_coins') && dojo.query(sourceNode).closest(".opponent")[0]) sourceNodePlayerId = this.opponent_id;
                 if (dojo.hasClass(targetNode, 'player_area_coins') && dojo.query(targetNode).closest(".me")[0]) targetNodePlayerId = this.me_id;
                 if (dojo.hasClass(targetNode, 'player_area_coins') && dojo.query(targetNode).closest(".opponent")[0]) targetNodePlayerId = this.opponent_id;
-                console.log('sourceNodePlayerId', sourceNodePlayerId);
-                console.log('targetNodePlayerId', targetNodePlayerId);
 
                 var anims = [];
                 if (amount != 0) {
@@ -484,9 +483,10 @@ define([
                                 node: node,
                                 duration: this.coin_slide_duration * fadeDurationPercentage,
                                 delay: i * this.coin_slide_delay,
-                                onStart: dojo.hitch(this, function (node) {
-                                    dojo.destroy(node);
-                                    this.increasePlayerCoins(playerId, -1);
+                                onPlay: dojo.hitch(this, function (node) {
+                                    if (sourceNodePlayerId) {
+                                        this.increasePlayerCoins(sourceNodePlayerId, -1);
+                                    }
                                 }),
                             }),
                             this.slideToObjectPos(node, targetNode, 0, 0, this.coin_slide_duration, i * this.coin_slide_delay),
@@ -496,7 +496,9 @@ define([
                                 delay: (i * this.coin_slide_delay) + ((1 - fadeDurationPercentage) * this.coin_slide_duration),
                                 onEnd: dojo.hitch(this, function (node) {
                                     dojo.destroy(node);
-                                    this.increasePlayerCoins(playerId, 1);
+                                    if (targetNodePlayerId) {
+                                        this.increasePlayerCoins(targetNodePlayerId, 1);
+                                    }
                                 }),
                             }),
                         ]);
