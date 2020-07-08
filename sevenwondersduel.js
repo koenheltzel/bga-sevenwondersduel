@@ -1181,30 +1181,35 @@ define([
             notif_discardBuilding: function (notif) {
                 console.log('notif_discardBuilding', notif);
 
+                this.clearActionGlow();
+
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
                 var whichPlayer = notif.args.playerId == this.me_id ? 'me' : 'opponent';
                 var coinAnimation = this.getCoinAnimation(
-                    dojo.query('.' + whichPlayer + ' .coin', buildingNode)[0],
+                    buildingNode,
                     dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
                     notif.args.gain,
                     notif.args.playerId
                 );
 
+                var targetNode = $('discarded_cards_container');
+                // this.attachToNewParent(buildingNode, targetNode);
+                // dojo.place(buildingNode, targetNode, "first");
+                buildingNode = this.attachToNewParent(buildingNode, targetNode);
+                dojo.query(".draftpool_building_cost", buildingNode).forEach(dojo.destroy);
+                // this.slideToObjectPos(buildingNode, targetNode, 0, 0).play();
+                var moveAnim = this.slideToObjectPos(buildingNode, $('discarded_cards_cursor'), 0, 0, this.discardBuildingAnimationDuration, coinAnimation.duration);
+
                 var anim = dojo.fx.combine([
                     coinAnimation,
-                    dojo.fadeOut({
-                        node: buildingNode,
-                        delay: coinAnimation.duration,
-                        duration: this.discardBuildingAnimationDuration,
-                        onEnd: dojo.hitch(this, function (node) {
-                            dojo.destroy(node);
-                            this.updateDraftpool(notif.args.draftpool);
-                            this.updateWondersSituation(notif.args.wondersSituation);
-                            this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins); // To be sure
-                        })
-                    })
+                    moveAnim
                 ]);
+                dojo.connect(moveAnim, 'onEnd', dojo.hitch(this, function (node) {
+                    this.updateDraftpool(notif.args.draftpool);
+                    this.updateWondersSituation(notif.args.wondersSituation);
+                    this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins); // To be sure
+                }));
 
                 anim.play();
             },
@@ -1212,14 +1217,14 @@ define([
             notif_constructWonder: function (notif) {
                 console.log('notif_constructWonder', notif);
 
+                this.clearActionGlow();
+
                 this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
                 this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
                 this.updateWondersSituation(notif.args.wondersSituation);
-
-                this.clearActionGlow();
 
                 // Animate age card towards wonder:
                 if (1) {

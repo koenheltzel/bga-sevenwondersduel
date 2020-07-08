@@ -122,29 +122,29 @@ __     __         _       _     _
  \____|\___|_| |_|\___|_|  \__,_|_|
  */
 
-#swd_wrap {
+#game_play_area {
 
 }
 
-#swd_wrap h3 {
+#game_play_area h3 {
     margin: 0px 0px var(--gutter) 0px;
     font-size: max(12px, 16px * var(--scale));
 }
 
-#swd_wrap .whiteblock h3 {
+#game_play_area .whiteblock h3 {
     /* Borrowed from Potion Explosion */
     text-shadow: 1px 1px 1px #FFFFFF;
 }
 
-#swd_wrap .bgabutton {
+#game_play_area .bgabutton {
     padding: var(--gutter) !important;
 }
 
-#swd_wrap .bgabutton_darkgray {
+#game_play_area .bgabutton_darkgray {
     cursor: not-allowed;
 }
 
-#swd_wrap .whiteblock {
+#game_play_area .whiteblock {
     border-radius: 8px;
     padding: var(--gutter);
     margin: 0px;
@@ -442,25 +442,25 @@ __     __         _       _     _
 
 }
 
-.column1 { left: calc(var(--draftpool-column-width) * (1 - 1)); }
-.column2 { left: calc(var(--draftpool-column-width) * (2 - 1)); }
-.column3 { left: calc(var(--draftpool-column-width) * (3 - 1)); }
-.column4 { left: calc(var(--draftpool-column-width) * (4 - 1)); }
-.column5 { left: calc(var(--draftpool-column-width) * (5 - 1)); }
-.column6 { left: calc(var(--draftpool-column-width) * (6 - 1)); }
-.column7 { left: calc(var(--draftpool-column-width) * (7 - 1)); }
-.column8 { left: calc(var(--draftpool-column-width) * (8 - 1)); }
-.column9 { left: calc(var(--draftpool-column-width) * (9 - 1)); }
-.column10 { left: calc(var(--draftpool-column-width) * (10 - 1)); }
-.column11 { left: calc(var(--draftpool-column-width) * (11 - 1)); }
+#draftpool .column1 { left: calc(var(--draftpool-column-width) * (1 - 1)); }
+#draftpool .column2 { left: calc(var(--draftpool-column-width) * (2 - 1)); }
+#draftpool .column3 { left: calc(var(--draftpool-column-width) * (3 - 1)); }
+#draftpool .column4 { left: calc(var(--draftpool-column-width) * (4 - 1)); }
+#draftpool .column5 { left: calc(var(--draftpool-column-width) * (5 - 1)); }
+#draftpool .column6 { left: calc(var(--draftpool-column-width) * (6 - 1)); }
+#draftpool .column7 { left: calc(var(--draftpool-column-width) * (7 - 1)); }
+#draftpool .column8 { left: calc(var(--draftpool-column-width) * (8 - 1)); }
+#draftpool .column9 { left: calc(var(--draftpool-column-width) * (9 - 1)); }
+#draftpool .column10 { left: calc(var(--draftpool-column-width) * (10 - 1)); }
+#draftpool .column11 { left: calc(var(--draftpool-column-width) * (11 - 1)); }
 
-.row1 { top: calc(var(--draftpool-row-height) * (1 - 1)); }
-.row2 { top: calc(var(--draftpool-row-height) * (2 - 1)); }
-.row3 { top: calc(var(--draftpool-row-height) * (3 - 1)); }
-.row4 { top: calc(var(--draftpool-row-height) * (4 - 1)); }
-.row5 { top: calc(var(--draftpool-row-height) * (5 - 1)); }
-.row6 { top: calc(var(--draftpool-row-height) * (6 - 1)); }
-.row7 { top: calc(var(--draftpool-row-height) * (7 - 1)); }
+#draftpool .row1 { top: calc(var(--draftpool-row-height) * (1 - 1)); }
+#draftpool .row2 { top: calc(var(--draftpool-row-height) * (2 - 1)); }
+#draftpool .row3 { top: calc(var(--draftpool-row-height) * (3 - 1)); }
+#draftpool .row4 { top: calc(var(--draftpool-row-height) * (4 - 1)); }
+#draftpool .row5 { top: calc(var(--draftpool-row-height) * (5 - 1)); }
+#draftpool .row6 { top: calc(var(--draftpool-row-height) * (6 - 1)); }
+#draftpool .row7 { top: calc(var(--draftpool-row-height) * (7 - 1)); }
 
 /*
  ____  _                            _
@@ -935,6 +935,33 @@ __        __              _
 .opponent .linked_building_icon_small {
     top: calc(var(--scale) * -7px);
 }
+
+/*
+ ____  _                       _          _                     _
+|  _ \(_)___  ___ __ _ _ __ __| | ___  __| |   ___ __ _ _ __ __| |___
+| | | | / __|/ __/ _` | '__/ _` |/ _ \/ _` |  / __/ _` | '__/ _` / __|
+| |_| | \__ \ (_| (_| | | | (_| |  __/ (_| | | (_| (_| | | | (_| \__ \
+|____/|_|___/\___\__,_|_|  \__,_|\___|\__,_|  \___\__,_|_|  \__,_|___/
+ */
+
+#discarded_cards_whiteblock {
+    margin-top: var(--gutter) !important;
+}
+
+#discarded_cards_container {
+    position: relative;
+}
+#discarded_cards_container div {
+    position: initial !important;
+    margin-right: var(--gutter);
+}
+
+#discarded_cards_cursor {
+    width: var(--building-small-width);
+    height: var(--building-small-height);
+    display: inline-block;
+}
+
 /*
  _____           _ _   _
 |_   _|__   ___ | | |_(_)_ __  ___

@@ -165,6 +165,12 @@
         <div></div>
     </div>
 </div>
+<div id="discarded_cards_whiteblock" class="whiteblock">
+    <h3>Discarded age cards:</h3>
+    <div id="discarded_cards_container">
+        <div id="discarded_cards_cursor"></div>
+    </div>
+</div>
 <!-- END swd -->
 
 <script type="text/javascript">
