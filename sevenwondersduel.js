@@ -199,7 +199,6 @@ define([
             },
 
             getWonderDivHtml: function (wonderId, displayCost, cost, playerCoins) {
-                console.log('wonderId, displayCost, cost, playerCoins', wonderId, displayCost, cost, playerCoins);
                 var data = {
                     jsId: wonderId,
                     jsDisplayCost: displayCost ? 'inline-block' : 'none',
@@ -435,7 +434,7 @@ define([
 
             },
 
-            animateCoins: function(sourceNode, targetNode, amount, playerId) {
+            getCoinAnimation: function(sourceNode, targetNode, amount, playerId) {
                 this.coin_slide_duration = 400;
                 this.coin_slide_delay = 100;
 
@@ -470,7 +469,7 @@ define([
                     anims.push(anim);
                 }
                 var anim = dojo.fx.combine(anims);
-                anim.play();
+                return anim;
             },
 
             getCostValue: function(cost) {
@@ -507,7 +506,6 @@ define([
                 var oldPosition = this.gamedatas.militaryTrack.conflictPawn;
                 this.gamedatas.militaryTrack = militaryTrack;
                 var steps = Math.abs(oldPosition - militaryTrack.conflictPawn);
-                console.log('updateMilitaryTrack', 'A', oldPosition, 'B', militaryTrack.conflictPawn, 'C', steps);
 
                 if (oldPosition != militaryTrack.conflictPawn) {
                     dojo.animateProperty({
@@ -520,7 +518,7 @@ define([
                                 end: this.me_id == this.gamedatas.startPlayerId ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn
                             }
                         },
-                        onAnimate: dojo.hitch(this, function (values) {console.log('onAnimate vaues: ',values);
+                        onAnimate: dojo.hitch(this, function (values) {
                             this.setCssVariable('--conflict-pawn-position', parseFloat(values.propertyConflictPawnPosition.replace("px", "")));
                         }),
                     }).play();
@@ -1170,28 +1168,30 @@ define([
             notif_discardBuilding: function (notif) {
                 console.log('notif_discardBuilding', notif);
 
-
-                this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
-
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
                 var whichPlayer = notif.args.playerId == this.me_id ? 'me' : 'opponent';
-                this.animateCoins(
+                var coinAnimation = this.getCoinAnimation(
                     dojo.query('.' + whichPlayer + ' .coin', buildingNode)[0],
                     dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
                     notif.args.gain,
                     notif.args.playerId
                 );
 
-                var anim = dojo.fadeOut({
-                    node: buildingNode,
-                    duration: this.discardBuildingAnimationDuration,
-                    onEnd: dojo.hitch(this, function (node) {
-                        dojo.destroy(node);
-                        this.updateDraftpool(notif.args.draftpool);
-                        this.updateWondersSituation(notif.args.wondersSituation);
+                var anim = dojo.fx.combine([
+                    coinAnimation,
+                    dojo.fadeOut({
+                        node: buildingNode,
+                        delay: coinAnimation.duration,
+                        duration: this.discardBuildingAnimationDuration,
+                        onEnd: dojo.hitch(this, function (node) {
+                            dojo.destroy(node);
+                            this.updateDraftpool(notif.args.draftpool);
+                            this.updateWondersSituation(notif.args.wondersSituation);
+                            this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins); // To be sure
+                        })
                     })
-                });
+                ]);
 
                 anim.play();
             },
