@@ -50,7 +50,7 @@ define([
                 this.turnAroundCardDuration = 500;
                 this.putDraftpoolCard = 250;
                 this.militaryTrackStepDuration = 200;
-                this.coin_slide_duration = 400;
+                this.coin_slide_duration = 500;
                 this.coin_slide_delay = 100;
             },
 
@@ -465,7 +465,7 @@ define([
                     this.placeOnObjectPos(node, sourceNode, 0, 0);
 
                     dojo.style(node, 'opacity', 0);
-                    var fadeDurationPercentage = 0.2;
+                    var fadeDurationPercentage = 0.15;
                     var anim = dojo.fx.combine([
                         dojo.fadeIn({
                             node: node,
