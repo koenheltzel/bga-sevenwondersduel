@@ -723,7 +723,6 @@ __     __         _       _     _
 
     width: calc(var(--scale) * 30px);
     height: calc(var(--scale) * 30px);
-    position: relative;
 }
 
 /*
