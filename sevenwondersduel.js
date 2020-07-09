@@ -41,7 +41,7 @@ define([
                 this.currentAge = 0;
 
                 // General properties
-                // this.windowResizeTimeoutId = null;
+                this.windowResizeTimeoutId = null;
 
                 // Animation durations
                 this.constructBuildingAnimationDuration = 1000;
@@ -1165,6 +1165,20 @@ define([
                 document.documentElement.style.setProperty(name, value);
             },
 
+            onScreenWidthChange: function () {
+                this.viewportChange();
+            },
+
+            onWindowUpdate: function (e) {
+                this.viewportChange();
+            },
+
+            viewportChange:function (e) {
+                clearTimeout(this.windowResizeTimeoutId);
+                // Set up the callback
+                this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "updateLayout"), 50);
+            },
+
             updateLayout: function () {
                 var titlePosition = dojo.position('page-title', false);
                 var titleMarginBottom = 5;
@@ -1223,18 +1237,6 @@ define([
                     this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
                 }
                 // console.log('swd_wrap height: ', $('swd_wrap'), 'height');
-            },
-
-            onScreenWidthChange: function () {
-                this.updateLayout();
-            },
-
-            onWindowUpdate: function (e) {
-                this.updateLayout();
-
-                // clearTimeout(this.windowResizeTimeoutId);
-                // // Set up the callback
-                // this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "updateLayout"), 10);
             },
 
 
