@@ -459,7 +459,11 @@ define([
                 }
                 return 0;
             },
-            getCoinAnimation: function(sourceNode, targetNode, amount, playerId) {
+            getCoinAnimation: function(sourceNode, targetNode, amount, playerId, sourcePosition, targetPosition) {
+                // Optional source/target positions
+                if (typeof sourcePosition == "undefined") sourcePosition = [0, 0];
+                if (typeof targetPosition == "undefined") targetPosition = [0, 0];
+
                 // Auto detect if coins are moving to or from certain players player areas. We use this to update their coin total during the animation.
                 var sourceNodePlayerId = undefined;
                 var targetNodePlayerId = undefined;
@@ -476,7 +480,7 @@ define([
                         if (playerId == this.opponent_id) {
                             dojo.addClass(node, 'opponent');
                         }
-                        this.placeOnObjectPos(node, sourceNode, 0, 0);
+                        this.placeOnObjectPos(node, sourceNode, sourcePosition[0], sourcePosition[1]);
 
                         dojo.style(node, 'opacity', 0);
                         var fadeDurationPercentage = 0.15;
@@ -491,7 +495,7 @@ define([
                                     }
                                 }),
                             }),
-                            this.slideToObjectPos(node, targetNode, 0, 0, this.coin_slide_duration, i * this.coin_slide_delay),
+                            this.slideToObjectPos(node, targetNode, targetPosition[0], targetPosition[1], this.coin_slide_duration, i * this.coin_slide_delay),
                             dojo.animateProperty({ // Standard fadeOut started of at opacity 0 (?!?)
                                 node: node,
                                 duration: this.coin_slide_duration * fadeDurationPercentage,
@@ -1042,9 +1046,10 @@ define([
                     var wonderId = dojo.attr(e.target, "data-wonder-id");
 
                     // Set notification delay dynamically:
-                    var position = this.getWonderCardData(this.player_id, wonderId)
+                    var position = this.getWonderCardData(this.player_id, wonderId);
+                    var wonder = this.gamedatas.wonders[wonderId];
                     this.notifqueue.setSynchronous( 'constructWonder',
-                        this.getCoinAnimationDuration(position.cost) + this.constructWonderAnimationDuration + this.notification_safe_margin
+                        this.getCoinAnimationDuration(position.cost) + this.constructWonderAnimationDuration + this.getCoinAnimationDuration(wonder.coins) + this.notification_safe_margin
                     );
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
@@ -1378,12 +1383,28 @@ define([
                         var wonderContainer = dojo.query('#player_wonders_' + notif.args.playerId + ' #wonder_' + notif.args.wonderId + '_container')[0];
                         var ageCardContainer = dojo.query('.age_card_container', wonderContainer)[0];
                         var ageCardNode = dojo.query('.building_small', ageCardContainer)[0];
-                        var wonder = dojo.query('.wonder_small', wonderContainer)[0];
+                        var wonderNode = dojo.query('.wonder_small', wonderContainer)[0];
+                        var wonder = this.gamedatas.wonders[notif.args.wonderId];
 
                         // Move age card to start position and set starting properties.
                         this.placeOnObjectPos(ageCardNode, buildingNode, 0, 0);
                         dojo.style(ageCardNode, 'z-index', 15);
                         dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em)'); // Somehow affects the position of the element after the slide. Otherwise I would delete this line.
+
+                        var wonderNodePosition = dojo.position(wonderNode);
+                        var coinRewardAnimation = undefined;
+                        if (wonder.coins > 0) {
+                            coinRewardAnimation = this.getCoinAnimation(
+                                wonderNode,
+                                dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                                wonder.coins,
+                                notif.args.playerId,
+                                [0.412 * wonderNodePosition.w, -0.208 * wonderNodePosition.h]
+                            );
+                        }
+                        else {
+                            coinRewardAnimation = dojo.fx.combine([]);
+                        }
 
                         var anim = dojo.fx.chain([
                             dojo.fx.combine([
@@ -1424,15 +1445,21 @@ define([
                                 }),
                                 this.slideToObjectPos(ageCardNode, ageCardContainer, 0, 0, this.constructWonderAnimationDuration / 3 * 2),
                             ]),
+                            coinRewardAnimation,
                         ]);
 
                         dojo.connect(anim, 'beforeBegin', dojo.hitch(this, function () {
-                            dojo.style(wonder, 'z-index', 20);
+                            dojo.style(wonderNode, 'z-index', 20);
                             dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em) rotateY(-90deg)'); // The rotateY(-90deg) affects the position the element will end up after the slide. Here's the place to apply it therefor, not before the animation instantiation.
                         }));
                         dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                            // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerCoins.
+                            anim.stop();
+                            // Clean up any existing coin nodes (normally cleaned up by their onEnd)
+                            dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
+
                             dojo.style(ageCardNode, 'z-index', 1);
-                            dojo.style(wonder, 'z-index', 2);
+                            dojo.style(wonderNode, 'z-index', 2);
                             this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
                             this.updateDraftpool(notif.args.draftpool);
                             this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
