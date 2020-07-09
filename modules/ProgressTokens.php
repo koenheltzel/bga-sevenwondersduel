@@ -2,6 +2,8 @@
 
 namespace SWD;
 
+use SevenWondersDuel;
+
 /**
  * @property ProgressToken[] $array
  */
@@ -17,6 +19,20 @@ class ProgressTokens extends Collection {
 
     public function __construct($progressTokens = []) {
         $this->array = $progressTokens;
+    }
+
+    public static function getSituation() {
+        return [
+            'board' => self::getDeckCardsSorted("board"),
+            Player::me()->id => self::getDeckCardsSorted(Player::me()->id),
+            Player::opponent()->id => self::getDeckCardsSorted(Player::opponent()->id),
+        ];
+    }
+
+    public static function getDeckCardsSorted($location): array {
+        $cards = SevenWondersDuel::get()->progressTokenDeck->getCardsInLocation($location);
+        usort($cards, function($a, $b) {return strcmp($a['location_arg'], $b['location_arg']);});
+        return $cards;
     }
 
 }

@@ -84,7 +84,7 @@ define([
                 // Setup game situation.
                 this.updateWondersSituation(this.gamedatas.wondersSituation);
                 this.updateDraftpool(this.gamedatas.draftpool, true);
-                this.updateProgressTokensBoard(this.gamedatas.progressTokensBoard);
+                this.updateProgressTokensSituation(this.gamedatas.progressTokensSituation);
                 this.updateMilitaryTrack(this.gamedatas.militaryTrack);
                 this.updateDiscardedBuildings(this.gamedatas.discardedBuildings);
 
@@ -190,25 +190,26 @@ define([
                 });
             },
 
-            updateProgressTokensBoard: function (progressTokensBoard) {
-                console.log('updateProgressTokensBoard: ', progressTokensBoard);
-                this.progressTokensBoard = progressTokensBoard;
+            updateProgressTokensSituation: function (progressTokensSituation) {
+                console.log('updateProgressTokensSituation: ', progressTokensSituation);
+                this.progressTokensSituation = progressTokensSituation;
 
-                for (var i = 0; i < 5; i++) {
-                    var location = progressTokensBoard[i];
+                dojo.query("#board_progress_tokens>div").forEach(dojo.empty);
+
+                for (var i = 0; i < progressTokensSituation.board.length; i++) {
+                    var location = progressTokensSituation.board[i];
                     var progressToken = this.gamedatas.progressTokens[location.id];
-                    var container = dojo.query('#board_progress_tokens>div:nth-of-type(' + (i + 1) + ')')[0];
-                    dojo.empty(container);
-                    if (typeof location != 'undefined') {
-                        var data = {
-                            jsId: progressToken.id,
-                            jsData: 'data-progress-token-id="' + progressToken.id + '"',
-                        };
-                        var spritesheetColumns = 4;
-                        data.jsX = (progressToken.id - 1) % spritesheetColumns;
-                        data.jsY = Math.floor((progressToken.id - 1) / spritesheetColumns);
-                        dojo.place(this.format_block('jstpl_board_progress_token', data), container);
-                    }
+                    var position = parseInt(progressTokensSituation.board[i].location_arg);
+                    var container = dojo.query('#board_progress_tokens>div:nth-of-type(' + (position + 1) + ')')[0];
+
+                    var data = {
+                        jsId: progressToken.id,
+                        jsData: 'data-progress-token-id="' + progressToken.id + '"',
+                    };
+                    var spritesheetColumns = 4;
+                    data.jsX = (progressToken.id - 1) % spritesheetColumns;
+                    data.jsY = Math.floor((progressToken.id - 1) / spritesheetColumns);
+                    dojo.place(this.format_block('jstpl_board_progress_token', data), container);
                 }
             },
 
@@ -1167,38 +1168,29 @@ define([
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
-                    if (!this.checkAction('chooseProgressToken')) {
+                    if (!this.checkAction('actionChooseProgressToken')) {
                         return;
                     }
 
-                    // var wonderId = dojo.attr(e.target, "data-wonder-id");
-                    //
-                    // // Set notification delay dynamically:
-                    // var position = this.getWonderCardData(this.player_id, wonderId);
-                    // var wonder = this.gamedatas.wonders[wonderId];
-                    // this.notifqueue.setSynchronous( 'constructWonder',
-                    //     this.getCoinAnimationDuration(position.cost) + this.constructWonderAnimationDuration + this.getCoinAnimationDuration(wonder.coins) + this.notification_safe_margin
-                    // );
-                    //
-                    // this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
-                    //         lock: true,
-                    //         buildingId: this.playerTurnBuildingId,
-                    //         wonderId: wonderId,
-                    //     },
-                    //     this, function (result) {
-                    //         dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
-                    //         // What to do after the server call if it succeeded
-                    //         // (most of the time: nothing)
-                    //
-                    //         // Hide wonder selection
-                    //         // dojo.style('pattern_selection', 'display', 'none');
-                    //
-                    //     }, function (is_error) {
-                    //         // What to do after the server call in anyway (success or failure)
-                    //         // (most of the time: nothing)
-                    //
-                    //     }
-                    // );
+                    var progressTokenId = dojo.attr(e.target, "data-progress-token-id");
+
+                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseProgressToken.html", {
+                            lock: true,
+                            progressTokenId: progressTokenId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                            // Hide wonder selection
+                            // dojo.style('pattern_selection', 'display', 'none');
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
                 }
             },
 
@@ -1339,6 +1331,7 @@ define([
                 // Notification delay is set dynamically in onPlayerTurnConstructWonderSelectedClick
 
                 dojo.subscribe('updateDraftpool', this, "notif_updateDraftpool");
+                dojo.subscribe('progressTokenChosen', this, "notif_progressTokenChosen");
             },
 
             // TODO: from this point and below, you can write your game notifications handling methods
@@ -1346,6 +1339,11 @@ define([
             notif_updateDraftpool: function (notif) {
                 console.log('notif_updateDraftpool', notif);
                 this.updateDraftpool(notif.args.draftpool)
+            },
+
+            notif_progressTokenChosen: function (notif) {
+                console.log('notif_progressTokenChosen', notif);
+                this.updateProgressTokensSituation(notif.args.progressTokensSituation)
             },
 
             notif_wonderSelected: function (notif) {

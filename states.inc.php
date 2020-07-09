@@ -177,6 +177,7 @@ $machinestates = [
         ],
         "transitions" => [
             SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_NAME => SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_ID,
+            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ]
     ],
 

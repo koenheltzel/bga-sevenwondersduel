@@ -21,6 +21,7 @@ use SWD\Material;
 use SWD\MilitaryTrack;
 use SWD\Player;
 use SWD\Players;
+use SWD\ProgressTokens;
 use SWD\Wonder;
 use SWD\Wonders;
 
@@ -348,7 +349,7 @@ class SevenWondersDuel extends Table
             $result['draftpool'] = Draftpool::get();
         }
         $result['militaryTrack'] = MilitaryTrack::getData();
-        $result['progressTokensBoard'] = arrayWithPropertyAsKeys($this->progressTokenDeck->getCardsInLocation('board'), 'location_arg');
+        $result['progressTokensSituation'] = ProgressTokens::getSituation();
         $result['buildingIdsToLinkIconId'] = Material::get()->buildingIdsToLinkIconId;
         $result['players'] = [
             Player::me()->id => json_decode(json_encode(Player::me()), true),
