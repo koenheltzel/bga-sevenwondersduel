@@ -43,10 +43,12 @@ define([
                 // General properties
                 // this.windowResizeTimeoutId = null;
 
-                // Animation
+                // Animation durations
                 this.constructBuildingAnimationDuration = 1000;
                 this.discardBuildingAnimationDuration = 400;
                 this.constructWonderAnimationDuration = 1600;
+                this.militaryTokenAnimationDuration = 1600; // Excluding the coin animation
+
                 this.turnAroundCardDuration = 500;
                 this.putDraftpoolCard = 250;
                 this.militaryTrackStepDuration = 200;
@@ -498,7 +500,7 @@ define([
                                 duration: this.coin_slide_duration * fadeDurationPercentage,
                                 delay: i * this.coin_slide_delay,
                                 onPlay: dojo.hitch(this, function (node) {
-                                    if (sourceNodePlayerId) {
+                                    if (sourceNodePlayerId && sourcePosition[0] == 0 && sourcePosition[1] == 0) {
                                         this.increasePlayerCoins(sourceNodePlayerId, -1);
                                     }
                                 }),
@@ -517,7 +519,7 @@ define([
                                 },
                                 onEnd: dojo.hitch(this, function (node) {
                                     dojo.destroy(node);
-                                    if (targetNodePlayerId) {
+                                    if (targetNodePlayerId && targetPosition[0] == 0 && targetPosition[1] == 0) {
                                         this.increasePlayerCoins(targetNodePlayerId, 1);
                                     }
                                 }),
@@ -530,30 +532,50 @@ define([
                 return anim;
             },
 
+            getMilitaryTokenAnimationDuration: function(amount) {
+                //TODO Duration isn't calculated/used for dynamically setting notification delay (main question is, where to get "amount" from?).
+                if (amount != 0) {
+                    return this.militaryTokenAnimationDuration + this.getCoinAnimationDuration(amount);
+                }
+                return 0;
+            },
             getMilitaryTokenAnimation: function(active_player_id, payment) {
                 console.log('getMilitaryTokenAnimation', payment);
                 // The military token animation always concerns the opponent of the active player.
                 player_id = this.getOppositePlayerId(active_player_id);
-                var anims = [];
+
                 if (payment.militaryTokenNumber > 0) {
+                    var offset = 100 * this.getCssVariable('--scale');
+                    var inverter = player_id == this.me_id ? -1 : 1;
                     var playerAlias = player_id == this.me_id ? 'me' : 'opponent';
                     var tokenNumber = this.invertMilitaryTrack() ? (5 - payment.militaryTokenNumber) : payment.militaryTokenNumber;
                     var tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
+                    var playerCoinsNode = dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0];
                     var coinAnimation = this.getCoinAnimation(
-                        dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
-                        tokenNode,
+                        playerCoinsNode,
+                        playerCoinsNode,
                         -payment.militaryTokenValue,
-                        player_id
+                        player_id,
+                        [0, 0],
+                        [0, offset * inverter]
                     );
-                    console.log('getCoinAnimation', dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
-                        tokenNode,
-                        -payment.militaryTokenValue,
-                        player_id);
-                    anims.push(coinAnimation);
-                }
 
-                var anim = dojo.fx.combine(anims);
-                return anim;
+                    var anim = dojo.fx.chain([
+                        this.slideToObjectPos(tokenNode, playerCoinsNode, 0, offset * inverter, this.militaryTokenAnimationDuration * 0.6),
+                        coinAnimation,
+                        dojo.fadeOut({
+                            node: tokenNode,
+                            duration: this.militaryTokenAnimationDuration * 0.4,
+                            onEnd: dojo.hitch(this, function (node) {
+                                dojo.destroy(node);
+                            })
+                        }),
+                    ]);
+                    return anim;
+                }
+                else {
+                    return dojo.fx.combine([]);
+                }
             },
 
             getCostValue: function(cost) {
