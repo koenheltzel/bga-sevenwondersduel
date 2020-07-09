@@ -1363,7 +1363,29 @@ define([
 
             notif_progressTokenChosen: function (notif) {
                 console.log('notif_progressTokenChosen', notif);
-                this.updateProgressTokensSituation(notif.args.progressTokensSituation)
+
+                var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
+
+                var progressToken = this.gamedatas.progressTokens[notif.args.buildingId];
+                var container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + notif.args.progressTokensSituation[notif.args.playerId].length + ')')[0];
+                this.attachToNewParent(progressTokenNode, container);
+
+                var anim = dojo.fx.chain([
+                    this.slideToObjectPos(progressTokenNode, container, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                ]);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerCoins.
+                    anim.stop();
+                    // Clean up any existing coin nodes (normally cleaned up by their onEnd)
+                    dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
+
+                    this.updatePlayerCoins(notif.args.playerId, notif.args.playersSituation[notif.args.playerId].coins);
+                    this.updateDraftpool(notif.args.draftpool);
+                    this.updateWondersSituation(notif.args.wondersSituation);
+                }));
+
+                anim.play();
             },
 
             notif_wonderSelected: function (notif) {
