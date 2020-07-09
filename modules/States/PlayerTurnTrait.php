@@ -47,7 +47,14 @@ trait PlayerTurnTrait {
             ]
         );
 
-        $this->gamestate->nextState( self::STATE_CONSTRUCT_BUILDING_NAME);
+        if ($payment->newScientificSymbolPair) { // TODO check if there are progress tokens left to choose from
+            $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_NAME);
+        }
+        else {
+            $this->gamestate->nextState( self::STATE_CONSTRUCT_BUILDING_NAME);
+        }
+
+
     }
 
     public function actionDiscardBuilding($buildingId) {
@@ -106,6 +113,6 @@ trait PlayerTurnTrait {
             ]
         );
 
-        $this->gamestate->nextState( self::STATE_DISCARD_BUILDING_NAME);
+        $this->gamestate->nextState( self::STATE_CONSTRUCT_WONDER_NAME);
     }
 }

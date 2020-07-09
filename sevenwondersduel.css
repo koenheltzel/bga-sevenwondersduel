@@ -265,7 +265,7 @@ __     __         _       _     _
     margin-right: var(--gutter);
 }
 
-#wonder_selection_container .wonder {
+.current_player_is_active #wonder_selection_container .wonder {
     cursor: pointer;
 }
 
@@ -843,7 +843,6 @@ __     __         _       _     _
     box-shadow:
         calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
-    cursor: pointer;
     display: block;
     position: relative; /* For the sliding animation (draftpool to player area) to work */
     z-index: 15; /* So they are on top of the draftpool buildings during animation */
@@ -855,7 +854,9 @@ __     __         _       _     _
     display: block;
 }
 
-.building_small.available {
+.current_player_is_active #swd[data-state=playerTurn] #draftpool .building_small.available,
+.current_player_is_active #swd[data-state=client_useAgeCard] #draftpool .building_small.available
+{
     cursor: pointer;
 }
 
@@ -914,7 +915,7 @@ __        __              _
         inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
 }
 
-.wonder_selectable {
+.current_player_is_active .wonder_selectable {
     cursor: pointer;
     animation: actionglow 0.5s infinite alternate;
 }
@@ -928,12 +929,15 @@ __        __              _
                  |___/
  */
 
+.current_player_is_active #swd[data-state=chooseProgressToken] #board_progress_tokens .progress_token_small {
+    cursor: pointer;
+}
+
 .progress_token {
     width: var(--progress-token-width);
     height: var(--progress-token-height);
     background-image: url('img/progress_tokens.jpg');
     position: absolute;
-    cursor: pointer;
     border-radius: calc(var(--progress-token-width) * 0.5);
     box-shadow:
         calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0px rgba(0,0,0,0.4),
@@ -959,7 +963,6 @@ __        __              _
     height: var(--linked-building-icon-height);
     background-image: url('img/linked-building-icons.jpg');
     position: absolute;
-    cursor: pointer;
     border-radius: calc(var(--scale) * 3px);
     display: inline-block;
     box-shadow:

@@ -137,6 +137,7 @@ $machinestates = [
         ],
         "transitions" => [
             SevenWondersDuel::STATE_CONSTRUCT_BUILDING_NAME => SevenWondersDuel::STATE_CONSTRUCT_BUILDING_ID,
+            SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID,
             SevenWondersDuel::STATE_DISCARD_BUILDING_NAME => SevenWondersDuel::STATE_DISCARD_BUILDING_ID,
             SevenWondersDuel::STATE_CONSTRUCT_WONDER_NAME => SevenWondersDuel::STATE_CONSTRUCT_WONDER_ID,
         ]
@@ -167,8 +168,8 @@ $machinestates = [
 
     SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID => [
         "name" => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME,
-        "description" => clienttranslate('${actplayer} must play a card or pass'),
-        "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
+        "description" => clienttranslate('${actplayer} must choose a progress token.'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a progress token.'),
         "type" => "activeplayer",
         "action" => "enterStateChooseProgressToken",
         "possibleactions" => [

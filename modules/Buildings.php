@@ -23,6 +23,20 @@ class Buildings extends Collection {
      * @param $types
      * @return Buildings
      */
+    public function filterByScientificSymbol($symbol) {
+        $buildings = new Buildings();
+        foreach ($this->array as $building) {
+            if ($building->scientificSymbol == $symbol) {
+                $buildings[] = $building;
+            }
+        }
+        return $buildings;
+    }
+
+    /**
+     * @param $types
+     * @return Buildings
+     */
     public function filterByTypes($types) {
         $buildings = new Buildings();
         foreach ($this->array as $building) {

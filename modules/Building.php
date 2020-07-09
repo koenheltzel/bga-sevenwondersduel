@@ -61,6 +61,14 @@ class Building extends Item {
         $payment = parent::construct($player);
 
         SevenWondersDuel::get()->buildingDeck->moveCard($this->id, $player->id);
+
+        if ($this->scientificSymbol) {
+            $buildings = Player::me()->getBuildings()->filterByScientificSymbol($this->scientificSymbol);
+            if (count($buildings->array) == 2) {
+                $payment->newScientificSymbolPair = true;
+            }
+        }
+
         return $payment;
     }
 

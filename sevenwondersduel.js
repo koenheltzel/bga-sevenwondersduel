@@ -99,9 +99,23 @@ define([
                 }
 
                 // Click handlers using event delegation:
-                dojo.query('#wonder_selection_container').on(".wonder:click", dojo.hitch(this, "onWonderSelectionClick"));
-                dojo.query('#draftpool').on(".building.available:click", dojo.hitch(this, "onPlayerTurnDraftpoolClick"));
-                dojo.query('#player_wonders_' + this.me_id).on(".wonder_small.wonder_selectable:click", dojo.hitch(this, "onPlayerTurnConstructWonderSelectedClick"));
+                dojo.query('body')
+                    .on("#swd[data-state=selectWonder] #wonder_selection_container .wonder:click",
+                        dojo.hitch(this, "onWonderSelectionClick")
+                    );
+                dojo.query('body')
+                    .on("#swd[data-state=playerTurn] #draftpool .building.available:click," +
+                        "#swd[data-state=client_useAgeCard] #draftpool .building.available:click",
+                        dojo.hitch(this, "onPlayerTurnDraftpoolClick")
+                    );
+                dojo.query('body')
+                    .on("#swd[data-state=client_useAgeCard] #player_wonders_" + this.me_id + " .wonder_small.wonder_selectable:click",
+                        dojo.hitch(this, "onPlayerTurnConstructWonderSelectedClick")
+                    );
+                dojo.query('body')
+                    .on("#swd[data-state=chooseProgressToken] #board_progress_tokens .progress_token_small:click",
+                        dojo.hitch(this, "onProgressTokenClick")
+                    );
 
                 // Click hide the tooltip:
                 dojo.query('#swd_wrap').on("*:click", dojo.hitch(this, "hideTooltip"));
@@ -780,6 +794,9 @@ define([
             onEnteringState: function (stateName, args) {
                 console.log('Entering state: ' + stateName);
 
+                dojo.attr($('swd'), 'data-state', stateName);
+
+
                 switch (stateName) {
 
                     /* Example:
@@ -1140,6 +1157,48 @@ define([
 
                         }
                     );
+                }
+            },
+            onProgressTokenClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                console.log('onProgressTokenClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('chooseProgressToken')) {
+                        return;
+                    }
+
+                    // var wonderId = dojo.attr(e.target, "data-wonder-id");
+                    //
+                    // // Set notification delay dynamically:
+                    // var position = this.getWonderCardData(this.player_id, wonderId);
+                    // var wonder = this.gamedatas.wonders[wonderId];
+                    // this.notifqueue.setSynchronous( 'constructWonder',
+                    //     this.getCoinAnimationDuration(position.cost) + this.constructWonderAnimationDuration + this.getCoinAnimationDuration(wonder.coins) + this.notification_safe_margin
+                    // );
+                    //
+                    // this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
+                    //         lock: true,
+                    //         buildingId: this.playerTurnBuildingId,
+                    //         wonderId: wonderId,
+                    //     },
+                    //     this, function (result) {
+                    //         dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
+                    //         // What to do after the server call if it succeeded
+                    //         // (most of the time: nothing)
+                    //
+                    //         // Hide wonder selection
+                    //         // dojo.style('pattern_selection', 'display', 'none');
+                    //
+                    //     }, function (is_error) {
+                    //         // What to do after the server call in anyway (success or failure)
+                    //         // (most of the time: nothing)
+                    //
+                    //     }
+                    // );
                 }
             },
 

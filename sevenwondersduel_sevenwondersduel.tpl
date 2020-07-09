@@ -31,150 +31,152 @@
     box-shadow: rgba(0, 0, 0, 1) 0px 0px 0px 10px inset;
     background-color: red;
     z-index: 50; opacity: 0.5; display: none"></div>
-<div id="swd_wrap" class="square" data-wonder-columns="1">
-    <div id="player_wonders_mobile_container_{PLAYER_OPPONENT_ID}">
-        <div></div>
-    </div>
-    <div id="layout_flexbox">
-        <div id="wonder_column">
-            <!-- BEGIN player_wonders -->
-            <div id="player_wonders_container_{PLAYER_ID}">
-                <div id="player_wonders_{PLAYER_ID}" class="whiteblock player_wonders player{PLAYER_ID} {PLAYER_ALIAS}">
-                    <div class="card_outline"></div>
-                    <div class="card_outline"></div>
-                    <div class="card_outline"></div>
-                    <div class="card_outline"></div>
+<div id="swd" data-state="">
+    <div id="swd_wrap" class="square" data-wonder-columns="1">
+        <div id="player_wonders_mobile_container_{PLAYER_OPPONENT_ID}">
+            <div></div>
+        </div>
+        <div id="layout_flexbox">
+            <div id="wonder_column">
+                <!-- BEGIN player_wonders -->
+                <div id="player_wonders_container_{PLAYER_ID}">
+                    <div id="player_wonders_{PLAYER_ID}" class="whiteblock player_wonders player{PLAYER_ID} {PLAYER_ALIAS}">
+                        <div class="card_outline"></div>
+                        <div class="card_outline"></div>
+                        <div class="card_outline"></div>
+                        <div class="card_outline"></div>
+                    </div>
                 </div>
+                <!-- END player_wonders -->
             </div>
-            <!-- END player_wonders -->
-        </div>
-        <div id="middle_column">
-            <!-- BEGIN middle_column_block -->
-                <!-- BEGIN draftpool -->
-                <div id="wonder_selection_block" class="whiteblock">
-                    <h3>Wonders selection:</h3>
-                    <div id="wonder_selection_container">
-                        <div class="card_outline"></div><div class="card_outline"></div><br/>
-                        <div class="card_outline"></div><div class="card_outline"></div>
+            <div id="middle_column">
+                <!-- BEGIN middle_column_block -->
+                    <!-- BEGIN draftpool -->
+                    <div id="wonder_selection_block" class="whiteblock">
+                        <h3>Wonders selection:</h3>
+                        <div id="wonder_selection_container">
+                            <div class="card_outline"></div><div class="card_outline"></div><br/>
+                            <div class="card_outline"></div><div class="card_outline"></div>
+                        </div>
                     </div>
-                </div>
-                <div id="draftpool_container" style="display: inline-block">
-                    <div id="draftpool" class="draftpool age">
+                    <div id="draftpool_container" style="display: inline-block">
+                        <div id="draftpool" class="draftpool age">
+                        </div>
+                        <div id="draftpool_actions" class="whiteblock">
+                            <a href="#" id="buttonConstructWonder" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>Construct a wonder</span></a>
+                            <a href="#" id="buttonConstructBuilding" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>Construct building</span></a>
+                            <a href="#" id="buttonDiscardBuilding" class="action_button bgabutton bgabutton_blue"><div class="coin"><span>+5</span></div><span>Discard for coins</span></a>
+                        </div>
                     </div>
-                    <div id="draftpool_actions" class="whiteblock">
-                        <a href="#" id="buttonConstructWonder" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>Construct a wonder</span></a>
-                        <a href="#" id="buttonConstructBuilding" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>Construct building</span></a>
-                        <a href="#" id="buttonDiscardBuilding" class="action_button bgabutton bgabutton_blue"><div class="coin"><span>+5</span></div><span>Discard for coins</span></a>
+                    <!-- END draftpool -->
+                    <!-- BEGIN player_buildings -->
+                    <div class="player_buildings whiteblock player{PLAYER_ID} {PLAYER_ALIAS}">
+                        <div class="player_building_column Brown" title="Raw materials"></div>
+                        <div class="player_building_column Grey" title="Manufactured goods"></div>
+                        <div class="player_building_column Yellow" title="Commercial Buildings"></div>
+                        <div class="player_building_column Red" title="Military Buildings"></div>
+                        <div class="player_building_column Blue" title="Civilian Buildings"></div>
+                        <div class="player_building_column Green" title="Scientific Buildings"></div>
+                        <div class="player_building_column Purple" title="Guilds"></div>
                     </div>
-                </div>
-                <!-- END draftpool -->
-                <!-- BEGIN player_buildings -->
-                <div class="player_buildings whiteblock player{PLAYER_ID} {PLAYER_ALIAS}">
-                    <div class="player_building_column Brown" title="Raw materials"></div>
-                    <div class="player_building_column Grey" title="Manufactured goods"></div>
-                    <div class="player_building_column Yellow" title="Commercial Buildings"></div>
-                    <div class="player_building_column Red" title="Military Buildings"></div>
-                    <div class="player_building_column Blue" title="Civilian Buildings"></div>
-                    <div class="player_building_column Green" title="Scientific Buildings"></div>
-                    <div class="player_building_column Purple" title="Guilds"></div>
-                </div>
-                <!-- END player_buildings -->
-            <!-- END middle_column_block -->
-        </div>
-        <div id="board_column">
-            <!-- BEGIN board_column_block -->
-                <!-- BEGIN board -->
-                <div id="board_container">
-                    <div class="board"></div>
-                    <div id="conflict_pawn" class="pawn"></div>
-                    <div id="board_progress_tokens">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
+                    <!-- END player_buildings -->
+                <!-- END middle_column_block -->
+            </div>
+            <div id="board_column">
+                <!-- BEGIN board_column_block -->
+                    <!-- BEGIN board -->
+                    <div id="board_container">
+                        <div class="board"></div>
+                        <div id="conflict_pawn" class="pawn"></div>
+                        <div id="board_progress_tokens">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div id="military_tokens">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
                     </div>
-                    <div id="military_tokens">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-                </div>
-                <!-- END board -->
-                <!-- BEGIN board_player -->
-                <div class="whiteblock player_info {PLAYER_ALIAS}">
-                    <!-- BEGIN board_player_row -->
-                        <!-- BEGIN board_player_row_info -->
+                    <!-- END board -->
+                    <!-- BEGIN board_player -->
+                    <div class="whiteblock player_info {PLAYER_ALIAS}">
+                        <!-- BEGIN board_player_row -->
+                            <!-- BEGIN board_player_row_info -->
 
-                        <div class="player_info_sub">
-                            <div class="player_area_name">
-                                <h3 style="color:#{PLAYER_COLOR}" class="">{PLAYER_NAME}</h3>
-                            </div>
-                            <div class="player_area_coins">
-                                <div class="coin">
-                                    <span id="player_area_{PLAYER_ID}_coins"></span>
+                            <div class="player_info_sub">
+                                <div class="player_area_name">
+                                    <h3 style="color:#{PLAYER_COLOR}" class="">{PLAYER_NAME}</h3>
+                                </div>
+                                <div class="player_area_coins">
+                                    <div class="coin">
+                                        <span id="player_area_{PLAYER_ID}_coins"></span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- END board_player_row_info -->
-                        <!-- BEGIN board_player_row_progress_tokens -->
-                        <div class="player_area_progress_tokens">
-                            <div class="progress_token_outline"><div></div></div>
-                            <div class="progress_token_outline"><div></div></div>
-                            <div class="progress_token_outline"><div></div></div>
-                            <div class="progress_token_outline"><div></div></div>
-                            <div class="progress_token_outline"><div></div></div>
-                        </div>
-                        <!-- END board_player_row_progress_tokens -->
-                    <!-- END board_player_row -->
+                            <!-- END board_player_row_info -->
+                            <!-- BEGIN board_player_row_progress_tokens -->
+                            <div class="player_area_progress_tokens">
+                                <div class="progress_token_outline"><div></div></div>
+                                <div class="progress_token_outline"><div></div></div>
+                                <div class="progress_token_outline"><div></div></div>
+                                <div class="progress_token_outline"><div></div></div>
+                                <div class="progress_token_outline"><div></div></div>
+                            </div>
+                            <!-- END board_player_row_progress_tokens -->
+                        <!-- END board_player_row -->
+                    </div>
+                    <!-- END board_player -->
+                <!-- END board_column_block -->
+            </div>
+
+            <!-- BEGIN block_catalog -->
+            <div>
+                <div class="whiteblock">
+                    <h3>Wonders:</h3>
+                    <div>
+                        <!-- BEGIN block_catalog_wonder -->
+                        <div id="catalog_wonder_{id}" data-wonder-id="{id}" class="wonder wonder_small"
+                             style="background-position: -{x}00% -{y}00%;"></div>
+                        <!-- END block_catalog_wonder -->
+                    </div>
                 </div>
-                <!-- END board_player -->
-            <!-- END board_column_block -->
+
+                <div class="whiteblock">
+                    <h3>Age cards:</h3>
+                    <div>
+                        <!-- BEGIN block_catalog_building -->
+                        <div id="catalog_building_{id}" data-building-id="{id}" class="building building_small"
+                             style="background-position: -{x}00% -{y}00%;"></div>
+                        <!-- END block_catalog_building -->
+                    </div>
+                </div>
+
+                <div class="whiteblock">
+                    <h3>Progress tokens:</h3>
+                    <div>
+                        <!-- BEGIN block_catalog_progress_token -->
+                        <div id="catalog_progress_token_{id}" data-progress-token-id="{id}"
+                             class="progress_token progress_token_small" style="background-position: -{x}00% -{y}00%;"></div>
+                        <!-- END block_catalog_progress_token -->
+                    </div>
+                </div>
+            </div>
+            <!-- END block_catalog -->
         </div>
-
-        <!-- BEGIN block_catalog -->
-        <div>
-            <div class="whiteblock">
-                <h3>Wonders:</h3>
-                <div>
-                    <!-- BEGIN block_catalog_wonder -->
-                    <div id="catalog_wonder_{id}" data-wonder-id="{id}" class="wonder wonder_small"
-                         style="background-position: -{x}00% -{y}00%;"></div>
-                    <!-- END block_catalog_wonder -->
-                </div>
-            </div>
-
-            <div class="whiteblock">
-                <h3>Age cards:</h3>
-                <div>
-                    <!-- BEGIN block_catalog_building -->
-                    <div id="catalog_building_{id}" data-building-id="{id}" class="building building_small"
-                         style="background-position: -{x}00% -{y}00%;"></div>
-                    <!-- END block_catalog_building -->
-                </div>
-            </div>
-
-            <div class="whiteblock">
-                <h3>Progress tokens:</h3>
-                <div>
-                    <!-- BEGIN block_catalog_progress_token -->
-                    <div id="catalog_progress_token_{id}" data-progress-token-id="{id}"
-                         class="progress_token progress_token_small" style="background-position: -{x}00% -{y}00%;"></div>
-                    <!-- END block_catalog_progress_token -->
-                </div>
-            </div>
+        <div id="player_wonders_mobile_container_{PLAYER_ME_ID}">
+            <div></div>
         </div>
-        <!-- END block_catalog -->
     </div>
-    <div id="player_wonders_mobile_container_{PLAYER_ME_ID}">
-        <div></div>
-    </div>
-</div>
-<div id="discarded_cards_whiteblock" class="whiteblock">
-    <h3>Discarded buildings:</h3>
-    <div id="discarded_cards_container">
-        <div class="discarded_cards_cursor"></div>
+    <div id="discarded_cards_whiteblock" class="whiteblock">
+        <h3>Discarded buildings:</h3>
+        <div id="discarded_cards_container">
+            <div class="discarded_cards_cursor"></div>
+        </div>
     </div>
 </div>
 <!-- END swd -->
