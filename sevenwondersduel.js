@@ -52,6 +52,7 @@ define([
                 this.militaryTrackStepDuration = 200;
                 this.coin_slide_duration = 500;
                 this.coin_slide_delay = 100;
+                this.notification_safe_margin = 200;
             },
 
             /*
@@ -200,6 +201,7 @@ define([
             },
 
             updatePlayerCoins: function (playerId, coins) {
+                console.log('updatePlayerCoins', playerId, coins)
                 this.gamedatas.playerCoins[playerId] = coins;
                 $('player_area_' + playerId + '_coins').innerHTML = coins;
             },
@@ -490,10 +492,17 @@ define([
                                 }),
                             }),
                             this.slideToObjectPos(node, targetNode, 0, 0, this.coin_slide_duration, i * this.coin_slide_delay),
-                            dojo.fadeOut({
+                            dojo.animateProperty({ // Standard fadeOut started of at opacity 0 (?!?)
                                 node: node,
                                 duration: this.coin_slide_duration * fadeDurationPercentage,
                                 delay: (i * this.coin_slide_delay) + ((1 - fadeDurationPercentage) * this.coin_slide_duration),
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    opacity: {
+                                        start: 1,
+                                        end: 0
+                                    }
+                                },
                                 onEnd: dojo.hitch(this, function (node) {
                                     dojo.destroy(node);
                                     if (targetNodePlayerId) {
@@ -919,8 +928,11 @@ define([
                     }
 
                     // Set notification delay dynamically:
-                    var position = this.getDraftpoolCardData(this.playerTurnBuildingId)
-                    this.notifqueue.setSynchronous( 'constructBuilding', this.getCoinAnimationDuration(position.cost[this.player_id]) + this.constructBuildingAnimationDuration);
+                    var position = this.getDraftpoolCardData(this.playerTurnBuildingId);
+                    var building = this.gamedatas.buildings[this.playerTurnBuildingId];
+                    this.notifqueue.setSynchronous( 'constructBuilding',
+                        this.getCoinAnimationDuration(position.cost[this.player_id]) + this.constructBuildingAnimationDuration + this.getCoinAnimationDuration(building.coins) + this.notification_safe_margin
+                    );
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
                             lock: true,
@@ -956,7 +968,9 @@ define([
                     }
 
                     // Set notification delay dynamically:
-                    this.notifqueue.setSynchronous( 'discardBuilding', this.getCoinAnimationDuration(this.gamedatas.draftpool.discardGain[this.player_id]) + this.discardBuildingAnimationDuration );
+                    this.notifqueue.setSynchronous( 'discardBuilding',
+                        this.getCoinAnimationDuration(this.gamedatas.draftpool.discardGain[this.player_id]) + this.discardBuildingAnimationDuration + this.notification_safe_margin
+                    );
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
                             lock: true,
@@ -1029,7 +1043,9 @@ define([
 
                     // Set notification delay dynamically:
                     var position = this.getWonderCardData(this.player_id, wonderId)
-                    this.notifqueue.setSynchronous( 'constructWonder', this.getCoinAnimationDuration(position.cost) + this.constructWonderAnimationDuration);
+                    this.notifqueue.setSynchronous( 'constructWonder',
+                        this.getCoinAnimationDuration(position.cost) + this.constructWonderAnimationDuration + this.notification_safe_margin
+                    );
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
                             lock: true,
@@ -1220,7 +1236,6 @@ define([
             notif_constructBuilding: function (notif) {
                 console.log('notif_constructBuilding', notif);
 
-                this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
                 this.updateMilitaryTrack(notif.args.militaryTrack);
                 this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
 
@@ -1245,6 +1260,19 @@ define([
                     notif.args.playerId
                 );
 
+                var coinRewardAnimation = undefined;
+                if (building.coins > 0) {
+                    coinRewardAnimation = this.getCoinAnimation(
+                        playerBuildingContainer,
+                        dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                        building.coins,
+                        notif.args.playerId
+                    );
+                }
+                else {
+                    coinRewardAnimation = dojo.fx.combine([]);
+                }
+
                 var anim = dojo.fx.chain([
                     coinAnimation,
                     dojo.fx.combine([
@@ -1258,9 +1286,15 @@ define([
                         }),
                     ]),
                     this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                    coinRewardAnimation,
                 ]);
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerCoins.
+                    anim.stop();
+                    // Clean up any existing coin nodes (normally cleaned up by their onEnd)
+                    dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
+
                     dojo.style(playerBuildingId, 'z-index', 15);
                     this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
                     this.updateDraftpool(notif.args.draftpool);
