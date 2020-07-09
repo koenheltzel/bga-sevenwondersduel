@@ -93,7 +93,7 @@ define([
                     // TODO: Setting up players boards if needed
                     this.updatePlayerWonders(player_id, this.gamedatas.wondersSituation[player_id]);
                     this.updatePlayerBuildings(player_id, this.gamedatas.playerBuildings[player_id]);
-                    this.updatePlayerCoins(player_id, this.gamedatas.playerCoins[player_id]);
+                    this.updatePlayerCoins(player_id, this.gamedatas.playersSituation[player_id].coins);
                 }
 
                 // Click handlers using event delegation:
@@ -202,7 +202,7 @@ define([
 
             updatePlayerCoins: function (playerId, coins) {
                 console.log('updatePlayerCoins', playerId, coins)
-                this.gamedatas.playerCoins[playerId] = coins;
+                this.gamedatas.playersSituation[playerId].coins = coins;
                 $('player_area_' + playerId + '_coins').innerHTML = coins;
             },
 
@@ -245,7 +245,7 @@ define([
                     var container = dojo.query('.player_wonders.player' + playerId + '>div:nth-of-type(' + i + ')')[0];
                     dojo.empty(container);
                     var row = rows[index];
-                    var wonderDivHtml = this.getWonderDivHtml(row.wonder, row.constructed == 0, row.cost, this.gamedatas.playerCoins[playerId]);
+                    var wonderDivHtml = this.getWonderDivHtml(row.wonder, row.constructed == 0, row.cost, this.gamedatas.playersSituation[playerId].coins);
                     var wonderDiv = dojo.place(wonderDivHtml, container);
                     if (row.constructed > 0) {
                         var age = row.constructed;
@@ -351,10 +351,10 @@ define([
                             spriteId = position.building;
                             data.jsId = position.building;
                             data.jsDisplayCostMe = position.available ? 'block' : 'none',
-                            data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playerCoins[this.me_id]),
+                            data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
                             data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
                             data.jsDisplayCostOpponent = position.available ? 'block' : 'none',
-                            data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playerCoins[this.opponent_id]),
+                            data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playersSituation[this.opponent_id].coins),
                             data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
 
                             // Linked building symbol
@@ -891,7 +891,7 @@ define([
                     var cardData = this.getDraftpoolCardData(this.playerTurnBuildingId);
                     dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + this.gamedatas.draftpool.discardGain[this.player_id];
 
-                    var playerCoins = this.gamedatas.playerCoins[this.player_id];
+                    var playerCoins = this.gamedatas.playersSituation[this.player_id].coins;
 
                     var canAffordBuilding = cardData.cost[this.player_id] <= playerCoins;
                     dojo.removeClass($('buttonConstructBuilding'), 'bgabutton_blue');
@@ -1020,7 +1020,7 @@ define([
                     Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
                         var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
                         if (!wonderData.constructed) {
-                            if (wonderData.cost <= this.gamedatas.playerCoins[this.player_id]) {
+                            if (wonderData.cost <= this.gamedatas.playersSituation[this.player_id].coins) {
                                 dojo.addClass($('wonder_' + wonderData.wonder), 'wonder_selectable');
                             }
                         }
@@ -1301,7 +1301,7 @@ define([
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
 
                     dojo.style(playerBuildingId, 'z-index', 15);
-                    this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
+                    this.updatePlayerCoins(notif.args.playerId, notif.args.playersSituation[notif.args.playerId].coins);
                     this.updateDraftpool(notif.args.draftpool);
                     this.updateWondersSituation(notif.args.wondersSituation);
                 }));
@@ -1338,7 +1338,7 @@ define([
                 var moveAnim = this.slideToObjectPos(buildingNode, wrapperDiv, 0, 0, this.discardBuildingAnimationDuration);
 
                 dojo.connect(moveAnim, 'onEnd', dojo.hitch(this, function (node) {
-                    this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
+                    this.updatePlayerCoins(notif.args.playerId, notif.args.playersSituation[notif.args.playerId].coins);
                     this.updateDraftpool(notif.args.draftpool);
                     this.updateWondersSituation(notif.args.wondersSituation);
                 }));
@@ -1460,7 +1460,7 @@ define([
 
                             dojo.style(ageCardNode, 'z-index', 1);
                             dojo.style(wonderNode, 'z-index', 2);
-                            this.updatePlayerCoins(notif.args.playerId, notif.args.playerCoins);
+                            this.updatePlayerCoins(notif.args.playerId, notif.args.playersSituation[notif.args.playerId].coins);
                             this.updateDraftpool(notif.args.draftpool);
                             this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
                         }));

@@ -51,7 +51,7 @@ class Wonder extends Item {
             return true;
         }
         else {
-            $cards = \SevenWondersDuel::get()->buildingDeck->getCardsInLocation('wonder' . $this->id);
+            $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation('wonder' . $this->id);
             if (count($cards) > 0) {
                 $card = array_shift($cards);
                 return Building::get($card['id'])->age;

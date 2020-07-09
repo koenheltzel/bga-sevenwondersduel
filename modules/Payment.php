@@ -9,6 +9,8 @@ class Payment
      * @var PaymentStep[] array
      */
     public $steps = [];
+    public $militaryTokenNumber = 0;
+    public $militaryTokenValue = 0;
 
     public function __construct() {
 

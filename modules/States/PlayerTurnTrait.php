@@ -7,6 +7,7 @@ use SWD\Building;
 use SWD\Draftpool;
 use SWD\MilitaryTrack;
 use SWD\Player;
+use SWD\Players;
 use SWD\Wonder;
 use SWD\Wonders;
 
@@ -40,9 +41,9 @@ trait PlayerTurnTrait {
                 'buildingId' => $building->id,
                 'draftpool' => Draftpool::get(),
                 'wondersSituation' => Wonders::getSituation(),
-                'playerCoins' => Player::me()->getCoins(),
-                'playerScore' => Player::me()->getScore(),
+                'playersSituation' => Players::getSituation(),
                 'militaryTrack' => MilitaryTrack::getData(),
+                'payment' => $payment,
             ]
         );
 
@@ -68,7 +69,7 @@ trait PlayerTurnTrait {
                 'buildingId' => $building->id,
                 'draftpool' => Draftpool::get(),
                 'wondersSituation' => Wonders::getSituation(),
-                'playerCoins' => Player::me()->getCoins(),
+                'playersSituation' => Players::getSituation(),
             ]
         );
 
@@ -99,9 +100,9 @@ trait PlayerTurnTrait {
                 'wonderId' => $wonder->id,
                 'draftpool' => Draftpool::get(),
                 'wondersSituation' => Wonders::getSituation(),
-                'playerCoins' => Player::me()->getCoins(),
-                'playerScore' => Player::me()->getScore(),
+                'playersSituation' => Players::getSituation(),
                 'militaryTrack' => MilitaryTrack::getData(),
+                'payment' => $payment,
             ]
         );
 

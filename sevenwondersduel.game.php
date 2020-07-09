@@ -20,6 +20,7 @@ use SWD\Draftpool;
 use SWD\Material;
 use SWD\MilitaryTrack;
 use SWD\Player;
+use SWD\Players;
 use SWD\Wonder;
 use SWD\Wonders;
 
@@ -136,6 +137,10 @@ class SevenWondersDuel extends Table
     const VALUE_CURRENT_WONDER_SELECTION_ROUND = "current_wonder_selection_round";
     const VALUE_CURRENT_AGE = "current_age";
     const VALUE_CONFLICT_PAWN_POSITION = "conflict_pawn_position";
+    const VALUE_MILITARY_TOKEN1 = "military_token1";
+    const VALUE_MILITARY_TOKEN2 = "military_token2";
+    const VALUE_MILITARY_TOKEN3 = "military_token3";
+    const VALUE_MILITARY_TOKEN4 = "military_token4";
 
 
     /**
@@ -169,6 +174,10 @@ class SevenWondersDuel extends Table
                 self::VALUE_CURRENT_WONDER_SELECTION_ROUND => 10,
                 self::VALUE_CURRENT_AGE => 11,
                 self::VALUE_CONFLICT_PAWN_POSITION => 12,
+                self::VALUE_MILITARY_TOKEN1 => 13,
+                self::VALUE_MILITARY_TOKEN2 => 14,
+                self::VALUE_MILITARY_TOKEN3 => 15,
+                self::VALUE_MILITARY_TOKEN4 => 16,
             //    "my_second_global_variable" => 11,
             //      ...
             //    "my_first_game_variant" => 100,
@@ -216,6 +225,18 @@ class SevenWondersDuel extends Table
         return $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
     }
 
+    /**
+     * @param $number 1 to 4
+     * @return int token value or 0 if no token
+     */
+    public function takeMilitaryToken($number) {
+        $value = (int)$this->getGameStateValue(constant ( "self::VALUE_MILITARY_TOKEN{$number}"));
+        if ($value > 0) {
+            $this->setGameStateValue(constant ( "self::VALUE_MILITARY_TOKEN{$number}"), 0);
+        }
+        return $value;
+    }
+
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
@@ -256,6 +277,10 @@ class SevenWondersDuel extends Table
         // Init global values with their initial values
         self::setGameStateInitialValue( self::VALUE_CURRENT_WONDER_SELECTION_ROUND, 1);
         self::setGameStateInitialValue( self::VALUE_CURRENT_AGE, 0);
+        self::setGameStateInitialValue( self::VALUE_MILITARY_TOKEN1, -5);
+        self::setGameStateInitialValue( self::VALUE_MILITARY_TOKEN2, -2);
+        self::setGameStateInitialValue( self::VALUE_MILITARY_TOKEN3, -2);
+        self::setGameStateInitialValue( self::VALUE_MILITARY_TOKEN4, -5);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)
@@ -305,10 +330,7 @@ class SevenWondersDuel extends Table
             Player::me()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::me()->id),
             Player::opponent()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::opponent()->id),
         ];
-        $result['playerCoins'] = [
-            Player::me()->id => Player::me()->getCoins(),
-            Player::opponent()->id => Player::opponent()->getCoins(),
-        ];
+        $result['playersSituation'] = Players::getSituation();
         $result['buildings'] = Material::get()->buildings->array;
         $result['wonders'] = Material::get()->wonders->array;
         $result['progressTokens'] = Material::get()->progressTokens->array;

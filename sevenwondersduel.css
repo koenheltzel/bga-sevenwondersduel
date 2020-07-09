@@ -332,6 +332,7 @@ __     __         _       _     _
     filter: drop-shadow(0px 0px calc(var(--scale) * 3px) #000000);
     position: absolute;
     display: inline-block;
+    z-index: 3;
 }
 
 
@@ -361,6 +362,52 @@ __     __         _       _     _
 
 #board_progress_tokens>div:nth-of-type(5) {
     top: calc(var(--board-height) * var(--board-scale) * 0.657);
+}
+
+
+#military_tokens>div {
+    position: absolute;
+}
+
+#military_tokens>div:nth-of-type(1) {
+    left: calc(var(--board-width) * var(--board-scale) * 0.0775);
+    top: calc(var(--board-height) * var(--board-scale) * 0.104);
+}
+
+#military_tokens>div:nth-of-type(2) {
+    left: calc(var(--board-width) * var(--board-scale) * 0.095);
+    top: calc(var(--board-height) * var(--board-scale) * 0.257);
+}
+
+#military_tokens>div:nth-of-type(3) {
+    left: calc(var(--board-width) * var(--board-scale) * 0.095);
+    top: calc(var(--board-height) * var(--board-scale) * 0.643);
+}
+
+#military_tokens>div:nth-of-type(4) {
+    left: calc(var(--board-width) * var(--board-scale) * 0.0775);
+    top: calc(var(--board-height) * var(--board-scale) * 0.778);
+}
+
+.military_token {
+    border-radius: calc(var(--board-scale) * 10px);
+    filter: drop-shadow(0px 0px calc(var(--scale) * 3px) #000000);
+    position: relative;
+    /*display: inline-block;*/
+}
+
+.military_token_2 {
+    background-image: url('img/military_token_2.png');
+    width: calc(var(--board-scale) * 61px);
+    height: calc(var(--board-scale) * 141px);
+    background-size: calc(var(--board-scale) * 61px) calc(var(--board-scale) * 141px);
+}
+
+.military_token_5 {
+    background-image: url('img/military_token_5.png');
+    width: calc(var(--board-scale) * 73px);
+    height: calc(var(--board-scale) * 167px);
+    background-size: calc(var(--board-scale) * 73px) calc(var(--board-scale) * 167px);
 }
 
 .board_player_left, .board_player_right {

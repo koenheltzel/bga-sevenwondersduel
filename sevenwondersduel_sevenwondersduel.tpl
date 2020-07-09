@@ -94,6 +94,12 @@
                         <div></div>
                         <div></div>
                     </div>
+                    <div id="military_tokens">
+                        <div><div class="military_token military_token_5"></div></div>
+                        <div><div class="military_token military_token_2"></div></div>
+                        <div><div class="military_token military_token_2"></div></div>
+                        <div><div class="military_token military_token_5"></div></div>
+                    </div>
                 </div>
                 <!-- END board -->
                 <!-- BEGIN board_player -->
