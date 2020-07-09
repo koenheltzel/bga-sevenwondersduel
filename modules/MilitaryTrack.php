@@ -39,7 +39,13 @@ class MilitaryTrack
         else if ($position >= 6 && $position <= 8) {
             $number = 4;
         }
-        $value = SevenWondersDuel::get()->takeMilitaryToken($number);
+        $value = 0;
+        if ($number > 0) {
+            $value = SevenWondersDuel::get()->takeMilitaryToken($number);
+            if ($value == 0) {
+                $number = 0;
+            }
+        }
         return [$number, $value];
     }
 

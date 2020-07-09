@@ -101,7 +101,7 @@ define([
 
                 // Click handlers using event delegation:
                 dojo.query('body')
-                    .on("#swd[data-state=selectWonder] #wonder_selection_container .wonder:click",
+                    .on("#swd[data-state=wonderSelected] #wonder_selection_container .wonder:click",
                         dojo.hitch(this, "onWonderSelectionClick")
                     );
                 dojo.query('body')
