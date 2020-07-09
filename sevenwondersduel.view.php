@@ -88,7 +88,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                 "PLAYER_ID" => $playerId,
                 "PLAYER_NAME" => $player['player_name'],
                 "PLAYER_COLOR" => $player['player_color'],
-                "WHICH_PLAYER" => $playerId == Player::me()->id ? 'me' : 'opponent'
+                "PLAYER_ALIAS" => Player::get($playerId)->getAlias()
             ));
 
             $this->page->insert_block("board_column_block");
@@ -105,7 +105,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                 "PLAYER_ID" => $playerId,
                 "PLAYER_NAME" => $player['player_name'],
                 "PLAYER_COLOR" => $player['player_color'],
-                "WHICH_PLAYER" => $playerId == Player::me()->id ? 'me' : 'opponent'
+                "PLAYER_ALIAS" => Player::get($playerId)->getAlias()
             ));
             $this->page->insert_block("middle_column_block");
 
@@ -116,7 +116,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                 "PLAYER_ID" => $playerId,
                 "PLAYER_NAME" => $player['player_name'],
                 "PLAYER_COLOR" => $player['player_color'],
-                "WHICH_PLAYER" => $playerId == Player::me()->id ? 'me' : 'opponent'
+                "PLAYER_ALIAS" => Player::get($playerId)->getAlias()
             ));
 
             $index++;

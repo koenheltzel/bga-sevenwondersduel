@@ -39,7 +39,7 @@
         <div id="wonder_column">
             <!-- BEGIN player_wonders -->
             <div id="player_wonders_container_{PLAYER_ID}">
-                <div id="player_wonders_{PLAYER_ID}" class="whiteblock player_wonders player{PLAYER_ID} {WHICH_PLAYER}">
+                <div id="player_wonders_{PLAYER_ID}" class="whiteblock player_wonders player{PLAYER_ID} {PLAYER_ALIAS}">
                     <div class="card_outline"></div>
                     <div class="card_outline"></div>
                     <div class="card_outline"></div>
@@ -69,7 +69,7 @@
                 </div>
                 <!-- END draftpool -->
                 <!-- BEGIN player_buildings -->
-                <div class="player_buildings whiteblock player{PLAYER_ID} {WHICH_PLAYER}">
+                <div class="player_buildings whiteblock player{PLAYER_ID} {PLAYER_ALIAS}">
                     <div class="player_building_column Brown" title="Raw materials"></div>
                     <div class="player_building_column Grey" title="Manufactured goods"></div>
                     <div class="player_building_column Yellow" title="Commercial Buildings"></div>
@@ -103,7 +103,7 @@
                 </div>
                 <!-- END board -->
                 <!-- BEGIN board_player -->
-                <div class="whiteblock player_info {WHICH_PLAYER}">
+                <div class="whiteblock player_info {PLAYER_ALIAS}">
                     <!-- BEGIN board_player_row -->
                         <!-- BEGIN board_player_row_info -->
 

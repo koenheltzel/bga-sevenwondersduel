@@ -196,6 +196,10 @@ define([
                 }
             },
 
+            getPlayerAlias: function(playerId) {
+                return playerId == this.me_id ? 'me' : 'opponent'
+            },
+
             getOppositePlayerId: function(playerId) {
                 return playerId == this.me_id ? this.opponent_id : this.me_id;
             },
@@ -381,7 +385,7 @@ define([
                         // Remove linked symbols dom elements that aren't needed.
                         Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
                             if (linkedBuildingId == 0 || !position.hasLinkedBuilding[playerId]) {
-                                dojo.destroy(dojo.query('.' + (playerId == this.me_id ? 'me' : 'opponent') + ' .linked_building_icon', newNode)[0]);
+                                dojo.destroy(dojo.query('.' + this.getPlayerAlias(playerId) + ' .linked_building_icon', newNode)[0]);
                             }
                         }));
 
@@ -532,16 +536,16 @@ define([
                 player_id = this.getOppositePlayerId(active_player_id);
                 var anims = [];
                 if (payment.militaryTokenNumber > 0) {
-                    var whichPlayer = player_id == this.me_id ? 'me' : 'opponent';
+                    var playerAlias = player_id == this.me_id ? 'me' : 'opponent';
                     var tokenNumber = this.invertMilitaryTrack() ? (5 - payment.militaryTokenNumber) : payment.militaryTokenNumber;
                     var tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
                     var coinAnimation = this.getCoinAnimation(
-                        dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                        dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                         tokenNode,
                         -payment.militaryTokenValue,
                         player_id
                     );
-                    console.log('getCoinAnimation', dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                    console.log('getCoinAnimation', dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                         tokenNode,
                         -payment.militaryTokenValue,
                         player_id);
@@ -1289,11 +1293,11 @@ define([
                 dojo.style(playerBuildingId, 'opacity', 0);
                 dojo.style(playerBuildingId, 'z-index', 20);
 
-                var whichPlayer = notif.args.playerId == this.me_id ? 'me' : 'opponent';
-                var coinNode = dojo.query('.draftpool_building_cost.' + whichPlayer + ' .coin', buildingNode)[0];
+                var playerAlias = this.getPlayerAlias(notif.args.playerId);
+                var coinNode = dojo.query('.draftpool_building_cost.' + playerAlias + ' .coin', buildingNode)[0];
                 var position = this.getDraftpoolCardData(notif.args.buildingId);
                 var coinAnimation = this.getCoinAnimation(
-                    dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                    dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                     coinNode,
                     -position.cost[notif.args.playerId],
                     notif.args.playerId
@@ -1303,7 +1307,7 @@ define([
                 if (building.coins > 0) {
                     coinRewardAnimation = this.getCoinAnimation(
                         playerBuildingContainer,
-                        dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                        dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                         building.coins,
                         notif.args.playerId
                     );
@@ -1354,10 +1358,9 @@ define([
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
-                var whichPlayer = notif.args.playerId == this.me_id ? 'me' : 'opponent';
                 var coinAnimation = this.getCoinAnimation(
                     buildingNode,
-                    dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                    dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_coins')[0],
                     notif.args.gain,
                     notif.args.playerId
                 );
@@ -1395,15 +1398,15 @@ define([
                 this.clearActionGlow();
 
                 var wonderContainer = dojo.query('#player_wonders_' + notif.args.playerId + ' #wonder_' + notif.args.wonderId + '_container')[0];
-                var whichPlayer = notif.args.playerId == this.me_id ? 'me' : 'opponent';
+                var playerAlias = this.getPlayerAlias(notif.args.playerId);
                 var coinNode = dojo.query('.player_wonder_cost', wonderContainer)[0];
                 var position = this.getWonderCardData(notif.args.playerId, notif.args.wonderId);
-                console.log('getCoinAnimation', dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                console.log('getCoinAnimation', dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                     coinNode,
                     -position.cost,
                     notif.args.playerId);
                 var coinAnimation = this.getCoinAnimation(
-                    dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                    dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                     coinNode,
                     -position.cost,
                     notif.args.playerId
@@ -1433,7 +1436,7 @@ define([
                         if (wonder.coins > 0) {
                             coinRewardAnimation = this.getCoinAnimation(
                                 wonderNode,
-                                dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                                dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                                 wonder.coins,
                                 notif.args.playerId,
                                 [wonder.visualCoinPosition[0] * wonderNodePosition.w, wonder.visualCoinPosition[1] * wonderNodePosition.h]

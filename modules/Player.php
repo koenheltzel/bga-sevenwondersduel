@@ -60,6 +60,10 @@ class Player extends \APP_DbObject{
         self::$instances[$id] = $this;
     }
 
+    public function getAlias() {
+        return $this->id == Player::me()->id ? 'me' : 'opponent';
+    }
+
     public function getCoins() {
         return (int)$this->getValue("player_coins");
     }
