@@ -225,12 +225,21 @@ class SevenWondersDuel extends Table
         return $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
     }
 
+
+    /**
+     * @param $number 1 to 4
+     * @return int token value or 0 if no token
+     */
+    public function getMilitaryTokenValue($number) {
+        return (int)$this->getGameStateValue(constant ( "self::VALUE_MILITARY_TOKEN{$number}"));
+    }
+
     /**
      * @param $number 1 to 4
      * @return int token value or 0 if no token
      */
     public function takeMilitaryToken($number) {
-        $value = (int)$this->getGameStateValue(constant ( "self::VALUE_MILITARY_TOKEN{$number}"));
+        $value = $this->getMilitaryTokenValue($number);
         if ($value > 0) {
             $this->setGameStateValue(constant ( "self::VALUE_MILITARY_TOKEN{$number}"), 0);
         }

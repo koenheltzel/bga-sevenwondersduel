@@ -653,6 +653,15 @@ define([
             },
 
             updateMilitaryTrack: function(militaryTrack) {
+                for (var i = 1; i <= 4; i++) {
+                    var value = militaryTrack.tokens[i];
+                    var frontEndNumber = this.invertMilitaryTrack() ? (5 - i) : i;
+                    var tokenContainer = dojo.query('#military_tokens>div:nth-of-type(' + frontEndNumber + ')')[0];
+                    if (tokenContainer.children.length == 0 && value > 0) {
+                        var newToken = dojo.place(this.format_block('jstpl_military_token', { jsValue: value }), tokenContainer);
+                    }
+                }
+
                 var oldPosition = this.gamedatas.militaryTrack.conflictPawn;
                 this.gamedatas.militaryTrack = militaryTrack;
                 var steps = Math.abs(oldPosition - militaryTrack.conflictPawn);

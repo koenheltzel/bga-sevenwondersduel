@@ -95,10 +95,10 @@
                         <div></div>
                     </div>
                     <div id="military_tokens">
-                        <div><div class="military_token military_token_5"></div></div>
-                        <div><div class="military_token military_token_2"></div></div>
-                        <div><div class="military_token military_token_2"></div></div>
-                        <div><div class="military_token military_token_5"></div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </div>
                 </div>
                 <!-- END board -->
@@ -257,6 +257,8 @@ var jstpl_board_progress_token = '\
         style="position: inline-block; background-position: -${jsX}00% -${jsY}00%;"\
     >\
     </div>';
+
+var jstpl_military_token = '<div class="military_token military_token_${jsValue}"></div>';
 
 var jstpl_coin_animated = '<div class="coin animated"></div>';
 

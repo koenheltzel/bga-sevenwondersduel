@@ -45,6 +45,12 @@ class MilitaryTrack
 
     public static function getData() {
         return [
+            'tokens' => [
+                1 => SevenWondersDuel::get()->getMilitaryTokenValue(1),
+                2 => SevenWondersDuel::get()->getMilitaryTokenValue(2),
+                3 => SevenWondersDuel::get()->getMilitaryTokenValue(3),
+                4 => SevenWondersDuel::get()->getMilitaryTokenValue(4),
+            ],
             'conflictPawn' => SevenWondersDuel::get()->getConflictPawnPosition()
         ];
     }
