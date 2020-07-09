@@ -243,17 +243,8 @@ var jstpl_wonder_age_card = '\
     >\
     </div>';
 
-var jstpl_player_progress_token = '\
-    <div id="player_progress_token_${jsId}"\
-        ${jsData}\
-        class="progress_token progress_token_small"\
-        style="position: inline-block; background-position: -${jsX}00% -${jsY}00%;"\
-    >\
-    </div>';
-
-
-var jstpl_board_progress_token = '\
-    <div id="board_progress_token_${jsId}"\
+var jstpl_progress_token = '\
+    <div id="progress_token_${jsId}"\
         ${jsData}\
         class="progress_token progress_token_small"\
         style="position: inline-block; background-position: -${jsX}00% -${jsY}00%;"\

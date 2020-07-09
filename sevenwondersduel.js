@@ -96,6 +96,7 @@ define([
                     this.updatePlayerWonders(player_id, this.gamedatas.wondersSituation[player_id]);
                     this.updatePlayerBuildings(player_id, this.gamedatas.playerBuildings[player_id]);
                     this.updatePlayerCoins(player_id, this.gamedatas.playersSituation[player_id].coins);
+                    this.updatePlayerProgressTokens(player_id, this.gamedatas.progressTokensSituation[player_id]);
                 }
 
                 // Click handlers using event delegation:
@@ -209,7 +210,7 @@ define([
                     var spritesheetColumns = 4;
                     data.jsX = (progressToken.id - 1) % spritesheetColumns;
                     data.jsY = Math.floor((progressToken.id - 1) / spritesheetColumns);
-                    dojo.place(this.format_block('jstpl_board_progress_token', data), container);
+                    dojo.place(this.format_block('jstpl_progress_token', data), container);
                 }
             },
 
@@ -261,6 +262,25 @@ define([
                     dijit.Tooltip._masterTT.containerNode.innerHTML='';
                     dojo.removeClass(dijit.Tooltip._masterTT.id, "dijitTooltip");
                 }
+            },
+
+            updatePlayerProgressTokens: function (playerId, deckCards) {
+                console.log('updatePlayerProgressTokens', playerId, deckCards);
+
+                Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
+                    var container = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + i + ')')[0];
+                    dojo.empty(container);
+                    var deckCard = deckCards[index];
+
+                    var data = {
+                        jsId: deckCard.id,
+                        jsData: 'data-progress-token-id="' + deckCard.id + '"',
+                    };
+                    var spritesheetColumns = 4;
+                    data.jsX = (deckCard.id - 1) % spritesheetColumns;
+                    data.jsY = Math.floor((deckCard.id - 1) / spritesheetColumns);
+                    dojo.place(this.format_block('jstpl_progress_token', data), container);
+                }));
             },
 
             updatePlayerWonders: function (playerId, rows) {
