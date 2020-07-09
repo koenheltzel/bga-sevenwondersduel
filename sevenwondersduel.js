@@ -1399,7 +1399,7 @@ define([
                                 dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
                                 wonder.coins,
                                 notif.args.playerId,
-                                [0.412 * wonderNodePosition.w, -0.208 * wonderNodePosition.h]
+                                [wonder.visualCoinPosition[0] * wonderNodePosition.w, wonder.visualCoinPosition[1] * wonderNodePosition.h]
                             );
                         }
                         else {

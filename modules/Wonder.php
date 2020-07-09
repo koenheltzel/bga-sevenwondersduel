@@ -7,6 +7,12 @@ use SevenWondersDuel;
 class Wonder extends Item {
 
     /**
+     * The visual position of the opponent coin loss on the card. Percentages from the center of the card.
+     * @var int
+     */
+    public $visualOpponentCoinLossPosition = [0, 0];
+
+    /**
      * @param $id
      * @return Wonder
      */
@@ -52,6 +58,15 @@ class Wonder extends Item {
             }
             return 0;
         }
+    }
+
+    /**
+     * @param array $visualOpponentCoinLossPosition
+     * @return static
+     */
+    public function setVisualOpponentCoinLossPosition(array $visualOpponentCoinLossPosition) {
+        $this->visualOpponentCoinLossPosition = $visualOpponentCoinLossPosition;
+        return $this;
     }
 
 }

@@ -57,7 +57,8 @@ class Material
 
         $this->wonders[4] = (new Wonder(4, clienttranslate("The Temple of Artemis")))
             ->setCost([PAPYRUS => 1, GLASS => 1, STONE => 1, WOOD => 1])
-            ->setCoins(12);
+            ->setCoins(12)
+            ->setVisualCoinPosition([0.412, -0.125]);
 
         $this->wonders[5] = (new Wonder(5, clienttranslate("The Mausoleum")))
             ->setCost([PAPYRUS => 1, GLASS => 2, CLAY => 2]);
@@ -71,7 +72,8 @@ class Material
 
         $this->wonders[8] = (new Wonder(8, clienttranslate("The Hanging Gardens")))
             ->setCost([PAPYRUS => 1, GLASS => 1, WOOD => 2])
-            ->setCoins(6);
+            ->setCoins(6)
+            ->setVisualCoinPosition([0.412, -0.208]);
 
         $this->wonders[9] = (new Wonder(9, clienttranslate("The Statue of Zeus")))
             ->setCost([PAPYRUS => 2, CLAY => 1, WOOD => 1, STONE => 1]);
@@ -81,7 +83,9 @@ class Material
 
         $this->wonders[11] = (new Wonder(11, clienttranslate("The Appian Way")))
             ->setCost([PAPYRUS => 1, CLAY => 2, STONE => 2])
-            ->setCoins(3);
+            ->setCoins(3)
+            ->setVisualCoinPosition([0.412, -0.296])
+            ->setVisualOpponentCoinLossPosition([0.412, -0.0875]);
 
         $this->wonders[12] = (new Wonder(12, clienttranslate("Circus Maximus")))
             ->setCost([GLASS => 1, WOOD => 1, STONE => 2]);

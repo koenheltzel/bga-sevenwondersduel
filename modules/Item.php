@@ -21,6 +21,12 @@ class Item
     public $victoryPoints = 0;
     public $coins = 0; // coins as a reward, not cost
     public $scientificSymbol = 0;
+
+    /**
+     * The visual position of the coin on the card. Percentages from the center of the card.
+     * @var int
+     */
+    public $visualCoinPosition = [0, 0];
 //    public $playEffects = [];
 //    public $endEffects = [];
 
@@ -116,6 +122,15 @@ class Item
      */
     public function setResourceChoice(array $resourceChoice) {
         $this->resourceChoice = $resourceChoice;
+        return $this;
+    }
+
+    /**
+     * @param array $visualCoinPosition
+     * @return static
+     */
+    public function setVisualCoinPosition(array $visualCoinPosition) {
+        $this->visualCoinPosition = $visualCoinPosition;
         return $this;
     }
 
