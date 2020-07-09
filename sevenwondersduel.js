@@ -76,8 +76,8 @@ define([
                 this.gamedatas = gamedatas;
 
                 // Because of spectators we can't assume everywhere that this.player_id is one of the two players.
-                this.me_id = parseInt(this.gamedatas.playerorder[0]);
-                this.opponent_id = parseInt(this.gamedatas.playerorder[1]);
+                this.me_id = parseInt(this.gamedatas.playerorder[0]); // me = alias for the player on the bottom
+                this.opponent_id = parseInt(this.gamedatas.playerorder[1]); // opponent = alias for the player on the top
 
                 // Setup game situation.
                 this.updateWondersSituation(this.gamedatas.wondersSituation);
@@ -194,6 +194,10 @@ define([
                         dojo.place(this.format_block('jstpl_board_progress_token', data), container);
                     }
                 }
+            },
+
+            getOppositePlayerId: function(playerId) {
+                return playerId == this.me_id ? this.opponent_id : this.me_id;
             },
 
             increasePlayerCoins: function (playerId, coins) {
@@ -522,6 +526,32 @@ define([
                 return anim;
             },
 
+            getMilitaryTokenAnimation: function(active_player_id, payment) {
+                console.log('getMilitaryTokenAnimation', payment);
+                // The military token animation always concerns the opponent of the active player.
+                player_id = this.getOppositePlayerId(active_player_id);
+                var anims = [];
+                if (payment.militaryTokenNumber > 0) {
+                    var whichPlayer = player_id == this.me_id ? 'me' : 'opponent';
+                    var tokenNumber = this.invertMilitaryTrack() ? (5 - payment.militaryTokenNumber) : payment.militaryTokenNumber;
+                    var tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
+                    var coinAnimation = this.getCoinAnimation(
+                        dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                        tokenNode,
+                        -payment.militaryTokenValue,
+                        player_id
+                    );
+                    console.log('getCoinAnimation', dojo.query('.player_info.' + whichPlayer + ' .player_area_coins')[0],
+                        tokenNode,
+                        -payment.militaryTokenValue,
+                        player_id);
+                    anims.push(coinAnimation);
+                }
+
+                var anim = dojo.fx.combine(anims);
+                return anim;
+            },
+
             getCostValue: function(cost) {
                 if (typeof cost == "undefined") return false;
 
@@ -592,6 +622,10 @@ define([
                 }));
             },
 
+            invertMilitaryTrack: function() {
+                return this.me_id == this.gamedatas.startPlayerId;
+            },
+
             updateMilitaryTrack: function(militaryTrack) {
                 var oldPosition = this.gamedatas.militaryTrack.conflictPawn;
                 this.gamedatas.militaryTrack = militaryTrack;
@@ -604,8 +638,8 @@ define([
                         easing: dojo.fx.easing.linear,
                         properties: {
                             propertyConflictPawnPosition: {
-                                start: this.me_id == this.gamedatas.startPlayerId ? -oldPosition : oldPosition,
-                                end: this.me_id == this.gamedatas.startPlayerId ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn
+                                start: this.invertMilitaryTrack() ? -oldPosition : oldPosition,
+                                end: this.invertMilitaryTrack() ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn
                             }
                         },
                         onAnimate: dojo.hitch(this, function (values) {
@@ -1278,6 +1312,8 @@ define([
                     coinRewardAnimation = dojo.fx.combine([]);
                 }
 
+                var militaryTokenAnimation = this.getMilitaryTokenAnimation(notif.args.playerId, notif.args.payment);
+
                 var anim = dojo.fx.chain([
                     coinAnimation,
                     dojo.fx.combine([
@@ -1292,6 +1328,7 @@ define([
                     ]),
                     this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, this.constructBuildingAnimationDuration * 0.6),
                     coinRewardAnimation,
+                    militaryTokenAnimation,
                 ]);
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
