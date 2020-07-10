@@ -24,8 +24,8 @@ define([
         "dojo/dom",
         "ebg/core/gamegui",
         "ebg/counter",
-        g_gamethemeurl + "modules/js/CoinAnimationBuilder.js",
-        g_gamethemeurl + "modules/js/MilitaryTokenAnimationBuilder.js",
+        g_gamethemeurl + "modules/js/CoinAnimator.js",
+        g_gamethemeurl + "modules/js/MilitaryTokenAnimator.js",
     ],
     function (dojo, declare, on, dom) {
         return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
@@ -932,7 +932,7 @@ define([
                     var position = this.getDraftpoolCardData(this.playerTurnBuildingId);
                     var building = this.gamedatas.buildings[this.playerTurnBuildingId];
                     this.notifqueue.setSynchronous('constructBuilding',
-                        bgagame.CoinAnimationBuilder.get().precalculateDuration(position.cost[this.player_id]) + this.constructBuildingAnimationDuration + bgagame.CoinAnimationBuilder.get().precalculateDuration(building.coins) + this.notification_safe_margin
+                        bgagame.CoinAnimator.get().precalculateDuration(position.cost[this.player_id]) + this.constructBuildingAnimationDuration + bgagame.CoinAnimator.get().precalculateDuration(building.coins) + this.notification_safe_margin
                     );
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
@@ -970,7 +970,7 @@ define([
 
                     // Set notification delay dynamically:
                     this.notifqueue.setSynchronous('discardBuilding',
-                        bgagame.CoinAnimationBuilder.get().precalculateDuration(this.gamedatas.draftpool.discardGain[this.player_id]) + this.discardBuildingAnimationDuration + this.notification_safe_margin
+                        bgagame.CoinAnimator.get().precalculateDuration(this.gamedatas.draftpool.discardGain[this.player_id]) + this.discardBuildingAnimationDuration + this.notification_safe_margin
                     );
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
@@ -1046,7 +1046,7 @@ define([
                     var position = this.getWonderCardData(this.player_id, wonderId);
                     var wonder = this.gamedatas.wonders[wonderId];
                     this.notifqueue.setSynchronous('constructWonder',
-                        bgagame.CoinAnimationBuilder.get().precalculateDuration(position.cost) + this.constructWonderAnimationDuration + bgagame.CoinAnimationBuilder.get().precalculateDuration(wonder.coins) + this.notification_safe_margin
+                        bgagame.CoinAnimator.get().precalculateDuration(position.cost) + this.constructWonderAnimationDuration + bgagame.CoinAnimator.get().precalculateDuration(wonder.coins) + this.notification_safe_margin
                     );
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
@@ -1318,7 +1318,7 @@ define([
                 var playerAlias = this.getPlayerAlias(notif.args.playerId);
                 var coinNode = dojo.query('.draftpool_building_cost.' + playerAlias + ' .coin', buildingNode)[0];
                 var position = this.getDraftpoolCardData(notif.args.buildingId);
-                var coinAnimation = bgagame.CoinAnimationBuilder.get().getAnimation(
+                var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
                     dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                     coinNode,
                     -position.cost[notif.args.playerId],
@@ -1327,7 +1327,7 @@ define([
 
                 var coinRewardAnimation = undefined;
                 if (building.coins > 0) {
-                    coinRewardAnimation = bgagame.CoinAnimationBuilder.get().getAnimation(
+                    coinRewardAnimation = bgagame.CoinAnimator.get().getAnimation(
                         playerBuildingContainer,
                         dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                         building.coins,
@@ -1337,7 +1337,7 @@ define([
                     coinRewardAnimation = dojo.fx.combine([]);
                 }
 
-                var militaryTokenAnimation = bgagame.MilitaryTokenAnimationBuilder.get().getAnimation(notif.args.playerId, notif.args.payment);
+                var militaryTokenAnimation = bgagame.MilitaryTokenAnimator.get().getAnimation(notif.args.playerId, notif.args.payment);
 
                 var anim = dojo.fx.chain([
                     coinAnimation,
@@ -1379,7 +1379,7 @@ define([
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
-                var coinAnimation = bgagame.CoinAnimationBuilder.get().getAnimation(
+                var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
                     buildingNode,
                     dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_coins')[0],
                     notif.args.gain,
@@ -1426,7 +1426,7 @@ define([
                     coinNode,
                     -position.cost,
                     notif.args.playerId);
-                var coinAnimation = bgagame.CoinAnimationBuilder.get().getAnimation(
+                var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
                     dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                     coinNode,
                     -position.cost,
@@ -1455,7 +1455,7 @@ define([
                         var wonderNodePosition = dojo.position(wonderNode);
                         var coinRewardAnimation = undefined;
                         if (wonder.coins > 0) {
-                            coinRewardAnimation = bgagame.CoinAnimationBuilder.get().getAnimation(
+                            coinRewardAnimation = bgagame.CoinAnimator.get().getAnimation(
                                 wonderNode,
                                 dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                                 wonder.coins,

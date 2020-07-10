@@ -7,7 +7,7 @@
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  *
- * MilitaryTokenAnimationBuilder.js
+ * MilitaryTokenAnimator.js
  *
  * Class to generate military token animations.
  *
@@ -20,7 +20,7 @@ define([
         "dojo/NodeList-traverse",
     ],
     function (dojo, declare) {
-        var classDefinition = declare("bgagame.MilitaryTokenAnimationBuilder", null, {
+        var classDefinition = declare("bgagame.MilitaryTokenAnimator", null, {
 
             game: null,
 
@@ -28,13 +28,13 @@ define([
 
             /**
              * Get singleton instance
-             * @returns {bgagame.MilitaryTokenAnimationBuilder}
+             * @returns {bgagame.MilitaryTokenAnimator}
              */
             get: function() {
-                if (typeof bgagame.MilitaryTokenAnimationBuilder.prototype.instance == "undefined") {
-                    bgagame.MilitaryTokenAnimationBuilder.prototype.instance = new bgagame.MilitaryTokenAnimationBuilder();
+                if (typeof bgagame.MilitaryTokenAnimator.prototype.instance == "undefined") {
+                    bgagame.MilitaryTokenAnimator.prototype.instance = new bgagame.MilitaryTokenAnimator();
                 }
-                return bgagame.MilitaryTokenAnimationBuilder.prototype.instance;
+                return bgagame.MilitaryTokenAnimator.prototype.instance;
             },
 
             constructor: function () {
@@ -53,7 +53,7 @@ define([
                     var tokenNumber = this.game.invertMilitaryTrack() ? (5 - payment.militaryTokenNumber) : payment.militaryTokenNumber;
                     var tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
                     var playerCoinsNode = dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0];
-                    var coinAnimation = bgagame.CoinAnimationBuilder.get().getAnimation(
+                    var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
                         playerCoinsNode,
                         playerCoinsNode,
                         -payment.militaryTokenValue,
@@ -81,7 +81,7 @@ define([
             precalculateDuration: function (amount) {
                 //TODO Duration isn't calculated/used for dynamically setting notification delay (main question is, where to get "amount" from?).
                 if (amount != 0) {
-                    return this.militaryTokenAnimationDuration + bgagame.CoinAnimationBuilder.get().precalculateDuration(amount);
+                    return this.militaryTokenAnimationDuration + bgagame.CoinAnimator.get().precalculateDuration(amount);
                 }
                 return 0;
             },
