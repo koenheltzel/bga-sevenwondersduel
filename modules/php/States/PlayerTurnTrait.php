@@ -53,8 +53,6 @@ trait PlayerTurnTrait {
         else {
             $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
         }
-
-
     }
 
     public function actionDiscardBuilding($buildingId) {
@@ -113,6 +111,20 @@ trait PlayerTurnTrait {
             ]
         );
 
-        $this->gamestate->nextState( self::STATE_CONSTRUCT_WONDER_NAME);
+//        switch ($wonder->id) {
+//            case 5:
+//                $this->gamestate->nextState( self::STATE_CHOOSE_DISCARDED_BUILDING_NAME);
+//                break;
+//            case 6:
+//                $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
+//                break;
+//            case 9:
+//            case 12:
+//                $this->gamestate->nextState( self::STATE_CHOOSE_OPPONENT_BUILDING_NAME);
+//                break;
+//            default:
+                $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+//                break;
+//        }
     }
 }
