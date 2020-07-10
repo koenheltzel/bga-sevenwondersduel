@@ -30,7 +30,7 @@ $swdNamespaceAutoload = function ($class) {
     $classParts = explode('\\', $class);
     if ($classParts[0] == 'SWD') {
         array_shift($classParts);
-        $file = dirname(__FILE__) . "/modules/" . implode(DIRECTORY_SEPARATOR, $classParts) . ".php";
+        $file = dirname(__FILE__) . "/modules/php/" . implode(DIRECTORY_SEPARATOR, $classParts) . ".php";
         if (file_exists($file)) {
             require_once($file);
         }
@@ -39,7 +39,7 @@ $swdNamespaceAutoload = function ($class) {
 spl_autoload_register($swdNamespaceAutoload, true, true);
 
 require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
-require_once ('modules/functions.php');
+require_once('modules/php/functions.php');
 if (0) require_once '_bga_ide_helper.php';
 
 
