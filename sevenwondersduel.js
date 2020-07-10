@@ -27,34 +27,37 @@ define([
     ],
     function (dojo, declare, on, dom) {
         return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
-            constructor: function () {
-                // Debug settings
-                this.dontScale = 0;
 
+            // Debug settings
+            dontScale: 0,
+
+            // Tooltip settings
+            toolTipDelay: 750,
+
+            // Game logic properties
+            playerTurnBuildingId: null,
+            playerTurnNode: null,
+            currentAge: 0,
+
+            // General properties
+            windowResizeTimeoutId: null,
+
+            // Animation durations
+            constructBuildingAnimationDuration: 1000,
+            discardBuildingAnimationDuration: 400,
+            constructWonderAnimationDuration: 1600,
+            militaryTokenAnimationDuration: 1600, // Excluding the coin animation
+
+            turnAroundCardDuration: 500,
+            putDraftpoolCard: 250,
+            militaryTrackStepDuration: 200,
+            coin_slide_duration: 500,
+            coin_slide_delay: 100,
+            notification_safe_margin: 200,
+
+            constructor: function () {
                 // Tooltip settings
                 dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
-                this.toolTipDelay = 750;
-
-                // Game logic properties
-                this.playerTurnBuildingId = null;
-                this.playerTurnNode = null;
-                this.currentAge = 0;
-
-                // General properties
-                this.windowResizeTimeoutId = null;
-
-                // Animation durations
-                this.constructBuildingAnimationDuration = 1000;
-                this.discardBuildingAnimationDuration = 400;
-                this.constructWonderAnimationDuration = 1600;
-                this.militaryTokenAnimationDuration = 1600; // Excluding the coin animation
-
-                this.turnAroundCardDuration = 500;
-                this.putDraftpoolCard = 250;
-                this.militaryTrackStepDuration = 200;
-                this.coin_slide_duration = 500;
-                this.coin_slide_delay = 100;
-                this.notification_safe_margin = 200;
             },
 
             /*
@@ -214,11 +217,11 @@ define([
                 }
             },
 
-            getPlayerAlias: function(playerId) {
+            getPlayerAlias: function (playerId) {
                 return playerId == this.me_id ? 'me' : 'opponent'
             },
 
-            getOppositePlayerId: function(playerId) {
+            getOppositePlayerId: function (playerId) {
                 return playerId == this.me_id ? this.opponent_id : this.me_id;
             },
 
@@ -256,10 +259,10 @@ define([
                 return this.format_block('jstpl_wonder', data);
             },
 
-            hideTooltip: function() {
+            hideTooltip: function () {
                 // Thanks to https://stackoverflow.com/a/35984527
                 if (dijit.Tooltip._masterTT) {
-                    dijit.Tooltip._masterTT.containerNode.innerHTML='';
+                    dijit.Tooltip._masterTT.containerNode.innerHTML = '';
                     dojo.removeClass(dijit.Tooltip._masterTT.id, "dijitTooltip");
                 }
             },
@@ -396,11 +399,11 @@ define([
                             spriteId = position.building;
                             data.jsId = position.building;
                             data.jsDisplayCostMe = position.available ? 'block' : 'none',
-                            data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
-                            data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
+                                data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
+                                data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
                             data.jsDisplayCostOpponent = position.available ? 'block' : 'none',
-                            data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playersSituation[this.opponent_id].coins),
-                            data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
+                                data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playersSituation[this.opponent_id].coins),
+                                data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
 
                             // Linked building symbol
                             linkedBuildingId = this.gamedatas.buildings[position.building].linkedBuilding;
@@ -464,12 +467,10 @@ define([
                                 anim.play();
 
                                 animationDelay += this.turnAroundCardDuration * 0.75;
-                            }
-                            else {
+                            } else {
                                 dojo.destroy(oldNode);
                             }
-                        }
-                        else if (!setupGame) {
+                        } else if (!setupGame) {
                             dojo.style(newNode, 'opacity', 0);
                             dojo.animateProperty({
                                 node: newNode,
@@ -498,13 +499,13 @@ define([
 
             },
 
-            getCoinAnimationDuration: function(amount) {
+            getCoinAnimationDuration: function (amount) {
                 if (amount != 0) {
                     return this.coin_slide_duration + ((Math.abs(amount) - 1) * this.coin_slide_delay);
                 }
                 return 0;
             },
-            getCoinAnimation: function(sourceNode, targetNode, amount, playerId, sourcePosition, targetPosition) {
+            getCoinAnimation: function (sourceNode, targetNode, amount, playerId, sourcePosition, targetPosition) {
                 // Optional source/target positions
                 if (typeof sourcePosition == "undefined") sourcePosition = [0, 0];
                 if (typeof targetPosition == "undefined") targetPosition = [0, 0];
@@ -567,14 +568,14 @@ define([
                 return anim;
             },
 
-            getMilitaryTokenAnimationDuration: function(amount) {
+            getMilitaryTokenAnimationDuration: function (amount) {
                 //TODO Duration isn't calculated/used for dynamically setting notification delay (main question is, where to get "amount" from?).
                 if (amount != 0) {
                     return this.militaryTokenAnimationDuration + this.getCoinAnimationDuration(amount);
                 }
                 return 0;
             },
-            getMilitaryTokenAnimation: function(active_player_id, payment) {
+            getMilitaryTokenAnimation: function (active_player_id, payment) {
                 console.log('getMilitaryTokenAnimation', payment);
                 // The military token animation always concerns the opponent of the active player.
                 player_id = this.getOppositePlayerId(active_player_id);
@@ -607,13 +608,12 @@ define([
                         }),
                     ]);
                     return anim;
-                }
-                else {
+                } else {
                     return dojo.fx.combine([]);
                 }
             },
 
-            getCostValue: function(cost) {
+            getCostValue: function (cost) {
                 if (typeof cost == "undefined") return false;
 
                 if (cost == 0) {
@@ -623,12 +623,12 @@ define([
                 }
             },
 
-            getCostColor: function(cost, playerCoins) {
+            getCostColor: function (cost, playerCoins) {
                 if (typeof cost == "undefined") return false;
 
                 if (cost == 0) {
                     return '#008000';
-                } else if(cost <= playerCoins) {
+                } else if (cost <= playerCoins) {
                     return 'black';
                 } else {
                     return 'red';
@@ -643,7 +643,7 @@ define([
                 }
             },
 
-            updateDiscardedBuildings: function(discardedBuildings) {
+            updateDiscardedBuildings: function (discardedBuildings) {
                 this.gamedatas.discardedBuildings = discardedBuildings;
 
                 Object.keys(this.gamedatas.discardedBuildings).forEach(dojo.hitch(this, function (index) {
@@ -683,17 +683,17 @@ define([
                 }));
             },
 
-            invertMilitaryTrack: function() {
+            invertMilitaryTrack: function () {
                 return this.me_id == this.gamedatas.startPlayerId;
             },
 
-            updateMilitaryTrack: function(militaryTrack) {
+            updateMilitaryTrack: function (militaryTrack) {
                 for (var i = 1; i <= 4; i++) {
                     var value = militaryTrack.tokens[i];
                     var frontEndNumber = this.invertMilitaryTrack() ? (5 - i) : i;
                     var tokenContainer = dojo.query('#military_tokens>div:nth-of-type(' + frontEndNumber + ')')[0];
                     if (tokenContainer.children.length == 0 && value > 0) {
-                        var newToken = dojo.place(this.format_block('jstpl_military_token', { jsValue: value }), tokenContainer);
+                        var newToken = dojo.place(this.format_block('jstpl_military_token', {jsValue: value}), tokenContainer);
                     }
                 }
 
@@ -716,8 +716,7 @@ define([
                             this.setCssVariable('--conflict-pawn-position', parseFloat(values.propertyConflictPawnPosition.replace("px", "")));
                         }),
                     }).play();
-                }
-                else {
+                } else {
                     // For the start of the game / F5
                     this.setCssVariable('--conflict-pawn-position', this.me_id == this.gamedatas.startPlayerId ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn);
                 }
@@ -755,7 +754,7 @@ define([
                 return false;
             },
 
-            getPaymentPlan: function(data) {
+            getPaymentPlan: function (data) {
                 var output = '<ul>';
                 var steps = data.steps;
                 for (var i = 0; i < steps.length; i++) {
@@ -1021,7 +1020,7 @@ define([
                     dojo.setStyle('draftpool_actions', 'visibility', 'visible');
 
                     this.setClientState("client_useAgeCard", {
-                        descriptionmyturn : "${you} must choose the action for the age card, or select a different age card.",
+                        descriptionmyturn: "${you} must choose the action for the age card, or select a different age card.",
                     });
                 }
             },
@@ -1041,7 +1040,7 @@ define([
                     // Set notification delay dynamically:
                     var position = this.getDraftpoolCardData(this.playerTurnBuildingId);
                     var building = this.gamedatas.buildings[this.playerTurnBuildingId];
-                    this.notifqueue.setSynchronous( 'constructBuilding',
+                    this.notifqueue.setSynchronous('constructBuilding',
                         this.getCoinAnimationDuration(position.cost[this.player_id]) + this.constructBuildingAnimationDuration + this.getCoinAnimationDuration(building.coins) + this.notification_safe_margin
                     );
 
@@ -1079,7 +1078,7 @@ define([
                     }
 
                     // Set notification delay dynamically:
-                    this.notifqueue.setSynchronous( 'discardBuilding',
+                    this.notifqueue.setSynchronous('discardBuilding',
                         this.getCoinAnimationDuration(this.gamedatas.draftpool.discardGain[this.player_id]) + this.discardBuildingAnimationDuration + this.notification_safe_margin
                     );
 
@@ -1134,7 +1133,7 @@ define([
                     }));
 
                     this.setClientState("client_useAgeCard", {
-                        descriptionmyturn : "${you} must select a wonder to construct, or select a different card or action.",
+                        descriptionmyturn: "${you} must select a wonder to construct, or select a different card or action.",
                     });
                 }
             },
@@ -1155,7 +1154,7 @@ define([
                     // Set notification delay dynamically:
                     var position = this.getWonderCardData(this.player_id, wonderId);
                     var wonder = this.gamedatas.wonders[wonderId];
-                    this.notifqueue.setSynchronous( 'constructWonder',
+                    this.notifqueue.setSynchronous('constructWonder',
                         this.getCoinAnimationDuration(position.cost) + this.constructWonderAnimationDuration + this.getCoinAnimationDuration(wonder.coins) + this.notification_safe_margin
                     );
 
@@ -1244,7 +1243,7 @@ define([
                 this.viewportChange();
             },
 
-            viewportChange:function (e) {
+            viewportChange: function (e) {
                 clearTimeout(this.windowResizeTimeoutId);
                 // Set up the callback
                 this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "updateLayout"), 50);
@@ -1443,8 +1442,7 @@ define([
                         building.coins,
                         notif.args.playerId
                     );
-                }
-                else {
+                } else {
                     coinRewardAnimation = dojo.fx.combine([]);
                 }
 
@@ -1573,8 +1571,7 @@ define([
                                 notif.args.playerId,
                                 [wonder.visualCoinPosition[0] * wonderNodePosition.w, wonder.visualCoinPosition[1] * wonderNodePosition.h]
                             );
-                        }
-                        else {
+                        } else {
                             coinRewardAnimation = dojo.fx.combine([]);
                         }
 
