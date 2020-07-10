@@ -51,7 +51,7 @@ trait PlayerTurnTrait {
             $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_NAME);
         }
         else {
-            $this->gamestate->nextState( self::STATE_CONSTRUCT_BUILDING_NAME);
+            $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
         }
 
 
@@ -80,7 +80,7 @@ trait PlayerTurnTrait {
             ]
         );
 
-        $this->gamestate->nextState( self::STATE_DISCARD_BUILDING_NAME);
+        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
 
     }
 

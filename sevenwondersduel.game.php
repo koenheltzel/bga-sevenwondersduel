@@ -46,15 +46,12 @@ if (0) require_once '_bga_ide_helper.php';
 class SevenWondersDuel extends Table
 {
 
-    use SWD\States\BuildingConstructedTrait;
     use SWD\States\ChooseDiscardedBuildingTrait;
     use SWD\States\ChooseProgressTokenFromBoxTrait;
     use SWD\States\ChooseOpponentBuildingTrait;
     use SWD\States\ChooseProgressTokenTrait;
-    use SWD\States\ConstructBuildingTrait;
     use SWD\States\ConstructDiscardedBuildingTrait;
     use SWD\States\ConstructWonderTrait;
-    use SWD\States\DiscardBuildingTrait;
     use SWD\States\ProgressTokenFromBoxPlayedTrait;
     use SWD\States\GameSetupTrait;
     use SWD\States\NextAgeTrait;
@@ -92,22 +89,13 @@ class SevenWondersDuel extends Table
     
     const STATE_PLAYER_TURN_ID = 30;
     const STATE_PLAYER_TURN_NAME = "playerTurn";
-    
-    const STATE_CONSTRUCT_BUILDING_ID = 35;
-    const STATE_CONSTRUCT_BUILDING_NAME = "constructBuilding";
-    
-    const STATE_BUILDING_CONSTRUCTED_ID = 40;
-    const STATE_BUILDING_CONSTRUCTED_NAME = "buildingConstructed";
-    
+
     const STATE_CHOOSE_PROGRESS_TOKEN_ID = 45;
     const STATE_CHOOSE_PROGRESS_TOKEN_NAME = "chooseProgressToken";
     
     const STATE_PROGRESS_TOKEN_PLAYED_ID = 50;
     const STATE_PROGRESS_TOKEN_PLAYED_NAME = "progressTokenPlayed";
-    
-    const STATE_DISCARD_BUILDING_ID = 55;
-    const STATE_DISCARD_BUILDING_NAME = "discardBuilding";
-    
+
     const STATE_CONSTRUCT_WONDER_ID = 60;
     const STATE_CONSTRUCT_WONDER_NAME = "constructWonder";
     

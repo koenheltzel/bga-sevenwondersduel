@@ -136,33 +136,9 @@ $machinestates = [
             "actionConstructWonder",
         ],
         "transitions" => [
-            SevenWondersDuel::STATE_CONSTRUCT_BUILDING_NAME => SevenWondersDuel::STATE_CONSTRUCT_BUILDING_ID,
+            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME=> SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID,
-            SevenWondersDuel::STATE_DISCARD_BUILDING_NAME => SevenWondersDuel::STATE_DISCARD_BUILDING_ID,
             SevenWondersDuel::STATE_CONSTRUCT_WONDER_NAME => SevenWondersDuel::STATE_CONSTRUCT_WONDER_ID,
-        ]
-    ],
-
-    SevenWondersDuel::STATE_CONSTRUCT_BUILDING_ID => [
-        "name" => SevenWondersDuel::STATE_CONSTRUCT_BUILDING_NAME,
-        "description" => '',
-        "descriptionmyturn" => '',
-        "type" => "game",
-        "action" => "enterStateConstructBuilding",
-        "transitions" => [
-            SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_NAME => SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_ID,
-        ]
-    ],
-
-    SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_ID => [
-        "name" => SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_NAME,
-        "description" => '',
-        "descriptionmyturn" => '',
-        "type" => "game",
-        "action" => "enterStateBuildingConstructed",
-        "transitions" => [
-            SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID,
-            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ]
     ],
 
@@ -187,17 +163,6 @@ $machinestates = [
         "descriptionmyturn" => '',
         "type" => "game",
         "action" => "enterStateProgressTokenPlayed",
-        "transitions" => [
-            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
-        ]
-    ],
-
-    SevenWondersDuel::STATE_DISCARD_BUILDING_ID => [
-        "name" => SevenWondersDuel::STATE_DISCARD_BUILDING_NAME,
-        "description" => '',
-        "descriptionmyturn" => '',
-        "type" => "game",
-        "action" => "enterStateDiscardBuilding",
         "transitions" => [
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ]
@@ -292,7 +257,8 @@ $machinestates = [
         "type" => "game",
         "action" => "enterStateConstructDiscardedBuilding",
         "transitions" => [
-            SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_NAME => SevenWondersDuel::STATE_BUILDING_CONSTRUCTED_ID,
+            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID,
         ]
     ],
 
