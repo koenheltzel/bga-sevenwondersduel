@@ -25,7 +25,7 @@ use SWD\ProgressTokens;
 use SWD\Wonder;
 use SWD\Wonders;
 
-// SWD namespace autoloader from /modules/ folder.
+// SWD namespace autoloader from /modules/php/ folder.
 $swdNamespaceAutoload = function ($class) {
     $classParts = explode('\\', $class);
     if ($classParts[0] == 'SWD') {
