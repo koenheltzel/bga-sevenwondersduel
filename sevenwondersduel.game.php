@@ -50,11 +50,9 @@ class SevenWondersDuel extends Table
     use SWD\States\ChooseProgressTokenFromBoxTrait;
     use SWD\States\ChooseOpponentBuildingTrait;
     use SWD\States\ChooseProgressTokenTrait;
-    use SWD\States\ConstructDiscardedBuildingTrait;
     use SWD\States\GameSetupTrait;
     use SWD\States\NextAgeTrait;
     use SWD\States\NextPlayerTurnTrait;
-    use SWD\States\OpponentBuildingDiscardedTrait;
     use SWD\States\PlayerTurnTrait;
     use SWD\States\SelectStartPlayerTrait;
     use SWD\States\SelectWonderTrait;
@@ -92,19 +90,13 @@ class SevenWondersDuel extends Table
 
     const STATE_CHOOSE_OPPONENT_BUILDING_ID = 65;
     const STATE_CHOOSE_OPPONENT_BUILDING_NAME = "chooseOpponentBuilding";
-    
-    const STATE_OPPONENT_BUILDING_DISCARDED_ID = 70;
-    const STATE_OPPONENT_BUILDING_DISCARDED_NAME = "opponentBuildingDiscarded";
-    
+
     const STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID = 75;
     const STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME = "chooseProgressTokenFromBox";
 
     const STATE_CHOOSE_DISCARDED_BUILDING_ID = 85;
     const STATE_CHOOSE_DISCARDED_BUILDING_NAME = "chooseDiscardedBuilding";
-    
-    const STATE_CONSTRUCT_DISCARDED_BUILDING_ID = 90;
-    const STATE_CONSTRUCT_DISCARDED_BUILDING_NAME = "constructDiscardedBuilding";
-    
+
     const STATE_NEXT_PLAYER_TURN_ID = 95;
     const STATE_NEXT_PLAYER_TURN_NAME = "nextPlayerTurn";
     

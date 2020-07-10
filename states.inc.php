@@ -169,18 +169,6 @@ $machinestates = [
             // If there is no building to discard, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
         ],
         "transitions" => [
-            SevenWondersDuel::STATE_OPPONENT_BUILDING_DISCARDED_NAME => SevenWondersDuel::STATE_OPPONENT_BUILDING_DISCARDED_ID,
-            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
-        ]
-    ],
-
-    SevenWondersDuel::STATE_OPPONENT_BUILDING_DISCARDED_ID => [
-        "name" => SevenWondersDuel::STATE_OPPONENT_BUILDING_DISCARDED_NAME,
-        "description" => '',
-        "descriptionmyturn" => '',
-        "type" => "game",
-        "action" => "enterStateOpponentBuildingDiscarded",
-        "transitions" => [
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ]
     ],
@@ -209,18 +197,6 @@ $machinestates = [
             "actionChooseDiscardedBuilding",
             // If there is no discarded building to construct, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
         ],
-        "transitions" => [
-            SevenWondersDuel::STATE_CONSTRUCT_DISCARDED_BUILDING_NAME => SevenWondersDuel::STATE_CONSTRUCT_DISCARDED_BUILDING_ID,
-            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
-        ]
-    ],
-
-    SevenWondersDuel::STATE_CONSTRUCT_DISCARDED_BUILDING_ID => [
-        "name" => SevenWondersDuel::STATE_CONSTRUCT_DISCARDED_BUILDING_NAME,
-        "description" => '',
-        "descriptionmyturn" => '',
-        "type" => "game",
-        "action" => "enterStateConstructDiscardedBuilding",
         "transitions" => [
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID,
