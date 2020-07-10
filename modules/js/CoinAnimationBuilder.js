@@ -26,7 +26,6 @@ define([
 
             coin_slide_duration: 500,
             coin_slide_delay: 100,
-            notification_safe_margin: 200,
 
             constructor: function (game) {
                 this.game = game;
