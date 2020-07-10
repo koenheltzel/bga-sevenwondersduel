@@ -374,8 +374,7 @@ define([
                 this.updateDraftpool(notif.args.draftpool)
             },
 
-            updateDraftpool: function (draftpool, setupGame) {
-                if (typeof setupGame == 'undefined') setupGame = false;
+            updateDraftpool: function (draftpool, setupGame = false) {
                 console.log('updateDraftpool: ', draftpool, setupGame, 'age: ', draftpool.age);
 
                 dojo.style('draftpool_container', 'display', draftpool.age > 0 ? 'block' : 'none');

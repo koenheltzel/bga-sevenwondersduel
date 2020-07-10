@@ -42,11 +42,7 @@ define([
                 this.game = bgagame.sevenwondersduel.instance;
             },
 
-            getAnimation: function (sourceNode, targetNode, amount, playerId, sourcePosition, targetPosition) {
-                // Optional source/target positions
-                if (typeof sourcePosition == "undefined") sourcePosition = [0, 0];
-                if (typeof targetPosition == "undefined") targetPosition = [0, 0];
-
+            getAnimation: function (sourceNode, targetNode, amount, playerId, sourcePosition = [0, 0], targetPosition = [0, 0]) {
                 // Auto detect if coins are moving to or from certain players player areas. We use this to update their coin total during the animation.
                 var sourceNodePlayerId = undefined;
                 var targetNodePlayerId = undefined;
