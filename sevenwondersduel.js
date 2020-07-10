@@ -148,107 +148,139 @@ define([
                 // dojo.place( this.getBuildingTooltip( 44, true ), 'swd_wrap', 'first' );
             },
 
-            setupTooltips: function () {
-                // Add tooltips to buildings everywhere.
-                new dijit.Tooltip({
-                    connectId: "game_play_area",
-                    selector: '.building_small, .building_header_small',
-                    showDelay: this.toolTipDelay,
-                    getContent: dojo.hitch(this, function (node) {
-                        var id = dojo.attr(node, "data-building-id");
-                        var draftpoolBuilding = dojo.query(node).closest("#draftpool")[0];
-                        var meCoinHtml;
-                        var opponentCoinHtml;
-                        if (draftpoolBuilding) {
-                            meCoinHtml = dojo.query('.me .coin', node)[0].outerHTML;
-                            opponentCoinHtml = dojo.query('.opponent .coin', node)[0].outerHTML;
-                        }
-                        return this.getBuildingTooltip(id, draftpoolBuilding, meCoinHtml, opponentCoinHtml);
-                    })
-                });
+            ///////////////////////////////////////////////////
+            //// Reaction to cometD notifications
 
-                // Add tooltips to wonders everywhere.
-                new dijit.Tooltip({
-                    connectId: "game_play_area",
-                    selector: '.wonder_small',
-                    showDelay: this.toolTipDelay,
-                    getContent: dojo.hitch(this, function (node) {
-                        var id = dojo.attr(node, "data-wonder-id");
+            /*
+                setupNotifications:
 
-                        var playerId = undefined;
-                        var coinHtml = undefined;
-                        var playerWondersNode = dojo.query(node).closest(".player_wonders")[0];
-                        if (playerWondersNode) {
-                            playerId = dojo.hasClass(playerWondersNode, 'me') ? this.me_id : this.opponent_id;
-                            coinHtml = dojo.query('.coin', node)[0].outerHTML;
-                        }
-                        return this.getWonderTooltip(id, playerId, coinHtml);
-                    })
-                });
+                In this method, you associate each of your game notifications with your local method to handle it.
 
-                // Add tooltips to progress tokens everywhere.
-                new dijit.Tooltip({
-                    connectId: "game_play_area",
-                    selector: '.progress_token_small',
-                    position: ['before'],
-                    showDelay: this.toolTipDelay,
-                    getContent: dojo.hitch(this, function (node) {
-                        var id = dojo.attr(node, "data-progress-token-id");
-                        return this.getProgressTokenTooltip(id);
-                    })
-                });
+                Note: game notification names correspond to "notifyAllPlayers" and "notifyPlayer" calls in
+                      your sevenwondersduel.game.php file.
+
+            */
+            setupNotifications: function () {
+                console.log('notifications subscriptions setup');
+
+                // Example 1: standard notification handling
+                // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
+
+                // Example 2: standard notification handling + tell the user interface to wait
+                //            during 3 seconds after calling the method in order to var the players
+                //            see what is happening in the game.
+                // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
+                // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
+                //
+
+                dojo.subscribe('wonderSelected', this, "notif_wonderSelected");
+                dojo.subscribe('nextAge', this, "notif_nextAge");
+
+                dojo.subscribe('constructBuilding', this, "notif_constructBuilding");
+                // Notification delay is set dynamically in onPlayerTurnConstuctBuildingClick
+
+                dojo.subscribe('discardBuilding', this, "notif_discardBuilding");
+                // Notification delay is set dynamically in onPlayerTurnDiscardBuildingClick
+
+                dojo.subscribe('constructWonder', this, "notif_constructWonder");
+                // Notification delay is set dynamically in onPlayerTurnConstructWonderSelectedClick
+
+                dojo.subscribe('updateDraftpool', this, "notif_updateDraftpool");
+                dojo.subscribe('progressTokenChosen', this, "notif_progressTokenChosen");
             },
 
-            updateProgressTokensSituation: function (progressTokensSituation) {
-                console.log('updateProgressTokensSituation: ', progressTokensSituation);
-                this.progressTokensSituation = progressTokensSituation;
+            ///////////////////////////////////////////////////
+            //// Game & client states
 
-                dojo.query("#board_progress_tokens>div").forEach(dojo.empty);
+            // onEnteringState: this method is called each time we are entering into a new game state.
+            //                  You can use this method to perform some user interface changes at this moment.
+            //
+            onEnteringState: function (stateName, args) {
+                console.log('Entering state: ' + stateName);
 
-                for (var i = 0; i < progressTokensSituation.board.length; i++) {
-                    var location = progressTokensSituation.board[i];
-                    var progressToken = this.gamedatas.progressTokens[location.id];
-                    var position = parseInt(progressTokensSituation.board[i].location_arg);
-                    var container = dojo.query('#board_progress_tokens>div:nth-of-type(' + (position + 1) + ')')[0];
+                dojo.attr($('swd'), 'data-state', stateName);
 
-                    var data = {
-                        jsId: progressToken.id,
-                        jsData: 'data-progress-token-id="' + progressToken.id + '"',
-                    };
-                    var spritesheetColumns = 4;
-                    data.jsX = (progressToken.id - 1) % spritesheetColumns;
-                    data.jsY = Math.floor((progressToken.id - 1) / spritesheetColumns);
-                    dojo.place(this.format_block('jstpl_progress_token', data), container);
+
+                switch (stateName) {
+
+                    /* Example:
+
+                    case 'myGameState':
+
+                        // Show some HTML block at this game state
+                        dojo.style( 'my_html_block_id', 'display', 'block' );
+
+                        break;
+                   */
+
+
+                    case 'dummmy':
+                        break;
                 }
             },
 
-            getPlayerAlias: function (playerId) {
-                return playerId == this.me_id ? 'me' : 'opponent'
+            // onLeavingState: this method is called each time we are leaving a game state.
+            //                 You can use this method to perform some user interface changes at this moment.
+            //
+            onLeavingState: function (stateName) {
+                console.log('Leaving state: ' + stateName);
+
+                switch (stateName) {
+
+                    /* Example:
+
+                    case 'myGameState':
+
+                        // Hide the HTML block we are displaying only during this game state
+                        dojo.style( 'my_html_block_id', 'display', 'none' );
+
+                        break;
+                   */
+
+
+                    case 'dummmy':
+                        break;
+                }
             },
 
-            getOppositePlayerId: function (playerId) {
-                return playerId == this.me_id ? this.opponent_id : this.me_id;
+            // onUpdateActionButtons: in this method you can manage "action buttons" that are displayed in the
+            //                        action status bar (ie: the HTML links in the status bar).
+            //
+            onUpdateActionButtons: function (stateName, args) {
+                console.log('onUpdateActionButtons: ' + stateName);
+
+                if (this.isCurrentPlayerActive()) {
+                    switch (stateName) {
+                        /*
+                                         Example:
+
+                                         case 'myGameState':
+
+                                            // Add 3 action buttons in the action status bar:
+
+                                            this.addActionButton( 'button_1_id', _('Button 1 label'), 'onMyMethodToCall1' );
+                                            this.addActionButton( 'button_2_id', _('Button 2 label'), 'onMyMethodToCall2' );
+                                            this.addActionButton( 'button_3_id', _('Button 3 label'), 'onMyMethodToCall3' );
+                                            break;
+                        */
+                    }
+                }
             },
 
-            increasePlayerCoins: function (playerId, coins) {
-                $('player_area_' + playerId + '_coins').innerHTML = parseInt($('player_area_' + playerId + '_coins').innerHTML) + coins;
-            },
+            //  __        __              _
+            //  \ \      / /__  _ __   __| | ___ _ __ ___
+            //   \ \ /\ / / _ \| '_ \ / _` |/ _ \ '__/ __|
+            //    \ V  V / (_) | | | | (_| |  __/ |  \__ \
+            //     \_/\_/ \___/|_| |_|\__,_|\___|_|  |___/
 
-            updatePlayerCoins: function (playerId, coins) {
-                console.log('updatePlayerCoins', playerId, coins)
-                this.gamedatas.playersSituation[playerId].coins = coins;
-                $('player_area_' + playerId + '_coins').innerHTML = coins;
-            },
-
-            getBuildingDivHtml: function (id) {
-                var data = {
-                    jsId: id,
-                };
-                var spritesheetColumns = 10;
-                data.jsX = (id - 1) % spritesheetColumns;
-                data.jsY = Math.floor((id - 1) / spritesheetColumns);
-
-                return this.format_block('jstpl_player_building', data);
+            getWonderCardData: function (playerId, wonderId) {
+                for (var i = 0; i < this.gamedatas.wondersSituation[playerId].length; i++) {
+                    var cardData = this.gamedatas.wondersSituation[playerId][i];
+                    if (cardData.wonder == wonderId) {
+                        return cardData;
+                    }
+                }
+                return null;
             },
 
             getWonderDivHtml: function (wonderId, displayCost, cost, playerCoins) {
@@ -264,31 +296,12 @@ define([
                 return this.format_block('jstpl_wonder', data);
             },
 
-            hideTooltip: function () {
-                // Thanks to https://stackoverflow.com/a/35984527
-                if (dijit.Tooltip._masterTT) {
-                    dijit.Tooltip._masterTT.containerNode.innerHTML = '';
-                    dojo.removeClass(dijit.Tooltip._masterTT.id, "dijitTooltip");
+            updateWondersSituation: function (situation) {
+                this.gamedatas.wondersSituation = situation;
+                this.updateWonderSelection(situation.selection);
+                for (var player_id in this.gamedatas.players) {
+                    this.updatePlayerWonders(player_id, situation[player_id]);
                 }
-            },
-
-            updatePlayerProgressTokens: function (playerId, deckCards) {
-                console.log('updatePlayerProgressTokens', playerId, deckCards);
-
-                Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
-                    var container = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + i + ')')[0];
-                    dojo.empty(container);
-                    var deckCard = deckCards[index];
-
-                    var data = {
-                        jsId: deckCard.id,
-                        jsData: 'data-progress-token-id="' + deckCard.id + '"',
-                    };
-                    var spritesheetColumns = 4;
-                    data.jsX = (deckCard.id - 1) % spritesheetColumns;
-                    data.jsY = Math.floor((deckCard.id - 1) / spritesheetColumns);
-                    dojo.place(this.format_block('jstpl_progress_token', data), container);
-                }));
             },
 
             updatePlayerWonders: function (playerId, rows) {
@@ -316,6 +329,24 @@ define([
                 }));
             },
 
+            //   ____        _ _     _ _                           ____             __ _                     _
+            //  | __ ) _   _(_) | __| (_)_ __   __ _ ___          |  _ \ _ __ __ _ / _| |_ _ __   ___   ___ | |
+            //  |  _ \| | | | | |/ _` | | '_ \ / _` / __|  _____  | | | | '__/ _` | |_| __| '_ \ / _ \ / _ \| |
+            //  | |_) | |_| | | | (_| | | | | | (_| \__ \ |_____| | |_| | | | (_| |  _| |_| |_) | (_) | (_) | |
+            //  |____/ \__,_|_|_|\__,_|_|_| |_|\__, |___/         |____/|_|  \__,_|_|  \__| .__/ \___/ \___/|_|
+            //                                 |___/                                      |_|
+
+            getBuildingDivHtml: function (id) {
+                var data = {
+                    jsId: id,
+                };
+                var spritesheetColumns = 10;
+                data.jsX = (id - 1) % spritesheetColumns;
+                data.jsY = Math.floor((id - 1) / spritesheetColumns);
+
+                return this.format_block('jstpl_player_building', data);
+            },
+
             updatePlayerBuildings: function (playerId, cards) {
                 if (cards.constructor == Object) {
                     var i = 1;
@@ -328,34 +359,6 @@ define([
                 }
             },
 
-            updateWonderSelection: function (cards) {
-                var block = $('wonder_selection_block');
-                if (cards.length > 0) {
-                    var position = 1;
-                    Object.keys(cards).forEach(dojo.hitch(this, function (index) {
-                        var card = cards[index];
-                        var container = dojo.query('#wonder_selection_container>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
-                        dojo.empty(container);
-                        dojo.place(this.getWonderDivHtml(card.id, false), container);
-                        position++;
-                    }));
-
-                    dojo.style(block, "display", "block");
-                } else {
-                    dojo.style(block, "display", "none");
-                }
-            },
-
-            getWonderCardData: function (playerId, wonderId) {
-                for (var i = 0; i < this.gamedatas.wondersSituation[playerId].length; i++) {
-                    var cardData = this.gamedatas.wondersSituation[playerId][i];
-                    if (cardData.wonder == wonderId) {
-                        return cardData;
-                    }
-                }
-                return null;
-            },
-
             getDraftpoolCardData: function (buildingId) {
                 for (var i = 0; i < this.gamedatas.draftpool.cards.length; i++) {
                     var position = this.gamedatas.draftpool.cards[i];
@@ -364,6 +367,11 @@ define([
                     }
                 }
                 return null;
+            },
+
+            notif_updateDraftpool: function (notif) {
+                console.log('notif_updateDraftpool', notif);
+                this.updateDraftpool(notif.args.draftpool)
             },
 
             updateDraftpool: function (draftpool, setupGame) {
@@ -504,36 +512,6 @@ define([
 
             },
 
-            getCostValue: function (cost) {
-                if (typeof cost == "undefined") return false;
-
-                if (cost == 0) {
-                    return '✓';
-                } else {
-                    return cost;
-                }
-            },
-
-            getCostColor: function (cost, playerCoins) {
-                if (typeof cost == "undefined") return false;
-
-                if (cost == 0) {
-                    return '#008000';
-                } else if (cost <= playerCoins) {
-                    return 'black';
-                } else {
-                    return 'red';
-                }
-            },
-
-            updateWondersSituation: function (situation) {
-                this.gamedatas.wondersSituation = situation;
-                this.updateWonderSelection(situation.selection);
-                for (var player_id in this.gamedatas.players) {
-                    this.updatePlayerWonders(player_id, situation[player_id]);
-                }
-            },
-
             updateDiscardedBuildings: function (discardedBuildings) {
                 this.gamedatas.discardedBuildings = discardedBuildings;
 
@@ -574,6 +552,62 @@ define([
                 }));
             },
 
+            //  ____                                      _____     _
+            // |  _ \ _ __ ___   __ _ _ __ ___  ___ ___  |_   _|__ | | _____ _ __  ___
+            // | |_) | '__/ _ \ / _` | '__/ _ \/ __/ __|   | |/ _ \| |/ / _ \ '_ \/ __|
+            // |  __/| | | (_) | (_| | | |  __/\__ \__ \   | | (_) |   <  __/ | | \__ \
+            // |_|   |_|  \___/ \__, |_|  \___||___/___/   |_|\___/|_|\_\___|_| |_|___/
+            //                  |___/
+
+            updateProgressTokensSituation: function (progressTokensSituation) {
+                console.log('updateProgressTokensSituation: ', progressTokensSituation);
+                this.progressTokensSituation = progressTokensSituation;
+
+                dojo.query("#board_progress_tokens>div").forEach(dojo.empty);
+
+                for (var i = 0; i < progressTokensSituation.board.length; i++) {
+                    var location = progressTokensSituation.board[i];
+                    var progressToken = this.gamedatas.progressTokens[location.id];
+                    var position = parseInt(progressTokensSituation.board[i].location_arg);
+                    var container = dojo.query('#board_progress_tokens>div:nth-of-type(' + (position + 1) + ')')[0];
+
+                    var data = {
+                        jsId: progressToken.id,
+                        jsData: 'data-progress-token-id="' + progressToken.id + '"',
+                    };
+                    var spritesheetColumns = 4;
+                    data.jsX = (progressToken.id - 1) % spritesheetColumns;
+                    data.jsY = Math.floor((progressToken.id - 1) / spritesheetColumns);
+                    dojo.place(this.format_block('jstpl_progress_token', data), container);
+                }
+            },
+
+            updatePlayerProgressTokens: function (playerId, deckCards) {
+                console.log('updatePlayerProgressTokens', playerId, deckCards);
+
+                Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
+                    var container = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + i + ')')[0];
+                    dojo.empty(container);
+                    var deckCard = deckCards[index];
+
+                    var data = {
+                        jsId: deckCard.id,
+                        jsData: 'data-progress-token-id="' + deckCard.id + '"',
+                    };
+                    var spritesheetColumns = 4;
+                    data.jsX = (deckCard.id - 1) % spritesheetColumns;
+                    data.jsY = Math.floor((deckCard.id - 1) / spritesheetColumns);
+                    dojo.place(this.format_block('jstpl_progress_token', data), container);
+                }));
+            },
+
+            //   __  __ _ _ _ _                     _____               _
+            //  |  \/  (_) (_) |_ __ _ _ __ _   _  |_   _| __ __ _  ___| | __
+            //  | |\/| | | | | __/ _` | '__| | | |   | || '__/ _` |/ __| |/ /
+            //  | |  | | | | | || (_| | |  | |_| |   | || | | (_| | (__|   <
+            //  |_|  |_|_|_|_|\__\__,_|_|   \__, |   |_||_|  \__,_|\___|_|\_\
+            //                              |___/
+
             invertMilitaryTrack: function () {
                 return this.me_id == this.gamedatas.startPlayerId;
             },
@@ -611,6 +645,64 @@ define([
                     // For the start of the game / F5
                     this.setCssVariable('--conflict-pawn-position', this.me_id == this.gamedatas.startPlayerId ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn);
                 }
+            },
+
+            //   _____           _ _   _
+            //  |_   _|__   ___ | | |_(_)_ __  ___
+            //    | |/ _ \ / _ \| | __| | '_ \/ __|
+            //    | | (_) | (_) | | |_| | |_) \__ \
+            //    |_|\___/ \___/|_|\__|_| .__/|___/
+            //                          |_|
+
+            setupTooltips: function () {
+                // Add tooltips to buildings everywhere.
+                new dijit.Tooltip({
+                    connectId: "game_play_area",
+                    selector: '.building_small, .building_header_small',
+                    showDelay: this.toolTipDelay,
+                    getContent: dojo.hitch(this, function (node) {
+                        var id = dojo.attr(node, "data-building-id");
+                        var draftpoolBuilding = dojo.query(node).closest("#draftpool")[0];
+                        var meCoinHtml;
+                        var opponentCoinHtml;
+                        if (draftpoolBuilding) {
+                            meCoinHtml = dojo.query('.me .coin', node)[0].outerHTML;
+                            opponentCoinHtml = dojo.query('.opponent .coin', node)[0].outerHTML;
+                        }
+                        return this.getBuildingTooltip(id, draftpoolBuilding, meCoinHtml, opponentCoinHtml);
+                    })
+                });
+
+                // Add tooltips to wonders everywhere.
+                new dijit.Tooltip({
+                    connectId: "game_play_area",
+                    selector: '.wonder_small',
+                    showDelay: this.toolTipDelay,
+                    getContent: dojo.hitch(this, function (node) {
+                        var id = dojo.attr(node, "data-wonder-id");
+
+                        var playerId = undefined;
+                        var coinHtml = undefined;
+                        var playerWondersNode = dojo.query(node).closest(".player_wonders")[0];
+                        if (playerWondersNode) {
+                            playerId = dojo.hasClass(playerWondersNode, 'me') ? this.me_id : this.opponent_id;
+                            coinHtml = dojo.query('.coin', node)[0].outerHTML;
+                        }
+                        return this.getWonderTooltip(id, playerId, coinHtml);
+                    })
+                });
+
+                // Add tooltips to progress tokens everywhere.
+                new dijit.Tooltip({
+                    connectId: "game_play_area",
+                    selector: '.progress_token_small',
+                    position: ['before'],
+                    showDelay: this.toolTipDelay,
+                    getContent: dojo.hitch(this, function (node) {
+                        var id = dojo.attr(node, "data-progress-token-id");
+                        return this.getProgressTokenTooltip(id);
+                    })
+                });
             },
 
             getBuildingTooltip: function (id, draftpoolBuilding, meCoinHtml, opponentCoinHtml) {
@@ -696,142 +788,46 @@ define([
                 return false;
             },
 
-            ///////////////////////////////////////////////////
-            //// Game & client states
+            //   ____  _                             ___        __
+            //  |  _ \| | __ _ _   _  ___ _ __ ___  |_ _|_ __  / _| ___
+            //  | |_) | |/ _` | | | |/ _ \ '__/ __|  | || '_ \| |_ / _ \
+            //  |  __/| | (_| | |_| |  __/ |  \__ \  | || | | |  _| (_) |
+            //  |_|   |_|\__,_|\__, |\___|_|  |___/ |___|_| |_|_|  \___/
+            //                 |___/
 
-            // onEnteringState: this method is called each time we are entering into a new game state.
-            //                  You can use this method to perform some user interface changes at this moment.
-            //
-            onEnteringState: function (stateName, args) {
-                console.log('Entering state: ' + stateName);
+            increasePlayerCoins: function (playerId, coins) {
+                $('player_area_' + playerId + '_coins').innerHTML = parseInt($('player_area_' + playerId + '_coins').innerHTML) + coins;
+            },
 
-                dojo.attr($('swd'), 'data-state', stateName);
+            updatePlayerCoins: function (playerId, coins) {
+                console.log('updatePlayerCoins', playerId, coins)
+                this.gamedatas.playersSituation[playerId].coins = coins;
+                $('player_area_' + playerId + '_coins').innerHTML = coins;
+            },
 
+            //  __        __              _                      _           _   _
+            //  \ \      / /__  _ __   __| | ___ _ __   ___  ___| | ___  ___| |_(_) ___  _ __
+            //   \ \ /\ / / _ \| '_ \ / _` |/ _ \ '__| / __|/ _ \ |/ _ \/ __| __| |/ _ \| '_ \
+            //    \ V  V / (_) | | | | (_| |  __/ |    \__ \  __/ |  __/ (__| |_| | (_) | | | |
+            //     \_/\_/ \___/|_| |_|\__,_|\___|_|    |___/\___|_|\___|\___|\__|_|\___/|_| |_|
 
-                switch (stateName) {
+            updateWonderSelection: function (cards) {
+                var block = $('wonder_selection_block');
+                if (cards.length > 0) {
+                    var position = 1;
+                    Object.keys(cards).forEach(dojo.hitch(this, function (index) {
+                        var card = cards[index];
+                        var container = dojo.query('#wonder_selection_container>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
+                        dojo.empty(container);
+                        dojo.place(this.getWonderDivHtml(card.id, false), container);
+                        position++;
+                    }));
 
-                    /* Example:
-
-                    case 'myGameState':
-
-                        // Show some HTML block at this game state
-                        dojo.style( 'my_html_block_id', 'display', 'block' );
-
-                        break;
-                   */
-
-
-                    case 'dummmy':
-                        break;
+                    dojo.style(block, "display", "block");
+                } else {
+                    dojo.style(block, "display", "none");
                 }
             },
-
-            // onLeavingState: this method is called each time we are leaving a game state.
-            //                 You can use this method to perform some user interface changes at this moment.
-            //
-            onLeavingState: function (stateName) {
-                console.log('Leaving state: ' + stateName);
-
-                switch (stateName) {
-
-                    /* Example:
-
-                    case 'myGameState':
-
-                        // Hide the HTML block we are displaying only during this game state
-                        dojo.style( 'my_html_block_id', 'display', 'none' );
-
-                        break;
-                   */
-
-
-                    case 'dummmy':
-                        break;
-                }
-            },
-
-            // onUpdateActionButtons: in this method you can manage "action buttons" that are displayed in the
-            //                        action status bar (ie: the HTML links in the status bar).
-            //
-            onUpdateActionButtons: function (stateName, args) {
-                console.log('onUpdateActionButtons: ' + stateName);
-
-                if (this.isCurrentPlayerActive()) {
-                    switch (stateName) {
-                        /*
-                                         Example:
-
-                                         case 'myGameState':
-
-                                            // Add 3 action buttons in the action status bar:
-
-                                            this.addActionButton( 'button_1_id', _('Button 1 label'), 'onMyMethodToCall1' );
-                                            this.addActionButton( 'button_2_id', _('Button 2 label'), 'onMyMethodToCall2' );
-                                            this.addActionButton( 'button_3_id', _('Button 3 label'), 'onMyMethodToCall3' );
-                                            break;
-                        */
-                    }
-                }
-            },
-
-            ///////////////////////////////////////////////////
-            //// Utility methods
-
-            /*
-
-                Here, you can defines some utility methods that you can use everywhere in your javascript
-                script.
-
-            */
-
-
-            ///////////////////////////////////////////////////
-            //// Player's action
-
-            /*
-
-                Here, you are defining methods to handle player's action (ex: results of mouse click on
-                game objects).
-
-                Most of the time, these methods:
-                _ check the action is possible at this game state.
-                _ make a call to the game server
-
-            */
-
-            /* Example:
-
-            onMyMethodToCall1: function( evt )
-            {
-                console.log( 'onMyMethodToCall1' );
-
-                // Preventing default browser reaction
-                dojo.stopEvent( evt );
-
-                // Check that this action is possible (see "possibleactions" in states.inc.php)
-                if( ! this.checkAction( 'myAction' ) )
-                {   return; }
-
-                this.ajaxcall( "/sevenwondersduel/sevenwondersduel/myAction.html", {
-                                                                        lock: true,
-                                                                        myArgument1: arg1,
-                                                                        myArgument2: arg2,
-                                                                        ...
-                                                                     },
-                             this, function( result ) {
-
-                                // What to do after the server call if it succeeded
-                                // (most of the time: nothing)
-
-                             }, function( is_error) {
-
-                                // What to do after the server call in anyway (success or failure)
-                                // (most of the time: nothing)
-
-                             } );
-            },
-
-            */
 
             onWonderSelectionClick: function (e) {
                 console.log('onWonderSelectionClick');
@@ -866,6 +862,27 @@ define([
                         });
                 }
             },
+
+            notif_wonderSelected: function (notif) {
+                console.log('notif_wonderSelected', notif);
+                this.hideTooltip();
+
+                var wonderContainerNodeId = 'wonder_' + notif.args.wonderId + '_container';
+                var targetNode = dojo.query('.player_wonders.player' + notif.args.playerId + '>div:nth-of-type(' + notif.args.playerWonderCount + ')')[0];
+                this.attachToNewParent(wonderContainerNodeId, targetNode);
+                this.slideToObjectPos(wonderContainerNodeId, targetNode, 0, 0).play();
+
+                if (notif.args.updateWonderSelection) {
+                    this.updateWonderSelection(notif.args.wonderSelection);
+                }
+            },
+
+            //   ____  _                         _____
+            //  |  _ \| | __ _ _   _  ___ _ __  |_   _|   _ _ __ _ __
+            //  | |_) | |/ _` | | | |/ _ \ '__|   | || | | | '__| '_ \
+            //  |  __/| | (_| | |_| |  __/ |      | || |_| | |  | | | |
+            //  |_|   |_|\__,_|\__, |\___|_|      |_| \__,_|_|  |_| |_|
+            //                 |___/
 
             onPlayerTurnDraftpoolClick: function (e) {
                 console.log('onPlayerTurnDraftpoolClick');
@@ -916,6 +933,26 @@ define([
                 }
             },
 
+            clearPlayerTurnNodeGlow: function () {
+                if (this.playerTurnNode) {
+                    dojo.removeClass(this.playerTurnNode, 'glow');
+                }
+            },
+
+            clearActionGlow: function () {
+                Object.keys(this.gamedatas.wondersSituation[this.me_id]).forEach(dojo.hitch(this, function (index) {
+                    var wonderData = this.gamedatas.wondersSituation[this.me_id][index];
+                    dojo.removeClass($('wonder_' + wonderData.wonder), 'wonder_selectable');
+                }));
+            },
+
+            //    ____                _                   _     ____        _ _     _ _
+            //   / ___|___  _ __  ___| |_ _ __ _   _  ___| |_  | __ ) _   _(_) | __| (_)_ __   __ _
+            //  | |   / _ \| '_ \/ __| __| '__| | | |/ __| __| |  _ \| | | | | |/ _` | | '_ \ / _` |
+            //  | |__| (_) | | | \__ \ |_| |  | |_| | (__| |_  | |_) | |_| | | | (_| | | | | | (_| |
+            //   \____\___/|_| |_|___/\__|_|   \__,_|\___|\__| |____/ \__,_|_|_|\__,_|_|_| |_|\__, |
+            //                                                                                |___/
+
             onPlayerTurnConstructBuildingClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
@@ -954,348 +991,6 @@ define([
                         }
                     );
                 }
-            },
-
-            onPlayerTurnDiscardBuildingClick: function (e) {
-                // Preventing default browser reaction
-                dojo.stopEvent(e);
-
-                console.log('onPlayerTurnDiscardBuildingClick');
-
-                if (this.isCurrentPlayerActive()) {
-                    // Check that this action is possible (see "possibleactions" in states.inc.php)
-                    if (!this.checkAction('actionDiscardBuilding')) {
-                        return;
-                    }
-
-                    // Set notification delay dynamically:
-                    this.notifqueue.setSynchronous('discardBuilding',
-                        bgagame.CoinAnimator.get().precalculateDuration(this.gamedatas.draftpool.discardGain[this.player_id]) + this.discardBuildingAnimationDuration + this.notification_safe_margin
-                    );
-
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
-                            lock: true,
-                            buildingId: this.playerTurnBuildingId
-                        },
-                        this, function (result) {
-                            dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
-                            // What to do after the server call if it succeeded
-                            // (most of the time: nothing)
-
-                            // Hide wonder selection
-                            // dojo.style('pattern_selection', 'display', 'none');
-
-                        }, function (is_error) {
-                            // What to do after the server call in anyway (success or failure)
-                            // (most of the time: nothing)
-
-                        }
-                    );
-                }
-            },
-
-            clearPlayerTurnNodeGlow: function () {
-                if (this.playerTurnNode) {
-                    dojo.removeClass(this.playerTurnNode, 'glow');
-                }
-            },
-
-            clearActionGlow: function () {
-                Object.keys(this.gamedatas.wondersSituation[this.me_id]).forEach(dojo.hitch(this, function (index) {
-                    var wonderData = this.gamedatas.wondersSituation[this.me_id][index];
-                    dojo.removeClass($('wonder_' + wonderData.wonder), 'wonder_selectable');
-                }));
-            },
-
-            onPlayerTurnConstructWonderClick: function (e) {
-                // Preventing default browser reaction
-                dojo.stopEvent(e);
-
-                console.log('onPlayerTurnConstructWonderClick');
-
-                if (this.isCurrentPlayerActive()) {
-                    Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
-                        var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
-                        if (!wonderData.constructed) {
-                            if (wonderData.cost <= this.gamedatas.playersSituation[this.player_id].coins) {
-                                dojo.addClass($('wonder_' + wonderData.wonder), 'wonder_selectable');
-                            }
-                        }
-                    }));
-
-                    this.setClientState("client_useAgeCard", {
-                        descriptionmyturn: "${you} must select a wonder to construct, or select a different card or action.",
-                    });
-                }
-            },
-            onPlayerTurnConstructWonderSelectedClick: function (e) {
-                // Preventing default browser reaction
-                dojo.stopEvent(e);
-
-                console.log('onPlayerTurnConstructWonderSelectedClick', e);
-
-                if (this.isCurrentPlayerActive()) {
-                    // Check that this action is possible (see "possibleactions" in states.inc.php)
-                    if (!this.checkAction('actionConstructWonder')) {
-                        return;
-                    }
-
-                    var wonderId = dojo.attr(e.target, "data-wonder-id");
-
-                    // Set notification delay dynamically:
-                    var position = this.getWonderCardData(this.player_id, wonderId);
-                    var wonder = this.gamedatas.wonders[wonderId];
-                    this.notifqueue.setSynchronous('constructWonder',
-                        bgagame.CoinAnimator.get().precalculateDuration(position.cost) + this.constructWonderAnimationDuration + bgagame.CoinAnimator.get().precalculateDuration(wonder.coins) + this.notification_safe_margin
-                    );
-
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
-                            lock: true,
-                            buildingId: this.playerTurnBuildingId,
-                            wonderId: wonderId,
-                        },
-                        this, function (result) {
-                            dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
-                            // What to do after the server call if it succeeded
-                            // (most of the time: nothing)
-
-                            // Hide wonder selection
-                            // dojo.style('pattern_selection', 'display', 'none');
-
-                        }, function (is_error) {
-                            // What to do after the server call in anyway (success or failure)
-                            // (most of the time: nothing)
-
-                        }
-                    );
-                }
-            },
-            onProgressTokenClick: function (e) {
-                // Preventing default browser reaction
-                dojo.stopEvent(e);
-
-                console.log('onProgressTokenClick', e);
-
-                if (this.isCurrentPlayerActive()) {
-                    // Check that this action is possible (see "possibleactions" in states.inc.php)
-                    if (!this.checkAction('actionChooseProgressToken')) {
-                        return;
-                    }
-
-                    var progressTokenId = dojo.attr(e.target, "data-progress-token-id");
-
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseProgressToken.html", {
-                            lock: true,
-                            progressTokenId: progressTokenId
-                        },
-                        this, function (result) {
-                            // What to do after the server call if it succeeded
-                            // (most of the time: nothing)
-
-                            // Hide wonder selection
-                            // dojo.style('pattern_selection', 'display', 'none');
-
-                        }, function (is_error) {
-                            // What to do after the server call in anyway (success or failure)
-                            // (most of the time: nothing)
-
-                        }
-                    );
-                }
-            },
-
-            getOffset: function (el) {
-                var rect = el.getBoundingClientRect();
-                return {
-                    left: rect.left + window.scrollX,
-                    top: rect.top + window.scrollY
-                };
-            },
-
-            setScale: function (scale) {
-                if (!this.dontScale) {
-                    this.setCssVariable('--scale', scale);
-                }
-            },
-
-            getCssVariable: function (name) {
-                return document.documentElement.style.getPropertyValue(name);
-            },
-
-            setCssVariable: function (name, value) {
-                document.documentElement.style.setProperty(name, value);
-            },
-
-            onScreenWidthChange: function () {
-                this.viewportChange();
-            },
-
-            onWindowUpdate: function (e) {
-                this.viewportChange();
-            },
-
-            viewportChange: function (e) {
-                clearTimeout(this.windowResizeTimeoutId);
-                // Set up the callback
-                this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "updateLayout"), 50);
-            },
-
-            updateLayout: function () {
-                var titlePosition = dojo.position('page-title', false);
-                var titleMarginBottom = 5;
-                var width = titlePosition.w - 5;
-                var height = window.innerHeight - titlePosition.y - titlePosition.h - 2 * titleMarginBottom;
-
-                var playarea = $('playarea');
-                dojo.style(playarea, "width", width + 'px');
-                dojo.style(playarea, "height", height + 'px');
-
-                // console.log('titlePosition: ', titlePosition);
-                // console.log('available play area: ', width, height);
-                var ratio = window.innerWidth / window.innerHeight;
-
-                var pageZoom = dojo.style($('page-content'), "zoom");
-                // console.log('pageZoom', pageZoom);
-
-                // Measured in 75% view, without any player buildings (meaning the height can become heigher:
-                var portrait = 0.8;//747 / 987; // 0.76
-                // var square = 947 / 897; // 1.056
-                var landscape = 1.74; //1131/ 756; // 1.60
-
-                var swdNode = $('swd_wrap');
-                dojo.removeClass(swdNode, 'square');
-                dojo.removeClass(swdNode, 'portrait');
-                dojo.removeClass(swdNode, 'landscape');
-
-                if (ratio >= landscape) {
-                    // console.log('ratio: ', ratio, 'choosing landscape');
-                    dojo.addClass(swdNode, 'landscape');
-                    this.setScale(1);
-                    this.setScale(height / dojo.style($('swd_wrap'), 'height'));
-                } else if (ratio < landscape && ratio > portrait) {
-                    Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                        dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
-                    }));
-
-                    // console.log('ratio: ', ratio, 'choosing square');
-                    dojo.addClass(swdNode, 'square');
-                    if (width > height) {
-                        this.setScale(1);
-                        this.setScale(height / dojo.style($('swd_wrap'), 'height'));
-                    } else {
-                        this.setScale(1);
-                        this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
-                    }
-
-                } else { // ratio <= portrait
-                    Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                        dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
-                    }));
-
-                    // console.log('ratio: ', ratio, 'choosing portrait');
-                    dojo.addClass(swdNode, 'portrait');
-                    this.setScale(1);
-                    this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
-                }
-                // console.log('swd_wrap height: ', $('swd_wrap'), 'height');
-            },
-
-
-            ///////////////////////////////////////////////////
-            //// Reaction to cometD notifications
-
-            /*
-                setupNotifications:
-
-                In this method, you associate each of your game notifications with your local method to handle it.
-
-                Note: game notification names correspond to "notifyAllPlayers" and "notifyPlayer" calls in
-                      your sevenwondersduel.game.php file.
-
-            */
-            setupNotifications: function () {
-                console.log('notifications subscriptions setup');
-
-                // TODO: here, associate your game notifications with local methods
-
-                // Example 1: standard notification handling
-                // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
-
-                // Example 2: standard notification handling + tell the user interface to wait
-                //            during 3 seconds after calling the method in order to var the players
-                //            see what is happening in the game.
-                // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
-                // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
-                //
-
-                dojo.subscribe('wonderSelected', this, "notif_wonderSelected");
-                dojo.subscribe('nextAge', this, "notif_nextAge");
-
-                dojo.subscribe('constructBuilding', this, "notif_constructBuilding");
-                // Notification delay is set dynamically in onPlayerTurnConstuctBuildingClick
-
-                dojo.subscribe('discardBuilding', this, "notif_discardBuilding");
-                // Notification delay is set dynamically in onPlayerTurnDiscardBuildingClick
-
-                dojo.subscribe('constructWonder', this, "notif_constructWonder");
-                // Notification delay is set dynamically in onPlayerTurnConstructWonderSelectedClick
-
-                dojo.subscribe('updateDraftpool', this, "notif_updateDraftpool");
-                dojo.subscribe('progressTokenChosen', this, "notif_progressTokenChosen");
-            },
-
-            // TODO: from this point and below, you can write your game notifications handling methods
-
-            notif_updateDraftpool: function (notif) {
-                console.log('notif_updateDraftpool', notif);
-                this.updateDraftpool(notif.args.draftpool)
-            },
-
-            notif_progressTokenChosen: function (notif) {
-                console.log('notif_progressTokenChosen', notif);
-
-                var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
-
-                var progressToken = this.gamedatas.progressTokens[notif.args.buildingId];
-                var container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + notif.args.progressTokensSituation[notif.args.playerId].length + ')')[0];
-                this.attachToNewParent(progressTokenNode, container);
-
-                var anim = dojo.fx.chain([
-                    this.slideToObjectPos(progressTokenNode, container, 0, 0, this.constructBuildingAnimationDuration * 0.6),
-                ]);
-
-                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerCoins.
-                    anim.stop();
-                    // Clean up any existing coin nodes (normally cleaned up by their onEnd)
-                    dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
-
-                    this.updatePlayerCoins(notif.args.playerId, notif.args.playersSituation[notif.args.playerId].coins);
-                    this.updateDraftpool(notif.args.draftpool);
-                    this.updateWondersSituation(notif.args.wondersSituation);
-                }));
-
-                anim.play();
-            },
-
-            notif_wonderSelected: function (notif) {
-                console.log('notif_wonderSelected', notif);
-                this.hideTooltip();
-
-                var wonderContainerNodeId = 'wonder_' + notif.args.wonderId + '_container';
-                var targetNode = dojo.query('.player_wonders.player' + notif.args.playerId + '>div:nth-of-type(' + notif.args.playerWonderCount + ')')[0];
-                this.attachToNewParent(wonderContainerNodeId, targetNode);
-                this.slideToObjectPos(wonderContainerNodeId, targetNode, 0, 0).play();
-
-                if (notif.args.updateWonderSelection) {
-                    this.updateWonderSelection(notif.args.wonderSelection);
-                }
-            },
-
-            notif_nextAge: function (notif) {
-                console.log('notif_nextAge', notif);
-                this.updateWondersSituation(notif.args.wondersSituation);
-                this.updateDraftpool(notif.args.draftpool);
             },
 
             notif_constructBuilding: function (notif) {
@@ -1371,6 +1066,51 @@ define([
                 anim.play();
             },
 
+            //   ____  _                       _   ____        _ _     _ _
+            //  |  _ \(_)___  ___ __ _ _ __ __| | | __ ) _   _(_) | __| (_)_ __   __ _
+            //  | | | | / __|/ __/ _` | '__/ _` | |  _ \| | | | | |/ _` | | '_ \ / _` |
+            //  | |_| | \__ \ (_| (_| | | | (_| | | |_) | |_| | | | (_| | | | | | (_| |
+            //  |____/|_|___/\___\__,_|_|  \__,_| |____/ \__,_|_|_|\__,_|_|_| |_|\__, |
+            //                                                                   |___/
+
+            onPlayerTurnDiscardBuildingClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                console.log('onPlayerTurnDiscardBuildingClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionDiscardBuilding')) {
+                        return;
+                    }
+
+                    // Set notification delay dynamically:
+                    this.notifqueue.setSynchronous('discardBuilding',
+                        bgagame.CoinAnimator.get().precalculateDuration(this.gamedatas.draftpool.discardGain[this.player_id]) + this.discardBuildingAnimationDuration + this.notification_safe_margin
+                    );
+
+                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
+                            lock: true,
+                            buildingId: this.playerTurnBuildingId
+                        },
+                        this, function (result) {
+                            dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                            // Hide wonder selection
+                            // dojo.style('pattern_selection', 'display', 'none');
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
             notif_discardBuilding: function (notif) {
                 console.log('notif_discardBuilding', notif);
 
@@ -1410,6 +1150,77 @@ define([
                 ]);
 
                 anim.play();
+            },
+
+            //    ____                _                   _    __        __              _
+            //   / ___|___  _ __  ___| |_ _ __ _   _  ___| |_  \ \      / /__  _ __   __| | ___ _ __
+            //  | |   / _ \| '_ \/ __| __| '__| | | |/ __| __|  \ \ /\ / / _ \| '_ \ / _` |/ _ \ '__|
+            //  | |__| (_) | | | \__ \ |_| |  | |_| | (__| |_    \ V  V / (_) | | | | (_| |  __/ |
+            //   \____\___/|_| |_|___/\__|_|   \__,_|\___|\__|    \_/\_/ \___/|_| |_|\__,_|\___|_|
+
+            onPlayerTurnConstructWonderClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                console.log('onPlayerTurnConstructWonderClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
+                        var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
+                        if (!wonderData.constructed) {
+                            if (wonderData.cost <= this.gamedatas.playersSituation[this.player_id].coins) {
+                                dojo.addClass($('wonder_' + wonderData.wonder), 'wonder_selectable');
+                            }
+                        }
+                    }));
+
+                    this.setClientState("client_useAgeCard", {
+                        descriptionmyturn: "${you} must select a wonder to construct, or select a different card or action.",
+                    });
+                }
+            },
+
+            onPlayerTurnConstructWonderSelectedClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                console.log('onPlayerTurnConstructWonderSelectedClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionConstructWonder')) {
+                        return;
+                    }
+
+                    var wonderId = dojo.attr(e.target, "data-wonder-id");
+
+                    // Set notification delay dynamically:
+                    var position = this.getWonderCardData(this.player_id, wonderId);
+                    var wonder = this.gamedatas.wonders[wonderId];
+                    this.notifqueue.setSynchronous('constructWonder',
+                        bgagame.CoinAnimator.get().precalculateDuration(position.cost) + this.constructWonderAnimationDuration + bgagame.CoinAnimator.get().precalculateDuration(wonder.coins) + this.notification_safe_margin
+                    );
+
+                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
+                            lock: true,
+                            buildingId: this.playerTurnBuildingId,
+                            wonderId: wonderId,
+                        },
+                        this, function (result) {
+                            dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                            // Hide wonder selection
+                            // dojo.style('pattern_selection', 'display', 'none');
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
             },
 
             notif_constructWonder: function (notif) {
@@ -1530,23 +1341,236 @@ define([
 
                 }));
                 coinAnimation.play();
-
-
             },
 
-            /*
-            Example:
+            //    ____ _                            ____                                      _____     _
+            //   / ___| |__   ___   ___  ___  ___  |  _ \ _ __ ___   __ _ _ __ ___  ___ ___  |_   _|__ | | _____ _ __
+            //  | |   | '_ \ / _ \ / _ \/ __|/ _ \ | |_) | '__/ _ \ / _` | '__/ _ \/ __/ __|   | |/ _ \| |/ / _ \ '_ \
+            //  | |___| | | | (_) | (_) \__ \  __/ |  __/| | | (_) | (_| | | |  __/\__ \__ \   | | (_) |   <  __/ | | |
+            //   \____|_| |_|\___/ \___/|___/\___| |_|   |_|  \___/ \__, |_|  \___||___/___/   |_|\___/|_|\_\___|_| |_|
+            //                                                      |___/
 
-            notif_cardPlayed: function( notif )
-            {
-                console.log( 'notif_cardPlayed' );
-                console.log( notif );
+            onProgressTokenClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
 
-                // Note: notif.args contains the arguments specified during you "notifyAllPlayers" / "notifyPlayer" PHP call
+                console.log('onProgressTokenClick', e);
 
-                // TODO: play the card in the user interface.
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseProgressToken')) {
+                        return;
+                    }
+
+                    var progressTokenId = dojo.attr(e.target, "data-progress-token-id");
+
+                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseProgressToken.html", {
+                            lock: true,
+                            progressTokenId: progressTokenId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                            // Hide wonder selection
+                            // dojo.style('pattern_selection', 'display', 'none');
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
             },
 
-            */
+            notif_progressTokenChosen: function (notif) {
+                console.log('notif_progressTokenChosen', notif);
+
+                var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
+
+                var progressToken = this.gamedatas.progressTokens[notif.args.buildingId];
+                var container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + notif.args.progressTokensSituation[notif.args.playerId].length + ')')[0];
+                this.attachToNewParent(progressTokenNode, container);
+
+                var anim = dojo.fx.chain([
+                    this.slideToObjectPos(progressTokenNode, container, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                ]);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerCoins.
+                    anim.stop();
+                    // Clean up any existing coin nodes (normally cleaned up by their onEnd)
+                    dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
+
+                    this.updatePlayerCoins(notif.args.playerId, notif.args.playersSituation[notif.args.playerId].coins);
+                    this.updateDraftpool(notif.args.draftpool);
+                    this.updateWondersSituation(notif.args.wondersSituation);
+                }));
+
+                anim.play();
+            },
+
+            //   _   _           _        _
+            //  | \ | | _____  _| |_     / \   __ _  ___
+            //  |  \| |/ _ \ \/ / __|   / _ \ / _` |/ _ \
+            //  | |\  |  __/>  <| |_   / ___ \ (_| |  __/
+            //  |_| \_|\___/_/\_\\__| /_/   \_\__, |\___|
+            //                                |___/
+
+            notif_nextAge: function (notif) {
+                console.log('notif_nextAge', notif);
+                this.updateWondersSituation(notif.args.wondersSituation);
+                this.updateDraftpool(notif.args.draftpool);
+            },
+
+            //   ____  _           _               _____                 _   _
+            //  |  _ \(_)___ _ __ | | __ _ _   _  |  ___|   _ _ __   ___| |_(_) ___  _ __  ___
+            //  | | | | / __| '_ \| |/ _` | | | | | |_ | | | | '_ \ / __| __| |/ _ \| '_ \/ __|
+            //  | |_| | \__ \ |_) | | (_| | |_| | |  _|| |_| | | | | (__| |_| | (_) | | | \__ \
+            //  |____/|_|___/ .__/|_|\__,_|\__, | |_|   \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
+            //              |_|            |___/
+
+            getOffset: function (el) {
+                var rect = el.getBoundingClientRect();
+                return {
+                    left: rect.left + window.scrollX,
+                    top: rect.top + window.scrollY
+                };
+            },
+
+            setScale: function (scale) {
+                if (!this.dontScale) {
+                    this.setCssVariable('--scale', scale);
+                }
+            },
+
+            getCssVariable: function (name) {
+                return document.documentElement.style.getPropertyValue(name);
+            },
+
+            setCssVariable: function (name, value) {
+                document.documentElement.style.setProperty(name, value);
+            },
+
+            onScreenWidthChange: function () {
+                this.viewportChange();
+            },
+
+            onWindowUpdate: function (e) {
+                this.viewportChange();
+            },
+
+            viewportChange: function (e) {
+                clearTimeout(this.windowResizeTimeoutId);
+                // Set up the callback
+                this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "updateLayout"), 50);
+            },
+
+            updateLayout: function () {
+                var titlePosition = dojo.position('page-title', false);
+                var titleMarginBottom = 5;
+                var width = titlePosition.w - 5;
+                var height = window.innerHeight - titlePosition.y - titlePosition.h - 2 * titleMarginBottom;
+
+                var playarea = $('playarea');
+                dojo.style(playarea, "width", width + 'px');
+                dojo.style(playarea, "height", height + 'px');
+
+                // console.log('titlePosition: ', titlePosition);
+                // console.log('available play area: ', width, height);
+                var ratio = window.innerWidth / window.innerHeight;
+
+                var pageZoom = dojo.style($('page-content'), "zoom");
+                // console.log('pageZoom', pageZoom);
+
+                // Measured in 75% view, without any player buildings (meaning the height can become heigher:
+                var portrait = 0.8;//747 / 987; // 0.76
+                // var square = 947 / 897; // 1.056
+                var landscape = 1.74; //1131/ 756; // 1.60
+
+                var swdNode = $('swd_wrap');
+                dojo.removeClass(swdNode, 'square');
+                dojo.removeClass(swdNode, 'portrait');
+                dojo.removeClass(swdNode, 'landscape');
+
+                if (ratio >= landscape) {
+                    // console.log('ratio: ', ratio, 'choosing landscape');
+                    dojo.addClass(swdNode, 'landscape');
+                    this.setScale(1);
+                    this.setScale(height / dojo.style($('swd_wrap'), 'height'));
+                } else if (ratio < landscape && ratio > portrait) {
+                    Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                        dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
+                    }));
+
+                    // console.log('ratio: ', ratio, 'choosing square');
+                    dojo.addClass(swdNode, 'square');
+                    if (width > height) {
+                        this.setScale(1);
+                        this.setScale(height / dojo.style($('swd_wrap'), 'height'));
+                    } else {
+                        this.setScale(1);
+                        this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
+                    }
+
+                } else { // ratio <= portrait
+                    Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                        dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
+                    }));
+
+                    // console.log('ratio: ', ratio, 'choosing portrait');
+                    dojo.addClass(swdNode, 'portrait');
+                    this.setScale(1);
+                    this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
+                }
+                // console.log('swd_wrap height: ', $('swd_wrap'), 'height');
+            },
+
+            //  _   _      _                   _____                 _   _
+            // | | | | ___| |_ __   ___ _ __  |  ___|   _ _ __   ___| |_(_) ___  _ __  ___
+            // | |_| |/ _ \ | '_ \ / _ \ '__| | |_ | | | | '_ \ / __| __| |/ _ \| '_ \/ __|
+            // |  _  |  __/ | |_) |  __/ |    |  _|| |_| | | | | (__| |_| | (_) | | | \__ \
+            // |_| |_|\___|_| .__/ \___|_|    |_|   \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
+            //              |_|
+
+            hideTooltip: function () {
+                // Thanks to https://stackoverflow.com/a/35984527
+                if (dijit.Tooltip._masterTT) {
+                    dijit.Tooltip._masterTT.containerNode.innerHTML = '';
+                    dojo.removeClass(dijit.Tooltip._masterTT.id, "dijitTooltip");
+                }
+            },
+
+            getPlayerAlias: function (playerId) {
+                return playerId == this.me_id ? 'me' : 'opponent'
+            },
+
+            getOppositePlayerId: function (playerId) {
+                return playerId == this.me_id ? this.opponent_id : this.me_id;
+            },
+
+            getCostValue: function (cost) {
+                if (typeof cost == "undefined") return false;
+
+                if (cost == 0) {
+                    return '✓';
+                } else {
+                    return cost;
+                }
+            },
+
+            getCostColor: function (cost, playerCoins) {
+                if (typeof cost == "undefined") return false;
+
+                if (cost == 0) {
+                    return '#008000';
+                } else if (cost <= playerCoins) {
+                    return 'black';
+                } else {
+                    return 'red';
+                }
+            },
+
         });
     });
