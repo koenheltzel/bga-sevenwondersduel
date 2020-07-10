@@ -154,18 +154,6 @@ $machinestates = [
             "actionChooseProgressToken",
         ],
         "transitions" => [
-            SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_NAME => SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_ID,
-            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
-        ]
-    ],
-
-    SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_ID => [
-        "name" => SevenWondersDuel::STATE_PROGRESS_TOKEN_PLAYED_NAME,
-        "description" => '',
-        "descriptionmyturn" => '',
-        "type" => "game",
-        "action" => "enterStateProgressTokenPlayed",
-        "transitions" => [
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ]
     ],
@@ -206,17 +194,6 @@ $machinestates = [
         "possibleactions" => [
             "actionChooseProgressTokenFromBox",
         ],
-        "transitions" => [
-            SevenWondersDuel::STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_NAME => SevenWondersDuel::STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_ID,
-        ]
-    ],
-
-    SevenWondersDuel::STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_ID => [
-        "name" => SevenWondersDuel::STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_NAME,
-        "description" => '',
-        "descriptionmyturn" => '',
-        "type" => "game",
-        "action" => "enterStateProgressTokenFromBoxPlayed",
         "transitions" => [
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ]

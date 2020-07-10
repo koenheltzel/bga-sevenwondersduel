@@ -51,13 +51,11 @@ class SevenWondersDuel extends Table
     use SWD\States\ChooseOpponentBuildingTrait;
     use SWD\States\ChooseProgressTokenTrait;
     use SWD\States\ConstructDiscardedBuildingTrait;
-    use SWD\States\ProgressTokenFromBoxPlayedTrait;
     use SWD\States\GameSetupTrait;
     use SWD\States\NextAgeTrait;
     use SWD\States\NextPlayerTurnTrait;
     use SWD\States\OpponentBuildingDiscardedTrait;
     use SWD\States\PlayerTurnTrait;
-    use SWD\States\ProgressTokenPlayedTrait;
     use SWD\States\SelectStartPlayerTrait;
     use SWD\States\SelectWonderTrait;
     use SWD\States\StartPlayerSelectedTrait;
@@ -91,9 +89,6 @@ class SevenWondersDuel extends Table
 
     const STATE_CHOOSE_PROGRESS_TOKEN_ID = 45;
     const STATE_CHOOSE_PROGRESS_TOKEN_NAME = "chooseProgressToken";
-    
-    const STATE_PROGRESS_TOKEN_PLAYED_ID = 50;
-    const STATE_PROGRESS_TOKEN_PLAYED_NAME = "progressTokenPlayed";
 
     const STATE_CHOOSE_OPPONENT_BUILDING_ID = 65;
     const STATE_CHOOSE_OPPONENT_BUILDING_NAME = "chooseOpponentBuilding";
@@ -103,10 +98,7 @@ class SevenWondersDuel extends Table
     
     const STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID = 75;
     const STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME = "chooseProgressTokenFromBox";
-    
-    const STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_ID = 80;
-    const STATE_PROGRESS_TOKEN_FROM_BOX_PLAYED_NAME = "progressTokenFromBoxPlayed";
-    
+
     const STATE_CHOOSE_DISCARDED_BUILDING_ID = 85;
     const STATE_CHOOSE_DISCARDED_BUILDING_NAME = "chooseDiscardedBuilding";
     
