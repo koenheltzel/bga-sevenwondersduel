@@ -7,7 +7,7 @@
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  *
- * CoinAnimation.js
+ * CoinAnimationBuilder.js
  *
  * Class to generate coin animations (certain amount of coins flying from and to nodes, auto updating player score counters).
  *
@@ -18,24 +18,21 @@ define([
         "dojo/_base/declare",
         "dojo/query",
         "dojo/NodeList-traverse",
-        "dojo/on",
-        "dojo/dom",
-        "ebg/core/gamegui",
-        "ebg/counter"
     ],
-    function (dojo, declare, on, dom) {
-        return declare("bgagame.CoinAnimation", null, {
+    function (dojo, declare) {
+        return declare("bgagame.CoinAnimationBuilder", null, {
 
             game: null,
-            animation: null,
 
             coin_slide_duration: 500,
             coin_slide_delay: 100,
             notification_safe_margin: 200,
 
-            constructor: function (game, sourceNode, targetNode, amount, playerId, sourcePosition, targetPosition) {
+            constructor: function (game) {
                 this.game = game;
+            },
 
+            getAnimation: function (sourceNode, targetNode, amount, playerId, sourcePosition, targetPosition) {
                 // Optional source/target positions
                 if (typeof sourcePosition == "undefined") sourcePosition = [0, 0];
                 if (typeof targetPosition == "undefined") targetPosition = [0, 0];
@@ -94,7 +91,7 @@ define([
                         anims.push(anim);
                     }
                 }
-                this.animation = dojo.fx.combine(anims);
+                return dojo.fx.combine(anims);
             },
 
             precalculateDuration: function (amount) {
