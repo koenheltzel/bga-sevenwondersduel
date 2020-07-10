@@ -20,15 +20,26 @@ define([
         "dojo/NodeList-traverse",
     ],
     function (dojo, declare) {
-        return declare("bgagame.CoinAnimationBuilder", null, {
+        var classDefinition = declare("bgagame.CoinAnimationBuilder", null, {
 
             game: null,
 
             coin_slide_duration: 500,
             coin_slide_delay: 100,
 
-            constructor: function (game) {
-                this.game = game;
+            /**
+             * Get singleton instance
+             * @returns {bgagame.CoinAnimationBuilder}
+             */
+            get: function() {
+                if (typeof bgagame.CoinAnimationBuilder.prototype.instance == "undefined") {
+                    bgagame.CoinAnimationBuilder.prototype.instance = new bgagame.CoinAnimationBuilder();
+                }
+                return bgagame.CoinAnimationBuilder.prototype.instance;
+            },
+
+            constructor: function () {
+                this.game = bgagame.sevenwondersduel.instance;
             },
 
             getAnimation: function (sourceNode, targetNode, amount, playerId, sourcePosition, targetPosition) {
@@ -94,10 +105,16 @@ define([
             },
 
             precalculateDuration: function (amount) {
+                this.game = bgagame.sevenwondersduel.instance;
                 if (amount != 0) {
                     return this.coin_slide_duration + ((Math.abs(amount) - 1) * this.coin_slide_delay);
                 }
                 return 0;
             },
         });
+
+        // Assign static properties / functions (these functions shouldn't make use of "this"):
+        classDefinition.get = classDefinition.prototype.get;
+
+        return classDefinition;
     });
