@@ -128,7 +128,7 @@ __     __         _       _     _
 
 #game_play_area h3 {
     margin: 0px 0px var(--gutter) 0px;
-    font-size: max(12px, 16px * var(--scale));
+    font-size: max(12px, calc(16px * var(--scale)));
 }
 
 #game_play_area .whiteblock h3 {
@@ -894,7 +894,6 @@ __        __              _
     width: var(--wonder-width);
     height: var(--wonder-height);
     background-image: url('img/wonders.jpg');
-    position: absolute;
     border-radius: var(--wonder-border-radius);
     box-shadow:
         calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0px rgba(0,0,0,0.4),
@@ -937,7 +936,6 @@ __        __              _
     width: var(--progress-token-width);
     height: var(--progress-token-height);
     background-image: url('img/progress_tokens.jpg');
-    position: absolute;
     border-radius: calc(var(--progress-token-width) * 0.5);
     box-shadow:
         calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0px rgba(0,0,0,0.4),
