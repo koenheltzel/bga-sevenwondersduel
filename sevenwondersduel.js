@@ -23,7 +23,8 @@ define([
         "dojo/on",
         "dojo/dom",
         "ebg/core/gamegui",
-        "ebg/counter"
+        "ebg/counter",
+        g_gamethemeurl + "modules/js/CoinAnimation.js"
     ],
     function (dojo, declare, on, dom) {
         return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
@@ -74,7 +75,11 @@ define([
             */
 
             setup: function (gamedatas) {
-                console.log("setup(gamedatas)", gamedatas);
+                // console.log(bgagame.CoinAnimation.prototype.notification_safe_margin);
+                // var animation = new bgagame.CoinAnimation();
+                // console.log(animation.notification_safe_margin);
+                // console.log(animation.prototype.precalculateDuration(10));
+                // console.log("setup(gamedatas)", gamedatas);
 
                 dojo.destroy('debug_output'); // TODO: Remove? See http://en.doc.boardgamearena.com/Tools_and_tips_of_BGA_Studio#Speed_up_game_re-loading_by_disabling_Input.2FOutput_debug_section
 
@@ -499,79 +504,10 @@ define([
 
             },
 
-            getCoinAnimationDuration: function (amount) {
-                if (amount != 0) {
-                    return this.coin_slide_duration + ((Math.abs(amount) - 1) * this.coin_slide_delay);
-                }
-                return 0;
-            },
-            getCoinAnimation: function (sourceNode, targetNode, amount, playerId, sourcePosition, targetPosition) {
-                // Optional source/target positions
-                if (typeof sourcePosition == "undefined") sourcePosition = [0, 0];
-                if (typeof targetPosition == "undefined") targetPosition = [0, 0];
-
-                // Auto detect if coins are moving to or from certain players player areas. We use this to update their coin total during the animation.
-                var sourceNodePlayerId = undefined;
-                var targetNodePlayerId = undefined;
-                if (dojo.hasClass(sourceNode, 'player_area_coins') && dojo.query(sourceNode).closest(".me")[0]) sourceNodePlayerId = this.me_id;
-                if (dojo.hasClass(sourceNode, 'player_area_coins') && dojo.query(sourceNode).closest(".opponent")[0]) sourceNodePlayerId = this.opponent_id;
-                if (dojo.hasClass(targetNode, 'player_area_coins') && dojo.query(targetNode).closest(".me")[0]) targetNodePlayerId = this.me_id;
-                if (dojo.hasClass(targetNode, 'player_area_coins') && dojo.query(targetNode).closest(".opponent")[0]) targetNodePlayerId = this.opponent_id;
-
-                var anims = [];
-                if (amount != 0) {
-                    var html = this.format_block('jstpl_coin_animated');
-                    for (var i = 0; i < Math.abs(amount); i++) {
-                        var node = dojo.place(html, 'swd_wrap');
-                        if (playerId == this.opponent_id) {
-                            dojo.addClass(node, 'opponent');
-                        }
-                        this.placeOnObjectPos(node, sourceNode, sourcePosition[0], sourcePosition[1]);
-
-                        dojo.style(node, 'opacity', 0);
-                        var fadeDurationPercentage = 0.15;
-                        var anim = dojo.fx.combine([
-                            dojo.fadeIn({
-                                node: node,
-                                duration: this.coin_slide_duration * fadeDurationPercentage,
-                                delay: i * this.coin_slide_delay,
-                                onPlay: dojo.hitch(this, function (node) {
-                                    if (sourceNodePlayerId && sourcePosition[0] == 0 && sourcePosition[1] == 0) {
-                                        this.increasePlayerCoins(sourceNodePlayerId, -1);
-                                    }
-                                }),
-                            }),
-                            this.slideToObjectPos(node, targetNode, targetPosition[0], targetPosition[1], this.coin_slide_duration, i * this.coin_slide_delay),
-                            dojo.animateProperty({ // Standard fadeOut started of at opacity 0 (?!?)
-                                node: node,
-                                duration: this.coin_slide_duration * fadeDurationPercentage,
-                                delay: (i * this.coin_slide_delay) + ((1 - fadeDurationPercentage) * this.coin_slide_duration),
-                                easing: dojo.fx.easing.linear,
-                                properties: {
-                                    opacity: {
-                                        start: 1,
-                                        end: 0
-                                    }
-                                },
-                                onEnd: dojo.hitch(this, function (node) {
-                                    dojo.destroy(node);
-                                    if (targetNodePlayerId && targetPosition[0] == 0 && targetPosition[1] == 0) {
-                                        this.increasePlayerCoins(targetNodePlayerId, 1);
-                                    }
-                                }),
-                            }),
-                        ]);
-                        anims.push(anim);
-                    }
-                }
-                var anim = dojo.fx.combine(anims);
-                return anim;
-            },
-
             getMilitaryTokenAnimationDuration: function (amount) {
                 //TODO Duration isn't calculated/used for dynamically setting notification delay (main question is, where to get "amount" from?).
                 if (amount != 0) {
-                    return this.militaryTokenAnimationDuration + this.getCoinAnimationDuration(amount);
+                    return this.militaryTokenAnimationDuration + bgagame.CoinAnimation.prototype.precalculateDuration(amount);
                 }
                 return 0;
             },
@@ -587,7 +523,7 @@ define([
                     var tokenNumber = this.invertMilitaryTrack() ? (5 - payment.militaryTokenNumber) : payment.militaryTokenNumber;
                     var tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
                     var playerCoinsNode = dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0];
-                    var coinAnimation = this.getCoinAnimation(
+                    var coinAnimation = new bgagame.CoinAnimation(this, 
                         playerCoinsNode,
                         playerCoinsNode,
                         -payment.militaryTokenValue,
@@ -598,7 +534,7 @@ define([
 
                     var anim = dojo.fx.chain([
                         this.slideToObjectPos(tokenNode, playerCoinsNode, 0, offset * inverter, this.militaryTokenAnimationDuration * 0.6),
-                        coinAnimation,
+                        coinAnimation.animation,
                         dojo.fadeOut({
                             node: tokenNode,
                             duration: this.militaryTokenAnimationDuration * 0.4,
@@ -1041,7 +977,7 @@ define([
                     var position = this.getDraftpoolCardData(this.playerTurnBuildingId);
                     var building = this.gamedatas.buildings[this.playerTurnBuildingId];
                     this.notifqueue.setSynchronous('constructBuilding',
-                        this.getCoinAnimationDuration(position.cost[this.player_id]) + this.constructBuildingAnimationDuration + this.getCoinAnimationDuration(building.coins) + this.notification_safe_margin
+                        bgagame.CoinAnimation.prototype.precalculateDuration(position.cost[this.player_id]) + this.constructBuildingAnimationDuration + bgagame.CoinAnimation.prototype.precalculateDuration(building.coins) + this.notification_safe_margin
                     );
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
@@ -1079,7 +1015,7 @@ define([
 
                     // Set notification delay dynamically:
                     this.notifqueue.setSynchronous('discardBuilding',
-                        this.getCoinAnimationDuration(this.gamedatas.draftpool.discardGain[this.player_id]) + this.discardBuildingAnimationDuration + this.notification_safe_margin
+                        bgagame.CoinAnimation.prototype.precalculateDuration(this.gamedatas.draftpool.discardGain[this.player_id]) + this.discardBuildingAnimationDuration + this.notification_safe_margin
                     );
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
@@ -1155,7 +1091,7 @@ define([
                     var position = this.getWonderCardData(this.player_id, wonderId);
                     var wonder = this.gamedatas.wonders[wonderId];
                     this.notifqueue.setSynchronous('constructWonder',
-                        this.getCoinAnimationDuration(position.cost) + this.constructWonderAnimationDuration + this.getCoinAnimationDuration(wonder.coins) + this.notification_safe_margin
+                        bgagame.CoinAnimation.prototype.precalculateDuration(position.cost) + this.constructWonderAnimationDuration + bgagame.CoinAnimation.prototype.precalculateDuration(wonder.coins) + this.notification_safe_margin
                     );
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
@@ -1427,7 +1363,7 @@ define([
                 var playerAlias = this.getPlayerAlias(notif.args.playerId);
                 var coinNode = dojo.query('.draftpool_building_cost.' + playerAlias + ' .coin', buildingNode)[0];
                 var position = this.getDraftpoolCardData(notif.args.buildingId);
-                var coinAnimation = this.getCoinAnimation(
+                var coinAnimation = new bgagame.CoinAnimation(this, 
                     dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                     coinNode,
                     -position.cost[notif.args.playerId],
@@ -1436,7 +1372,7 @@ define([
 
                 var coinRewardAnimation = undefined;
                 if (building.coins > 0) {
-                    coinRewardAnimation = this.getCoinAnimation(
+                    coinRewardAnimation = new bgagame.CoinAnimation(this, 
                         playerBuildingContainer,
                         dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                         building.coins,
@@ -1449,7 +1385,7 @@ define([
                 var militaryTokenAnimation = this.getMilitaryTokenAnimation(notif.args.playerId, notif.args.payment);
 
                 var anim = dojo.fx.chain([
-                    coinAnimation,
+                    coinAnimation.animation,
                     dojo.fx.combine([
                         dojo.fadeIn({node: playerBuildingId, duration: this.constructBuildingAnimationDuration * 0.4}),
                         dojo.fadeOut({
@@ -1488,7 +1424,7 @@ define([
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
-                var coinAnimation = this.getCoinAnimation(
+                var coinAnimation = new bgagame.CoinAnimation(this, 
                     buildingNode,
                     dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_coins')[0],
                     notif.args.gain,
@@ -1514,7 +1450,7 @@ define([
                 }));
 
                 var anim = dojo.fx.chain([
-                    coinAnimation,
+                    coinAnimation.animation,
                     moveAnim
                 ]);
 
@@ -1535,14 +1471,14 @@ define([
                     coinNode,
                     -position.cost,
                     notif.args.playerId);
-                var coinAnimation = this.getCoinAnimation(
+                var coinAnimation = new bgagame.CoinAnimation(this, 
                     dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                     coinNode,
                     -position.cost,
                     notif.args.playerId
                 );
 
-                dojo.connect(coinAnimation, 'onEnd', dojo.hitch(this, function (node) {
+                dojo.connect(coinAnimation.animation, 'onEnd', dojo.hitch(this, function (node) {
                     // Update the wonders situation, because now the wonder is constructed and the age card has been rendered.
                     this.updateWondersSituation(notif.args.wondersSituation);
 
@@ -1564,7 +1500,7 @@ define([
                         var wonderNodePosition = dojo.position(wonderNode);
                         var coinRewardAnimation = undefined;
                         if (wonder.coins > 0) {
-                            coinRewardAnimation = this.getCoinAnimation(
+                            coinRewardAnimation = new bgagame.CoinAnimation(this, 
                                 wonderNode,
                                 dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                                 wonder.coins,
@@ -1638,7 +1574,7 @@ define([
                     }
 
                 }));
-                coinAnimation.play();
+                coinAnimation.animation.play();
 
 
             },
