@@ -24,6 +24,7 @@ define([
 
             game: null,
 
+            pawnStepDuration: 500,
             militaryTokenAnimationDuration: 1600, // Excluding the coin animation
 
             /**
@@ -41,10 +42,31 @@ define([
                 this.game = bgagame.sevenwondersduel.instance;
             },
 
-            getAnimation: function (active_player_id, payment) {
+            getAnimation: function (active_player_id, militaryTrack, payment) {
                 console.log('getMilitaryTokenAnimation', payment);
                 // The military token animation always concerns the opponent of the active player.
                 player_id = this.game.getOppositePlayerId(active_player_id);
+
+                var oldPosition = this.game.gamedatas.militaryTrack.conflictPawn;
+                var steps = Math.abs(oldPosition - militaryTrack.conflictPawn);
+
+                var anims = [];
+                if (oldPosition != militaryTrack.conflictPawn) {
+                    anims.push(dojo.animateProperty({
+                        node: $('conflict_pawn'),
+                        duration: this.pawnStepDuration * steps,
+                        easing: dojo.fx.easing.linear,
+                        properties: {
+                            propertyConflictPawnPosition: {
+                                start: this.game.invertMilitaryTrack() ? -oldPosition : oldPosition,
+                                end: this.game.invertMilitaryTrack() ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn
+                            }
+                        },
+                        onAnimate: dojo.hitch(this, function (values) {
+                            this.game.setCssVariable('--conflict-pawn-position', parseFloat(values.propertyConflictPawnPosition.replace("px", "")));
+                        }),
+                    }));
+                }
 
                 if (payment.militaryTokenNumber > 0) {
                     var offset = 100 * this.game.getCssVariable('--scale');
@@ -53,16 +75,17 @@ define([
                     var tokenNumber = this.game.invertMilitaryTrack() ? (5 - payment.militaryTokenNumber) : payment.militaryTokenNumber;
                     var tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
                     var playerCoinsNode = dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0];
+                    var tokenCoins = payment.militaryOpponentPays;
                     var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
                         playerCoinsNode,
                         playerCoinsNode,
-                        -payment.militaryTokenValue,
+                        payment.militaryOpponentPays, // This could differ from the token value if the opponent can't afford what's on the token.
                         player_id,
                         [0, 0],
                         [0, offset * inverter]
                     );
 
-                    var anim = dojo.fx.chain([
+                    anims.push(dojo.fx.chain([
                         this.game.slideToObjectPos(tokenNode, playerCoinsNode, 0, offset * inverter, this.militaryTokenAnimationDuration * 0.6),
                         coinAnimation,
                         dojo.fadeOut({
@@ -72,16 +95,14 @@ define([
                                 dojo.destroy(node);
                             })
                         }),
-                    ]);
-                    return anim;
-                } else {
-                    return dojo.fx.combine([]);
+                    ]));
                 }
+                return dojo.fx.chain(anims);
             },
-            precalculateDuration: function (amount) {
+            precalculateDuration: function (steps, tokenAmount) {
                 //TODO Duration isn't calculated/used for dynamically setting notification delay (main question is, where to get "amount" from?).
-                if (amount != 0) {
-                    return this.militaryTokenAnimationDuration + bgagame.CoinAnimator.get().precalculateDuration(amount);
+                if (steps > 0) {
+                    return this.militaryTokenAnimationDuration + steps * this.pawn_step_duration + bgagame.CoinAnimator.get().precalculateDuration(tokenAmount);
                 }
                 return 0;
             },

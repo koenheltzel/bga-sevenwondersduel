@@ -60,7 +60,9 @@ class Item
             MilitaryTrack::movePawn(Player::me(), $this->military, $payment);
             list($payment->militaryTokenNumber, $payment->militaryTokenValue) = MilitaryTrack::getMilitaryToken();
             if ($payment->militaryTokenValue > 0) {
-                Player::opponent($player->id)->increaseCoins(-$payment->militaryTokenValue);
+                $opponent = Player::opponent($player->id);
+                $payment->militaryOpponentPays = max(-$payment->militaryTokenValue, -$opponent->getCoins());
+                $opponent->increaseCoins(-$payment->militaryOpponentPays);
             }
         }
         return $payment;

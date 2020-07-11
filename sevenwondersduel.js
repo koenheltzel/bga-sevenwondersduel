@@ -53,7 +53,6 @@ define([
 
             turnAroundCardDuration: 500,
             putDraftpoolCard: 250,
-            militaryTrackStepDuration: 200,
             coin_slide_duration: 500,
             coin_slide_delay: 100,
             notification_safe_margin: 200,
@@ -612,6 +611,8 @@ define([
             },
 
             updateMilitaryTrack: function (militaryTrack) {
+                this.gamedatas.militaryTrack = militaryTrack;
+
                 for (var i = 1; i <= 4; i++) {
                     var value = militaryTrack.tokens[i];
                     var frontEndNumber = this.invertMilitaryTrack() ? (5 - i) : i;
@@ -621,29 +622,7 @@ define([
                     }
                 }
 
-                var oldPosition = this.gamedatas.militaryTrack.conflictPawn;
-                this.gamedatas.militaryTrack = militaryTrack;
-                var steps = Math.abs(oldPosition - militaryTrack.conflictPawn);
-
-                if (oldPosition != militaryTrack.conflictPawn) {
-                    dojo.animateProperty({
-                        node: $('conflict_pawn'),
-                        duration: this.militaryTrackStepDuration * steps,
-                        easing: dojo.fx.easing.linear,
-                        properties: {
-                            propertyConflictPawnPosition: {
-                                start: this.invertMilitaryTrack() ? -oldPosition : oldPosition,
-                                end: this.invertMilitaryTrack() ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn
-                            }
-                        },
-                        onAnimate: dojo.hitch(this, function (values) {
-                            this.setCssVariable('--conflict-pawn-position', parseFloat(values.propertyConflictPawnPosition.replace("px", "")));
-                        }),
-                    }).play();
-                } else {
-                    // For the start of the game / F5
-                    this.setCssVariable('--conflict-pawn-position', this.me_id == this.gamedatas.startPlayerId ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn);
-                }
+                this.setCssVariable('--conflict-pawn-position', this.me_id == this.gamedatas.startPlayerId ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn);
             },
 
             //   _____           _ _   _
@@ -793,6 +772,10 @@ define([
             //  |  __/| | (_| | |_| |  __/ |  \__ \  | || | | |  _| (_) |
             //  |_|   |_|\__,_|\__, |\___|_|  |___/ |___|_| |_|_|  \___/
             //                 |___/
+
+            getPlayerCoins: function (playerId) {
+                return this.gamedatas.playersSituation[playerId].coins;
+            },
 
             increasePlayerCoins: function (playerId, coins) {
                 $('player_area_' + playerId + '_coins').innerHTML = parseInt($('player_area_' + playerId + '_coins').innerHTML) + coins;
@@ -968,7 +951,11 @@ define([
                     var position = this.getDraftpoolCardData(this.playerTurnBuildingId);
                     var building = this.gamedatas.buildings[this.playerTurnBuildingId];
                     this.notifqueue.setSynchronous('constructBuilding',
-                        bgagame.CoinAnimator.get().precalculateDuration(position.cost[this.player_id]) + this.constructBuildingAnimationDuration + bgagame.CoinAnimator.get().precalculateDuration(building.coins) + this.notification_safe_margin
+                        bgagame.CoinAnimator.get().precalculateDuration(position.cost[this.player_id]) +
+                        this.constructBuildingAnimationDuration +
+                        bgagame.CoinAnimator.get().precalculateDuration(building.coins) +
+                        bgagame.MilitaryTokenAnimator.get().precalculateDuration(building.military + parseInt(this.hasProgressToken(this.player_id, 8))) + // In case of Progress Token "Strategy" do a +1
+                        this.notification_safe_margin
                     );
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
@@ -995,7 +982,6 @@ define([
             notif_constructBuilding: function (notif) {
                 console.log('notif_constructBuilding', notif);
 
-                this.updateMilitaryTrack(notif.args.militaryTrack);
                 this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
@@ -1031,7 +1017,7 @@ define([
                     coinRewardAnimation = dojo.fx.combine([]);
                 }
 
-                var militaryTokenAnimation = bgagame.MilitaryTokenAnimator.get().getAnimation(notif.args.playerId, notif.args.payment);
+                var militaryTokenAnimation = bgagame.MilitaryTokenAnimator.get().getAnimation(notif.args.playerId, notif.args.militaryTrack, notif.args.payment);
 
                 var anim = dojo.fx.chain([
                     coinAnimation,
@@ -1060,6 +1046,7 @@ define([
                     this.updatePlayerCoins(notif.args.playerId, notif.args.playersSituation[notif.args.playerId].coins);
                     this.updateDraftpool(notif.args.draftpool);
                     this.updateWondersSituation(notif.args.wondersSituation);
+                    this.updateMilitaryTrack(notif.args.militaryTrack);
                 }));
 
                 anim.play();
@@ -1569,6 +1556,16 @@ define([
                 } else {
                     return 'red';
                 }
+            },
+
+            hasProgressToken(playerId, progressTokenId) {
+                for (let i = 0; i < this.progressTokensSituation[playerId].length; i++) {
+                    if (this.progressTokensSituation[playerId][i].id == progressTokenId) {
+                        return true;
+                    }
+                }
+                return false;
+
             },
 
         });

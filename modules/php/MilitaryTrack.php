@@ -9,9 +9,9 @@ use SevenWondersDuel;
 class MilitaryTrack
 {
 
-    public static function movePawn($player, $shields, $payment) {
-        //TODO check if player has progress token military
-        if(0) {
+    public static function movePawn(Player $player, $shields, $payment) {
+        // If player has progress token military, an additional shield is counted.
+        if($player->hasProgressToken(8)) {
             $shields += 1;
         }
 

@@ -69,6 +69,9 @@ class Player extends \APP_DbObject{
     }
 
     public function increaseCoins($increase) {
+        if ($increase < 0) {
+            $increase = max($increase, -$this->getCoins());
+        }
         return $this->increaseValue("player_coins", $increase);
     }
 

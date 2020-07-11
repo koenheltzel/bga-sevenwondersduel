@@ -11,6 +11,7 @@ class Payment
     public $steps = [];
     public $militaryTokenNumber = 0;
     public $militaryTokenValue = 0;
+    public $militaryOpponentPays = 0;
     public $newScientificSymbolPair = false;
 
     public function __construct() {
