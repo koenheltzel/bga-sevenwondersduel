@@ -50,7 +50,7 @@ define([
                 if (payment.militarySteps > 0) {
                     var anims = [];
 
-                    // Pawn stepping animation. We do this step for step with easing so each step is clear.
+                    // Conflict Pawn stepping animation. We do this step for step with easing so each step is clear.
                     var startPosition = parseInt(this.game.getCssVariable('--conflict-pawn-position'));
                     var endPosition = parseInt(this.game.invertMilitaryTrack() ? -payment.militaryNewPosition : payment.militaryNewPosition);
                     var stepSize = this.game.invertMilitaryTrack() ? -1 : 1;
@@ -75,24 +75,32 @@ define([
                     anims.push(dojo.fx.chain(stepAnims));
 
                     if (payment.militaryTokenNumber > 0) {
-                        var offset = 100 * this.game.getCssVariable('--scale');
-                        var inverter = opponent_id == this.game.me_id ? -1 : 1;
                         var playerAlias = opponent_id == this.game.me_id ? 'me' : 'opponent';
                         var tokenNumber = this.game.invertMilitaryTrack() ? (5 - payment.militaryTokenNumber) : payment.militaryTokenNumber;
                         var tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
                         var playerCoinsNode = dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0];
-                        var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
-                            playerCoinsNode,
-                            playerCoinsNode,
-                            payment.militaryOpponentPays, // This could differ from the token value if the opponent can't afford what's on the token.
-                            opponent_id,
-                            [0, 0],
-                            [0, offset * inverter]
-                        );
+                        var yOffset = 2 * 7.5 * this.game.getCssVariable('--scale');
+                        var xOffset = (playerCoinsNode.offsetWidth - tokenNode.offsetWidth) / 2;
+                        if (opponent_id == this.game.me_id) {
+                            yOffset = -tokenNode.offsetHeight - yOffset;
+                        }
+                        else {
+                            yOffset = playerCoinsNode.offsetHeight + yOffset;
+                        }
 
                         anims.push(dojo.fx.chain([
-                            this.game.slideToObjectPos(tokenNode, playerCoinsNode, 0, offset * inverter, this.militaryTokenAnimationDuration * 0.6),
-                            coinAnimation,
+                            // Move military token close to opponent coins total.
+                            this.game.slideToObjectPos(tokenNode, playerCoinsNode, xOffset, yOffset, this.militaryTokenAnimationDuration * 0.6),
+                            // Animate coins to fly from opponent coins total to military token.
+                            bgagame.CoinAnimator.get().getAnimation(
+                                playerCoinsNode,
+                                playerCoinsNode,
+                                payment.militaryOpponentPays, // This could differ from the token value if the opponent can't afford what's on the token.
+                                opponent_id,
+                                [0, 0],
+                                [0, yOffset + ((tokenNode.offsetHeight - playerCoinsNode.offsetHeight) / 2)]
+                            ),
+                            // Fade out military token.
                             dojo.fadeOut({
                                 node: tokenNode,
                                 duration: this.militaryTokenAnimationDuration * 0.4,

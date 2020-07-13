@@ -55,7 +55,7 @@ define([
             putDraftpoolCard: 250,
             coin_slide_duration: 500,
             coin_slide_delay: 100,
-            notification_safe_margin: 200,
+            notification_safe_margin: 100,
 
             constructor: function () {
                 bgagame.sevenwondersduel.instance = this;
@@ -1038,7 +1038,7 @@ define([
                 }));
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
 
                 anim.play();
             },
@@ -1116,7 +1116,7 @@ define([
                 ]);
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
 
                 anim.play();
             },
@@ -1293,7 +1293,7 @@ define([
                         }));
 
                         // Wait for animation before handling the next notification (= state change).
-                        this.notifqueue.setSynchronousDuration(anim.duration);
+                        this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
 
                         anim.play();
                     }
@@ -1364,7 +1364,7 @@ define([
                 }));
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
 
                 anim.play();
             },
@@ -1402,7 +1402,7 @@ define([
             },
 
             getCssVariable: function (name) {
-                return document.documentElement.style.getPropertyValue(name);
+                return getComputedStyle(document.documentElement).getPropertyValue(name);
             },
 
             setCssVariable: function (name, value) {
