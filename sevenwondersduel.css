@@ -782,6 +782,11 @@ __     __         _       _     _
     height: calc(var(--scale) * 30px);
 }
 
+.player_area_coins .coin {
+    z-index: 105; /* So animated coins fly under it */
+    position: relative; /* For the z-index to work */
+}
+
 /*
  ____  _                            _        _   _
 |  _ \| | __ _ _   _  ___ _ __     / \   ___| |_(_) ___  _ __  ___
