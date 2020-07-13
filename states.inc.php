@@ -105,6 +105,7 @@ $machinestates = [
         "descriptionmyturn" => clienttranslate('${you} must choose which player starts the next age.'),
         "type" => "activeplayer",
         "action" => "enterStateSelectStartPlayer",
+        "args" => "argSelectStartPlayer",
         "possibleactions" => [
             "actionSelectStartPlayer",
         ],
@@ -130,6 +131,7 @@ $machinestates = [
         "descriptionmyturn" => clienttranslate('${you} must choose an age card.'),
         "type" => "activeplayer",
         "action" => "enterStatePlayerTurn",
+        "args" => "argPlayerTurn",
         "possibleactions" => [
             "actionConstructBuilding",
             "actionDiscardBuilding",
@@ -150,6 +152,7 @@ $machinestates = [
         "descriptionmyturn" => clienttranslate('${you} must choose a progress token.'),
         "type" => "activeplayer",
         "action" => "enterStateChooseProgressToken",
+        "args" => "argChooseProgressToken",
         "possibleactions" => [
             "actionChooseProgressToken",
         ],
@@ -164,6 +167,7 @@ $machinestates = [
         "descriptionmyturn" => clienttranslate('${you} must choose one of your opponent\'s buildings to discard.'),
         "type" => "activeplayer",
         "action" => "enterStateChooseOpponentBuilding",
+        "args" => "argChooseOpponentBuilding",
         "possibleactions" => [
             "actionChooseOpponentBuilding",
             // If there is no building to discard, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
@@ -179,6 +183,7 @@ $machinestates = [
         "descriptionmyturn" => clienttranslate('${you} must choose a progress token from the box'),
         "type" => "activeplayer",
         "action" => "enterStateChooseProgressTokenFromBox",
+        "args" => "argChooseProgressTokenFromBox",
         "possibleactions" => [
             "actionChooseProgressTokenFromBox",
         ],
@@ -193,6 +198,7 @@ $machinestates = [
         "descriptionmyturn" => clienttranslate('${you} must choose a discarded building to construct.'),
         "type" => "activeplayer",
         "action" => "enterStateChooseDiscardedBuilding",
+        "args" => "argChooseDiscardedBuilding",
         "possibleactions" => [
             "actionChooseDiscardedBuilding",
             // If there is no discarded building to construct, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.

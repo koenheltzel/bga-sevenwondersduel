@@ -12,6 +12,20 @@ use SWD\Wonders;
 
 trait ChooseProgressTokenTrait {
 
+    /**
+     * Which data to pass with the state change to onEnteringState() in JavaScript.
+     * Warning: this "arg" method can be called before the "enterState" method so don't expect data modifications by the "enterState" method to be available in the "arg" method!
+     * @return array
+     */
+    public function argChooseProgressToken() {
+        return [
+            'draftpool' => Draftpool::get(),
+            'wondersSituation' => Wonders::getSituation(),
+            'playersSituation' => Players::getSituation(),
+            'militaryTrack' => MilitaryTrack::getData(),
+        ];
+    }
+
     public function enterStateChooseProgressToken() {
 
     }
@@ -30,11 +44,6 @@ trait ChooseProgressTokenTrait {
                 'player_name' => $this->getCurrentPlayerName(),
                 'playerId' => Player::me()->id,
                 'progressTokenId' => $progressToken->id,
-                'progressTokensSituation' => ProgressTokens::getSituation(),
-                'draftpool' => Draftpool::get(),
-                'wondersSituation' => Wonders::getSituation(),
-                'playersSituation' => Players::getSituation(),
-                'militaryTrack' => MilitaryTrack::getData(),
                 'payment' => $payment,
             ]
         );

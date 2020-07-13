@@ -184,7 +184,6 @@ define([
                 dojo.subscribe('constructWonder', this, "notif_constructWonder");
                 // Notification delay is set dynamically in onPlayerTurnConstructWonderSelectedClick
 
-                dojo.subscribe('updateDraftpool', this, "notif_updateDraftpool");
                 dojo.subscribe('progressTokenChosen', this, "notif_progressTokenChosen");
             },
 
@@ -195,26 +194,28 @@ define([
             //                  You can use this method to perform some user interface changes at this moment.
             //
             onEnteringState: function (stateName, args) {
-                console.log('Entering state: ' + stateName);
+                console.log('Entering state: ' + stateName, args);
 
                 dojo.attr($('swd'), 'data-state', stateName);
 
+                if (args.args && stateName.substring(0, 7) != "client_") {
+                    if (args.args.draftpool) this.updateDraftpool(args.args.draftpool);
+                    if (args.args.wondersSituation) this.updateWondersSituation(args.args.wondersSituation);
+                    if (args.args.wondersSituation) this.updateMilitaryTrack(args.args.militaryTrack);
 
-                switch (stateName) {
+                    // Remove linked symbols dom elements that aren't needed.
+                    Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                        if(args.args.playersSituation) {
+                            this.updatePlayerCoins(playerId, args.args.playersSituation[playerId].coins);
+                            this.scoreCtrl[playerId].setValue(args.args.playersSituation[playerId].score);
+                        }
+                    }));
 
-                    /* Example:
-
-                    case 'myGameState':
-
-                        // Show some HTML block at this game state
-                        dojo.style( 'my_html_block_id', 'display', 'block' );
-
-                        break;
-                   */
-
-
-                    case 'dummmy':
-                        break;
+                    // We chose to group all of the states' functions together, so we create a seperate "onEnter{StateName}" function and call it here if it exists.
+                    var functionName = 'onEnter' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
+                    if(typeof this[functionName] === 'function') {
+                        this[functionName](args.args);
+                    }
                 }
             },
 
@@ -366,11 +367,6 @@ define([
                     }
                 }
                 return null;
-            },
-
-            notif_updateDraftpool: function (notif) {
-                console.log('notif_updateDraftpool', notif);
-                this.updateDraftpool(notif.args.draftpool)
             },
 
             updateDraftpool: function (draftpool, setupGame = false) {
@@ -866,6 +862,10 @@ define([
             //  |_|   |_|\__,_|\__, |\___|_|      |_| \__,_|_|  |_| |_|
             //                 |___/
 
+            onEnterPlayerTurn: function(args) {
+                // console.log('in onEnterPlayerTurn', args);
+            },
+
             onPlayerTurnDraftpoolClick: function (e) {
                 console.log('onPlayerTurnDraftpoolClick');
                 // Preventing default browser reaction
@@ -982,8 +982,6 @@ define([
             notif_constructBuilding: function (notif) {
                 console.log('notif_constructBuilding', notif);
 
-                this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
-
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
                 var building = this.gamedatas.buildings[notif.args.buildingId];
@@ -1043,10 +1041,6 @@ define([
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
 
                     dojo.style(playerBuildingId, 'z-index', 15);
-                    this.updatePlayerCoins(notif.args.playerId, notif.args.playersSituation[notif.args.playerId].coins);
-                    this.updateDraftpool(notif.args.draftpool);
-                    this.updateWondersSituation(notif.args.wondersSituation);
-                    this.updateMilitaryTrack(notif.args.militaryTrack);
                 }));
 
                 anim.play();
@@ -1123,12 +1117,6 @@ define([
                 dojo.query(".draftpool_building_cost", buildingNode).forEach(dojo.destroy); // Remove cost coins from building
 
                 var moveAnim = this.slideToObjectPos(buildingNode, wrapperDiv, 0, 0, this.discardBuildingAnimationDuration);
-
-                dojo.connect(moveAnim, 'onEnd', dojo.hitch(this, function (node) {
-                    this.updatePlayerCoins(notif.args.playerId, notif.args.playersSituation[notif.args.playerId].coins);
-                    this.updateDraftpool(notif.args.draftpool);
-                    this.updateWondersSituation(notif.args.wondersSituation);
-                }));
 
                 var anim = dojo.fx.chain([
                     coinAnimation,
@@ -1317,9 +1305,6 @@ define([
 
                             dojo.style(ageCardNode, 'z-index', 1);
                             dojo.style(wonderNode, 'z-index', 2);
-                            this.updatePlayerCoins(notif.args.playerId, notif.args.playersSituation[notif.args.playerId].coins);
-                            this.updateDraftpool(notif.args.draftpool);
-                            this.scoreCtrl[notif.args.playerId].setValue(notif.args.playerScore);
                         }));
 
                         anim.play();
@@ -1376,7 +1361,7 @@ define([
                 var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
 
                 var progressToken = this.gamedatas.progressTokens[notif.args.buildingId];
-                var container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + notif.args.progressTokensSituation[notif.args.playerId].length + ')')[0];
+                var container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + (this.gamedatas.progressTokensSituation[notif.args.playerId].length + 1) + ')')[0];
                 this.attachToNewParent(progressTokenNode, container);
 
                 var anim = dojo.fx.chain([
@@ -1388,10 +1373,6 @@ define([
                     anim.stop();
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
-
-                    this.updatePlayerCoins(notif.args.playerId, notif.args.playersSituation[notif.args.playerId].coins);
-                    this.updateDraftpool(notif.args.draftpool);
-                    this.updateWondersSituation(notif.args.wondersSituation);
                 }));
 
                 anim.play();
@@ -1406,8 +1387,6 @@ define([
 
             notif_nextAge: function (notif) {
                 console.log('notif_nextAge', notif);
-                this.updateWondersSituation(notif.args.wondersSituation);
-                this.updateDraftpool(notif.args.draftpool);
             },
 
             //   ____  _           _               _____                 _   _

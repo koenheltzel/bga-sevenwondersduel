@@ -2,7 +2,6 @@
 
 namespace SWD\States;
 
-use SevenWondersDuel;
 use SWD\Building;
 use SWD\Draftpool;
 use SWD\MilitaryTrack;
@@ -13,15 +12,22 @@ use SWD\Wonders;
 
 trait PlayerTurnTrait {
 
+    /**
+     * Which data to pass with the state change to onEnteringState() in JavaScript.
+     * Warning: this "arg" method can be called before the "enterState" method so don't expect data modifications by the "enterState" method to be available in the "arg" method!
+     * @return array
+     */
+    public function argPlayerTurn() {
+        return [
+            'draftpool' => Draftpool::get(),
+            'wondersSituation' => Wonders::getSituation(),
+            'playersSituation' => Players::getSituation(),
+            'militaryTrack' => MilitaryTrack::getData(),
+        ];
+    }
+
     public function enterStatePlayerTurn() {
-//        $this->notifyAllPlayers(
-//            'updateDraftpool',
-//            '',
-//            [
-//                'draftpool' => Draftpool::get(),
-//                'progress_tokens' => $this->progressTokenDeck->getCardsInLocation("board"),
-//            ]
-//        );
+
     }
 
     public function actionConstructBuilding($buildingId) {
@@ -39,11 +45,8 @@ trait PlayerTurnTrait {
                 'player_name' => $this->getCurrentPlayerName(),
                 'playerId' => Player::me()->id,
                 'buildingId' => $building->id,
-                'draftpool' => Draftpool::get(),
-                'wondersSituation' => Wonders::getSituation(),
-                'playersSituation' => Players::getSituation(),
-                'militaryTrack' => MilitaryTrack::getData(),
                 'payment' => $payment,
+                'militaryTrack' => MilitaryTrack::getData(),
             ]
         );
 
@@ -72,9 +75,6 @@ trait PlayerTurnTrait {
                 'player_name' => $this->getCurrentPlayerName(),
                 'playerId' => Player::me()->id,
                 'buildingId' => $building->id,
-                'draftpool' => Draftpool::get(),
-                'wondersSituation' => Wonders::getSituation(),
-                'playersSituation' => Players::getSituation(),
             ]
         );
 
@@ -103,11 +103,9 @@ trait PlayerTurnTrait {
                 'playerId' => Player::me()->id,
                 'buildingId' => $building->id,
                 'wonderId' => $wonder->id,
-                'draftpool' => Draftpool::get(),
-                'wondersSituation' => Wonders::getSituation(),
-                'playersSituation' => Players::getSituation(),
-                'militaryTrack' => MilitaryTrack::getData(),
                 'payment' => $payment,
+                'wondersSituation' => Wonders::getSituation(),
+                'militaryTrack' => MilitaryTrack::getData(),
             ]
         );
 
