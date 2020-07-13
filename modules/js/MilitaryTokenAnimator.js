@@ -50,8 +50,8 @@ define([
                 var oldPosition = this.game.gamedatas.militaryTrack.conflictPawn;
                 var steps = Math.abs(oldPosition - militaryTrack.conflictPawn);
 
-                var anims = [];
                 if (oldPosition != militaryTrack.conflictPawn) {
+                    var anims = [];
                     anims.push(dojo.animateProperty({
                         node: $('conflict_pawn'),
                         duration: this.pawnStepDuration * steps,
@@ -66,38 +66,39 @@ define([
                             this.game.setCssVariable('--conflict-pawn-position', parseFloat(values.propertyConflictPawnPosition.replace("px", "")));
                         }),
                     }));
-                }
 
-                if (payment.militaryTokenNumber > 0) {
-                    var offset = 100 * this.game.getCssVariable('--scale');
-                    var inverter = player_id == this.game.me_id ? -1 : 1;
-                    var playerAlias = player_id == this.game.me_id ? 'me' : 'opponent';
-                    var tokenNumber = this.game.invertMilitaryTrack() ? (5 - payment.militaryTokenNumber) : payment.militaryTokenNumber;
-                    var tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
-                    var playerCoinsNode = dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0];
-                    var tokenCoins = payment.militaryOpponentPays;
-                    var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
-                        playerCoinsNode,
-                        playerCoinsNode,
-                        payment.militaryOpponentPays, // This could differ from the token value if the opponent can't afford what's on the token.
-                        player_id,
-                        [0, 0],
-                        [0, offset * inverter]
-                    );
+                    if (payment.militaryTokenNumber > 0) {
+                        var offset = 100 * this.game.getCssVariable('--scale');
+                        var inverter = player_id == this.game.me_id ? -1 : 1;
+                        var playerAlias = player_id == this.game.me_id ? 'me' : 'opponent';
+                        var tokenNumber = this.game.invertMilitaryTrack() ? (5 - payment.militaryTokenNumber) : payment.militaryTokenNumber;
+                        var tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
+                        var playerCoinsNode = dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0];
+                        var tokenCoins = payment.militaryOpponentPays;
+                        var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
+                            playerCoinsNode,
+                            playerCoinsNode,
+                            payment.militaryOpponentPays, // This could differ from the token value if the opponent can't afford what's on the token.
+                            player_id,
+                            [0, 0],
+                            [0, offset * inverter]
+                        );
 
-                    anims.push(dojo.fx.chain([
-                        this.game.slideToObjectPos(tokenNode, playerCoinsNode, 0, offset * inverter, this.militaryTokenAnimationDuration * 0.6),
-                        coinAnimation,
-                        dojo.fadeOut({
-                            node: tokenNode,
-                            duration: this.militaryTokenAnimationDuration * 0.4,
-                            onEnd: dojo.hitch(this, function (node) {
-                                dojo.destroy(node);
-                            })
-                        }),
-                    ]));
+                        anims.push(dojo.fx.chain([
+                            this.game.slideToObjectPos(tokenNode, playerCoinsNode, 0, offset * inverter, this.militaryTokenAnimationDuration * 0.6),
+                            coinAnimation,
+                            dojo.fadeOut({
+                                node: tokenNode,
+                                duration: this.militaryTokenAnimationDuration * 0.4,
+                                onEnd: dojo.hitch(this, function (node) {
+                                    dojo.destroy(node);
+                                })
+                            }),
+                        ]));
+                    }
+                    return dojo.fx.chain(anims);
                 }
-                return dojo.fx.chain(anims);
+                return dojo.fx.combine([]);
             },
             precalculateDuration: function (steps, tokenAmount) {
                 //TODO Duration isn't calculated/used for dynamically setting notification delay (main question is, where to get "amount" from?).
