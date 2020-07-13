@@ -24,8 +24,8 @@ class MilitaryTrack
         SevenWondersDuel::get()->setConflictPawnPosition($newPosition);
 
         $payment->militarySteps = abs($newPosition - $currentPosition);
+        $payment->militaryOldPosition = $currentPosition;
         $payment->militaryNewPosition = $newPosition;
-        return abs($newPosition - $currentPosition);
     }
     
     public static function getMilitaryToken() {

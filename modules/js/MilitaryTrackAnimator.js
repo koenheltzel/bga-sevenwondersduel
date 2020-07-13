@@ -24,7 +24,7 @@ define([
 
             game: null,
 
-            pawnStepDuration: 500,
+            pawnStepDuration: 400,
             militaryTokenAnimationDuration: 1600, // Excluding the coin animation
 
             /**
@@ -49,20 +49,30 @@ define([
 
                 if (payment.militarySteps > 0) {
                     var anims = [];
-                    anims.push(dojo.animateProperty({
-                        node: $('conflict_pawn'),
-                        duration: this.pawnStepDuration * payment.militarySteps,
-                        easing: dojo.fx.easing.linear,
-                        properties: {
-                            propertyConflictPawnPosition: {
-                                start: this.game.getCssVariable('--conflict-pawn-position'),
-                                end: this.game.invertMilitaryTrack() ? -payment.militaryNewPosition : payment.militaryNewPosition
-                            }
-                        },
-                        onAnimate: dojo.hitch(this, function (values) {
-                            this.game.setCssVariable('--conflict-pawn-position', parseFloat(values.propertyConflictPawnPosition.replace("px", "")));
-                        }),
-                    }));
+
+                    // Pawn stepping animation. We do this step for step with easing so each step is clear.
+                    var startPosition = parseInt(this.game.getCssVariable('--conflict-pawn-position'));
+                    var endPosition = parseInt(this.game.invertMilitaryTrack() ? -payment.militaryNewPosition : payment.militaryNewPosition);
+                    var stepSize = this.game.invertMilitaryTrack() ? -1 : 1;
+                    var stepAnims = [];
+                    for(var i = 0; i < payment.militarySteps; i++) {
+                        var stepEndPosition = startPosition + stepSize;
+                        stepAnims.push(dojo.animateProperty({
+                            node: $('conflict_pawn'),
+                            duration: this.pawnStepDuration,
+                            properties: {
+                                propertyConflictPawnPosition: {
+                                    start: startPosition,
+                                    end: (i < payment.militarySteps -1) ? stepEndPosition : endPosition
+                                }
+                            },
+                            onAnimate: dojo.hitch(this, function (values) {
+                                this.game.setCssVariable('--conflict-pawn-position', parseFloat(values.propertyConflictPawnPosition.replace("px", "")));
+                            }),
+                        }));
+                        startPosition = endPosition;
+                    }
+                    anims.push(dojo.fx.chain(stepAnims));
 
                     if (payment.militaryTokenNumber > 0) {
                         var offset = 100 * this.game.getCssVariable('--scale');
