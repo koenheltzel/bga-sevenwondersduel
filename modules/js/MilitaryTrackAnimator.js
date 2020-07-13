@@ -7,7 +7,7 @@
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  *
- * MilitaryTokenAnimator.js
+ * MilitaryTrackAnimator.js
  *
  * Class to generate military token animations.
  *
@@ -20,7 +20,7 @@ define([
         "dojo/NodeList-traverse",
     ],
     function (dojo, declare) {
-        var classDefinition = declare("bgagame.MilitaryTokenAnimator", null, {
+        var classDefinition = declare("bgagame.MilitaryTrackAnimator", null, {
 
             game: null,
 
@@ -29,13 +29,13 @@ define([
 
             /**
              * Get singleton instance
-             * @returns {bgagame.MilitaryTokenAnimator}
+             * @returns {bgagame.MilitaryTrackAnimator}
              */
             get: function() {
-                if (typeof bgagame.MilitaryTokenAnimator.prototype.instance == "undefined") {
-                    bgagame.MilitaryTokenAnimator.prototype.instance = new bgagame.MilitaryTokenAnimator();
+                if (typeof bgagame.MilitaryTrackAnimator.prototype.instance == "undefined") {
+                    bgagame.MilitaryTrackAnimator.prototype.instance = new bgagame.MilitaryTrackAnimator();
                 }
-                return bgagame.MilitaryTokenAnimator.prototype.instance;
+                return bgagame.MilitaryTrackAnimator.prototype.instance;
             },
 
             constructor: function () {

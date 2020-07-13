@@ -25,7 +25,7 @@ define([
         "ebg/core/gamegui",
         "ebg/counter",
         g_gamethemeurl + "modules/js/CoinAnimator.js",
-        g_gamethemeurl + "modules/js/MilitaryTokenAnimator.js",
+        g_gamethemeurl + "modules/js/MilitaryTrackAnimator.js",
     ],
     function (dojo, declare, on, dom) {
         return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
@@ -954,7 +954,7 @@ define([
                         bgagame.CoinAnimator.get().precalculateDuration(position.cost[this.player_id]) +
                         this.constructBuildingAnimationDuration +
                         bgagame.CoinAnimator.get().precalculateDuration(building.coins) +
-                        bgagame.MilitaryTokenAnimator.get().precalculateDuration(building.military + parseInt(this.hasProgressToken(this.player_id, 8))) + // In case of Progress Token "Strategy" do a +1
+                        bgagame.MilitaryTrackAnimator.get().precalculateDuration(building.military + parseInt(this.hasProgressToken(this.player_id, 8))) + // In case of Progress Token "Strategy" do a +1
                         this.notification_safe_margin
                     );
 
@@ -1017,7 +1017,7 @@ define([
                     coinRewardAnimation = dojo.fx.combine([]);
                 }
 
-                var militaryTokenAnimation = bgagame.MilitaryTokenAnimator.get().getAnimation(notif.args.playerId, notif.args.militaryTrack, notif.args.payment);
+                var militaryTokenAnimation = bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.militaryTrack, notif.args.payment);
 
                 var anim = dojo.fx.chain([
                     coinAnimation,
