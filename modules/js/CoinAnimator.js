@@ -99,14 +99,6 @@ define([
                 }
                 return dojo.fx.combine(anims);
             },
-
-            precalculateDuration: function (amount) {
-                this.game = bgagame.sevenwondersduel.instance;
-                if (amount != 0) {
-                    return this.coin_slide_duration + ((Math.abs(amount) - 1) * this.coin_slide_delay);
-                }
-                return 0;
-            },
         });
 
         // Assign static properties / functions (these functions shouldn't make use of "this"):

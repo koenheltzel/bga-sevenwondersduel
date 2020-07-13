@@ -176,15 +176,20 @@ define([
                 dojo.subscribe('nextAge', this, "notif_nextAge");
 
                 dojo.subscribe('constructBuilding', this, "notif_constructBuilding");
-                // Notification delay is set dynamically in onPlayerTurnConstuctBuildingClick
+                this.notifqueue.setSynchronous( 'constructBuilding' );
+                // Notification delay is set dynamically in notif_constructBuilding
 
                 dojo.subscribe('discardBuilding', this, "notif_discardBuilding");
-                // Notification delay is set dynamically in onPlayerTurnDiscardBuildingClick
+                this.notifqueue.setSynchronous('discardBuilding');
+                // Notification delay is set dynamically in notif_discardBuilding
 
                 dojo.subscribe('constructWonder', this, "notif_constructWonder");
-                // Notification delay is set dynamically in onPlayerTurnConstructWonderSelectedClick
+                this.notifqueue.setSynchronous('constructWonder');
+                // Notification delay is set dynamically in notif_constructWonder
 
                 dojo.subscribe('progressTokenChosen', this, "notif_progressTokenChosen");
+                this.notifqueue.setSynchronous( 'progressTokenChosen' );
+                // Notification delay is set dynamically in notif_progressTokenChosen
             },
 
             ///////////////////////////////////////////////////
@@ -947,17 +952,6 @@ define([
                         return;
                     }
 
-                    // Set notification delay dynamically:
-                    var position = this.getDraftpoolCardData(this.playerTurnBuildingId);
-                    var building = this.gamedatas.buildings[this.playerTurnBuildingId];
-                    this.notifqueue.setSynchronous('constructBuilding',
-                        bgagame.CoinAnimator.get().precalculateDuration(position.cost[this.player_id]) +
-                        this.constructBuildingAnimationDuration +
-                        bgagame.CoinAnimator.get().precalculateDuration(building.coins) +
-                        bgagame.MilitaryTrackAnimator.get().precalculateDuration(building.military + parseInt(this.hasProgressToken(this.player_id, 8))) + // In case of Progress Token "Strategy" do a +1
-                        this.notification_safe_margin
-                    );
-
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId
@@ -1043,6 +1037,9 @@ define([
                     dojo.style(playerBuildingId, 'z-index', 15);
                 }));
 
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
+
                 anim.play();
             },
 
@@ -1064,11 +1061,6 @@ define([
                     if (!this.checkAction('actionDiscardBuilding')) {
                         return;
                     }
-
-                    // Set notification delay dynamically:
-                    this.notifqueue.setSynchronous('discardBuilding',
-                        bgagame.CoinAnimator.get().precalculateDuration(this.gamedatas.draftpool.discardGain[this.player_id]) + this.discardBuildingAnimationDuration + this.notification_safe_margin
-                    );
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
                             lock: true,
@@ -1123,6 +1115,9 @@ define([
                     moveAnim
                 ]);
 
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
+
                 anim.play();
             },
 
@@ -1168,13 +1163,6 @@ define([
 
                     var wonderId = dojo.attr(e.target, "data-wonder-id");
 
-                    // Set notification delay dynamically:
-                    var position = this.getWonderCardData(this.player_id, wonderId);
-                    var wonder = this.gamedatas.wonders[wonderId];
-                    this.notifqueue.setSynchronous('constructWonder',
-                        bgagame.CoinAnimator.get().precalculateDuration(position.cost) + this.constructWonderAnimationDuration + bgagame.CoinAnimator.get().precalculateDuration(wonder.coins) + this.notification_safe_margin
-                    );
-
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId,
@@ -1207,10 +1195,7 @@ define([
                 var playerAlias = this.getPlayerAlias(notif.args.playerId);
                 var coinNode = dojo.query('.player_wonder_cost', wonderContainer)[0];
                 var position = this.getWonderCardData(notif.args.playerId, notif.args.wonderId);
-                console.log('getCoinAnimation', dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
-                    coinNode,
-                    -position.cost,
-                    notif.args.playerId);
+
                 var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
                     dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
                     coinNode,
@@ -1307,6 +1292,9 @@ define([
                             dojo.style(wonderNode, 'z-index', 2);
                         }));
 
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(anim.duration);
+
                         anim.play();
                     }
 
@@ -1374,6 +1362,9 @@ define([
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
                 }));
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
 
                 anim.play();
             },

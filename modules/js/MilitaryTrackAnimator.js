@@ -45,7 +45,7 @@ define([
             getAnimation: function (active_player_id, payment) {
                 console.log('getMilitaryTokenAnimation', payment);
                 // The military token animation always concerns the opponent of the active player.
-                player_id = this.game.getOppositePlayerId(active_player_id);
+                var opponent_id = this.game.getOppositePlayerId(active_player_id);
 
                 if (payment.militarySteps > 0) {
                     var anims = [];
@@ -66,8 +66,8 @@ define([
 
                     if (payment.militaryTokenNumber > 0) {
                         var offset = 100 * this.game.getCssVariable('--scale');
-                        var inverter = player_id == this.game.me_id ? -1 : 1;
-                        var playerAlias = player_id == this.game.me_id ? 'me' : 'opponent';
+                        var inverter = opponent_id == this.game.me_id ? -1 : 1;
+                        var playerAlias = opponent_id == this.game.me_id ? 'me' : 'opponent';
                         var tokenNumber = this.game.invertMilitaryTrack() ? (5 - payment.militaryTokenNumber) : payment.militaryTokenNumber;
                         var tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
                         var playerCoinsNode = dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0];
@@ -75,7 +75,7 @@ define([
                             playerCoinsNode,
                             playerCoinsNode,
                             payment.militaryOpponentPays, // This could differ from the token value if the opponent can't afford what's on the token.
-                            player_id,
+                            opponent_id,
                             [0, 0],
                             [0, offset * inverter]
                         );
@@ -95,13 +95,6 @@ define([
                     return dojo.fx.chain(anims);
                 }
                 return dojo.fx.combine([]);
-            },
-            precalculateDuration: function (steps, tokenAmount) {
-                //TODO Duration isn't calculated/used for dynamically setting notification delay (main question is, where to get "amount" from?).
-                if (steps > 0) {
-                    return this.militaryTokenAnimationDuration + steps * this.pawn_step_duration + bgagame.CoinAnimator.get().precalculateDuration(tokenAmount);
-                }
-                return 0;
             },
         });
 

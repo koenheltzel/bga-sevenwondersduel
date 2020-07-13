@@ -63,7 +63,7 @@ class Item
             if ($payment->militaryTokenValue > 0) {
                 $opponent = Player::opponent($player->id);
                 $payment->militaryOpponentPays = max(-$payment->militaryTokenValue, -$opponent->getCoins());
-                $opponent->increaseCoins(-$payment->militaryOpponentPays);
+                $opponent->increaseCoins($payment->militaryOpponentPays);
             }
         }
         return $payment;
