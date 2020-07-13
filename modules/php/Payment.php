@@ -10,6 +10,7 @@ class Payment
      */
     public $steps = [];
 
+    public $militaryOldPosition = 0;
     public $militaryNewPosition = 0;
     public $militarySteps = 0;
     public $militaryTokenNumber = 0;
