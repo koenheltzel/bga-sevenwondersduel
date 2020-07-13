@@ -9,11 +9,13 @@ class Payment
      * @var PaymentStep[] array
      */
     public $steps = [];
+
     public $militaryNewPosition = 0;
     public $militarySteps = 0;
     public $militaryTokenNumber = 0;
     public $militaryTokenValue = 0;
     public $militaryOpponentPays = 0;
+
     public $newScientificSymbolPair = false;
 
     public function __construct() {

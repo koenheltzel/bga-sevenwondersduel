@@ -71,7 +71,6 @@ define([
                         var tokenNumber = this.game.invertMilitaryTrack() ? (5 - payment.militaryTokenNumber) : payment.militaryTokenNumber;
                         var tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
                         var playerCoinsNode = dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0];
-                        var tokenCoins = payment.militaryOpponentPays;
                         var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
                             playerCoinsNode,
                             playerCoinsNode,
