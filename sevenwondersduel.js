@@ -50,6 +50,7 @@ define([
             constructBuildingAnimationDuration: 1000,
             discardBuildingAnimationDuration: 400,
             constructWonderAnimationDuration: 1600,
+            progressTokenDuration: 1000,
 
             turnAroundCardDuration: 500,
             putDraftpoolCard: 250,
@@ -204,10 +205,6 @@ define([
                 dojo.attr($('swd'), 'data-state', stateName);
 
                 if (args.args && stateName.substring(0, 7) != "client_") {
-                    if (args.args.draftpool) this.updateDraftpool(args.args.draftpool);
-                    if (args.args.wondersSituation) this.updateWondersSituation(args.args.wondersSituation);
-                    if (args.args.wondersSituation) this.updateMilitaryTrack(args.args.militaryTrack);
-
                     // Remove linked symbols dom elements that aren't needed.
                     Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
                         if(args.args.playersSituation) {
@@ -215,6 +212,10 @@ define([
                             this.scoreCtrl[playerId].setValue(args.args.playersSituation[playerId].score);
                         }
                     }));
+
+                    if (args.args.draftpool) this.updateDraftpool(args.args.draftpool);
+                    if (args.args.wondersSituation) this.updateWondersSituation(args.args.wondersSituation);
+                    if (args.args.militaryTrack) this.updateMilitaryTrack(args.args.militaryTrack);
 
                     // We chose to group all of the states' functions together, so we create a seperate "onEnter{StateName}" function and call it here if it exists.
                     var functionName = 'onEnter' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
@@ -1348,12 +1349,20 @@ define([
 
                 var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
 
-                var progressToken = this.gamedatas.progressTokens[notif.args.buildingId];
+                var progressToken = this.gamedatas.progressTokens[notif.args.progressTokenId];
                 var container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + (this.gamedatas.progressTokensSituation[notif.args.playerId].length + 1) + ')')[0];
-                this.attachToNewParent(progressTokenNode, container);
+                progressTokenNode = this.attachToNewParent(progressTokenNode, container);
+                dojo.style(progressTokenNode, 'z-index', 6);
 
+                var playerAlias = this.getPlayerAlias(notif.args.playerId);
                 var anim = dojo.fx.chain([
-                    this.slideToObjectPos(progressTokenNode, container, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                    this.slideToObjectPos(progressTokenNode, container, 0, 0, this.progressTokenDuration),
+                    bgagame.CoinAnimator.get().getAnimation(
+                        progressTokenNode.parentElement,
+                        dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
+                        progressToken.coins,
+                        notif.args.playerId
+                    ),
                 ]);
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
@@ -1361,6 +1370,7 @@ define([
                     anim.stop();
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
+                    dojo.style(progressTokenNode, 'z-index', 5);
                 }));
 
                 // Wait for animation before handling the next notification (= state change).

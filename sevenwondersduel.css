@@ -765,6 +765,7 @@ __     __         _       _     _
 }
 .player_area_progress_tokens>div {
     display: inline-block;
+    position: relative;
     width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
     height: calc(var(--progress-token-height) * var(--progress-token-small-scale));
 }
@@ -957,6 +958,8 @@ __        __              _
 }
 
 .progress_token_small {
+    position: relative;
+    z-index: 5;
     width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
     height: calc(var(--progress-token-height) * var(--progress-token-small-scale));
     background-size: calc(var(--progress-token-spritesheet-width) * var(--progress-token-small-scale)) calc(var(--progress-token-spritesheet-height) * var(--progress-token-small-scale));
