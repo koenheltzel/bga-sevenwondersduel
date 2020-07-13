@@ -9,7 +9,7 @@ use SevenWondersDuel;
 class MilitaryTrack
 {
 
-    public static function movePawn(Player $player, $shields, $payment) {
+    public static function movePawn(Player $player, $shields, Payment $payment) {
         // If player has progress token military, an additional shield is counted.
         if($player->hasProgressToken(8)) {
             $shields += 1;
@@ -22,6 +22,10 @@ class MilitaryTrack
         $currentPosition = SevenWondersDuel::get()->getConflictPawnPosition();
         $newPosition = max(-9, min(9, $currentPosition + $shields));
         SevenWondersDuel::get()->setConflictPawnPosition($newPosition);
+
+        $payment->militarySteps = abs($newPosition - $currentPosition);
+        $payment->militaryNewPosition = $newPosition;
+        return abs($newPosition - $currentPosition);
     }
     
     public static function getMilitaryToken() {

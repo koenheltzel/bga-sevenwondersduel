@@ -46,7 +46,6 @@ trait PlayerTurnTrait {
                 'playerId' => Player::me()->id,
                 'buildingId' => $building->id,
                 'payment' => $payment,
-                'militaryTrack' => MilitaryTrack::getData(),
             ]
         );
 

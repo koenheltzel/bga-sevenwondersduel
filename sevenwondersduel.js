@@ -1015,7 +1015,7 @@ define([
                     coinRewardAnimation = dojo.fx.combine([]);
                 }
 
-                var militaryTokenAnimation = bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.militaryTrack, notif.args.payment);
+                var militaryTokenAnimation = bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment);
 
                 var anim = dojo.fx.chain([
                     coinAnimation,

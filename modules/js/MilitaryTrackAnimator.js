@@ -42,24 +42,21 @@ define([
                 this.game = bgagame.sevenwondersduel.instance;
             },
 
-            getAnimation: function (active_player_id, militaryTrack, payment) {
+            getAnimation: function (active_player_id, payment) {
                 console.log('getMilitaryTokenAnimation', payment);
                 // The military token animation always concerns the opponent of the active player.
                 player_id = this.game.getOppositePlayerId(active_player_id);
 
-                var oldPosition = this.game.gamedatas.militaryTrack.conflictPawn;
-                var steps = Math.abs(oldPosition - militaryTrack.conflictPawn);
-
-                if (oldPosition != militaryTrack.conflictPawn) {
+                if (payment.militarySteps > 0) {
                     var anims = [];
                     anims.push(dojo.animateProperty({
                         node: $('conflict_pawn'),
-                        duration: this.pawnStepDuration * steps,
+                        duration: this.pawnStepDuration * payment.militarySteps,
                         easing: dojo.fx.easing.linear,
                         properties: {
                             propertyConflictPawnPosition: {
-                                start: this.game.invertMilitaryTrack() ? -oldPosition : oldPosition,
-                                end: this.game.invertMilitaryTrack() ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn
+                                start: this.game.getCssVariable('--conflict-pawn-position'),
+                                end: this.game.invertMilitaryTrack() ? -payment.militaryNewPosition : payment.militaryNewPosition
                             }
                         },
                         onAnimate: dojo.hitch(this, function (values) {
