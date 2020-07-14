@@ -75,30 +75,29 @@ define([
                     anims.push(dojo.fx.chain(stepAnims));
 
                     if (payment.militaryTokenNumber > 0) {
-                        var playerAlias = opponent_id == this.game.me_id ? 'me' : 'opponent';
                         var tokenNumber = this.game.invertMilitaryTrack() ? (5 - payment.militaryTokenNumber) : payment.militaryTokenNumber;
                         var tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
-                        var playerCoinsNode = dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0];
+                        var opponentCoinsContainer = this.game.getPlayerCoinContainer(opponent_id);
                         var yOffset = 2 * 7.5 * this.game.getCssVariable('--scale');
-                        var xOffset = (playerCoinsNode.offsetWidth - tokenNode.offsetWidth) / 2;
+                        var xOffset = (opponentCoinsContainer.offsetWidth - tokenNode.offsetWidth) / 2;
                         if (opponent_id == this.game.me_id) {
                             yOffset = -tokenNode.offsetHeight - yOffset;
                         }
                         else {
-                            yOffset = playerCoinsNode.offsetHeight + yOffset;
+                            yOffset = opponentCoinsContainer.offsetHeight + yOffset;
                         }
 
                         anims.push(dojo.fx.chain([
                             // Move military token close to opponent coins total.
-                            this.game.slideToObjectPos(tokenNode, playerCoinsNode, xOffset, yOffset, this.militaryTokenAnimationDuration * 0.6),
+                            this.game.slideToObjectPos(tokenNode, opponentCoinsContainer, xOffset, yOffset, this.militaryTokenAnimationDuration * 0.6),
                             // Animate coins to fly from opponent coins total to military token.
                             bgagame.CoinAnimator.get().getAnimation(
-                                playerCoinsNode,
-                                playerCoinsNode,
+                                opponentCoinsContainer,
+                                opponentCoinsContainer,
                                 payment.militaryOpponentPays, // This could differ from the token value if the opponent can't afford what's on the token.
                                 opponent_id,
                                 [0, 0],
-                                [0, yOffset + ((tokenNode.offsetHeight - playerCoinsNode.offsetHeight) / 2)]
+                                [0, yOffset + ((tokenNode.offsetHeight - opponentCoinsContainer.offsetHeight) / 2)]
                             ),
                             // Fade out military token.
                             dojo.fadeOut({

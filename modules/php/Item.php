@@ -87,12 +87,6 @@ class Item
         }
         if ($this->military > 0) {
             MilitaryTrack::movePawn(Player::me(), $this->military, $payment);
-            list($payment->militaryTokenNumber, $payment->militaryTokenValue) = MilitaryTrack::getMilitaryToken();
-            if ($payment->militaryTokenValue > 0) {
-                $opponent = Player::opponent($player->id);
-                $payment->militaryOpponentPays = max(-$payment->militaryTokenValue, -$opponent->getCoins());
-                $opponent->increaseCoins($payment->militaryOpponentPays);
-            }
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'simpleNotif',
@@ -102,6 +96,24 @@ class Item
                     'steps' => $payment->militarySteps,
                 ]
             );
+
+            list($payment->militaryTokenNumber, $payment->militaryTokenValue) = MilitaryTrack::getMilitaryToken();
+            if ($payment->militaryTokenValue > 0) {
+                $opponent = Player::opponent($player->id);
+                $payment->militaryOpponentPays = min($payment->militaryTokenValue, $opponent->getCoins());
+                if($payment->militaryOpponentPays > 0) {
+                    $opponent->increaseCoins(-$payment->militaryOpponentPays);
+
+                    SevenWondersDuel::get()->notifyAllPlayers(
+                        'simpleNotif',
+                        clienttranslate('The military token is removed, ${player_name} discards ${coins} coin(s).'),
+                        [
+                            'player_name' => Player::opponent()->name,
+                            'coins' => $payment->militaryOpponentPays,
+                        ]
+                    );
+                }
+            }
         }
     }
 

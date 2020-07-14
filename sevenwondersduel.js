@@ -991,7 +991,7 @@ define([
                 var coinNode = dojo.query('.draftpool_building_cost.' + playerAlias + ' .coin', buildingNode)[0];
                 var position = this.getDraftpoolCardData(notif.args.buildingId);
                 var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
-                    dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
+                    this.getPlayerCoinContainer(notif.args.playerId),
                     coinNode,
                     -position.cost[notif.args.playerId],
                     notif.args.playerId
@@ -1001,7 +1001,7 @@ define([
                 if (building.coins > 0) {
                     coinRewardAnimation = bgagame.CoinAnimator.get().getAnimation(
                         playerBuildingContainer,
-                        dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
+                        this.getPlayerCoinContainer(notif.args.playerId),
                         building.coins,
                         notif.args.playerId
                     );
@@ -1192,12 +1192,11 @@ define([
                 this.clearActionGlow();
 
                 var wonderContainer = dojo.query('#player_wonders_' + notif.args.playerId + ' #wonder_' + notif.args.wonderId + '_container')[0];
-                var playerAlias = this.getPlayerAlias(notif.args.playerId);
                 var coinNode = dojo.query('.player_wonder_cost', wonderContainer)[0];
                 var position = this.getWonderCardData(notif.args.playerId, notif.args.wonderId);
 
                 var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
-                    dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
+                    this.getPlayerCoinContainer(notif.args.playerId),
                     coinNode,
                     -position.cost,
                     notif.args.playerId
@@ -1227,7 +1226,7 @@ define([
                         if (wonder.coins > 0) {
                             coinRewardAnimation = bgagame.CoinAnimator.get().getAnimation(
                                 wonderNode,
-                                dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
+                                this.getPlayerCoinContainer(notif.args.playerId),
                                 wonder.coins,
                                 notif.args.playerId,
                                 [wonder.visualCoinPosition[0] * wonderNodePosition.w, wonder.visualCoinPosition[1] * wonderNodePosition.h]
@@ -1353,12 +1352,11 @@ define([
                 progressTokenNode = this.attachToNewParent(progressTokenNode, container);
                 dojo.style(progressTokenNode, 'z-index', 6);
 
-                var playerAlias = this.getPlayerAlias(notif.args.playerId);
                 var anim = dojo.fx.chain([
                     this.slideToObjectPos(progressTokenNode, container, 0, 0, this.progressTokenDuration),
                     bgagame.CoinAnimator.get().getAnimation(
                         progressTokenNode.parentElement,
-                        dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0],
+                        this.getPlayerCoinContainer(notif.args.playerId),
                         progressToken.coins,
                         notif.args.playerId
                     ),
@@ -1376,6 +1374,11 @@ define([
                 this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
 
                 anim.play();
+            },
+
+            getPlayerCoinContainer: function(playerId, oppositePlayerInstead=false) {
+                var playerAlias = this.getPlayerAlias(oppositePlayerInstead ? this.getOppositePlayerId(playerId) : playerId);
+                return dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0];
             },
 
             //   _   _           _        _
