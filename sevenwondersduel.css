@@ -1007,6 +1007,9 @@ __        __              _
 
 #discarded_cards_whiteblock {
     margin-top: var(--gutter) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
 }
 
 #discarded_cards_container {

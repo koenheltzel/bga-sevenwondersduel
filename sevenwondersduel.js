@@ -1489,6 +1489,8 @@ define([
                     this.setScale(1);
                     this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
                 }
+
+                dojo.style($('discarded_cards_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
                 // console.log('swd_wrap height: ', $('swd_wrap'), 'height');
             },
 
