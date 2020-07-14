@@ -59,9 +59,11 @@ class Player extends \APP_DbObject{
 
     private function __construct($id) {
         $this->id = $id;
-        $basicInfo = SevenWondersDuel::get()->getPlayerBasicInfo($this->id);
-        $this->name = $basicInfo['player_name'];
-        $this->color = $basicInfo['player_color'];
+        if ($_SERVER['HTTP_HOST'] != 'localhost') {
+            $basicInfo = SevenWondersDuel::get()->getPlayerBasicInfo($this->id);
+            $this->name = $basicInfo['player_name'];
+            $this->color = $basicInfo['player_color'];
+        }
         self::$instances[$id] = $this;
     }
 
