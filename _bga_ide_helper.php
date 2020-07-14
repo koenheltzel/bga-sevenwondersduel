@@ -55,7 +55,7 @@ class Table {
      * Note: it does NOT mean that this player is active right now, because state type could be "game" or "multiplayer"
      * Note: avoid using this method in a "multiplayer" state because it does not mean anything.
      */
-    protected function getActivePlayerId()
+    public function getActivePlayerId()
     {
     }
 
@@ -306,7 +306,7 @@ class Table {
      *
      * @param $value_label
      */
-    protected function getGameStateValue($value_label, $default = NULL)
+    public function getGameStateValue($value_label, $default = NULL)
     {
     }
 
@@ -316,7 +316,7 @@ class Table {
      * @param $value_label
      * @param $value_value
      */
-    protected function setGameStateValue($value_label, $value_value)
+    public function setGameStateValue($value_label, $value_value)
     {
     }
 
@@ -327,7 +327,7 @@ class Table {
      * @param $value_label
      * @param $increment
      */
-    protected function incGameStateValue($value_label, $increment)
+    public function incGameStateValue($value_label, $increment)
     {
     }
 
@@ -408,7 +408,7 @@ class Table {
      * @param string $notification_log  A string that defines what is to be displayed in the game log. You can use an empty string here (""). In this case, nothing is displayed in the game log. If you define a real string here, you should use "clienttranslate" method to make sure it can be translate. You can use arguments in your notification_log strings, that refers to values defines in the "notification_args" argument (see below). NB: Make sure you only use single quotes ('), otherwise PHP will try to interpolate the variable and will ignore the values in the args array. Note: you CAN use some HTML inside your notification log, and it is working. However: _ pay attention to keep the log clear. _ try to not include some HTML tags inside the "clienttranslate" method, otherwise it will make the translators work more difficult. You can use a notification argument instead, and provide your HTML through this argument.
      * @param array  $notification_args The arguments of your notifications, as an associative array. This array will be transmitted to the game interface logic, in order the game interface can be updated.
      */
-    protected function notifyAllPlayers($notification_type, $notification_log, $notification_args)
+    public function notifyAllPlayers($notification_type, $notification_log, $notification_args)
     {
     }
 
@@ -422,7 +422,7 @@ class Table {
      * @param $notification_log
      * @param $notification_args
      */
-    protected function notifyPlayer($player_id, $notification_type, $notification_log, $notification_args)
+    public function notifyPlayer($player_id, $notification_type, $notification_log, $notification_args)
     {
     }
 

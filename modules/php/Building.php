@@ -41,7 +41,7 @@ class Building extends Item {
     }
 
     public function checkBuildingAvailable() {
-        $age = SevenWondersDuel::get()->getCurrentAge();
+        $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
         $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         if (!array_key_exists($this->id, $cards)) {
             throw new \BgaUserException( clienttranslate("The building you selected is not available.") );

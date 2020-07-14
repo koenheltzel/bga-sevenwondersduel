@@ -7,6 +7,8 @@ use SevenWondersDuel;
 class Player extends \APP_DbObject{
 
     public $id = null;
+    public $name = null;
+    public $color = null;
     private $wonderIds = [];
     private $buildingIds = [];
     public $progressTokenIds = [];
@@ -57,6 +59,9 @@ class Player extends \APP_DbObject{
 
     private function __construct($id) {
         $this->id = $id;
+        $basicInfo = SevenWondersDuel::get()->getPlayerBasicInfo($this->id);
+        $this->name = $basicInfo['player_name'];
+        $this->color = $basicInfo['player_color'];
         self::$instances[$id] = $this;
     }
 
@@ -65,6 +70,13 @@ class Player extends \APP_DbObject{
      */
     public function getOpponent() {
         return self::opponent($this->id);
+    }
+
+    /**
+     * @return Player
+     */
+    public function getActive() {
+        return self::get(SevenWondersDuel::get()->getActivePlayerId());
     }
 
     public function getAlias() {

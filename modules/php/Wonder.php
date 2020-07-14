@@ -74,23 +74,28 @@ class Wonder extends Item {
     protected function constructEffects(Player $player, Payment $payment) {
         parent::constructEffects($player, $payment);
 
-        // TODO add extra turn
-        // TODO opponent loses coins
+        // Set extra turn if the wonder provides it or if the player has progress token Theology.
+        if ($this->extraTurn || $player->hasProgressToken(9)) {
+            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN, 1);
+        }
 
-//        if ($this->scientificSymbol) {
-//            $buildings = Player::me()->getBuildings()->filterByScientificSymbol($this->scientificSymbol);
-//            if (count($buildings->array) == 2) {
-//                $payment->newScientificSymbolPair = true;
-//
-//                SevenWondersDuel::get()->notifyAllPlayers(
-//                    'simpleNotif',
-//                    clienttranslate('${player_name} gathered a pair of identical scientific symbols, and may now choose a Progress token.'),
-//                    [
-//                        'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
-//                    ]
-//                );
-//            }
-//        }
+        if ($this->opponentCoinLoss > 0) {
+            $opponentCoinLoss = min($player->getOpponent()->getCoins(), $this->opponentCoinLoss);
+            if ($opponentCoinLoss > 0) {
+                $player->getOpponent()->increaseCoins(-$opponentCoinLoss);
+
+                SevenWondersDuel::get()->notifyAllPlayers(
+                    'simpleNotif',
+                    clienttranslate('${player_name} loses ${coins} coin(s).'),
+                    [
+                        'player_name' => $player->getOpponent()->name,
+                        'coins' => $opponentCoinLoss,
+                    ]
+                );
+            }
+        }
+
+        // Note: the extra turn effect is handled in NextPlayerTurnTrait so we can also indicate if the extra turn is lost due to the age ending.
     }
 
     /**

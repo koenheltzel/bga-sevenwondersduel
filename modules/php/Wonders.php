@@ -22,7 +22,7 @@ class Wonders extends Collection {
     }
 
     public static function getSituation() {
-        $selectionRound = SevenWondersDuel::get()->getWonderSelectionRound();
+        $selectionRound = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_WONDER_SELECTION_ROUND);
         return [
             'selection' => self::getDeckCardsSorted("selection{$selectionRound}"),
             Player::me()->id => Player::me()->getWondersData(),

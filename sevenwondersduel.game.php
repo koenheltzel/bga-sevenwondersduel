@@ -110,6 +110,7 @@ class SevenWondersDuel extends Table
     const VALUE_MILITARY_TOKEN2 = "military_token2";
     const VALUE_MILITARY_TOKEN3 = "military_token3";
     const VALUE_MILITARY_TOKEN4 = "military_token4";
+    const VALUE_EXTRA_TURN = "extra_turn";
 
 
     /**
@@ -152,6 +153,7 @@ class SevenWondersDuel extends Table
                 self::VALUE_MILITARY_TOKEN2 => 14,
                 self::VALUE_MILITARY_TOKEN3 => 15,
                 self::VALUE_MILITARY_TOKEN4 => 16,
+                self::VALUE_EXTRA_TURN => 17,
             //    "my_second_global_variable" => 11,
             //      ...
             //    "my_first_game_variant" => 100,
@@ -169,38 +171,22 @@ class SevenWondersDuel extends Table
         $this->progressTokenDeck->init( "progress_token" );
 	}
 
-    public function getCurrentPlayerId($bReturnNullIfNotLogged = false) {
-        return parent::getCurrentPlayerId($bReturnNullIfNotLogged);
-    }
-
     public function getStartPlayerId() {
         $players = $this->loadPlayersBasicInfos();
         return array_shift($players)['player_id'];
     }
 
-    public function getCurrentAge() {
-        return $this->getGameStateValue(self::VALUE_CURRENT_AGE);
+    public function getPlayerBasicInfo($playerId) {
+        $players = $this->loadPlayersBasicInfos();
+        return $players[$playerId];
     }
-
-    public function getConflictPawnPosition() {
-        return $this->getGameStateValue(self::VALUE_CONFLICT_PAWN_POSITION);
-    }
-
-    public function setConflictPawnPosition($value) {
-        return $this->setGameStateValue(self::VALUE_CONFLICT_PAWN_POSITION, $value);
-    }
-
-    public function getWonderSelectionRound() {
-        return $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
-    }
-
 
     /**
      * @param $number 1 to 4
      * @return int token value or 0 if no token
      */
     public function getMilitaryTokenValue($number) {
-        return (int)$this->getGameStateValue(constant ( "self::VALUE_MILITARY_TOKEN{$number}"));
+        return $this->getGameStateValue(constant ( "self::VALUE_MILITARY_TOKEN{$number}"));
     }
 
     /**
@@ -346,7 +332,7 @@ class SevenWondersDuel extends Table
 
         $cardsPerAge = 20;
         $totalCards = $cardsPerAge * 3;
-        $agePercentage = ((($this->getCurrentAge() - 1) * $cardsPerAge) + Draftpool::countCardsInCurrentAge()) / $totalCards;
+        $agePercentage = ((($this->getGameStateValue(self::VALUE_CURRENT_AGE) - 1) * $cardsPerAge) + Draftpool::countCardsInCurrentAge()) / $totalCards;
 
         return (int)($wonderPercentage * 10 + $agePercentage * 90);
     }
@@ -531,18 +517,16 @@ class SevenWondersDuel extends Table
 
     }
 
-    /* Below we make some protected functions public, so the other SWD classes can use them.
+    /* Below we make some protected functions public, so the other SWD classes can use them. */
 
     /**
-     * Send a notification to all players of the game.
-     *
-     * @param string $notification_type A string that defines the type of your notification. Your game interface Javascript logic will use this to know what is the type of the received notification (and to trigger the corresponding method).
-     * @param string $notification_log  A string that defines what is to be displayed in the game log. You can use an empty string here (""). In this case, nothing is displayed in the game log. If you define a real string here, you should use "clienttranslate" method to make sure it can be translate. You can use arguments in your notification_log strings, that refers to values defines in the "notification_args" argument (see below). NB: Make sure you only use single quotes ('), otherwise PHP will try to interpolate the variable and will ignore the values in the args array. Note: you CAN use some HTML inside your notification log, and it is working. However: _ pay attention to keep the log clear. _ try to not include some HTML tags inside the "clienttranslate" method, otherwise it will make the translators work more difficult. You can use a notification argument instead, and provide your HTML through this argument.
-     * @param array  $notification_args The arguments of your notifications, as an associative array. This array will be transmitted to the game interface logic, in order the game interface can be updated.
+     * Get the "current_player". The current player is the one from which the action originated (the one who send the request).
+     * Be careful: It is not always the active player.
+     * In general, you shouldn't use this method, unless you are in "multiplayer" state.
+     * @return int
      */
-    public function notifyAllPlayers($notification_type, $notification_log, $notification_args)
-    {
-        return parent::notifyAllPlayers($notification_type, $notification_log, $notification_args);
+    public function getCurrentPlayerId($bReturnNullIfNotLogged = false) {
+        return parent::getCurrentPlayerId($bReturnNullIfNotLogged);
     }
 
     /**
@@ -554,4 +538,6 @@ class SevenWondersDuel extends Table
     {
         return parent::getCurrentPlayerName($bReturnEmptyIfNotLogged);
     }
+
+
 }

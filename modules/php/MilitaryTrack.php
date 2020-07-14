@@ -19,9 +19,9 @@ class MilitaryTrack
             $shields *= -1;
         }
 
-        $currentPosition = SevenWondersDuel::get()->getConflictPawnPosition();
+        $currentPosition = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
         $newPosition = max(-9, min(9, $currentPosition + $shields));
-        SevenWondersDuel::get()->setConflictPawnPosition($newPosition);
+        SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION, $newPosition);
 
         $payment->militarySteps = abs($newPosition - $currentPosition);
         $payment->militaryOldPosition = $currentPosition;
@@ -29,7 +29,7 @@ class MilitaryTrack
     }
     
     public static function getMilitaryToken() {
-        $position = SevenWondersDuel::get()->getConflictPawnPosition();
+        $position = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
         $number = 0;
         if ($position >= -8 && $position <= -6) {
             $number = 1;
@@ -61,7 +61,7 @@ class MilitaryTrack
                 3 => SevenWondersDuel::get()->getMilitaryTokenValue(3),
                 4 => SevenWondersDuel::get()->getMilitaryTokenValue(4),
             ],
-            'conflictPawn' => SevenWondersDuel::get()->getConflictPawnPosition()
+            'conflictPawn' => SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION)
         ];
     }
 
