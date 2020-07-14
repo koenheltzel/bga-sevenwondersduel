@@ -1010,6 +1010,13 @@ define([
                     coinRewardAnimation = dojo.fx.combine([]);
                 }
 
+                var urbanismCoinAnimation = bgagame.CoinAnimator.get().getAnimation(
+                    $('progress_token_10'),
+                    this.getPlayerCoinContainer(notif.args.playerId),
+                    notif.args.payment.urbanismAward,
+                    notif.args.playerId
+                );
+
                 var militaryTokenAnimation = bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment);
 
                 var anim = dojo.fx.chain([
@@ -1026,6 +1033,7 @@ define([
                     ]),
                     this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, this.constructBuildingAnimationDuration * 0.6),
                     coinRewardAnimation,
+                    urbanismCoinAnimation,
                     militaryTokenAnimation,
                 ]);
 

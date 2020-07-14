@@ -9,7 +9,7 @@ use SevenWondersDuel;
  */
 class ProgressTokens extends Collection {
 
-    public static function createByWonderIds($progressTokenIds) {
+    public static function createByProgressTokenIds($progressTokenIds) {
         $progressTokens = new ProgressTokens();
         foreach($progressTokenIds as $progressTokenId) {
             $progressTokens[] = ProgressToken::get($progressTokenId);

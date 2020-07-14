@@ -102,6 +102,20 @@ class Building extends Item {
                 );
             }
         }
+
+        if ($player->hasBuilding($this->linkedBuilding) && $player->hasProgressToken(10)) {
+            $payment->urbanismAward = 4;
+            $player->increaseCoins($payment->urbanismAward);
+
+            SevenWondersDuel::get()->notifyAllPlayers(
+                'simpleNotif',
+                clienttranslate('${player_name} gets 4 coins from Progress token ${progressTokenName}.'), // TODO does the progressTokenName get translated this way?
+                [
+                    'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                    'progressTokenName' => ProgressToken::get(10)->name,
+                ]
+            );
+        }
     }
 
     /**

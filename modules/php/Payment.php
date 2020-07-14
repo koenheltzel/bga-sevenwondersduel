@@ -18,6 +18,7 @@ class Payment
     public $militaryOpponentPays = 0;
 
     public $newScientificSymbolPair = false;
+    public $urbanismAward = 0;
 
     public function __construct() {
 

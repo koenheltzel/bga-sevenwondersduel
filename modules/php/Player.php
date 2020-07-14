@@ -369,71 +369,6 @@ class Player extends \APP_DbObject{
     }
 
     /**
-     * @return Wonders
-     */
-    public function getWonders(): Wonders {
-        return Wonders::createByWonderIds($this->getWonderIds());
-    }
-
-    public function getWondersData(): array {
-        $cards = $this->getWonderDeckCards();
-        $rows = [];
-        foreach($cards as $card) {
-            $wonder = Wonder::get($card['id']);
-            $row = [];
-            $row['wonder'] = $wonder->id;
-            $row['constructed'] = $wonder->isConstructed();
-            $payment = $this->calculateCost($wonder);
-            $row['cost'] = $row['constructed'] ? -1 : $payment->totalCost();
-            $row['payment'] = $payment;
-            $rows[] = $row;
-        }
-        return $rows;
-    }
-
-    public function getWonderDeckCards(): array {
-        return Wonders::getDeckCardsSorted($this->id);
-    }
-
-    public function getBuildingDeckCards(): array {
-        return SevenWondersDuel::get()->buildingDeck->getCardsInLocation($this->id);
-    }
-
-    /**
-     * @return Buildings
-     */
-    public function getBuildings(): Buildings {
-        return Buildings::createByBuildingIds($this->getBuildingIds());
-    }
-
-    public function hasBuilding($id) : bool {
-        return in_array($id, $this->getBuildingIds());
-    }
-
-    /**
-     * @return array
-     */
-    public function getProgressTokens(): array {
-        return $this->progressTokenIds;
-    }
-
-    public function hasProgressToken($id) : bool {
-        return in_array($id, $this->progressTokenIds);
-    }
-
-    /**
-     * @return array
-     */
-    public function getBuildingIds(): array {
-        if ($_SERVER['HTTP_HOST'] == 'localhost') {
-            return $this->buildingIds;
-        }
-        else {
-            return array_column($this->getBuildingDeckCards(), 'id');
-        }
-    }
-
-    /**
      * @return array
      */
     public function getWonderIds(): array {
@@ -453,10 +388,98 @@ class Player extends \APP_DbObject{
     }
 
     /**
+     * @return Wonders
+     */
+    public function getWonders(): Wonders {
+        return Wonders::createByWonderIds($this->getWonderIds());
+    }
+
+    public function getWonderDeckCards(): array {
+        return Wonders::getDeckCardsSorted($this->id);
+    }
+
+    public function getWondersData(): array {
+        $cards = $this->getWonderDeckCards();
+        $rows = [];
+        foreach($cards as $card) {
+            $wonder = Wonder::get($card['id']);
+            $row = [];
+            $row['wonder'] = $wonder->id;
+            $row['constructed'] = $wonder->isConstructed();
+            $payment = $this->calculateCost($wonder);
+            $row['cost'] = $row['constructed'] ? -1 : $payment->totalCost();
+            $row['payment'] = $payment;
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBuildingIds(): array {
+        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+            return $this->buildingIds;
+        }
+        else {
+            return array_column($this->getBuildingDeckCards(), 'id');
+        }
+    }
+
+    /**
      * @param array $buildingIds
      */
     public function setBuildingIds(array $buildingIds): void {
         $this->buildingIds = $buildingIds;
+    }
+
+    /**
+     * @return Buildings
+     */
+    public function getBuildings(): Buildings {
+        return Buildings::createByBuildingIds($this->getBuildingIds());
+    }
+
+    public function hasBuilding($id) : bool {
+        return in_array($id, $this->getBuildingIds());
+    }
+
+    public function getBuildingDeckCards(): array {
+        return SevenWondersDuel::get()->buildingDeck->getCardsInLocation($this->id);
+    }
+
+    /**
+     * @return array
+     */
+    public function getProgressTokenIds(): array {
+        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+            return $this->progressTokenIds;
+        }
+        else {
+            return array_column($this->getProgressTokenDeckCards(), 'id');
+        }
+    }
+
+    /**
+     * @param array $wonderIds
+     */
+    public function setProgressTokenIds(array $progressTokenIds): void {
+        $this->progressTokenIds = $progressTokenIds;
+    }
+
+    /**
+     * @return ProgressTokens
+     */
+    public function getProgressTokens(): ProgressTokens {
+        return ProgressTokens::createByProgressTokenIds($this->getProgressTokenIds());
+    }
+
+    public function getProgressTokenDeckCards(): array {
+        return ProgressTokens::getDeckCardsSorted($this->id);
+    }
+
+    public function hasProgressToken($id) : int {
+        return in_array($id, $this->getProgressTokenIds());
     }
 
 }

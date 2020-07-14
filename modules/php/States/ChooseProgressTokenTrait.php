@@ -33,18 +33,6 @@ trait ChooseProgressTokenTrait {
         $progressToken = ProgressToken::get($progressTokenId);
         $payment = $progressToken->construct(Player::me());
 
-        $this->notifyAllPlayers(
-            'progressTokenChosen',
-            clienttranslate('${player_name} chose progress token ${progressTokenName}.'),
-            [
-                'progressTokenName' => $progressToken->name,
-                'player_name' => $this->getCurrentPlayerName(),
-                'playerId' => Player::me()->id,
-                'progressTokenId' => $progressToken->id,
-                'payment' => $payment,
-            ]
-        );
-
         $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
     }
 }
