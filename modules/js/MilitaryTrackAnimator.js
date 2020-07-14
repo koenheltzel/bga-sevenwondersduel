@@ -42,6 +42,11 @@ define([
                 this.game = bgagame.sevenwondersduel.instance;
             },
 
+            delta: function(num1, num2) {
+                var absolute = Math.abs(num1 - num2);
+                return num2 > num1 ? absolute : -absolute;
+            },
+
             getAnimation: function (active_player_id, payment) {
                 console.log('getMilitaryTokenAnimation', payment);
                 // The military token animation always concerns the opponent of the active player.
@@ -53,7 +58,8 @@ define([
                     // Conflict Pawn stepping animation. We do this step for step with easing so each step is clear.
                     var startPosition = parseInt(this.game.getCssVariable('--conflict-pawn-position'));
                     var endPosition = parseInt(this.game.invertMilitaryTrack() ? -payment.militaryNewPosition : payment.militaryNewPosition);
-                    var stepSize = this.game.invertMilitaryTrack() ? -1 : 1;
+                    var delta = this.delta(startPosition, endPosition);
+                    var stepSize = delta / payment.militarySteps;
                     var stepAnims = [];
                     for(var i = 0; i < payment.militarySteps; i++) {
                         var stepEndPosition = startPosition + stepSize;
