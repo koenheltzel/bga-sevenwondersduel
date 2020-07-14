@@ -4,7 +4,6 @@ namespace SWD\States;
 
 use SWD\Building;
 use SWD\Draftpool;
-use SWD\MilitaryTrack;
 use SWD\Player;
 use SWD\Players;
 use SWD\Wonder;
@@ -22,7 +21,6 @@ trait PlayerTurnTrait {
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
-            'militaryTrack' => MilitaryTrack::getData(),
         ];
     }
 
@@ -35,19 +33,6 @@ trait PlayerTurnTrait {
 
         $building = Building::get($buildingId);
         $payment = $building->construct(Player::me());
-
-        $this->notifyAllPlayers(
-            'constructBuilding',
-            clienttranslate('${player_name} constructed building ${buildingName} for ${cost}.'),
-            [
-                'buildingName' => $building->name,
-                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : 'free',
-                'player_name' => $this->getCurrentPlayerName(),
-                'playerId' => Player::me()->id,
-                'buildingId' => $building->id,
-                'payment' => $payment,
-            ]
-        );
 
         if ($payment->newScientificSymbolPair) { // TODO check if there are progress tokens left to choose from
             $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_NAME);
@@ -90,23 +75,6 @@ trait PlayerTurnTrait {
         $wonder = Wonder::get($wonderId);
         $wonder->checkWonderAvailable();
         $payment = $wonder->construct(Player::me(), $building);
-
-        $this->notifyAllPlayers(
-            'constructWonder',
-            clienttranslate('${player_name} constructed wonder ${wonderName} for ${cost} using ${buildingName}.'),
-            [
-                'buildingName' => $building->name,
-                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : 'free',
-                'wonderName' => $wonder->name,
-                'player_name' => $this->getCurrentPlayerName(),
-                'playerId' => Player::me()->id,
-                'buildingId' => $building->id,
-                'wonderId' => $wonder->id,
-                'payment' => $payment,
-                'wondersSituation' => Wonders::getSituation(),
-                'militaryTrack' => MilitaryTrack::getData(),
-            ]
-        );
 
 //        switch ($wonder->id) {
 //            case 5:

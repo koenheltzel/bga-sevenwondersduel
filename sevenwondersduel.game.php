@@ -529,5 +529,29 @@ class SevenWondersDuel extends Table
 //
 
 
-    }    
+    }
+
+    /* Below we make some protected functions public, so the other SWD classes can use them.
+
+    /**
+     * Send a notification to all players of the game.
+     *
+     * @param string $notification_type A string that defines the type of your notification. Your game interface Javascript logic will use this to know what is the type of the received notification (and to trigger the corresponding method).
+     * @param string $notification_log  A string that defines what is to be displayed in the game log. You can use an empty string here (""). In this case, nothing is displayed in the game log. If you define a real string here, you should use "clienttranslate" method to make sure it can be translate. You can use arguments in your notification_log strings, that refers to values defines in the "notification_args" argument (see below). NB: Make sure you only use single quotes ('), otherwise PHP will try to interpolate the variable and will ignore the values in the args array. Note: you CAN use some HTML inside your notification log, and it is working. However: _ pay attention to keep the log clear. _ try to not include some HTML tags inside the "clienttranslate" method, otherwise it will make the translators work more difficult. You can use a notification argument instead, and provide your HTML through this argument.
+     * @param array  $notification_args The arguments of your notifications, as an associative array. This array will be transmitted to the game interface logic, in order the game interface can be updated.
+     */
+    public function notifyAllPlayers($notification_type, $notification_log, $notification_args)
+    {
+        return parent::notifyAllPlayers($notification_type, $notification_log, $notification_args);
+    }
+
+    /**
+     * Get the "current_player" name
+     * Be careful using this method (see above).
+     * @return string
+     */
+    public function getCurrentPlayerName($bReturnEmptyIfNotLogged = false)
+    {
+        return parent::getCurrentPlayerName($bReturnEmptyIfNotLogged);
+    }
 }

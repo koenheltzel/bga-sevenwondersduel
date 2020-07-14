@@ -3,11 +3,9 @@
 namespace SWD\States;
 
 use SWD\Draftpool;
-use SWD\MilitaryTrack;
 use SWD\Player;
 use SWD\Players;
 use SWD\ProgressToken;
-use SWD\ProgressTokens;
 use SWD\Wonders;
 
 trait ChooseProgressTokenTrait {
@@ -22,7 +20,6 @@ trait ChooseProgressTokenTrait {
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
-            'militaryTrack' => MilitaryTrack::getData(),
         ];
     }
 

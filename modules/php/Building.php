@@ -62,14 +62,46 @@ class Building extends Item {
 
         SevenWondersDuel::get()->buildingDeck->moveCard($this->id, $player->id);
 
+        SevenWondersDuel::get()->notifyAllPlayers(
+            'constructBuilding',
+            clienttranslate('${player_name} constructed building ${buildingName} for ${cost}.'),
+            [
+                'buildingName' => $this->name,
+                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : 'free',
+                'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                'playerId' => Player::me()->id,
+                'buildingId' => $this->id,
+                'payment' => $payment,
+            ]
+        );
+
+        $this->constructEffects($player, $payment);
+
+        return $payment;
+    }
+
+    /**
+     * Handle any effects the item has (victory points, gain coins, military) and send notifications about them.
+     * @param Player $player
+     * @param Payment $payment
+     */
+    protected function constructEffects(Player $player, Payment $payment) {
+        parent::constructEffects($player, $payment);
+
         if ($this->scientificSymbol) {
             $buildings = Player::me()->getBuildings()->filterByScientificSymbol($this->scientificSymbol);
             if (count($buildings->array) == 2) {
                 $payment->newScientificSymbolPair = true;
+
+                SevenWondersDuel::get()->notifyAllPlayers(
+                    'simpleNotif',
+                    clienttranslate('${player_name} gathered a pair of identical scientific symbols, and may now choose a Progress token.'),
+                    [
+                        'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                    ]
+                );
             }
         }
-
-        return $payment;
     }
 
     /**

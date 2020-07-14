@@ -36,6 +36,7 @@ class Item
     }
 
     /**
+     * Checks if player can afford the item, if so, remove the amount of coins from the player.
      * @param Player $player
      * @param $cardId
      * @return Payment
@@ -44,17 +45,45 @@ class Item
         $payment = $player->calculateCost($this);
         $totalCost = $payment->totalCost();
         if ($totalCost > $player->getCoins()) {
-            throw new \BgaUserException(clienttranslate("You can't afford the building you selected.") );
+            throw new \BgaUserException(clienttranslate("You can't afford the building/wonder you selected."));
         }
 
         if ($totalCost > 0) {
             $player->increaseCoins(-$totalCost);
         }
+
+        return $payment;
+    }
+
+    /**
+     * Handle any effects the item has (victory points, gain coins, military) and send notifications about them.
+     * @param Player $player
+     * @param Payment $payment
+     */
+    protected function constructEffects(Player $player, Payment $payment) {
         if ($this->victoryPoints > 0) {
             $player->increaseScore($this->victoryPoints);
+
+            SevenWondersDuel::get()->notifyAllPlayers(
+                'simpleNotif',
+                clienttranslate('${player_name} scores ${points} victory point(s).'),
+                [
+                    'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                    'points' => $this->victoryPoints,
+                ]
+            );
         }
         if ($this->coins > 0) {
             $player->increaseCoins($this->coins);
+
+            SevenWondersDuel::get()->notifyAllPlayers(
+                'simpleNotif',
+                clienttranslate('${player_name} takes ${coins} coin(s) from the bank.'),
+                [
+                    'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                    'coins' => $this->coins,
+                ]
+            );
         }
         if ($this->military > 0) {
             MilitaryTrack::movePawn(Player::me(), $this->military, $payment);
@@ -64,8 +93,16 @@ class Item
                 $payment->militaryOpponentPays = max(-$payment->militaryTokenValue, -$opponent->getCoins());
                 $opponent->increaseCoins($payment->militaryOpponentPays);
             }
+
+            SevenWondersDuel::get()->notifyAllPlayers(
+                'simpleNotif',
+                clienttranslate('${player_name} moves the Conflict pawn ${steps} space(s).'),
+                [
+                    'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                    'steps' => $payment->militarySteps,
+                ]
+            );
         }
-        return $payment;
     }
 
     /**

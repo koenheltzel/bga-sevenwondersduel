@@ -215,7 +215,6 @@ define([
 
                     if (args.args.draftpool) this.updateDraftpool(args.args.draftpool);
                     if (args.args.wondersSituation) this.updateWondersSituation(args.args.wondersSituation);
-                    if (args.args.militaryTrack) this.updateMilitaryTrack(args.args.militaryTrack);
 
                     // We chose to group all of the states' functions together, so we create a seperate "onEnter{StateName}" function and call it here if it exists.
                     var functionName = 'onEnter' + stateName.charAt(0).toUpperCase() + stateName.slice(1);

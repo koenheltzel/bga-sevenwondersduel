@@ -35,10 +35,56 @@ class Wonder extends Item {
      * @return Payment
      */
     public function construct(Player $player, $building = null) {
-        $payment = parent::construct($player);
+        $payment = parent::construct($player, $building);
 
         SevenWondersDuel::get()->buildingDeck->moveCard($building->id, 'wonder' . $this->id);
+
+        SevenWondersDuel::get()->notifyAllPlayers(
+            'constructWonder',
+            clienttranslate('${player_name} constructed wonder ${wonderName} for ${cost} using building ${buildingName}.'),
+            [
+                'wonderId' => $this->id,
+                'wonderName' => $this->name,
+                'buildingId' => $building->id,
+                'buildingName' => $building->name,
+                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : 'free',
+                'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                'playerId' => Player::me()->id,
+                'payment' => $payment,
+                'wondersSituation' => Wonders::getSituation(),
+            ]
+        );
+
+        $this->constructEffects($player, $payment);
+
         return $payment;
+    }
+
+    /**
+     * Handle any effects the item has (victory points, gain coins, military) and send notifications about them.
+     * @param Player $player
+     * @param Payment $payment
+     */
+    protected function constructEffects(Player $player, Payment $payment) {
+        parent::constructEffects($player, $payment);
+
+        // TODO add extra turn
+        // TODO opponent loses coins
+
+//        if ($this->scientificSymbol) {
+//            $buildings = Player::me()->getBuildings()->filterByScientificSymbol($this->scientificSymbol);
+//            if (count($buildings->array) == 2) {
+//                $payment->newScientificSymbolPair = true;
+//
+//                SevenWondersDuel::get()->notifyAllPlayers(
+//                    'simpleNotif',
+//                    clienttranslate('${player_name} gathered a pair of identical scientific symbols, and may now choose a Progress token.'),
+//                    [
+//                        'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+//                    ]
+//                );
+//            }
+//        }
     }
 
     /**
