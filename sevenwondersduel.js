@@ -739,6 +739,7 @@ define([
                     data.jsCost = '';
                     if (playerId) {
                         var cardData = this.getWonderCardData(playerId, id);
+                        if (!cardData) return false; // Happens in Edge sometimes.
                         if (!cardData.constructed) {
                             data.jsCost = this.format_block(playerId == this.me_id ? 'jstpl_tooltip_cost_me' : 'jstpl_tooltip_cost_opponent', {
                                 jsCoinHtml: coinHtml,
