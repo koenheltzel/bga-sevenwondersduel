@@ -6,6 +6,12 @@ use SevenWondersDuel;
 
 class Wonder extends Item {
 
+    public $extraTurn = false;
+    public $opponentCoinLoss = 0;
+    public $constructDiscardedBuilding = false;
+    public $discardOpponentBuilding = false;
+    public $progressTokenFromBox = false;
+
     /**
      * The visual position of the opponent coin loss on the card. Percentages from the center of the card.
      * @var int
@@ -107,11 +113,56 @@ class Wonder extends Item {
     }
 
     /**
+     * @param bool $extraTurn
+     * @return static
+     */
+    public function setExtraTurn() {
+        $this->extraTurn = true;
+        return $this;
+    }
+
+    /**
+     * @param int $opponentCoinLoss
+     * @return static
+     */
+    public function setOpponentCoinLoss(int $opponentCoinLoss) {
+        $this->opponentCoinLoss = $opponentCoinLoss;
+        return $this;
+    }
+
+    /**
      * @param array $visualOpponentCoinLossPosition
      * @return static
      */
     public function setVisualOpponentCoinLossPosition(array $visualOpponentCoinLossPosition) {
         $this->visualOpponentCoinLossPosition = $visualOpponentCoinLossPosition;
+        return $this;
+    }
+
+    /**
+     * @param bool $constructDiscardedBuilding
+     * @return static
+     */
+    public function setConstructDiscardedBuilding() {
+        $this->constructDiscardedBuilding = true;
+        return $this;
+    }
+
+    /**
+     * @param bool $discardOpponentBuilding
+     * @return static
+     */
+    public function setDiscardOpponentBuilding(string $buildingType) {
+        $this->discardOpponentBuilding = $buildingType;
+        return $this;
+    }
+
+    /**
+     * @param bool $progressTokenFromBox
+     * @return static
+     */
+    public function setProgressTokenFromBox() {
+        $this->progressTokenFromBox = true;
         return $this;
     }
 

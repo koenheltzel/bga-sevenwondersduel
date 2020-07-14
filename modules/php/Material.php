@@ -46,49 +46,73 @@ class Material
         $this->wonders = new Wonders();
 
         $this->wonders[1] = (new Wonder(1, clienttranslate("The Pyramids")))
-            ->setCost([PAPYRUS => 1, STONE => 3]);
+            ->setCost([PAPYRUS => 1, STONE => 3])
+            ->setVictoryPoints(9);
 
         $this->wonders[2] = (new Wonder(2, clienttranslate("The Colossus")))
-            ->setCost([GLASS => 1, CLAY => 3]);
+            ->setCost([GLASS => 1, CLAY => 3])
+            ->setMilitary(2)
+            ->setVictoryPoints(3);
 
         $this->wonders[3] = (new Wonder(3, clienttranslate("The Great Lighthouse")))
             ->setCost([PAPYRUS => 2, STONE => 1, WOOD => 1])
-            ->setResourceChoice([WOOD, STONE, CLAY]);
+            ->setResourceChoice([WOOD, STONE, CLAY])
+            ->setVictoryPoints(4);
 
         $this->wonders[4] = (new Wonder(4, clienttranslate("The Temple of Artemis")))
             ->setCost([PAPYRUS => 1, GLASS => 1, STONE => 1, WOOD => 1])
             ->setCoins(12)
-            ->setVisualCoinPosition([0.412, -0.125]);
+            ->setVisualCoinPosition([0.412, -0.125])
+            ->setExtraTurn();
 
         $this->wonders[5] = (new Wonder(5, clienttranslate("The Mausoleum")))
-            ->setCost([PAPYRUS => 1, GLASS => 2, CLAY => 2]);
+            ->setCost([PAPYRUS => 1, GLASS => 2, CLAY => 2])
+            ->setConstructDiscardedBuilding()
+            ->setVictoryPoints(2);
 
         $this->wonders[6] = (new Wonder(6, clienttranslate("The Great Library")))
-            ->setCost([PAPYRUS => 1, GLASS => 1, WOOD => 3]);
+            ->setCost([PAPYRUS => 1, GLASS => 1, WOOD => 3])
+            ->setProgressTokenFromBox()
+            ->setVictoryPoints(6);
 
         $this->wonders[7] = (new Wonder(7, clienttranslate("Piraeus")))
             ->setCost([CLAY => 1, STONE => 1, WOOD => 2])
-            ->setResourceChoice([PAPYRUS, GLASS]);
+            ->setResourceChoice([PAPYRUS, GLASS])
+            ->setExtraTurn()
+            ->setVictoryPoints(2);
 
         $this->wonders[8] = (new Wonder(8, clienttranslate("The Hanging Gardens")))
             ->setCost([PAPYRUS => 1, GLASS => 1, WOOD => 2])
             ->setCoins(6)
-            ->setVisualCoinPosition([0.412, -0.208]);
+            ->setVisualCoinPosition([0.412, -0.208])
+            ->setExtraTurn()
+            ->setVictoryPoints(3);
 
         $this->wonders[9] = (new Wonder(9, clienttranslate("The Statue of Zeus")))
-            ->setCost([PAPYRUS => 2, CLAY => 1, WOOD => 1, STONE => 1]);
+            ->setCost([PAPYRUS => 2, CLAY => 1, WOOD => 1, STONE => 1])
+            ->setDiscardOpponentBuilding(Building::TYPE_BROWN)
+            ->setMilitary(1)
+            ->setVictoryPoints(3);
 
         $this->wonders[10] = (new Wonder(10, clienttranslate("The Sphinx")))
-            ->setCost([GLASS => 2, CLAY => 1, STONE => 1]);
+            ->setCost([GLASS => 2, CLAY => 1, STONE => 1])
+            ->setExtraTurn()
+            ->setVictoryPoints(6);
 
         $this->wonders[11] = (new Wonder(11, clienttranslate("The Appian Way")))
             ->setCost([PAPYRUS => 1, CLAY => 2, STONE => 2])
             ->setCoins(3)
             ->setVisualCoinPosition([0.412, -0.296])
-            ->setVisualOpponentCoinLossPosition([0.412, -0.0875]);
+            ->setOpponentCoinLoss(3)
+            ->setVisualOpponentCoinLossPosition([0.412, -0.0875])
+            ->setExtraTurn()
+            ->setVictoryPoints(3);
 
         $this->wonders[12] = (new Wonder(12, clienttranslate("Circus Maximus")))
-            ->setCost([GLASS => 1, WOOD => 1, STONE => 2]);
+            ->setCost([GLASS => 1, WOOD => 1, STONE => 2])
+            ->setDiscardOpponentBuilding(Building::TYPE_GREY)
+            ->setMilitary(1)
+            ->setVictoryPoints(3);
         
         //     _                  ___
         //    / \   __ _  ___    |_ _|
