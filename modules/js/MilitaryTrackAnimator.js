@@ -70,7 +70,7 @@ define([
                                 this.game.setCssVariable('--conflict-pawn-position', parseFloat(values.propertyConflictPawnPosition.replace("px", "")));
                             }),
                         }));
-                        startPosition = endPosition;
+                        startPosition = stepEndPosition;
                     }
                     anims.push(dojo.fx.chain(stepAnims));
 
