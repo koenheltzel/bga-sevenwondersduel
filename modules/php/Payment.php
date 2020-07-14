@@ -19,6 +19,7 @@ class Payment
 
     public $newScientificSymbolPair = false;
     public $urbanismAward = 0;
+    public $opponentCoinLoss = 0;
 
     public function __construct() {
 

@@ -104,7 +104,7 @@ class Material
             ->setCoins(3)
             ->setVisualCoinPosition([0.412, -0.296])
             ->setOpponentCoinLoss(3)
-            ->setVisualOpponentCoinLossPosition([0.412, -0.0875])
+            ->setVisualOpponentCoinLossPosition([0.854, 0.333])
             ->setExtraTurn()
             ->setVictoryPoints(3);
 

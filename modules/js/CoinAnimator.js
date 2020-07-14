@@ -42,6 +42,15 @@ define([
                 this.game = bgagame.sevenwondersduel.instance;
             },
 
+            /**
+             * @param sourceNode
+             * @param targetNode
+             * @param amount
+             * @param playerId
+             * @param sourcePosition Calculated from the middle of the source node.
+             * @param targetPosition Calculated from the top left of the target node!
+             * @returns {*}
+             */
             getAnimation: function (sourceNode, targetNode, amount, playerId, sourcePosition = [0, 0], targetPosition = [0, 0]) {
                 var anims = [];
                 if (sourceNode && targetNode) { // It can be convenient to pass a non-existing node here, with the expectance to get an empty animation in return.

@@ -82,6 +82,7 @@ class Wonder extends Item {
         if ($this->opponentCoinLoss > 0) {
             $opponentCoinLoss = min($player->getOpponent()->getCoins(), $this->opponentCoinLoss);
             if ($opponentCoinLoss > 0) {
+                $payment->opponentCoinLoss = $opponentCoinLoss;
                 $player->getOpponent()->increaseCoins(-$opponentCoinLoss);
 
                 SevenWondersDuel::get()->notifyAllPlayers(

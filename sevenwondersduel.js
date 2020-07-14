@@ -1231,18 +1231,24 @@ define([
                         dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em)'); // Somehow affects the position of the element after the slide. Otherwise I would delete this line.
 
                         var wonderNodePosition = dojo.position(wonderNode);
-                        var coinRewardAnimation = undefined;
-                        if (wonder.coins > 0) {
-                            coinRewardAnimation = bgagame.CoinAnimator.get().getAnimation(
-                                wonderNode,
-                                this.getPlayerCoinContainer(notif.args.playerId),
-                                wonder.coins,
-                                notif.args.playerId,
-                                [wonder.visualCoinPosition[0] * wonderNodePosition.w, wonder.visualCoinPosition[1] * wonderNodePosition.h]
-                            );
-                        } else {
-                            coinRewardAnimation = dojo.fx.combine([]);
-                        }
+                        var coinRewardAnimation = bgagame.CoinAnimator.get().getAnimation(
+                            wonderNode,
+                            this.getPlayerCoinContainer(notif.args.playerId),
+                            wonder.coins,
+                            notif.args.playerId,
+                            [wonder.visualCoinPosition[0] * wonderNodePosition.w, wonder.visualCoinPosition[1] * wonderNodePosition.h]
+                        );
+
+                        var opponentCoinContainer = this.getPlayerCoinContainer(notif.args.playerId, true);
+                        var opponentCoinContainerPosition = dojo.position(opponentCoinContainer);
+                        var opponentCoinLossAnimation = bgagame.CoinAnimator.get().getAnimation(
+                            opponentCoinContainer,
+                            wonderNode,
+                            notif.args.payment.opponentCoinLoss,
+                            this.getOppositePlayerId(notif.args.playerId),
+                            [0,0],
+                            [wonder.visualOpponentCoinLossPosition[0] * wonderNodePosition.w, wonder.visualOpponentCoinLossPosition[1] * wonderNodePosition.h]
+                        );
 
                         var anim = dojo.fx.chain([
                             dojo.fx.combine([
@@ -1284,6 +1290,7 @@ define([
                                 this.slideToObjectPos(ageCardNode, ageCardContainer, 0, 0, this.constructWonderAnimationDuration / 3 * 2),
                             ]),
                             coinRewardAnimation,
+                            opponentCoinLossAnimation,
                         ]);
 
                         dojo.connect(anim, 'beforeBegin', dojo.hitch(this, function () {
