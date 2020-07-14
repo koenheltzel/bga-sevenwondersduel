@@ -47,8 +47,8 @@ define([
              * @param targetNode
              * @param amount
              * @param playerId
-             * @param sourcePosition Calculated from the middle of the source node.
-             * @param targetPosition Calculated from the top left of the target node!
+             * @param sourcePosition Calculated from the middle of the source node to the middle of the the moving object.
+             * @param targetPosition Calculated from the top left of the target node to the top left of the moving object!
              * @returns {*}
              */
             getAnimation: function (sourceNode, targetNode, amount, playerId, sourcePosition = [0, 0], targetPosition = [0, 0]) {
