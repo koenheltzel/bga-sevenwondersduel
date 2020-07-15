@@ -177,6 +177,23 @@ __     __         _       _     _
     color:black;
 }
 
+.point {
+    margin-left: var(--gutter);
+    background-image: url('img/tmp_point.png');
+    width: calc(var(--scale) * var(--element-scale) * 30px);
+    height: calc(var(--scale) * var(--element-scale) * 30px);
+    background-size: calc(var(--scale) * var(--element-scale) * 30px) calc(var(--scale) * var(--element-scale) * 30px);
+    display: inline-block;
+    text-align: center;
+}
+.point>span {
+    font-weight: bold;
+    font-size: calc(var(--scale) * var(--element-scale) * 20px);
+    line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
+    text-shadow: 0 0 calc(var(--scale) * 3px) black,0 0 calc(var(--scale) * 3px) black;
+    color:white;
+}
+
 @keyframes tooltipWiggle {
     from {
         transform: perspective(40em) rotateY(-18deg) scale(0.93); /* The 0.95 makes the graphic fit the tooltip better */

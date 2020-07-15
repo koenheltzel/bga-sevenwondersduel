@@ -241,10 +241,12 @@ class SevenWondersDuel extends Table
         // Init global values with their initial values
         self::setGameStateInitialValue( self::VALUE_CURRENT_WONDER_SELECTION_ROUND, 1);
         self::setGameStateInitialValue( self::VALUE_CURRENT_AGE, 0);
+        self::setGameStateInitialValue( self::VALUE_CONFLICT_PAWN_POSITION, 0);
         self::setGameStateInitialValue( self::VALUE_MILITARY_TOKEN1, 5);
         self::setGameStateInitialValue( self::VALUE_MILITARY_TOKEN2, 2);
         self::setGameStateInitialValue( self::VALUE_MILITARY_TOKEN3, 2);
         self::setGameStateInitialValue( self::VALUE_MILITARY_TOKEN4, 5);
+        self::setGameStateInitialValue( self::VALUE_EXTRA_TURN, 0);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)

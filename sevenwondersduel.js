@@ -103,7 +103,7 @@ define([
                     // TODO: Setting up players boards if needed
                     this.updatePlayerWonders(player_id, this.gamedatas.wondersSituation[player_id]);
                     this.updatePlayerBuildings(player_id, this.gamedatas.playerBuildings[player_id]);
-                    this.updatePlayerCoins(player_id, this.gamedatas.playersSituation[player_id].coins);
+                    this.updatePlayerSituation(player_id, this.gamedatas.playersSituation[player_id]);
                     this.updatePlayerProgressTokens(player_id, this.gamedatas.progressTokensSituation[player_id]);
                 }
 
@@ -205,11 +205,10 @@ define([
                 dojo.attr($('swd'), 'data-state', stateName);
 
                 if (args.args && stateName.substring(0, 7) != "client_") {
-                    // Remove linked symbols dom elements that aren't needed.
+                    // Update player coins / scores
                     Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
                         if(args.args.playersSituation) {
-                            this.updatePlayerCoins(playerId, args.args.playersSituation[playerId].coins);
-                            this.scoreCtrl[playerId].setValue(args.args.playersSituation[playerId].score);
+                            this.updatePlayerSituation(playerId, args.args.playersSituation[playerId]);
                         }
                     }));
 
@@ -783,10 +782,15 @@ define([
                 $('player_area_' + playerId + '_coins').innerHTML = parseInt($('player_area_' + playerId + '_coins').innerHTML) + coins;
             },
 
-            updatePlayerCoins: function (playerId, coins) {
-                console.log('updatePlayerCoins', playerId, coins)
-                this.gamedatas.playersSituation[playerId].coins = coins;
-                $('player_area_' + playerId + '_coins').innerHTML = coins;
+            updatePlayerSituation: function (playerId, situation) {
+                console.log('updatePlayerSituation', playerId, situation)
+                this.gamedatas.playersSituation[playerId] = situation;
+
+                $('player_area_' + playerId + '_coins').innerHTML = situation.coins;
+                $('player_area_' + playerId + '_score').innerHTML = situation.score;
+                if (this.scoreCtrl[playerId]) {
+                    this.scoreCtrl[playerId].setValue(situation.score);
+                }
             },
 
             //  __        __              _                      _           _   _
@@ -1043,7 +1047,7 @@ define([
                 ]);
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerCoins.
+                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerSituation.
                     anim.stop();
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
@@ -1310,7 +1314,7 @@ define([
                             dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em) rotateY(-90deg)'); // The rotateY(-90deg) affects the position the element will end up after the slide. Here's the place to apply it therefor, not before the animation instantiation.
                         }));
                         dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                            // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerCoins.
+                            // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerSituation.
                             anim.stop();
                             // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                             dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
@@ -1390,7 +1394,7 @@ define([
                 ]);
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerCoins.
+                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerSituation.
                     anim.stop();
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
