@@ -1001,21 +1001,8 @@ define([
                 var coinNode = dojo.query('.draftpool_building_cost.' + playerAlias + ' .coin', buildingNode)[0];
                 var position = this.getDraftpoolCardData(notif.args.buildingId);
 
-                var coinRewardAnimation = undefined;
-                if (building.coins > 0) {
-                    coinRewardAnimation = bgagame.CoinAnimator.get().getAnimation(
-                        playerBuildingContainer,
-                        this.getPlayerCoinContainer(notif.args.playerId),
-                        building.coins,
-                        notif.args.playerId
-                    );
-                } else {
-                    coinRewardAnimation = dojo.fx.combine([]);
-                }
-
-                var militaryTokenAnimation = bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment);
-
                 var anim = dojo.fx.chain([
+                    // Coin payment
                     bgagame.CoinAnimator.get().getAnimation(
                         this.getPlayerCoinContainer(notif.args.playerId),
                         coinNode,
@@ -1024,6 +1011,7 @@ define([
                     ),
                     // Economy Progress Token
                     this.getEconomyProgressTokenAnimation(notif.args.payment.economyProgressTokenCoins, notif.args.playerId),
+                    // Cross-fade building into player-building (small header only building)
                     dojo.fx.combine([
                         dojo.fadeIn({node: playerBuildingId, duration: this.constructBuildingAnimationDuration * 0.4}),
                         dojo.fadeOut({
@@ -1034,16 +1022,24 @@ define([
                             })
                         }),
                     ]),
+                    // Move player building into it's column.
                     this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, this.constructBuildingAnimationDuration * 0.6),
-                    coinRewardAnimation,
-                    // Urbanism Progress Token
+                    // Coin reward
+                    bgagame.CoinAnimator.get().getAnimation(
+                        playerBuildingContainer,
+                        this.getPlayerCoinContainer(notif.args.playerId),
+                        building.coins,
+                        notif.args.playerId
+                    ),
+                    // Urbanism Progress Token (4 coins when constructing a Building through a linked building)
                     bgagame.CoinAnimator.get().getAnimation(
                         $('progress_token_10'),
                         this.getPlayerCoinContainer(notif.args.playerId),
                         notif.args.payment.urbanismAward,
                         notif.args.playerId
                     ),
-                    militaryTokenAnimation,
+                    // Military Track animation (pawn movement, token handling)
+                    bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment),
                 ]);
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
@@ -1214,12 +1210,14 @@ define([
                 var position = this.getWonderCardData(notif.args.playerId, notif.args.wonderId);
 
                 var coinAnimation = dojo.fx.combine([
+                    // Coin payment
                     bgagame.CoinAnimator.get().getAnimation(
                         this.getPlayerCoinContainer(notif.args.playerId),
                         coinNode,
                         position.cost - notif.args.payment.economyProgressTokenCoins,
                         notif.args.playerId
                     ),
+                    // Economy Progress Token
                     this.getEconomyProgressTokenAnimation(notif.args.payment.economyProgressTokenCoins, notif.args.playerId),
                 ]);
 
@@ -1303,6 +1301,8 @@ define([
                             ]),
                             coinRewardAnimation,
                             opponentCoinLossAnimation,
+                            // Military Track animation (pawn movement, token handling)
+                            bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment),
                         ]);
 
                         dojo.connect(anim, 'beforeBegin', dojo.hitch(this, function () {
