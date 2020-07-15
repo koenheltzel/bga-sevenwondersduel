@@ -15,8 +15,10 @@ trait SelectStartPlayerTrait {
      * @return array
      */
     public function argSelectStartPlayer() {
+        $draftpool = Draftpool::get();
         return [
-            'draftpool' => Draftpool::get(),
+            'ageRoman' => ageRoman($draftpool['age']),
+            'draftpool' => $draftpool,
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
         ];

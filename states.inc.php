@@ -88,10 +88,11 @@ $machinestates = [
 
     SevenWondersDuel::STATE_NEXT_AGE_ID => [
         "name" => SevenWondersDuel::STATE_NEXT_AGE_NAME,
-        "description" => '',
-        "descriptionmyturn" => '',
+        "description" => clienttranslate('Preparing Age ${ageRoman}...'),
+        "descriptionmyturn" => clienttranslate('Preparing Age ${ageRoman}...'),
         "type" => "game",
         "action" => "enterStateNextAge",
+        "args" => "argNextAge",
         "transitions" => [
             SevenWondersDuel::STATE_SELECT_START_PLAYER_NAME => SevenWondersDuel::STATE_SELECT_START_PLAYER_ID,
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
@@ -101,8 +102,8 @@ $machinestates = [
 
     SevenWondersDuel::STATE_SELECT_START_PLAYER_ID => [
         "name" => SevenWondersDuel::STATE_SELECT_START_PLAYER_NAME,
-        "description" => clienttranslate('${actplayer} must choose who begins this new Age.'),
-        "descriptionmyturn" => clienttranslate('${you} must choose who begins this new Age.'),
+        "description" => clienttranslate('${actplayer} must choose who begins Age ${ageRoman}.'),
+        "descriptionmyturn" => clienttranslate('${you} must choose who begins Age ${ageRoman}.'),
         "type" => "activeplayer",
         "action" => "enterStateSelectStartPlayer",
         "args" => "argSelectStartPlayer",

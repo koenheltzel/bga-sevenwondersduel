@@ -69,7 +69,7 @@
                         </div>
                         <div id="select_start_player" class="whiteblock">
                             <a href="#" id="buttonPlayerLeft" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Jump Maybe 123</span></a>
-                            <div>You must choose who begins this new Age.</div>
+                            <div id="select_start_player_text"></div>
                             <a href="#" id="buttonPlayerRight" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Jump Maybe 456</span></a>
                         </div>
                     </div>

@@ -17,3 +17,7 @@ function arrayWithPropertyAsKeys($array, $property, $subArray = false, $unsetPro
     }
     return $new;
 }
+
+function ageRoman($age) {
+    return str_repeat("I", $age);
+}

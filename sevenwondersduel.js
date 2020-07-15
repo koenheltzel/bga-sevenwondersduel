@@ -217,6 +217,10 @@ define([
                 dojo.subscribe('progressTokenChosen', this, "notif_progressTokenChosen");
                 this.notifqueue.setSynchronous( 'progressTokenChosen' );
                 // Notification delay is set dynamically in notif_progressTokenChosen
+
+                dojo.subscribe('nextAgeDraftpoolReveal', this, "notif_nextAgeDraftpoolReveal");
+                this.notifqueue.setSynchronous( 'nextAgeDraftpoolReveal' );
+                // Notification delay is set dynamically in notif_nextAgeDraftpoolReveal
             },
 
             ///////////////////////////////////////////////////
@@ -400,6 +404,11 @@ define([
                 return null;
             },
 
+            /**
+             * @param draftpool
+             * @param setupGame
+             * @returns {number} Duration of the full animation.
+             */
             updateDraftpool: function (draftpool, setupGame = false) {
                 console.log('updateDraftpool: ', draftpool, setupGame, 'age: ', draftpool.age);
 
@@ -536,10 +545,9 @@ define([
 
                     this.updateLayout();
 
-                    // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(animationDelay + this.putDraftpoolCard);
+                    return animationDelay + this.putDraftpoolCard;
                 }
-
+                return 0;
             },
 
             updateDiscardedBuildings: function (discardedBuildings) {
@@ -722,7 +730,7 @@ define([
                     var spritesheetColumns = 10;
 
                     var data = {};
-                    data.ageRoman = "I".repeat(building.age);
+                    data.ageRoman = this.ageRoman(building.age);
                     data.name = building.name;
                     data.backx = ((id - 1) % spritesheetColumns);
                     data.backy = Math.floor((id - 1) / spritesheetColumns);
@@ -1439,6 +1447,13 @@ define([
                 anim.play();
             },
 
+            notif_nextAgeDraftpoolReveal: function (notif) {
+                var animationDuration = this.updateDraftpool(notif.args.draftpool);
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(animationDuration);
+            },
+
             getPlayerCoinContainer: function(playerId, oppositePlayerInstead=false) {
                 var playerAlias = this.getPlayerAlias(oppositePlayerInstead ? this.getOppositePlayerId(playerId) : playerId);
                 return dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0];
@@ -1461,6 +1476,12 @@ define([
             //  ___) |  __/ |  __/ (__| |_  \__ \ || (_| | |  | |_  | |_) | | (_| | |_| |  __/ |
             // |____/ \___|_|\___|\___|\__| |___/\__\__,_|_|   \__| | .__/|_|\__,_|\__, |\___|_|
             //                                                      |_|            |___/
+            onEnterSelectStartPlayer: function(args) {
+                console.log('onEnterSelectStartPlayer', args, 'ageRoman: ', args.ageRoman);
+                $('select_start_player_text').innerText = dojo.string.substitute( _("You must choose who begins Age ${ageRoman}"), {
+                    ageRoman: args.ageRoman
+                } );
+            },
 
             onStartPlayerClick: function (e) {
                 // Preventing default browser reaction
@@ -1646,14 +1667,8 @@ define([
                 }
             },
 
-            hasProgressToken(playerId, progressTokenId) {
-                for (let i = 0; i < this.progressTokensSituation[playerId].length; i++) {
-                    if (this.progressTokensSituation[playerId][i].id == progressTokenId) {
-                        return true;
-                    }
-                }
-                return false;
-
+            ageRoman: function(age) {
+                return "I".repeat(age);
             },
 
         });
