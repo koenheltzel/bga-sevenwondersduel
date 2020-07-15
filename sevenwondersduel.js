@@ -1000,12 +1000,6 @@ define([
                 var playerAlias = this.getPlayerAlias(notif.args.playerId);
                 var coinNode = dojo.query('.draftpool_building_cost.' + playerAlias + ' .coin', buildingNode)[0];
                 var position = this.getDraftpoolCardData(notif.args.buildingId);
-                var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
-                    this.getPlayerCoinContainer(notif.args.playerId),
-                    coinNode,
-                    position.cost[notif.args.playerId] - notif.args.payment.economyProgressTokenCoins,
-                    notif.args.playerId
-                );
 
                 var coinRewardAnimation = undefined;
                 if (building.coins > 0) {
@@ -1019,17 +1013,17 @@ define([
                     coinRewardAnimation = dojo.fx.combine([]);
                 }
 
-                var urbanismCoinAnimation = bgagame.CoinAnimator.get().getAnimation(
-                    $('progress_token_10'),
-                    this.getPlayerCoinContainer(notif.args.playerId),
-                    notif.args.payment.urbanismAward,
-                    notif.args.playerId
-                );
-
                 var militaryTokenAnimation = bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment);
 
                 var anim = dojo.fx.chain([
-                    coinAnimation,
+                    bgagame.CoinAnimator.get().getAnimation(
+                        this.getPlayerCoinContainer(notif.args.playerId),
+                        coinNode,
+                        position.cost[notif.args.playerId] - notif.args.payment.economyProgressTokenCoins,
+                        notif.args.playerId
+                    ),
+                    // Economy Progress Token
+                    this.getEconomyProgressTokenAnimation(notif.args.payment.economyProgressTokenCoins, notif.args.playerId),
                     dojo.fx.combine([
                         dojo.fadeIn({node: playerBuildingId, duration: this.constructBuildingAnimationDuration * 0.4}),
                         dojo.fadeOut({
@@ -1042,8 +1036,13 @@ define([
                     ]),
                     this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, this.constructBuildingAnimationDuration * 0.6),
                     coinRewardAnimation,
-                    this.getEconomyProgressTokenAnimation(notif.args.payment.economyProgressTokenCoins, notif.args.playerId),
-                    urbanismCoinAnimation,
+                    // Urbanism Progress Token
+                    bgagame.CoinAnimator.get().getAnimation(
+                        $('progress_token_10'),
+                        this.getPlayerCoinContainer(notif.args.playerId),
+                        notif.args.payment.urbanismAward,
+                        notif.args.playerId
+                    ),
                     militaryTokenAnimation,
                 ]);
 

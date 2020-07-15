@@ -74,10 +74,9 @@ class Item
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'simpleNotif',
-                    clienttranslate('${coins} coin(s) of the cost for ${item_name} go to ${opponent_name} (Economy Progress token).'),
+                    clienttranslate('${coins} coin(s) of the cost for ${item_name} go to ${player_name} (Economy Progress token).'),
                     [
-                        'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
-                        'opponent_name' => Player::opponent()->name,
+                        'player_name' => Player::opponent()->name,
                         'item_name' => $payment->getItem()->name,
                         'coins' => $payment->economyProgressTokenCoins,
                     ]
