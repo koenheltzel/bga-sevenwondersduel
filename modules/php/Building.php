@@ -20,7 +20,7 @@ class Building extends Item {
     public $scienceSymbol = null; // coins and or resources
     public $fixedPriceResources = [];
     public $linkedBuilding = 0;
-    public $coinsPerBuildingOfType = [];
+    public $coinsPerBuildingOfType = null;
     public $coinsPerWonder = 0;
     public $guildRewardWonders = false;
     public $guildRewardCoinTriplets = false;
@@ -119,6 +119,26 @@ class Building extends Item {
                 ]
             );
         }
+
+        if($this->coinsPerBuildingOfType) {
+            $buildingsOfType = $player->getBuildings()->filterByTypes([$this->coinsPerBuildingOfType[0]]);
+            $buildingsCount = count($buildingsOfType->array);
+            if ($buildingsCount > 0){
+                $payment->coinsPerBuildingOfType = $buildingsCount * $this->coinsPerBuildingOfType[1];
+                $player->increaseCoins($payment->coinsPerBuildingOfType);
+
+                SevenWondersDuel::get()->notifyAllPlayers(
+                    'simpleNotif',
+                    clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerBuilding} for each ${buildingType} building in his/her city.'),
+                    [
+                        'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                        'coins' => $payment->coinsPerBuildingOfType,
+                        'coinsPerBuilding' => $this->coinsPerBuildingOfType[1],
+                        'buildingType' => $this->coinsPerBuildingOfType[0],
+                    ]
+                );
+            }
+        }
     }
 
     /**
@@ -153,11 +173,11 @@ class Building extends Item {
     }
 
     /**
-     * @param array $coinsNowPerBuildingOfType
+     * @param array $coinsPerBuildingOfType
      * @return static
      */
     public function setCoinsPerBuildingOfType(string $type, int $coins) {
-        $this->coinsNowPerBuildingOfType = [$type => $coins];
+        $this->coinsPerBuildingOfType = [$type, $coins];
         return $this;
     }
 

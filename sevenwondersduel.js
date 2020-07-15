@@ -1028,7 +1028,7 @@ define([
                     bgagame.CoinAnimator.get().getAnimation(
                         playerBuildingContainer,
                         this.getPlayerCoinContainer(notif.args.playerId),
-                        building.coins,
+                        building.coins + notif.args.payment.coinsPerBuildingOfType, // These will never both be > 0, but we can use the same animation anyway.
                         notif.args.playerId
                     ),
                     // Urbanism Progress Token (4 coins when constructing a Building through a linked building)
