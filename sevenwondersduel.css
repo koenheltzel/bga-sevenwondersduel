@@ -299,6 +299,8 @@ __     __         _       _     _
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+
+    width: calc(7 * var(--building-small-width) + 6 * 2px + 2 * var(--gutter));/* This keeps content in the middle_column, especially something like select_start_player within the allowed size. */
 }
 
 #board_column {
@@ -453,10 +455,12 @@ __     __         _       _     _
 
 #draftpool_container {
     /*flex-grow: 1;*/
+    padding: var(--gutter);
 }
 
 .draftpool {
     position: relative;
+    left: var(--gutter); /* Happens to be te space we need to center the draftpool */
     margin: calc(2 * var(--gutter)) 0px calc(2.5 * var(--gutter)) 0px;
 
     /* Height is being set by updateDraftpool */
@@ -530,6 +534,57 @@ __     __         _       _     _
 #draftpool .row5 { top: calc(var(--draftpool-row-height) * (5 - 1)); }
 #draftpool .row6 { top: calc(var(--draftpool-row-height) * (6 - 1)); }
 #draftpool .row7 { top: calc(var(--draftpool-row-height) * (7 - 1)); }
+
+/*
+ ____  _             _           _                                  _           _   _
+/ ___|| |_ __ _ _ __| |_   _ __ | | __ _ _   _  ___ _ __   ___  ___| | ___  ___| |_(_) ___  _ __
+\___ \| __/ _` | '__| __| | '_ \| |/ _` | | | |/ _ \ '__| / __|/ _ \ |/ _ \/ __| __| |/ _ \| '_ \
+ ___) | || (_| | |  | |_  | |_) | | (_| | |_| |  __/ |    \__ \  __/ |  __/ (__| |_| | (_) | | | |
+|____/ \__\__,_|_|   \__| | .__/|_|\__,_|\__, |\___|_|    |___/\___|_|\___|\___|\__|_|\___/|_| |_|
+                          |_|            |___/
+ */
+
+#select_start_player {
+    display: none;
+}
+
+.current_player_is_active #swd[data-state=selectStartPlayer] #select_start_player {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#select_start_player>.action_button>img {
+    margin-right: var(--gutter);
+}
+
+#select_start_player>div {
+    margin: 0px var(--gutter) 0px var(--gutter);
+    /*flex-grow: 2;*/
+    word-wrap: break-spaces;
+    line-height: calc(18px * var(--scale));
+    font-size: calc(16px * var(--scale));
+    height: calc(36px * var(--scale));
+    display: inline-block;
+    max-width: 60%;
+    font-weight: bold;
+}
+#select_start_player>.action_button {
+    /*flex-grow: 1;*/
+    margin:0px;
+    height: 34px;
+    line-height: 34px;
+    zoom: var(--scale);
+    text-overflow: unset;
+}
+
+#buttonPlayerLeft {
+    float: left;
+}
+
+#buttonPlayerRight {
+    float: right;
+}
 
 /*
  ____  _                            _
@@ -837,7 +892,7 @@ __     __         _       _     _
 .action_button * {
     display: inline-block;
     vertical-align: middle;
-    overflow-wrap: normal;
+    pointer-events: none;
 }
 
 /*

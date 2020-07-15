@@ -3,6 +3,7 @@
 namespace SWD\States;
 
 use SWD\Draftpool;
+use SWD\Player;
 use SWD\Players;
 use SWD\Wonders;
 
@@ -28,5 +29,16 @@ trait SelectStartPlayerTrait {
     public function actionSelectStartPlayer($playerId) {
         $this->checkAction("actionSelectStartPlayer");
 
+        $this->setGameStateValue(self::VALUE_AGE_START_PLAYER, $playerId);
+
+        $this->notifyAllPlayers(
+            'simpleNotif',
+            clienttranslate('${player_name} begins the new Age.'),
+            [
+                'player_name' => Player::get($playerId)->name,
+            ]
+        );
+
+        $this->gamestate->nextState( self::STATE_START_PLAYER_SELECTED_NAME );
     }
 }

@@ -101,8 +101,8 @@ $machinestates = [
 
     SevenWondersDuel::STATE_SELECT_START_PLAYER_ID => [
         "name" => SevenWondersDuel::STATE_SELECT_START_PLAYER_NAME,
-        "description" => clienttranslate('${actplayer} must choose which player starts the next age.'),
-        "descriptionmyturn" => clienttranslate('${you} must choose which player starts the next age.'),
+        "description" => clienttranslate('${actplayer} must choose who begins this new Age.'),
+        "descriptionmyturn" => clienttranslate('${you} must choose who begins this new Age.'),
         "type" => "activeplayer",
         "action" => "enterStateSelectStartPlayer",
         "args" => "argSelectStartPlayer",

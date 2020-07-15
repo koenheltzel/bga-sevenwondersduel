@@ -100,7 +100,29 @@ define([
                 for (var player_id in gamedatas.players) {
                     var player = gamedatas.players[player_id];
 
-                    // TODO: Setting up players boards if needed
+                    var buttonNode;
+                    if (player_id == this.me_id) {
+                        buttonNode = $('buttonPlayerLeft');
+                    }
+                    else {
+                        buttonNode = $('buttonPlayerRight');
+                    }
+                    dojo.attr(buttonNode, 'data-player-id', player_id);
+                    dojo.query('span', buttonNode)[0].innerHTML = player.name;
+
+                    // Try (!) to get the player avatar. If we can't find the avater due to future BGA changes, remove it from the button.
+                    var buttonImg = dojo.query('img', buttonNode)[0];
+                    var avatar = dojo.query('#avatar_' + player_id)[0];
+                    if (avatar) {
+                        var avatarSrc = dojo.attr(avatar, 'src');
+                        if (avatarSrc) {
+                            dojo.attr(buttonImg, 'src', avatarSrc);
+                        }
+                    }
+                    else {
+                        dojo.destroy(buttonImg);
+                    }
+
                     this.updatePlayerWonders(player_id, this.gamedatas.wondersSituation[player_id]);
                     this.updatePlayerBuildings(player_id, this.gamedatas.playerBuildings[player_id]);
                     this.updatePlayerSituation(player_id, this.gamedatas.playersSituation[player_id]);
@@ -124,6 +146,10 @@ define([
                 dojo.query('body')
                     .on("#swd[data-state=chooseProgressToken] #board_progress_tokens .progress_token_small:click",
                         dojo.hitch(this, "onProgressTokenClick")
+                    );
+                dojo.query('body')
+                    .on("#swd[data-state=selectStartPlayer] #select_start_player .action_button:click",
+                        dojo.hitch(this, "onStartPlayerClick")
                     );
 
                 // Click hide the tooltip:
@@ -200,6 +226,7 @@ define([
             //                  You can use this method to perform some user interface changes at this moment.
             //
             onEnteringState: function (stateName, args) {
+                console.log('Entering state: ' + this.invertMilitaryTrack());
                 console.log('Entering state: ' + stateName, args);
 
                 dojo.attr($('swd'), 'data-state', stateName);
@@ -377,13 +404,15 @@ define([
                 console.log('updateDraftpool: ', draftpool, setupGame, 'age: ', draftpool.age);
 
                 dojo.style('draftpool_container', 'display', draftpool.age > 0 ? 'block' : 'none');
+
+                // New age. Animate the build up
                 if (draftpool.age > 0 && draftpool.age >= this.currentAge) {
                     this.currentAge = draftpool.age; // This currentAge business is a bit of dirty check to prevent older notifications (due to animations finishing) arriving after newer notifications. Especially when a new age has arrived.
                     this.gamedatas.draftpool = draftpool;
 
                     this.setCssVariable('--draftpool-row-height-multiplier', draftpool.age == 3 ? 0.4 : 0.536);
 
-                    var animationDelay = 300; // Have some initial delay, so this function can finish updating the DOM.
+                    var animationDelay = 200; // Have some initial delay, so this function can finish updating the DOM.
                     for (var i = 0; i < draftpool.cards.length; i++) {
                         var position = draftpool.cards[i];
 
@@ -506,6 +535,9 @@ define([
                     dojo.query('.draftpool').style("height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + " * var(--draftpool-row-height))");
 
                     this.updateLayout();
+
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(animationDelay + this.putDraftpoolCard);
                 }
 
             },
@@ -1421,6 +1453,47 @@ define([
 
             notif_nextAge: function (notif) {
                 console.log('notif_nextAge', notif);
+            },
+
+            //  ____       _           _         _             _           _
+            // / ___|  ___| | ___  ___| |_   ___| |_ __ _ _ __| |_   _ __ | | __ _ _   _  ___ _ __
+            // \___ \ / _ \ |/ _ \/ __| __| / __| __/ _` | '__| __| | '_ \| |/ _` | | | |/ _ \ '__|
+            //  ___) |  __/ |  __/ (__| |_  \__ \ || (_| | |  | |_  | |_) | | (_| | |_| |  __/ |
+            // |____/ \___|_|\___|\___|\__| |___/\__\__,_|_|   \__| | .__/|_|\__,_|\__, |\___|_|
+            //                                                      |_|            |___/
+
+            onStartPlayerClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                console.log('onStartPlayerClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionSelectStartPlayer')) {
+                        return;
+                    }
+
+                    var playerId = dojo.attr(e.target, "data-player-id");
+
+                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSelectStartPlayer.html", {
+                            lock: true,
+                            playerId: playerId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                            // Hide wonder selection
+                            // dojo.style('pattern_selection', 'display', 'none');
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
             },
 
             //   ____  _           _               _____                 _   _

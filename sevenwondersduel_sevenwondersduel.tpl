@@ -67,6 +67,11 @@
                             <a href="#" id="buttonConstructBuilding" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>Construct building</span></a>
                             <a href="#" id="buttonDiscardBuilding" class="action_button bgabutton bgabutton_blue"><div class="coin"><span>+5</span></div><span>Discard for coins</span></a>
                         </div>
+                        <div id="select_start_player" class="whiteblock">
+                            <a href="#" id="buttonPlayerLeft" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Jump Maybe 123</span></a>
+                            <div>You must choose who begins this new Age.</div>
+                            <a href="#" id="buttonPlayerRight" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Jump Maybe 456</span></a>
+                        </div>
                     </div>
                     <!-- END draftpool -->
                     <!-- BEGIN player_buildings -->

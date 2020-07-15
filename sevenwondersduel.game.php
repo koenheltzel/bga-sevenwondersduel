@@ -111,6 +111,7 @@ class SevenWondersDuel extends Table
     const VALUE_MILITARY_TOKEN3 = "military_token3";
     const VALUE_MILITARY_TOKEN4 = "military_token4";
     const VALUE_EXTRA_TURN = "extra_turn";
+    const VALUE_AGE_START_PLAYER = "age_start_player";
 
 
     /**
@@ -154,6 +155,7 @@ class SevenWondersDuel extends Table
                 self::VALUE_MILITARY_TOKEN3 => 15,
                 self::VALUE_MILITARY_TOKEN4 => 16,
                 self::VALUE_EXTRA_TURN => 17,
+                self::VALUE_AGE_START_PLAYER => 18,
             //    "my_second_global_variable" => 11,
             //      ...
             //    "my_first_game_variant" => 100,
@@ -171,7 +173,11 @@ class SevenWondersDuel extends Table
         $this->progressTokenDeck->init( "progress_token" );
 	}
 
-    public function getStartPlayerId() {
+    /**
+     * The player that started the game. We use this to determine the military track position (because that only gets tracked once).
+     * @return mixed
+     */
+    public function getGameStartPlayerId() {
         $players = $this->loadPlayersBasicInfos();
         return array_shift($players)['player_id'];
     }
@@ -247,6 +253,7 @@ class SevenWondersDuel extends Table
         self::setGameStateInitialValue( self::VALUE_MILITARY_TOKEN3, 2);
         self::setGameStateInitialValue( self::VALUE_MILITARY_TOKEN4, 5);
         self::setGameStateInitialValue( self::VALUE_EXTRA_TURN, 0);
+        self::setGameStateInitialValue( self::VALUE_AGE_START_PLAYER, 0);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)
@@ -280,7 +287,7 @@ class SevenWondersDuel extends Table
         $sql = "SELECT player_id id, player_score score FROM player ";
         $players = self::getCollectionFromDb( $sql );
         $result['players'] = $players;
-        $result['startPlayerId'] = $this->getStartPlayerId();
+        $result['startPlayerId'] = $this->getGameStartPlayerId();
         $result['playerIds'] = [];
         foreach($players as $player) {
             $result['playerIds'][] = $player['id'];

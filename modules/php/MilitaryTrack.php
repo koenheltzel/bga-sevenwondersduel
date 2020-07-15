@@ -15,7 +15,7 @@ class MilitaryTrack
             $shields += 1;
         }
 
-        if ($player->id <> SevenWondersDuel::get()->getStartPlayerId()) {
+        if ($player->id <> SevenWondersDuel::get()->getGameStartPlayerId()) {
             $shields *= -1;
         }
 
