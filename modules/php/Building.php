@@ -24,7 +24,7 @@ class Building extends Item {
     public $coinsPerWonder = 0;
     public $guildRewardWonders = false;
     public $guildRewardCoinTriplets = false;
-    public $guildRewardBuildingTypes = [];
+    public $guildRewardBuildingTypes = null;
 
     /**
      * @param $id
@@ -135,6 +135,32 @@ class Building extends Item {
                         'coins' => $payment->coinReward,
                         'coinsPerBuilding' => $this->coinsPerBuildingOfType[1],
                         'buildingType' => $this->coinsPerBuildingOfType[0],
+                    ]
+                );
+            }
+        }
+
+        if($this->guildRewardBuildingTypes) {
+            $buildingsOfType = $player->getBuildings()->filterByTypes($this->guildRewardBuildingTypes);
+            $buildingsCount = count($buildingsOfType->array);
+
+            $opponentBuildingsOfType = $player->getOpponent()->getBuildings()->filterByTypes($this->guildRewardBuildingTypes);
+            $opponentBuildingsCount = count($opponentBuildingsOfType->array);
+
+            $maxBuildingsCount = max($buildingsCount, $opponentBuildingsCount);
+            $mostPlayerName = $buildingsCount >= $opponentBuildingsCount ? $player->name : $player->getOpponent()->name;
+            if ($maxBuildingsCount > 0){
+                $payment->coinReward = $maxBuildingsCount;
+                $player->increaseCoins($payment->coinReward);
+
+                SevenWondersDuel::get()->notifyAllPlayers(
+                    'simpleNotif',
+                    clienttranslate('${player_name} gets ${coins} coin(s), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s).'),
+                    [
+                        'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                        'coins' => $payment->coinReward,
+                        'buildingType' => count($this->guildRewardBuildingTypes) > 1 ? clienttranslate('Brown and Grey') : $this->guildRewardBuildingTypes[0],
+                        'mostPlayerName' => $mostPlayerName,
                     ]
                 );
             }
