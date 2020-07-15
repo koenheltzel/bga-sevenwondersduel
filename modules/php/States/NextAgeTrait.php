@@ -18,9 +18,8 @@ trait NextAgeTrait
      */
     public function argNextAge() {
         // If this function gets called before enterState, we have to increment the age (virtually) ourselves.
-        $draftpool = Draftpool::get();
-        $age = $draftpool['age'];
-        if (count($draftpool['cards']) == 0) {
+        $age = $this->getGameStateValue(self::VALUE_CURRENT_AGE);
+        if ($age == 0 || count(Draftpool::get()['cards']) == 0) {
             $age++;
         }
 
@@ -32,7 +31,16 @@ trait NextAgeTrait
     public function enterStateNextAge() {
         $age = $this->incGameStateValue(self::VALUE_CURRENT_AGE, 1);
 
-        if ($this->getGameStateValue(self::VALUE_CURRENT_AGE) == 1) {
+        if ($age == 1) {
+            SevenWondersDuel::get()->notifyAllPlayers(
+                'nextAgeDraftpoolReveal',
+                '',
+                [
+                    'ageRoman' => ageRoman($age),
+                    'player_name' => Player::getActive()->name,
+                    'draftpool' => Draftpool::get(),
+                ]
+            );
             $this->gamestate->nextState(self::STATE_PLAYER_TURN_NAME);
         } else {
             $conflictPawnPosition = $this->getGameStateValue(self::VALUE_CONFLICT_PAWN_POSITION);
