@@ -5,6 +5,7 @@ namespace SWD;
 class Payment
 {
 
+    private $item = null; // Private so it's not included to javascript.
     /**
      * @var PaymentStep[] array
      */
@@ -20,9 +21,10 @@ class Payment
     public $newScientificSymbolPair = false;
     public $urbanismAward = 0;
     public $opponentCoinLoss = 0;
+    public $economyProgressTokenCoins = 0;
 
-    public function __construct() {
-
+    public function __construct($item = null) {
+        $this->item = $item;
     }
 
     public function addStep($resource, $amount, $cost, $itemType, $itemId, $string) {
@@ -47,6 +49,13 @@ class Payment
             $sortedSteps = array_merge($sortedSteps, $tmpSteps);
         }
         $this->steps = $sortedSteps;
+    }
+
+    /**
+     * @return Item
+     */
+    public function getItem() {
+        return $this->item;
     }
 
 }

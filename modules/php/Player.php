@@ -159,7 +159,7 @@ class Player extends \APP_DbObject{
         $costLeft = $buyingItem->cost;
         if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
 
-        $payment = new Payment();
+        $payment = new Payment($buyingItem);
 
         if ($buyingItem instanceof Building && $this->hasBuilding($buyingItem->linkedBuilding)) {
             // Player has the linked building, so no building cost.

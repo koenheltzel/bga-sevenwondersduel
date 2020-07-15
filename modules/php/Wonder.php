@@ -47,7 +47,7 @@ class Wonder extends Item {
 
         SevenWondersDuel::get()->notifyAllPlayers(
             'constructWonder',
-            clienttranslate('${player_name} constructed wonder ${wonderName} for ${cost} using building ${buildingName}.'),
+            clienttranslate('${player_name} constructed wonder ${wonderName} for ${cost} using building “${buildingName}”.'),
             [
                 'wonderId' => $this->id,
                 'wonderName' => $this->name,

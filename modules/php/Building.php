@@ -62,9 +62,12 @@ class Building extends Item {
 
         SevenWondersDuel::get()->buildingDeck->moveCard($this->id, $player->id);
 
+        // We want to send this notification first, before the detailed "effects" notifications.
+        // However, the Payment object passed in this notification is by reference and this will contain
+        // the effects' modifications when the notification is send at the end of the request.
         SevenWondersDuel::get()->notifyAllPlayers(
             'constructBuilding',
-            clienttranslate('${player_name} constructed building ${buildingName} for ${cost}.'),
+            clienttranslate('${player_name} constructed building “${buildingName}” for ${cost}.'),
             [
                 'buildingName' => $this->name,
                 'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : 'free',

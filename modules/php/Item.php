@@ -61,6 +61,30 @@ class Item
      * @param Payment $payment
      */
     protected function constructEffects(Player $player, Payment $payment) {
+        // Economy Progress Token
+        if ($player->getOpponent()->hasProgressToken(3) && $payment->totalCost() > 0) {
+            foreach($payment->steps as $paymentStep) {
+                if ($paymentStep->resource != COINS) { // LINKED_BUILDING is already filtered out by the totalCost > 0 if statement.
+                    $payment->economyProgressTokenCoins += $paymentStep->cost;
+                }
+            }
+
+            if ($payment->economyProgressTokenCoins > 0) {
+                $player->getOpponent()->increaseScore($payment->economyProgressTokenCoins);
+
+                SevenWondersDuel::get()->notifyAllPlayers(
+                    'simpleNotif',
+                    clienttranslate('${coins} coin(s) of the cost for ${item_name} go to ${opponent_name} (Economy Progress token).'),
+                    [
+                        'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                        'opponent_name' => Player::opponent()->name,
+                        'item_name' => $payment->getItem()->name,
+                        'coins' => $payment->economyProgressTokenCoins,
+                    ]
+                );
+            }
+        }
+
         if ($this->victoryPoints > 0) {
             $player->increaseScore($this->victoryPoints);
 

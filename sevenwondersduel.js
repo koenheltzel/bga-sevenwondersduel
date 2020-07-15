@@ -974,6 +974,15 @@ define([
                 }
             },
 
+            getEconomyProgressTokenAnimation: function(coins, player_id) {
+                return bgagame.CoinAnimator.get().getAnimation(
+                    this.getPlayerCoinContainer(player_id),
+                    this.getPlayerCoinContainer(this.getOppositePlayerId(player_id)),
+                    coins,
+                    player_id
+                );
+            },
+
             notif_constructBuilding: function (notif) {
                 console.log('notif_constructBuilding', notif);
 
@@ -994,7 +1003,7 @@ define([
                 var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
                     this.getPlayerCoinContainer(notif.args.playerId),
                     coinNode,
-                    -position.cost[notif.args.playerId],
+                    position.cost[notif.args.playerId] - notif.args.payment.economyProgressTokenCoins,
                     notif.args.playerId
                 );
 
@@ -1033,6 +1042,7 @@ define([
                     ]),
                     this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, this.constructBuildingAnimationDuration * 0.6),
                     coinRewardAnimation,
+                    this.getEconomyProgressTokenAnimation(notif.args.payment.economyProgressTokenCoins, notif.args.playerId),
                     urbanismCoinAnimation,
                     militaryTokenAnimation,
                 ]);
@@ -1204,12 +1214,15 @@ define([
                 var coinNode = dojo.query('.player_wonder_cost', wonderContainer)[0];
                 var position = this.getWonderCardData(notif.args.playerId, notif.args.wonderId);
 
-                var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
-                    this.getPlayerCoinContainer(notif.args.playerId),
-                    coinNode,
-                    -position.cost,
-                    notif.args.playerId
-                );
+                var coinAnimation = dojo.fx.combine([
+                    bgagame.CoinAnimator.get().getAnimation(
+                        this.getPlayerCoinContainer(notif.args.playerId),
+                        coinNode,
+                        position.cost - notif.args.payment.economyProgressTokenCoins,
+                        notif.args.playerId
+                    ),
+                    this.getEconomyProgressTokenAnimation(notif.args.payment.economyProgressTokenCoins, notif.args.playerId),
+                ]);
 
                 dojo.connect(coinAnimation, 'onEnd', dojo.hitch(this, function (node) {
                     // Update the wonders situation, because now the wonder is constructed and the age card has been rendered.
