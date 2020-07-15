@@ -20,9 +20,9 @@ class Payment
 
     public $newScientificSymbolPair = false;
     public $urbanismAward = 0;
+    public $coinReward = 0;
     public $opponentCoinLoss = 0;
     public $economyProgressTokenCoins = 0;
-    public $coinsPerBuildingOfType = 0;
 
     public function __construct($item = null) {
         $this->item = $item;

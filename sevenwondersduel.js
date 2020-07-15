@@ -1028,7 +1028,7 @@ define([
                     bgagame.CoinAnimator.get().getAnimation(
                         playerBuildingContainer,
                         this.getPlayerCoinContainer(notif.args.playerId),
-                        building.coins + notif.args.payment.coinsPerBuildingOfType, // These will never both be > 0, but we can use the same animation anyway.
+                        notif.args.payment.coinReward,
                         notif.args.playerId
                     ),
                     // Urbanism Progress Token (4 coins when constructing a Building through a linked building)
@@ -1244,7 +1244,7 @@ define([
                         var coinRewardAnimation = bgagame.CoinAnimator.get().getAnimation(
                             wonderNode,
                             this.getPlayerCoinContainer(notif.args.playerId),
-                            wonder.coins,
+                            notif.args.payment.coinReward,
                             notif.args.playerId,
                             [wonder.visualCoinPosition[0] * wonderNodePosition.w, wonder.visualCoinPosition[1] * wonderNodePosition.h]
                         );
@@ -1375,7 +1375,6 @@ define([
 
                 var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
 
-                var progressToken = this.gamedatas.progressTokens[notif.args.progressTokenId];
                 var container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + (this.gamedatas.progressTokensSituation[notif.args.playerId].length + 1) + ')')[0];
                 progressTokenNode = this.attachToNewParent(progressTokenNode, container);
                 dojo.style(progressTokenNode, 'z-index', 6);
@@ -1385,7 +1384,7 @@ define([
                     bgagame.CoinAnimator.get().getAnimation(
                         progressTokenNode.parentElement,
                         this.getPlayerCoinContainer(notif.args.playerId),
-                        progressToken.coins,
+                        notif.args.payment.coinReward,
                         notif.args.playerId
                     ),
                 ]);

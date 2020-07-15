@@ -97,14 +97,15 @@ class Item
             );
         }
         if ($this->coins > 0) {
-            $player->increaseCoins($this->coins);
+            $payment->coinReward = $this->coins;
+            $player->increaseCoins($payment->coinReward);
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'simpleNotif',
                 clienttranslate('${player_name} takes ${coins} coin(s) from the bank.'),
                 [
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
-                    'coins' => $this->coins,
+                    'coins' => $payment->coinReward,
                 ]
             );
         }

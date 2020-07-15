@@ -36,4 +36,17 @@ class Wonders extends Collection {
         return $cards;
     }
 
+    /**
+     * @return Wonders
+     */
+    public function filterByConstructed() {
+        $wonders = new Wonders();
+        foreach ($this->array as $wonder) {
+            if ($wonder->isConstructed()) {
+                $wonders[] = $wonder;
+            }
+        }
+        return $wonders;
+    }
+
 }

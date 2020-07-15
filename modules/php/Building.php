@@ -124,17 +124,36 @@ class Building extends Item {
             $buildingsOfType = $player->getBuildings()->filterByTypes([$this->coinsPerBuildingOfType[0]]);
             $buildingsCount = count($buildingsOfType->array);
             if ($buildingsCount > 0){
-                $payment->coinsPerBuildingOfType = $buildingsCount * $this->coinsPerBuildingOfType[1];
-                $player->increaseCoins($payment->coinsPerBuildingOfType);
+                $payment->coinReward = $buildingsCount * $this->coinsPerBuildingOfType[1];
+                $player->increaseCoins($payment->coinReward);
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'simpleNotif',
                     clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerBuilding} for each ${buildingType} building in his/her city.'),
                     [
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
-                        'coins' => $payment->coinsPerBuildingOfType,
+                        'coins' => $payment->coinReward,
                         'coinsPerBuilding' => $this->coinsPerBuildingOfType[1],
                         'buildingType' => $this->coinsPerBuildingOfType[0],
+                    ]
+                );
+            }
+        }
+
+        if($this->coinsPerWonder) {
+            $constructedWonders = $player->getWonders()->filterByConstructed();
+            $constructedWondersCount = count($constructedWonders->array);
+            if ($constructedWondersCount > 0){
+                $payment->coinReward = $constructedWondersCount * $this->coinsPerWonder;
+                $player->increaseCoins($payment->coinReward);
+
+                SevenWondersDuel::get()->notifyAllPlayers(
+                    'simpleNotif',
+                    clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerWonder} for each constructed Wonder in his/her city.'),
+                    [
+                        'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                        'coins' => $payment->coinReward,
+                        'coinsPerWonder' => $this->coinsPerWonder,
                     ]
                 );
             }
