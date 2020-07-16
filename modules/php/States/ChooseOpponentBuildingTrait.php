@@ -37,7 +37,7 @@ trait ChooseOpponentBuildingTrait {
             throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
         }
 
-        SevenWondersDuel::get()->buildingDeck->moveCard($buildingId, 'discard');
+        SevenWondersDuel::get()->buildingDeck->insertCardOnExtremePosition($buildingId, 'discard', true);
 
         $this->notifyAllPlayers(
             'opponentDiscardBuilding',

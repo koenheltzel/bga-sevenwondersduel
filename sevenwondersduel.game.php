@@ -304,7 +304,7 @@ class SevenWondersDuel extends Table
         // Wonder selection stuff
         $result['wondersSituation'] = Wonders::getSituation();
 
-        $result['discardedBuildings'] = SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard');
+        $result['discardedBuildings'] = SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
         $result['playerBuildings'] = [
             Player::me()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::me()->id),
             Player::opponent()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::opponent()->id),

@@ -195,7 +195,7 @@ class Building extends Item {
         $discardGain = $player->calculateDiscardGain($this);
         $player->increaseCoins($discardGain);
 
-        SevenWondersDuel::get()->buildingDeck->moveCard($this->id, 'discard');
+        SevenWondersDuel::get()->buildingDeck->insertCardOnExtremePosition($this->id, 'discard', true);
         return $discardGain;
     }
 
