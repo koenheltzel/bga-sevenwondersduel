@@ -62,11 +62,12 @@ $machinestates = [
     ],
 
     SevenWondersDuel::STATE_SELECT_WONDER_ID => [
-        "name" => SevenWondersDuel::STATE_WONDER_SELECTED_NAME,
+        "name" => SevenWondersDuel::STATE_SELECT_WONDER_NAME,
         "description" => clienttranslate('${actplayer} must choose a wonder'),
         "descriptionmyturn" => clienttranslate('${you} must choose a wonder'),
         "type" => "activeplayer",
         "action" => "enterStateSelectWonder",
+        "args" => "argSelectWonder",
         "possibleactions" => [
             "actionSelectWonder",
         ],

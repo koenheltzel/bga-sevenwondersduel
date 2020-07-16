@@ -81,6 +81,9 @@ define([
             setup: function (gamedatas) {
                 console.log("setup(gamedatas)", gamedatas);
 
+                this.dontPreloadImage("game_banner.jpg");
+                this.dontPreloadImage("game_display0.jpg");
+
                 dojo.destroy('debug_output'); // TODO: Remove? See http://en.doc.boardgamearena.com/Tools_and_tips_of_BGA_Studio#Speed_up_game_re-loading_by_disabling_Input.2FOutput_debug_section
 
                 this.gamedatas = gamedatas;
@@ -230,7 +233,6 @@ define([
             //                  You can use this method to perform some user interface changes at this moment.
             //
             onEnteringState: function (stateName, args) {
-                console.log('Entering state: ' + this.invertMilitaryTrack());
                 console.log('Entering state: ' + stateName, args);
 
                 dojo.attr($('swd'), 'data-state', stateName);
@@ -838,6 +840,13 @@ define([
             //   \ \ /\ / / _ \| '_ \ / _` |/ _ \ '__| / __|/ _ \ |/ _ \/ __| __| |/ _ \| '_ \
             //    \ V  V / (_) | | | | (_| |  __/ |    \__ \  __/ |  __/ (__| |_| | (_) | | | |
             //     \_/\_/ \___/|_| |_|\__,_|\___|_|    |___/\___|_|\___|\___|\__|_|\___/|_| |_|
+
+
+            onEnterSelectWonder: function(args) {
+                $('wonder_selection_block_title').innerText = dojo.string.substitute( _("Wonders selection phase, round ${round}/2"), {
+                    round: args.round
+                } );
+            },
 
             updateWonderSelection: function (cards) {
                 var block = $('wonder_selection_block');

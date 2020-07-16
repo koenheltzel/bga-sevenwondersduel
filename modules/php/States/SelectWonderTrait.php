@@ -8,6 +8,11 @@ use SWD\Wonders;
 
 trait SelectWonderTrait {
 
+    public function argSelectWonder() {
+        return [
+            'round' => $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND),
+        ];
+    }
     public function enterStateSelectWonder() {
 
     }
