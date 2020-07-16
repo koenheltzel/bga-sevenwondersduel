@@ -112,10 +112,10 @@ class Building extends Item {
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'simpleNotif',
-                clienttranslate('${player_name} gets 4 coins from Progress token ${progressTokenName}.'), // TODO does the progressTokenName get translated this way?
+                clienttranslate('${player_name} gets 4 coins (Progress token “${progressTokenName}”).'),
                 [
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
-                    'progressTokenName' => ProgressToken::get(10)->name,
+                    'progressTokenName' => ProgressToken::get(10)->name, // Urbanism
                 ]
             );
         }

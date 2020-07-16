@@ -17,7 +17,7 @@ trait NextPlayerTurnTrait {
                     $message = clienttranslate('${player_name} gets an extra turn.');
                 }
                 else {
-                    $message = clienttranslate('${player_name} gets an extra turn (Progress token “Theology”).');
+                    $message = clienttranslate('${player_name} gets an extra turn (Progress token “${progressTokenName}”).');
                 }
                 SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_NORMAL, 0);
                 SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
@@ -27,6 +27,7 @@ trait NextPlayerTurnTrait {
                     $message,
                     [
                         'player_name' => Player::getActive()->name,
+                        'progressTokenName' => ProgressToken::get(9)->name, // Theology
                     ]
                 );
             }

@@ -112,12 +112,20 @@ class Item
         if ($this->military > 0) {
             MilitaryTrack::movePawn(Player::me(), $this->military, $payment);
 
+            if($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
+                $message = '${player_name} moves the Conflict pawn ${steps} space(s) (Progress token “${progressTokenName}”).';
+            }
+            else {
+                $message = '${player_name} moves the Conflict pawn ${steps} space(s).';
+            }
+
             SevenWondersDuel::get()->notifyAllPlayers(
                 'simpleNotif',
-                clienttranslate('${player_name} moves the Conflict pawn ${steps} space(s).'),
+                clienttranslate($message),
                 [
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                     'steps' => $payment->militarySteps,
+                    'progressTokenName' => ProgressToken::get(10)->name, //Strategy
                 ]
             );
 
