@@ -143,7 +143,7 @@ define([
                         dojo.hitch(this, "onPlayerTurnDraftpoolClick")
                     );
                 dojo.query('body')
-                    .on("#swd[data-state=client_useAgeCard] #player_wonders_" + this.me_id + " .wonder_small.wonder_selectable:click",
+                    .on("#swd[data-state=client_useAgeCard] #player_wonders_" + this.me_id + " .wonder_small:click",
                         dojo.hitch(this, "onPlayerTurnConstructWonderSelectedClick")
                     );
                 dojo.query('body')
@@ -992,7 +992,7 @@ define([
             clearActionGlow: function () {
                 Object.keys(this.gamedatas.wondersSituation[this.me_id]).forEach(dojo.hitch(this, function (index) {
                     var wonderData = this.gamedatas.wondersSituation[this.me_id][index];
-                    dojo.removeClass($('wonder_' + wonderData.wonder), 'wonder_selectable');
+                    dojo.removeClass($('wonder_' + wonderData.wonder), 'actionglow');
                 }));
             },
 
@@ -1208,7 +1208,7 @@ define([
                         var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
                         if (!wonderData.constructed) {
                             if (wonderData.cost <= this.gamedatas.playersSituation[this.player_id].coins) {
-                                dojo.addClass($('wonder_' + wonderData.wonder), 'wonder_selectable');
+                                dojo.addClass($('wonder_' + wonderData.wonder), 'actionglow');
                             }
                         }
                     }));

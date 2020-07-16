@@ -217,6 +217,7 @@ __     __         _       _     _
 /* For easy testing */
 .actionglow {
     animation: actionglow 0.5s infinite alternate;
+    cursor: pointer;
 }
 
 @keyframes actionglow {
@@ -1012,9 +1013,8 @@ __        __              _
         inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
 }
 
-.current_player_is_active .wonder_selectable {
-    cursor: pointer;
-    animation: actionglow 0.5s infinite alternate;
+.wonder .player_wonder_cost {
+    pointer-events: none;
 }
 
 /*

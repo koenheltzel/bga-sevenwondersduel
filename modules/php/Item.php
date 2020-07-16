@@ -45,7 +45,8 @@ class Item
         $payment = $player->calculateCost($this);
         $totalCost = $payment->totalCost();
         if ($totalCost > $player->getCoins()) {
-            throw new \BgaUserException(clienttranslate("You can't afford the building/wonder you selected."));
+            $itemType = $this instanceof Building ? _('Building') : _('Wonder');
+            throw new \BgaUserException(sprintf(clienttranslate("You can't afford the %s you selected."), $itemType));
         }
 
         if ($totalCost > 0) {
