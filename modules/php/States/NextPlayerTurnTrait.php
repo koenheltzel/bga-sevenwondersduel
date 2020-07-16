@@ -5,6 +5,7 @@ namespace SWD\States;
 use SevenWondersDuel;
 use SWD\Draftpool;
 use SWD\Player;
+use SWD\ProgressToken;
 
 trait NextPlayerTurnTrait {
 
