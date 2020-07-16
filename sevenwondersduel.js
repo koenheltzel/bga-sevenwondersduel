@@ -134,7 +134,7 @@ define([
 
                 // Click handlers using event delegation:
                 dojo.query('body')
-                    .on("#swd[data-state=wonderSelected] #wonder_selection_container .wonder:click",
+                    .on("#swd[data-state=selectWonder] #wonder_selection_container .wonder:click",
                         dojo.hitch(this, "onWonderSelectionClick")
                     );
                 dojo.query('body')
@@ -678,7 +678,7 @@ define([
                 // Add tooltips to buildings everywhere.
                 new dijit.Tooltip({
                     connectId: "game_play_area",
-                    selector: '.building_small, .building_header_small',
+                    selector: '#swd:not(.nextAge) .building_small, .building_header_small', // Not during nextAge animation
                     showDelay: this.toolTipDelay,
                     getContent: dojo.hitch(this, function (node) {
                         var id = dojo.attr(node, "data-building-id");

@@ -278,6 +278,7 @@ __     __         _       _     _
     width: calc(var(--wonder-small-scale) * var(--wonder-width));
     height: calc(var(--wonder-small-scale) * var(--wonder-height));
     float: left;
+    --wonder-small-scale: calc(0.8 * var(--scale));
 }
 
 #wonder_selection_container>div:nth-of-type(1), #wonder_selection_container>div:nth-of-type(2) {
