@@ -103,8 +103,8 @@ $machinestates = [
 
     SevenWondersDuel::STATE_SELECT_START_PLAYER_ID => [
         "name" => SevenWondersDuel::STATE_SELECT_START_PLAYER_NAME,
-        "description" => clienttranslate('${actplayer} must choose who begins Age ${ageRoman}.'),
-        "descriptionmyturn" => clienttranslate('${you} must choose who begins Age ${ageRoman}.'),
+        "description" => clienttranslate('${actplayer} must choose who begins Age ${ageRoman}'),
+        "descriptionmyturn" => clienttranslate('${you} must choose who begins Age ${ageRoman}'),
         "type" => "activeplayer",
         "action" => "enterStateSelectStartPlayer",
         "args" => "argSelectStartPlayer",
@@ -129,8 +129,8 @@ $machinestates = [
 
     SevenWondersDuel::STATE_PLAYER_TURN_ID => [
         "name" => SevenWondersDuel::STATE_PLAYER_TURN_NAME,
-        "description" => clienttranslate('${actplayer} must choose and use an age card.'),
-        "descriptionmyturn" => clienttranslate('${you} must choose an age card.'),
+        "description" => clienttranslate('${actplayer} must choose and use an age card'),
+        "descriptionmyturn" => clienttranslate('${you} must choose an age card'),
         "type" => "activeplayer",
         "action" => "enterStatePlayerTurn",
         "args" => "argPlayerTurn",
@@ -150,8 +150,8 @@ $machinestates = [
 
     SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID => [
         "name" => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME,
-        "description" => clienttranslate('${actplayer} must choose a progress token.'),
-        "descriptionmyturn" => clienttranslate('${you} must choose a progress token.'),
+        "description" => clienttranslate('${actplayer} must choose a progress token'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a progress token'),
         "type" => "activeplayer",
         "action" => "enterStateChooseProgressToken",
         "args" => "argChooseProgressToken",
@@ -196,8 +196,8 @@ $machinestates = [
 
     SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_ID => [
         "name" => SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_NAME,
-        "description" => clienttranslate('${actplayer} must choose a discarded building to construct.'),
-        "descriptionmyturn" => clienttranslate('${you} must choose a discarded building to construct.'),
+        "description" => clienttranslate('${actplayer} must choose a discarded building to construct'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a discarded building to construct'),
         "type" => "activeplayer",
         "action" => "enterStateChooseDiscardedBuilding",
         "args" => "argChooseDiscardedBuilding",
