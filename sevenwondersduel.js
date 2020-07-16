@@ -229,8 +229,8 @@ define([
                 this.notifqueue.setSynchronous( 'opponentDiscardBuilding' );
                 // Notification delay is set dynamically in notif_opponentDiscardBuilding
 
-                dojo.subscribe('chooseDiscardedBuilding', this, "notif_chooseDiscardedBuilding");
-                this.notifqueue.setSynchronous( 'chooseDiscardedBuilding' );
+                dojo.subscribe('constructDiscardedBuilding', this, "notif_constructDiscardedBuilding");
+                this.notifqueue.setSynchronous( 'constructDiscardedBuilding' );
                 // Notification delay is set dynamically in notif_chooseDiscardedBuilding
 
                 dojo.subscribe('nextAgeDraftpoolReveal', this, "notif_nextAgeDraftpoolReveal");
