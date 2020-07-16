@@ -97,7 +97,7 @@ class Building extends Item {
                 $payment->newScientificSymbolPair = true;
 
                 SevenWondersDuel::get()->notifyAllPlayers(
-                    'simpleNotif',
+                    'message',
                     clienttranslate('${player_name} gathered a pair of identical scientific symbols, and may now choose a Progress token.'),
                     [
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
@@ -111,7 +111,7 @@ class Building extends Item {
             $player->increaseCoins($payment->urbanismAward);
 
             SevenWondersDuel::get()->notifyAllPlayers(
-                'simpleNotif',
+                'message',
                 clienttranslate('${player_name} gets 4 coins (Progress token “${progressTokenName}”).'),
                 [
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
@@ -128,7 +128,7 @@ class Building extends Item {
                 $player->increaseCoins($payment->coinReward);
 
                 SevenWondersDuel::get()->notifyAllPlayers(
-                    'simpleNotif',
+                    'message',
                     clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerBuilding} for each ${buildingType} building in his/her city.'),
                     [
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
@@ -154,7 +154,7 @@ class Building extends Item {
                 $player->increaseCoins($payment->coinReward);
 
                 SevenWondersDuel::get()->notifyAllPlayers(
-                    'simpleNotif',
+                    'message',
                     clienttranslate('${player_name} gets ${coins} coin(s), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s).'),
                     [
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
@@ -174,7 +174,7 @@ class Building extends Item {
                 $player->increaseCoins($payment->coinReward);
 
                 SevenWondersDuel::get()->notifyAllPlayers(
-                    'simpleNotif',
+                    'message',
                     clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerWonder} for each constructed Wonder in his/her city.'),
                     [
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),

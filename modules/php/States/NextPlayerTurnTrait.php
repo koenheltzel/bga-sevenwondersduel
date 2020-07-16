@@ -23,7 +23,7 @@ trait NextPlayerTurnTrait {
                 SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
 
                 SevenWondersDuel::get()->notifyAllPlayers(
-                    'simpleNotif',
+                    'message',
                     $message,
                     [
                         'player_name' => Player::getActive()->name,
@@ -43,7 +43,7 @@ trait NextPlayerTurnTrait {
                 SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
 
                 SevenWondersDuel::get()->notifyAllPlayers(
-                    'simpleNotif',
+                    'message',
                     clienttranslate('${player_name} loses his extra turn because the age has ended.'),
                     [
                         'player_name' => Player::getActive()->name,

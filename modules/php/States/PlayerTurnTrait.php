@@ -76,20 +76,21 @@ trait PlayerTurnTrait {
         $wonder->checkWonderAvailable();
         $payment = $wonder->construct(Player::me(), $building);
 
-//        switch ($wonder->id) {
+        switch ($wonder->id) {
 //            case 5:
 //                $this->gamestate->nextState( self::STATE_CHOOSE_DISCARDED_BUILDING_NAME);
 //                break;
 //            case 6:
 //                $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
 //                break;
-//            case 9:
-//            case 12:
-//                $this->gamestate->nextState( self::STATE_CHOOSE_OPPONENT_BUILDING_NAME);
-//                break;
-//            default:
+            case 9:
+            case 12:
+                $this->setGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, $wonderId);
+                $this->gamestate->nextState( self::STATE_CHOOSE_OPPONENT_BUILDING_NAME);
+                break;
+            default:
                 $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
-//                break;
-//        }
+                break;
+        }
     }
 }

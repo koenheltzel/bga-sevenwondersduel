@@ -221,10 +221,16 @@ __     __         _       _     _
 
 @keyframes actionglow {
     from {
-        box-shadow: 0 0 1px 3px #4770b470;
+        outline-color: #ff000066;
+        outline-width: 3px;
+        outline-style: dashed;
+        outline-offset: 1px;
     }
     to {
-        box-shadow: 0 0 1px 3px #4770b4;
+        outline-color: #ff0000;
+        outline-width: 3px;
+        outline-style: dashed;
+        outline-offset: 1px;
     }
 }
 
@@ -936,6 +942,14 @@ __     __         _       _     _
     width: var(--building-small-width);
     height: var(--building-header-small-height);
     display: block;
+}
+
+/* Put some margin between borders, mostly to prevent misclicks on mobile. */
+.current_player_is_active #swd[data-state=chooseOpponentBuilding] .player_building_column.actionglow .building_header_small_container:not(:last-child) {
+    margin-bottom: calc(2 * var(--gutter));
+}
+.current_player_is_active #swd[data-state=chooseOpponentBuilding] .player_building_column.actionglow .building_header_small {
+    cursor: pointer;
 }
 
 .current_player_is_active #swd[data-state=playerTurn] #draftpool .building_small.available,

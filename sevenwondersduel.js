@@ -154,6 +154,10 @@ define([
                     .on("#swd[data-state=selectStartPlayer] #select_start_player .action_button:click",
                         dojo.hitch(this, "onStartPlayerClick")
                     );
+                dojo.query('body')
+                    .on("#swd[data-state=chooseOpponentBuilding] .player_building_column.actionglow .building_header_small:click",
+                        dojo.hitch(this, "onOpponentBuildingClick")
+                    );
 
                 // Click hide the tooltip:
                 dojo.query('#swd_wrap').on("*:click", dojo.hitch(this, "hideTooltip"));
@@ -889,9 +893,6 @@ define([
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
 
-                            // Hide wonder selection
-                            // dojo.style('pattern_selection', 'display', 'none');
-
                         }, function (is_error) {
                             // What to do after the server call in anyway (success or failure)
                             // (most of the time: nothing)
@@ -1015,9 +1016,6 @@ define([
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
 
-                            // Hide wonder selection
-                            // dojo.style('pattern_selection', 'display', 'none');
-
                         }, function (is_error) {
                             // What to do after the server call in anyway (success or failure)
                             // (most of the time: nothing)
@@ -1138,9 +1136,6 @@ define([
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
 
-                            // Hide wonder selection
-                            // dojo.style('pattern_selection', 'display', 'none');
-
                         }, function (is_error) {
                             // What to do after the server call in anyway (success or failure)
                             // (most of the time: nothing)
@@ -1239,9 +1234,6 @@ define([
                             dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
-
-                            // Hide wonder selection
-                            // dojo.style('pattern_selection', 'display', 'none');
 
                         }, function (is_error) {
                             // What to do after the server call in anyway (success or failure)
@@ -1382,6 +1374,52 @@ define([
                 coinAnimation.play();
             },
 
+            //   ____ _                                                                     _     _           _ _     _ _
+            //  / ___| |__   ___   ___  ___  ___    ___  _ __  _ __   ___  _ __   ___ _ __ | |_  | |__  _   _(_) | __| (_)_ __   __ _
+            // | |   | '_ \ / _ \ / _ \/ __|/ _ \  / _ \| '_ \| '_ \ / _ \| '_ \ / _ \ '_ \| __| | '_ \| | | | | |/ _` | | '_ \ / _` |
+            // | |___| | | | (_) | (_) \__ \  __/ | (_) | |_) | |_) | (_) | | | |  __/ | | | |_  | |_) | |_| | | | (_| | | | | | (_| |
+            //  \____|_| |_|\___/ \___/|___/\___|  \___/| .__/| .__/ \___/|_| |_|\___|_| |_|\__| |_.__/ \__,_|_|_|\__,_|_|_| |_|\__, |
+            //                                          |_|   |_|                                                               |___/
+
+            onEnterChooseOpponentBuilding: function(args) {
+                var opponentId = this.getOppositePlayerId(this.getActivePlayerId());
+                var buildingColumn = dojo.query('.player' + opponentId + ' .player_building_column.' + args.buildingType)[0];
+                dojo.addClass(buildingColumn, 'actionglow');
+            },
+
+            onOpponentBuildingClick: function(e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                console.log('onOpponentBuildingClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseOpponentBuilding')) {
+                        return;
+                    }
+
+                    var buildingId = dojo.attr(e.target, "data-building-id");
+                    console.log('buildingId', buildingId);
+                    return;
+
+                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseOpponentBuilding.html", {
+                            lock: true,
+                            buildingId: buildingId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
             //    ____ _                            ____                                      _____     _
             //   / ___| |__   ___   ___  ___  ___  |  _ \ _ __ ___   __ _ _ __ ___  ___ ___  |_   _|__ | | _____ _ __
             //  | |   | '_ \ / _ \ / _ \/ __|/ _ \ | |_) | '__/ _ \ / _` | '__/ _ \/ __/ __|   | |/ _ \| |/ / _ \ '_ \
@@ -1410,9 +1448,6 @@ define([
                         this, function (result) {
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
-
-                            // Hide wonder selection
-                            // dojo.style('pattern_selection', 'display', 'none');
 
                         }, function (is_error) {
                             // What to do after the server call in anyway (success or failure)
@@ -1513,9 +1548,6 @@ define([
                         this, function (result) {
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
-
-                            // Hide wonder selection
-                            // dojo.style('pattern_selection', 'display', 'none');
 
                         }, function (is_error) {
                             // What to do after the server call in anyway (success or failure)

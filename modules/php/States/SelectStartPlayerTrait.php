@@ -34,7 +34,7 @@ trait SelectStartPlayerTrait {
         $this->setGameStateValue(self::VALUE_AGE_START_PLAYER, $playerId);
 
         $this->notifyAllPlayers(
-            'simpleNotif',
+            'message',
             clienttranslate('${player_name} begins the new Age.'),
             [
                 'player_name' => Player::get($playerId)->name,

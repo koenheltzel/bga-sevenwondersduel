@@ -89,7 +89,7 @@ class Wonder extends Item {
                 $player->getOpponent()->increaseCoins(-$opponentCoinLoss);
 
                 SevenWondersDuel::get()->notifyAllPlayers(
-                    'simpleNotif',
+                    'message',
                     clienttranslate('${player_name} loses ${coins} coin(s).'),
                     [
                         'player_name' => $player->getOpponent()->name,

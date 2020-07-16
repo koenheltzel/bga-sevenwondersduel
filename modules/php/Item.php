@@ -73,7 +73,7 @@ class Item
                 $player->getOpponent()->increaseScore($payment->economyProgressTokenCoins);
 
                 SevenWondersDuel::get()->notifyAllPlayers(
-                    'simpleNotif',
+                    'message',
                     clienttranslate('${coins} coin(s) of the cost for ${item_name} go to ${player_name} (Economy Progress token).'),
                     [
                         'player_name' => Player::opponent()->name,
@@ -88,7 +88,7 @@ class Item
             $player->increaseScore($this->victoryPoints);
 
             SevenWondersDuel::get()->notifyAllPlayers(
-                'simpleNotif',
+                'message',
                 clienttranslate('${player_name} scores ${points} victory point(s).'),
                 [
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
@@ -101,7 +101,7 @@ class Item
             $player->increaseCoins($payment->coinReward);
 
             SevenWondersDuel::get()->notifyAllPlayers(
-                'simpleNotif',
+                'message',
                 clienttranslate('${player_name} takes ${coins} coin(s) from the bank.'),
                 [
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
@@ -120,7 +120,7 @@ class Item
             }
 
             SevenWondersDuel::get()->notifyAllPlayers(
-                'simpleNotif',
+                'message',
                 clienttranslate($message),
                 [
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
@@ -137,7 +137,7 @@ class Item
                     $opponent->increaseCoins(-$payment->militaryOpponentPays);
 
                     SevenWondersDuel::get()->notifyAllPlayers(
-                        'simpleNotif',
+                        'message',
                         clienttranslate('The military token is removed, ${player_name} discards ${coins} coin(s).'),
                         [
                             'player_name' => Player::opponent()->name,
