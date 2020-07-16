@@ -41,8 +41,15 @@ class Item
      * @param $cardId
      * @return Payment
      */
-    public function construct(Player $player, $building = null) {
-        $payment = $player->calculateCost($this);
+    public function construct(Player $player, $building = null, $discardedCard = false) {
+        if ($discardedCard) {
+            $payment = new Payment($this);
+            $payment->discardedCard = true;
+        }
+        else {
+            $payment = $player->calculateCost($this);
+        }
+
         $totalCost = $payment->totalCost();
         if ($totalCost > $player->getCoins()) {
             $itemType = $this instanceof Building ? _('Building') : _('Wonder');

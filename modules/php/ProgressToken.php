@@ -20,8 +20,8 @@ class ProgressToken extends Item
      * @param $cardId
      * @return Payment
      */
-    public function construct(Player $player, $building = null) {
-        $payment = parent::construct($player);
+    public function construct(Player $player, $building = null, $discardedBuilding = false) {
+        $payment = parent::construct($player, $building, $discardedBuilding);
 
         SevenWondersDuel::get()->progressTokenDeck->moveCard($this->id, $player->id);
 

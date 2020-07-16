@@ -236,10 +236,6 @@ define([
                 this.notifqueue.setSynchronous( 'opponentDiscardBuilding' );
                 // Notification delay is set dynamically in notif_opponentDiscardBuilding
 
-                dojo.subscribe('constructDiscardedBuilding', this, "notif_constructDiscardedBuilding");
-                this.notifqueue.setSynchronous( 'constructDiscardedBuilding' );
-                // Notification delay is set dynamically in notif_chooseDiscardedBuilding
-
                 dojo.subscribe('nextAgeDraftpoolReveal', this, "notif_nextAgeDraftpoolReveal");
                 this.notifqueue.setSynchronous( 'nextAgeDraftpoolReveal' );
                 // Notification delay is set dynamically in notif_nextAgeDraftpoolReveal
@@ -1060,10 +1056,10 @@ define([
 
                 var building = this.gamedatas.buildings[notif.args.buildingId];
                 var container = dojo.query('.player_buildings.player' + notif.args.playerId + ' .' + building.type)[0];
-                var playerBuildingContainer = dojo.place(this.getBuildingDivHtml(notif.args.buildingId, dojo.attr(buildingNode, "data-card-id")), container, notif.args.playerId == this.me_id ? "last" : "first");
+                var playerBuildingContainer = dojo.place(this.getBuildingDivHtml(notif.args.buildingId), container, notif.args.playerId == this.me_id ? "last" : "first");
                 var playerBuildingId = 'player_building_' + notif.args.buildingId;
 
-                this.placeOnObjectPos(playerBuildingId, dojo.attr(buildingNode, "id"), 0.5 * this.getCssVariable('--scale'), -59.5 * this.getCssVariable('--scale'));
+                this.placeOnObjectPos(playerBuildingId, buildingNode, 0.5 * this.getCssVariable('--scale'), -59.5 * this.getCssVariable('--scale'));
                 dojo.style(playerBuildingId, 'opacity', 0);
                 dojo.style(playerBuildingId, 'z-index', 20);
 
@@ -1071,12 +1067,22 @@ define([
                 var coinNode = dojo.query('.draftpool_building_cost.' + playerAlias + ' .coin', buildingNode)[0];
                 var position = this.getDraftpoolCardData(notif.args.buildingId);
 
+                var buildingMoveAnim = this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, this.constructBuildingAnimationDuration * 0.6);
+                if (notif.args.payment.discardedCard) {
+                    dojo.connect(buildingMoveAnim, 'onEnd', dojo.hitch(this, function (node) {
+                        var whiteblock = $('discarded_cards_whiteblock');
+                        dojo.removeClass(whiteblock, 'actionglow');
+                        window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
+                        this.dontScale = 0;
+                    }));
+                }
+
                 var anim = dojo.fx.chain([
                     // Coin payment
                     bgagame.CoinAnimator.get().getAnimation(
                         this.getPlayerCoinContainer(notif.args.playerId),
                         coinNode,
-                        position.cost[notif.args.playerId] - notif.args.payment.economyProgressTokenCoins,
+                        (position ? position.cost[notif.args.playerId] : 0) - notif.args.payment.economyProgressTokenCoins,
                         notif.args.playerId
                     ),
                     // Economy Progress Token
@@ -1093,7 +1099,7 @@ define([
                         }),
                     ]),
                     // Move player building into it's column.
-                    this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                    buildingMoveAnim,
                     // Coin reward
                     bgagame.CoinAnimator.get().getAnimation(
                         playerBuildingContainer,
@@ -1521,47 +1527,6 @@ define([
                         }
                     );
                 }
-            },
-
-            notif_constructDiscardedBuilding: function (notif) {
-                console.log('notif_constructDiscardedBuilding', notif);
-
-                var whiteblock = $('discarded_cards_whiteblock');
-                dojo.removeClass(whiteblock, 'actionglow');
-                window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
-                console.log('this.rememberScrollY', this.rememberScrollY);
-                this.dontScale = 0;
-
-                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
-                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
-                //
-                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
-                // dojo.style(buildingNode, 'opacity', 0);
-                // dojo.style(buildingNode, 'z-index', 100);
-                //
-                // var anim = dojo.fx.chain([
-                //     // Cross-fade building into player-building (small header only building)
-                //     dojo.fx.combine([
-                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
-                //         dojo.fadeOut({
-                //             node: playerBuildingNode,
-                //             duration: this.constructBuildingAnimationDuration * 0.4
-                //         }),
-                //     ]),
-                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
-                // ]);
-                //
-                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                //     dojo.style(buildingNode, 'z-index', 5);
-                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
-                //     dojo.removeClass(buildingColumn, 'actionglow');
-                //     dojo.destroy(playerBuildingNode.parentNode);
-                // }));
-                //
-                // // Wait for animation before handling the next notification (= state change).
-                // this.notifqueue.setSynchronousDuration(anim.duration);
-                //
-                // anim.play();
             },
 
             //    ____ _                            ____                                      _____     _

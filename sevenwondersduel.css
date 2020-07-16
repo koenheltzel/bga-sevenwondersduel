@@ -793,6 +793,10 @@ __     __         _       _     _
     height: var(--building-small-width);
 }
 
+.player_wonders .actionglow {
+    cursor:pointer;
+}
+
 .player_wonders .age_card_container .building_small {
     position: absolute;
     transform: rotate(-90deg);
@@ -1107,6 +1111,10 @@ __        __              _
     width: var(--building-small-width);
     height: var(--building-small-height);
     margin: 0px var(--gutter) var(--gutter) 0px;
+}
+
+.current_player_is_active #swd[data-state=chooseDiscardedBuilding] #discarded_cards_container .building_small {
+    cursor: pointer;
 }
 
 .discarded_cards_cursor {

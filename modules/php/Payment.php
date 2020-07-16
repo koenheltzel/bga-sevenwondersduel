@@ -23,6 +23,7 @@ class Payment
     public $coinReward = 0;
     public $opponentCoinLoss = 0;
     public $economyProgressTokenCoins = 0;
+    public $discardedCard = false;
 
     public function __construct($item = null) {
         $this->item = $item;

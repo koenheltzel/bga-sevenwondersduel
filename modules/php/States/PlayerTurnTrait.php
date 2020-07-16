@@ -32,6 +32,7 @@ trait PlayerTurnTrait {
         $this->checkAction("actionConstructBuilding");
 
         $building = Building::get($buildingId);
+        $building->checkBuildingAvailable();
         $payment = $building->construct(Player::me());
 
         if ($payment->newScientificSymbolPair) { // TODO check if there are progress tokens left to choose from

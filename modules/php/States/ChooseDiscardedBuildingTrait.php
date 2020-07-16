@@ -32,25 +32,20 @@ trait ChooseDiscardedBuildingTrait
     public function actionChooseDiscardedBuilding($buildingId) {
         $this->checkAction("actionChooseDiscardedBuilding");
 
-//        if (!Player::opponent()->hasBuilding($buildingId)) {
-//            throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
-//        }
+        $cardInfo = $this->buildingDeck->getCard($buildingId);
+        if ($cardInfo['location'] != 'discard') {
+            throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
+        }
 
-//        SevenWondersDuel::get()->buildingDeck->insertCardOnExtremePosition($buildingId, 'discard', true);
+        $building = Building::get($buildingId);
+        $payment = $building->construct(Player::me(), null, true);
 
-        $this->notifyAllPlayers(
-            'constructDiscardedBuilding',
-            clienttranslate('${player_name} constructed discarded building “${buildingName}” for free (Wonder “${wonderName}”)'),
-            [
-                'buildingName' => Building::get($buildingId)->name,
-                'wonderName' => Wonder::get(5)->name,
-                'player_name' => $this->getCurrentPlayerName(),
-                'playerId' => Player::me()->id,
-                'buildingId' => $buildingId,
-            ]
-        );
-
-        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        if ($payment->newScientificSymbolPair) { // TODO check if there are progress tokens left to choose from
+            $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_NAME);
+        }
+        else {
+            $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        }
 
     }
 }

@@ -57,17 +57,23 @@ class Building extends Item {
      * @param $cardId
      * @return Payment
      */
-    public function construct(Player $player, $building = null) {
-        $payment = parent::construct($player);
+    public function construct(Player $player, $building = null, $discardedCard = false) {
+        $payment = parent::construct($player, $building, $discardedCard);
 
         SevenWondersDuel::get()->buildingDeck->moveCard($this->id, $player->id);
 
         // We want to send this notification first, before the detailed "effects" notifications.
         // However, the Payment object passed in this notification is by reference and this will contain
         // the effects' modifications when the notification is send at the end of the request.
+        if ($discardedCard) {
+            $message = clienttranslate('${player_name} constructed discarded building “${buildingName}” for free (Wonder “${wonderName}”).');
+        }
+        else {
+            $message = clienttranslate('${player_name} constructed building “${buildingName}” for ${cost}.');
+        }
         SevenWondersDuel::get()->notifyAllPlayers(
             'constructBuilding',
-            clienttranslate('${player_name} constructed building “${buildingName}” for ${cost}.'),
+            $message,
             [
                 'buildingName' => $this->name,
                 'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : 'free',
@@ -75,6 +81,7 @@ class Building extends Item {
                 'playerId' => Player::me()->id,
                 'buildingId' => $this->id,
                 'payment' => $payment,
+                'wonderName' => $discardedCard ? Wonder::get(5)->name : ''
             ]
         );
 
