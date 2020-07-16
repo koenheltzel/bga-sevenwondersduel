@@ -229,6 +229,10 @@ define([
                 this.notifqueue.setSynchronous( 'opponentDiscardBuilding' );
                 // Notification delay is set dynamically in notif_opponentDiscardBuilding
 
+                dojo.subscribe('chooseDiscardedBuilding', this, "notif_chooseDiscardedBuilding");
+                this.notifqueue.setSynchronous( 'chooseDiscardedBuilding' );
+                // Notification delay is set dynamically in notif_chooseDiscardedBuilding
+
                 dojo.subscribe('nextAgeDraftpoolReveal', this, "notif_nextAgeDraftpoolReveal");
                 this.notifqueue.setSynchronous( 'nextAgeDraftpoolReveal' );
                 // Notification delay is set dynamically in notif_nextAgeDraftpoolReveal
@@ -1459,6 +1463,85 @@ define([
                 this.notifqueue.setSynchronousDuration(anim.duration);
 
                 anim.play();
+            },
+
+            //   ____ _                                _ _                       _          _   _           _ _     _ _
+            //  / ___| |__   ___   ___  ___  ___    __| (_)___  ___ __ _ _ __ __| | ___  __| | | |__  _   _(_) | __| (_)_ __   __ _
+            // | |   | '_ \ / _ \ / _ \/ __|/ _ \  / _` | / __|/ __/ _` | '__/ _` |/ _ \/ _` | | '_ \| | | | | |/ _` | | '_ \ / _` |
+            // | |___| | | | (_) | (_) \__ \  __/ | (_| | \__ \ (_| (_| | | | (_| |  __/ (_| | | |_) | |_| | | | (_| | | | | | (_| |
+            //  \____|_| |_|\___/ \___/|___/\___|  \__,_|_|___/\___\__,_|_|  \__,_|\___|\__,_| |_.__/ \__,_|_|_|\__,_|_|_| |_|\__, |
+            //                                                                                                                |___/
+
+            onEnterChooseDiscardedBuilding: function(args) {
+                if (this.isCurrentPlayerActive()) {
+                    dojo.addClass($('discarded_cards_whiteblock'), 'actionglow');
+                }
+            },
+
+            onDiscardedBuildingClick: function(e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                console.log('onDiscardedBuildingClick', e);
+
+                // if (this.isCurrentPlayerActive()) {
+                //     // Check that this action is possible (see "possibleactions" in states.inc.php)
+                //     if (!this.checkAction('actionChooseDiscardedBuilding')) {
+                //         return;
+                //     }
+                //
+                //     var buildingId = dojo.attr(e.target, "data-building-id");
+                //
+                //     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseOpponentBuilding.html", {
+                //             lock: true,
+                //             buildingId: buildingId
+                //         },
+                //         this, function (result) {
+                //             // What to do after the server call if it succeeded
+                //             // (most of the time: nothing)
+                //
+                //         }, function (is_error) {
+                //             // What to do after the server call in anyway (success or failure)
+                //             // (most of the time: nothing)
+                //
+                //         }
+                //     );
+                // }
+            },
+
+            notif_constructDiscardedBuilding: function (notif) {
+                console.log('notif_constructDiscardedBuilding', notif);
+
+                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
+                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
+                //
+                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
+                // dojo.style(buildingNode, 'opacity', 0);
+                // dojo.style(buildingNode, 'z-index', 100);
+                //
+                // var anim = dojo.fx.chain([
+                //     // Cross-fade building into player-building (small header only building)
+                //     dojo.fx.combine([
+                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
+                //         dojo.fadeOut({
+                //             node: playerBuildingNode,
+                //             duration: this.constructBuildingAnimationDuration * 0.4
+                //         }),
+                //     ]),
+                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                // ]);
+                //
+                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                //     dojo.style(buildingNode, 'z-index', 5);
+                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
+                //     dojo.removeClass(buildingColumn, 'actionglow');
+                //     dojo.destroy(playerBuildingNode.parentNode);
+                // }));
+                //
+                // // Wait for animation before handling the next notification (= state change).
+                // this.notifqueue.setSynchronousDuration(anim.duration);
+                //
+                // anim.play();
             },
 
             //    ____ _                            ____                                      _____     _

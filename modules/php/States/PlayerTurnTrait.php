@@ -77,9 +77,9 @@ trait PlayerTurnTrait {
         $payment = $wonder->construct(Player::me(), $building);
 
         switch ($wonder->id) {
-//            case 5:
-//                $this->gamestate->nextState( self::STATE_CHOOSE_DISCARDED_BUILDING_NAME);
-//                break;
+            case 5:
+                $this->gamestate->nextState( self::STATE_CHOOSE_DISCARDED_BUILDING_NAME);
+                break;
 //            case 6:
 //                $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
 //                break;

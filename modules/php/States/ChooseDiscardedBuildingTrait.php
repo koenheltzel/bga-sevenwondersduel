@@ -29,5 +29,25 @@ trait ChooseDiscardedBuildingTrait
     public function actionChooseDiscardedBuilding($buildingId) {
         $this->checkAction("actionChooseDiscardedBuilding");
 
+//        if (!Player::opponent()->hasBuilding($buildingId)) {
+//            throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
+//        }
+//
+//        SevenWondersDuel::get()->buildingDeck->insertCardOnExtremePosition($buildingId, 'discard', true);
+//
+//        $this->notifyAllPlayers(
+//            'opponentDiscardBuilding',
+//            clienttranslate('${player_name} discarded opponent\'s building “${buildingName}” (Wonder “${wonderName}”)'),
+//            [
+//                'buildingName' => Building::get($buildingId)->name,
+//                'wonderName' => Wonder::get($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER))->name,
+//                'player_name' => $this->getCurrentPlayerName(),
+//                'playerId' => Player::me()->id,
+//                'buildingId' => $buildingId,
+//            ]
+//        );
+//
+//        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+
     }
 }
