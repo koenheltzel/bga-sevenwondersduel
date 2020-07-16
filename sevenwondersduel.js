@@ -35,6 +35,9 @@ define([
             // Debug settings
             dontScale: 0,
 
+            rememberScrollX: 0,
+            rememberScrollY: 0,
+
             // Tooltip settings
             toolTipDelay: 750,
 
@@ -157,6 +160,10 @@ define([
                 dojo.query('body')
                     .on("#swd[data-state=chooseOpponentBuilding] .player_building_column.actionglow .building_header_small:click",
                         dojo.hitch(this, "onOpponentBuildingClick")
+                    );
+                dojo.query('body')
+                    .on("#swd[data-state=chooseDiscardedBuilding] #discarded_cards_container .building_small:click",
+                        dojo.hitch(this, "onDiscardedBuildingClick")
                     );
 
                 // Click hide the tooltip:
@@ -1474,7 +1481,14 @@ define([
 
             onEnterChooseDiscardedBuilding: function(args) {
                 if (this.isCurrentPlayerActive()) {
-                    dojo.addClass($('discarded_cards_whiteblock'), 'actionglow');
+                    var whiteblock = $('discarded_cards_whiteblock');
+                    dojo.addClass(whiteblock, 'actionglow');
+
+                    // Scroll so the discarded card whiteblock is visible (remember the scroll position so we can restore the view later).
+                    this.dontScale = 1;
+                    this.rememberScrollX = window.scrollX;
+                    this.rememberScrollY = window.scrollY;
+                    whiteblock.scrollIntoView(false);
                 }
             },
 
@@ -1484,33 +1498,39 @@ define([
 
                 console.log('onDiscardedBuildingClick', e);
 
-                // if (this.isCurrentPlayerActive()) {
-                //     // Check that this action is possible (see "possibleactions" in states.inc.php)
-                //     if (!this.checkAction('actionChooseDiscardedBuilding')) {
-                //         return;
-                //     }
-                //
-                //     var buildingId = dojo.attr(e.target, "data-building-id");
-                //
-                //     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseOpponentBuilding.html", {
-                //             lock: true,
-                //             buildingId: buildingId
-                //         },
-                //         this, function (result) {
-                //             // What to do after the server call if it succeeded
-                //             // (most of the time: nothing)
-                //
-                //         }, function (is_error) {
-                //             // What to do after the server call in anyway (success or failure)
-                //             // (most of the time: nothing)
-                //
-                //         }
-                //     );
-                // }
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseDiscardedBuilding')) {
+                        return;
+                    }
+
+                    var buildingId = dojo.attr(e.target, "data-building-id");
+
+                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseDiscardedBuilding.html", {
+                            lock: true,
+                            buildingId: buildingId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
             },
 
             notif_constructDiscardedBuilding: function (notif) {
                 console.log('notif_constructDiscardedBuilding', notif);
+
+                var whiteblock = $('discarded_cards_whiteblock');
+                dojo.removeClass(whiteblock, 'actionglow');
+                window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
+                console.log('this.rememberScrollY', this.rememberScrollY);
+                this.dontScale = 0;
 
                 // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
                 // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
@@ -1692,8 +1712,8 @@ define([
             getOffset: function (el) {
                 var rect = el.getBoundingClientRect();
                 return {
-                    left: rect.left + window.scrollX,
-                    top: rect.top + window.scrollY
+                    left: rect.left + window.rememberScrollX,
+                    top: rect.top + window.rememberScrollY
                 };
             },
 

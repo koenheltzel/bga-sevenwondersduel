@@ -2,8 +2,11 @@
 
 namespace SWD\States;
 
+use SWD\Building;
 use SWD\Draftpool;
+use SWD\Player;
 use SWD\Players;
+use SWD\Wonder;
 use SWD\Wonders;
 
 trait ChooseDiscardedBuildingTrait
@@ -32,22 +35,22 @@ trait ChooseDiscardedBuildingTrait
 //        if (!Player::opponent()->hasBuilding($buildingId)) {
 //            throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
 //        }
-//
+
 //        SevenWondersDuel::get()->buildingDeck->insertCardOnExtremePosition($buildingId, 'discard', true);
-//
-//        $this->notifyAllPlayers(
-//            'opponentDiscardBuilding',
-//            clienttranslate('${player_name} discarded opponent\'s building “${buildingName}” (Wonder “${wonderName}”)'),
-//            [
-//                'buildingName' => Building::get($buildingId)->name,
-//                'wonderName' => Wonder::get($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER))->name,
-//                'player_name' => $this->getCurrentPlayerName(),
-//                'playerId' => Player::me()->id,
-//                'buildingId' => $buildingId,
-//            ]
-//        );
-//
-//        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+
+        $this->notifyAllPlayers(
+            'constructDiscardedBuilding',
+            clienttranslate('${player_name} constructed discarded building “${buildingName}” for free (Wonder “${wonderName}”)'),
+            [
+                'buildingName' => Building::get($buildingId)->name,
+                'wonderName' => Wonder::get(5)->name,
+                'player_name' => $this->getCurrentPlayerName(),
+                'playerId' => Player::me()->id,
+                'buildingId' => $buildingId,
+            ]
+        );
+
+        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
 
     }
 }
