@@ -53,7 +53,7 @@
                 <!-- BEGIN middle_column_block -->
                     <!-- BEGIN draftpool -->
                     <div id="wonder_selection_block" class="whiteblock">
-                        <h3>Wonders selection:</h3>
+                        <h3 id="wonder_selection_block_title"></h3>
                         <div id="wonder_selection_container">
                             <div class="card_outline"></div><div class="card_outline"></div><br/>
                             <div class="card_outline"></div><div class="card_outline"></div>

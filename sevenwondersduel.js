@@ -843,7 +843,7 @@ define([
 
 
             onEnterSelectWonder: function(args) {
-                $('wonder_selection_block_title').innerText = dojo.string.substitute( _("Wonders selection phase, round ${round}/2"), {
+                $('wonder_selection_block_title').innerText = dojo.string.substitute( _("Wonders selection - round ${round} of 2"), {
                     round: args.round
                 } );
             },
