@@ -944,8 +944,8 @@ __     __         _       _     _
     display: block;
 }
 
-/* Put some margin between borders, mostly to prevent misclicks on mobile. */
-.current_player_is_active #swd[data-state=chooseOpponentBuilding] .player_building_column.actionglow .building_header_small_container:not(:last-child) {
+/* Put some margin between borders, mostly to prevent misclicks on mobile. Doesn't include current_player_is_active / state so the position stays the same during the animation. */
+.player_building_column.actionglow .building_header_small_container:not(:last-child) {
     margin-bottom: calc(2 * var(--gutter));
 }
 .current_player_is_active #swd[data-state=chooseOpponentBuilding] .player_building_column.actionglow .building_header_small {

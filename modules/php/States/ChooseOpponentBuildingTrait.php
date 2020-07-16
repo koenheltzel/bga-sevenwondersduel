@@ -2,9 +2,12 @@
 
 namespace SWD\States;
 
+use SevenWondersDuel;
 use SWD\Building;
 use SWD\Draftpool;
+use SWD\Player;
 use SWD\Players;
+use SWD\Wonder;
 use SWD\Wonders;
 
 trait ChooseOpponentBuildingTrait {
@@ -29,6 +32,26 @@ trait ChooseOpponentBuildingTrait {
 
     public function actionChooseOpponentBuilding($buildingId) {
         $this->checkAction("actionChooseOpponentBuilding");
+
+        if (!Player::opponent()->hasBuilding($buildingId)) {
+            throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
+        }
+
+        SevenWondersDuel::get()->buildingDeck->moveCard($buildingId, 'discard');
+
+        $this->notifyAllPlayers(
+            'opponentDiscardBuilding',
+            clienttranslate('${player_name} discarded opponent\'s building “${buildingName}” (Wonder “${wonderName}”)'),
+            [
+                'buildingName' => Building::get($buildingId)->name,
+                'wonderName' => Wonder::get($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER))->name,
+                'player_name' => $this->getCurrentPlayerName(),
+                'playerId' => Player::me()->id,
+                'buildingId' => $buildingId,
+            ]
+        );
+
+        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
 
     }
 }
