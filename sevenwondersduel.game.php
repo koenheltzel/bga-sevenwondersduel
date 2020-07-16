@@ -110,7 +110,8 @@ class SevenWondersDuel extends Table
     const VALUE_MILITARY_TOKEN2 = "military_token2";
     const VALUE_MILITARY_TOKEN3 = "military_token3";
     const VALUE_MILITARY_TOKEN4 = "military_token4";
-    const VALUE_EXTRA_TURN = "extra_turn";
+    const VALUE_EXTRA_TURN_NORMAL = "extra_turn";
+    const VALUE_EXTRA_TURN_THROUGH_THEOLOGY = "extra_turn_through_theology";
     const VALUE_AGE_START_PLAYER = "age_start_player";
 
 
@@ -154,8 +155,9 @@ class SevenWondersDuel extends Table
                 self::VALUE_MILITARY_TOKEN2 => 14,
                 self::VALUE_MILITARY_TOKEN3 => 15,
                 self::VALUE_MILITARY_TOKEN4 => 16,
-                self::VALUE_EXTRA_TURN => 17,
+                self::VALUE_EXTRA_TURN_NORMAL => 17,
                 self::VALUE_AGE_START_PLAYER => 18,
+                self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY => 19,
             //    "my_second_global_variable" => 11,
             //      ...
             //    "my_first_game_variant" => 100,
@@ -252,8 +254,9 @@ class SevenWondersDuel extends Table
         self::setGameStateInitialValue( self::VALUE_MILITARY_TOKEN2, 2);
         self::setGameStateInitialValue( self::VALUE_MILITARY_TOKEN3, 2);
         self::setGameStateInitialValue( self::VALUE_MILITARY_TOKEN4, 5);
-        self::setGameStateInitialValue( self::VALUE_EXTRA_TURN, 0);
+        self::setGameStateInitialValue( self::VALUE_EXTRA_TURN_NORMAL, 0);
         self::setGameStateInitialValue( self::VALUE_AGE_START_PLAYER, 0);
+        self::setGameStateInitialValue( self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)

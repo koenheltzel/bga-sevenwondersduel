@@ -75,8 +75,11 @@ class Wonder extends Item {
         parent::constructEffects($player, $payment);
 
         // Set extra turn if the wonder provides it or if the player has progress token Theology.
-        if ($this->extraTurn || $player->hasProgressToken(9)) {
-            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN, 1);
+        if ($this->extraTurn) {
+            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_NORMAL, 1);
+        }
+        elseif($player->hasProgressToken(9)) {
+            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 1);
         }
 
         if ($this->opponentCoinLoss > 0) {
