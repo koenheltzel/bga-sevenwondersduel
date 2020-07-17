@@ -142,10 +142,29 @@ class PaymentPlan
 
                 // Any remaining cost should be paid with coins - let's calculate how much:
                 self::resourceCostToPlayer($player, $costLeft, $this, $print);
-            }
+
+                // Now consider Progress tokens Architecture & Masonry
+                if (
+                    ($this->item instanceof Wonder && $player->hasProgressToken(2)) // Architecture
+                    || ($this->item instanceof Building && $this->item->type == Building::TYPE_BLUE && $player->hasProgressToken(5)) // Masonry
+                ) {
+                    // How many steps are > 1 cost?
+                    $costSteps = [];
+                    $costStepsSorted = [];
+                    foreach($this->steps as $step) {
+                        if ($step->cost > 0) {
+                            $costSteps[] = $step;
+                            $costStepsSorted[$step->cost] = $step;
+                        }
+                    }
+                    if (count($costSteps) <= 2) {
+
+                    }
+                }
+            } // End if costLeft > 0
+
             $this->sortSteps($this->item->cost);
         }
-
 
         if($print) print "<PRE>Total cost: {$this->totalCost()} coin(s)</PRE>";
     }
@@ -164,10 +183,11 @@ class PaymentPlan
         foreach ($player->getBuildings()->filterByTypes([Building::TYPE_YELLOW]) as $building) {
             foreach($building->fixedPriceResources as $resource => $price) {
                 if (array_key_exists($resource, $costLeft)) {
-                    $cost = $costLeft[$resource] * $price;
-                    $string = "Pay {$cost} coin(s) for {$costLeft[$resource]} {$resource} using the fixed cost building “{$building->name}” offers.";
-                    $payment->addStep($resource, $costLeft[$resource], $cost, Item::TYPE_BUILDING, $building->id, $string);
-                    if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
+                    for ($i = 0; $i < $costLeft[$resource]; $i++) {
+                        $string = "Pay {$price} coin(s) for 1 {$resource} using the fixed cost building “{$building->name}” offers.";
+                        $payment->addStep($resource, 1, $price, Item::TYPE_BUILDING, $building->id, $string);
+                        if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
+                    }
                     unset($costLeft[$resource]);
                     if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                 }
@@ -177,16 +197,18 @@ class PaymentPlan
         // What should the player pay for the remaining resources?
         foreach ($costLeft as $resource => $amount) {
             $opponentResourceCount = $player->getOpponent()->resourceCount($resource);
-            $cost = $amount * (2 + $opponentResourceCount);
-            $string = null;
-            if ($opponentResourceCount > 0) {
-                $color = in_array($resource, [GLASS, PAPYRUS]) ? clienttranslate('grey') : clienttranslate('brown');
-                $string = "Pay {$cost} coins for {$amount} {$resource} because opponent can produce {$opponentResourceCount} {$resource} with {$color} card(s).";
-            } else {
-                $string = "Pay {$cost} coins for {$amount} {$resource}.";
+            for($i = 0; $i < $amount; $i++) {
+                $cost = 2 + $opponentResourceCount;
+                $string = null;
+                if ($opponentResourceCount > 0) {
+                    $color = in_array($resource, [GLASS, PAPYRUS]) ? clienttranslate('grey') : clienttranslate('brown');
+                    $string = "Pay {$cost} coins for 1 {$resource} because opponent can produce {$opponentResourceCount} {$resource} with {$color} card(s).";
+                } else {
+                    $string = "Pay {$cost} coins for 1 {$resource}.";
+                }
+                if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
+                $payment->addStep($resource, 1, $cost, null, null, $string);
             }
-            if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
-            $payment->addStep($resource, $amount, $cost, null, null, $string);
             unset($costLeft[$resource]);
         }
 
@@ -275,6 +297,11 @@ class PaymentPlanStep
         $this->itemType = $itemType;
         $this->itemId = $itemId;
         $this->string = $string;
+    }
+
+    public function makeResourceFree($progressTokenId) {
+        $this->cost = 0;
+        $this->string = "Free due to progress token $progressTokenId"; // Temporary
     }
 
 }
