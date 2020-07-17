@@ -55,7 +55,7 @@ class Building extends Item {
     /**
      * @param Player $player
      * @param $cardId
-     * @return Payment
+     * @return PaymentPlan
      */
     public function construct(Player $player, $building = null, $discardedCard = false) {
         $payment = parent::construct($player, $building, $discardedCard);
@@ -93,9 +93,9 @@ class Building extends Item {
     /**
      * Handle any effects the item has (victory points, gain coins, military) and send notifications about them.
      * @param Player $player
-     * @param Payment $payment
+     * @param PaymentPlan $payment
      */
-    protected function constructEffects(Player $player, Payment $payment) {
+    protected function constructEffects(Player $player, PaymentPlan $payment) {
         parent::constructEffects($player, $payment);
 
         if ($this->scientificSymbol) {

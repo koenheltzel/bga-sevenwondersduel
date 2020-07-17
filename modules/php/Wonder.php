@@ -38,7 +38,7 @@ class Wonder extends Item {
 
     /**
      * @param Building $building
-     * @return Payment
+     * @return PaymentPlan
      */
     public function construct(Player $player, $building = null, $discardedBuilding = false) {
         $payment = parent::construct($player, $building, $discardedBuilding);
@@ -69,9 +69,9 @@ class Wonder extends Item {
     /**
      * Handle any effects the item has (victory points, gain coins, military) and send notifications about them.
      * @param Player $player
-     * @param Payment $payment
+     * @param PaymentPlan $payment
      */
-    protected function constructEffects(Player $player, Payment $payment) {
+    protected function constructEffects(Player $player, PaymentPlan $payment) {
         parent::constructEffects($player, $payment);
 
         // Set extra turn if the wonder provides it or if the player has progress token Theology.

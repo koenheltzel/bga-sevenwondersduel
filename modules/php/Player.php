@@ -153,8 +153,8 @@ class Player extends \APP_DbObject{
     /**
      * @param Item $buyingItem
      */
-    public function getPayment($buyingItem, $print = false, $printChoices = false) {
-        $payment = new Payment($buyingItem);
+    public function getPaymentPlan($buyingItem, $print = false, $printChoices = false) {
+        $payment = new PaymentPlan($buyingItem);
         $payment->calculate($this, $print, $printChoices);
         return $payment;
     }
@@ -197,7 +197,7 @@ class Player extends \APP_DbObject{
             $row = [];
             $row['wonder'] = $wonder->id;
             $row['constructed'] = $wonder->isConstructed();
-            $payment = $this->getPayment($wonder);
+            $payment = $this->getPaymentPlan($wonder);
             $row['cost'] = $row['constructed'] ? -1 : $payment->totalCost();
             $row['payment'] = $payment;
             $rows[] = $row;

@@ -18,7 +18,7 @@ class ProgressToken extends Item
     /**
      * @param Player $player
      * @param $cardId
-     * @return Payment
+     * @return PaymentPlan
      */
     public function construct(Player $player, $building = null, $discardedBuilding = false) {
         $payment = parent::construct($player, $building, $discardedBuilding);

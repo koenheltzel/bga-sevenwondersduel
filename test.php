@@ -27,7 +27,7 @@ $player2 = Player::opponent();
 // Calculate "Study" cost, testing fixed cost and oponent resource production.
 $player1->setBuildingIds([1, 7, 20]); // 1 Wood, 1 Glass,  Wood fixed price
 $player2->setBuildingIds([24, 8, 28]); // 1 Wood, 2 Papyrus
-$payment = Player::me()->getPayment(Building::get(54), 1, 0); // Study
+$payment = Player::me()->getPaymentPlan(Building::get(54), 1, 0); // Study
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
 print "====================================================================================================================================";
 
@@ -35,7 +35,7 @@ print "=========================================================================
 $player1->setWonderIds([3, 7]); // Wood/Stone/Clay, Papyrus/Glass
 $player1->setBuildingIds([20, 39]); // Glass/Papyrus, Wood fixed price
 $player2->setBuildingIds([24, 8, 28]); // 1 Wood, 2 Papyrus
-$payment = Player::me()->getPayment(Building::get(54), 1, 0); // Study
+$payment = Player::me()->getPaymentPlan(Building::get(54), 1, 0); // Study
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
 print "====================================================================================================================================";
 
@@ -43,7 +43,7 @@ print "=========================================================================
 $player1->setWonderIds([3, 7]); // Wood/Stone/Clay, Papyrus/Glass
 $player1->setBuildingIds([39, 40]); // Glass/Papyrus, Wood/Stone/Clay
 $player2->setBuildingIds([24, 8, 28]);
-$payment = Player::me()->getPayment(Building::get(54), 1, 0); // Study
+$payment = Player::me()->getPaymentPlan(Building::get(54), 1, 0); // Study
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
 print "====================================================================================================================================";
 
@@ -51,7 +51,7 @@ print "=========================================================================
 $player1->setWonderIds([]); // Wood/Stone/Clay, Papyrus/Glass
 $player1->setBuildingIds([4, 27, 40, 39]); // Glass/Papyrus, Wood/Stone/Clay
 $player2->setBuildingIds([]);
-$payment = Player::me()->getPayment(Building::get(44), 1, 0); // Courthouse
+$payment = Player::me()->getPaymentPlan(Building::get(44), 1, 0); // Courthouse
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
 print "====================================================================================================================================";
 
@@ -59,7 +59,7 @@ print "=========================================================================
 $player1->setWonderIds([]); // Wood/Stone/Clay, Papyrus/Glass
 $player1->setBuildingIds([3, 4, 5, 39, 40]); // Glass/Papyrus, Wood/Stone/Clay
 $player2->setBuildingIds([]);
-$payment = Player::me()->getPayment(Wonder::get(9), 1, 0); // The Statue of Zeus
+$payment = Player::me()->getPaymentPlan(Wonder::get(9), 1, 0); // The Statue of Zeus
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
 print "====================================================================================================================================";
 
@@ -67,7 +67,7 @@ print "=========================================================================
 $player1->setWonderIds([3, 7]); // Wood/Stone/Clay, Papyrus/Glass
 $player1->setBuildingIds([39, 40, 13]); // Glass/Papyrus, Wood/Stone/Clay
 $player2->setBuildingIds([24, 8, 28]);
-$payment = Player::me()->getPayment(Building::get(37), 1, 0); // Library
+$payment = Player::me()->getPaymentPlan(Building::get(37), 1, 0); // Library
 //print "<PRE>" . print_r($payment, true) . "</PRE>";
 print "====================================================================================================================================";
 

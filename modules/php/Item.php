@@ -39,7 +39,7 @@ class Item
      * Checks if player can afford the item, if so, remove the amount of coins from the player.
      * @param Player $player
      * @param $cardId
-     * @return Payment
+     * @return PaymentPlan
      */
     public function construct(Player $player, $building = null, $discardedCard = false) {
         if ($discardedCard) {
@@ -47,7 +47,8 @@ class Item
             $payment->discardedCard = true;
         }
         else {
-            $payment = $player->getPayment($this);
+            $payment = new Payment($this);
+            $payment->calculate($player);
         }
 
         $totalCost = $payment->totalCost();
@@ -66,9 +67,9 @@ class Item
     /**
      * Handle any effects the item has (victory points, gain coins, military) and send notifications about them.
      * @param Player $player
-     * @param Payment $payment
+     * @param PaymentPlan $payment
      */
-    protected function constructEffects(Player $player, Payment $payment) {
+    protected function constructEffects(Player $player, PaymentPlan $payment) {
         // Economy Progress Token
         if ($player->getOpponent()->hasProgressToken(3) && $payment->totalCost() > 0) {
             foreach($payment->steps as $paymentStep) {
