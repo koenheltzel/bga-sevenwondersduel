@@ -47,7 +47,7 @@ class Item
             $payment->discardedCard = true;
         }
         else {
-            $payment = $player->calculateCost($this);
+            $payment = $player->getPayment($this);
         }
 
         $totalCost = $payment->totalCost();
