@@ -299,7 +299,7 @@ class PaymentPlanStep
         $this->string = $string;
     }
 
-    public function makeResourceFree($progressTokenId) {
+    public function progressTokenDiscount($progressTokenId) {
         $this->cost = 0;
         $this->string = "Free due to progress token $progressTokenId"; // Temporary
     }
