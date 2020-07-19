@@ -71,6 +71,18 @@ require_once 'material.inc.php';
             display: none;
             pointer-events: none;
         }
+        #plan {
+            width: 100%;
+            height: 900px;
+        }
+        .wonder #buttonToOpponent {
+            display: none;
+            pointer-events: none;
+        }
+        .progress_token #buttonToOpponent {
+            display: none;
+            pointer-events: none;
+        }
         .progress_token #buttonToSubject {
             display: none;
             pointer-events: none;
@@ -93,13 +105,13 @@ require_once 'material.inc.php';
             <h3>Payment Plan Subject:</h3>
             <div id="subject"></div>
             <h3>Payment Plan:</h3>
-            <div id="plan"></div>
+            <iframe id="plan"></iframe>
         </td>
         <td width="50%" id="material">
             <h3>Buildings:</h3>
             <div id="buildings">
-                <?php foreach(\SWD\Material::get()->buildings->filterByTypes([Building::TYPE_BROWN, Building::TYPE_GREY, Building::TYPE_YELLOW]) as $building):
-                    if (count($building->resources) > 0 || count($building->resourceChoice) > 0 || count($building->fixedPriceResources) > 0):
+                <?php foreach(\SWD\Material::get()->buildings->array as $building):
+                    if (count($building->resources) > 0 || count($building->resourceChoice) > 0 || count($building->fixedPriceResources) > 0 || (count($building->cost) > 0 && (!isset($building->cost[COINS]) || count($building->cost) > 1))):
                         $spritesheetColumns = 10;
                         $x = ($building->id - 1) % $spritesheetColumns;
                         $y = floor(($building->id - 1) / $spritesheetColumns);
@@ -110,7 +122,7 @@ require_once 'material.inc.php';
             </div>
             <h3>Wonders:</h3>
             <div id="wonders">
-                <?php foreach([Wonder::get(3), Wonder::get(7)] as $wonder):
+                <?php foreach(\SWD\Material::get()->wonders->array as $wonder):
                     $spritesheetColumns = 5;
                     $x = ($wonder->id - 1) % $spritesheetColumns;
                     $y = floor(($wonder->id - 1) / $spritesheetColumns);
@@ -162,33 +174,47 @@ require_once 'material.inc.php';
         dojo.stopEvent(e);
         dojo.place( currentItem, 'opponent' );
         deselect();
+        updatePaymentPlan();
     });
     dojo.query('#buttonToMe').on("click", (e) => {
         console.log('buttonToMe click');
         dojo.stopEvent(e);
         dojo.place( currentItem, 'me' );
         deselect();
+        updatePaymentPlan();
     });
     dojo.query('#buttonToSubject').on("click", (e) => {
         console.log('buttonToSubject click');
         dojo.stopEvent(e);
+
+        moveToMaterial(dojo.query('#subject>.item')[0]);
+
+
         dojo.place( currentItem, 'subject' );
         deselect();
+        updatePaymentPlan();
     });
     dojo.query('#buttonToMaterial').on("click", (e) => {
         console.log('buttonToMaterial click');
         dojo.stopEvent(e);
-        if (dojo.hasClass(currentItem, 'building')) {
-            dojo.place( currentItem, 'buildings' );
-        }
-        if (dojo.hasClass(currentItem, 'wonder')) {
-            dojo.place( currentItem, 'wonders' );
-        }
-        if (dojo.hasClass(currentItem, 'progress_token')) {
-            dojo.place( currentItem, 'progress_tokens' );
-        }
+        moveToMaterial(currentItem);
         deselect();
+        updatePaymentPlan();
     });
+
+    function moveToMaterial(node) {
+        if (node) {
+            if (dojo.hasClass(node, 'building')) {
+                dojo.place( node, 'buildings' );
+            }
+            if (dojo.hasClass(node, 'wonder')) {
+                dojo.place( node, 'wonders' );
+            }
+            if (dojo.hasClass(node, 'progress_token')) {
+                dojo.place( node, 'progress_tokens' );
+            }
+        }
+    }
 
     function deselect(e) {
         if (currentItem) {
@@ -197,6 +223,44 @@ require_once 'material.inc.php';
         }
         dojo.style( 'actions', 'display', 'none' );
     }
+
+    function queryString(obj) {
+        var str = [];
+        for (var p in obj)
+            if (obj.hasOwnProperty(p)) {
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+        return str.join("&");
+    }
+
+    function updatePaymentPlan() {
+        console.log(dojo.query('#me.item'));
+        var data = Object.assign(
+            getTypeStrings('me'),
+            getTypeStrings('opponent'),
+            getTypeStrings('subject'),
+        );
+
+        console.log(data);
+        console.log(queryString(data));
+        dojo.attr('plan', 'src', 'http://localhost/bga/sevenwondersduel/test.php?' + queryString(data));
+    }
+
+    function getIdsString(container, typeClass) {
+        var ids = [];
+        dojo.query('#' + container + ' .' + typeClass).forEach(function (item) {
+            ids.push(dojo.attr(item, 'id'));
+        });
+        return ids.join(',');
+    }
+    function getTypeStrings(container) {
+        var strings = {};
+        ['building', 'wonder', 'progress_token'].forEach(function (type) {
+            strings[container + '_' + type + 's'] = this.getIdsString(container, type);
+        });
+        return strings;
+    }
+
     console.log(dojo.query('#me'));
 </script>
 </html>
