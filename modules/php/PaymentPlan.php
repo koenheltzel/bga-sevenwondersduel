@@ -148,16 +148,26 @@ class PaymentPlan
                     ($this->item instanceof Wonder && $player->hasProgressToken(2)) // Architecture
                     || ($this->item instanceof Building && $this->item->type == Building::TYPE_BLUE && $player->hasProgressToken(5)) // Masonry
                 ) {
-                    // How many steps are > 1 cost?
+                    $relevantProgressToken = $this->item instanceof Wonder ? 2 : 5;
+                    // How many steps are > 0 cost?
                     $costSteps = [];
                     $costStepsSorted = [];
                     foreach($this->steps as $step) {
                         if ($step->cost > 0) {
                             $costSteps[] = $step;
-                            $costStepsSorted[$step->cost] = $step;
+                            if (!isset($costStepsSorted[$step->cost])) $costStepsSorted[$step->cost] = [];
+                            $costStepsSorted[$step->cost][] = $step;
                         }
                     }
                     if (count($costSteps) <= 2) {
+                        foreach($costSteps as $step) {
+                            $step->progressTokenDiscount($relevantProgressToken);
+                        }
+                    }
+                    elseif(count($costSteps) > 2) {
+                        print "<PRE>" . print_r($costStepsSorted, true) . "</PRE>";
+                        exit;
+                        // Let's consider all combinations
 
                     }
                 }
