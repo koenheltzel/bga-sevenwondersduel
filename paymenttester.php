@@ -38,11 +38,13 @@ require_once 'material.inc.php';
         #actions {
             display: inline-block;
             vertical-align: top;
+            width: 150px;
+            float: left;
         }
         #actions button {
             display: block;
             margin-bottom: 10px;
-
+            margin: var(--gutter);
         }
 
         #opponent #buttonToOpponent {
@@ -70,6 +72,7 @@ require_once 'material.inc.php';
             pointer-events: none;
         }
     </style>
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
 </head>
 <body>
 <table>
@@ -104,7 +107,7 @@ require_once 'material.inc.php';
                     <button id="buttonToOpponent">To Opponent</button>
                     <button id="buttonToMe">To Me</button>
                     <button id="buttonToSubject">To Subject</button>
-                    <button id="buttonToMaterial">Return to Material</button>
+                    <button id="buttonToMaterial">Remove</button>
                 </div>
             </div>
             <h3>Wonders:</h3>
@@ -139,4 +142,27 @@ require_once 'material.inc.php';
     </tr>
 </table>
 </body>
+<script type="text/javascript">
+    var currentItem = null;
+    dojo.query('body').on(".item:click", (e) => {
+        if (currentItem) {
+            dojo.removeClass(currentItem, 'actionglow');
+        }
+
+        if (currentItem == e.target) {
+        }
+        else {
+            currentItem = e.target;
+            dojo.place( 'actions', currentItem );
+            dojo.addClass(currentItem, 'actionglow');
+        }
+
+
+    });
+
+    // function itemClickHandler(e) {
+    //
+    // }
+    console.log(dojo.query('#me'));
+</script>
 </html>
