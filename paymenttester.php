@@ -24,19 +24,12 @@ require_once 'material.inc.php';
 $baseurl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]".dirname($_SERVER['REQUEST_URI']) . "/";
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]".$_SERVER['REQUEST_URI'];
 
-//print "<PRE>" . print_r($_SERVER, true) . "</PRE>";
-//exit;
 $fileName = basename($_SERVER['SCRIPT_NAME']);
 $jsonFile = 'paymenttester_' . $_SERVER['HTTP_HOST'] . '.json';
 if (!file_exists($jsonFile)) file_put_contents($jsonFile, '[]');
 $scenarios = json_decode(file_get_contents($jsonFile), true);
 if (isset($_POST['name'])) {
-    $queryString = $_SERVER['QUERY_STRING'];
-    $position = strpos($queryString, '&name=');
-    if ($position) {
-        $queryString = substr($queryString, 0, $position);
-    }
-    $scenarios[$_POST['name']] = $queryString;
+    $scenarios[$_POST['name']] = $_SERVER['QUERY_STRING'];
     file_put_contents($jsonFile, json_encode($scenarios, JSON_PRETTY_PRINT));
     header("Location: " . $url);
     exit;
@@ -225,7 +218,6 @@ if (isset($_POST['name'])) {
 
         moveToMaterial(dojo.query('#subject>.item')[0]);
 
-
         dojo.place( currentItem, 'subject' );
         deselect();
         updatePaymentPlan();
@@ -257,7 +249,6 @@ if (isset($_POST['name'])) {
                 var list = document.getElementById(container);
 
                 var items = list.childNodes;
-                console.log('items', items);
                 var itemsArr = [];
                 for (var i in items) {
                     if (items[i].nodeType == 1) { // get rid of the whitespace text nodes
@@ -296,15 +287,12 @@ if (isset($_POST['name'])) {
     }
 
     function updatePaymentPlan() {
-        console.log(dojo.query('#me.item'));
         var data = Object.assign(
             getTypeStrings('me'),
             getTypeStrings('opponent'),
             getTypeStrings('subject'),
         );
 
-        console.log(data);
-        console.log(queryString(data));
         dojo.attr('plan', 'src', baseurl + 'test.php?' + queryString(data));
         var scenarioUrl = baseurl + fileName + '?' + queryString(data);
         window.history.pushState('paymenttester', 'Title', scenarioUrl);
@@ -328,7 +316,6 @@ if (isset($_POST['name'])) {
     function moveIdsToContainer(ids, sourceContainer, targetcontainer) {
         for (let i = 0; i < ids.length; i++) {
             var node = dojo.query('#' + sourceContainer + ' [data-id=' + ids[i] + ']')[0];
-            console.log('#' + sourceContainer + ' [data-id=' + ids[i] + ']', node);
             dojo.place( node, targetcontainer );
         }
     }
