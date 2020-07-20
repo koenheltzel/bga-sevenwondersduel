@@ -111,21 +111,13 @@ require_once 'material.inc.php';
             <h3>Buildings:</h3>
             <div id="buildings">
                 <?php foreach(\SWD\Material::get()->buildings->array as $building):
-                    if (count($building->resources) > 0
-                        || count($building->resourceChoice) > 0
-                        || count($building->fixedPriceResources) > 0
-                        || (count($building->cost) > 0
-                            && (!isset($building->cost[COINS])
-                                || count($building->cost) > 1)
-                        )
-                    ):
-                        $spritesheetColumns = 10;
-                        $x = ($building->id - 1) % $spritesheetColumns;
-                        $y = floor(($building->id - 1) / $spritesheetColumns);
-                        ?><div id="<?= $building->id ?>"
-                             class="item building building_small"
-                             style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
-                        ></div><?php endif ?><?php endforeach ?>
+                    $spritesheetColumns = 10;
+                    $x = ($building->id - 1) % $spritesheetColumns;
+                    $y = floor(($building->id - 1) / $spritesheetColumns);
+                    ?><div id="<?= $building->id ?>"
+                         class="item building building_small"
+                         style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
+                    ></div><?php endforeach ?>
             </div>
             <h3>Wonders:</h3>
             <div id="wonders">
