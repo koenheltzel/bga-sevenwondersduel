@@ -31,7 +31,7 @@ $scenarios = json_decode(file_get_contents($jsonFile), true);
 if (isset($_POST['name'])) {
     $scenarios[$_POST['name']] = $_SERVER['QUERY_STRING'];
     file_put_contents($jsonFile, json_encode($scenarios, JSON_PRETTY_PRINT));
-    header("Location: " . $url);
+    header("Location: " . $url . '&name=' . urlencode($_POST['name']));
     exit;
 }
 
@@ -112,18 +112,21 @@ if (isset($_POST['name'])) {
 <table>
     <tr>
         <td width="50%">
-            <h3>Saved scenarios:</h3>
-            <ul>
-                <?php foreach($scenarios as $name => $queryString): ?>
-                    <li><a href="<?= "{$baseurl}{$fileName}?{$queryString}&name=" . urlencode($name) ?>"><?= $name ?></a></li>
-                <?php endforeach ?>
-            </ul>
-            <div id="opponent"></div>
-            <h3>Save scenario (overwrite if same name):</h3>
-            <form method="post">
-                <input type="text" name="name" size="50" value="<?= isset($_GET['name']) ? $_GET['name'] : '' ?>" />
-                <input type="submit" value="Save" />
-            </form>
+            <h3>Scenarios:</h3>
+            <div style="margin-left: 20px">
+                <p><a href="<?= "{$baseurl}{$fileName}" ?>">New scenario</a></p>
+                <strong>Saved scenarios:</strong>
+                <ul>
+                    <?php foreach($scenarios as $name => $queryString): ?>
+                        <li><a href="<?= "{$baseurl}{$fileName}?{$queryString}&name=" . urlencode($name) ?>"><?= $name ?></a></li>
+                    <?php endforeach ?>
+                </ul>
+                <strong>Save scenario (overwrite if same name):</strong>
+                <form method="post">
+                    <input type="text" name="name" size="50" value="<?= isset($_GET['name']) ? $_GET['name'] : '' ?>" />
+                    <input type="submit" value="Save" />
+                </form>
+            </div>
 
             <h3>Opponent:</h3>
             <div id="opponent"></div>
