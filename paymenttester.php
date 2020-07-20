@@ -1,11 +1,11 @@
 <?php
-
 require_once '_bga_ide_helper.php';
 
 // SWD namespace autoloader from /modules/php/ folder.
 use SWD\Building;
 use SWD\Player;
-use SWD\ProgressToken;use SWD\Wonder;
+use SWD\ProgressToken;
+use SWD\Wonder;
 
 $swdNamespaceAutoload = function ($class) {
     $classParts = explode('\\', $class);
@@ -20,6 +20,27 @@ $swdNamespaceAutoload = function ($class) {
 spl_autoload_register($swdNamespaceAutoload, true, true);
 
 require_once 'material.inc.php';
+
+$baseurl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]".dirname($_SERVER['REQUEST_URI']) . "/";
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]".$_SERVER['REQUEST_URI'];
+
+//print "<PRE>" . print_r($_SERVER, true) . "</PRE>";
+//exit;
+$fileName = basename($_SERVER['SCRIPT_NAME']);
+$jsonFile = 'paymenttester_' . $_SERVER['HTTP_HOST'] . '.json';
+if (!file_exists($jsonFile)) file_put_contents($jsonFile, '[]');
+$scenarios = json_decode(file_get_contents($jsonFile), true);
+if (isset($_POST['name'])) {
+    $queryString = $_SERVER['QUERY_STRING'];
+    $position = strpos($queryString, '&name=');
+    if ($position) {
+        $queryString = substr($queryString, 0, $position);
+    }
+    $scenarios[$_POST['name']] = $queryString;
+    file_put_contents($jsonFile, json_encode($scenarios, JSON_PRETTY_PRINT));
+    header("Location: " . $url);
+    exit;
+}
 
 ?><!DOCTYPE html>
 <html>
@@ -98,6 +119,19 @@ require_once 'material.inc.php';
 <table>
     <tr>
         <td width="50%">
+            <h3>Saved scenarios:</h3>
+            <ul>
+                <?php foreach($scenarios as $name => $queryString): ?>
+                    <li><a href="<?= "{$baseurl}{$fileName}?{$queryString}&name=" . urlencode($name) ?>"><?= $name ?></a></li>
+                <?php endforeach ?>
+            </ul>
+            <div id="opponent"></div>
+            <h3>Save scenario (overwrite if same name):</h3>
+            <form method="post">
+                <input type="text" name="name" size="50" value="<?= isset($_GET['name']) ? $_GET['name'] : '' ?>" />
+                <input type="submit" value="Save" />
+            </form>
+
             <h3>Opponent:</h3>
             <div id="opponent"></div>
             <h3>Me:</h3>
@@ -105,7 +139,7 @@ require_once 'material.inc.php';
             <h3>Payment Plan Subject:</h3>
             <div id="subject"></div>
             <h3>Payment Plan:</h3>
-            <iframe id="plan"></iframe>
+            <iframe id="plan" frameBorder="0"></iframe>
         </td>
         <td width="50%" id="material">
             <h3>Buildings:</h3>
@@ -114,7 +148,7 @@ require_once 'material.inc.php';
                     $spritesheetColumns = 10;
                     $x = ($building->id - 1) % $spritesheetColumns;
                     $y = floor(($building->id - 1) / $spritesheetColumns);
-                    ?><div id="<?= $building->id ?>"
+                    ?><div id="<?= $building->id ?>" data-id="<?= $building->id ?>"
                          class="item building building_small"
                          style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
                     ></div><?php endforeach ?>
@@ -125,7 +159,7 @@ require_once 'material.inc.php';
                     $spritesheetColumns = 5;
                     $x = ($wonder->id - 1) % $spritesheetColumns;
                     $y = floor(($wonder->id - 1) / $spritesheetColumns);
-                    ?><div id="<?= $wonder->id ?>"
+                    ?><div id="<?= $wonder->id ?>" data-id="<?= $wonder->id ?>"
                          class="item wonder wonder_small"
                          style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
                     ></div><?php endforeach ?>
@@ -136,7 +170,7 @@ require_once 'material.inc.php';
                     $spritesheetColumns = 4;
                     $x = ($progressToken->id - 1) % $spritesheetColumns;
                     $y = floor(($progressToken->id - 1) / $spritesheetColumns);
-                    ?><div id="<?= $progressToken->id ?>"
+                    ?><div id="<?= $progressToken->id ?>" data-id="<?= $progressToken->id ?>"
                          class="item progress_token progress_token_small"
                          style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
                     ></div><?php endforeach ?>
@@ -152,6 +186,9 @@ require_once 'material.inc.php';
 </div>
 </body>
 <script type="text/javascript">
+    var url = '<?= $url ?>';
+    var baseurl = '<?= $baseurl ?>';
+    var fileName = '<?= $fileName ?>';
     var currentItem = null;
     dojo.query('body').on(".item:click", (e) => {
         console.log('Item click');
@@ -202,15 +239,41 @@ require_once 'material.inc.php';
     });
 
     function moveToMaterial(node) {
+        var container = null;
         if (node) {
             if (dojo.hasClass(node, 'building')) {
-                dojo.place( node, 'buildings' );
+                container = 'buildings';
             }
             if (dojo.hasClass(node, 'wonder')) {
-                dojo.place( node, 'wonders' );
+                container = 'wonders';
             }
             if (dojo.hasClass(node, 'progress_token')) {
-                dojo.place( node, 'progress_tokens' );
+                container = 'progress_tokens';
+            }
+            dojo.place( node, container);
+
+            // Sort material
+            if (1) {
+                var list = document.getElementById(container);
+
+                var items = list.childNodes;
+                console.log('items', items);
+                var itemsArr = [];
+                for (var i in items) {
+                    if (items[i].nodeType == 1) { // get rid of the whitespace text nodes
+                        itemsArr.push(items[i]);
+                    }
+                }
+
+                itemsArr.sort(function(a, b) {
+                    return parseInt(a.id) == parseInt(b.id)
+                        ? 0
+                        : (parseInt(a.id) > parseInt(b.id) ? 1 : -1);
+                });
+
+                for (i = 0; i < itemsArr.length; ++i) {
+                    list.appendChild(itemsArr[i]);
+                }
             }
         }
     }
@@ -242,7 +305,9 @@ require_once 'material.inc.php';
 
         console.log(data);
         console.log(queryString(data));
-        dojo.attr('plan', 'src', 'http://localhost/bga/sevenwondersduel/test.php?' + queryString(data));
+        dojo.attr('plan', 'src', baseurl + 'test.php?' + queryString(data));
+        var scenarioUrl = baseurl + fileName + '?' + queryString(data);
+        window.history.pushState('paymenttester', 'Title', scenarioUrl);
     }
 
     function getIdsString(container, typeClass) {
@@ -260,6 +325,24 @@ require_once 'material.inc.php';
         return strings;
     }
 
-    console.log(dojo.query('#me'));
+    function moveIdsToContainer(ids, sourceContainer, targetcontainer) {
+        for (let i = 0; i < ids.length; i++) {
+            var node = dojo.query('#' + sourceContainer + ' [data-id=' + ids[i] + ']')[0];
+            console.log('#' + sourceContainer + ' [data-id=' + ids[i] + ']', node);
+            dojo.place( node, targetcontainer );
+        }
+    }
+
+    <?php if(isset($_GET['name'])): ?>
+        moveIdsToContainer([<?= $_GET['me_buildings'] ?>], 'buildings', 'me');
+        moveIdsToContainer([<?= $_GET['me_wonders'] ?>], 'wonders', 'me');
+        moveIdsToContainer([<?= $_GET['me_progress_tokens'] ?>], 'progress_tokens', 'me');
+        moveIdsToContainer([<?= $_GET['opponent_buildings'] ?>], 'buildings', 'opponent');
+        moveIdsToContainer([<?= $_GET['opponent_wonders'] ?>], 'wonders', 'opponent');
+        moveIdsToContainer([<?= $_GET['opponent_progress_tokens'] ?>], 'progress_tokens', 'opponent');
+        moveIdsToContainer([<?= $_GET['subject_buildings'] ?>], 'buildings', 'subject');
+        moveIdsToContainer([<?= $_GET['subject_wonders'] ?>], 'wonders', 'subject');
+        updatePaymentPlan();
+    <?php endif ?>
 </script>
 </html>
