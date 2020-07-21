@@ -268,7 +268,7 @@ class PaymentPlan
             foreach($building->fixedPriceResources as $resource => $price) {
                 if (array_key_exists($resource, $costLeft)) {
                     for ($i = 0; $i < $costLeft[$resource]; $i++) {
-                        $string = "Pay {$price} coin(s) for 1 {$resource} using the fixed cost building “{$building->name}” offers.";
+                        $string = "{$resource}: {$price} coin(s) using building “{$building->name}”.";
                         $payment->addStep($resource, 1, $price, Item::TYPE_BUILDING, $building->id, $string);
                     }
                     unset($costLeft[$resource]);
@@ -285,9 +285,9 @@ class PaymentPlan
                 $string = null;
                 if ($opponentResourceCount > 0) {
                     $color = in_array($resource, [GLASS, PAPYRUS]) ? clienttranslate('grey') : clienttranslate('brown');
-                    $string = "Pay {$cost} coins for 1 {$resource} because opponent can produce {$opponentResourceCount} {$resource} with {$color} card(s).";
+                    $string = "{$resource}: {$cost} coins trade cost (opponent can produce {$opponentResourceCount} {$resource} with {$color} cards).";
                 } else {
-                    $string = "Pay {$cost} coins for 1 {$resource}.";
+                    $string = "{$resource}: {$cost} coins trade cost.";
                 }
                 $payment->addStep($resource, 1, $cost, null, null, $string);
             }
