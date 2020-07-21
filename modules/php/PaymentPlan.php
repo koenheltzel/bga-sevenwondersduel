@@ -36,6 +36,8 @@ class PaymentPlan
     public function calculate(Player $player, $print = false, $printChoices = false) {
         if($print) print "<PRE>Calculate cost for player to buy “{$this->item->name}\" card.</PRE>";
 
+        $startTime = microtime(true);
+
         $scenariosCalculated = 0;
 
         $costLeft = $this->item->cost;
@@ -66,13 +68,13 @@ class PaymentPlan
                         if (array_key_exists($resource, $costLeft)) {
                             $canProduce = min($costLeft[$resource], $amount);
 
-                            $string = "Produce {$canProduce} {$resource} with building “{$building->name}”.";
-                            $this->addStep($resource, $canProduce, 0, Item::TYPE_BUILDING, $building->id, $string);
-//                            if($print) print "<PRE>$string</PRE>";
-                            $costLeft[$resource] -= $canProduce;
-                            if ($costLeft[$resource] <= 0) {
-                                unset($costLeft[$resource]);
+                            for ($i = 0; $i < $canProduce; $i++) {
+                                $string = "{$resource}: Produce with building “{$building->name}”.";
+                                $this->addStep($resource, $canProduce, 0, Item::TYPE_BUILDING, $building->id, $string);
                             }
+
+//                            if($print) print "<PRE>$string</PRE>";
+                            self::subtractResource($costLeft, $resource, $canProduce);
 //                            if($print && $costLeft > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                         }
                     }
@@ -141,18 +143,22 @@ class PaymentPlan
                     }
                     if (!is_null($cheapestCombinationPayment)) {
                         $mask = $maskCombinations[$cheapestCombinationMaskIndex];
+                        $costLeftMasked = self::applyMask($costLeft, $mask);
                         foreach($combinations[$cheapestCombinationIndex] as $choiceItemIndex => $resource) {
-                            if (isset($costLeft[$resource])) {
+                            // Only try to produce resources included in the mask.
+                            if (isset($costLeftMasked[$resource]) && $costLeftMasked[$resource] > 0) {
+                                self::subtractResource($costLeftMasked, $resource, 1);
+                                // Also update $costLeft for later use.
+                                self::subtractResource($costLeft, $resource, 1);
                                 $item = $choiceItems[$choiceItemIndex];
                                 if ($item instanceof Building) {
-                                    $string = "Produce 1 {$resource} with building “{$item->name}”.";
+                                    $string = "{$resource}: Produce with building “{$item->name}”.";
                                     $this->addStep($resource, 1, 0, Item::TYPE_BUILDING, $item->id, $string);
                                 }
                                 if ($item instanceof Wonder) {
-                                    $string = "Produce 1 {$resource} with wonder “{$item->name}”.";
+                                    $string = "{$resource}: Produce with wonder “{$item->name}”.";
                                     $this->addStep($resource, 1, 0, Item::TYPE_WONDER, $item->id, $string);
                                 }
-                                self::subtractResource($costLeft, $resource);
 //                                if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                             }
                         }
@@ -175,9 +181,11 @@ class PaymentPlan
                     }
                     if (!is_null($cheapestMaskCombinationPayment)) {
                         $mask = $maskCombinations[$cheapestMaskCombinationIndex];
-                        for ($i = 0; $i < count($this->steps); $i++) {
+                        for ($i = 0; $i < count($cheapestMaskCombinationPayment->steps); $i++) {
                             if (in_array($i, $mask)) {
-                                $this->steps[] = $this->steps[$i];
+                                $step = $cheapestMaskCombinationPayment->steps[$i];
+                                $this->steps[] = $step;
+                                self::subtractResource($costLeft, $step->resource, $step->amount);
                             }
                         }
                     }
@@ -186,7 +194,7 @@ class PaymentPlan
                 $discounted = array_diff(array_keys($costLeftFlat), $mask);
                 foreach ($discounted as $flatCostIndex) {
                     $resource = $costLeftFlat[$flatCostIndex];
-                    $string = "{$resource} discounted thanks to Progress token “{$discountProgressToken->name}”.";
+                    $string = "{$resource}: discount by Progress token “{$discountProgressToken->name}”.";
                     $this->addStep($resource, 1, 0, Item::TYPE_PROGRESSTOKEN, $discountProgressToken->id, $string);
 
                     self::subtractResource($costLeft, $resource);
@@ -194,6 +202,7 @@ class PaymentPlan
                 }
 
                 // Any remaining cost should be paid with coins - let's calculate how much:
+                // TODO: Does this occur anymore?
                 self::resourceCostToPlayer($player, $costLeft, $this, $print);
 
             } // End if costLeft > 0
@@ -207,6 +216,7 @@ class PaymentPlan
             }
             print "<PRE>Total cost: {$this->totalCost()} coin(s)</PRE>";
             print "<PRE>{$scenariosCalculated} scenarios considered</PRE>";
+            print "<PRE>Duration: " . (microtime(true) - $startTime) . " second(s)</PRE>";
         }
     }
 
