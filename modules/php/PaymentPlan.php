@@ -244,7 +244,7 @@ class PaymentPlan
         }
         else {
             if ($level == 0) self::$maskCombinations = [];
-            for($i = $levelStart; $i <= count($indexes) - 1 - $excludeCount + $level; $i++) {
+            for($i = $levelStart; $i <= min($levelStart + $excludeCount, count($indexes) - 1); $i++) {
                 $selectedIndexes[] = $i;
 
                 // The right level is reached.
