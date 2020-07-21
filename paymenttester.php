@@ -134,7 +134,7 @@ if (isset($_POST['name'])) {
             <div id="me"></div>
             <h3>Payment Plan Subject:</h3>
             <div id="subject"></div>
-            <h3>Payment Plan:</h3>
+            <h3>Payment Plan: <a id="refreshPaymentPlan" href="#">&#8635;</a></h3>
             <iframe id="plan" frameBorder="0"></iframe>
         </td>
         <td width="50%" id="material">
@@ -232,6 +232,13 @@ if (isset($_POST['name'])) {
         deselect();
         updatePaymentPlan();
     });
+    dojo.query('#refreshPaymentPlan').on("click", (e) => {
+        console.log('refreshPaymentPlan click');
+        dojo.stopEvent(e);
+
+        dojo.attr('plan', 'src', dojo.attr('plan', 'src'));
+    });
+
 
     function moveToMaterial(node) {
         var container = null;
