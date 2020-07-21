@@ -32,10 +32,12 @@ if (isset($_GET['me_buildings'])) {
     if(strlen($_GET['opponent_wonders'])) $player2->setWonderIds(explode(',', $_GET['opponent_wonders']));
     if(strlen($_GET['opponent_progress_tokens'])) $player2->setProgressTokenIds(explode(',', $_GET['opponent_progress_tokens']));
     if (strlen($_GET['subject_buildings'])) {
-        $payment = Player::me()->getPaymentPlan(Building::get($_GET['subject_buildings']), 1, 0);
+        $payment = Player::me()->getPaymentPlan(Building::get($_GET['subject_buildings']), 1, 1);
+        print "<PRE>" . print_r($payment, true) . "</PRE>";
     }
     if (strlen($_GET['subject_wonders'])) {
-        $payment = Player::me()->getPaymentPlan(Wonder::get($_GET['subject_wonders']), 1, 0);
+        $payment = Player::me()->getPaymentPlan(Wonder::get($_GET['subject_wonders']), 1, 1);
+        print "<PRE>" . print_r($payment, true) . "</PRE>";
     }
 
 

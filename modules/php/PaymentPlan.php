@@ -5,6 +5,7 @@ namespace SWD;
 class PaymentPlan
 {
 
+    private static $maskCombinations = null; // To prevent passing an array. // TODO check if this is more memory efficient.
     private $item = null; // Private so it's not included to javascript.
     /**
      * @var PaymentPlanStep[] array
@@ -16,7 +17,21 @@ class PaymentPlan
     }
 
     public function addStep($resource, $amount, $cost, $itemType, $itemId, $string) {
-        $this->steps[] = new PaymentPlanStep($resource, $amount, $cost, $itemType, $itemId, $string);
+        $step = new PaymentPlanStep($resource, $amount, $cost, $itemType, $itemId, $string);
+        $this->steps[] = $step;
+        return $step;
+    }
+
+    private static function applyMask($cost, $mask) {
+        $flat = self::toCostFlat($cost);
+        return array_count_values(array_intersect_key($flat, array_flip($mask)));
+    }
+    private static function toCostFlat($cost) {
+        $flat = [];
+        foreach($cost as $resource => $amount) {
+            $flat = array_pad($flat , count($flat) + $amount , $resource);
+        }
+        return $flat;
     }
 
     public function calculate(Player $player, $print = false, $printChoices = false) {
@@ -63,50 +78,37 @@ class PaymentPlan
                     }
                 }
 
-                $indexes = [0,1,2,3,4,5];
-                function combinations($indexes, $level = 0, $levelStart = 0, $selectedIndexes = [], $excludeCount = 2) {
-                    for($i = $levelStart; $i < count($indexes) - ($excludeCount - $level); $i++) {
-                        $selectedIndexes[] = $i;
+                // Is there a progress token we should consider? Architecture and Masonry provide a 2 resource discount.
+                $discountProgressToken = null;
+                if($this->item instanceof Wonder && $player->hasProgressToken(2)) $discountProgressToken = ProgressToken::get(2); // Architecture
+                if($this->item instanceof Building && $this->item->type == Building::TYPE_BLUE && $player->hasProgressToken(5)) $discountProgressToken = ProgressToken::get(5); // Masonry
 
-                        // Right amount of indexes reached.
-                        if ($level == count($indexes) - 1 - $excludeCount) {
-                            print "<PRE>" . implode('', $selectedIndexes) . "</PRE>";
-                        }
-                        else {
-                            // We need to move deeper
-                            combinations($indexes, $level + 1, $i + 1, $selectedIndexes);
-                        }
-                        array_pop($selectedIndexes);
-                    }
-                }
-                combinations($indexes);
-
+                $costLeftFlat = self::toCostFlat($costLeft);
+                $indexes = array_keys($costLeftFlat); // Something like [0,1,2,3]
+                $maskCombinations = $discountProgressToken ? self::getMaskCombinations($indexes) : $indexes;
+                print "<PRE>maskCombinations" . print_r($maskCombinations, true) . "</PRE>";
                 print "<PRE>Cost left after basic resources: " . print_r($costLeft, true) . "</PRE>";
-                exit;
 
                 // What about resource "choice" cards? In order to make the most optimal choice we should consider all combinations
                 // and the costs of the remaining resources to pick the cheapest solution.
                 $choices = [];
                 $choiceItems = [];
                 $costLeftKeys = array_keys($costLeft);
-                foreach ($player->getBuildings()->filterByTypes([Building::TYPE_YELLOW]) as $building) {
-                    if (count($building->resourceChoice) > 0) {
+                foreach (array_merge($player->getBuildings()->filterByTypes([Building::TYPE_YELLOW])->array, $player->getWonders()->array) as $item) {
+                    if (count($item->resourceChoice) > 0 && ($item instanceof Building || $item->isConstructed())) {
                         $relevantResourceChoices = [];
-                        foreach($building->resourceChoice as $resource) {
+                        foreach($item->resourceChoice as $resource) {
                             if (in_array($resource, $costLeftKeys)) {
                                 $relevantResourceChoices[] = $resource;
                             }
                         }
                         $choices[] = $relevantResourceChoices;
-                        $choiceItems[] = $building;
+                        $choiceItems[] = $item;
                     }
                 }
-                foreach ($player->getWonders() as $wonder) {
-                    if ($wonder->isConstructed() && count($wonder->resourceChoice) > 0) {
-                        $choices[] = $wonder->resourceChoice;
-                        $choiceItems[] = $wonder;
-                    }
-                }
+//                print "<PRE>" . print_r($choices, true) . "</PRE>";
+//                print "<PRE>" . print_r($choiceItems, true) . "</PRE>";
+//                exit;
                 if (count($choices) > 0) {
                     if($printChoices) print "<PRE>=========================================================</PRE>";
                     $combinations = $this->combinations($choices);
@@ -114,34 +116,49 @@ class PaymentPlan
                     /** @var PaymentPlan $cheapestCombinationPayment */
                     $cheapestCombinationPayment = null;
                     $cheapestCombinationIndex = null;
+                    $cheapestCombinationMaskIndex = null;
                     foreach($combinations as $combinationIndex => $combination) {
-                        $costLeftCopy = $costLeft;
-                        $combination = array_count_values($combination);
-                        $resourcesFound = false;
-                        foreach ($costLeftCopy as $resource => $amount) {
-                            if(isset($combination[$resource])) {
-                                $resourcesFound = true;
-                                $costLeftCopy[$resource] -= $combination[$resource];
-                                if ($costLeftCopy[$resource] <= 0) {
-                                    unset($costLeftCopy[$resource]);
+                        $combinationCost = array_count_values($combination);
+                        if($printChoices) print "<PRE>Considering combination of choice card resources: " . print_r($combination, true) . "</PRE>";
+                        foreach($maskCombinations as $maskCombinationIndex => $mask) {
+                            $costLeftCopy = $costLeft;
+                            $costLeftMasked = self::applyMask($costLeft, $mask);
+                            $resourcesFound = false;
+                            foreach ($costLeftMasked as $resource => $amount) {
+                                if(isset($combinationCost[$resource])) {
+                                    $resourcesFound = true;
+                                    $costLeftMasked[$resource] -= min($costLeftMasked[$resource], $combinationCost[$resource]);
+                                    if ($costLeftMasked[$resource] <= 0) {
+                                        unset($costLeftMasked[$resource]);
+                                    }
                                 }
                             }
-                        }
-                        if ($resourcesFound) {
-                            if($printChoices) print "<PRE>Considering combination of choice card resources: " . print_r($combination, true) . "</PRE>";
-                            if($printChoices) print "<PRE>Resources needed afterwards: " . print_r($costLeftCopy, true) . "</PRE>";
-                            $tmpPayment = self::resourceCostToPlayer($player, $costLeftCopy, null, $printChoices);
-                            if(is_null($cheapestCombinationPayment) || $tmpPayment->totalCost() < $cheapestCombinationPayment->totalCost()) {
-                                $cheapestCombinationPayment = $tmpPayment;
-                                $cheapestCombinationIndex = $combinationIndex;
+                            if ($resourcesFound) {
+                                if($printChoices) print "<PRE>Considering combination of choice card resources: " . print_r($combination, true) . "</PRE>";
+                                if($printChoices) print "<PRE>Resources needed afterwards: " . print_r($costLeftMasked, true) . "</PRE>";
+                                $tmpPayment = self::resourceCostToPlayer($player, $costLeftMasked, null, $printChoices);
+                                if(is_null($cheapestCombinationPayment) || $tmpPayment->totalCost() < $cheapestCombinationPayment->totalCost()) {
+                                    $cheapestCombinationPayment = $tmpPayment;
+                                    $cheapestCombinationIndex = $combinationIndex;
+                                    $cheapestCombinationMaskIndex = $maskCombinationIndex;
+                                }
+                                if($printChoices) print "<PRE>Cost to player: " . print_r($tmpPayment->totalCost(), true) . "</PRE>";
                             }
-                            if($printChoices) print "<PRE>Cost to player: " . print_r($tmpPayment->totalCost(), true) . "</PRE>";
+                            if($printChoices) print "<PRE>=========================================================</PRE>";
                         }
-                        if($printChoices) print "<PRE>=========================================================</PRE>";
                     }
                     if (!is_null($cheapestCombinationPayment)) {
+                        print "<PRE>asdf" . print_r($combinations[$cheapestCombinationIndex], true) . "</PRE>";
+                        print "<PRE>mask" . print_r($maskCombinations[$cheapestCombinationMaskIndex], true) . "</PRE>";
+                        $mask = $maskCombinations[$cheapestCombinationMaskIndex];
                         foreach($combinations[$cheapestCombinationIndex] as $choiceItemIndex => $resource) {
                             if (isset($costLeft[$resource])) {
+                                if (!in_array($choiceItemIndex, $mask)) {
+                                    
+                                }
+                                else {
+                                    
+                                }
                                 $item = $choiceItems[$choiceItemIndex];
                                 if ($item instanceof Building) {
                                     $string = "Produce 1 {$resource} with building “{$item->name}”.";
@@ -153,13 +170,21 @@ class PaymentPlan
                                     if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
                                     $this->addStep($resource, 1, 0, Item::TYPE_WONDER, $item->id, $string);
                                 }
-                                $costLeft[$resource] -= 1;
-                                if ($costLeft[$resource] <= 0) {
-                                    unset($costLeft[$resource]);
-                                }
+                                self::subtractResource($costLeft, $resource);
                                 if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                             }
                         }
+                        $discounted = array_diff(array_keys($costLeftFlat), $mask);
+                        foreach ($discounted as $flatCostIndex) {
+                            $resource = $costLeftFlat[$flatCostIndex];
+                            $string = "{$resource} discounted thanks to Progress token “{$discountProgressToken->name}”.";
+                            if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
+                            $this->addStep($resource, 1, 0, Item::TYPE_PROGRESSTOKEN, $discountProgressToken->id, $string);
+
+                            self::subtractResource($costLeft, $resource);
+                            if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
+                        }
+//                        print "<PRE>discounted" . print_r($discounted, true) . "</PRE>";
                         if($printChoices) print "<PRE>Cheapest combination: " . print_r([$combinations[$cheapestCombinationIndex], $cheapestCombinationPayment], true) . "</PRE>";
                     }
                 }
@@ -168,39 +193,72 @@ class PaymentPlan
                 self::resourceCostToPlayer($player, $costLeft, $this, $print);
 
                 // Now consider Progress tokens Architecture & Masonry
-                if (
-                    ($this->item instanceof Wonder && $player->hasProgressToken(2)) // Architecture
-                    || ($this->item instanceof Building && $this->item->type == Building::TYPE_BLUE && $player->hasProgressToken(5)) // Masonry
-                ) {
-                    $relevantProgressToken = $this->item instanceof Wonder ? 2 : 5;
-                    // How many steps are > 0 cost?
-                    $costSteps = [];
-                    $costStepsSorted = [];
-                    foreach($this->steps as $step) {
-                        if ($step->cost > 0) {
-                            $costSteps[] = $step;
-                            if (!isset($costStepsSorted[$step->cost])) $costStepsSorted[$step->cost] = [];
-                            $costStepsSorted[$step->cost][] = $step;
-                        }
-                    }
-                    if (count($costSteps) <= 2) {
-                        foreach($costSteps as $step) {
-                            $step->progressTokenDiscount($relevantProgressToken);
-                        }
-                    }
-                    elseif(count($costSteps) > 2) {
-                        print "<PRE>" . print_r($costStepsSorted, true) . "</PRE>";
-                        exit;
-                        // Let's consider all combinations
-
-                    }
-                }
+//                if (
+//                    ($this->item instanceof Wonder && $player->hasProgressToken(2)) // Architecture
+//                    || ($this->item instanceof Building && $this->item->type == Building::TYPE_BLUE && $player->hasProgressToken(5)) // Masonry
+//                ) {
+//                    $relevantProgressToken = $this->item instanceof Wonder ? 2 : 5;
+//                    // How many steps are > 0 cost?
+//                    $costSteps = [];
+//                    $costStepsSorted = [];
+//                    foreach($this->steps as $step) {
+//                        if ($step->cost > 0) {
+//                            $costSteps[] = $step;
+//                            if (!isset($costStepsSorted[$step->cost])) $costStepsSorted[$step->cost] = [];
+//                            $costStepsSorted[$step->cost][] = $step;
+//                        }
+//                    }
+//                    if (count($costSteps) <= 2) {
+//                        foreach($costSteps as $step) {
+//                            $step->progressTokenDiscount($relevantProgressToken);
+//                        }
+//                    }
+//                    elseif(count($costSteps) > 2) {
+//                        print "<PRE>" . print_r($costStepsSorted, true) . "</PRE>";
+//                        exit;
+//                        // Let's consider all combinations
+//
+//                    }
+//                }
             } // End if costLeft > 0
 
             $this->sortSteps($this->item->cost);
         }
 
         if($print) print "<PRE>Total cost: {$this->totalCost()} coin(s)</PRE>";
+    }
+
+    private static function subtractResource(&$cost, $resource) {
+        $cost[$resource] -= 1;
+        if ($cost[$resource] <= 0) {
+            unset($cost[$resource]);
+        }
+    }
+
+    /**
+     * Gets the "mask" calculations, aka all combinations of indexes but with 2 excluded (for Progress tokens Architecture & Masonry
+     * @param $indexes
+     * @param int $level
+     * @param int $levelStart
+     * @param array $selectedIndexes
+     * @param int $excludeCount
+     */
+    private static function getMaskCombinations($indexes, $level = 0, $levelStart = 0, $selectedIndexes = [], $excludeCount = 2) {
+        if ($level == 0) self::$maskCombinations = [];
+        for($i = $levelStart; $i < count($indexes) - ($excludeCount - $level); $i++) {
+            $selectedIndexes[] = $i;
+
+            // Right amount of indexes reached.
+            if ($level == count($indexes) - 1 - $excludeCount) {
+                self::$maskCombinations[] = $selectedIndexes;
+            }
+            else {
+                // We need to move deeper
+                self::getMaskCombinations($indexes, $level + 1, $i + 1, $selectedIndexes);
+            }
+            array_pop($selectedIndexes);
+        }
+        if ($level == 0) return self::$maskCombinations;
     }
 
     /**

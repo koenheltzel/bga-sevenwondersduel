@@ -149,7 +149,7 @@ if (isset($_POST['name'])) {
                          style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
                     ></div><?php endforeach ?>
             </div>
-            <h3>Wonders:</h3>
+            <h3>Wonders (as if constructed):</h3>
             <div id="wonders">
                 <?php foreach(\SWD\Material::get()->wonders->array as $wonder):
                     $spritesheetColumns = 5;
