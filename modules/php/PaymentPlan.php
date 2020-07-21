@@ -18,7 +18,7 @@ class PaymentPlan
     public function addStep($resource, $amount, $cost, $itemType, $itemId, $string) {
         $this->steps[] = new PaymentPlanStep($resource, $amount, $cost, $itemType, $itemId, $string);
     }
-    
+
     public function calculate(Player $player, $print = false, $printChoices = false) {
         if($print) print "<PRE>Calculate cost for player to buy “{$this->item->name}\" card.</PRE>";
 
@@ -33,6 +33,7 @@ class PaymentPlan
             $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string);
         }
         else {
+            // Coins in the cost
             if (isset($costLeft[COINS])) {
                 $resource = COINS;
                 $string = "Pay {$costLeft[COINS]} {$resource}.";
@@ -42,7 +43,7 @@ class PaymentPlan
                 unset($costLeft[$resource]);
                 if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
             }
-
+            //
             if(count($costLeft) > 0) {
                 // What can the player produce with basic brown / grey cards?
                 foreach ($player->getBuildings()->filterByTypes([Building::TYPE_BROWN, Building::TYPE_GREY]) as $building) {
@@ -62,20 +63,48 @@ class PaymentPlan
                     }
                 }
 
+                $indexes = [0,1,2,3,4,5];
+                function combinations($indexes, $level = 0, $levelStart = 0, $selectedIndexes = [], $excludeCount = 2) {
+                    for($i = $levelStart; $i < count($indexes) - ($excludeCount - $level); $i++) {
+                        $selectedIndexes[] = $i;
+
+                        // Right amount of indexes reached.
+                        if ($level == count($indexes) - 1 - $excludeCount) {
+                            print "<PRE>" . implode('', $selectedIndexes) . "</PRE>";
+                        }
+                        else {
+                            // We need to move deeper
+                            combinations($indexes, $level + 1, $i + 1, $selectedIndexes);
+                        }
+                        array_pop($selectedIndexes);
+                    }
+                }
+                combinations($indexes);
+
+                print "<PRE>Cost left after basic resources: " . print_r($costLeft, true) . "</PRE>";
+                exit;
+
                 // What about resource "choice" cards? In order to make the most optimal choice we should consider all combinations
                 // and the costs of the remaining resources to pick the cheapest solution.
                 $choices = [];
-                $choiceItemIds = [];
-                foreach ($player->getBuildings() as $building) {
+                $choiceItems = [];
+                $costLeftKeys = array_keys($costLeft);
+                foreach ($player->getBuildings()->filterByTypes([Building::TYPE_YELLOW]) as $building) {
                     if (count($building->resourceChoice) > 0) {
-                        $choices[] = $building->resourceChoice;
-                        $choiceItemIds[] = Item::TYPE_BUILDING . $building->id;
+                        $relevantResourceChoices = [];
+                        foreach($building->resourceChoice as $resource) {
+                            if (in_array($resource, $costLeftKeys)) {
+                                $relevantResourceChoices[] = $resource;
+                            }
+                        }
+                        $choices[] = $relevantResourceChoices;
+                        $choiceItems[] = $building;
                     }
                 }
                 foreach ($player->getWonders() as $wonder) {
                     if ($wonder->isConstructed() && count($wonder->resourceChoice) > 0) {
                         $choices[] = $wonder->resourceChoice;
-                        $choiceItemIds[] = Item::TYPE_WONDER . $wonder->id;;
+                        $choiceItems[] = $wonder;
                     }
                 }
                 if (count($choices) > 0) {
@@ -113,21 +142,16 @@ class PaymentPlan
                     if (!is_null($cheapestCombinationPayment)) {
                         foreach($combinations[$cheapestCombinationIndex] as $choiceItemIndex => $resource) {
                             if (isset($costLeft[$resource])) {
-                                $itemType = substr($choiceItemIds[$choiceItemIndex], 0, 1);
-                                $itemId = substr($choiceItemIds[$choiceItemIndex], 1);
-                                switch ($itemType) {
-                                    case Item::TYPE_BUILDING:
-                                        $building = Building::get($itemId);
-                                        $string = "Produce 1 {$resource} with building “{$building->name}”.";
-                                        if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
-                                        $this->addStep($resource, 1, 0, Item::TYPE_BUILDING, $building->id, $string);
-                                        break;
-                                    case Item::TYPE_WONDER:
-                                        $wonder = Wonder::get($itemId);
-                                        $string = "Produce 1 {$resource} with wonder “{$wonder->name}”.";
-                                        if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
-                                        $this->addStep($resource, 1, 0, Item::TYPE_WONDER, $wonder->id, $string);
-                                        break;
+                                $item = $choiceItems[$choiceItemIndex];
+                                if ($item instanceof Building) {
+                                    $string = "Produce 1 {$resource} with building “{$item->name}”.";
+                                    if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
+                                    $this->addStep($resource, 1, 0, Item::TYPE_BUILDING, $item->id, $string);
+                                }
+                                if ($item instanceof Wonder) {
+                                    $string = "Produce 1 {$resource} with wonder “{$item->name}”.";
+                                    if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
+                                    $this->addStep($resource, 1, 0, Item::TYPE_WONDER, $item->id, $string);
                                 }
                                 $costLeft[$resource] -= 1;
                                 if ($costLeft[$resource] <= 0) {
