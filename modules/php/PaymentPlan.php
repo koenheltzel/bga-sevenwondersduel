@@ -17,15 +17,14 @@ class PaymentPlan
     }
 
     public function addStep($resource, $amount, $cost, $itemType, $itemId, $string) {
-        $step = new PaymentPlanStep($resource, $amount, $cost, $itemType, $itemId, $string);
-        $this->steps[] = $step;
-        return $step;
+        $this->steps[] = new PaymentPlanStep($resource, $amount, $cost, $itemType, $itemId, $string);
     }
 
     private static function applyMask($cost, $mask) {
         $flat = self::toCostFlat($cost);
         return array_count_values(array_intersect_key($flat, array_flip($mask)));
     }
+
     private static function toCostFlat($cost) {
         $flat = [];
         foreach($cost as $resource => $amount) {
@@ -38,7 +37,7 @@ class PaymentPlan
         if($print) print "<PRE>Calculate cost for player to buy “{$this->item->name}\" card.</PRE>";
 
         $costLeft = $this->item->cost;
-        if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
+//        if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
 
         if ($this->item instanceof Building && $player->hasBuilding($this->item->linkedBuilding)) {
             // Player has the linked building, so no building cost.
@@ -56,7 +55,7 @@ class PaymentPlan
                 $this->addStep(COINS, $costLeft[COINS], $costLeft[COINS], null, null, $string);
 
                 unset($costLeft[$resource]);
-                if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
+//                if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
             }
             //
             if(count($costLeft) > 0) {
@@ -73,7 +72,7 @@ class PaymentPlan
                             if ($costLeft[$resource] <= 0) {
                                 unset($costLeft[$resource]);
                             }
-                            if($print && $costLeft > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
+//                            if($print && $costLeft > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                         }
                     }
                 }
@@ -85,9 +84,7 @@ class PaymentPlan
 
                 $costLeftFlat = self::toCostFlat($costLeft);
                 $indexes = array_keys($costLeftFlat); // Something like [0,1,2,3]
-                $maskCombinations = $discountProgressToken ? self::getMaskCombinations($indexes) : $indexes;
-                print "<PRE>maskCombinations" . print_r($maskCombinations, true) . "</PRE>";
-                print "<PRE>Cost left after basic resources: " . print_r($costLeft, true) . "</PRE>";
+                $maskCombinations = $discountProgressToken ? self::getMaskCombinations($indexes) : [$indexes];
 
                 // What about resource "choice" cards? In order to make the most optimal choice we should consider all combinations
                 // and the costs of the remaining resources to pick the cheapest solution.
@@ -106,13 +103,10 @@ class PaymentPlan
                         $choiceItems[] = $item;
                     }
                 }
-//                print "<PRE>" . print_r($choices, true) . "</PRE>";
-//                print "<PRE>" . print_r($choiceItems, true) . "</PRE>";
-//                exit;
+
                 if (count($choices) > 0) {
                     if($printChoices) print "<PRE>=========================================================</PRE>";
                     $combinations = $this->combinations($choices);
-//                print "<PRE>" . print_r($combinations, true) . "</PRE>";
                     /** @var PaymentPlan $cheapestCombinationPayment */
                     $cheapestCombinationPayment = null;
                     $cheapestCombinationIndex = null;
@@ -148,8 +142,6 @@ class PaymentPlan
                         }
                     }
                     if (!is_null($cheapestCombinationPayment)) {
-                        print "<PRE>asdf" . print_r($combinations[$cheapestCombinationIndex], true) . "</PRE>";
-                        print "<PRE>mask" . print_r($maskCombinations[$cheapestCombinationMaskIndex], true) . "</PRE>";
                         $mask = $maskCombinations[$cheapestCombinationMaskIndex];
                         foreach($combinations[$cheapestCombinationIndex] as $choiceItemIndex => $resource) {
                             if (isset($costLeft[$resource])) {
@@ -171,7 +163,7 @@ class PaymentPlan
                                     $this->addStep($resource, 1, 0, Item::TYPE_WONDER, $item->id, $string);
                                 }
                                 self::subtractResource($costLeft, $resource);
-                                if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
+//                                if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                             }
                         }
                         $discounted = array_diff(array_keys($costLeftFlat), $mask);
@@ -182,9 +174,8 @@ class PaymentPlan
                             $this->addStep($resource, 1, 0, Item::TYPE_PROGRESSTOKEN, $discountProgressToken->id, $string);
 
                             self::subtractResource($costLeft, $resource);
-                            if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
+//                            if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                         }
-//                        print "<PRE>discounted" . print_r($discounted, true) . "</PRE>";
                         if($printChoices) print "<PRE>Cheapest combination: " . print_r([$combinations[$cheapestCombinationIndex], $cheapestCombinationPayment], true) . "</PRE>";
                     }
                 }
@@ -192,34 +183,6 @@ class PaymentPlan
                 // Any remaining cost should be paid with coins - let's calculate how much:
                 self::resourceCostToPlayer($player, $costLeft, $this, $print);
 
-                // Now consider Progress tokens Architecture & Masonry
-//                if (
-//                    ($this->item instanceof Wonder && $player->hasProgressToken(2)) // Architecture
-//                    || ($this->item instanceof Building && $this->item->type == Building::TYPE_BLUE && $player->hasProgressToken(5)) // Masonry
-//                ) {
-//                    $relevantProgressToken = $this->item instanceof Wonder ? 2 : 5;
-//                    // How many steps are > 0 cost?
-//                    $costSteps = [];
-//                    $costStepsSorted = [];
-//                    foreach($this->steps as $step) {
-//                        if ($step->cost > 0) {
-//                            $costSteps[] = $step;
-//                            if (!isset($costStepsSorted[$step->cost])) $costStepsSorted[$step->cost] = [];
-//                            $costStepsSorted[$step->cost][] = $step;
-//                        }
-//                    }
-//                    if (count($costSteps) <= 2) {
-//                        foreach($costSteps as $step) {
-//                            $step->progressTokenDiscount($relevantProgressToken);
-//                        }
-//                    }
-//                    elseif(count($costSteps) > 2) {
-//                        print "<PRE>" . print_r($costStepsSorted, true) . "</PRE>";
-//                        exit;
-//                        // Let's consider all combinations
-//
-//                    }
-//                }
             } // End if costLeft > 0
 
             $this->sortSteps($this->item->cost);
@@ -281,7 +244,7 @@ class PaymentPlan
                         if($print) print "<PRE>" . print_r($string, true) . "</PRE>";
                     }
                     unset($costLeft[$resource]);
-                    if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
+//                    if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                 }
             }
         }
@@ -389,11 +352,6 @@ class PaymentPlanStep
         $this->itemType = $itemType;
         $this->itemId = $itemId;
         $this->string = $string;
-    }
-
-    public function progressTokenDiscount($progressTokenId) {
-        $this->cost = 0;
-        $this->string = "Free due to progress token $progressTokenId"; // Temporary
     }
 
 }
