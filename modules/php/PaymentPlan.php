@@ -48,7 +48,6 @@ class PaymentPlan
             $linkedBuilding = Building::get($this->item->linkedBuilding);
             $string = "Construction is free through linked building “{$linkedBuilding->name}”.";
             $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string);
-            $scenariosCalculated++;
         }
         else {
             // Coins in the cost
@@ -204,12 +203,12 @@ class PaymentPlan
 //                            if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                 }
 
-                // Any remaining cost should be paid with coins - let's calculate how much:
-                // TODO: Does this occur anymore?
+                // Any remaining cost should be paid with coins:
                 self::resourceCostToPlayer($player, $costLeft, $this, $print);
 
             } // End if costLeft > 0
 
+            // Sort the steps do they match the card.
             $this->sortSteps($this->item->cost);
         }
 
@@ -217,9 +216,10 @@ class PaymentPlan
             foreach($this->steps as $step) {
                 print "<PRE>{$step->string}</PRE>";
             }
+            $scenariosCalculated = max(1, $scenariosCalculated);
             print "<PRE>Total cost: {$this->totalCost()} coin(s)</PRE>";
-            print "<PRE>{$scenariosCalculated} scenarios considered</PRE>";
-            print "<PRE>Duration: " . (microtime(true) - $startTime) . " second(s)</PRE>";
+            print "<PRE>{$scenariosCalculated} scenario(s) considered</PRE>";
+            print "<PRE>Duration: " . number_format(microtime(true) - $startTime, 6) . " second(s)</PRE>";
         }
     }
 
