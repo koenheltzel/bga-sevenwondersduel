@@ -189,6 +189,9 @@ class PaymentPlan
                             }
                         }
                     }
+                    else {
+                        $mask = []; // Set mask to empty so any remaining resources will be discounted.
+                    }
                 }
 
                 $discounted = array_diff(array_keys($costLeftFlat), $mask);
@@ -236,21 +239,26 @@ class PaymentPlan
      * @param int $excludeCount
      */
     private static function getMaskCombinations($indexes, $level = 0, $levelStart = 0, $selectedIndexes = [], $excludeCount = 2) {
-        if ($level == 0) self::$maskCombinations = [];
-        for($i = $levelStart; $i < count($indexes) - ($excludeCount - $level); $i++) {
-            $selectedIndexes[] = $i;
-
-            // Right amount of indexes reached.
-            if ($level == count($indexes) - 1 - $excludeCount) {
-                self::$maskCombinations[] = $selectedIndexes;
-            }
-            else {
-                // We need to move deeper
-                self::getMaskCombinations($indexes, $level + 1, $i + 1, $selectedIndexes);
-            }
-            array_pop($selectedIndexes);
+        if (count($indexes) <= $excludeCount) {
+            return [];
         }
-        if ($level == 0) return self::$maskCombinations;
+        else {
+            if ($level == 0) self::$maskCombinations = [];
+            for($i = $levelStart; $i <= count($indexes) - 1 - $excludeCount + $level; $i++) {
+                $selectedIndexes[] = $i;
+
+                // The right level is reached.
+                if ($level == count($indexes) - $excludeCount - 1) {
+                    self::$maskCombinations[] = $selectedIndexes;
+                }
+                else {
+                    // We need to move deeper
+                    self::getMaskCombinations($indexes, $level + 1, $i + 1, $selectedIndexes);
+                }
+                array_pop($selectedIndexes);
+            }
+            if ($level == 0) return self::$maskCombinations;
+        }
     }
 
     /**
