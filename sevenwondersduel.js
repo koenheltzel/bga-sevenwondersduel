@@ -761,7 +761,14 @@ define([
                     var spritesheetColumns = 10;
 
                     var data = {};
-                    data.ageRoman = this.ageRoman(building.age);
+                    if (building.age <= 3) {
+                        data.cardType = dojo.string.substitute( _("Age ${ageRoman} card"), {
+                            ageRoman: this.ageRoman(building.age)
+                        } );
+                    }
+                    else {
+                        data.cardType = _("Guild card");
+                    }
                     data.name = building.name;
                     data.backx = ((id - 1) % spritesheetColumns);
                     data.backy = Math.floor((id - 1) / spritesheetColumns);

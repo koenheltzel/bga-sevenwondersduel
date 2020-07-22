@@ -278,7 +278,7 @@ var jstpl_tooltip_cost_opponent = '\
 
 var jstpl_building_tooltip = '\
     <div class="swd_tooltip building_tooltip">\
-        <h3>Age ${ageRoman} building “${name}”</h3>\
+        <h3>${cardType} “${name}”</h3>\
         <hr\>\
         <div class="cardinfos">\
             <div class="building tooltipWiggle" style="float:right; background-position: -${backx}00% -${backy}00%;">\
