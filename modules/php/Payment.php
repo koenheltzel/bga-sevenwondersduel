@@ -20,5 +20,6 @@ class Payment extends PaymentPlan
     public $opponentCoinLoss = 0;
     public $economyProgressTokenCoins = 0;
     public $discardedCard = false;
+    public $eightWonderId = null;
 
 }

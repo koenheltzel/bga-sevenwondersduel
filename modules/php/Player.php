@@ -185,6 +185,10 @@ class Player extends \APP_DbObject{
         return Wonders::createByWonderIds($this->getWonderIds());
     }
 
+    public function hasWonder($id) : bool {
+        return in_array($id, $this->getWonderIds());
+    }
+
     public function getWonderDeckCards(): array {
         return Wonders::getDeckCardsSorted($this->id);
     }
@@ -196,6 +200,7 @@ class Player extends \APP_DbObject{
             $wonder = Wonder::get($card['id']);
             $row = [];
             $row['wonder'] = $wonder->id;
+            $row['position'] = $card['location_arg'];
             $row['constructed'] = $wonder->isConstructed();
             $payment = $this->getPaymentPlan($wonder);
             $row['cost'] = $row['constructed'] ? -1 : $payment->totalCost();

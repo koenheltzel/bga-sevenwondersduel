@@ -61,6 +61,30 @@ class Wonder extends Item {
             ]
         );
 
+        $eightWonder = null;
+        foreach(array_merge(Player::me()->getWonders()->array, Player::opponent()->getWonders()->array) as $wonder) {
+            if (!$wonder->isConstructed()) {
+                if ($eightWonder) {
+                    // Found a second unconstructed wonder, means there aren't 7 wonders constructed yet.
+                    $eightWonder = null;
+                    break;
+                }
+                $eightWonder = $wonder;
+            }
+        }
+        if ($eightWonder) {
+            SevenWondersDuel::get()->wonderDeck->moveCard($eightWonder->id, 'box');
+            $payment->eightWonderId = $eightWonder->id;
+            SevenWondersDuel::get()->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name}\'s Wonder “${wonderName}” is removed from the game because 7 Wonders have been constructed.'),
+                [
+                    'player_name' => Player::me()->hasWonder($eightWonder->id) ? Player::me()->name : Player::opponent()->name,
+                    'wonderName' => $eightWonder->name,
+                ]
+            );
+        }
+
         $this->constructEffects($player, $payment);
 
         return $payment;

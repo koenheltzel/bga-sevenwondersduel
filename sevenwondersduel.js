@@ -360,9 +360,9 @@ define([
                 console.log('updatePlayerWonders', playerId, rows);
                 var i = 1;
                 Object.keys(rows).forEach(dojo.hitch(this, function (index) {
-                    var container = dojo.query('.player_wonders.player' + playerId + '>div:nth-of-type(' + i + ')')[0];
-                    dojo.empty(container);
                     var row = rows[index];
+                    var container = dojo.query('.player_wonders.player' + playerId + '>div:nth-of-type(' + row.position + ')')[0];
+                    dojo.empty(container);
                     var wonderDivHtml = this.getWonderDivHtml(row.wonder, row.constructed == 0, row.cost, this.gamedatas.playersSituation[playerId].coins);
                     var wonderDiv = dojo.place(wonderDivHtml, container);
                     if (row.constructed > 0) {
@@ -1340,6 +1340,17 @@ define([
                             [wonder.visualOpponentCoinLossPosition[0] * wonderNodePosition.w, wonder.visualOpponentCoinLossPosition[1] * wonderNodePosition.h]
                         );
 
+                        var eightWonderFadeOut = dojo.fx.combine([]);
+                        if (notif.args.payment.eightWonderId) {
+                            eightWonderFadeOut = dojo.fadeOut({
+                                node: $('wonder_' + notif.args.payment.eightWonderId + '_container'),
+                                duration: 1000,
+                                onEnd: dojo.hitch(this, function (node) {
+                                    dojo.destroy(node);
+                                })
+                            });
+                        }
+
                         var anim = dojo.fx.chain([
                             dojo.fx.combine([
                                 dojo.animateProperty({
@@ -1383,6 +1394,7 @@ define([
                             opponentCoinLossAnimation,
                             // Military Track animation (pawn movement, token handling)
                             bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment),
+                            eightWonderFadeOut,
                         ]);
 
                         dojo.connect(anim, 'beforeBegin', dojo.hitch(this, function () {
