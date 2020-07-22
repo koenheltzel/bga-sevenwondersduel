@@ -101,15 +101,25 @@ class Building extends Item {
         if ($this->scientificSymbol) {
             $buildings = Player::me()->getBuildings()->filterByScientificSymbol($this->scientificSymbol);
             if (count($buildings->array) == 2) {
-                $payment->newScientificSymbolPair = true;
-
-                SevenWondersDuel::get()->notifyAllPlayers(
-                    'message',
-                    clienttranslate('${player_name} gathered a pair of identical scientific symbols, and may now choose a Progress token.'),
-                    [
-                        'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
-                    ]
-                );
+                if (count(SevenWondersDuel::get()->progressTokenDeck->getCardsInLocation('board')) > 0) {
+                    $payment->selectProgressToken = true;
+                    SevenWondersDuel::get()->notifyAllPlayers(
+                        'message',
+                        clienttranslate('${player_name} gathered a pair of identical scientific symbols, and may now choose a Progress token.'),
+                        [
+                            'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                        ]
+                    );
+                }
+                else {
+                    SevenWondersDuel::get()->notifyAllPlayers(
+                        'message',
+                        clienttranslate('${player_name} gathered a pair of identical scientific symbols, but there are no Progress tokens left'),
+                        [
+                            'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                        ]
+                    );
+                }
             }
         }
 

@@ -14,7 +14,7 @@ class Payment extends PaymentPlan
     public $militaryTokenValue = 0;
     public $militaryOpponentPays = 0;
 
-    public $newScientificSymbolPair = false;
+    public $selectProgressToken = false;
     public $urbanismAward = 0;
     public $coinReward = 0;
     public $opponentCoinLoss = 0;
