@@ -852,9 +852,13 @@ __     __         _       _     _
     width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
     height: calc(var(--progress-token-height) * var(--progress-token-small-scale));
 }
-.player_area_progress_tokens>div:nth-of-type(4), .player_area_progress_tokens>div:nth-of-type(5) {
+.player_area_progress_tokens>div:nth-of-type(4)>div, .player_area_progress_tokens>div:nth-of-type(5)>div, .player_area_progress_tokens>div:nth-of-type(6)>div {
+    margin-bottom: calc(-12px * var(--scale));
+}
+.player_area_progress_tokens>div:nth-of-type(4), .player_area_progress_tokens>div:nth-of-type(5), .player_area_progress_tokens>div:nth-of-type(6) {
     position: relative;
-    top:-8px;
+    top: calc(-8px * var(--scale));
+    margin-bottom: calc(-12px * var(--scale));
     display: none;
 }
 

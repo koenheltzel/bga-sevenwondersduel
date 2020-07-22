@@ -131,11 +131,12 @@
                             <!-- END board_player_row_info -->
                             <!-- BEGIN board_player_row_progress_tokens -->
                             <div class="player_area_progress_tokens">
-                                <div class="progress_token_outline"><div></div></div>
-                                <div class="progress_token_outline"><div></div></div>
-                                <div class="progress_token_outline"><div></div></div>
-                                <div class="progress_token_outline"><div></div></div>
-                                <div class="progress_token_outline"><div></div></div>
+                                <div class="progress_token_outline"></div>
+                                <div class="progress_token_outline"></div>
+                                <div class="progress_token_outline"></div>
+                                <div class="progress_token_outline"></div>
+                                <div class="progress_token_outline"></div>
+                                <div class="progress_token_outline"></div>
                             </div>
                             <!-- END board_player_row_progress_tokens -->
                         <!-- END board_player_row -->

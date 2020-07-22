@@ -645,7 +645,7 @@ define([
                 console.log('updatePlayerProgressTokens', playerId, deckCards);
 
                 Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
-                    var container = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + i + ')')[0];
+                    var container = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + (parseInt(index) + 1) + ')')[0]; // parseInt(index) is apparently necessary?
                     dojo.empty(container);
                     var deckCard = deckCards[index];
 
@@ -658,6 +658,16 @@ define([
                     data.jsY = Math.floor((deckCard.id - 1) / spritesheetColumns);
                     dojo.place(this.format_block('jstpl_progress_token', data), container);
                 }));
+                this.maybeShowSecondRowProgressTokens(playerId);
+            },
+
+            maybeShowSecondRowProgressTokens: function(playerId) {
+                var nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div>div');
+                var containers = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div');
+                for (var i = 4; i <= 5; i++) {
+                    dojo.style(containers[i - 1], 'display', nodes.length >= 3 ? 'inline-block' : 'none');
+                }
+                dojo.style(containers[6 - 1], 'display', nodes.length >= 5 ? 'inline-block' : 'none');
             },
 
             //   __  __ _ _ _ _                     _____               _
@@ -1592,6 +1602,7 @@ define([
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
                     dojo.style(progressTokenNode, 'z-index', 5);
+                    this.maybeShowSecondRowProgressTokens(notif.args.playerId);
                 }));
 
                 // Wait for animation before handling the next notification (= state change).
