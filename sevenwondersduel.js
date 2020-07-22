@@ -165,6 +165,10 @@ define([
                     .on("#swd[data-state=chooseDiscardedBuilding] #discarded_cards_container .building_small:click",
                         dojo.hitch(this, "onDiscardedBuildingClick")
                     );
+                dojo.query('body')
+                    .on("#swd[data-state=chooseProgressTokenFromBox] #progress_token_from_box_container .progress_token :click",
+                        dojo.hitch(this, "onProgressTokenFromBoxClick")
+                    );
 
                 // Click hide the tooltip:
                 dojo.query('#swd_wrap').on("*:click", dojo.hitch(this, "hideTooltip"));
@@ -1710,9 +1714,40 @@ define([
                 console.log('onEnterChooseProgressTokenFromBox', args);
                 Object.keys(args.progressTokensFromBox).forEach(dojo.hitch(this, function (progressTokenId) {
                     var card = args.progressTokensFromBox[progressTokenId];
-                    var container = dojo.query('#progress_token_from_box_container>:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
+                    var container = dojo.query('#progress_token_from_box_container>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
                     dojo.place(this.getProgressTokenDivHtml(card.id), container);
                 }));
+            },
+
+            onProgressTokenFromBoxClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                console.log('onProgressTokenFromBoxClick', e);
+
+                // if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseProgressTokenFromBox')) {
+                        return;
+                    }
+
+                    var progressTokenId = dojo.attr(e.target, "data-progress-token-id");
+
+                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseProgressTokenFromBox.html", {
+                            lock: true,
+                            progressTokenId: progressTokenId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                // }
             },
 
             //   ____  _           _               _____                 _   _

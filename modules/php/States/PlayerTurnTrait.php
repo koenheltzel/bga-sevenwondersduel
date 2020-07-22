@@ -97,6 +97,14 @@ trait PlayerTurnTrait {
                 }
                 break;
             case 6: // Wonder The Great Library - Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box.
+                $this->notifyAllPlayers(
+                    'message',
+                    clienttranslate('${player_name} must choose a Progress token from the box (Wonder “${wonderName}”)'),
+                    [
+                        'player_name' => $this->getCurrentPlayerName(),
+                        'wonderName' => $wonder->name,
+                    ]
+                );
                 $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
                 break;
             case 9: // Wonder The Statue of Zeus - Discard a brown building of your choice constructed by your opponent.

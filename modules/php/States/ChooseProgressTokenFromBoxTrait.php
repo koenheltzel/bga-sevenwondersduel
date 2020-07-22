@@ -3,7 +3,9 @@
 namespace SWD\States;
 
 use SWD\Draftpool;
+use SWD\Player;
 use SWD\Players;
+use SWD\ProgressToken;
 use SWD\Wonders;
 
 trait ChooseProgressTokenFromBoxTrait {
@@ -28,6 +30,11 @@ trait ChooseProgressTokenFromBoxTrait {
 
     public function actionChooseProgressTokenFromBox($progressTokenId) {
         $this->checkAction("actionChooseProgressTokenFromBox");
+
+        $progressToken = ProgressToken::get($progressTokenId);
+        $payment = $progressToken->construct(Player::me());
+
+        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
 
     }
 }

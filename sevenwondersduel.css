@@ -612,10 +612,13 @@ __     __         _       _     _
 #progress_token_from_box {
     display: none;
 }
-.current_player_is_active #swd[data-state=chooseProgressTokenFromBox] #progress_token_from_box {
+#swd[data-state=chooseProgressTokenFromBox] #progress_token_from_box {
     display: block;
 }
 
+.current_player_is_active #progress_token_from_box_container .progress_token {
+    cursor: pointer;
+}
 #progress_token_from_box_container>div {
     display: inline-block;
     --progress-token-small-scale: calc(0.5 * var(--scale));
