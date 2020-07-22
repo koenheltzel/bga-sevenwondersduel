@@ -37,21 +37,25 @@ trait PlayerTurnTrait {
         $payment = $building->construct(Player::me());
 
         if ($payment->newScientificSymbolPair) {
-            if (count(SevenWondersDuel::get()->progressTokenDeck->getCardsInLocation('board')) > 0) {
-                $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_NAME);
-            }
-            else {
-                $this->notifyAllPlayers(
-                    'message',
-                    clienttranslate('${player_name} gathered a pair of identical scientific symbols, but there are no Progress tokens left”)'),
-                    [
-                        'player_name' => $this->getCurrentPlayerName(),
-                    ]
-                );
-                $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
-            }
+            $this->handlePossibleNewScientificSymbolPair();
         }
         else {
+            $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        }
+    }
+
+    public function handlePossibleNewScientificSymbolPair() {
+        if (count(SevenWondersDuel::get()->progressTokenDeck->getCardsInLocation('board')) > 0) {
+            $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_NAME);
+        }
+        else {
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} gathered a pair of identical scientific symbols, but there are no Progress tokens left'),
+                [
+                    'player_name' => $this->getCurrentPlayerName(),
+                ]
+            );
             $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
         }
     }
