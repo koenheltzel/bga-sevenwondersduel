@@ -1558,6 +1558,11 @@ define([
             //   \____|_| |_|\___/ \___/|___/\___| |_|   |_|  \___/ \__, |_|  \___||___/___/   |_|\___/|_|\_\___|_| |_|
             //                                                      |___/
 
+            onEnterChooseProgressToken: function(args) {
+                console.log('onEnterChooseProgressToken', args);
+                dojo.addClass($('board_progress_tokens'), 'actionglow');
+            },
+
             onProgressTokenClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
@@ -1591,6 +1596,8 @@ define([
 
             notif_progressTokenChosen: function (notif) {
                 console.log('notif_progressTokenChosen', notif);
+
+                dojo.removeClass($('board_progress_tokens'), 'actionglow');
 
                 var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
 

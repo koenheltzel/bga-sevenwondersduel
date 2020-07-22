@@ -368,31 +368,38 @@ __     __         _       _     _
 
 
 
+#board_progress_tokens {
+    position: relative;
+    top: calc(var(--board-height) * var(--board-scale) * 0.25);
+    left: calc(var(--board-width) * var(--board-scale) * 0.65);
+    width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
+    height: calc(var(--board-height) * var(--board-scale) * 0.5);
+}
+
 #board_progress_tokens>div {
     position: absolute;
-    left: calc(var(--board-width) * var(--board-scale) * 0.65);
-    width: 80px;
-    height: 80px;
+    width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
+    height: calc(var(--progress-token-width) * var(--progress-token-small-scale));
 }
 
 #board_progress_tokens>div:nth-of-type(1) {
-    top: calc(var(--board-height) * var(--board-scale) * 0.25);
+
 }
 
 #board_progress_tokens>div:nth-of-type(2) {
-    top: calc(var(--board-height) * var(--board-scale) * 0.353);
+    top: calc(var(--board-height) * var(--board-scale) * 0.103);
 }
 
 #board_progress_tokens>div:nth-of-type(3) {
-    top: calc(var(--board-height) * var(--board-scale) * 0.455);
+    top: calc(var(--board-height) * var(--board-scale) * 0.205);
 }
 
 #board_progress_tokens>div:nth-of-type(4) {
-    top: calc(var(--board-height) * var(--board-scale) * 0.559);
+    top: calc(var(--board-height) * var(--board-scale) * 0.309);
 }
 
 #board_progress_tokens>div:nth-of-type(5) {
-    top: calc(var(--board-height) * var(--board-scale) * 0.657);
+    top: calc(var(--board-height) * var(--board-scale) * 0.407);
 }
 
 
