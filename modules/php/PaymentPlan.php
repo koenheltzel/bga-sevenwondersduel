@@ -101,8 +101,10 @@ class PaymentPlan
                                 $relevantResourceChoices[] = $resource;
                             }
                         }
-                        $choices[] = $relevantResourceChoices;
-                        $choiceItems[] = $item;
+                        if (count($relevantResourceChoices)) {
+                            $choices[] = $relevantResourceChoices;
+                            $choiceItems[] = $item;
+                        }
                     }
                 }
 
