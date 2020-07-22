@@ -347,7 +347,7 @@ __     __         _       _     _
     background-image: url('img/board.png');
     background-size: calc(var(--board-width) * var(--board-scale)) calc(var(--board-height) * var(--board-scale));
     /*border-radius: var(--small-border-radius);*/
-    filter: drop-shadow(0px 0px calc(var(--scale) * 3px) #000000);
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
     position: absolute;
     display: inline-block;
 }
@@ -360,7 +360,7 @@ __     __         _       _     _
     left: calc(var(--scale) * 50px);
     top: calc((var(--military-track-header) + (var(--conflict-pawn-position) + 9) / 18 * var(--military-track-body)) * var(--board-height) * var(--board-scale));
     /*border-radius: var(--small-border-radius);*/
-    filter: drop-shadow(0px 0px calc(var(--scale) * 3px) #000000);
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
     position: absolute;
     display: inline-block;
     z-index: 3;
@@ -422,7 +422,7 @@ __     __         _       _     _
 
 .military_token {
     border-radius: calc(var(--board-scale) * 10px);
-    filter: drop-shadow(0px 0px calc(var(--scale) * 3px) #000000);
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
     position: relative;
     /*display: inline-block;*/
 }
@@ -939,8 +939,8 @@ __     __         _       _     _
     background-size: calc(var(--building-spritesheet-width) * var(--building-small-scale)) calc(var(--building-spritesheet-height) * var(--building-small-scale));
     border-radius: var(--small-border-radius);
     box-shadow:
-        calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
-        inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
+            0px 0px calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0,0,0,0.4),
+            inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
     display: block;
     position: relative; /* For the sliding animation (draftpool to player area) to work */
     z-index: 15; /* So they are on top of the draftpool buildings during animation */
@@ -1016,8 +1016,8 @@ __        __              _
     background-size: calc(var(--wonder-spritesheet-width) * var(--wonder-small-scale)) calc(var(--wonder-spritesheet-height) * var(--wonder-small-scale));
     border-radius: var(--small-border-radius);
     box-shadow:
-        calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
-        inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
+            0px 0px calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0,0,0,0.4),
+            inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
 }
 
 .wonder .player_wonder_cost {
@@ -1059,8 +1059,8 @@ __        __              _
     background-size: calc(var(--progress-token-spritesheet-width) * var(--progress-token-small-scale)) calc(var(--progress-token-spritesheet-height) * var(--progress-token-small-scale));
     border-radius: calc(var(--progress-token-width) * var(--progress-token-small-scale) * 0.5);
     box-shadow:
-        calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
-        inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
+            0px 0px calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0,0,0,0.4),
+            inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
 }
 
 .linked_building_icon {
