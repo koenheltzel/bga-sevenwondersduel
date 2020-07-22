@@ -15,6 +15,7 @@ trait ChooseProgressTokenFromBoxTrait {
      */
     public function argChooseProgressTokenFromBox() {
         return [
+            'progressTokensFromBox' => $this->progressTokenDeck->getCardsInLocation('wonder6'),
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),

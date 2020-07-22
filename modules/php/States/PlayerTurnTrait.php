@@ -96,9 +96,9 @@ trait PlayerTurnTrait {
                     $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
                 }
                 break;
-//            case 6: // Wonder The Great Library - Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box.
-//                $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
-//                break;
+            case 6: // Wonder The Great Library - Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box.
+                $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
+                break;
             case 9: // Wonder The Statue of Zeus - Discard a brown building of your choice constructed by your opponent.
             case 12: // Wonder Circus Maximus - Discard a grey building of your choice constructed by your opponent.
                 $this->setGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, $wonderId);

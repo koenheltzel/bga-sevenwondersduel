@@ -45,6 +45,8 @@ trait GameSetupTrait
         $this->progressTokenDeck->shuffle('deck');
         $this->progressTokenDeck->pickCardsForLocation(5, 'deck', 'board');
         $this->progressTokenDeck->shuffle('board'); // Ensures we have defined card_location_arg
+        $this->progressTokenDeck->pickCardsForLocation(3, 'deck', 'wonder6'); // Preselect 3 progress tokens for Wonder The Great Library. This can only happen once during the game so it doesn't matter if we do it now.
+        $this->progressTokenDeck->shuffle('board'); // Ensures we have defined card_location_arg
         // Return the remaining Progress Tokens to the box.
         $this->progressTokenDeck->moveAllCardsInLocation('deck', 'box');
         // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and progress token ids.

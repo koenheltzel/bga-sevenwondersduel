@@ -72,6 +72,12 @@
                             <div id="select_start_player_text"></div>
                             <a href="#" id="buttonPlayerRight" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Jump Maybe 456</span></a>
                         </div>
+                        <div id="progress_token_from_box" class="whiteblock">
+                            <h3>Choose a progress token from the box:</h3>
+                            <div id="progress_token_from_box_container">
+                                <div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div>
+                            </div>
+                        </div>
                     </div>
                     <!-- END draftpool -->
                     <!-- BEGIN player_buildings -->
@@ -211,13 +217,13 @@ var jstpl_draftpool_building = '\
         <div class="draftpool_building_cost opponent" style="display: ${jsDisplayCostOpponent}"><div class="coin"><span style="color: ${jsCostColorOpponent} !important">${jsCostOpponent}</span></div>\
             <div\
                 class="linked_building_icon linked_building_icon_small"\
-                style="position: inline-block; background-position: -${jsLinkX}00% -${jsLinkY}00%;"\
+                style="background-position: -${jsLinkX}00% -${jsLinkY}00%;"\
             ></div>\
         </div>\
         <div class="draftpool_building_cost me" style="display: ${jsDisplayCostMe}"><div class="coin"><span style="color: ${jsCostColorMe} !important">${jsCostMe}</span></div>\
             <div\
                 class="linked_building_icon linked_building_icon_small"\
-                style="position: inline-block; background-position: -${jsLinkX}00% -${jsLinkY}00%;"\
+                style="background-position: -${jsLinkX}00% -${jsLinkY}00%;"\
             ></div>\
         </div>\
     </div>';
@@ -229,7 +235,7 @@ var jstpl_player_building = '\
             data-building-id="${jsId}"\
             title=""\
             class="building building_header_small"\
-            style="position: inline-block; background-position: -${jsX}00% calc(-5px + -${jsY} * var(--building-height) * var(--building-small-scale));"\
+            style="background-position: -${jsX}00% calc(-5px + -${jsY} * var(--building-height) * var(--building-small-scale));"\
         >\
         </div>\
     </div>';
@@ -258,7 +264,7 @@ var jstpl_progress_token = '\
     <div id="progress_token_${jsId}"\
         ${jsData}\
         class="progress_token progress_token_small"\
-        style="position: inline-block; background-position: -${jsX}00% -${jsY}00%;"\
+        style="background-position: -${jsX}00% -${jsY}00%;"\
     >\
     </div>';
 

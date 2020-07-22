@@ -629,16 +629,19 @@ define([
                     var progressToken = this.gamedatas.progressTokens[location.id];
                     var position = parseInt(progressTokensSituation.board[i].location_arg);
                     var container = dojo.query('#board_progress_tokens>div:nth-of-type(' + (position + 1) + ')')[0];
-
-                    var data = {
-                        jsId: progressToken.id,
-                        jsData: 'data-progress-token-id="' + progressToken.id + '"',
-                    };
-                    var spritesheetColumns = 4;
-                    data.jsX = (progressToken.id - 1) % spritesheetColumns;
-                    data.jsY = Math.floor((progressToken.id - 1) / spritesheetColumns);
-                    dojo.place(this.format_block('jstpl_progress_token', data), container);
+                    dojo.place(this.getProgressTokenDivHtml(progressToken.id), container);
                 }
+            },
+
+            getProgressTokenDivHtml: function(progressTokenId) {
+                var data = {
+                    jsId: progressTokenId,
+                    jsData: 'data-progress-token-id="' + progressTokenId + '"',
+                };
+                var spritesheetColumns = 4;
+                data.jsX = (progressTokenId - 1) % spritesheetColumns;
+                data.jsY = Math.floor((progressTokenId - 1) / spritesheetColumns);
+                return this.format_block('jstpl_progress_token', data);
             },
 
             updatePlayerProgressTokens: function (playerId, deckCards) {
@@ -648,15 +651,7 @@ define([
                     var container = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + (parseInt(index) + 1) + ')')[0]; // parseInt(index) is apparently necessary?
                     dojo.empty(container);
                     var deckCard = deckCards[index];
-
-                    var data = {
-                        jsId: deckCard.id,
-                        jsData: 'data-progress-token-id="' + deckCard.id + '"',
-                    };
-                    var spritesheetColumns = 4;
-                    data.jsX = (deckCard.id - 1) % spritesheetColumns;
-                    data.jsY = Math.floor((deckCard.id - 1) / spritesheetColumns);
-                    dojo.place(this.format_block('jstpl_progress_token', data), container);
+                    dojo.place(this.getProgressTokenDivHtml(deckCard.id), container);
                 }));
                 this.maybeShowSecondRowProgressTokens(playerId);
             },
@@ -1702,6 +1697,22 @@ define([
                         }
                     );
                 }
+            },
+
+            //   ____ _                                                                      _        _                 __                       _
+            //  / ___| |__   ___   ___  ___  ___   _ __  _ __ ___   __ _ _ __ ___  ___ ___  | |_ ___ | | _____ _ __    / _|_ __ ___  _ __ ___   | |__   _____  __
+            // | |   | '_ \ / _ \ / _ \/ __|/ _ \ | '_ \| '__/ _ \ / _` | '__/ _ \/ __/ __| | __/ _ \| |/ / _ \ '_ \  | |_| '__/ _ \| '_ ` _ \  | '_ \ / _ \ \/ /
+            // | |___| | | | (_) | (_) \__ \  __/ | |_) | | | (_) | (_| | | |  __/\__ \__ \ | || (_) |   <  __/ | | | |  _| | | (_) | | | | | | | |_) | (_) >  <
+            //  \____|_| |_|\___/ \___/|___/\___| | .__/|_|  \___/ \__, |_|  \___||___/___/  \__\___/|_|\_\___|_| |_| |_| |_|  \___/|_| |_| |_| |_.__/ \___/_/\_\
+            //                                    |_|              |___/
+
+            onEnterChooseProgressTokenFromBox: function(args) {
+                console.log('onEnterChooseProgressTokenFromBox', args);
+                Object.keys(args.progressTokensFromBox).forEach(dojo.hitch(this, function (progressTokenId) {
+                    var card = args.progressTokensFromBox[progressTokenId];
+                    var container = dojo.query('#progress_token_from_box_container>:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
+                    dojo.place(this.getProgressTokenDivHtml(card.id), container);
+                }));
             },
 
             //   ____  _           _               _____                 _   _
