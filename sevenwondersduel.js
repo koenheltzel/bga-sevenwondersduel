@@ -1749,6 +1749,10 @@ define([
                 dojo.removeClass(swdNode, 'landscape');
 
                 if (ratio >= landscape) {
+                    Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                        dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
+                    }));
+
                     // console.log('ratio: ', ratio, 'choosing landscape');
                     dojo.addClass(swdNode, 'landscape');
                     this.setScale(1);
