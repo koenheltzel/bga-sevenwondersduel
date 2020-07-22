@@ -193,7 +193,7 @@ class PaymentPlan
                     }
                 }
 
-                $discounted = array_diff(array_keys($costLeftFlat), $mask);
+                $discounted = array_diff(array_keys($costLeftFlat), count($maskCombinations) ? $mask : []); // If no mask was chosen (no choices or no choices neceasary due to discount Wonder), use an empty
                 foreach ($discounted as $flatCostIndex) {
                     $resource = $costLeftFlat[$flatCostIndex];
                     $string = "{$resource}: discount by Progress token “{$discountProgressToken->name}”.";
