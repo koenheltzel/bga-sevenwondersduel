@@ -27,7 +27,7 @@ class ProgressToken extends Item
 
         SevenWondersDuel::get()->notifyAllPlayers(
             'progressTokenChosen',
-            clienttranslate('${player_name} chose progress token ${progressTokenName}.'),
+            clienttranslate('${player_name} chose progress token ${progressTokenName}'),
             [
                 'progressTokenName' => $this->name,
                 'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
