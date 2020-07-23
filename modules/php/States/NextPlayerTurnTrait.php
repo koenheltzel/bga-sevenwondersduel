@@ -106,7 +106,7 @@ trait NextPlayerTurnTrait {
                             $player->increaseScore($points, $building->type);
                             SevenWondersDuel::get()->notifyAllPlayers(
                                 'message',
-                                clienttranslate('${player_name} scores ${points} victory points (Guild ${guildName}), 2 for each constructed Wonder in the city which has the most of them (${mostPlayerName}\'s)'),
+                                clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 2 for each constructed Wonder in the city which has the most of them (${mostPlayerName}\'s)'),
                                 [
                                     'player_name' => $player->name,
                                     'points' => $points,
@@ -125,7 +125,7 @@ trait NextPlayerTurnTrait {
                             $player->increaseScore($points, $building->type);
                             SevenWondersDuel::get()->notifyAllPlayers(
                                 'message',
-                                clienttranslate('${player_name} scores ${points} victory points (Guild ${guildName}), 1 for each set of 3 coins in the richest city (${mostPlayerName}\'s)'),
+                                clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each set of 3 coins in the richest city (${mostPlayerName}\'s)'),
                                 [
                                     'player_name' => $player->name,
                                     'points' => $points,
@@ -136,19 +136,19 @@ trait NextPlayerTurnTrait {
                         }
 
                         if ($building->guildRewardBuildingTypes) {
-                            $buildingsOfType = count($player->getBuildings()->filterByTypes($this->guildRewardBuildingTypes)->array);
-                            $buildingsOfTypeOpponent = count($player->getOpponent()->getBuildings()->filterByTypes($this->guildRewardBuildingTypes)->array);
+                            $buildingsOfType = count($player->getBuildings()->filterByTypes($building->guildRewardBuildingTypes)->array);
+                            $buildingsOfTypeOpponent = count($player->getOpponent()->getBuildings()->filterByTypes($building->guildRewardBuildingTypes)->array);
                             $maxBuildingsOfType = max($buildingsOfType, $buildingsOfTypeOpponent);
                             $mostPlayer = $buildingsOfType >= $buildingsOfTypeOpponent ? $player : $player->getOpponent();
                             $points = $maxBuildingsOfType;
                             $player->increaseScore($points, $building->type);
                             SevenWondersDuel::get()->notifyAllPlayers(
                                 'message',
-                                clienttranslate('${player_name} scores ${points} victory points (Guild ${guildName}), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),
+                                clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),
                                 [
                                     'player_name' => $player->name,
                                     'points' => $points,
-                                    'buildingType' => count($this->guildRewardBuildingTypes) > 1 ? clienttranslate('Brown and Grey') : $this->guildRewardBuildingTypes[0],
+                                    'buildingType' => count($building->guildRewardBuildingTypes) > 1 ? clienttranslate('Brown and Grey') : $building->guildRewardBuildingTypes[0],
                                     'guildName' => $building->name,
                                     'mostPlayerName' => $mostPlayer->name,
                                 ]
@@ -193,7 +193,7 @@ trait NextPlayerTurnTrait {
                         $player->increaseScore($points, self::SCORE_COINS);
                         SevenWondersDuel::get()->notifyAllPlayers(
                             'message',
-                            clienttranslate('${player_name} scores ${points} (1 for each set of 3 coins)'),
+                            clienttranslate('${player_name} scores ${points} victory points (1 for each set of 3 coins)'),
                             [
                                 'player_name' => $player->name,
                                 'points' => $points,
