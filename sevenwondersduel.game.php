@@ -442,7 +442,10 @@ class SevenWondersDuel extends Table
     */
 
     function argGameEndDebug() {
-
+        // This will update the player situation automatically through onEnteringState
+        return [
+            'playersSituation' => Players::getSituation(true)
+        ];
     }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -468,7 +471,7 @@ class SevenWondersDuel extends Table
     */
 
     function stGameEndDebug() {
-
+//        $this->gamestate->nextState( self::STATE_GAME_END_NAME );
     }
 
 //////////////////////////////////////////////////////////////////////////////

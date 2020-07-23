@@ -1775,26 +1775,28 @@ define([
                     dojo.addClass(progressTokenNode, 'green_border');
                 }
 
-                // var animationDuration = this.updateDraftpool(notif.args.playersSituation);
+                var animationDuration = 500;
 
                 // Wait for animation before handling the next notification (= state change).
-                // this.notifqueue.setSynchronousDuration(animationDuration);
+                this.notifqueue.setSynchronousDuration(animationDuration);
             },
 
             notif_nextPlayerTurnMilitarySupremacy: function (notif) {
                 console.log('notif_nextPlayerTurnMilitarySupremacy', notif);
-                // var animationDuration = this.updateDraftpool(notif.args.playersSituation);
+
+                var animationDuration = 500;
 
                 // Wait for animation before handling the next notification (= state change).
-                // this.notifqueue.setSynchronousDuration(animationDuration);
+                this.notifqueue.setSynchronousDuration(animationDuration);
             },
 
             notif_nextPlayerTurnEndGameScoring: function (notif) {
                 console.log('notif_nextPlayerTurnEndGameScoring', notif);
-                // var animationDuration = this.updateDraftpool(notif.args.playersSituation);
+
+                var animationDuration = 500;
 
                 // Wait for animation before handling the next notification (= state change).
-                // this.notifqueue.setSynchronousDuration(animationDuration);
+                this.notifqueue.setSynchronousDuration(animationDuration);
             },
 
             //   ____  _           _               _____                 _   _
