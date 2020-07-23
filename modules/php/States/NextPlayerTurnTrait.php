@@ -21,11 +21,12 @@ trait NextPlayerTurnTrait {
             self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_SCIENTIFIC);
 
             SevenWondersDuel::get()->notifyAllPlayers(
-                'scientificSupremacy',
+                'nextPlayerTurnScientificSupremacy',
                 clienttranslate('${player_name} wins the game through Scientific Supremacy (gathered 6 different scientific symbols)'),
                 [
                     'player_name' => Player::getActive()->name,
                     'playerId' => Player::getActive()->id,
+                    'playersSituation' => Players::getSituation(true),
                 ]
             );
 
@@ -38,11 +39,12 @@ trait NextPlayerTurnTrait {
             self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_MILITARY);
 
             SevenWondersDuel::get()->notifyAllPlayers(
-                'militarySupremacy',
+                'nextPlayerTurnMilitarySupremacy',
                 clienttranslate('${player_name} wins the game through Military Supremacy (Conflict pawn reached the opponent\'s capital)'),
                 [
                     'player_name' => Player::getActive()->name,
                     'playerId' => Player::getActive()->id,
+                    'playersSituation' => Players::getSituation(true),
                 ]
             );
 
@@ -201,11 +203,10 @@ trait NextPlayerTurnTrait {
                 }
 
                 SevenWondersDuel::get()->notifyAllPlayers(
-                    'endGameScoring',
-                    clienttranslate('${player_name} wins the game through Military Supremacy (Conflict pawn reached the opponent\'s capital)'),
+                    'nextPlayerTurnEndGameScoring',
+                    '',
                     [
-                        'player_name' => Player::getActive()->name,
-                        'playerId' => Player::getActive()->id,
+                        'playersSituation' => Players::getSituation(true),
                     ]
                 );
                 $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );

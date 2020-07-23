@@ -222,27 +222,32 @@ define([
 
                 dojo.subscribe('constructBuilding', this, "notif_constructBuilding");
                 this.notifqueue.setSynchronous( 'constructBuilding' );
-                // Notification delay is set dynamically in notif_constructBuilding
 
                 dojo.subscribe('discardBuilding', this, "notif_discardBuilding");
                 this.notifqueue.setSynchronous('discardBuilding');
-                // Notification delay is set dynamically in notif_discardBuilding
 
                 dojo.subscribe('constructWonder', this, "notif_constructWonder");
                 this.notifqueue.setSynchronous('constructWonder');
-                // Notification delay is set dynamically in notif_constructWonder
 
                 dojo.subscribe('progressTokenChosen', this, "notif_progressTokenChosen");
                 this.notifqueue.setSynchronous( 'progressTokenChosen' );
-                // Notification delay is set dynamically in notif_progressTokenChosen
 
                 dojo.subscribe('opponentDiscardBuilding', this, "notif_opponentDiscardBuilding");
                 this.notifqueue.setSynchronous( 'opponentDiscardBuilding' );
-                // Notification delay is set dynamically in notif_opponentDiscardBuilding
 
                 dojo.subscribe('nextAgeDraftpoolReveal', this, "notif_nextAgeDraftpoolReveal");
                 this.notifqueue.setSynchronous( 'nextAgeDraftpoolReveal' );
-                // Notification delay is set dynamically in notif_nextAgeDraftpoolReveal
+
+                dojo.subscribe('nextPlayerTurnScientificSupremacy', this, "notif_nextPlayerTurnScientificSupremacy");
+                this.notifqueue.setSynchronous( 'nextPlayerTurnScientificSupremacy' );
+
+                dojo.subscribe('nextPlayerTurnMilitarySupremacy', this, "notif_nextPlayerTurnMilitarySupremacy");
+                this.notifqueue.setSynchronous( 'nextPlayerTurnMilitarySupremacy' );
+
+                dojo.subscribe('nextPlayerTurnEndGameScoring', this, "notif_nextPlayerTurnEndGameScoring");
+                this.notifqueue.setSynchronous( 'nextPlayerTurnEndGameScoring' );
+
+
             },
 
             ///////////////////////////////////////////////////
@@ -1752,6 +1757,37 @@ define([
                         }
                     );
                 // }
+            },
+
+            //  _   _           _     ____  _                         _____
+            // | \ | | _____  _| |_  |  _ \| | __ _ _   _  ___ _ __  |_   _|   _ _ __ _ __
+            // |  \| |/ _ \ \/ / __| | |_) | |/ _` | | | |/ _ \ '__|   | || | | | '__| '_ \
+            // | |\  |  __/>  <| |_  |  __/| | (_| | |_| |  __/ |      | || |_| | |  | | | |
+            // |_| \_|\___/_/\_\\__| |_|   |_|\__,_|\__, |\___|_|      |_| \__,_|_|  |_| |_|
+            //                                      |___/
+
+            notif_nextPlayerTurnScientificSupremacy: function (notif) {
+                console.log('notif_nextPlayerTurnScientificSupremacy', notif);
+                // var animationDuration = this.updateDraftpool(notif.args.playersSituation);
+
+                // Wait for animation before handling the next notification (= state change).
+                // this.notifqueue.setSynchronousDuration(animationDuration);
+            },
+
+            notif_nextPlayerTurnMilitarySupremacy: function (notif) {
+                console.log('notif_nextPlayerTurnMilitarySupremacy', notif);
+                // var animationDuration = this.updateDraftpool(notif.args.playersSituation);
+
+                // Wait for animation before handling the next notification (= state change).
+                // this.notifqueue.setSynchronousDuration(animationDuration);
+            },
+
+            notif_nextPlayerTurnEndGameScoring: function (notif) {
+                console.log('notif_nextPlayerTurnEndGameScoring', notif);
+                // var animationDuration = this.updateDraftpool(notif.args.playersSituation);
+
+                // Wait for animation before handling the next notification (= state change).
+                // this.notifqueue.setSynchronousDuration(animationDuration);
             },
 
             //   ____  _           _               _____                 _   _

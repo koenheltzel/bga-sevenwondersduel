@@ -134,6 +134,10 @@ class Player extends \APP_DbObject{
         self::DbQuery( "UPDATE player SET `$column` = `$column` + $increase WHERE player_id='{$this->id}'" );
     }
 
+    public function getScoreCategories() {
+        return self::getCollectionFromDB("SELECT `player_score_blue`,`player_score_green`,`player_score_yellow`,`player_score_purple`,`player_score_wonders`,`player_score_progresstokens`,`player_score_coins`,`player_score_military` FROM player WHERE player_id='{$this->id}'");
+    }
+
     /**
      * Count resources of the specified type as provided by Brown and Grey cards only.
      * @param $searchResource
