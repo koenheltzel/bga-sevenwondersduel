@@ -123,7 +123,7 @@ if (isset($_POST['name'])) {
                 </ul>
                 <strong>Save scenario (overwrite if same name):</strong>
                 <form method="post">
-                    <input type="text" name="name" size="50" value="<?= isset($_GET['name']) ? $_GET['name'] : '' ?>" />
+                    <input type="text" id="name" name="name" size="50" value="<?= isset($_GET['name']) ? $_GET['name'] : '' ?>" />
                     <input type="submit" value="Save" />
                 </form>
             </div>
@@ -304,7 +304,7 @@ if (isset($_POST['name'])) {
         );
 
         dojo.attr('plan', 'src', baseurl + 'test.php?' + queryString(data));
-        var scenarioUrl = baseurl + fileName + '?' + queryString(data);
+        var scenarioUrl = baseurl + fileName + '?' + queryString(data) + '&name=' + encodeURIComponent(dojo.query('#name')[0].value);
         window.history.pushState('paymenttester', 'Title', scenarioUrl);
     }
 

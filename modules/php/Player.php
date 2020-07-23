@@ -29,7 +29,7 @@ class Player extends \APP_DbObject{
      * @return Player
      */
     public static function me() {
-        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
             return self::get(1);
         } else {
             $playerId = SevenWondersDuel::get()->getCurrentPlayerId();
@@ -41,7 +41,7 @@ class Player extends \APP_DbObject{
      * @return Player
      */
     public static function opponent($meId = null) {
-        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
             return self::get(2);
         } else {
             if (is_null($meId)) $meId = SevenWondersDuel::get()->getCurrentPlayerId();
@@ -59,7 +59,7 @@ class Player extends \APP_DbObject{
 
     private function __construct($id) {
         $this->id = $id;
-        if ($_SERVER['HTTP_HOST'] != 'localhost') {
+        if (strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
             $basicInfo = SevenWondersDuel::get()->getPlayerBasicInfo($this->id);
             $this->name = $basicInfo['player_name'];
             $this->color = $basicInfo['player_color'];
@@ -175,7 +175,7 @@ class Player extends \APP_DbObject{
      * @return array
      */
     public function getWonderIds(): array {
-        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
             return $this->wonderIds;
         }
         else {
@@ -226,7 +226,7 @@ class Player extends \APP_DbObject{
      * @return array
      */
     public function getBuildingIds(): array {
-        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
             return $this->buildingIds;
         }
         else {
@@ -274,7 +274,7 @@ class Player extends \APP_DbObject{
      * @return array
      */
     public function getProgressTokenIds(): array {
-        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
             return $this->progressTokenIds;
         }
         else {
