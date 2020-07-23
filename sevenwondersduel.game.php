@@ -116,6 +116,11 @@ class SevenWondersDuel extends Table
     const VALUE_DISCARD_OPPONENT_BUILDING_WONDER = "discard_opponent_building_type";
     const VALUE_END_GAME_CONDITION = "end_game_condition";
 
+    const SCORE_WONDERS = "wonders";
+    const SCORE_PROGRESSTOKENS = "progresstokens";
+    const SCORE_COINS = "coins";
+    const SCORE_MILITARY = "military";
+
     const END_GAME_CONDITION_NORMAL = 0;
     const END_GAME_CONDITION_SCIENTIFIC = 1;
     const END_GAME_CONDITION_MILITARY = 2;

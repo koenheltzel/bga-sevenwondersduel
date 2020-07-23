@@ -9,6 +9,13 @@ use SevenWondersDuel;
 class Players
 {
 
+    /**
+     * @return Player[] array
+     */
+    public static function get() {
+        return [Player::me(), Player::opponent()];
+    }
+
     public static function getSituation() {
         return [
             Player::me()->id => [

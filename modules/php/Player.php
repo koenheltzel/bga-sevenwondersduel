@@ -105,11 +105,19 @@ class Player extends \APP_DbObject{
         $this->DbQuery("UPDATE player SET player_score='$score' WHERE player_id='{$this->id}'");
     }
     // increment score (can be negative too)
-    function increaseScore($increase) {
+    function increaseScore($increase, $category) {
         $count = $this->getScore();
         if ($increase != 0) {
             $count += $increase;
             $this->setScore($count);
+
+            $category_column = 'player_score_' . strtolower($category);
+            $this->increaseValue($category_column, $increase);
+
+            if ($category == Building::TYPE_BLUE) {
+                // Blue is also the deciding factor in case of a tie, so fill the player_score_aux column with the same value.
+                $this->setValue('player_score_aux', $this->getValue($category_column));
+            }
         }
         return $count;
     }

@@ -145,6 +145,10 @@ class Wonder extends Item {
         }
     }
 
+    private function getScoreCategory() {
+        return SevenWondersDuel::SCORE_WONDERS;
+    }
+
     /**
      * @param bool $extraTurn
      * @return static

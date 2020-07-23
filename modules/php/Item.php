@@ -79,7 +79,7 @@ class Item
             }
 
             if ($payment->economyProgressTokenCoins > 0) {
-                $player->getOpponent()->increaseScore($payment->economyProgressTokenCoins);
+                $player->getOpponent()->increaseCoins($payment->economyProgressTokenCoins);
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
@@ -94,7 +94,7 @@ class Item
         }
 
         if ($this->victoryPoints > 0) {
-            $player->increaseScore($this->victoryPoints);
+            $player->increaseScore($this->victoryPoints, $this->getScoreCategory());
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
@@ -156,6 +156,10 @@ class Item
                 }
             }
         }
+    }
+
+    private function getScoreCategory() {
+        return '';
     }
 
     /**

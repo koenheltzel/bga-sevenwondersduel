@@ -34,6 +34,14 @@
 -- ALTER TABLE `player` ADD `player_my_custom_field` INT UNSIGNED NOT NULL DEFAULT '0';
 
 ALTER TABLE `player` ADD `player_coins` SMALLINT UNSIGNED NOT NULL DEFAULT '7';
+ALTER TABLE `player` ADD `player_score_blue` SMALLINT UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `player` ADD `player_score_green` SMALLINT UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `player` ADD `player_score_yellow` SMALLINT UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `player` ADD `player_score_purple` SMALLINT UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `player` ADD `player_score_wonders` SMALLINT UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `player` ADD `player_score_progresstokens` SMALLINT UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `player` ADD `player_score_coins` SMALLINT UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `player` ADD `player_score_military` SMALLINT UNSIGNED NOT NULL DEFAULT '0';
 
 CREATE TABLE IF NOT EXISTS `building` (
   `card_id` int(10) unsigned NOT NULL AUTO_INCREMENT,

@@ -172,7 +172,7 @@ class Building extends Item {
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
-                    clienttranslate('${player_name} gets ${coins} coin(s), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s).'),
+                    clienttranslate('${player_name} gets ${coins} coin(s), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),
                     [
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                         'coins' => $payment->coinReward,
@@ -201,6 +201,10 @@ class Building extends Item {
                 );
             }
         }
+    }
+
+    private function getScoreCategory() {
+        return strtolower($this->type);
     }
 
     /**

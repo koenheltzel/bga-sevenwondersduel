@@ -28,6 +28,31 @@ class MilitaryTrack
         $payment->militaryNewPosition = $newPosition;
     }
     
+    public static function getVictoryPoints(Player $player) {
+        $points = 0;
+        $currentPosition = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
+        if ($player->id <> SevenWondersDuel::get()->getGameStartPlayerId()) $currentPosition *= -1;
+        if ($currentPosition > 0) {
+            switch (abs($currentPosition)) {
+                case 1:
+                case 2:
+                    $points = 2;
+                    break;
+                case 3:
+                case 4:
+                case 5:
+                    $points = 5;
+                    break;
+                case 6:
+                case 7:
+                case 8:
+                    $points = 10;
+                    break;
+            }
+        }
+        return $points;
+    }
+
     public static function getMilitaryToken() {
         $position = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
         $number = 0;
