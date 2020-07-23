@@ -77,7 +77,7 @@ class Player extends \APP_DbObject{
     /**
      * @return Player
      */
-    public function getActive() {
+    public static function getActive() {
         return self::get(SevenWondersDuel::get()->getActivePlayerId());
     }
 
@@ -242,6 +242,20 @@ class Player extends \APP_DbObject{
 
     public function getBuildingDeckCards(): array {
         return SevenWondersDuel::get()->buildingDeck->getCardsInLocation($this->id);
+    }
+
+    public function getScientificSymbolCount(): int {
+        $buildings = $this->getBuildings()->filterByTypes([Building::TYPE_GREEN]);
+        $symbols = [];
+        foreach ($buildings as $building) {
+            if (!in_array($building->scientificSymbol, $symbols)) {
+                $symbols[] = $building->scientificSymbol;
+            }
+        }
+        if ($this->hasProgressToken(4)) {
+            $symbols[] = ProgressToken::get(4)->scientificSymbol;
+        }
+        return count($symbols);
     }
 
     /**

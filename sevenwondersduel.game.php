@@ -114,6 +114,11 @@ class SevenWondersDuel extends Table
     const VALUE_EXTRA_TURN_THROUGH_THEOLOGY = "extra_turn_through_theology";
     const VALUE_AGE_START_PLAYER = "age_start_player";
     const VALUE_DISCARD_OPPONENT_BUILDING_WONDER = "discard_opponent_building_type";
+    const VALUE_END_GAME_CONDITION = "end_game_condition";
+
+    const END_GAME_CONDITION_NORMAL = 0;
+    const END_GAME_CONDITION_SCIENTIFIC = 1;
+    const END_GAME_CONDITION_MILITARY = 2;
 
 
     /**
@@ -160,6 +165,7 @@ class SevenWondersDuel extends Table
                 self::VALUE_AGE_START_PLAYER => 18,
                 self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY => 19,
                 self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER => 20,
+                self::VALUE_END_GAME_CONDITION => 21,
             //    "my_second_global_variable" => 11,
             //      ...
             //    "my_first_game_variant" => 100,
@@ -260,6 +266,7 @@ class SevenWondersDuel extends Table
         self::setGameStateInitialValue( self::VALUE_AGE_START_PLAYER, 0);
         self::setGameStateInitialValue( self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
         self::setGameStateInitialValue( self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, 0);
+        self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_NORMAL);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)

@@ -122,7 +122,7 @@ class Item
             MilitaryTrack::movePawn(Player::me(), $this->military, $payment);
 
             if($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
-                $message = '${player_name} moves the Conflict pawn ${steps} space(s) (Progress token “${progressTokenName}”).';
+                $message = '${player_name} moves the Conflict pawn ${steps} space(s) (+1 from Progress token “${progressTokenName}”).';
             }
             else {
                 $message = '${player_name} moves the Conflict pawn ${steps} space(s).';

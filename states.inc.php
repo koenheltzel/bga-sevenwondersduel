@@ -96,8 +96,7 @@ $machinestates = [
         "args" => "argNextAge",
         "transitions" => [
             SevenWondersDuel::STATE_SELECT_START_PLAYER_NAME => SevenWondersDuel::STATE_SELECT_START_PLAYER_ID,
-            SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
-            SevenWondersDuel::STATE_GAME_END_NAME => SevenWondersDuel::STATE_GAME_END_ID
+            SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID
         ]
     ],
 
@@ -221,6 +220,7 @@ $machinestates = [
         "transitions" => [
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_NEXT_AGE_NAME => SevenWondersDuel::STATE_NEXT_AGE_ID,
+            SevenWondersDuel::STATE_GAME_END_NAME => SevenWondersDuel::STATE_GAME_END_ID
         ]
     ],
 
@@ -257,7 +257,7 @@ $machinestates = [
         "name" => SevenWondersDuel::STATE_GAME_END_NAME,
         "description" => clienttranslate("End of game"),
         "type" => "manager",
-        "action" => "enterStateGameEnd",
+        "action" => "stGameEnd",
         "args" => "argGameEnd"
     ]
 
