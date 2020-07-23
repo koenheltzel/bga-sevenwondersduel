@@ -29,7 +29,7 @@ trait NextPlayerTurnTrait {
                 ]
             );
 
-            $this->gamestate->nextState( self::STATE_GAME_END_NAME );
+            $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
         }
         elseif ($conflictPawnPosition <= -9 || $conflictPawnPosition >= 9) {
             if (Player::me()->getScore() < Player::opponent()->getScore()) {
@@ -46,7 +46,7 @@ trait NextPlayerTurnTrait {
                 ]
             );
 
-            $this->gamestate->nextState( self::STATE_GAME_END_NAME );
+            $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
         }
         elseif (Draftpool::countCardsInCurrentAge() > 0) {
             if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_NORMAL) || SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_THEOLOGY)) {
@@ -208,7 +208,7 @@ trait NextPlayerTurnTrait {
                         'playerId' => Player::getActive()->id,
                     ]
                 );
-                $this->gamestate->nextState( self::STATE_GAME_END_NAME );
+                $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
             }
             else {
                 $this->gamestate->nextState( self::STATE_NEXT_AGE_NAME );

@@ -726,7 +726,8 @@ __     __         _       _     _
 }
 
 .player_building_column {
-    /*display: inline-block;*/
+    display: flex;
+    flex-direction: column;
     min-width: var(--building-small-width);
     min-height: var(--building-header-small-height);
     border-radius: var(--small-border-radius);
@@ -737,6 +738,7 @@ __     __         _       _     _
 }
 .player_buildings.opponent .player_building_column {
     background-position: bottom !important;
+    flex-direction: column-reverse;
 }
 .player_buildings.me .player_building_column {
     background-position: top !important;

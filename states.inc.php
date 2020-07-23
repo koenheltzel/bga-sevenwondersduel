@@ -220,7 +220,20 @@ $machinestates = [
         "transitions" => [
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_NEXT_AGE_NAME => SevenWondersDuel::STATE_NEXT_AGE_ID,
+            SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID,
             SevenWondersDuel::STATE_GAME_END_NAME => SevenWondersDuel::STATE_GAME_END_ID
+        ]
+    ],
+
+    SevenWondersDuel::STATE_GAME_END_DEBUG_ID => [
+        "name" => SevenWondersDuel::STATE_GAME_END_DEBUG_NAME,
+        "description" => clienttranslate("Fake End of game"),
+        "type" => "activeplayer",
+        "action" => "stGameEndDebug",
+        "args" => "argGameEndDebug",
+        "possibleactions" => [
+            "actionChooseDiscardedBuilding",
+            // If there is no discarded building to construct, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
         ]
     ],
 

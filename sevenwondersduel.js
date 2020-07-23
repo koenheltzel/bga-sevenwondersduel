@@ -392,13 +392,17 @@ define([
             //  |____/ \__,_|_|_|\__,_|_|_| |_|\__, |___/         |____/|_|  \__,_|_|  \__| .__/ \___/ \___/|_|
             //                                 |___/                                      |_|
 
-            getBuildingDivHtml: function (id) {
+            getBuildingDivHtml: function (id, building) {
                 var data = {
                     jsId: id,
                 };
                 var spritesheetColumns = 10;
                 data.jsX = (id - 1) % spritesheetColumns;
                 data.jsY = Math.floor((id - 1) / spritesheetColumns);
+                data.jsOrder = 0;
+                if (building.type == "Green") {
+                    data.jsOrder = building.scientificSymbol.toString() + building.age.toString();
+                }
 
                 return this.format_block('jstpl_player_building', data);
             },
@@ -409,7 +413,7 @@ define([
                     Object.keys(cards).forEach(dojo.hitch(this, function (buildingId) {
                         var building = this.gamedatas.buildings[buildingId];
                         var container = dojo.query('.player_buildings.player' + playerId + ' .' + building.type)[0];
-                        dojo.place(this.getBuildingDivHtml(buildingId), container);
+                        dojo.place(this.getBuildingDivHtml(buildingId, building), container);
                         i++;
                     }));
                 }
@@ -1072,7 +1076,7 @@ define([
 
                 var building = this.gamedatas.buildings[notif.args.buildingId];
                 var container = dojo.query('.player_buildings.player' + notif.args.playerId + ' .' + building.type)[0];
-                var playerBuildingContainer = dojo.place(this.getBuildingDivHtml(notif.args.buildingId), container, notif.args.playerId == this.me_id ? "last" : "first");
+                var playerBuildingContainer = dojo.place(this.getBuildingDivHtml(notif.args.buildingId, building), container, "last");
                 var playerBuildingId = 'player_building_' + notif.args.buildingId;
 
                 this.placeOnObjectPos(playerBuildingId, buildingNode, 0.5 * this.getCssVariable('--scale'), -59.5 * this.getCssVariable('--scale'));
@@ -1607,7 +1611,7 @@ define([
 
                 var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
 
-                var container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + (this.gamedatas.progressTokensSituation[notif.args.playerId].length + 1) + ')')[0];
+                var container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + notif.args.progressTokenPosition + ')')[0];
                 progressTokenNode = this.attachToNewParent(progressTokenNode, container);
                 dojo.style(progressTokenNode, 'z-index', 6);
 

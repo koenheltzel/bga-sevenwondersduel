@@ -33,6 +33,7 @@ class ProgressToken extends Item
                 'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                 'playerId' => Player::me()->id,
                 'progressTokenId' => $this->id,
+                'progressTokenPosition' => count($player->getProgressTokenIds()),
                 'payment' => $payment,
             ]
         );

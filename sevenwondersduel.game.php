@@ -99,7 +99,10 @@ class SevenWondersDuel extends Table
 
     const STATE_NEXT_PLAYER_TURN_ID = 95;
     const STATE_NEXT_PLAYER_TURN_NAME = "nextPlayerTurn";
-    
+
+    const STATE_GAME_END_DEBUG_ID = 98;
+    const STATE_GAME_END_DEBUG_NAME = "gameEndDebug";
+
     const STATE_GAME_END_ID = 99;
     const STATE_GAME_END_NAME = "gameEnd";
 
@@ -438,6 +441,10 @@ class SevenWondersDuel extends Table
     }    
     */
 
+    function argGameEndDebug() {
+
+    }
+
 //////////////////////////////////////////////////////////////////////////////
 //////////// Game state actions
 ////////////
@@ -459,6 +466,10 @@ class SevenWondersDuel extends Table
         $this->gamestate->nextState( 'some_gamestate_transition' );
     }
     */
+
+    function stGameEndDebug() {
+
+    }
 
 //////////////////////////////////////////////////////////////////////////////
 //////////// Zombie

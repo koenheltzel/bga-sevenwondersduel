@@ -17,7 +17,6 @@ class Building extends Item {
     public $age;
     public $type;
     public $chain = null; // coins and or resources
-    public $scienceSymbol = null; // coins and or resources
     public $fixedPriceResources = [];
     public $linkedBuilding = 0;
     public $coinsPerBuildingOfType = null;
