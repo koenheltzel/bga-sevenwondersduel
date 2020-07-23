@@ -234,6 +234,9 @@ $machinestates = [
         "possibleactions" => [
             "actionChooseDiscardedBuilding",
             // If there is no discarded building to construct, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
+        ],
+        "transitions" => [
+            SevenWondersDuel::STATE_GAME_END_NAME => SevenWondersDuel::STATE_GAME_END_ID
         ]
     ],
 

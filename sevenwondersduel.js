@@ -1768,6 +1768,13 @@ define([
 
             notif_nextPlayerTurnScientificSupremacy: function (notif) {
                 console.log('notif_nextPlayerTurnScientificSupremacy', notif);
+
+                dojo.addClass(dojo.query('.player' + notif.args.playerId + ' .player_building_column.Green')[0], 'green_border');
+                var progressTokenNode = $('progress_token_4');
+                if (progressTokenNode) {
+                    dojo.addClass(progressTokenNode, 'green_border');
+                }
+
                 // var animationDuration = this.updateDraftpool(notif.args.playersSituation);
 
                 // Wait for animation before handling the next notification (= state change).
