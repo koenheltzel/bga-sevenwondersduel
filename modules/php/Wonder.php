@@ -145,7 +145,7 @@ class Wonder extends Item {
         }
     }
 
-    private function getScoreCategory() {
+    protected function getScoreCategory() {
         return SevenWondersDuel::SCORE_WONDERS;
     }
 

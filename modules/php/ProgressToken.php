@@ -42,7 +42,7 @@ class ProgressToken extends Item
         return $payment;
     }
 
-    private function getScoreCategory() {
+    protected function getScoreCategory() {
         return SevenWondersDuel::SCORE_PROGRESSTOKENS;
     }
 

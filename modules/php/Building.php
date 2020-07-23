@@ -203,7 +203,7 @@ class Building extends Item {
         }
     }
 
-    private function getScoreCategory() {
+    protected function getScoreCategory() {
         return strtolower($this->type);
     }
 

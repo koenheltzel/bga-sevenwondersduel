@@ -114,7 +114,7 @@ class Player extends \APP_DbObject{
             $category_column = 'player_score_' . strtolower($category);
             $this->increaseValue($category_column, $increase);
 
-            if ($category == Building::TYPE_BLUE) {
+            if ($category == strtolower(Building::TYPE_BLUE)) {
                 // Blue is also the deciding factor in case of a tie, so fill the player_score_aux column with the same value.
                 $this->setValue('player_score_aux', $this->getValue($category_column));
             }
@@ -126,7 +126,7 @@ class Player extends \APP_DbObject{
         return self::getUniqueValueFromDB( "SELECT `$column` FROM player WHERE player_id='{$this->id}'" );
     }
 
-    public function setValue(string $column, mixed $value) {
+    public function setValue(string $column, int $value) {
         self::DbQuery( "UPDATE player SET `$column` = {$this->escapeStringForDB($value)} WHERE player_id='{$this->id}'" );
     }
 

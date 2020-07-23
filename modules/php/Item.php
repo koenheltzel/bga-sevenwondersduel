@@ -158,7 +158,7 @@ class Item
         }
     }
 
-    private function getScoreCategory() {
+    protected function getScoreCategory() {
         return '';
     }
 
