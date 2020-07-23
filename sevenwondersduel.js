@@ -158,7 +158,7 @@ define([
                         dojo.hitch(this, "onStartPlayerClick")
                     );
                 dojo.query('body')
-                    .on("#swd[data-state=chooseOpponentBuilding] .player_building_column.actionglow .building_header_small:click",
+                    .on("#swd[data-state=chooseOpponentBuilding] .player_building_column.red_border .building_header_small:click",
                         dojo.hitch(this, "onOpponentBuildingClick")
                     );
                 dojo.query('body')
@@ -966,7 +966,7 @@ define([
 
                 if (this.isCurrentPlayerActive()) {
                     this.clearPlayerTurnNodeGlow();
-                    this.clearActionGlow();
+                    this.clearRedBorder();
 
                     var building = dojo.query(e.target);
 
@@ -1012,10 +1012,10 @@ define([
                 }
             },
 
-            clearActionGlow: function () {
+            clearRedBorder: function () {
                 Object.keys(this.gamedatas.wondersSituation[this.me_id]).forEach(dojo.hitch(this, function (index) {
                     var wonderData = this.gamedatas.wondersSituation[this.me_id][index];
-                    dojo.removeClass($('wonder_' + wonderData.wonder), 'actionglow');
+                    dojo.removeClass($('wonder_' + wonderData.wonder), 'red_border');
                 }));
             },
 
@@ -1087,7 +1087,7 @@ define([
                 if (notif.args.payment.discardedCard) {
                     dojo.connect(buildingMoveAnim, 'onEnd', dojo.hitch(this, function (node) {
                         var whiteblock = $('discarded_cards_whiteblock');
-                        dojo.removeClass(whiteblock, 'actionglow');
+                        dojo.removeClass(whiteblock, 'red_border');
                         window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
                         this.dontScale = 0;
                     }));
@@ -1190,7 +1190,7 @@ define([
                 console.log('notif_discardBuilding', notif);
 
                 this.clearPlayerTurnNodeGlow();
-                this.clearActionGlow();
+                this.clearRedBorder();
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
@@ -1241,7 +1241,7 @@ define([
                         var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
                         if (!wonderData.constructed) {
                             if (wonderData.cost <= this.gamedatas.playersSituation[this.player_id].coins) {
-                                dojo.addClass($('wonder_' + wonderData.wonder), 'actionglow');
+                                dojo.addClass($('wonder_' + wonderData.wonder), 'red_border');
                             }
                         }
                     }));
@@ -1289,7 +1289,7 @@ define([
                 console.log('notif_constructWonder', notif);
 
                 this.clearPlayerTurnNodeGlow();
-                this.clearActionGlow();
+                this.clearRedBorder();
 
                 var wonderContainer = dojo.query('#player_wonders_' + notif.args.playerId + ' #wonder_' + notif.args.wonderId + '_container')[0];
                 var coinNode = dojo.query('.player_wonder_cost', wonderContainer)[0];
@@ -1437,7 +1437,7 @@ define([
             onEnterChooseOpponentBuilding: function(args) {
                 var opponentId = this.getOppositePlayerId(this.getActivePlayerId());
                 var buildingColumn = dojo.query('.player' + opponentId + ' .player_building_column.' + args.buildingType)[0];
-                dojo.addClass(buildingColumn, 'actionglow');
+                dojo.addClass(buildingColumn, 'red_border');
             },
 
             onOpponentBuildingClick: function(e) {
@@ -1496,7 +1496,7 @@ define([
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
                     dojo.style(buildingNode, 'z-index', 5);
                     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
-                    dojo.removeClass(buildingColumn, 'actionglow');
+                    dojo.removeClass(buildingColumn, 'red_border');
                     dojo.destroy(playerBuildingNode.parentNode);
                 }));
 
@@ -1516,7 +1516,7 @@ define([
             onEnterChooseDiscardedBuilding: function(args) {
                 if (this.isCurrentPlayerActive()) {
                     var whiteblock = $('discarded_cards_whiteblock');
-                    dojo.addClass(whiteblock, 'actionglow');
+                    dojo.addClass(whiteblock, 'red_border');
 
                     // Scroll so the discarded card whiteblock is visible (remember the scroll position so we can restore the view later).
                     this.dontScale = 1;
@@ -1566,7 +1566,7 @@ define([
 
             onEnterChooseProgressToken: function(args) {
                 console.log('onEnterChooseProgressToken', args);
-                dojo.addClass($('board_progress_tokens'), 'actionglow');
+                dojo.addClass($('board_progress_tokens'), 'red_border');
             },
 
             onProgressTokenClick: function (e) {
@@ -1603,7 +1603,7 @@ define([
             notif_progressTokenChosen: function (notif) {
                 console.log('notif_progressTokenChosen', notif);
 
-                dojo.removeClass($('board_progress_tokens'), 'actionglow');
+                dojo.removeClass($('board_progress_tokens'), 'red_border');
 
                 var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
 

@@ -214,12 +214,12 @@ __     __         _       _     _
     }
 }
 
-/* For easy testing */
-.actionglow {
-    animation: actionglow 0.5s infinite alternate;
+.red_border {
+    animation: red_border 0.5s infinite alternate;
+    z-index: 20;
 }
 
-@keyframes actionglow {
+@keyframes red_border {
     from {
         outline-color: #ff000066;
         outline-width: 3px;
@@ -228,6 +228,28 @@ __     __         _       _     _
     }
     to {
         outline-color: #ff0000;
+        outline-width: 3px;
+        outline-style: dashed;
+        outline-offset: 1px;
+    }
+}
+
+.green_border {
+    animation: green_border 0.5s infinite alternate;
+    z-index: 20;
+}
+
+@keyframes green_border {
+    from {
+        /*box-shadow: 0 0 1px 3px #007e3b66;*/
+        outline-color: #007e3b66;
+        outline-width: 3px;
+        outline-style: dashed;
+        outline-offset: 1px;
+    }
+    to {
+        /*box-shadow: 0 0 1px 3px #007e3b;*/
+        outline-color: #007e3b;
         outline-width: 3px;
         outline-style: dashed;
         outline-offset: 1px;
@@ -829,7 +851,7 @@ __     __         _       _     _
     height: var(--building-small-width);
 }
 
-.player_wonders .actionglow {
+.player_wonders .red_border {
     cursor:pointer;
 }
 
@@ -989,10 +1011,10 @@ __     __         _       _     _
 }
 
 /* Put some margin between borders, mostly to prevent misclicks on mobile. Doesn't include current_player_is_active / state so the position stays the same during the animation. */
-.player_building_column.actionglow .building_header_small_container:not(:last-child) {
+.player_building_column.red_border .building_header_small_container:not(:last-child) {
     margin-bottom: calc(2 * var(--gutter));
 }
-.current_player_is_active #swd[data-state=chooseOpponentBuilding] .player_building_column.actionglow .building_header_small {
+.current_player_is_active #swd[data-state=chooseOpponentBuilding] .player_building_column.red_border .building_header_small {
     cursor: pointer;
 }
 

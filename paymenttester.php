@@ -197,7 +197,7 @@ if (isset($_POST['name'])) {
             deselect();
             currentItem = e.target;
             dojo.place( 'actions', currentItem );
-            dojo.addClass(currentItem, 'actionglow');
+            dojo.addClass(currentItem, 'red_border');
             dojo.style( 'actions', 'display', 'inline-block' );
         }
     });
@@ -281,7 +281,7 @@ if (isset($_POST['name'])) {
 
     function deselect(e) {
         if (currentItem) {
-            dojo.removeClass(currentItem, 'actionglow');
+            dojo.removeClass(currentItem, 'red_border');
             currentItem = null;
         }
         dojo.style( 'actions', 'display', 'none' );
