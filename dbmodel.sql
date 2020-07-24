@@ -34,6 +34,7 @@
 -- ALTER TABLE `player` ADD `player_my_custom_field` INT UNSIGNED NOT NULL DEFAULT '0';
 
 ALTER TABLE `player` ADD `player_coins` SMALLINT UNSIGNED NOT NULL DEFAULT '7';
+ALTER TABLE `player` ADD `player_score_total` SMALLINT UNSIGNED NOT NULL DEFAULT '0';
 ALTER TABLE `player` ADD `player_score_blue` SMALLINT UNSIGNED NOT NULL DEFAULT '0';
 ALTER TABLE `player` ADD `player_score_green` SMALLINT UNSIGNED NOT NULL DEFAULT '0';
 ALTER TABLE `player` ADD `player_score_yellow` SMALLINT UNSIGNED NOT NULL DEFAULT '0';

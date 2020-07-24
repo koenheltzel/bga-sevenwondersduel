@@ -124,9 +124,11 @@ class SevenWondersDuel extends Table
     const SCORE_COINS = "coins";
     const SCORE_MILITARY = "military";
 
-    const END_GAME_CONDITION_NORMAL = 0;
     const END_GAME_CONDITION_SCIENTIFIC = 1;
     const END_GAME_CONDITION_MILITARY = 2;
+    const END_GAME_CONDITION_NORMAL = 3;
+    const END_GAME_CONDITION_NORMAL_AUX = 4;
+    const END_GAME_CONDITION_DRAW = 5;
 
 
     /**
@@ -274,7 +276,7 @@ class SevenWondersDuel extends Table
         self::setGameStateInitialValue( self::VALUE_AGE_START_PLAYER, 0);
         self::setGameStateInitialValue( self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
         self::setGameStateInitialValue( self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, 0);
-        self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_NORMAL);
+        self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, 0);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)
@@ -305,7 +307,7 @@ class SevenWondersDuel extends Table
     
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
-        $sql = "SELECT player_id id, player_score score FROM player ";
+        $sql = "SELECT player_id id, player_score_total score FROM player ";
         $players = self::getCollectionFromDb( $sql );
         $result['players'] = $players;
         $result['startPlayerId'] = $this->getGameStartPlayerId();

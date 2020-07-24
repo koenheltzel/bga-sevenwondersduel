@@ -96,13 +96,18 @@ class Player extends \APP_DbObject{
         return $this->increaseValue("player_coins", $increase);
     }
 
+    // set winner
+    function setWinner() {
+        $this->DbQuery("UPDATE player SET player_score='1' WHERE player_id='{$this->id}'");
+    }
+
     // get score
     function getScore() {
-        return $this->getUniqueValueFromDB("SELECT player_score FROM player WHERE player_id='{$this->id}'");
+        return $this->getUniqueValueFromDB("SELECT player_score_total FROM player WHERE player_id='{$this->id}'");
     }
     // set score
     function setScore($score) {
-        $this->DbQuery("UPDATE player SET player_score='$score' WHERE player_id='{$this->id}'");
+        $this->DbQuery("UPDATE player SET player_score_total='$score' WHERE player_id='{$this->id}'");
     }
     // increment score (can be negative too)
     function increaseScore($increase, $category) {

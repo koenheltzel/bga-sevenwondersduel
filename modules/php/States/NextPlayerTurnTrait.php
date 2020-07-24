@@ -15,9 +15,7 @@ trait NextPlayerTurnTrait {
     public function enterStateNextPlayerTurn() {
         $conflictPawnPosition = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
         if (Player::getActive()->getScientificSymbolCount() >= 6) {
-            if (Player::me()->getScore() < Player::opponent()->getScore()) {
-                Player::opponent()->setScore(-Player::opponent()->getScore()); // Make opponent's score negative to make sure the current player wins.
-            }
+            Player::me()->setWinner();
             self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_SCIENTIFIC);
 
             SevenWondersDuel::get()->notifyAllPlayers(
@@ -33,9 +31,7 @@ trait NextPlayerTurnTrait {
             $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
         }
         elseif ($conflictPawnPosition <= -9 || $conflictPawnPosition >= 9) {
-            if (Player::me()->getScore() < Player::opponent()->getScore()) {
-                Player::opponent()->setScore(-Player::opponent()->getScore()); // Make opponent's score negative to make sure the current player wins.
-            }
+            Player::me()->setWinner();
             self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_MILITARY);
 
             SevenWondersDuel::get()->notifyAllPlayers(
@@ -201,6 +197,8 @@ trait NextPlayerTurnTrait {
                         );
                     }
                 }
+
+                $winner = Players::determineWinner();
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'nextPlayerTurnEndGameScoring',
