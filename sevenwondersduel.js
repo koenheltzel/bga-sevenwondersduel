@@ -874,8 +874,8 @@ define([
 
                 $('player_area_' + playerId + '_coins').innerHTML = situation.coins;
                 $('player_area_' + playerId + '_score').innerHTML = situation.score;
-                if (this.scoreCtrl[playerId]) {
-                    this.scoreCtrl[playerId].setValue(situation.score);
+                if (typeof situation.winner != "undefined" && this.scoreCtrl[playerId]) {
+                    this.scoreCtrl[playerId].setValue(situation.winner);
                 }
             },
 
