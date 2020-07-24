@@ -1012,10 +1012,15 @@ __     __         _       _     _
     display: block;
 }
 
-/* Put some margin between borders, mostly to prevent misclicks on mobile. Doesn't include current_player_is_active / state so the position stays the same during the animation. */
-.player_building_column.red_border .building_header_small_container:not(:last-child) {
+/* Put some margin between borders, mostly to prevent misclicks on mobile. Doesn't include current_player_is_active / state so the position stays the same during the animation.
+Because of reversing the flexbox order for the opponent there are 2 different rules.*/
+.player_buildings.me .player_building_column.red_border .building_header_small_container:not(:last-child) {
     margin-bottom: calc(2 * var(--gutter));
 }
+.player_buildings.opponent .player_building_column.red_border .building_header_small_container:not(:first-child) {
+    margin-bottom: calc(2 * var(--gutter));
+}
+
 .current_player_is_active #swd[data-state=chooseOpponentBuilding] .player_building_column.red_border .building_header_small {
     cursor: pointer;
 }
