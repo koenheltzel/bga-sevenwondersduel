@@ -26,6 +26,7 @@ class Players
             if ($endGameScoring) {
                 $scoringCategories = $player->getScoreCategories();
                 $data[$player->id] = array_merge($data[$player->id], array_shift($scoringCategories)); // [0] doesn't work (the index can be a different number for some reason. So we use array_shift().
+                $data[$player->id]['winner'] = $player->isWinner();
                 $data['endGameCondition'] = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_END_GAME_CONDITION);
             }
         }

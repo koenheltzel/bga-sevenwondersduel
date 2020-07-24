@@ -96,6 +96,9 @@ class Player extends \APP_DbObject{
         return $this->increaseValue("player_coins", $increase);
     }
 
+    function isWinner() {
+        return (int)$this->getUniqueValueFromDB("SELECT player_score FROM player WHERE player_id='{$this->id}'");
+    }
     // set winner
     function setWinner() {
         $this->DbQuery("UPDATE player SET player_score='1' WHERE player_id='{$this->id}'");
