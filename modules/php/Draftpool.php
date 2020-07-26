@@ -117,7 +117,7 @@ class Draftpool
                         }
                     }
                     else {
-                        $position['back'] = 73 + $age;
+                        $position['back'] = 73 + $building->age;
                     }
                     array_unshift($draftpool['cards'], $position);
                 }
