@@ -1784,6 +1784,8 @@ define([
             notif_nextPlayerTurnMilitarySupremacy: function (notif) {
                 console.log('notif_nextPlayerTurnMilitarySupremacy', notif);
 
+                dojo.addClass($('conflict_pawn'), 'red_border');
+
                 var animationDuration = 500;
 
                 // Wait for animation before handling the next notification (= state change).
