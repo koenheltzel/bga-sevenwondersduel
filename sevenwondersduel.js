@@ -805,6 +805,10 @@ define([
                     _('Conflict pawn: When it enters a zone, active player applies the effect of the corresponding token, then returns it to the box.'), ''
                 );
 
+                this.addTooltipToClass( 'science_progress',
+                    _('If you gather 6 different scientific symbols, you immediately win the game (Scientific Supremacy).'), '', this.toolTipDelay );
+
+
                 // this.addTooltipToClass( 'draftpool_building_cost.me', _('Current cost for you to construct the building'), '', this.toolTipDelay );
                 // this.addTooltipToClass( 'draftpool_building_cost.opponent', _('Current cost for your opponent to construct the building'), '', this.toolTipDelay );
 
@@ -1016,6 +1020,9 @@ define([
                 if (typeof situation.winner != "undefined" && this.scoreCtrl[playerId]) {
                     this.scoreCtrl[playerId].setValue(situation.winner);
                 }
+                var scienceCountNode = dojo.query('.player_buildings.player' + playerId + ' .science_progress')[0];
+                dojo.query('span', scienceCountNode)[0].innerHTML = situation.scienceSymbolCount + '/6 ' + _('symbols');
+                dojo.style(scienceCountNode, 'display', situation.scienceSymbolCount ? 'block' : 'none');
             },
 
             //  __        __              _                      _           _   _

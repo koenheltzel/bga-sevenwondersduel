@@ -22,6 +22,7 @@ class Players
             $data[$player->id] = [
                 'score' => $player->getScore(),
                 'coins' => $player->getCoins(),
+                'scienceSymbolCount' => $player->getScientificSymbolCount(),
             ];
             if ($endGameScoring) {
                 $scoringCategories = $player->getScoreCategories();

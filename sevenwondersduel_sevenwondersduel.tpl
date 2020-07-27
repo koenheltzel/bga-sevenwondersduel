@@ -87,7 +87,9 @@
                         <div class="player_building_column Yellow" title="Commercial Buildings"></div>
                         <div class="player_building_column Red" title="Military Buildings"></div>
                         <div class="player_building_column Blue" title="Civilian Buildings"></div>
-                        <div class="player_building_column Green" title="Scientific Buildings"></div>
+                        <div class="player_building_column Green" title="Scientific Buildings">
+                            <div class="building_header_small_container card_outline science_progress" style="order: 99"><span></span></div>
+                        </div>
                         <div class="player_building_column Purple" title="Guilds"></div>
                     </div>
                     <!-- END player_buildings -->
