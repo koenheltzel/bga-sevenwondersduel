@@ -803,6 +803,25 @@ define([
                     _('Conflict pawn: When it enters a zone, active player applies the effect of the corresponding token, then returns it to the box.'), ''
                 );
 
+                // this.addTooltipToClass( 'draftpool_building_cost.me', _('Current cost for you to construct the building'), '', this.toolTipDelay );
+                // this.addTooltipToClass( 'draftpool_building_cost.opponent', _('Current cost for your opponent to construct the building'), '', this.toolTipDelay );
+
+
+                // Add tooltips to buildings everywhere.
+                new dijit.Tooltip({
+                    connectId: "game_play_area",
+                    selector: '.draftpool_building_cost.me .coin',
+                    showDelay: this.toolTipDelay,
+                    label: _('Current construction cost for you')
+                });
+                new dijit.Tooltip({
+                    connectId: "game_play_area",
+                    selector: '.draftpool_building_cost.opponent .coin',
+                    showDelay: this.toolTipDelay,
+                    label: _('Current construction cost for your opponent')
+                });
+
+
                 // Add tooltips to buildings everywhere.
                 new dijit.Tooltip({
                     connectId: "game_play_area",
@@ -1068,12 +1087,11 @@ define([
                     this.clearPlayerTurnNodeGlow();
                     this.clearRedBorder();
 
-                    var building = dojo.query(e.target);
+                    var building = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
+                    dojo.addClass(building, 'glow');
 
-                    dojo.addClass(e.target, 'glow');
-
-                    this.playerTurnBuildingId = dojo.attr(e.target, 'data-building-id');
-                    this.playerTurnNode = e.target;
+                    this.playerTurnBuildingId = dojo.attr(building, 'data-building-id');
+                    this.playerTurnNode = building;
 
                     var cardData = this.getDraftpoolCardData(this.playerTurnBuildingId);
                     dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + this.gamedatas.draftpool.discardGain[this.player_id];

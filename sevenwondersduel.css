@@ -175,6 +175,10 @@ __     __         _       _     _
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
     text-shadow: 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white;
     color:black;
+    cursor: default;
+}
+.current_player_is_active .coin>span {
+    cursor: pointer;
 }
 
 .point {
@@ -511,7 +515,6 @@ __     __         _       _     _
 
 .draftpool_building_cost {
     position: relative;
-    pointer-events: none;
 }
 .draftpool_building_cost.opponent {
     top: calc(var(--building-height) * var(--building-small-scale) * 0.73);
