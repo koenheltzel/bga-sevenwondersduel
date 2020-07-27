@@ -712,6 +712,22 @@ define([
             //                          |_|
 
             setupTooltips: function () {
+                // Simple tooltips
+                let militaryTokenText = _( 'Military token: the opponent of the active player discards ${x} coins.' );
+                this.addTooltipToClass( 'military_token_2',
+                    dojo.string.substitute(
+                        militaryTokenText, {
+                            x: 2
+                        } ), '', this.toolTipDelay );
+                this.addTooltipToClass( 'military_token_5',
+                    dojo.string.substitute(
+                        militaryTokenText, {
+                            x: 5
+                        } ), '', this.toolTipDelay );
+                this.addTooltip('conflict_pawn',
+                    _('Conflict pawn: When it enters a zone, active player applies the effect of the corresponding token, then returns it to the box.'), ''
+                );
+
                 // Add tooltips to buildings everywhere.
                 new dijit.Tooltip({
                     connectId: "game_play_area",
