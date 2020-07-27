@@ -196,6 +196,7 @@ __     __         _       _     _
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
     text-shadow: 0 0 calc(var(--scale) * 3px) black,0 0 calc(var(--scale) * 3px) black;
     color:white;
+    cursor: default;
 }
 
 @keyframes tooltipWiggle {
@@ -1086,10 +1087,6 @@ __        __              _
     box-shadow:
             0px 0px calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0,0,0,0.4),
             inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
-}
-
-.wonder .player_wonder_cost {
-    pointer-events: none;
 }
 
 /*

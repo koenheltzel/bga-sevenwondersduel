@@ -788,6 +788,7 @@ define([
 
             setupTooltips: function () {
                 // Simple tooltips
+
                 let militaryTokenText = _( 'Military token: the opponent of the active player discards ${x} coins.' );
                 this.addTooltipToClass( 'military_token_2',
                     dojo.string.substitute(
@@ -799,6 +800,7 @@ define([
                         militaryTokenText, {
                             x: 5
                         } ), '', this.toolTipDelay );
+
                 this.addTooltip('conflict_pawn',
                     _('Conflict pawn: When it enters a zone, active player applies the effect of the corresponding token, then returns it to the box.'), ''
                 );
@@ -806,16 +808,43 @@ define([
                 // this.addTooltipToClass( 'draftpool_building_cost.me', _('Current cost for you to construct the building'), '', this.toolTipDelay );
                 // this.addTooltipToClass( 'draftpool_building_cost.opponent', _('Current cost for your opponent to construct the building'), '', this.toolTipDelay );
 
+                new dijit.Tooltip({
+                    connectId: "swd",
+                    selector: '.player_info .point',
+                    showDelay: this.toolTipDelay,
+                    label: _('Victory points')
+                });
+
+                new dijit.Tooltip({
+                    connectId: "swd",
+                    selector: '.player_info .coin',
+                    showDelay: this.toolTipDelay,
+                    label: _('Coins')
+                });
+
+                new dijit.Tooltip({
+                    connectId: "swd",
+                    selector: '.player_wonders.me .coin',
+                    showDelay: this.toolTipDelay,
+                    label: _('Current construction cost for you')
+                });
+
+                new dijit.Tooltip({
+                    connectId: "swd",
+                    selector: '.player_wonders.opponent .coin',
+                    showDelay: this.toolTipDelay,
+                    label: _('Current construction cost for your opponent')
+                });
 
                 // Add tooltips to buildings everywhere.
                 new dijit.Tooltip({
-                    connectId: "game_play_area",
+                    connectId: "swd",
                     selector: '.draftpool_building_cost.me .coin',
                     showDelay: this.toolTipDelay,
                     label: _('Current construction cost for you')
                 });
                 new dijit.Tooltip({
-                    connectId: "game_play_area",
+                    connectId: "swd",
                     selector: '.draftpool_building_cost.opponent .coin',
                     showDelay: this.toolTipDelay,
                     label: _('Current construction cost for your opponent')
@@ -1382,7 +1411,8 @@ define([
                         return;
                     }
 
-                    var wonderId = dojo.attr(e.target, "data-wonder-id");
+                    var wonderNode = dojo.hasClass(e.target, 'wonder') ? e.target : dojo.query(e.target).closest(".wonder")[0];
+                    var wonderId = dojo.attr(wonderNode, "data-wonder-id");
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
                             lock: true,
