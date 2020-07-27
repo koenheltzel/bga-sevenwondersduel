@@ -55,6 +55,7 @@ define([
             constructWonderAnimationDuration: 1600,
             progressTokenDuration: 1000,
 
+            twistCoinDuration: 250,
             turnAroundCardDuration: 500,
             putDraftpoolCard: 250,
             coin_slide_duration: 500,
@@ -365,15 +366,62 @@ define([
                 }
             },
 
+            /*
+            Transition (3D flip) from old node to new node. Destroy old node afterwards.
+             */
+            twistAnimation: function(oldNode, newNode, ) {
+                if (oldNode.innerHTML != newNode.innerHTML){
+                    dojo.place(oldNode, newNode.parentElement);
+                    var displayValue = dojo.style(newNode, 'display'); // probably inline-block or block.
+                    dojo.style(newNode, 'display', 'none');
+                    var anim = dojo.fx.chain([
+                        dojo.animateProperty({
+                            node: oldNode,
+                            duration: this.twistCoinDuration / 2,
+                            easing: dojo.fx.easing.linear,
+                            properties: {
+                                propertyTransform: {start: 0, end: 90}
+                            },
+                            onAnimate: function (values) {
+                                dojo.style(oldNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                            },
+                            onEnd: dojo.hitch(this, function (node) {
+                                dojo.destroy(oldNode);
+                                dojo.style(newNode, 'display', displayValue);
+                                dojo.style(newNode, 'transform', 'perspective(40em) rotateY(-90deg)'); // When delay > 0 this is necesarry to hide the new node.
+                            })
+                        }),
+                        dojo.animateProperty({
+                            node: newNode,
+                            duration: this.twistCoinDuration / 2,
+                            easing: dojo.fx.easing.linear,
+                            properties: {
+                                propertyTransform: {start: -90, end: 0}
+                            },
+                            onAnimate: function (values) {
+                                dojo.style(newNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                            }
+                        })
+                    ]);
+
+                    anim.play();
+                }
+                else {
+                    dojo.destroy(oldNode);
+                }
+            },
+
             updatePlayerWonders: function (playerId, rows) {
                 console.log('updatePlayerWonders', playerId, rows);
                 var i = 1;
                 Object.keys(rows).forEach(dojo.hitch(this, function (index) {
                     var row = rows[index];
                     var container = dojo.query('.player_wonders.player' + playerId + '>div:nth-of-type(' + row.position + ')')[0];
-                    dojo.empty(container);
+
+                    var oldNode = dojo.query('.wonder_container', container)[0];
+
                     var wonderDivHtml = this.getWonderDivHtml(row.wonder, row.constructed == 0, row.cost, this.gamedatas.playersSituation[playerId].coins);
-                    var wonderDiv = dojo.place(wonderDivHtml, container);
+                    var newNode = dojo.place(wonderDivHtml, container);
                     if (row.constructed > 0) {
                         var age = row.constructed;
                         id = 73 + age;
@@ -384,7 +432,14 @@ define([
                         var spritesheetColumns = 10;
                         data.jsX = (id - 1) % spritesheetColumns;
                         data.jsY = Math.floor((id - 1) / spritesheetColumns);
-                        dojo.place(this.format_block('jstpl_wonder_age_card', data), dojo.query('.age_card_container', wonderDiv)[0]);
+                        dojo.place(this.format_block('jstpl_wonder_age_card', data), dojo.query('.age_card_container', newNode)[0]);
+                    }
+                    if (oldNode) {
+                        this.twistAnimation(
+                            dojo.query('.player_wonder_cost', oldNode)[0],
+                            dojo.query('.player_wonder_cost', newNode)[0],
+                        );
+                        dojo.destroy(oldNode);
                     }
                     i++;
                 }));
@@ -509,6 +564,7 @@ define([
                         }));
 
                         if (oldNode) {
+                            // Turn around age cards.
                             if (dojo.attr(oldNode, "data-building-id") == "" && typeof position.building != 'undefined') {
                                 dojo.style(newNode, 'transform', 'perspective(40em) rotateY(-180deg)'); // When delay > 0 this is necesarry to hide the new node.
                                 var anim = dojo.fx.chain([
@@ -546,10 +602,22 @@ define([
                                 anim.play();
 
                                 animationDelay += this.turnAroundCardDuration * 0.75;
-                            } else {
+                            }
+                            // Animate the updating of the card cost?
+                            else {
+                                this.twistAnimation(
+                                    dojo.query('.draftpool_building_cost.me', oldNode)[0],
+                                    dojo.query('.draftpool_building_cost.me', newNode)[0],
+                                );
+                                this.twistAnimation(
+                                    dojo.query('.draftpool_building_cost.opponent', oldNode)[0],
+                                    dojo.query('.draftpool_building_cost.opponent', newNode)[0],
+                                );
                                 dojo.destroy(oldNode);
                             }
-                        } else if (!setupGame) {
+                        }
+                        // Start of age, fade in / sleightly 3D turn in cards.
+                        else if (!setupGame) {
                             dojo.style(newNode, 'opacity', 0);
                             dojo.animateProperty({
                                 node: newNode,
