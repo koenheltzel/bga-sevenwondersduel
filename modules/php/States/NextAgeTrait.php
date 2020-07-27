@@ -39,6 +39,7 @@ trait NextAgeTrait
                     'ageRoman' => ageRoman($age),
                     'player_name' => Player::getActive()->name,
                     'draftpool' => Draftpool::get(),
+                    'playersSituation' => Players::getSituation(), // Mostly so the science symbol count is updated.
                 ]
             );
             $this->gamestate->nextState(self::STATE_PLAYER_TURN_NAME);
@@ -62,6 +63,7 @@ trait NextAgeTrait
                     'ageRoman' => ageRoman($age),
                     'player_name' => Player::getActive()->name,
                     'draftpool' => Draftpool::get(),
+                    'playersSituation' => Players::getSituation(), // Mostly so the science symbol count is updated.
                 ]
             );
             $this->gamestate->nextState(self::STATE_SELECT_START_PLAYER_NAME);
