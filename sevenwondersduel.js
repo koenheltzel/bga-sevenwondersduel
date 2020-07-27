@@ -370,12 +370,14 @@ define([
             Transition (3D flip) from old node to new node. Destroy old node afterwards.
              */
             twistAnimation: function(oldNode, newNode, ) {
-                if (oldNode.innerHTML != newNode.innerHTML){
-                    dojo.place(oldNode, newNode.parentElement);
+                if (!oldNode || dojo.style(oldNode, 'display') == 'none' || oldNode.innerHTML != newNode.innerHTML) {
                     var displayValue = dojo.style(newNode, 'display'); // probably inline-block or block.
                     dojo.style(newNode, 'display', 'none');
-                    var anim = dojo.fx.chain([
-                        dojo.animateProperty({
+
+                    var anims = [];
+                    if (oldNode) {
+                        dojo.place(oldNode, newNode.parentElement);
+                        var oldNodeAnim = dojo.animateProperty({
                             node: oldNode,
                             duration: this.twistCoinDuration / 2,
                             easing: dojo.fx.easing.linear,
@@ -387,23 +389,30 @@ define([
                             },
                             onEnd: dojo.hitch(this, function (node) {
                                 dojo.destroy(oldNode);
-                                dojo.style(newNode, 'display', displayValue);
-                                dojo.style(newNode, 'transform', 'perspective(40em) rotateY(-90deg)'); // When delay > 0 this is necesarry to hide the new node.
                             })
-                        }),
-                        dojo.animateProperty({
-                            node: newNode,
-                            duration: this.twistCoinDuration / 2,
-                            easing: dojo.fx.easing.linear,
-                            properties: {
-                                propertyTransform: {start: -90, end: 0}
-                            },
-                            onAnimate: function (values) {
-                                dojo.style(newNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
-                            }
-                        })
-                    ]);
+                        });
+                        anims.push(oldNodeAnim);
+                    }
 
+                    var newNodeAnim = dojo.animateProperty({
+                        node: newNode,
+                        duration: this.twistCoinDuration / 2,
+                        easing: dojo.fx.easing.linear,
+                        properties: {
+                            propertyTransform: {start: -90, end: 0}
+                        },
+                        beforeBegin: function (values) {
+                            dojo.destroy(oldNode);
+                            dojo.style(newNode, 'display', displayValue);
+                            dojo.style(newNode, 'transform', 'perspective(40em) rotateY(-90deg)'); // When delay > 0 this is necesarry to hide the new node.
+                        },
+                        onAnimate: function (values) {
+                            dojo.style(newNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                        }
+                    });
+                    anims.push(newNodeAnim);
+
+                    var anim = dojo.fx.chain(anims);
                     anim.play();
                 }
                 else {
@@ -434,13 +443,11 @@ define([
                         data.jsY = Math.floor((id - 1) / spritesheetColumns);
                         dojo.place(this.format_block('jstpl_wonder_age_card', data), dojo.query('.age_card_container', newNode)[0]);
                     }
-                    if (oldNode) {
-                        this.twistAnimation(
-                            dojo.query('.player_wonder_cost', oldNode)[0],
-                            dojo.query('.player_wonder_cost', newNode)[0],
-                        );
-                        dojo.destroy(oldNode);
-                    }
+                    this.twistAnimation(
+                        dojo.query('.player_wonder_cost', oldNode)[0],
+                        dojo.query('.player_wonder_cost', newNode)[0],
+                    );
+                    if (oldNode) dojo.destroy(oldNode);
                     i++;
                 }));
             },
