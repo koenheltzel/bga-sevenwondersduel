@@ -1256,3 +1256,7 @@ __        __              _
     animation: tooltipWiggle 2s infinite alternate;
     align-self: center;
 }
+
+.payment_plan {
+    margin: var(--gutter) 0px var(--gutter) var(--gutter);
+}

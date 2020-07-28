@@ -275,23 +275,28 @@ var jstpl_military_token = '<div class="military_token military_token_${jsValue}
 var jstpl_coin_animated = '<div class="coin animated"></div>';
 
 var jstpl_tooltip_cost_me = '\
-    <h3 class="me">{CURRENT_COST_YOU}:</h3>\
-    ${jsPayment}\
+    <strong class="me">{CURRENT_COST_YOU}:</strong>\
+    <div class="payment_plan">\
+        ${jsPayment}\
+    </div>\
     <strong>{TOTAL}:</strong> ${jsCoinHtml}\
     ';
 
 var jstpl_tooltip_cost_opponent = '\
-    <h3 class="opponent">{CURRENT_COST_OPPONENT}:</h3>\
-    ${jsPayment}\
+    <strong class="opponent">{CURRENT_COST_OPPONENT}:</strong>\
+    <div class="payment_plan">\
+        ${jsPayment}\
+    </div>\
     <strong>{TOTAL}:</strong> ${jsCoinHtml}\
     ';
 
 var jstpl_building_tooltip = '\
     <div class="swd_tooltip building_tooltip">\
         <div class="cardinfos">\
-            <h3>${cardType} “${name}”</h3>\
+            <strong>${cardType} “${name}”</strong>\
             <hr\>\
             ${jsCostOpponent}\
+            <hr\>\
             ${jsCostMe}\
         </div>\
         <div>\
@@ -303,7 +308,9 @@ var jstpl_building_tooltip = '\
 var jstpl_wonder_tooltip = '\
     <div class="swd_tooltip wonder_tooltip">\
         <div class="cardinfos">\
-            <h3>{WONDER} “${name}”</h3>\
+            <strong>{WONDER} “${name}”</strong>\
+            <hr\>\
+            <p>${jsText}</p>\
             <hr\>\
             ${jsCost}\
         </div>\
@@ -316,7 +323,7 @@ var jstpl_wonder_tooltip = '\
 var jstpl_progress_token_tooltip = '\
     <div class="swd_tooltip progress_token_tooltip">\
         <div class="cardinfos">\
-            <h3>{PROGRESS_TOKEN} “${jsName}”</h3>\
+            <strong>{PROGRESS_TOKEN} “${jsName}”</strong>\
             <hr\>\
             <p>${jsText}</p>\
         </div>\
