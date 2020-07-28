@@ -53,7 +53,7 @@ class Item
 
         $totalCost = $payment->totalCost();
         if ($totalCost > $player->getCoins()) {
-            $itemType = $this instanceof Building ? _('Building') : _('Wonder');
+            $itemType = $this instanceof Building ? clienttranslate('Building') : clienttranslate('Wonder');
             throw new \BgaUserException(sprintf(clienttranslate("You can't afford the %s you selected."), $itemType));
         }
 
@@ -123,15 +123,15 @@ class Item
             MilitaryTrack::movePawn(Player::me(), $this->military, $payment);
 
             if($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
-                $message = '${player_name} moves the Conflict pawn ${steps} space(s) (+1 from Progress token “${progressTokenName}”)';
+                $message = clienttranslate('${player_name} moves the Conflict pawn ${steps} space(s) (+1 from Progress token “${progressTokenName}”)');
             }
             else {
-                $message = '${player_name} moves the Conflict pawn ${steps} space(s)';
+                $message = clienttranslate('${player_name} moves the Conflict pawn ${steps} space(s)');
             }
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
-                clienttranslate($message),
+                $message,
                 [
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                     'steps' => $payment->militarySteps,

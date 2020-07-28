@@ -39,6 +39,18 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $players = $this->game->loadPlayersBasicInfos();
         $players_nbr = count($players);
 
+
+        $this->tpl['CONSTRUCT_WONDER'] = self::_("Construct a wonder");
+        $this->tpl['CONSTRUCT_BUILDING'] = self::_("Construct building");
+        $this->tpl['DISCARD_BUILDING'] = self::_("Discard for coins");
+        $this->tpl['CHOOSE_PROGRESS_TOKEN_FROM_BOX'] = self::_("Choose a progress token from the box");
+        $this->tpl['DISCARDED_BUILDINGS'] = self::_("Discarded buildings");
+
+        // Tooltips
+        $this->tpl['CURRENT_COST_YOU'] = self::_("Current construction cost for you");
+        $this->tpl['CURRENT_COST_OPPONENT'] = self::_("Current construction cost for opponent");
+        $this->tpl['WONDER'] = self::_("Wonder");
+
         /*********** Place your code below:  ************/
 
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row_info");

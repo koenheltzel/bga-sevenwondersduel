@@ -63,17 +63,17 @@
                         <div id="draftpool" class="draftpool age">
                         </div>
                         <div id="draftpool_actions" class="whiteblock">
-                            <a href="#" id="buttonConstructWonder" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>Construct a wonder</span></a>
-                            <a href="#" id="buttonConstructBuilding" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>Construct building</span></a>
-                            <a href="#" id="buttonDiscardBuilding" class="action_button bgabutton bgabutton_blue"><div class="coin"><span>+5</span></div><span>Discard for coins</span></a>
+                            <a href="#" id="buttonConstructWonder" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>{CONSTRUCT_WONDER}</span></a>
+                            <a href="#" id="buttonConstructBuilding" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>{CONSTRUCT_BUILDING}</span></a>
+                            <a href="#" id="buttonDiscardBuilding" class="action_button bgabutton bgabutton_blue"><div class="coin"><span>+X</span></div><span>{DISCARD_BUILDING}</span></a>
                         </div>
                         <div id="select_start_player" class="whiteblock">
-                            <a href="#" id="buttonPlayerLeft" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Jump Maybe 123</span></a>
+                            <a href="#" id="buttonPlayerLeft" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Name 1</span></a>
                             <div id="select_start_player_text"></div>
-                            <a href="#" id="buttonPlayerRight" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Jump Maybe 456</span></a>
+                            <a href="#" id="buttonPlayerRight" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Name 2</span></a>
                         </div>
                         <div id="progress_token_from_box" class="whiteblock">
-                            <h3>Choose a progress token from the box:</h3>
+                            <h3>{CHOOSE_PROGRESS_TOKEN_FROM_BOX}:</h3>
                             <div id="progress_token_from_box_container">
                                 <div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div>
                             </div>
@@ -88,7 +88,7 @@
                         <div class="player_building_column Red" title="Military Buildings"></div>
                         <div class="player_building_column Blue" title="Civilian Buildings"></div>
                         <div class="player_building_column Green" title="Scientific Buildings">
-                            <div class="building_header_small_container card_outline science_progress" style="order: 99"><span></span></div>
+                            <div class="building_header_small_container card_outline science_progress"><span></span></div>
                         </div>
                         <div class="player_building_column Purple" title="Guilds"></div>
                     </div>
@@ -192,7 +192,7 @@
         </div>
     </div>
     <div id="discarded_cards_whiteblock" class="whiteblock">
-        <h3>Discarded buildings:</h3>
+        <h3>{DISCARDED_BUILDINGS}:</h3>
         <div id="discarded_cards_container">
             <div class="discarded_cards_cursor"></div>
         </div>
@@ -275,12 +275,12 @@ var jstpl_military_token = '<div class="military_token military_token_${jsValue}
 var jstpl_coin_animated = '<div class="coin animated"></div>';
 
 var jstpl_tooltip_cost_me = '\
-    <h3 class="me">Current construction cost for you: ${jsCoinHtml}</h3>\
+    <h3 class="me">{CURRENT_COST_YOU}: ${jsCoinHtml}</h3>\
     ${jsPayment}\
     ';
 
 var jstpl_tooltip_cost_opponent = '\
-    <h3 class="opponent">Current construction cost for opponent: ${jsCoinHtml}</h3>\
+    <h3 class="opponent">{CURRENT_COST_OPPONENT}: ${jsCoinHtml}</h3>\
     ${jsPayment}\
     ';
 
@@ -298,7 +298,7 @@ var jstpl_building_tooltip = '\
 
 var jstpl_wonder_tooltip = '\
     <div class="swd_tooltip wonder_tooltip">\
-        <h3>Wonder “${name}”</h3>\
+        <h3>{WONDER} “${name}”</h3>\
         <hr\>\
         <div class="cardinfos">\
             <div class="wonder tooltipWiggle" style="float:right; background-position: -${backx}00% -${backy}00%;">\

@@ -821,6 +821,7 @@ __     __         _       _     _
 }
 
 .science_progress {
+    order: 99;
     height: calc(var(--building-header-small-height) * 0.75) !important;
     line-height: calc(var(--building-header-small-height) * 0.75);
 
