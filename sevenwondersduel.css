@@ -495,8 +495,8 @@ __     __         _       _     _
  */
 
 #draftpool_container {
-    /*flex-grow: 1;*/
     padding: var(--gutter);
+    display: inline-block;
 }
 
 .draftpool {
@@ -600,7 +600,6 @@ __     __         _       _     _
 
 #select_start_player>div {
     margin: 0px var(--gutter) 0px var(--gutter);
-    /*flex-grow: 2;*/
     word-wrap: break-spaces;
     line-height: calc(18px * var(--scale));
     font-size: calc(16px * var(--scale));
@@ -610,11 +609,9 @@ __     __         _       _     _
     font-weight: bold;
 }
 #select_start_player>.action_button {
-    /*flex-grow: 1;*/
     margin:0px;
-    height: 34px;
+    height: calc(34px * var(--scale));
     line-height: 34px;
-    zoom: var(--scale);
     text-overflow: unset;
 }
 
@@ -712,9 +709,6 @@ __     __         _       _     _
     flex-direction: row;
     align-items: flex-end;
     justify-content: space-between;
-
-    /*flex-grow: 2; !* Make player building div grow more than the draftpool container, so the buildings will be most toward the middle as possible. *!*/
-    /*align-self: stretch;*/
 }
 #swd_wrap.square .player_buildings.opponent, #swd_wrap.landscape .player_buildings.opponent {
     border-radius: 0px 0px var(--small-border-radius) 0px;

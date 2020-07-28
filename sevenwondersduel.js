@@ -921,8 +921,8 @@ define([
                         data.cardType = _("Guild card");
                     }
                     data.name = building.name;
-                    data.backx = ((id - 1) % spritesheetColumns);
-                    data.backy = Math.floor((id - 1) / spritesheetColumns);
+                    data.jsBackX = ((id - 1) % spritesheetColumns);
+                    data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
                     data.jsCostMe = '';
                     data.jsCostOpponent = '';
                     if (draftpoolBuilding) {
@@ -962,8 +962,8 @@ define([
 
                     var data = {};
                     data.name = wonder.name;
-                    data.backx = ((id - 1) % spritesheetColumns);
-                    data.backy = Math.floor((id - 1) / spritesheetColumns);
+                    data.jsBackX = ((id - 1) % spritesheetColumns);
+                    data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
                     data.jsCost = '';
                     if (playerId) {
                         var cardData = this.getWonderCardData(playerId, id);
@@ -988,9 +988,10 @@ define([
                     var spritesheetColumns = 4;
 
                     var data = {};
-                    data.name = progressToken.name;
-                    data.backx = ((id - 1) % spritesheetColumns);
-                    data.backy = Math.floor((id - 1) / spritesheetColumns);
+                    data.jsName = progressToken.name;
+                    data.jsText = progressToken.text;
+                    data.jsBackX = ((id - 1) % spritesheetColumns);
+                    data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
                     return this.format_block('jstpl_progress_token_tooltip', data);
                 }
                 return false;

@@ -466,29 +466,44 @@ class Material
 
         $this->progressTokens = new ProgressTokens();
         
-        $this->progressTokens[1] = (new ProgressToken(1, clienttranslate("Agriculture")))
+        $this->progressTokens[1] = (new ProgressToken(1, clienttranslate("Agriculture"), clienttranslate("
+            Immediately take 6 coins from the Bank.<br/>
+            The token is worth 4 victory points.")))
             ->setCoins(6)
             ->setVictoryPoints(4);
 
-        $this->progressTokens[2] = (new ProgressToken(2, clienttranslate("Architecture")));
+        $this->progressTokens[2] = (new ProgressToken(2, clienttranslate("Architecture"), clienttranslate("
+            Any future Wonders built by you will cost 2 fewer resources.<br/>
+            BGA will calculate and choose the most advantageous resources for you.")));
 
-        $this->progressTokens[3] = (new ProgressToken(3, clienttranslate("Economy")));
+        $this->progressTokens[3] = (new ProgressToken(3, clienttranslate("Economy"), clienttranslate("
+            You gain the money spent by your opponent when they trade for resources.")));
 
-        $this->progressTokens[4] = (new ProgressToken(4, clienttranslate("Law")))
+        $this->progressTokens[4] = (new ProgressToken(4, clienttranslate("Law"), clienttranslate("
+            This token is worth a scientific symbol.")))
             ->setScientificSymbol(2);
 
-        $this->progressTokens[5] = (new ProgressToken(5, clienttranslate("Masonry")));
+        $this->progressTokens[5] = (new ProgressToken(5, clienttranslate("Masonry"), clienttranslate("
+            Any future blue cards constructed by you will cost 2 fewer resources.<br/>
+            BGA will calculate and choose the most advantageous resources for you.")));
 
-        $this->progressTokens[6] = (new ProgressToken(6, clienttranslate("Mathematics")));
+        $this->progressTokens[6] = (new ProgressToken(6, clienttranslate("Mathematics"), clienttranslate("
+            At the end of the game, score 3 victory points for each Progress token in your possession (including itself).")));
 
-        $this->progressTokens[7] = (new ProgressToken(7, clienttranslate("Philosophy")))
+        $this->progressTokens[7] = (new ProgressToken(7, clienttranslate("Philosophy"), clienttranslate("
+            The token is worth 7 victory points.")))
             ->setVictoryPoints(7);
 
-        $this->progressTokens[8] = (new ProgressToken(8, clienttranslate("Strategy")));
+        $this->progressTokens[8] = (new ProgressToken(8, clienttranslate("Strategy"), clienttranslate("
+            Once this token enters play, your new military Buildings (red cards) will benefit from 1 extra Shield.")));
 
-        $this->progressTokens[9] = (new ProgressToken(9, clienttranslate("Theology")));
+        $this->progressTokens[9] = (new ProgressToken(9, clienttranslate("Theology"), clienttranslate("
+            All future Wonders constructed by you are all treated as though they have the “Play Again” effect.<br/>
+            Wonders which already have this effect are not affected.")));
 
-        $this->progressTokens[10] = (new ProgressToken(10, clienttranslate("Urbanism")))
+        $this->progressTokens[10] = (new ProgressToken(10, clienttranslate("Urbanism"), clienttranslate("
+            Immediately take 6 coins from the Bank.<br/>
+            Each time you construct a Building for free through linking (free construction condition, chain), you gain 4 coins.")))
             ->setCoins(6);
 
         $this->buildingIdsToLinkIconId = [

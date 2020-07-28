@@ -59,7 +59,7 @@
                             <div class="card_outline"></div><div class="card_outline"></div>
                         </div>
                     </div>
-                    <div id="draftpool_container" style="display: inline-block">
+                    <div id="draftpool_container">
                         <div id="draftpool" class="draftpool age">
                         </div>
                         <div id="draftpool_actions" class="whiteblock">
@@ -289,7 +289,7 @@ var jstpl_building_tooltip = '\
         <h3>${cardType} “${name}”</h3>\
         <hr\>\
         <div class="cardinfos">\
-            <div class="building tooltipWiggle" style="float:right; background-position: -${backx}00% -${backy}00%;">\
+            <div class="building tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
             </div>\
             ${jsCostOpponent}\
             ${jsCostMe}\
@@ -301,7 +301,7 @@ var jstpl_wonder_tooltip = '\
         <h3>{WONDER} “${name}”</h3>\
         <hr\>\
         <div class="cardinfos">\
-            <div class="wonder tooltipWiggle" style="float:right; background-position: -${backx}00% -${backy}00%;">\
+            <div class="wonder tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
             </div>\
             ${jsCost}\
         </div>\
@@ -310,10 +310,11 @@ var jstpl_wonder_tooltip = '\
 
 var jstpl_progress_token_tooltip = '\
     <div class="swd_tooltip">\
+        <h3>${jsName}</h3>\
+        <hr\>\
         <div class="cardinfos">\
-            <h3>${name}</h3>\
-        </div>\
-        <div class="progress_token tooltipWiggle" style="background-position: -${backx}00% -${backy}00%;">\
+        <div class="progress_token tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;"></div>\
+            <p>${jsText}</p>\
         </div>\
         <div class="clear"></div>\
     </div>';
