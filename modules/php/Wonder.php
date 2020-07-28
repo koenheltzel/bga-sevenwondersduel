@@ -47,7 +47,7 @@ class Wonder extends Item {
 
         SevenWondersDuel::get()->notifyAllPlayers(
             'constructWonder',
-            clienttranslate('${player_name} constructed wonder ${wonderName} for ${cost} using building “${buildingName}”.'),
+            clienttranslate('${player_name} constructed wonder ${wonderName} for ${cost} using building “${buildingName}”'),
             [
                 'wonderId' => $this->id,
                 'wonderName' => $this->name,
@@ -77,7 +77,7 @@ class Wonder extends Item {
             $payment->eightWonderId = $eightWonder->id;
             SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
-                clienttranslate('${player_name}\'s Wonder “${wonderName}” is removed from the game because 7 Wonders have been constructed.'),
+                clienttranslate('${player_name}\'s Wonder “${wonderName}” is removed from the game because 7 Wonders have been constructed'),
                 [
                     'player_name' => Player::me()->hasWonder($eightWonder->id) ? Player::me()->name : Player::opponent()->name,
                     'wonderName' => $eightWonder->name,
@@ -114,7 +114,7 @@ class Wonder extends Item {
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
-                    clienttranslate('${player_name} loses ${coins} coin(s).'),
+                    clienttranslate('${player_name} loses ${coins} coin(s)'),
                     [
                         'player_name' => $player->getOpponent()->name,
                         'coins' => $opponentCoinLoss,

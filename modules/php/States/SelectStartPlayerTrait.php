@@ -35,7 +35,7 @@ trait SelectStartPlayerTrait {
 
         $this->notifyAllPlayers(
             'message',
-            clienttranslate('${player_name} begins the new Age.'),
+            clienttranslate('${player_name} begins the new Age'),
             [
                 'player_name' => Player::get($playerId)->name,
             ]

@@ -50,7 +50,7 @@ trait NextAgeTrait
                 $message = clienttranslate('${player_name} must choose who begins Age ${ageRoman} (because military is equal, the last active player chooses).');
             }
             else{
-                $message = clienttranslate('${player_name} must choose who begins Age ${ageRoman} (because of weaker military position).');
+                $message = clienttranslate('${player_name} must choose who begins Age ${ageRoman} (because of weaker military position)');
                 // In case the pawn is NOT in the middle, the player that has the pawn on his side becomes the player to decide the start player.
                 $gameStartPlayerId = SevenWondersDuel::get()->getGameStartPlayerId();
                 $decisionPlayerId = $conflictPawnPosition < 0 ? $gameStartPlayerId : Player::opponent($gameStartPlayerId)->id;

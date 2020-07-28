@@ -49,10 +49,10 @@ trait NextPlayerTurnTrait {
         elseif (Draftpool::countCardsInCurrentAge() > 0) {
             if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_NORMAL) || SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_THEOLOGY)) {
                 if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_NORMAL)) {
-                    $message = clienttranslate('${player_name} gets an extra turn.');
+                    $message = clienttranslate('${player_name} gets an extra turn');
                 }
                 else {
-                    $message = clienttranslate('${player_name} gets an extra turn (Progress token “${progressTokenName}”).');
+                    $message = clienttranslate('${player_name} gets an extra turn (Progress token “${progressTokenName}”)');
                 }
                 SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_NORMAL, 0);
                 SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
@@ -80,7 +80,7 @@ trait NextPlayerTurnTrait {
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
-                    clienttranslate('${player_name} loses his extra turn because the age has ended.'),
+                    clienttranslate('${player_name} loses his extra turn because the age has ended'),
                     [
                         'player_name' => Player::getActive()->name,
                     ]

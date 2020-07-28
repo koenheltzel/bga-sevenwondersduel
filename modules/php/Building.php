@@ -65,10 +65,10 @@ class Building extends Item {
         // However, the Payment object passed in this notification is by reference and this will contain
         // the effects' modifications when the notification is send at the end of the request.
         if ($discardedCard) {
-            $message = clienttranslate('${player_name} constructed discarded building “${buildingName}” for free (Wonder “${wonderName}”).');
+            $message = clienttranslate('${player_name} constructed discarded building “${buildingName}” for free (Wonder “${wonderName}”)');
         }
         else {
-            $message = clienttranslate('${player_name} constructed building “${buildingName}” for ${cost}.');
+            $message = clienttranslate('${player_name} constructed building “${buildingName}” for ${cost}');
         }
         SevenWondersDuel::get()->notifyAllPlayers(
             'constructBuilding',
@@ -104,7 +104,7 @@ class Building extends Item {
                     $payment->selectProgressToken = true;
                     SevenWondersDuel::get()->notifyAllPlayers(
                         'message',
-                        clienttranslate('${player_name} gathered a pair of identical scientific symbols, and may now choose a Progress token.'),
+                        clienttranslate('${player_name} gathered a pair of identical scientific symbols, and may now choose a Progress token'),
                         [
                             'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                         ]
@@ -128,7 +128,7 @@ class Building extends Item {
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
-                clienttranslate('${player_name} gets 4 coins (Progress token “${progressTokenName}”).'),
+                clienttranslate('${player_name} gets 4 coins (Progress token “${progressTokenName}”)'),
                 [
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                     'progressTokenName' => ProgressToken::get(10)->name, // Urbanism
@@ -145,7 +145,7 @@ class Building extends Item {
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
-                    clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerBuilding} for each ${buildingType} building in his/her city.'),
+                    clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerBuilding} for each ${buildingType} building in his/her city'),
                     [
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                         'coins' => $payment->coinReward,
@@ -191,7 +191,7 @@ class Building extends Item {
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
-                    clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerWonder} for each constructed Wonder in his/her city.'),
+                    clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerWonder} for each constructed Wonder in his/her city'),
                     [
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                         'coins' => $payment->coinReward,

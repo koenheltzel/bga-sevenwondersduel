@@ -43,7 +43,7 @@ trait SelectWonderTrait {
         $wonder = Wonder::get($wonderId);
         $this->notifyAllPlayers(
             'wonderSelected',
-            clienttranslate('${player_name} selected wonder ${wonderName}.'),
+            clienttranslate('${player_name} selected wonder “${wonderName}”'),
             [
                 'wonderName' => $wonder->name,
                 'player_name' => $this->getCurrentPlayerName(),

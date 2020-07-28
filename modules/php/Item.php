@@ -83,11 +83,12 @@ class Item
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
-                    clienttranslate('${coins} coin(s) of the cost for ${item_name} go to ${player_name} (Economy Progress token).'),
+                    clienttranslate('${coins} coin(s) of the cost for ${item_name} go to ${player_name} (“${progressTokenName}” Progress token)'),
                     [
                         'player_name' => Player::opponent()->name,
                         'item_name' => $payment->getItem()->name,
                         'coins' => $payment->economyProgressTokenCoins,
+                        'progressTokenName' => ProgressToken::get(3)->name,
                     ]
                 );
             }
@@ -98,7 +99,7 @@ class Item
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
-                clienttranslate('${player_name} scores ${points} victory point(s).'),
+                clienttranslate('${player_name} scores ${points} victory point(s)'),
                 [
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                     'points' => $this->victoryPoints,
@@ -111,7 +112,7 @@ class Item
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
-                clienttranslate('${player_name} takes ${coins} coin(s) from the bank.'),
+                clienttranslate('${player_name} takes ${coins} coin(s) from the bank'),
                 [
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                     'coins' => $payment->coinReward,
@@ -122,10 +123,10 @@ class Item
             MilitaryTrack::movePawn(Player::me(), $this->military, $payment);
 
             if($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
-                $message = '${player_name} moves the Conflict pawn ${steps} space(s) (+1 from Progress token “${progressTokenName}”).';
+                $message = '${player_name} moves the Conflict pawn ${steps} space(s) (+1 from Progress token “${progressTokenName}”)';
             }
             else {
-                $message = '${player_name} moves the Conflict pawn ${steps} space(s).';
+                $message = '${player_name} moves the Conflict pawn ${steps} space(s)';
             }
 
             SevenWondersDuel::get()->notifyAllPlayers(
@@ -147,7 +148,7 @@ class Item
 
                     SevenWondersDuel::get()->notifyAllPlayers(
                         'message',
-                        clienttranslate('The military token is removed, ${player_name} discards ${coins} coin(s).'),
+                        clienttranslate('The military token is removed, ${player_name} discards ${coins} coin(s)'),
                         [
                             'player_name' => Player::opponent()->name,
                             'coins' => $payment->militaryOpponentPays,
