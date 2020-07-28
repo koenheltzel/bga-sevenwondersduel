@@ -2109,11 +2109,9 @@ define([
             },
 
             getResourceIcon(resource, amount) {
-                let html = '<div class="resource ' + resource + '">';
-                if (amount > 1 || resource == "coin") {
-                    html += '<span>' + amount + '</span>';
-                }
-                html += '</div>';
+                let html = '<div class="resource ' + resource + '"><span>';
+                html += (amount > 1 || resource == "coin") ? amount : '&nbsp;';
+                html += '</span></div>';
                 return html;
             }
 
