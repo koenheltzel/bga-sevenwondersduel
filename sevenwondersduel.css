@@ -536,9 +536,9 @@ __     __         _       _     _
 }
 #draftpool_actions>a {
     margin:0px;
-    height: 34px;
-    line-height: 34px;
-    zoom: var(--scale);
+    height: calc(34px * var(--scale));
+    font-size: calc(14px * var(--scale));
+    line-height: calc(34px * var(--scale));
 }
 
 #buttonConstructWonder {
@@ -611,7 +611,7 @@ __     __         _       _     _
 #select_start_player>.action_button {
     margin:0px;
     height: calc(34px * var(--scale));
-    line-height: 34px;
+    line-height: calc(34px * var(--scale));
     text-overflow: unset;
 }
 
@@ -963,21 +963,16 @@ __     __         _       _     _
 .action_construct {
     background-image: url('img/tmp_construct_building_icon.png');
     /*background-position: -0px -170px;*/
-    width: 82px;
-    height: 32px;
+    background-size: calc(82px * var(--scale)) calc(32px * var(--scale));
+    width: calc(82px * var(--scale));
+    height: calc(32px * var(--scale));
 }
 
 .action_wonder {
     background-image: url('img/tmp_construct_wonder_icon.png');
-    width: 45px;
-    height: 34px;
-}
-
-.action_discard {
-    background-image: url('img/icons.png');
-    background-position: -120px -170px;
-    width: 40px;
-    height: 40px;
+    background-size: calc(45px * var(--scale)) calc(34px * var(--scale));
+    width: calc(45px * var(--scale));
+    height: calc(34px * var(--scale));
 }
 
 .action_button * {
