@@ -4,7 +4,7 @@
 namespace SWD;
 
 
-class Material
+class Material extends Base
 {
 
     private static $instance = null;

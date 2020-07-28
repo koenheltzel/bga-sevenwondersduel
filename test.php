@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="sevenwondersduel.css">
+</head>
+<body>
 <?php
 
 require_once '_bga_ide_helper.php';
@@ -92,4 +98,7 @@ else {
     print "====================================================================================================================================";
 }
 
+?>
+</body>
+</html>
 

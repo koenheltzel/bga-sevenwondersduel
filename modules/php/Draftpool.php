@@ -6,7 +6,7 @@ namespace SWD;
 
 use SevenWondersDuel;
 
-class Draftpool
+class Draftpool extends Base
 {
 
     private static $ages = [

@@ -6,7 +6,7 @@ namespace SWD;
 
 use SevenWondersDuel;
 
-class Players
+class Players extends Base
 {
 
     /**

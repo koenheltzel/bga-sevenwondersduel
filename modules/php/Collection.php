@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-class Collection implements \ArrayAccess, \Iterator {
+class Collection extends Base implements \ArrayAccess, \Iterator {
 
     private $position = 0;
     /**

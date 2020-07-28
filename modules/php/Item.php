@@ -4,7 +4,7 @@ namespace SWD;
 
 use SevenWondersDuel;
 
-class Item
+class Item extends Base
 {
 
     // Don't change these values without looking at their use in the Player class. Right now they need to stay 1 char.

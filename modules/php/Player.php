@@ -4,7 +4,7 @@ namespace SWD;
 
 use SevenWondersDuel;
 
-class Player extends \APP_DbObject{
+class Player extends Base{
 
     public $id = null;
     public $name = null;

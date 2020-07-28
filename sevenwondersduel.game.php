@@ -582,5 +582,10 @@ class SevenWondersDuel extends Table
         return parent::getCurrentPlayerName($bReturnEmptyIfNotLogged);
     }
 
+    // Make _() public so we can call it from Base
+    public function _($string)
+    {
+        return parent::_($string);
+    }
 
 }

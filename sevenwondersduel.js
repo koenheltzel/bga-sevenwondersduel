@@ -190,7 +190,7 @@ define([
                 this.setupNotifications();
 
                 // Debug tooltip content by placing a tooltip at the top of the screen.
-                // dojo.place( this.getBuildingTooltip( 44, true ), 'swd_wrap', 'first' );
+                dojo.place( this.getWonderTooltip(4, this.me_id, '<div class="coin"><span style="color: red !important">9</span></div>'), 'swd_wrap', 'first' );
             },
 
             ///////////////////////////////////////////////////
@@ -945,12 +945,12 @@ define([
             },
 
             getPaymentPlan: function (data) {
-                var output = '<ul>';
+                var output = '';
                 var steps = data.steps;
                 for (var i = 0; i < steps.length; i++) {
-                    output += '<li>' + steps[i].string + '</li>';
+                    output += '' + this.getResourceIcon(steps[i].resource, steps[i].amount) + ' &rightarrow; ' + dojo.string.substitute(steps[i].string, { costIcon: steps[i].cost ? this.getResourceIcon('coin', steps[i].cost) : '' }) + '<br/>';
                 }
-                output += '</ul>';
+                output += '';
                 return output;
             },
 
@@ -2105,6 +2105,15 @@ define([
             ageRoman: function(age) {
                 return "I".repeat(age);
             },
+
+            getResourceIcon(resource, amount) {
+                let html = '<div class="resource ' + resource + '">';
+                if (amount > 1) {
+                    html += '<span>' + amount + '</span>';
+                }
+                html += '</div>';
+                return html;
+            }
 
         });
     });

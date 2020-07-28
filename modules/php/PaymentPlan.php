@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-class PaymentPlan
+class PaymentPlan extends Base
 {
 
     private static $maskCombinations = null; // To prevent passing an array. // TODO check if this is more memory efficient.
@@ -46,14 +46,15 @@ class PaymentPlan
         if ($this->item instanceof Building && $player->hasBuilding($this->item->linkedBuilding)) {
             // Player has the linked building, so no building cost.
             $linkedBuilding = Building::get($this->item->linkedBuilding);
-            $string = "Construction is free through linked building “{$linkedBuilding->name}”.";
+            $string = self::_('Construction is free through linked building “${name}”');
+            $string = str_replace('${name}', $linkedBuilding->name, $string);
             $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string);
         }
         else {
             // Coins in the cost
             if (isset($costLeft[COINS])) {
                 $resource = COINS;
-                $string = "Pay {$costLeft[COINS]} {$resource}.";
+                $string = clienttranslate('Pay ${costIcon}');
                 $this->addStep(COINS, $costLeft[COINS], $costLeft[COINS], null, null, $string);
 
                 unset($costLeft[$resource]);
@@ -68,7 +69,8 @@ class PaymentPlan
                             $canProduce = min($costLeft[$resource], $amount);
 
                             for ($i = 0; $i < $canProduce; $i++) {
-                                $string = "{$resource}: Produce with building “{$building->name}”.";
+                                $string = self::_('Produce with building “${buildingName}”');
+                                $string = str_replace('${buildingName}', $building->name, $string);
                                 $this->addStep($resource, $canProduce, 0, Item::TYPE_BUILDING, $building->id, $string);
                             }
 
@@ -153,11 +155,14 @@ class PaymentPlan
                                 self::subtractResource($costLeft, $resource, 1);
                                 $item = $choiceItems[$choiceItemIndex];
                                 if ($item instanceof Building) {
-                                    $string = "{$resource}: Produce with building “{$item->name}”.";
+                                    $string = self::_('Produce with building “${name}”');
+                                    $string = str_replace('${name}', $item->name, $string);
+
                                     $this->addStep($resource, 1, 0, Item::TYPE_BUILDING, $item->id, $string);
                                 }
                                 if ($item instanceof Wonder) {
-                                    $string = "{$resource}: Produce with wonder “{$item->name}”.";
+                                    $string = self::_('Produce with wonder “${name}”');
+                                    $string = str_replace('${name}', $item->name, $string);
                                     $this->addStep($resource, 1, 0, Item::TYPE_WONDER, $item->id, $string);
                                 }
 //                                if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
@@ -198,7 +203,8 @@ class PaymentPlan
                 $discounted = array_diff(array_keys($costLeftFlat), count($maskCombinations) ? $mask : []); // If no mask was chosen (no choices or no choices neceasary due to discount Wonder), use an empty
                 foreach ($discounted as $flatCostIndex) {
                     $resource = $costLeftFlat[$flatCostIndex];
-                    $string = "{$resource}: discount by Progress token “{$discountProgressToken->name}”.";
+                    $string = self::_('Discount by Progress token “${name}”');
+                    $string = str_replace('${name}', $discountProgressToken->name, $string);
                     $this->addStep($resource, 1, 0, Item::TYPE_PROGRESSTOKEN, $discountProgressToken->id, $string);
 
                     self::subtractResource($costLeft, $resource);
@@ -216,7 +222,7 @@ class PaymentPlan
 
         if($print) {
             foreach($this->steps as $step) {
-                print "<PRE>{$step->string}</PRE>";
+                print "<PRE><div class=\"resource {$step->resource}\"><span>{$step->amount}</span></div> asdfsadf <div class=\"resource {$step->resource}\"><span>{$step->amount}</span></div> {$step->string}</PRE>";
             }
             $scenariosCalculated = max(1, $scenariosCalculated);
             print "<PRE>Total cost: {$this->totalCost()} coin(s)</PRE>";
@@ -278,7 +284,8 @@ class PaymentPlan
             foreach($building->fixedPriceResources as $resource => $price) {
                 if (array_key_exists($resource, $costLeft)) {
                     for ($i = 0; $i < $costLeft[$resource]; $i++) {
-                        $string = "{$resource}: {$price} coin(s) using building “{$building->name}”.";
+                        $string = self::_('${costIcon} using building “${name}”');
+                        $string = str_replace('${name}', $building->name, $string);
                         $payment->addStep($resource, 1, $price, Item::TYPE_BUILDING, $building->id, $string);
                     }
                     unset($costLeft[$resource]);
@@ -294,10 +301,12 @@ class PaymentPlan
                 $cost = 2 + $opponentResourceCount;
                 $string = null;
                 if ($opponentResourceCount > 0) {
-                    $color = in_array($resource, [GLASS, PAPYRUS]) ? clienttranslate('grey') : clienttranslate('brown');
-                    $string = "{$resource}: {$cost} coins trade cost (opponent can produce {$opponentResourceCount} {$resource} with {$color} cards).";
+                    $color = in_array($resource, [GLASS, PAPYRUS]) ? self::_('grey') : self::_('brown');
+                    $string = self::_('${costIcon} trade cost (opponent can produce ${count} ${resource} with ${color} cards)');
+                    $string = str_replace('${count}', $opponentResourceCount, $string);
+                    $string = str_replace('${color}', $color, $string);
                 } else {
-                    $string = "{$resource}: {$cost} coins trade cost.";
+                    $string = self::_('${costIcon} trade cost');
                 }
                 $payment->addStep($resource, 1, $cost, null, null, $string);
             }

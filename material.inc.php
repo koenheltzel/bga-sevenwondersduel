@@ -32,20 +32,13 @@ $this->card_types = array(
 
 */
 
-use SWD\Building;
-use SWD\Wonder;
-use SWD\ProgressToken;
-
-//SevenWondersDuel::dump(time(), 'TWICE?');
-
 // This code get's executed (included?) twice for some reason. Defining constants throws a notice, so check if they are already set.
 if (!defined('COINS')) {
-    define('COINS', 'Coin(s)');
-    define('CLAY', 'Clay');
-    define('WOOD', 'Wood');
-    define('STONE', 'Stone');
-    define('GLASS', 'Glass');
-    define('PAPYRUS', 'Papyrus');
-    define('LINKED_BUILDING', 'Linked building');
-
+    define('COINS', 'coin');
+    define('CLAY', 'clay');
+    define('WOOD', 'wood');
+    define('STONE', 'stone');
+    define('GLASS', 'glass');
+    define('PAPYRUS', 'papyrus');
+    define('LINKED_BUILDING', 'linked');
 }

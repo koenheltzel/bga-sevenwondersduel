@@ -50,6 +50,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->tpl['CURRENT_COST_YOU'] = self::_("Current construction cost for you");
         $this->tpl['CURRENT_COST_OPPONENT'] = self::_("Current construction cost for opponent");
         $this->tpl['WONDER'] = self::_("Wonder");
+        $this->tpl['PROGRESS_TOKEN'] = self::_("Progress token");
 
         /*********** Place your code below:  ************/
 

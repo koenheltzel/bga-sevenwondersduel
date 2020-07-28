@@ -157,7 +157,7 @@ __     __         _       _     _
     position: absolute;
     z-index: 100;
 }
-.coin {
+.resource, .coin {
     background-image: url('img/tmp_coin.png');
     width: calc(var(--scale) * var(--element-scale) * 30px);
     height: calc(var(--scale) * var(--element-scale) * 30px);
@@ -169,7 +169,7 @@ __     __         _       _     _
         calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px calc(var(--scale) * 1px) #00000060;
 }
-.coin>span {
+.resource>span, .coin>span {
     font-weight: bold;
     font-size: calc(var(--scale) * var(--element-scale) * 20px);
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
@@ -177,6 +177,28 @@ __     __         _       _     _
     color:black;
     cursor: default;
 }
+
+.wood {
+    background-image: url('img/tmp_wood.png');
+}
+.clay {
+    background-image: url('img/tmp_clay.png');
+}
+.stone {
+    background-image: url('img/tmp_stone.png');
+}
+.glass {
+    background-image: url('img/tmp_glass.png');
+}
+.papyrus {
+    background-image: url('img/tmp_papyrus.png');
+}
+.glass, .papyrus {
+    border-radius: unset;
+    box-shadow: none;
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #000000);
+}
+
 .current_player_is_active .coin>span {
     cursor: pointer;
 }
@@ -1207,23 +1229,30 @@ __        __              _
  */
 
 .swd_tooltip {
-    zoom: var(--scale);
-    width: calc(700px);
-    display: block;
+    width: 700px;
+    display: flex;
+    justify-content: space-between;
+}
+.swd_tooltip>div {
+    flex-grow:1;
 }
 .swd_tooltip * {
-    zoom: 1;
+    /*zoom: 1;*/
 }
 
 .swd_tooltip li {
     list-style: inside;
 }
-.building_tooltip .cardinfos {
-    min-height: var(--building-height);
+.building_tooltip {
+
 }
-.wonder_tooltip .cardinfos {
-    min-height: var(--wonder-height);
+.wonder_tooltip {
+
+}
+.progress_token_tooltip {
+    width: 500px;
 }
 .tooltipWiggle {
     animation: tooltipWiggle 2s infinite alternate;
+    align-self: center;
 }

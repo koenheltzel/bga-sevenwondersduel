@@ -6,7 +6,7 @@ namespace SWD;
 
 use SevenWondersDuel;
 
-class MilitaryTrack
+class MilitaryTrack extends Base
 {
 
     public static function movePawn(Player $player, $shields, PaymentPlan $payment) {

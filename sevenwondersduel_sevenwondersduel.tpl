@@ -286,35 +286,40 @@ var jstpl_tooltip_cost_opponent = '\
 
 var jstpl_building_tooltip = '\
     <div class="swd_tooltip building_tooltip">\
-        <h3>${cardType} “${name}”</h3>\
-        <hr\>\
         <div class="cardinfos">\
-            <div class="building tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
-            </div>\
+            <h3>${cardType} “${name}”</h3>\
+            <hr\>\
             ${jsCostOpponent}\
             ${jsCostMe}\
         </div>\
+        <div>\
+            <div class="building tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;"></div>\
+        </div>\
+        <div class="clear"></div>\
     </div>';
 
 var jstpl_wonder_tooltip = '\
     <div class="swd_tooltip wonder_tooltip">\
-        <h3>{WONDER} “${name}”</h3>\
-        <hr\>\
         <div class="cardinfos">\
-            <div class="wonder tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
-            </div>\
+            <h3>{WONDER} “${name}”</h3>\
+            <hr\>\
             ${jsCost}\
+        </div>\
+        <div>\
+            <div class="wonder tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;"></div>\
         </div>\
         <div class="clear"></div>\
     </div>';
 
 var jstpl_progress_token_tooltip = '\
-    <div class="swd_tooltip">\
-        <h3>${jsName}</h3>\
-        <hr\>\
+    <div class="swd_tooltip progress_token_tooltip">\
         <div class="cardinfos">\
-        <div class="progress_token tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;"></div>\
+            <h3>{PROGRESS_TOKEN} “${jsName}”</h3>\
+            <hr\>\
             <p>${jsText}</p>\
+        </div>\
+        <div>\
+            <div class="progress_token tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;"></div>\
         </div>\
         <div class="clear"></div>\
     </div>';
