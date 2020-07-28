@@ -190,7 +190,7 @@ define([
                 this.setupNotifications();
 
                 // Debug tooltip content by placing a tooltip at the top of the screen.
-                dojo.place( this.getWonderTooltip(4, this.me_id, '<div class="coin"><span style="color: red !important">9</span></div>'), 'swd_wrap', 'first' );
+                // dojo.place( this.getWonderTooltip(4, this.me_id, '<div class="coin"><span style="color: red !important">9</span></div>'), 'swd_wrap', 'first' );
             },
 
             ///////////////////////////////////////////////////
@@ -1233,6 +1233,8 @@ define([
                 this.placeOnObjectPos(playerBuildingId, buildingNode, 0.5 * this.getCssVariable('--scale'), -59.5 * this.getCssVariable('--scale'));
                 dojo.style(playerBuildingId, 'opacity', 0);
                 dojo.style(playerBuildingId, 'z-index', 20);
+
+                this.updateLayout(); // If the building is added to the highest stack, part of the layout will be pushed below the viewport. So it's better to update the layout now so all animations will be fully visible.
 
                 var playerAlias = this.getPlayerAlias(notif.args.playerId);
                 var coinNode = dojo.query('.draftpool_building_cost.' + playerAlias + ' .coin', buildingNode)[0];
