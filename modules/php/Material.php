@@ -45,61 +45,98 @@ class Material extends Base
 
         $this->wonders = new Wonders();
 
-        $this->wonders[1] = (new Wonder(1, clienttranslate("The Pyramids")))
+        $this->wonders[1] = (new Wonder(1, clienttranslate("The Pyramids"), clienttranslate("
+                This Wonder is worth 9 victory points.
+            ")))
             ->setCost([PAPYRUS => 1, STONE => 3])
             ->setVictoryPoints(9);
 
-        $this->wonders[2] = (new Wonder(2, clienttranslate("The Colossus")))
+        $this->wonders[2] = (new Wonder(2, clienttranslate("The Colossus"), clienttranslate("
+                This Wonder is worth 2 Shields.<br/>
+                This Wonder is worth 3 victory points.
+            ")))
             ->setCost([GLASS => 1, CLAY => 3])
             ->setMilitary(2)
             ->setVictoryPoints(3);
 
-        $this->wonders[3] = (new Wonder(3, clienttranslate("The Great Lighthouse")))
+        $this->wonders[3] = (new Wonder(3, clienttranslate("The Great Lighthouse"), clienttranslate("
+                This Wonder produces one unit of the resources shown (Stone, Clay, or Wood) for you each turn.<br/>
+                This Wonder is worth 4 victory points.
+            ")))
             ->setCost([PAPYRUS => 2, STONE => 1, WOOD => 1])
             ->setResourceChoice([WOOD, STONE, CLAY])
             ->setVictoryPoints(4);
 
-        $this->wonders[4] = (new Wonder(4, clienttranslate("The Temple of Artemis")))
+        $this->wonders[4] = (new Wonder(4, clienttranslate("The Temple of Artemis"), clienttranslate("
+                Immediately take 12 coins from the Bank.<br/>
+                Immediately play a second turn.
+            ")))
             ->setCost([PAPYRUS => 1, GLASS => 1, STONE => 1, WOOD => 1])
             ->setCoins(12)
             ->setVisualCoinPosition([0.412, -0.125])
             ->setExtraTurn();
 
-        $this->wonders[5] = (new Wonder(5, clienttranslate("The Mausoleum")))
+        $this->wonders[5] = (new Wonder(5, clienttranslate("The Mausoleum"), clienttranslate("
+                Take all of the cards which have been discarded since the beginning of the game and immediately construct one of your choice for free.<br/>
+                This Wonder is worth 2 victory points.
+            ")))
             ->setCost([PAPYRUS => 1, GLASS => 2, CLAY => 2])
             ->setConstructDiscardedBuilding()
             ->setVictoryPoints(2);
 
-        $this->wonders[6] = (new Wonder(6, clienttranslate("The Great Library")))
+        $this->wonders[6] = (new Wonder(6, clienttranslate("The Great Library"), clienttranslate("
+                Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box.<br/>
+                This Wonder is worth 4 victory points.
+            ")))
             ->setCost([PAPYRUS => 1, GLASS => 1, WOOD => 3])
             ->setProgressTokenFromBox()
             ->setVictoryPoints(6);
 
-        $this->wonders[7] = (new Wonder(7, clienttranslate("Piraeus")))
+        $this->wonders[7] = (new Wonder(7, clienttranslate("Piraeus"), clienttranslate("
+                This Wonder produces one unit of one of the resources shown (Glass or Papyrus) for you each turn.<br/>
+                Immediately play a second turn.<br/>
+                This Wonder is worth 2 victory points.
+            ")))
             ->setCost([CLAY => 1, STONE => 1, WOOD => 2])
             ->setResourceChoice([PAPYRUS, GLASS])
             ->setExtraTurn()
             ->setVictoryPoints(2);
 
-        $this->wonders[8] = (new Wonder(8, clienttranslate("The Hanging Gardens")))
+        $this->wonders[8] = (new Wonder(8, clienttranslate("The Hanging Gardens"), clienttranslate("
+                You take 6 coins from the bank.<br/>
+                Immediately play a second turn.<br/>
+                This Wonder is worth 3 victory points.
+            ")))
             ->setCost([PAPYRUS => 1, GLASS => 1, WOOD => 2])
             ->setCoins(6)
             ->setVisualCoinPosition([0.412, -0.208])
             ->setExtraTurn()
             ->setVictoryPoints(3);
 
-        $this->wonders[9] = (new Wonder(9, clienttranslate("The Statue of Zeus")))
+        $this->wonders[9] = (new Wonder(9, clienttranslate("The Statue of Zeus"), clienttranslate("
+                Put in the discard pile one brown card (Raw goods) of your choice constructed by their opponent.<br/>
+                This Wonder is worth 1 Shield.<br/>
+                This Wonder is worth 3 victory points.
+            ")))
             ->setCost([PAPYRUS => 2, CLAY => 1, WOOD => 1, STONE => 1])
             ->setDiscardOpponentBuilding(Building::TYPE_BROWN)
             ->setMilitary(1)
             ->setVictoryPoints(3);
 
-        $this->wonders[10] = (new Wonder(10, clienttranslate("The Sphinx")))
+        $this->wonders[10] = (new Wonder(10, clienttranslate("The Sphinx"), clienttranslate("
+                Immediately play a second turn.<br/>
+                This Wonder is worth 6 victory points.
+            ")))
             ->setCost([GLASS => 2, CLAY => 1, STONE => 1])
             ->setExtraTurn()
             ->setVictoryPoints(6);
 
-        $this->wonders[11] = (new Wonder(11, clienttranslate("The Appian Way")))
+        $this->wonders[11] = (new Wonder(11, clienttranslate("The Appian Way"), clienttranslate("
+                You take 3 coins from the bank.<br/>
+                Your opponent loses 3 coins, which are returned to the bank.<br/>
+                Immediately play a second turn.<br/>
+                This Wonder is worth 3 victory points.
+            ")))
             ->setCost([PAPYRUS => 1, CLAY => 2, STONE => 2])
             ->setCoins(3)
             ->setVisualCoinPosition([0.412, -0.296])
@@ -108,7 +145,11 @@ class Material extends Base
             ->setExtraTurn()
             ->setVictoryPoints(3);
 
-        $this->wonders[12] = (new Wonder(12, clienttranslate("Circus Maximus")))
+        $this->wonders[12] = (new Wonder(12, clienttranslate("Circus Maximus"), clienttranslate("
+                Place in the discard pile a grey card (manufactured goods) of your choice constructed by your opponent.<br/>
+                This Wonder is worth 1 Shield.<br/>
+                This Wonder is worth 3 victory points.
+            ")))
             ->setCost([GLASS => 1, WOOD => 1, STONE => 2])
             ->setDiscardOpponentBuilding(Building::TYPE_GREY)
             ->setMilitary(1)
