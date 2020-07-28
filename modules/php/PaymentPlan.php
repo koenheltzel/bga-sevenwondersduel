@@ -304,6 +304,7 @@ class PaymentPlan extends Base
                     $color = in_array($resource, [GLASS, PAPYRUS]) ? self::_('grey') : self::_('brown');
                     $string = self::_('${costIcon} trade cost (opponent can produce ${count} ${resource} with ${color} cards)');
                     $string = str_replace('${count}', $opponentResourceCount, $string);
+                    $string = str_replace('${resource}', RESOURCES[$resource], $string);
                     $string = str_replace('${color}', $color, $string);
                 } else {
                     $string = self::_('${costIcon} trade cost');

@@ -275,13 +275,15 @@ var jstpl_military_token = '<div class="military_token military_token_${jsValue}
 var jstpl_coin_animated = '<div class="coin animated"></div>';
 
 var jstpl_tooltip_cost_me = '\
-    <h3 class="me">{CURRENT_COST_YOU}: ${jsCoinHtml}</h3>\
+    <h3 class="me">{CURRENT_COST_YOU}:</h3>\
     ${jsPayment}\
+    <strong>{TOTAL}:</strong> ${jsCoinHtml}\
     ';
 
 var jstpl_tooltip_cost_opponent = '\
-    <h3 class="opponent">{CURRENT_COST_OPPONENT}: ${jsCoinHtml}</h3>\
+    <h3 class="opponent">{CURRENT_COST_OPPONENT}:</h3>\
     ${jsPayment}\
+    <strong>{TOTAL}:</strong> ${jsCoinHtml}\
     ';
 
 var jstpl_building_tooltip = '\

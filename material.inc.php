@@ -41,4 +41,14 @@ if (!defined('COINS')) {
     define('GLASS', 'glass');
     define('PAPYRUS', 'papyrus');
     define('LINKED_BUILDING', 'linked');
+
+    define('RESOURCES', [
+        COINS => clienttranslate('coin(s)'),
+        CLAY => clienttranslate('clay'),
+        WOOD => clienttranslate('wood'),
+        STONE => clienttranslate('stone'),
+        GLASS => clienttranslate('glass'),
+        PAPYRUS => clienttranslate('papyrus'),
+        LINKED_BUILDING => clienttranslate('linked building'),
+    ]);
 }

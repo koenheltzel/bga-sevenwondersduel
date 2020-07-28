@@ -540,11 +540,11 @@ define([
                             spriteId = position.building;
                             data.jsId = position.building;
                             data.jsDisplayCostMe = position.available ? 'block' : 'none',
-                                data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
-                                data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
+                            data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
+                            data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
                             data.jsDisplayCostOpponent = position.available ? 'block' : 'none',
-                                data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playersSituation[this.opponent_id].coins),
-                                data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
+                            data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playersSituation[this.opponent_id].coins),
+                            data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
 
                             // Linked building symbol
                             linkedBuildingId = this.gamedatas.buildings[position.building].linkedBuilding;
@@ -2108,7 +2108,7 @@ define([
 
             getResourceIcon(resource, amount) {
                 let html = '<div class="resource ' + resource + '">';
-                if (amount > 1) {
+                if (amount > 1 || resource == "coin") {
                     html += '<span>' + amount + '</span>';
                 }
                 html += '</div>';
