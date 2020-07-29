@@ -80,6 +80,63 @@
                         </div>
                     </div>
                     <!-- END draftpool -->
+                    <!-- BEGIN end_game -->
+                    <div id="end_game_container" class="whiteblock" style="display: none">
+                        <table>
+                            <tr>
+                                <td></td>
+                                <!-- BEGIN end_game_player -->
+                                <td><h3 style="color:#{PLAYER_COLOR}" class="">{PLAYER_NAME}</h3></td>
+                                <!-- END end_game_player -->
+                            </tr>
+                            <tr class="end_game_blue">
+                                <td><div class="end_game_icon end_game_card" /></td>
+                                <td>12</td>
+                                <td>15</td>
+                            </tr>
+                            <tr class="end_game_green">
+                                <td><div class="end_game_icon end_game_card" /></td>
+                                <td>12</td>
+                                <td>15</td>
+                            </tr>
+                            <tr class="end_game_yellow">
+                                <td><div class="end_game_icon end_game_card" /></td>
+                                <td>12</td>
+                                <td>15</td>
+                            </tr>
+                            <tr class="end_game_purple">
+                                <td><div class="end_game_icon end_game_card" /></td>
+                                <td>12</td>
+                                <td>15</td>
+                            </tr>
+                            <tr class="end_game_wonder">
+                                <td><div class="end_game_icon end_game_card" /></td>
+                                <td>12</td>
+                                <td>15</td>
+                            </tr>
+                            <tr class="end_game_progress">
+                                <td><div class="end_game_icon end_game_card" /></td>
+                                <td>12</td>
+                                <td>15</td>
+                            </tr>
+                            <tr class="end_game_coins">
+                                <td><div class="end_game_icon end_game_card" /></td>
+                                <td>12</td>
+                                <td>15</td>
+                            </tr>
+                            <tr class="end_game_military">
+                                <td><div class="end_game_icon end_game_card" /></td>
+                                <td>12</td>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>122</td>
+                                <td>153</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- END end_game -->
                     <!-- BEGIN player_buildings -->
                     <div class="player_buildings whiteblock player{PLAYER_ID} {PLAYER_ALIAS}">
                         <div class="player_building_column Brown" title="Raw materials"></div>
