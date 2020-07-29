@@ -219,6 +219,8 @@ define([
                 //
 
                 dojo.subscribe('wonderSelected', this, "notif_wonderSelected");
+                this.notifqueue.setSynchronous( 'wonderSelected' );
+
                 dojo.subscribe('nextAge', this, "notif_nextAge");
 
                 dojo.subscribe('constructBuilding', this, "notif_constructBuilding");
@@ -1038,23 +1040,45 @@ define([
                 $('wonder_selection_block_title').innerText = dojo.string.substitute( _("Wonders selection - round ${round} of 2"), {
                     round: args.round
                 } );
+
+                if (args.updateWonderSelection) {
+                    this.updateWonderSelection(args.wonderSelection);
+                }
             },
 
             updateWonderSelection: function (cards) {
                 var block = $('wonder_selection_block');
                 if (cards.length > 0) {
+                    var animationDelay = 0;
                     var position = 1;
                     Object.keys(cards).forEach(dojo.hitch(this, function (index) {
                         var card = cards[index];
+
                         var container = dojo.query('#wonder_selection_container>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
                         dojo.empty(container);
-                        dojo.place(this.getWonderDivHtml(card.id, false), container);
+
+                        var wonderNode = this.getWonderDivHtml(card.id, false);
+                        wonderNode = dojo.place(wonderNode, container);
+
+                        dojo.style(wonderNode, 'opacity', 0);
+                        dojo.animateProperty({
+                            node: wonderNode,
+                            delay: animationDelay,
+                            duration: this.putDraftpoolCard,
+                            easing: dojo.fx.easing.linear,
+                            properties: {
+                                opacity: {start: 0.0, end: 1.0},
+                                propertyScale: {start: 1.15, end: 1},
+                                propertyTransform: {start: -40, end: 0},
+                            },
+                            onAnimate: function (values) {
+                                dojo.style(wonderNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg) scale(' + parseFloat(values.propertyScale.replace("px", "")) + ')');
+                            }
+                        }).play();
+                        animationDelay += this.putDraftpoolCard * 0.75;
+
                         position++;
                     }));
-
-                    dojo.style(block, "display", "block");
-                } else {
-                    dojo.style(block, "display", "none");
                 }
             },
 
@@ -1096,11 +1120,15 @@ define([
                 var wonderContainerNodeId = 'wonder_' + notif.args.wonderId + '_container';
                 var targetNode = dojo.query('.player_wonders.player' + notif.args.playerId + '>div:nth-of-type(' + notif.args.playerWonderCount + ')')[0];
                 this.attachToNewParent(wonderContainerNodeId, targetNode);
-                this.slideToObjectPos(wonderContainerNodeId, targetNode, 0, 0).play();
+                var anim = this.slideToObjectPos(wonderContainerNodeId, targetNode, 0, 0);
+                anim.play();
 
-                if (notif.args.updateWonderSelection) {
-                    this.updateWonderSelection(notif.args.wonderSelection);
-                }
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
+
+                // if (notif.args.updateWonderSelection) {
+                //     this.updateWonderSelection(notif.args.wonderSelection);
+                // }
             },
 
             //   ____  _                         _____

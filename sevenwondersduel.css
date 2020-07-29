@@ -329,6 +329,14 @@ __     __         _       _     _
     border-radius: calc(var(--progress-token-width) * var(--progress-token-small-scale) * 0.5);
 }
 
+
+#wonder_selection_block {
+    display: none;
+}
+#swd[data-state=selectWonder] #wonder_selection_block {
+    display: block;
+}
+
 #wonder_selection_container>div {
     width: calc(var(--wonder-small-scale) * var(--wonder-width));
     height: calc(var(--wonder-small-scale) * var(--wonder-height));

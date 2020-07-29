@@ -9,8 +9,12 @@ use SWD\Wonders;
 trait SelectWonderTrait {
 
     public function argSelectWonder() {
+        $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
+        $cards = Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}");
         return [
-            'round' => $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND),
+            'round' => $wonderSelectionRound,
+            'updateWonderSelection' => count($cards) == 4, // Update the wonder selection at the end of the first and second selection rounds (second to hide the block).
+            'wonderSelection' => count($cards) == 4 ? Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}") : null,
         ];
     }
     public function enterStateSelectWonder() {
@@ -28,7 +32,6 @@ trait SelectWonderTrait {
         if ($index === false) {
             throw new \BgaUserException( clienttranslate("The wonder you selected is not available.") );
         }
-        $card = $cards[$index]; // Get before we re-set the $cards variable.
         unset($cards[$index]);
 
         $playerWonderCount = count(Player::me()->getWonders()->array) + 1;
@@ -37,7 +40,6 @@ trait SelectWonderTrait {
         // Renew the selection pool after the last wonder from the first pool was selected.
         if (count($cards) == 0 && $wonderSelectionRound == 1) {
             $this->setGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND, 2);
-            $wonderSelectionRound = 2;
         }
 
         $wonder = Wonder::get($wonderId);
@@ -50,8 +52,6 @@ trait SelectWonderTrait {
                 'playerId' => $playerId,
                 'playerWonderCount' => $playerWonderCount, // Used to correctly position the wonder in the player area.
                 'wonderId' => $wonder->id,
-                'updateWonderSelection' => count($cards) == 0, // Update the wonder selection at the end of the first and second selection rounds (second to hide the block).
-                'wonderSelection' => count($cards) == 0 ? Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}") : null,
             ]
         );
 
