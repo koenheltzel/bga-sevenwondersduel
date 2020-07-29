@@ -136,7 +136,7 @@ class Item extends Base
                 [
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                     'steps' => $payment->militarySteps,
-                    'progressTokenName' => ProgressToken::get(10)->name, //Strategy
+                    'progressTokenName' => ProgressToken::get(8)->name, //Strategy
                 ]
             );
 
