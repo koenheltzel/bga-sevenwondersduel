@@ -206,12 +206,77 @@ trait NextPlayerTurnTrait {
                     ]
                 );
 
-                $winner = Players::determineWinner();
+                $winner = $this->determineWinner();
 
                 $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
             }
             else {
                 $this->gamestate->nextState( self::STATE_NEXT_AGE_NAME );
+            }
+        }
+    }
+
+    /**
+     * @return Player|null
+     */
+    public function determineWinner() {
+        return $this->getWinner(true);
+    }
+
+    /**
+     * @return Player|null
+     */
+    public function getWinner($determine=false) {
+        $meScore = Player::me()->getScore();
+        $opponentScore = Player::opponent()->getScore();
+        if ($meScore != $opponentScore) {
+            $winner = $meScore > $opponentScore ? Player::me() : Player::opponent();
+            if($determine) {
+                $winner->setWinner();
+                $this->setGameStateValue(self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_NORMAL);
+
+                $this->notifyAllPlayers(
+                    'message',
+                    '${player_name} wins the game with ${winnerPoints} victory points to ${loserPoints} (Civilian Victory)',
+                    [
+                        'player_name' => $winner->name,
+                        'winnerPoints' => $winner->getScore(),
+                        'loserPoints' => $winner->getOpponent()->getScore(),
+                    ]
+                );
+            }
+            return $winner;
+        }
+        else {
+            $meBluePoints = Player::me()->getValue('player_score_blue');
+            $opponentBluePoints = Player::opponent()->getValue('player_score_blue');
+            if ($meBluePoints != $opponentBluePoints) {
+                $winner = $meBluePoints > $opponentBluePoints ? Player::me() : Player::opponent();
+                if ($determine) {
+                    $winner->setWinner();
+                    $this->setGameStateValue(self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_NORMAL_AUX);
+
+                    $this->notifyAllPlayers(
+                        'message',
+                        '${player_name} wins the game with a tied score but a majority of blue buildings, ${winnerBuildings} to ${loserBuildings} (Civilian Victory)',
+                        [
+                            'player_name' => $winner->name,
+                            'winnerBuildings' => $winner->getValue('player_score_blue'),
+                            'loserBuildings' => $winner->getOpponent()->getValue('player_score_blue'),
+                        ]
+                    );
+                }
+                return $winner;
+            }
+            else {
+                $this->setGameStateValue(self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_DRAW);
+
+                $this->notifyAllPlayers(
+                    'message',
+                    'Game ends in a draw (victory points and blue buildings count are both tied)',
+                    []
+                );
+                return null;
             }
         }
     }
