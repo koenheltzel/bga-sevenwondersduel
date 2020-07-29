@@ -200,7 +200,7 @@ trait NextPlayerTurnTrait {
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'nextPlayerTurnEndGameScoring',
-                    '',
+                    "",
                     [
                         'playersSituation' => Players::getSituation(true),
                     ]
