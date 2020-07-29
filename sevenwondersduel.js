@@ -53,6 +53,7 @@ define([
             constructBuildingAnimationDuration: 1000,
             discardBuildingAnimationDuration: 400,
             constructWonderAnimationDuration: 1600,
+            selectWonderAnimationDuration: 300,
             progressTokenDuration: 1000,
 
             twistCoinDuration: 250,
@@ -1135,10 +1136,35 @@ define([
                 console.log('notif_wonderSelected', notif);
                 this.hideTooltip();
 
-                var wonderContainerNodeId = 'wonder_' + notif.args.wonderId + '_container';
+                var wonderContainerNode = $('wonder_' + notif.args.wonderId + '_container');
+                var selectionContainer = wonderContainerNode.parentElement;
+                var wonderNode = $('wonder_' + notif.args.wonderId);
                 var targetNode = dojo.query('.player_wonders.player' + notif.args.playerId + '>div:nth-of-type(' + notif.args.playerWonderCount + ')')[0];
-                this.attachToNewParent(wonderContainerNodeId, targetNode);
-                var anim = this.slideToObjectPos(wonderContainerNodeId, targetNode, 0, 0);
+                dojo.place(wonderContainerNode, targetNode);
+
+                // Next we slide (while adjusting the scale during the animation) the wonder.
+                var startScale = 0.8 * this.getCssVariable('--scale');
+                var endScale = 0.58 * this.getCssVariable('--scale');
+
+                wonderNode.style.setProperty('--wonder-small-scale', startScale);
+                this.placeOnObject( wonderNode, selectionContainer );
+
+                var anim = dojo.fx.combine([
+                    dojo.animateProperty({
+                        node: wonderNode,
+                        duration: this.selectWonderAnimationDuration,
+                        properties: {
+                            propertyScale: { start: startScale, end: endScale }
+                        },
+                        onEnd: function () {
+                            wonderNode.style.removeProperty('--wonder-small-scale');
+                        },
+                        onAnimate: function (values) {
+                            wonderNode.style.setProperty('--wonder-small-scale', parseFloat(values.propertyScale.replace("px", "")));
+                        }
+                    }),
+                    this.slideToObjectPos(wonderNode, targetNode, 0, 0, this.selectWonderAnimationDuration),
+                ]);
                 anim.play();
 
                 // Wait for animation before handling the next notification (= state change).
