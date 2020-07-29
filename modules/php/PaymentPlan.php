@@ -71,7 +71,7 @@ class PaymentPlan extends Base
                             for ($i = 0; $i < $canProduce; $i++) {
                                 $string = self::_('Produce with building “${buildingName}”');
                                 $string = str_replace('${buildingName}', $building->name, $string);
-                                $this->addStep($resource, $canProduce, 0, Item::TYPE_BUILDING, $building->id, $string);
+                                $this->addStep($resource, 1, 0, Item::TYPE_BUILDING, $building->id, $string);
                             }
 
 //                            if($print) print "<PRE>$string</PRE>";
@@ -227,7 +227,7 @@ class PaymentPlan extends Base
                 print "<PRE>" . self::getResourceIcon($step->resource, $step->amount) . " &rightarrow; {$string}</PRE>";
             }
             $scenariosCalculated = max(1, $scenariosCalculated);
-            print "<PRE>Total cost: {$this->totalCost()} coin(s)</PRE>";
+            print "<PRE><strong style='font-size: 16px'>Total:</strong> " . self::getResourceIcon('coin', $this->totalCost()) . "</PRE>";
             print "<PRE>{$scenariosCalculated} scenario(s) considered</PRE>";
             print "<PRE>Duration: " . number_format(microtime(true) - $startTime, 6) . " second(s)</PRE>";
         }
