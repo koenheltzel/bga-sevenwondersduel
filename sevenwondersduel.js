@@ -362,7 +362,9 @@ define([
 
             updateWondersSituation: function (situation) {
                 this.gamedatas.wondersSituation = situation;
-                this.updateWonderSelection(situation.selection);
+                if (situation.selection.length < 4) { // else
+                    this.updateWonderSelection(situation.selection);
+                }
                 for (var player_id in this.gamedatas.players) {
                     this.updatePlayerWonders(player_id, situation[player_id]);
                 }
@@ -403,7 +405,7 @@ define([
                         properties: {
                             propertyTransform: {start: -90, end: 0}
                         },
-                        beforeBegin: function (values) {
+                        onPlay: function (values) {
                             dojo.destroy(oldNode);
                             dojo.style(newNode, 'display', displayValue);
                             dojo.style(newNode, 'transform', 'perspective(40em) rotateY(-90deg)'); // When delay > 0 this is necesarry to hide the new node.
@@ -1042,7 +1044,19 @@ define([
                 } );
 
                 if (args.updateWonderSelection) {
-                    this.updateWonderSelection(args.wonderSelection);
+                    this.updateWonderSelectionAfterLoading(args.wonderSelection);
+                }
+            },
+
+            updateWonderSelectionAfterLoading: function(selection) {
+                var loaderNode = $('loader_mask2');
+                if(!loaderNode || loaderNode.style.display == 'none') {
+                    this.updateWonderSelection(selection);
+                }
+                else {
+                    const updateWonderSelectionAfterLoading = () => this.updateWonderSelectionAfterLoading( selection );
+                    // Wait till the loader is no longer visible.
+                    setTimeout(updateWonderSelectionAfterLoading, 50);
                 }
             },
 
@@ -1057,10 +1071,9 @@ define([
                         var container = dojo.query('#wonder_selection_container>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
                         dojo.empty(container);
 
-                        var wonderNode = this.getWonderDivHtml(card.id, false);
-                        wonderNode = dojo.place(wonderNode, container);
+                        var wonderNode = dojo.place(this.getWonderDivHtml(card.id, false), 'swd'); // Temporary add it to #swd, so card_outline container stay empty and show the outline.
+                        dojo.style(wonderNode, 'display', 'none');
 
-                        dojo.style(wonderNode, 'opacity', 0);
                         dojo.animateProperty({
                             node: wonderNode,
                             delay: animationDelay,
@@ -1070,6 +1083,11 @@ define([
                                 opacity: {start: 0.0, end: 1.0},
                                 propertyScale: {start: 1.15, end: 1},
                                 propertyTransform: {start: -40, end: 0},
+                            },
+                            onPlay: function (values) {
+                                dojo.place(this.node, container); // This will hide the outline of the container, which is why we do it as late as possible.
+                                dojo.style(wonderNode, 'display', 'inline-block');
+                                dojo.style(this.node, 'opacity', 0);
                             },
                             onAnimate: function (values) {
                                 dojo.style(wonderNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg) scale(' + parseFloat(values.propertyScale.replace("px", "")) + ')');
@@ -1125,10 +1143,6 @@ define([
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(anim.duration);
-
-                // if (notif.args.updateWonderSelection) {
-                //     this.updateWonderSelection(notif.args.wonderSelection);
-                // }
             },
 
             //   ____  _                         _____
