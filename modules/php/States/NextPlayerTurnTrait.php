@@ -198,8 +198,6 @@ trait NextPlayerTurnTrait {
                     }
                 }
 
-                $winner = Players::determineWinner();
-
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'nextPlayerTurnEndGameScoring',
                     '',
@@ -207,6 +205,9 @@ trait NextPlayerTurnTrait {
                         'playersSituation' => Players::getSituation(true),
                     ]
                 );
+
+                $winner = Players::determineWinner();
+
                 $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
             }
             else {

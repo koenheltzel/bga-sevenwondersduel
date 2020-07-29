@@ -45,26 +45,52 @@ class Players extends Base
         $meScore = Player::me()->getScore();
         $opponentScore = Player::opponent()->getScore();
         if ($meScore != $opponentScore) {
-            $player = $meScore > $opponentScore ? Player::me() : Player::opponent();
+            $winner = $meScore > $opponentScore ? Player::me() : Player::opponent();
             if($determine) {
-                $player->setWinner();
+                $winner->setWinner();
                 SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_END_GAME_CONDITION, SevenWondersDuel::END_GAME_CONDITION_NORMAL);
+
+                SevenWondersDuel::get()->notifyAllPlayers(
+                    'message',
+                    '${player_name} wins the game with ${winnerPoints} victory points to ${loserPoints} (Civilian Victory)',
+                    [
+                        'player_name' => $winner->name,
+                        'winnerPoints' => $winner->getScore(),
+                        'loserPoints' => $winner->getOpponent()->getScore(),
+                    ]
+                );
             }
-            return $player;
+            return $winner;
         }
         else {
             $meBluePoints = Player::me()->getValue('player_score_blue');
             $opponentBluePoints = Player::opponent()->getValue('player_score_blue');
             if ($meBluePoints != $opponentBluePoints) {
-                $player = $meBluePoints > $opponentBluePoints ? Player::me() : Player::opponent();
+                $winner = $meBluePoints > $opponentBluePoints ? Player::me() : Player::opponent();
                 if ($determine) {
-                    $player->setWinner();
+                    $winner->setWinner();
                     SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_END_GAME_CONDITION, SevenWondersDuel::END_GAME_CONDITION_NORMAL_AUX);
+
+                    SevenWondersDuel::get()->notifyAllPlayers(
+                        'message',
+                        '${player_name} wins the game with a tied score but a majority of blue buildings, ${winnerBuildings} to ${loserBuildings} (Civilian Victory)',
+                        [
+                            'player_name' => $winner->name,
+                            'winnerBuildings' => $winner->getValue('player_score_blue'),
+                            'loserBuildings' => $winner->getOpponent()->getValue('player_score_blue'),
+                        ]
+                    );
                 }
-                return $player;
+                return $winner;
             }
             else {
                 SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_END_GAME_CONDITION, SevenWondersDuel::END_GAME_CONDITION_DRAW);
+
+                SevenWondersDuel::get()->notifyAllPlayers(
+                    'message',
+                    'Game ends in a draw (victory points and blue buildings count are both tied)',
+                    []
+                );
                 return null;
             }
         }
