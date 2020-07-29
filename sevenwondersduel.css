@@ -891,6 +891,11 @@ __     __         _       _     _
     height: var(--building-small-height);
 }
 
+/* So during wonder selection, during the sliding animation the player wonder will be on top of the selection wonders. */
+.player_wonders .wonder_container {
+    z-index: 2;
+}
+
 .player_wonders .wonder_container .card_outline {
     position: absolute;
     top: calc(17px * var(--scale));
