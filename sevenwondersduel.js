@@ -66,7 +66,7 @@ define([
                 bgagame.sevenwondersduel.instance = this;
 
                 // Tooltip settings
-                dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
+                // dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
             },
 
             /*
@@ -840,7 +840,7 @@ define([
                     label: _('Current construction cost for your opponent')
                 });
 
-                // Add tooltips to buildings everywhere.
+                // Add tooltips to building cost.
                 new dijit.Tooltip({
                     connectId: "swd",
                     selector: '.draftpool_building_cost.me .coin',
@@ -854,11 +854,11 @@ define([
                     label: _('Current construction cost for your opponent')
                 });
 
-
                 // Add tooltips to buildings everywhere.
                 new dijit.Tooltip({
                     connectId: "game_play_area",
                     selector: '#swd:not(.nextAge) .building_small, .building_header_small', // Not during nextAge animation
+                    position: ["above-centered", "below-centered"],
                     showDelay: this.toolTipDelay,
                     getContent: dojo.hitch(this, function (node) {
                         var id = dojo.attr(node, "data-building-id");
