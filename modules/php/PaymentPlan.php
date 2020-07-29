@@ -222,13 +222,22 @@ class PaymentPlan extends Base
 
         if($print) {
             foreach($this->steps as $step) {
-                print "<PRE><div class=\"resource {$step->resource}\"><span>{$step->amount}</span></div> asdfsadf <div class=\"resource {$step->resource}\"><span>{$step->amount}</span></div> {$step->string}</PRE>";
+                $string = $step->string;
+                $string = str_replace('${costIcon}', $step->cost ? self::getResourceIcon('coin', $step->cost) : '', $string);
+                print "<PRE>" . self::getResourceIcon($step->resource, $step->amount) . " &rightarrow; {$string}</PRE>";
             }
             $scenariosCalculated = max(1, $scenariosCalculated);
             print "<PRE>Total cost: {$this->totalCost()} coin(s)</PRE>";
             print "<PRE>{$scenariosCalculated} scenario(s) considered</PRE>";
             print "<PRE>Duration: " . number_format(microtime(true) - $startTime, 6) . " second(s)</PRE>";
         }
+    }
+
+    private static function getResourceIcon($resource, $amount) {
+        $html = "<div class=\"resource {$resource}\"><span>";
+        $html .= ($amount > 1 || $resource == "coin") ? $amount : '&nbsp;';
+        $html .= "</span></div>";
+        return $html;
     }
 
     private static function subtractResource(&$cost, $resource, $amount = 1) {

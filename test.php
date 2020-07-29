@@ -6,6 +6,7 @@
 <body>
 <?php
 
+error_reporting(E_ALL ^ E_DEPRECATED);
 require_once '_bga_ide_helper.php';
 
 // SWD namespace autoloader from /modules/php/ folder.

@@ -15,6 +15,11 @@ class Base extends \APP_DbObject
      * @return mixed
      */
     function _($string) {
-        return SevenWondersDuel::get()->_($string);
+        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+            return $string;
+        }
+        else {
+            return SevenWondersDuel::get()->_($string);
+        }
     }
 }
