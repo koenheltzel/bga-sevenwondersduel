@@ -121,7 +121,7 @@ trait NextPlayerTurnTrait {
                                     'mostPlayerName' => $mostPlayer->name,
                                     'playerId' => $player->id,
                                     'category' => 'purple',
-                                    'highlightId' => 'player_building_' . $building->id,
+                                    'highlightId' => 'player_building_container_' . $building->id,
                                 ]
                             );
                         }
@@ -143,7 +143,7 @@ trait NextPlayerTurnTrait {
                                     'mostPlayerName' => $mostPlayer->name,
                                     'playerId' => $player->id,
                                     'category' => 'purple',
-                                    'highlightId' => 'player_building_' . $building->id,
+                                    'highlightId' => 'player_building_container_' . $building->id,
                                 ]
                             );
                         }
@@ -166,7 +166,7 @@ trait NextPlayerTurnTrait {
                                     'mostPlayerName' => $mostPlayer->name,
                                     'playerId' => $player->id,
                                     'category' => 'purple',
-                                    'highlightId' => 'player_building_' . $building->id,
+                                    'highlightId' => 'player_building_container_' . $building->id,
                                 ]
                             );
                         }
@@ -221,7 +221,7 @@ trait NextPlayerTurnTrait {
                                 'points' => $points,
                                 'playerId' => $player->id,
                                 'category' => 'coins',
-                                'highlightId' => 'player_area_' . $player->id . '_coins',
+                                'highlightId' => 'player_area_' . $player->id . '_coins_container',
                             ]
                         );
                     }

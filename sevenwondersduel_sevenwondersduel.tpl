@@ -151,7 +151,7 @@
                                 <div class="player_area_name">
                                     <h3 style="color:#{PLAYER_COLOR}" class="">{PLAYER_NAME}</h3>
                                 </div>
-                                <div class="player_area_coins">
+                                <div id="player_area_{PLAYER_ID}_coins_container" class="player_area_coins">
                                     <div class="coin">
                                         <span id="player_area_{PLAYER_ID}_coins"></span>
                                     </div>

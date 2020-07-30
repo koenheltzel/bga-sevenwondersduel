@@ -61,7 +61,7 @@ define([
             putDraftpoolCard: 250,
             coin_slide_duration: 500,
             coin_slide_delay: 100,
-            notification_safe_margin: 0,
+            notification_safe_margin: 100,
 
             /* End game animations */
             victorypoints_slide_duration: 1000,
@@ -2116,35 +2116,49 @@ define([
             notif_endGameCategoryUpdate: function(notif) {
                 var categoryNode = dojo.query('#end_game_container .end_game_' + notif.args.category + '.player' + notif.args.playerId)[0];
                 var totalNode = dojo.query('#end_game_container .end_game_total.player' + notif.args.playerId + ' span')[0];
-                dojo.addClass(categoryNode, 'red_border');
+                dojo.addClass(categoryNode, 'endgame_highlight');
                 if (notif.args.highlightId) {
-                    dojo.addClass(notif.args.highlightId, 'red_border');
+                    dojo.addClass(notif.args.highlightId, 'endgame_highlight');
                 }
-                var anim = dojo.animateProperty({
-                    node: 'swd',
-                    duration: notif.args.points * 333,
-                    easing: dojo.fx.easing.linear,
-                    properties: {
-                        propertyScale: { start: parseInt(categoryNode.innerHTML), end: parseInt(categoryNode.innerHTML) + parseInt(notif.args.points) }
-                    },
-                    onEnd: function () {
-                        dojo.removeClass(categoryNode, 'red_border');
-                        if (notif.args.highlightId) {
-                            dojo.removeClass(notif.args.highlightId, 'red_border');
+                var anim = dojo.fx.chain([
+                    dojo.animateProperty({
+                        node: 'swd',
+                        duration: 400
+                    }),
+                    dojo.animateProperty({
+                        node: 'swd',
+                        duration: notif.args.points * 100,
+                        properties: {
+                            propertyScale: { start: parseInt(categoryNode.innerHTML), end: parseInt(categoryNode.innerHTML) + parseInt(notif.args.points) }
+                        },
+                        onAnimate: function (values) {
+                            var score = Math.floor(parseFloat(values.propertyScale.replace("px", "")));
+                            if (parseInt(score) != parseInt(categoryNode.innerHTML)) {
+                                categoryNode.innerHTML = score;
+                                totalNode.innerHTML = parseInt(totalNode.innerHTML) + 1;
+                            }
                         }
-                    },
-                    onAnimate: function (values) {
-                        var score = Math.floor(parseFloat(values.propertyScale.replace("px", "")));
-                        if (parseInt(score) != parseInt(categoryNode.innerHTML)) {
-                            categoryNode.innerHTML = score;
-                            totalNode.innerHTML = parseInt(totalNode.innerHTML) + 1;
+                    }),
+                    dojo.animateProperty({
+                        node: 'swd',
+                        duration: 400,
+                        onEnd: function (node) {
+                            dojo.removeClass(categoryNode, 'endgame_highlight');
+                            if (notif.args.highlightId) {
+                                dojo.removeClass(notif.args.highlightId, 'endgame_highlight');
+                            }
                         }
-                    }
-                });
+                    }),
+                    dojo.animateProperty({
+                        node: 'swd',
+                        duration: 200
+                    }),
+                ]);
+
                 anim.play();
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + 500);
+                this.notifqueue.setSynchronousDuration(anim.duration);
             },
 
             //   ____  _           _               _____                 _   _
