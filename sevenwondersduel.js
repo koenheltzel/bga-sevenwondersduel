@@ -1597,7 +1597,10 @@ define([
                                     },
                                     onAnimate: function (values) {
                                         dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
-                                    }
+                                    },
+                                    onEnd: dojo.hitch(this, function (node) {
+                                        dojo.destroy(node);
+                                    })
                                 }),
                                 dojo.animateProperty({
                                     node: ageCardNode,
