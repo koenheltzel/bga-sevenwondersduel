@@ -2078,34 +2078,36 @@ define([
                     // dojo.query('#end_game_container .end_game_total.player' + playerId + ' span')[0].innerHTML = this.gamedatas.playersSituation[playerId]['score'];
 
                     var playerPointsNode = $('player_area_' + playerId + '_score').parentElement;
-                    var targetContainer = dojo.query('#end_game_container .end_game_total.player' + playerId)[0];
-                    console.log('targetContainer', targetContainer);
-                    console.log('playerPointsNode', playerPointsNode);
-                    playerPointsNode = this.attachToNewParent(playerPointsNode, targetContainer); // attachToNewParent creates and returns a new instance of the node (replacing the old one).
 
-                    // Next we slide (while adjusting the scale during the animation) the wonder.
-                    var startScale = 1.0;
-                    var endScale = 1.4;
-                    playerPointsNode.style.setProperty('--element-scale', startScale);
+                    // Only do this animation when the player points are in their original position, not in the end game table already.
+                    var playerWondersNode = dojo.query(playerPointsNode).closest(".player_area_points");
+                    if (playerWondersNode[0]) {
+                        var targetContainer = dojo.query('#end_game_container .end_game_total.player' + playerId)[0];
+                        playerPointsNode = this.attachToNewParent(playerPointsNode, targetContainer); // attachToNewParent creates and returns a new instance of the node (replacing the old one).
 
-                    var anim = dojo.fx.combine([
-                        dojo.animateProperty({
-                            node: playerPointsNode,
-                            duration: this.victorypoints_slide_duration,
-                            properties: {
-                                propertyScale: { start: startScale, end: endScale }
-                            },
-                            onEnd: dojo.hitch(this, function (node) {
-                                playerPointsNode.style.removeProperty('--element-scale');
+                        // Next we slide (while adjusting the scale during the animation) the wonder.
+                        var startScale = 1.0;
+                        var endScale = 1.4;
+                        playerPointsNode.style.setProperty('--element-scale', startScale);
+
+                        var anim = dojo.fx.combine([
+                            dojo.animateProperty({
+                                node: playerPointsNode,
+                                duration: this.victorypoints_slide_duration,
+                                properties: {
+                                    propertyScale: { start: startScale, end: endScale }
+                                },
+                                onEnd: dojo.hitch(this, function (node) {
+                                    playerPointsNode.style.removeProperty('--element-scale');
+                                }),
+                                onAnimate: function (values) {
+                                    playerPointsNode.style.setProperty('--element-scale', parseFloat(values.propertyScale.replace("px", "")));
+                                }
                             }),
-                            onAnimate: function (values) {
-                                playerPointsNode.style.setProperty('--element-scale', parseFloat(values.propertyScale.replace("px", "")));
-                            }
-                        }),
-                        this.slideToObjectPos(playerPointsNode, targetContainer, 0, 0, this.victorypoints_slide_duration),
-                    ]);
-                    anim.play();
-
+                            this.slideToObjectPos(playerPointsNode, targetContainer, 0, 0, this.victorypoints_slide_duration),
+                        ]);
+                        anim.play();
+                    }
                 }));
 
                 // Unset endGameCondition to prevent an infinite loop.
