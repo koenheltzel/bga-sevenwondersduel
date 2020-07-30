@@ -212,8 +212,8 @@ $machinestates = [
 
     SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID => [
         "name" => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME,
-        "description" => '',
-        "descriptionmyturn" => '',
+        "description" => clienttranslate('End of game victory points count...'),
+        "descriptionmyturn" => clienttranslate('End of game victory points count...'),
         "type" => "game",
         "action" => "enterStateNextPlayerTurn",
         "updateGameProgression" => true,
@@ -232,7 +232,7 @@ $machinestates = [
         "action" => "stGameEndDebug",
         "args" => "argGameEndDebug",
         "possibleactions" => [
-            "actionChooseDiscardedBuilding",
+            "dummyAction",
             // If there is no discarded building to construct, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
         ],
         "transitions" => [

@@ -99,9 +99,10 @@ trait NextPlayerTurnTrait {
                     ]
                 );
 
+                // Wonders, Blue, green and yellow buildings' victory points have already been counted during the game.
+
+                // Guilds points
                 foreach(Players::get() as $player) {
-                    // Wonders, Blue, green and yellow buildings' victory points have already been counted during the game.
-                    // Guilds points
                     /** @var Building $building */
                     foreach($player->getBuildings()->filterByTypes([Building::TYPE_PURPLE]) as $building) {
                         if ($building->guildRewardWonders) {
@@ -171,24 +172,9 @@ trait NextPlayerTurnTrait {
                             );
                         }
                     }
+                }
 
-                    // Military victory points
-                    $points = MilitaryTrack::getVictoryPoints($player);
-                    if ($points > 0) {
-                        $player->increaseScore($points, self::SCORE_MILITARY);
-                        SevenWondersDuel::get()->notifyAllPlayers(
-                            'endGameCategoryUpdate',
-                            clienttranslate('${player_name} scores ${points} victory points (Conflict pawn position)'),
-                            [
-                                'player_name' => $player->name,
-                                'points' => $points,
-                                'playerId' => $player->id,
-                                'category' => 'military',
-                                'highlightId' => 'conflict_pawn',
-                            ]
-                        );
-                    }
-
+                foreach(Players::get() as $player) {
                     // Progress Token Mathematics (3 points for each Progress token)
                     if ($player->hasProgressToken(6)) {
                         $points = 3 * count($player->getProgressTokens()->array);
@@ -208,7 +194,9 @@ trait NextPlayerTurnTrait {
                             );
                         }
                     }
+                }
 
+                foreach(Players::get() as $player) {
                     // Coins to points 3:1
                     $points = floor($player->getCoins() / 3);
                     if ($points > 0) {
@@ -222,6 +210,25 @@ trait NextPlayerTurnTrait {
                                 'playerId' => $player->id,
                                 'category' => 'coins',
                                 'highlightId' => 'player_area_' . $player->id . '_coins_container',
+                            ]
+                        );
+                    }
+                }
+
+                foreach(Players::get() as $player) {
+                    // Military victory points
+                    $points = MilitaryTrack::getVictoryPoints($player);
+                    if ($points > 0) {
+                        $player->increaseScore($points, self::SCORE_MILITARY);
+                        SevenWondersDuel::get()->notifyAllPlayers(
+                            'endGameCategoryUpdate',
+                            clienttranslate('${player_name} scores ${points} victory points (Conflict pawn position)'),
+                            [
+                                'player_name' => $player->name,
+                                'points' => $points,
+                                'playerId' => $player->id,
+                                'category' => 'military',
+                                'highlightId' => 'conflict_pawn',
                             ]
                         );
                     }
