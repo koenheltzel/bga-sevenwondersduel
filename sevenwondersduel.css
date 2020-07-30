@@ -892,9 +892,9 @@ __     __         _       _     _
     height: var(--building-small-height);
 }
 
-/* So during wonder selection, during the sliding animation the player wonder will be on top of the selection wonders. */
+/* So during wonder selection, during the sliding animation the player wonder will be on top of the selection wonders. And when constructing a wonder the age card will be on top of the other draftpool cards. */
 .player_wonders .wonder_container {
-    z-index: 2;
+    z-index: 10;
 }
 
 .player_wonders .wonder_container .card_outline {
