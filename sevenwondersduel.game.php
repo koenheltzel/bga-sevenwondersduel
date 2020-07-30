@@ -473,7 +473,7 @@ class SevenWondersDuel extends Table
     */
 
     function stGameEndDebug() {
-        $this->gamestate->nextState( self::STATE_GAME_END_NAME );
+//        $this->gamestate->nextState( self::STATE_GAME_END_NAME );
     }
 
 //////////////////////////////////////////////////////////////////////////////

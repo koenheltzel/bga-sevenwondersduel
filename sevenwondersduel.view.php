@@ -65,7 +65,9 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", 'player_buildings');
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "draftpool");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_player");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_category_player");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_category");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_total_player");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "middle_column_block");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_wonders");
@@ -131,8 +133,19 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
                 $categories = ['blue', 'green', 'yellow', 'purple', 'wonders', 'progresstokens', 'coins', 'military'];
                 foreach ($categories as $category) {
+                    $this->page->reset_subblocks('end_game_category_player');
+                    foreach ([Player::me()->id, Player::opponent()->id] as $tmpPlayerId) {
+                        $this->page->insert_block('end_game_category_player', array(
+                            "PLAYER_ID" => $tmpPlayerId,
+                        ));
+                    }
                     $this->page->insert_block('end_game_category', array(
                         "CATEGORY" => $category,
+                    ));
+                }
+                foreach ([Player::me()->id, Player::opponent()->id] as $tmpPlayerId) {
+                    $this->page->insert_block('end_game_total_player', array(
+                        "PLAYER_ID" => $tmpPlayerId,
                     ));
                 }
                 $this->page->insert_block("end_game");

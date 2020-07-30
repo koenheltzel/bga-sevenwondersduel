@@ -81,7 +81,7 @@
                     </div>
                     <!-- END draftpool -->
                     <!-- BEGIN end_game -->
-                    <div id="end_game_container" class="whiteblock" style="">
+                    <div id="end_game_container" class="whiteblock" style="display: none;">
                         <table>
                             <tr>
                                 <td></td>
@@ -92,14 +92,18 @@
                             <!-- BEGIN end_game_category -->
                             <tr class="end_game_{CATEGORY}">
                                 <td><div class="end_game_icon end_game_card" /></td>
-                                <td>12</td>
-                                <td>15</td>
+                                <!-- BEGIN end_game_category_player -->
+                                <td class="player{PLAYER_ID}">xx</td>
+                                <!-- END end_game_category_player -->
                             </tr>
                             <!-- END end_game_category -->
-                            <tr>
+                            <tr class="end_game_total">
                                 <td>Total</td>
-                                <td>122</td>
-                                <td>153</td>
+                                <!-- BEGIN end_game_total_player -->
+                                <td><div class="point">
+                                        <span class="player{PLAYER_ID}"></span>
+                                    </div></td>
+                                <!-- END end_game_total_player -->
                             </tr>
                         </table>
                     </div>

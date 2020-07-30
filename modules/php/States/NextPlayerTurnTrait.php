@@ -39,7 +39,6 @@ trait NextPlayerTurnTrait {
                 clienttranslate('${player_name} wins the game through Military Supremacy (Conflict pawn reached the opponent\'s capital)'),
                 [
                     'player_name' => Player::getActive()->name,
-                    'playerId' => Player::getActive()->id,
                     'playersSituation' => Players::getSituation(true),
                 ]
             );

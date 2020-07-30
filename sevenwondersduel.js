@@ -103,6 +103,7 @@ define([
                 this.updateProgressTokensSituation(this.gamedatas.progressTokensSituation);
                 this.updateMilitaryTrack(this.gamedatas.militaryTrack);
                 this.updateDiscardedBuildings(this.gamedatas.discardedBuildings);
+                this.updatePlayersSituation(this.gamedatas.playersSituation);
 
                 // Setting up player boards
                 for (var player_id in gamedatas.players) {
@@ -133,7 +134,6 @@ define([
 
                     this.updatePlayerWonders(player_id, this.gamedatas.wondersSituation[player_id]);
                     this.updatePlayerBuildings(player_id, this.gamedatas.playerBuildings[player_id]);
-                    this.updatePlayerSituation(player_id, this.gamedatas.playersSituation[player_id]);
                     this.updatePlayerProgressTokens(player_id, this.gamedatas.progressTokensSituation[player_id]);
                 }
 
@@ -267,11 +267,9 @@ define([
 
                 if (args.args && stateName.substring(0, 7) != "client_") {
                     // Update player coins / scores
-                    Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                        if(args.args.playersSituation) {
-                            this.updatePlayerSituation(playerId, args.args.playersSituation[playerId]);
-                        }
-                    }));
+                    if(args.args.playersSituation) {
+                        this.updatePlayersSituation(args.args.playersSituation);
+                    }
 
                     if (args.args.draftpool) this.updateDraftpool(args.args.draftpool);
                     if (args.args.wondersSituation) this.updateWondersSituation(args.args.wondersSituation);
@@ -1020,18 +1018,35 @@ define([
                 $('player_area_' + playerId + '_coins').innerHTML = parseInt($('player_area_' + playerId + '_coins').innerHTML) + coins;
             },
 
-            updatePlayerSituation: function (playerId, situation) {
-                console.log('updatePlayerSituation', playerId, situation)
-                this.gamedatas.playersSituation[playerId] = situation;
-
-                $('player_area_' + playerId + '_coins').innerHTML = situation.coins;
-                $('player_area_' + playerId + '_score').innerHTML = situation.score;
-                if (typeof situation.winner != "undefined" && this.scoreCtrl[playerId]) {
-                    this.scoreCtrl[playerId].setValue(situation.winner);
+            updatePlayersSituation: function (situation) {
+                console.log('updatePlayersSituation', situation)
+                this.gamedatas.playersSituation = situation;
+                for (var playerId in this.gamedatas.players) {
+                    $('player_area_' + playerId + '_coins').innerHTML = situation[playerId].coins;
+                    $('player_area_' + playerId + '_score').innerHTML = situation[playerId].score;
+                    if (typeof situation[playerId].winner != "undefined" && this.scoreCtrl[playerId]) {
+                        this.scoreCtrl[playerId].setValue(situation[playerId].winner);
+                    }
+                    var scienceCountNode = dojo.query('.player_buildings.player' + playerId + ' .science_progress')[0];
+                    dojo.query('span', scienceCountNode)[0].innerHTML = situation[playerId].scienceSymbolCount + '/6 ' + _('symbols');
+                    dojo.style(scienceCountNode, 'display', situation[playerId].scienceSymbolCount ? 'block' : 'none');
                 }
-                var scienceCountNode = dojo.query('.player_buildings.player' + playerId + ' .science_progress')[0];
-                dojo.query('span', scienceCountNode)[0].innerHTML = situation.scienceSymbolCount + '/6 ' + _('symbols');
-                dojo.style(scienceCountNode, 'display', situation.scienceSymbolCount ? 'block' : 'none');
+
+                if (typeof situation.endGameCondition != "undefined") {
+                    switch (situation.endGameCondition) {
+                        case 1:
+                            this.scientificSupremacyAnimation(situation);
+                            break;
+                        case 2:
+                            this.militarySupremacyAnimation(situation);
+                            break;
+                        case 3:
+                        case 4:
+                        case 5:
+                            this.endGameScoringAnimation(situation);
+                            break;
+                    }
+                }
             },
 
             //  __        __              _                      _           _   _
@@ -1363,7 +1378,7 @@ define([
                 ]);
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerSituation.
+                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayersSituation.
                     anim.stop();
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
@@ -1640,7 +1655,7 @@ define([
                             dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em) rotateY(-90deg)'); // The rotateY(-90deg) affects the position the element will end up after the slide. Here's the place to apply it therefor, not before the animation instantiation.
                         }));
                         dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                            // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerSituation.
+                            // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayersSituation.
                             anim.stop();
                             // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                             dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
@@ -1854,7 +1869,7 @@ define([
                 ]);
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayerSituation.
+                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayersSituation.
                     anim.stop();
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
@@ -1992,36 +2007,72 @@ define([
             notif_nextPlayerTurnScientificSupremacy: function (notif) {
                 console.log('notif_nextPlayerTurnScientificSupremacy', notif);
 
-                dojo.addClass(dojo.query('.player' + notif.args.playerId + ' .player_building_column.Green')[0], 'green_border');
+                var animationDuration = this.scientificSupremacyAnimation(notif.args.playersSituation);
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(animationDuration);
+            },
+
+            scientificSupremacyAnimation: function(playersSituation) {
+                console.log('scientificSupremacyAnimation', playersSituation);
+                dojo.addClass(dojo.query('.player' + playersSituation.winner + ' .player_building_column.Green')[0], 'green_border');
                 var progressTokenNode = $('progress_token_4');
                 if (progressTokenNode) {
                     dojo.addClass(progressTokenNode, 'green_border');
                 }
 
-                var animationDuration = 500;
-
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(animationDuration);
+                // Unset endGameCondition to prevent an infinite loop.
+                playersSituation.endGameCondition = undefined;
+                this.updatePlayersSituation(playersSituation);
+                return 500;
             },
 
             notif_nextPlayerTurnMilitarySupremacy: function (notif) {
                 console.log('notif_nextPlayerTurnMilitarySupremacy', notif);
 
-                dojo.addClass($('conflict_pawn'), 'red_border');
-
-                var animationDuration = 500;
+                var animationDuration = this.militarySupremacyAnimation(notif.args.playersSituation);
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(animationDuration);
             },
 
+            militarySupremacyAnimation: function(playersSituation) {
+                console.log('militarySupremacyAnimation', playersSituation);
+                dojo.addClass($('conflict_pawn'), 'red_border');
+
+                // Unset endGameCondition to prevent an infinite loop.
+                playersSituation.endGameCondition = undefined;
+                this.updatePlayersSituation(playersSituation);
+                return 500;
+            },
+
             notif_nextPlayerTurnEndGameScoring: function (notif) {
                 console.log('notif_nextPlayerTurnEndGameScoring', notif);
 
-                var animationDuration = 500;
+                var animationDuration = this.endGameScoringAnimation(notif.args.playersSituation);
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(animationDuration);
+            },
+
+            endGameScoringAnimation: function(playersSituation) {
+                console.log('endGameScoringAnimation', playersSituation);
+                dojo.style($('draftpool_container'), 'display', 'none');
+                dojo.style($('end_game_container'), 'display', 'block');
+
+                // First set the table to the situation in this.gamedatas.playersSituation
+                var categories = ['blue', 'green', 'yellow', 'purple', 'wonders', 'progresstokens', 'coins', 'military'];
+                Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                    for (var i = 0; i < categories.length; i++) {
+                        dojo.query('#end_game_container .end_game_' + categories[i] + ' .player' + playerId)[0].innerHTML = this.gamedatas.playersSituation[playerId]['player_score_' + categories[i]];
+                    }
+                    dojo.query('#end_game_container .end_game_total .player' + playerId)[0].innerHTML = this.gamedatas.playersSituation[playerId]['score'];
+                }));
+
+                // Unset endGameCondition to prevent an infinite loop.
+                playersSituation.endGameCondition = undefined;
+                this.updatePlayersSituation(playersSituation);
+                return 500;
             },
 
             //   ____  _           _               _____                 _   _

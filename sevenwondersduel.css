@@ -168,6 +168,7 @@ __     __         _       _     _
     box-shadow:
         calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px calc(var(--scale) * 1px) #00000060;
+    backface-visibility: hidden;
 }
 .resource>span, .coin>span {
     font-weight: bold;
@@ -1247,17 +1248,18 @@ __        __              _
 
  */
 
+#end_game_container {
+    margin: var(--gutter) !important;
+}
+
 #end_game_container table {
-    /*border-collapse: separate;*/
     border-style: hidden;
-    /*border-spacing: 3px;*/
 }
 #end_game_container td {
     border: calc(3px * var(--scale)) solid #ffffff88;
     padding: calc(5px * var(--scale));
 
     font-size: calc(28px * var(--scale));
-    padding-right: var(--gutter);
     font-weight: bold;
 }
 
@@ -1353,6 +1355,10 @@ __        __              _
     background-size: calc(var(--scale) * 44px) calc(var(--scale) * 44px);
     width: calc(var(--scale) * 44px);
     height: calc(var(--scale) * 44px);
+}
+
+.end_game_total .point {
+    --element-scale: 1.4;
 }
 
 
