@@ -1301,26 +1301,24 @@ __        __              _
     background-image: url('img/tmp_card_purple.png');
 }
 
-
-
-.end_game_wonder * {
+.end_game_wonders * {
     color: #f7c161aa;
     background-color: #f7c16130;
     text-shadow: 0 0 0px #000000bb;
 }
-.end_game_wonder .end_game_card {
+.end_game_wonders .end_game_card {
     background-image: url('img/tmp_construct_wonder_icon.png');
     background-size: calc(var(--scale) * 58px) calc(var(--scale) * 44px);
     width: calc(var(--scale) * 58px);
     height: calc(var(--scale) * 44px);
 }
 
-.end_game_progress * {
+.end_game_progresstokens * {
     color: #1b6332aa;
     background-color: #1b633230;
     text-shadow: 0 0 0px #000000bb;
 }
-.end_game_progress .end_game_card {
+.end_game_progresstokens .end_game_card {
     background-image: url('img/tmp_end_game_progress.png');
     background-size: calc(var(--scale) * 44px) calc(var(--scale) * 44px);
     width: calc(var(--scale) * 44px);

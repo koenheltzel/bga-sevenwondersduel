@@ -953,9 +953,11 @@ define([
                 var output = '';
                 var steps = data.steps;
                 for (var i = 0; i < steps.length; i++) {
-                    output += '' + this.getResourceIcon(steps[i].resource, steps[i].amount) + ' &rightarrow; ' + dojo.string.substitute(steps[i].string, { costIcon: steps[i].cost ? this.getResourceIcon('coin', steps[i].cost) : '' }) + '<br/>';
+                    output += this.getResourceIcon(steps[i].resource, steps[i].amount);
+                    output += ' &rightarrow; ';
+                    output += dojo.string.substitute(steps[i].string, { costIcon: steps[i].cost ? this.getResourceIcon('coin', steps[i].cost) : '' });
+                    output += '<br/>';
                 }
-                output += '';
                 return output;
             },
 
