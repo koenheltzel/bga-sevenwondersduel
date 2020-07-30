@@ -1253,14 +1253,27 @@ __        __              _
 }
 
 #end_game_container table {
+    /* Trick to hide white borders on the outside of the table. */
     border-style: hidden;
 }
 #end_game_container td {
     border: calc(3px * var(--scale)) solid #ffffff88;
-    padding: calc(5px * var(--scale));
+    padding: calc(5px * var(--scale)) calc(1px * var(--scale)) calc(5px * var(--scale)) calc(1px * var(--scale));
 
-    font-size: calc(28px * var(--scale));
+    font-size: calc(24px * var(--scale));
     font-weight: bold;
+    /* Make all category columns same width */
+    min-width: calc(var(--scale) * 58px);
+    /* Keep table within width of middle column by keeping the first column narrow enough */
+    max-width: calc(var(--scale) * 155px);
+    /* Cut off player name if it's too long. */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.end_game_player_name {
+    font-size: calc(18px * var(--scale)) !important;
 }
 
 .end_game_icon {
@@ -1273,7 +1286,7 @@ __        __              _
     background-color: initial !important;
 }
 
-.end_game_blue * {
+.end_game_blue {
     color: #0074bcaa;
     background-color: #0074bc30;
     text-shadow: 0 0 0px #000000bb;
@@ -1282,7 +1295,7 @@ __        __              _
     background-image: url('img/tmp_card_blue.png');
 }
 
-.end_game_green * {
+.end_game_green {
     color: #008d48aa;
     background-color: #008d4830;
     text-shadow: 0 0 0px #000000bb;
@@ -1291,7 +1304,7 @@ __        __              _
     background-image: url('img/tmp_card_green.png');
 }
 
-.end_game_yellow * {
+.end_game_yellow {
     color: #fccc14aa;
     background-color: #fccc1430;
     text-shadow: 0 0 0px #000000bb;
@@ -1300,7 +1313,7 @@ __        __              _
     background-image: url('img/tmp_card_yellow.png');
 }
 
-.end_game_purple * {
+.end_game_purple {
     color: #7a5b92aa;
     background-color: #7a5b9230;
     text-shadow: 0 0 0px #000000bb;
@@ -1309,7 +1322,7 @@ __        __              _
     background-image: url('img/tmp_card_purple.png');
 }
 
-.end_game_wonders * {
+.end_game_wonders {
     color: #f7c161aa;
     background-color: #f7c16130;
     text-shadow: 0 0 0px #000000bb;
@@ -1321,7 +1334,7 @@ __        __              _
     height: calc(var(--scale) * 44px);
 }
 
-.end_game_progresstokens * {
+.end_game_progresstokens {
     color: #1b6332aa;
     background-color: #1b633230;
     text-shadow: 0 0 0px #000000bb;
@@ -1333,7 +1346,7 @@ __        __              _
     height: calc(var(--scale) * 44px);
 }
 
-.end_game_coins * {
+.end_game_coins {
     color: #e0bd0eaa;
     background-color: #e0bd0e30;
     text-shadow: 0 0 0px #000000bb;
@@ -1345,7 +1358,7 @@ __        __              _
     height: calc(var(--scale) * 44px);
 }
 
-.end_game_military * {
+.end_game_military {
     color: #c21f2caa;
     background-color: #c21f2c30;
     text-shadow: 0 0 0px #000000bb;

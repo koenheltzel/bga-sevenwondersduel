@@ -64,10 +64,9 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", 'player_buildings');
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "draftpool");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_player");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_category_header");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_category_player");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_category");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_total_player");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_player");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "middle_column_block");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_wonders");
@@ -114,41 +113,54 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
             // Middle column
             $this->page->reset_subblocks('draftpool');
+            $this->page->reset_subblocks('end_game_category_player');
             $this->page->reset_subblocks('end_game_player');
-            $this->page->reset_subblocks('end_game_category');
+            $this->page->reset_subblocks('end_game_category_header');
             $this->page->reset_subblocks('end_game');
             $this->page->reset_subblocks('player_buildings');
 
             if ($playerId == Player::me()->id) {
                 $this->page->insert_block("draftpool");
 
-                foreach ([Player::me()->id, Player::opponent()->id] as $tmpPlayerId) {
-                    $tmpPlayer = $players[$tmpPlayerId];
-                    $this->page->insert_block('end_game_player', array(
-                        "PLAYER_ID" => $tmpPlayerId,
-                        "PLAYER_NAME" => $tmpPlayer['player_name'],
-                        "PLAYER_COLOR" => $tmpPlayer['player_color'],
-                    ));
-                }
-
-                $categories = ['blue', 'green', 'yellow', 'purple', 'wonders', 'progresstokens', 'coins', 'military'];
-                foreach ($categories as $category) {
-                    $this->page->reset_subblocks('end_game_category_player');
-                    foreach ([Player::me()->id, Player::opponent()->id] as $tmpPlayerId) {
-                        $this->page->insert_block('end_game_category_player', array(
-                            "PLAYER_ID" => $tmpPlayerId,
+                // END GAME TABLE
+                if (1) {
+                    $categories = ['blue', 'green', 'yellow', 'purple', 'wonders', 'progresstokens', 'coins', 'military'];
+                    foreach ($categories as $category) {
+                        $this->page->insert_block('end_game_category_header', array(
+                            "CATEGORY" => $category,
                         ));
                     }
-                    $this->page->insert_block('end_game_category', array(
-                        "CATEGORY" => $category,
-                    ));
+
+                    foreach ([Player::opponent()->id, Player::me()->id] as $tmpPlayerId) {
+                        $tmpPlayer = $players[$tmpPlayerId];
+                        $this->page->reset_subblocks('end_game_category_player');
+                        foreach ($categories as $category) {
+                            $this->page->insert_block('end_game_category_player', array(
+                                "CATEGORY" => $category,
+                                "PLAYER_ID" => $tmpPlayerId,
+                            ));
+                        }
+
+                        $this->page->insert_block('end_game_player', array(
+                            "PLAYER_ID" => $tmpPlayerId,
+                            "PLAYER_NAME" => $tmpPlayer['player_name'],
+                            "PLAYER_COLOR" => $tmpPlayer['player_color'],
+                        ));
+                    }
+
+//                    foreach ($categories as $category) {
+//                        $this->page->reset_subblocks('end_game_category_player');
+//                        foreach ([Player::me()->id, Player::opponent()->id] as $tmpPlayerId) {
+//                            $this->page->insert_block('end_game_category_player', array(
+//                                "PLAYER_ID" => $tmpPlayerId,
+//                            ));
+//                        }
+//                        $this->page->insert_block('end_game_category', array(
+//                            "CATEGORY" => $category,
+//                        ));
+//                    }
+                    $this->page->insert_block("end_game");
                 }
-                foreach ([Player::me()->id, Player::opponent()->id] as $tmpPlayerId) {
-                    $this->page->insert_block('end_game_total_player', array(
-                        "PLAYER_ID" => $tmpPlayerId,
-                    ));
-                }
-                $this->page->insert_block("end_game");
             }
 
             $this->page->insert_block('player_buildings', array(

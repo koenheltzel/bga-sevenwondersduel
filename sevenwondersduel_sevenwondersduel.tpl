@@ -85,26 +85,24 @@
                         <table>
                             <tr>
                                 <td></td>
-                                <!-- BEGIN end_game_player -->
-                                <td><h3 style="color:#{PLAYER_COLOR}" class="">{PLAYER_NAME}</h3></td>
-                                <!-- END end_game_player -->
+                                <!-- BEGIN end_game_category_header -->
+                                <td class="end_game_{CATEGORY}"><div class="end_game_icon end_game_card" /></td>
+                                <!-- END end_game_category_header -->
+                                <td></td>
                             </tr>
-                            <!-- BEGIN end_game_category -->
-                            <tr class="end_game_{CATEGORY}">
-                                <td><div class="end_game_icon end_game_card" /></td>
+                            <!-- BEGIN end_game_player -->
+                            <tr>
+                                <td class="end_game_player_name" style="color:#{PLAYER_COLOR}">{PLAYER_NAME}</td>
                                 <!-- BEGIN end_game_category_player -->
-                                <td class="player{PLAYER_ID}">xx</td>
+                                <td class="end_game_{CATEGORY} player{PLAYER_ID}">xx</td>
                                 <!-- END end_game_category_player -->
-                            </tr>
-                            <!-- END end_game_category -->
-                            <tr class="end_game_total">
-                                <td>Total</td>
-                                <!-- BEGIN end_game_total_player -->
-                                <td><div class="point">
+                                <td class="end_game_total">
+                                    <div class="point">
                                         <span class="player{PLAYER_ID}"></span>
-                                    </div></td>
-                                <!-- END end_game_total_player -->
+                                    </div>
+                                </td>
                             </tr>
+                            <!-- END end_game_player -->
                         </table>
                     </div>
                     <!-- END end_game -->

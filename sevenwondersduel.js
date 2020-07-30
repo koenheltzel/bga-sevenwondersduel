@@ -2064,7 +2064,7 @@ define([
                 var categories = ['blue', 'green', 'yellow', 'purple', 'wonders', 'progresstokens', 'coins', 'military'];
                 Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
                     for (var i = 0; i < categories.length; i++) {
-                        dojo.query('#end_game_container .end_game_' + categories[i] + ' .player' + playerId)[0].innerHTML = this.gamedatas.playersSituation[playerId]['player_score_' + categories[i]];
+                        dojo.query('#end_game_container .end_game_' + categories[i] + '.player' + playerId)[0].innerHTML = this.gamedatas.playersSituation[playerId]['player_score_' + categories[i]];
                     }
                     dojo.query('#end_game_container .end_game_total .player' + playerId)[0].innerHTML = this.gamedatas.playersSituation[playerId]['score'];
                 }));
