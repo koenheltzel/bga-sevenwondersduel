@@ -94,7 +94,8 @@ trait NextPlayerTurnTrait {
                     'nextPlayerTurnEndGameScoring',
                     "",
                     [
-                        'playersSituation' => &$playerSituation,
+                        'playersSituation' => Players::getSituation(),
+                        'endGamePlayersSituation' => &$playerSituation,
                     ]
                 );
 

@@ -61,7 +61,7 @@ define([
             putDraftpoolCard: 250,
             coin_slide_duration: 500,
             coin_slide_delay: 100,
-            notification_safe_margin: 100,
+            notification_safe_margin: 0,
 
             /* End game animations */
             victorypoints_slide_duration: 1000,
@@ -271,7 +271,7 @@ define([
 
                 dojo.attr($('swd'), 'data-state', stateName);
 
-                if (args.args && stateName.substring(0, 7) != "client_" && stateName != 'gameEndDebug') { // gameEndDebug because we don't want updatePlayersSituation to execute.
+                if (args.args && stateName.substring(0, 7) != "client_") {
                     // Update player coins / scores
                     if(args.args.playersSituation) {
                         this.updatePlayersSituation(args.args.playersSituation);
@@ -2054,8 +2054,10 @@ define([
 
             notif_nextPlayerTurnEndGameScoring: function (notif) {
                 console.log('notif_nextPlayerTurnEndGameScoring', notif);
+                // First update the playersSituation with the pre-endgame situation.
+                this.updatePlayersSituation(notif.args.playersSituation);
 
-                var animationDuration = this.endGameScoringAnimation(notif.args.playersSituation);
+                var animationDuration = this.endGameScoringAnimation(notif.args.endGamePlayersSituation);
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(animationDuration);
@@ -2093,9 +2095,9 @@ define([
                             properties: {
                                 propertyScale: { start: startScale, end: endScale }
                             },
-                            onEnd: function () {
+                            onEnd: dojo.hitch(this, function (node) {
                                 playerPointsNode.style.removeProperty('--element-scale');
-                            },
+                            }),
                             onAnimate: function (values) {
                                 playerPointsNode.style.setProperty('--element-scale', parseFloat(values.propertyScale.replace("px", "")));
                             }
