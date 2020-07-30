@@ -254,6 +254,9 @@ define([
                 dojo.subscribe('nextPlayerTurnEndGameScoring', this, "notif_nextPlayerTurnEndGameScoring");
                 this.notifqueue.setSynchronous( 'nextPlayerTurnEndGameScoring' );
 
+                dojo.subscribe('endGameCategoryUpdate', this, "notif_endGameCategoryUpdate");
+                this.notifqueue.setSynchronous( 'endGameCategoryUpdate' );
+
 
             },
 
@@ -2105,8 +2108,41 @@ define([
 
                 // Unset endGameCondition to prevent an infinite loop.
                 playersSituation.endGameCondition = undefined;
-                this.updatePlayersSituation(playersSituation);
-                return 5000;//this.victorypoints_slide_duration;
+                return this.victorypoints_slide_duration;
+            },
+
+            notif_endGameCategoryUpdate: function(notif) {
+                var categoryNode = dojo.query('#end_game_container .end_game_' + notif.args.category + '.player' + notif.args.playerId)[0];
+                var totalNode = dojo.query('#end_game_container .end_game_total.player' + notif.args.playerId + ' span')[0];
+                dojo.addClass(categoryNode, 'red_border');
+                if (notif.args.highlightId) {
+                    dojo.addClass(notif.args.highlightId, 'red_border');
+                }
+                var anim = dojo.animateProperty({
+                    node: 'swd',
+                    duration: notif.args.points * 333,
+                    easing: dojo.fx.easing.linear,
+                    properties: {
+                        propertyScale: { start: parseInt(categoryNode.innerHTML), end: parseInt(categoryNode.innerHTML) + parseInt(notif.args.points) }
+                    },
+                    onEnd: function () {
+                        dojo.removeClass(categoryNode, 'red_border');
+                        if (notif.args.highlightId) {
+                            dojo.removeClass(notif.args.highlightId, 'red_border');
+                        }
+                    },
+                    onAnimate: function (values) {
+                        var score = Math.floor(parseFloat(values.propertyScale.replace("px", "")));
+                        if (parseInt(score) != parseInt(categoryNode.innerHTML)) {
+                            categoryNode.innerHTML = score;
+                            totalNode.innerHTML = parseInt(totalNode.innerHTML) + 1;
+                        }
+                    }
+                });
+                anim.play();
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration + 500);
             },
 
             //   ____  _           _               _____                 _   _

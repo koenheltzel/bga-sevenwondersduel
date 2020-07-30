@@ -111,13 +111,16 @@ trait NextPlayerTurnTrait {
                             $points = $maxConstructedWonders * 2;
                             $player->increaseScore($points, $building->type);
                             SevenWondersDuel::get()->notifyAllPlayers(
-                                'message',
+                                'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 2 for each constructed Wonder in the city which has the most of them (${mostPlayerName}\'s)'),
                                 [
                                     'player_name' => $player->name,
                                     'points' => $points,
                                     'guildName' => $building->name,
                                     'mostPlayerName' => $mostPlayer->name,
+                                    'playerId' => $player->id,
+                                    'category' => 'purple',
+                                    'highlightId' => 'player_building_' . $building->id,
                                 ]
                             );
                         }
@@ -130,13 +133,16 @@ trait NextPlayerTurnTrait {
                             $points = $maxCoinTriplets;
                             $player->increaseScore($points, $building->type);
                             SevenWondersDuel::get()->notifyAllPlayers(
-                                'message',
+                                'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each set of 3 coins in the richest city (${mostPlayerName}\'s)'),
                                 [
                                     'player_name' => $player->name,
                                     'points' => $points,
                                     'guildName' => $building->name,
                                     'mostPlayerName' => $mostPlayer->name,
+                                    'playerId' => $player->id,
+                                    'category' => 'purple',
+                                    'highlightId' => 'player_building_' . $building->id,
                                 ]
                             );
                         }
@@ -149,7 +155,7 @@ trait NextPlayerTurnTrait {
                             $points = $maxBuildingsOfType;
                             $player->increaseScore($points, $building->type);
                             SevenWondersDuel::get()->notifyAllPlayers(
-                                'message',
+                                'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),
                                 [
                                     'player_name' => $player->name,
@@ -157,6 +163,9 @@ trait NextPlayerTurnTrait {
                                     'buildingType' => count($building->guildRewardBuildingTypes) > 1 ? clienttranslate('Brown and Grey') : $building->guildRewardBuildingTypes[0],
                                     'guildName' => $building->name,
                                     'mostPlayerName' => $mostPlayer->name,
+                                    'playerId' => $player->id,
+                                    'category' => 'purple',
+                                    'highlightId' => 'player_building_' . $building->id,
                                 ]
                             );
                         }
@@ -167,11 +176,14 @@ trait NextPlayerTurnTrait {
                     if ($points > 0) {
                         $player->increaseScore($points, self::SCORE_MILITARY);
                         SevenWondersDuel::get()->notifyAllPlayers(
-                            'message',
+                            'endGameCategoryUpdate',
                             clienttranslate('${player_name} scores ${points} victory points (Conflict pawn position)'),
                             [
                                 'player_name' => $player->name,
                                 'points' => $points,
+                                'playerId' => $player->id,
+                                'category' => 'military',
+                                'highlightId' => 'conflict_pawn',
                             ]
                         );
                     }
@@ -182,12 +194,15 @@ trait NextPlayerTurnTrait {
                         if ($points > 0) {
                             $player->increaseScore($points, self::SCORE_PROGRESSTOKENS);
                             SevenWondersDuel::get()->notifyAllPlayers(
-                                'message',
+                                'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Progress token “${progressTokenName}”)'),
                                 [
                                     'player_name' => $player->name,
                                     'points' => $points,
                                     'progressTokenName' => ProgressToken::get(6)->name,
+                                    'playerId' => $player->id,
+                                    'category' => 'progresstokens',
+                                    'highlightId' => 'progress_token_6',
                                 ]
                             );
                         }
@@ -198,11 +213,14 @@ trait NextPlayerTurnTrait {
                     if ($points > 0) {
                         $player->increaseScore($points, self::SCORE_COINS);
                         SevenWondersDuel::get()->notifyAllPlayers(
-                            'message',
+                            'endGameCategoryUpdate',
                             clienttranslate('${player_name} scores ${points} victory points (1 for each set of 3 coins)'),
                             [
                                 'player_name' => $player->name,
                                 'points' => $points,
+                                'playerId' => $player->id,
+                                'category' => 'coins',
+                                'highlightId' => 'player_area_' . $player->id . '_coins',
                             ]
                         );
                     }
