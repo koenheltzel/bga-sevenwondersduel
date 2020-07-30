@@ -1014,6 +1014,12 @@ __     __         _       _     _
     display: inline-block;
     vertical-align: middle;
     pointer-events: none;
+    font-size: calc(14px * var(--scale));
+}
+
+.action_button .emblem {
+    width: calc(34px * var(--scale));
+    height: calc(34px * var(--scale));
 }
 
 /*
