@@ -205,13 +205,13 @@ __     __         _       _     _
 }
 
 .point {
-    margin-left: var(--gutter);
     background-image: url('img/tmp_point.png');
     width: calc(var(--scale) * var(--element-scale) * 30px);
     height: calc(var(--scale) * var(--element-scale) * 30px);
     background-size: calc(var(--scale) * var(--element-scale) * 30px) calc(var(--scale) * var(--element-scale) * 30px);
-    display: inline-block;
     text-align: center;
+    position: absolute;
+    z-index: 10; /* Fly over military track during end game animation */
 }
 .point>span {
     font-weight: bold;
@@ -986,6 +986,13 @@ __     __         _       _     _
     z-index: 105; /* So animated coins fly under it */
     position: relative; /* For the z-index to work */
 }
+.player_area_points {
+    /* Define width/height to keep the same position when the points icon moves to the end game table. */
+    width: calc(var(--scale) * 30px);
+    height: calc(var(--scale) * 30px);
+    position: relative;
+    margin-left: var(--gutter);
+}
 
 /*
  ____  _                            _        _   _
@@ -1370,8 +1377,12 @@ __        __              _
     height: calc(var(--scale) * 44px);
 }
 
-.end_game_total .point {
+.end_game_total {
     --element-scale: 1.4;
+    width: calc(var(--scale) * var(--element-scale) * 30px);
+    height: calc(var(--scale) * var(--element-scale) * 30px);
+    position: relative;
+    margin: auto;
 }
 
 

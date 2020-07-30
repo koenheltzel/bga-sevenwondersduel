@@ -87,6 +87,17 @@ trait NextPlayerTurnTrait {
             }
 
             if ($this->getGameStateValue(self::VALUE_CURRENT_AGE) >= 3) {
+                // Let's queue the nextPlayerTurnEndGameScoring notification because we want this to arrive first.
+                // However, the playersSituation we pass by reference, empty for now. This will be filled after the foreach and determining the winner.
+                $playerSituation = [];
+                SevenWondersDuel::get()->notifyAllPlayers(
+                    'nextPlayerTurnEndGameScoring',
+                    "",
+                    [
+                        'playersSituation' => &$playerSituation,
+                    ]
+                );
+
                 foreach(Players::get() as $player) {
                     // Wonders, Blue, green and yellow buildings' victory points have already been counted during the game.
                     // Guilds points
@@ -197,15 +208,11 @@ trait NextPlayerTurnTrait {
                     }
                 }
 
-                SevenWondersDuel::get()->notifyAllPlayers(
-                    'nextPlayerTurnEndGameScoring',
-                    "",
-                    [
-                        'playersSituation' => Players::getSituation(true),
-                    ]
-                );
-
+                // Determine the winner of the game
                 $winner = $this->determineWinner();
+
+                // Pass $playerSituation by reference so the nextPlayerTurnEndGameScoring notification gets this data.
+                Players::getSituation(true, $playerSituation);
 
                 $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
             }

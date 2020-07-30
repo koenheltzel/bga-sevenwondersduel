@@ -16,8 +16,7 @@ class Players extends Base
         return [Player::me(), Player::opponent()];
     }
 
-    public static function getSituation($endGameScoring=false) {
-        $data = [];
+    public static function getSituation($endGameScoring=false, &$data = []) {
         $winner = null;
         foreach(Players::get() as $player) {
             $data[$player->id] = [
@@ -26,7 +25,9 @@ class Players extends Base
                 'scienceSymbolCount' => $player->getScientificSymbolCount(),
             ];
             $scoringCategories = $player->getScoreCategories();
-            $data[$player->id] = array_merge($data[$player->id], array_shift($scoringCategories)); // [0] doesn't work (the index can be a different number for some reason. So we use array_shift().
+            foreach (array_shift($scoringCategories) as $key => $value) {
+                $data[$player->id][$key] = (int)$value;
+            }
             if ($endGameScoring) {
                 if ($player->isWinner()) {
                     $data[$player->id]['winner'] = 1;

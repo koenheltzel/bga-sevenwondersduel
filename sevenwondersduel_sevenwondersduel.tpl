@@ -96,9 +96,9 @@
                                 <!-- BEGIN end_game_category_player -->
                                 <td class="end_game_{CATEGORY} player{PLAYER_ID}">xx</td>
                                 <!-- END end_game_category_player -->
-                                <td class="end_game_total">
-                                    <div class="point">
-                                        <span class="player{PLAYER_ID}"></span>
+                                <td style="overflow: initial">
+                                    <div class="end_game_total player{PLAYER_ID}">
+
                                     </div>
                                 </td>
                             </tr>

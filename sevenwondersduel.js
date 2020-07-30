@@ -63,6 +63,9 @@ define([
             coin_slide_delay: 100,
             notification_safe_margin: 100,
 
+            /* End game animations */
+            victorypoints_slide_duration: 1000,
+
             constructor: function () {
                 bgagame.sevenwondersduel.instance = this;
 
@@ -265,7 +268,7 @@ define([
 
                 dojo.attr($('swd'), 'data-state', stateName);
 
-                if (args.args && stateName.substring(0, 7) != "client_") {
+                if (args.args && stateName.substring(0, 7) != "client_" && stateName != 'gameEndDebug') { // gameEndDebug because we don't want updatePlayersSituation to execute.
                     // Update player coins / scores
                     if(args.args.playersSituation) {
                         this.updatePlayersSituation(args.args.playersSituation);
@@ -2059,6 +2062,7 @@ define([
                 console.log('endGameScoringAnimation', playersSituation);
                 dojo.style($('draftpool_container'), 'display', 'none');
                 dojo.style($('end_game_container'), 'display', 'block');
+                this.updateLayout();
 
                 // First set the table to the situation in this.gamedatas.playersSituation
                 var categories = ['blue', 'green', 'yellow', 'purple', 'wonders', 'progresstokens', 'coins', 'military'];
@@ -2066,13 +2070,43 @@ define([
                     for (var i = 0; i < categories.length; i++) {
                         dojo.query('#end_game_container .end_game_' + categories[i] + '.player' + playerId)[0].innerHTML = this.gamedatas.playersSituation[playerId]['player_score_' + categories[i]];
                     }
-                    dojo.query('#end_game_container .end_game_total .player' + playerId)[0].innerHTML = this.gamedatas.playersSituation[playerId]['score'];
+                    // dojo.query('#end_game_container .end_game_total.player' + playerId + ' span')[0].innerHTML = this.gamedatas.playersSituation[playerId]['score'];
+
+                    var playerPointsNode = $('player_area_' + playerId + '_score').parentElement;
+                    var targetContainer = dojo.query('#end_game_container .end_game_total.player' + playerId)[0];
+                    console.log('targetContainer', targetContainer);
+                    console.log('playerPointsNode', playerPointsNode);
+                    playerPointsNode = this.attachToNewParent(playerPointsNode, targetContainer); // attachToNewParent creates and returns a new instance of the node (replacing the old one).
+
+                    // Next we slide (while adjusting the scale during the animation) the wonder.
+                    var startScale = 1.0;
+                    var endScale = 1.4;
+                    playerPointsNode.style.setProperty('--element-scale', startScale);
+
+                    var anim = dojo.fx.combine([
+                        dojo.animateProperty({
+                            node: playerPointsNode,
+                            duration: this.victorypoints_slide_duration,
+                            properties: {
+                                propertyScale: { start: startScale, end: endScale }
+                            },
+                            onEnd: function () {
+                                playerPointsNode.style.removeProperty('--element-scale');
+                            },
+                            onAnimate: function (values) {
+                                playerPointsNode.style.setProperty('--element-scale', parseFloat(values.propertyScale.replace("px", "")));
+                            }
+                        }),
+                        this.slideToObjectPos(playerPointsNode, targetContainer, 0, 0, this.victorypoints_slide_duration),
+                    ]);
+                    anim.play();
+
                 }));
 
                 // Unset endGameCondition to prevent an infinite loop.
                 playersSituation.endGameCondition = undefined;
                 this.updatePlayersSituation(playersSituation);
-                return 500;
+                return 5000;//this.victorypoints_slide_duration;
             },
 
             //   ____  _           _               _____                 _   _
