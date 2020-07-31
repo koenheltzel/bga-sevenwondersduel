@@ -2044,7 +2044,7 @@ define([
 
             militarySupremacyAnimation: function(playersSituation) {
                 console.log('militarySupremacyAnimation', playersSituation);
-                dojo.addClass($('conflict_pawn'), 'red_border');
+                dojo.addClass($('conflict_pawn'), 'endgame_highlight');
 
                 // Unset endGameCondition to prevent an infinite loop.
                 playersSituation.endGameCondition = undefined;
