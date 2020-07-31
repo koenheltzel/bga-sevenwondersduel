@@ -326,7 +326,7 @@ class SevenWondersDuel extends Table
             Player::me()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::me()->id),
             Player::opponent()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::opponent()->id),
         ];
-        $result['playersSituation'] = Players::getSituation();
+        $result['playersSituation'] = Players::getSituation((int)$this->getGameStateValue(self::VALUE_END_GAME_CONDITION) != 0);
         $result['buildings'] = Material::get()->buildings->array;
         $result['wonders'] = Material::get()->wonders->array;
         $result['progressTokens'] = Material::get()->progressTokens->array;
@@ -473,7 +473,7 @@ class SevenWondersDuel extends Table
     */
 
     function stGameEndDebug() {
-//        $this->gamestate->nextState( self::STATE_GAME_END_NAME );
+        $this->gamestate->nextState( self::STATE_GAME_END_NAME );
     }
 
 //////////////////////////////////////////////////////////////////////////////
