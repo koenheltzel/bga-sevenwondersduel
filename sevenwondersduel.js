@@ -2119,7 +2119,10 @@ define([
                 var categoryNode = dojo.query('#end_game_container .end_game_' + notif.args.category + '.player' + notif.args.playerId)[0];
                 var totalNode = dojo.query('#end_game_container .end_game_total.player' + notif.args.playerId + ' span')[0];
                 dojo.addClass(categoryNode, 'endgame_highlight');
+                var zIndex = 1;
                 if (notif.args.highlightId) {
+                    zIndex = dojo.style(notif.args.highlightId, 'z-index');
+                    dojo.style(notif.args.highlightId, 'z-index', 100);
                     dojo.addClass(notif.args.highlightId, 'endgame_highlight');
                 }
                 var anim = dojo.fx.chain([
@@ -2147,6 +2150,7 @@ define([
                         onEnd: function (node) {
                             dojo.removeClass(categoryNode, 'endgame_highlight');
                             if (notif.args.highlightId) {
+                                dojo.style(notif.args.highlightId, 'z-index', zIndex);
                                 dojo.removeClass(notif.args.highlightId, 'endgame_highlight');
                             }
                         }
