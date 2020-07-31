@@ -227,8 +227,8 @@ $machinestates = [
 
     SevenWondersDuel::STATE_GAME_END_DEBUG_ID => [
         "name" => SevenWondersDuel::STATE_GAME_END_DEBUG_NAME,
-        "description" => clienttranslate("Fake End of game"),
-        "descriptionmyturn" => clienttranslate('Fake End of game'),
+        "description" => clienttranslate("Debug End of game"),
+        "descriptionmyturn" => clienttranslate('Debug End of game'),
         "type" => "activeplayer",
         "action" => "stGameEndDebug",
         "args" => "argGameEndDebug",

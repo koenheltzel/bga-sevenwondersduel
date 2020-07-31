@@ -282,28 +282,6 @@ __     __         _       _     _
     }
 }
 
-.green_border {
-    animation: green_border 0.5s infinite alternate;
-    z-index: 20;
-}
-
-@keyframes green_border {
-    from {
-        /*box-shadow: 0 0 1px 3px #007e3b66;*/
-        outline-color: #007e3b66;
-        outline-width: 3px;
-        outline-style: dashed;
-        outline-offset: 1px;
-    }
-    to {
-        /*box-shadow: 0 0 1px 3px #007e3b;*/
-        outline-color: #007e3b;
-        outline-width: 3px;
-        outline-style: dashed;
-        outline-offset: 1px;
-    }
-}
-
 /*
  _                            _   
 | |    __ _ _   _  ___  _   _| |_ 
@@ -447,10 +425,11 @@ __     __         _       _     _
 
 
 #board_progress_tokens {
+    --element-scale: 1.1;
     position: relative;
     top: calc(var(--board-height) * var(--board-scale) * 0.25);
-    left: calc(var(--board-width) * var(--board-scale) * 0.65);
-    width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
+    left: calc(var(--board-width) * var(--board-scale) * 0.635);
+    width: calc(var(--progress-token-width) * var(--progress-token-small-scale) * var(--element-scale));
     height: calc(var(--board-height) * var(--board-scale) * 0.5);
 }
 
@@ -465,19 +444,19 @@ __     __         _       _     _
 }
 
 #board_progress_tokens>div:nth-of-type(2) {
-    top: calc(var(--board-height) * var(--board-scale) * 0.103);
+    top: calc(var(--board-height) * var(--board-scale) * 0.10);
 }
 
 #board_progress_tokens>div:nth-of-type(3) {
-    top: calc(var(--board-height) * var(--board-scale) * 0.205);
+    top: calc(var(--board-height) * var(--board-scale) * 0.20);
 }
 
 #board_progress_tokens>div:nth-of-type(4) {
-    top: calc(var(--board-height) * var(--board-scale) * 0.309);
+    top: calc(var(--board-height) * var(--board-scale) * 0.30);
 }
 
 #board_progress_tokens>div:nth-of-type(5) {
-    top: calc(var(--board-height) * var(--board-scale) * 0.407);
+    top: calc(var(--board-height) * var(--board-scale) * 0.40);
 }
 
 
@@ -1195,10 +1174,10 @@ __        __              _
 .progress_token_small {
     position: relative;
     z-index: 5;
-    width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
-    height: calc(var(--progress-token-height) * var(--progress-token-small-scale));
-    background-size: calc(var(--progress-token-spritesheet-width) * var(--progress-token-small-scale)) calc(var(--progress-token-spritesheet-height) * var(--progress-token-small-scale));
-    border-radius: calc(var(--progress-token-width) * var(--progress-token-small-scale) * 0.5);
+    width: calc(var(--progress-token-width) * var(--progress-token-small-scale) * var(--element-scale));
+    height: calc(var(--progress-token-height) * var(--progress-token-small-scale) * var(--element-scale));
+    background-size: calc(var(--progress-token-spritesheet-width) * var(--progress-token-small-scale) * var(--element-scale)) calc(var(--progress-token-spritesheet-height) * var(--progress-token-small-scale) * var(--element-scale));
+    border-radius: calc(var(--progress-token-width) * var(--progress-token-small-scale) * var(--element-scale) * 0.5);
     box-shadow:
             0px 0px calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0,0,0,0.4),
             inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
