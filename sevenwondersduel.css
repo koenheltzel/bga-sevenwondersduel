@@ -250,15 +250,15 @@ __     __         _       _     _
 @keyframes endgame_highlight {
     from {
         outline-color: #ff000066;
-        outline-width: 8px;
+        outline-width: calc(10px * var(--scale));
         outline-style: double;
-        outline-offset: 1px;
+        outline-offset: calc(1px * var(--scale));
     }
     to {
         outline-color: #ff0000;
-        outline-width: 8px;
+        outline-width: calc(10px * var(--scale));
         outline-style: double;
-        outline-offset: 4px;
+        outline-offset: calc(4px * var(--scale));
     }
 }
 
