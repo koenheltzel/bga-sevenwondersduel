@@ -1144,6 +1144,23 @@ __        __              _
             inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
 }
 
+.wonder_small .swd_title_container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    text-align: center;
+    width: calc(var(--wonder-width) * var(--wonder-small-scale));
+    height: calc(var(--wonder-height) * var(--wonder-small-scale));
+}
+.wonder_small .swd_title {
+    position: relative;
+    top: calc(206px * var(--wonder-small-scale));
+    left: calc(-14px * var(--wonder-small-scale));
+    font: normal calc(15.5px * var(--wonder-small-scale)) "PossumSaltareNF";
+    text-transform: uppercase;
+    color: red;
+}
+
 /*
  ____                                      _____     _
 |  _ \ _ __ ___   __ _ _ __ ___  ___ ___  |_   _|__ | | _____ _ __  ___
@@ -1425,4 +1442,26 @@ __        __              _
 
 .payment_plan {
     margin: var(--gutter) 0px var(--gutter) var(--gutter);
+}
+
+/* font converted using font-converter.net. thank you! */
+@font-face {
+    font-family: "PossumSaltareNF";
+    src: url("img/PossumSaltareNF.eot"); /* IE9 Compat Modes */
+    src: url("img/PossumSaltareNF.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("img/PossumSaltareNF.otf") format("opentype"), /* Open Type Font */
+    url("img/PossumSaltareNF.svg") format("svg"), /* Legacy iOS */
+    url("img/PossumSaltareNF.ttf") format("truetype"), /* Safari, Android, iOS */
+    url("img/PossumSaltareNF.woff") format("woff"), /* Modern Browsers */
+    url("img/PossumSaltareNF.woff2") format("woff2"); /* Modern Browsers */
+    font-weight: normal;
+    font-style: normal;
+}
+
+.zone_title {
+    display: inline-block;
+    position: absolute;
+    font: normal 12px/12px "PossumSaltareNF";
+    height: 12px;
+    width: auto;
 }

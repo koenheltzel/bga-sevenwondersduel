@@ -178,40 +178,6 @@
                     <!-- END board_player -->
                 <!-- END board_column_block -->
             </div>
-
-            <!-- BEGIN block_catalog -->
-            <div>
-                <div class="whiteblock">
-                    <h3>Wonders:</h3>
-                    <div>
-                        <!-- BEGIN block_catalog_wonder -->
-                        <div id="catalog_wonder_{id}" data-wonder-id="{id}" class="wonder wonder_small"
-                             style="background-position: -{x}00% -{y}00%;"></div>
-                        <!-- END block_catalog_wonder -->
-                    </div>
-                </div>
-
-                <div class="whiteblock">
-                    <h3>Age cards:</h3>
-                    <div>
-                        <!-- BEGIN block_catalog_building -->
-                        <div id="catalog_building_{id}" data-building-id="{id}" class="building building_small"
-                             style="background-position: -{x}00% -{y}00%;"></div>
-                        <!-- END block_catalog_building -->
-                    </div>
-                </div>
-
-                <div class="whiteblock">
-                    <h3>Progress tokens:</h3>
-                    <div>
-                        <!-- BEGIN block_catalog_progress_token -->
-                        <div id="catalog_progress_token_{id}" data-progress-token-id="{id}"
-                             class="progress_token progress_token_small" style="background-position: -{x}00% -{y}00%;"></div>
-                        <!-- END block_catalog_progress_token -->
-                    </div>
-                </div>
-            </div>
-            <!-- END block_catalog -->
         </div>
         <div id="player_wonders_mobile_container_{PLAYER_ME_ID}">
             <div></div>
@@ -223,6 +189,40 @@
             <div class="discarded_cards_cursor"></div>
         </div>
     </div>
+
+    <!-- BEGIN block_catalog -->
+    <div>
+        <div class="whiteblock">
+            <h3>Wonders:</h3>
+            <div>
+                <!-- BEGIN block_catalog_wonder -->
+                <div id="catalog_wonder_{id}" data-wonder-id="{id}" class="wonder wonder_small"
+                     style="background-position: -{x}00% -{y}00%;"><span class="zone_title">{title}</span></div>
+                <!-- END block_catalog_wonder -->
+            </div>
+        </div>
+
+        <div class="whiteblock">
+            <h3>Age cards:</h3>
+            <div>
+                <!-- BEGIN block_catalog_building -->
+                <div id="catalog_building_{id}" data-building-id="{id}" class="building building_small"
+                     style="background-position: -{x}00% -{y}00%;"></div>
+                <!-- END block_catalog_building -->
+            </div>
+        </div>
+
+        <div class="whiteblock">
+            <h3>Progress tokens:</h3>
+            <div>
+                <!-- BEGIN block_catalog_progress_token -->
+                <div id="catalog_progress_token_{id}" data-progress-token-id="{id}"
+                     class="progress_token progress_token_small" style="background-position: -{x}00% -{y}00%;"></div>
+                <!-- END block_catalog_progress_token -->
+            </div>
+        </div>
+    </div>
+    <!-- END block_catalog -->
 </div>
 <!-- END swd -->
 
@@ -275,6 +275,9 @@ var jstpl_wonder = '\
             class="wonder wonder_small"\
             style="background-position: -${jsX}00% -${jsY}00%; "\
         >\
+            <div class="swd_title_container">\
+                <span class="swd_title">${jsName}</span>\
+            </div>\
             <div class="player_wonder_cost" style="display: ${jsDisplayCost}"><div class="coin"><span style="color: ${jsCostColor} !important">${jsCost}</span></div></div>\
         </div>\
         <div class="age_card_container"></div>\

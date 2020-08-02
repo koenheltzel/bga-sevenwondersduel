@@ -350,8 +350,10 @@ define([
             },
 
             getWonderDivHtml: function (wonderId, displayCost, cost, playerCoins) {
+                var wonder = this.gamedatas.wonders[wonderId];
                 var data = {
                     jsId: wonderId,
+                    jsName: wonder.name,
                     jsDisplayCost: displayCost ? 'inline-block' : 'none',
                     jsCost: this.getCostValue(cost),
                     jsCostColor: this.getCostColor(cost, playerCoins),
