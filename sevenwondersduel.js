@@ -971,7 +971,7 @@ define([
                     var spritesheetColumns = 5;
 
                     var data = {};
-                    data.name = wonder.name;
+                    data.jsName = wonder.name;
                     data.jsText = wonder.text;
                     data.jsBackX = ((id - 1) % spritesheetColumns);
                     data.jsBackY = Math.floor((id - 1) / spritesheetColumns);

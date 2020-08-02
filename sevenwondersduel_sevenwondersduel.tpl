@@ -337,14 +337,18 @@ var jstpl_building_tooltip = '\
 var jstpl_wonder_tooltip = '\
     <div class="swd_tooltip wonder_tooltip">\
         <div class="cardinfos">\
-            <strong>{WONDER} “${name}”</strong>\
+            <strong>{WONDER} “${jsName}”</strong>\
             <hr\>\
             <p>${jsText}</p>\
             <hr\>\
             ${jsCost}\
         </div>\
         <div>\
-            <div class="wonder tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;"></div>\
+            <div class="wonder tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
+            <div class="swd_title_container">\
+                <span class="swd_title">${jsName}</span>\
+            </div>\
+            </div>\
         </div>\
         <div class="clear"></div>\
     </div>';

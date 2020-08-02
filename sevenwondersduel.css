@@ -1144,7 +1144,7 @@ __        __              _
             inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
 }
 
-.wonder_small .swd_title_container {
+.wonder .swd_title_container {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -1152,7 +1152,7 @@ __        __              _
     width: calc(var(--wonder-width) * var(--wonder-small-scale));
     height: calc(var(--wonder-height) * var(--wonder-small-scale));
 }
-.wonder_small .swd_title {
+.wonder .swd_title {
     position: relative;
     top: calc(206px * var(--wonder-small-scale));
     left: calc(-14px * var(--wonder-small-scale));
