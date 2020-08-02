@@ -175,9 +175,6 @@ define([
                         dojo.hitch(this, "onProgressTokenFromBoxClick")
                     );
 
-                // Click hide the tooltip:
-                dojo.query('#swd_wrap').on("*:click", dojo.hitch(this, "hideTooltip"));
-
                 // Click handlers without event delegation:
                 dojo.query("#buttonConstructBuilding").on("click", dojo.hitch(this, "onPlayerTurnConstructBuildingClick"));
                 dojo.query("#buttonDiscardBuilding").on("click", dojo.hitch(this, "onPlayerTurnDiscardBuildingClick"));
@@ -1129,8 +1126,6 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
-                this.hideTooltip();
-
                 if (this.isCurrentPlayerActive()) {
                     var wonder = dojo.query(e.target);
 
@@ -1157,7 +1152,6 @@ define([
 
             notif_wonderSelected: function (notif) {
                 console.log('notif_wonderSelected', notif);
-                this.hideTooltip();
 
                 var wonderContainerNode = $('wonder_' + notif.args.wonderId + '_container');
                 var selectionContainer = wonderContainerNode.parentElement;
@@ -1209,8 +1203,6 @@ define([
                 console.log('onPlayerTurnDraftpoolClick');
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
-
-                this.hideTooltip();
 
                 if (this.isCurrentPlayerActive()) {
                     this.clearPlayerTurnNodeGlow();
@@ -2282,14 +2274,6 @@ define([
             // |  _  |  __/ | |_) |  __/ |    |  _|| |_| | | | | (__| |_| | (_) | | | \__ \
             // |_| |_|\___|_| .__/ \___|_|    |_|   \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
             //              |_|
-
-            hideTooltip: function () {
-                // Thanks to https://stackoverflow.com/a/35984527
-                if (dijit.Tooltip._masterTT) {
-                    dijit.Tooltip._masterTT.containerNode.innerHTML = '';
-                    dojo.removeClass(dijit.Tooltip._masterTT.id, "dijitTooltip");
-                }
-            },
 
             getPlayerAlias: function (playerId) {
                 return playerId == this.me_id ? 'me' : 'opponent'
