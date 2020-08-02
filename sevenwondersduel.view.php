@@ -147,18 +147,6 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                             "PLAYER_COLOR" => $tmpPlayer['player_color'],
                         ));
                     }
-
-//                    foreach ($categories as $category) {
-//                        $this->page->reset_subblocks('end_game_category_player');
-//                        foreach ([Player::me()->id, Player::opponent()->id] as $tmpPlayerId) {
-//                            $this->page->insert_block('end_game_category_player', array(
-//                                "PLAYER_ID" => $tmpPlayerId,
-//                            ));
-//                        }
-//                        $this->page->insert_block('end_game_category', array(
-//                            "CATEGORY" => $category,
-//                        ));
-//                    }
                     $this->page->insert_block("end_game");
                 }
             }
