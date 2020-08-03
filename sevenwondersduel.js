@@ -1830,7 +1830,8 @@ define([
                         return;
                     }
 
-                    var progressTokenId = dojo.attr(e.target, "data-progress-token-id");
+                    var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
+                    var progressTokenId = progressToken.attr("data-progress-token-id");
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseProgressToken.html", {
                             lock: true,
@@ -1980,7 +1981,8 @@ define([
                         return;
                     }
 
-                    var progressTokenId = dojo.attr(e.target, "data-progress-token-id");
+                    var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
+                    var progressTokenId = progressToken.attr("data-progress-token-id");
 
                     this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseProgressTokenFromBox.html", {
                             lock: true,
