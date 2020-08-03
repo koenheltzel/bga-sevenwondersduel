@@ -275,10 +275,8 @@ var jstpl_wonder = '\
             class="wonder wonder_small"\
             style="background-position: -${jsX}00% -${jsY}00%; "\
         >\
-            <div class="swd_title_container">\
-                <span class="swd_title">${jsName}</span>\
-            </div>\
             <div class="player_wonder_cost" style="display: ${jsDisplayCost}"><div class="coin"><span style="color: ${jsCostColor} !important">${jsCost}</span></div></div>\
+            <span class="swd_title">${jsName}</span>\
         </div>\
         <div class="age_card_container"></div>\
         <div class="card_outline"></div>\
@@ -345,9 +343,7 @@ var jstpl_wonder_tooltip = '\
         </div>\
         <div>\
             <div class="wonder tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
-            <div class="swd_title_container">\
                 <span class="swd_title">${jsName}</span>\
-            </div>\
             </div>\
         </div>\
         <div class="clear"></div>\

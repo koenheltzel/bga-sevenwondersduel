@@ -878,9 +878,6 @@ __     __         _       _     _
 .player_wonders .wonder_small {
     z-index: 2;
     position: absolute;
-    /* To vertically center the cost: */
-    display: flex;
-    align-items: center;
 }
 
 .player_wonders .age_card_container {
@@ -915,7 +912,8 @@ __     __         _       _     _
 
 .player_wonder_cost {
     left: calc(var(--wonder-width) * var(--wonder-small-scale) * 0.99);
-    position: relative;
+    top: calc(var(--wonder-height) * var(--wonder-small-scale) *0.4);
+    position: absolute;
     z-index: 2;
 }
 .player_wonder_cost .coin {
@@ -1142,6 +1140,7 @@ __        __              _
     box-shadow:
             0px 0px calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0,0,0,0.4),
             inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
+    text-align: center;
 }
 
 .wonder .swd_title_container {
@@ -1154,11 +1153,16 @@ __        __              _
 }
 .wonder .swd_title {
     position: relative;
-    top: calc(206px * var(--wonder-small-scale));
-    left: calc(-14px * var(--wonder-small-scale));
-    font: normal calc(15.5px * var(--wonder-small-scale)) "PossumSaltareNF";
+    top: 86%;
+    left: -3.5%;
+    font-family: "PossumSaltareNF";
+    font-size: 16px;
+    display: block;
     text-transform: uppercase;
-    color: red;
+    text-align: center;
+}
+.wonder_small .swd_title {
+    font-size: calc(16px * var(--wonder-small-scale));
 }
 
 /*
