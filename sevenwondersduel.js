@@ -1129,7 +1129,7 @@ define([
                 dojo.stopEvent(e);
 
                 if (this.isCurrentPlayerActive()) {
-                    var wonder = dojo.query(e.target);
+                    var wonder = dojo.hasClass(e.target, 'wonder') ? dojo.query(e.target) : dojo.query(e.target).closest(".wonder");
 
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
                     if (!this.checkAction('actionSelectWonder')) {
