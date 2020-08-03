@@ -295,6 +295,14 @@ var jstpl_progress_token = '\
         class="progress_token progress_token_small"\
         style="background-position: -${jsX}00% -${jsY}00%;"\
     >\
+        <svg viewBox="0 0 200 200">\
+            <path id="curve" fill="transparent" d="M14,97.526C13.19,144.073,51.722,184,99.5,184c47.28,0,85.77-39.112,85.5-85.491C184.732,52.519,146.437,14,99.5,14,52.808,14,14.791,52.1,14,97.526Z" />\
+            <text width="200">\
+                <textPath xlink:href="#curve" class="swd_title" text-anchor="middle" startOffset="25%">\
+                    ${jsName}\
+                </textPath>\
+            </text>\
+        </svg>\
     </div>';
 
 var jstpl_military_token = '<div class="military_token military_token_${jsValue}"></div>';
@@ -357,7 +365,16 @@ var jstpl_progress_token_tooltip = '\
             <p>${jsText}</p>\
         </div>\
         <div>\
-            <div class="progress_token tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;"></div>\
+            <div class="progress_token tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
+                <svg viewBox="0 0 200 200">\
+                    <path id="curve" fill="transparent" d="M14,97.526C13.19,144.073,51.722,184,99.5,184c47.28,0,85.77-39.112,85.5-85.491C184.732,52.519,146.437,14,99.5,14,52.808,14,14.791,52.1,14,97.526Z" />\
+                    <text width="200">\
+                        <textPath xlink:href="#curve" class="swd_title" text-anchor="middle" startOffset="25%">\
+                            ${jsName}\
+                        </textPath>\
+                    </text>\
+                </svg>\
+            </div>\
         </div>\
         <div class="clear"></div>\
     </div>';

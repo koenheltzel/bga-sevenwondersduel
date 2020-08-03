@@ -730,8 +730,10 @@ define([
             },
 
             getProgressTokenDivHtml: function(progressTokenId) {
+                var progressToken = this.gamedatas.progressTokens[progressTokenId];
                 var data = {
                     jsId: progressTokenId,
+                    jsName: progressToken.name,
                     jsData: 'data-progress-token-id="' + progressTokenId + '"',
                 };
                 var spritesheetColumns = 4;

@@ -100,7 +100,7 @@ __     __         _       _     _
     --linked-building-icon-small-scale: calc(0.45 * var(--scale));
 
     --board-width: 400px;
-    --board-height: 1440px;
+    --board-height: 1422px;
     --board-scale: calc(0.5 * var(--scale));
 
     --small-border-radius: 7px;
@@ -1151,18 +1151,25 @@ __        __              _
     width: calc(var(--wonder-width) * var(--wonder-small-scale));
     height: calc(var(--wonder-height) * var(--wonder-small-scale));
 }
+
+
+.swd_title {
+    font-family: "PossumSaltareNF";
+    text-align: center;
+    text-transform: uppercase;
+}
 .wonder .swd_title {
     position: relative;
     top: 86%;
     left: -3.5%;
-    font-family: "PossumSaltareNF";
     font-size: 16px;
     display: block;
-    text-transform: uppercase;
-    text-align: center;
 }
 .wonder_small .swd_title {
     font-size: calc(16px * var(--wonder-small-scale));
+}
+.progress_token .swd_title {
+    font-size: 22px;
 }
 
 /*
