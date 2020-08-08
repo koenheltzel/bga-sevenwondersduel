@@ -122,6 +122,16 @@ __     __         _       _     _
  \____|\___|_| |_|\___|_|  \__,_|_|
  */
 
+html {
+    background-image: none !important;
+    background-color: black;
+}
+.whiteblock {
+    background-image: none !important;
+    /*background: url('https://en.1.studio.boardgamearena.com:8083/data/themereleases/200730-1036/img/layout/back-main.jpg') !important;*/
+    background-color: white;
+}
+
 #game_play_area {
 
 }
