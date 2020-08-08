@@ -168,7 +168,8 @@ __     __         _       _     _
     box-shadow:
         calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 3px) 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px calc(var(--scale) * 1px) #00000060;
-    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
 }
 .resource>span, .coin>span {
     font-weight: bold;
@@ -197,7 +198,8 @@ __     __         _       _     _
 .glass, .papyrus {
     border-radius: unset;
     box-shadow: none;
-    filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #000000);
+    -webkit-filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #000000);
+            filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #000000);
 }
 
 .current_player_is_active .coin>span {
@@ -222,14 +224,38 @@ __     __         _       _     _
     cursor: default;
 }
 
-@keyframes tooltipWiggle {
+@-webkit-keyframes tooltipWiggle {
     from {
         transform: perspective(40em) rotateY(-18deg) scale(0.93); /* The 0.95 makes the graphic fit the tooltip better */
-        animation-timing-function: ease-in-out;
+        -webkit-animation-timing-function: ease-in-out;
+                animation-timing-function: ease-in-out;
     }
     to {
         transform: perspective(40em) rotateY(-10deg) scale(0.93); /* The 0.95 makes the graphic fit the tooltip better */
-        animation-timing-function: ease-in-out;
+        -webkit-animation-timing-function: ease-in-out;
+                animation-timing-function: ease-in-out;
+    }
+}
+
+@keyframes tooltipWiggle {
+    from {
+        transform: perspective(40em) rotateY(-18deg) scale(0.93); /* The 0.95 makes the graphic fit the tooltip better */
+        -webkit-animation-timing-function: ease-in-out;
+                animation-timing-function: ease-in-out;
+    }
+    to {
+        transform: perspective(40em) rotateY(-10deg) scale(0.93); /* The 0.95 makes the graphic fit the tooltip better */
+        -webkit-animation-timing-function: ease-in-out;
+                animation-timing-function: ease-in-out;
+    }
+}
+
+@-webkit-keyframes glow {
+    from {
+        box-shadow: 0 0 5px 4px #f1dec8;
+    }
+    to {
+        box-shadow: 0 0 5px 6px #f1dec8;
     }
 }
 
@@ -243,8 +269,24 @@ __     __         _       _     _
 }
 
 .endgame_highlight {
-    animation: endgame_highlight 0.5s infinite alternate;
+    -webkit-animation: endgame_highlight 0.5s infinite alternate;
+            animation: endgame_highlight 0.5s infinite alternate;
     z-index: 200;
+}
+
+@-webkit-keyframes endgame_highlight {
+    from {
+        outline-color: #ff000066;
+        outline-width: calc(10px * var(--scale));
+        outline-style: double;
+        outline-offset: calc(1px * var(--scale));
+    }
+    to {
+        outline-color: #ff0000;
+        outline-width: calc(10px * var(--scale));
+        outline-style: double;
+        outline-offset: calc(4px * var(--scale));
+    }
 }
 
 @keyframes endgame_highlight {
@@ -263,8 +305,24 @@ __     __         _       _     _
 }
 
 .red_border {
-    animation: red_border 0.5s infinite alternate;
+    -webkit-animation: red_border 0.5s infinite alternate;
+            animation: red_border 0.5s infinite alternate;
     z-index: 20;
+}
+
+@-webkit-keyframes red_border {
+    from {
+        outline-color: #ff000066;
+        outline-width: 3px;
+        outline-style: dashed;
+        outline-offset: 1px;
+    }
+    to {
+        outline-color: #ff0000;
+        outline-width: 3px;
+        outline-style: dashed;
+        outline-offset: 1px;
+    }
 }
 
 @keyframes red_border {
@@ -403,7 +461,8 @@ __     __         _       _     _
     background-image: url('img/board.png');
     background-size: calc(var(--board-width) * var(--board-scale)) calc(var(--board-height) * var(--board-scale));
     /*border-radius: var(--small-border-radius);*/
-    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+    -webkit-filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+            filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
     position: absolute;
     display: inline-block;
 }
@@ -416,7 +475,8 @@ __     __         _       _     _
     left: calc(var(--scale) * 50px);
     top: calc((var(--military-track-header) + (var(--conflict-pawn-position) + 9) / 18 * var(--military-track-body)) * var(--board-height) * var(--board-scale));
     /*border-radius: var(--small-border-radius);*/
-    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+    -webkit-filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+            filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
     position: absolute;
     display: inline-block;
     z-index: 3;
@@ -486,7 +546,8 @@ __     __         _       _     _
 
 .military_token {
     border-radius: calc(var(--board-scale) * 10px);
-    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+    -webkit-filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+            filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
     position: relative;
     /*display: inline-block;*/
 }
@@ -541,7 +602,8 @@ __     __         _       _     _
 }
 
 .glow {
-    animation: glow 0.5s infinite alternate;
+    -webkit-animation: glow 0.5s infinite alternate;
+            animation: glow 0.5s infinite alternate;
 }
 
 .draftpool_building_cost {
@@ -1097,7 +1159,8 @@ Because of reversing the flexbox order for the opponent there are 2 different ru
         0px 0px calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0,0,0,0.4),
         inset 0px 0px 0px calc(var(--scale) * 0.5px) #00000060;
     text-align: center;
-    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
 }
 
 .age1_back { background-position: -300% -700%; }
@@ -1447,7 +1510,8 @@ __        __              _
     width: 500px;
 }
 .tooltipWiggle {
-    animation: tooltipWiggle 2s infinite alternate;
+    -webkit-animation: tooltipWiggle 2s infinite alternate;
+            animation: tooltipWiggle 2s infinite alternate;
     align-self: center;
 }
 
