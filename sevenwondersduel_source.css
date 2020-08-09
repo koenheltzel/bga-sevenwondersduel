@@ -126,6 +126,7 @@ html {
     background-image: none !important;
     background-color: black;
 }
+
 .whiteblock {
     background-image: none !important;
     /*background: url('https://en.1.studio.boardgamearena.com:8083/data/themereleases/200730-1036/img/layout/back-main.jpg') !important;*/
@@ -163,10 +164,12 @@ html {
 .opponent .coin, .coin.opponent {
     background-image: url('img/tmp_coin_opponent.png');
 }
+
 .coin.animated {
     position: absolute;
     z-index: 100;
 }
+
 .resource, .coin {
     background-image: url('img/tmp_coin.png');
     width: calc(var(--scale) * var(--element-scale) * 30px);
@@ -175,42 +178,47 @@ html {
     display: inline-block;
     text-align: center;
     border-radius: calc(30px * 0.5);
-    box-shadow:
-        calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 3px) 0 rgba(0,0,0,0.4),
-        inset 0 0 0 calc(var(--scale) * 1px) #00000060;
+    box-shadow: calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 3px) 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 calc(var(--scale) * 1px) #00000060;
     backface-visibility: hidden;
 }
-.resource>span, .coin>span {
+
+.resource > span, .coin > span {
     font-weight: bold;
     font-size: calc(var(--scale) * var(--element-scale) * 20px);
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
     text-shadow: 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white;
-    color:black;
+    color: black;
     cursor: default;
 }
 
 .wood {
     background-image: url('img/tmp_wood.png');
 }
+
 .clay {
     background-image: url('img/tmp_clay.png');
 }
+
 .stone {
     background-image: url('img/tmp_stone.png');
 }
+
 .glass {
     background-image: url('img/tmp_glass.png');
 }
+
 .papyrus {
     background-image: url('img/tmp_papyrus.png');
 }
+
 .glass, .papyrus {
     border-radius: unset;
     box-shadow: none;
     filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #000000);
 }
 
-.current_player_is_active .coin>span {
+.current_player_is_active .coin > span {
     cursor: pointer;
 }
 
@@ -223,12 +231,13 @@ html {
     position: absolute;
     z-index: 10; /* Fly over military track during end game animation */
 }
-.point>span {
+
+.point > span {
     font-weight: bold;
     font-size: calc(var(--scale) * var(--element-scale) * 20px);
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
-    text-shadow: 0 0 calc(var(--scale) * 3px) black,0 0 calc(var(--scale) * 3px) black;
-    color:white;
+    text-shadow: 0 0 calc(var(--scale) * 3px) black, 0 0 calc(var(--scale) * 3px) black;
+    color: white;
     cursor: default;
 }
 
@@ -323,7 +332,7 @@ html {
     flex-wrap: wrap;
 }
 
-#wonder_column>div:first-child .player_wonders {
+#wonder_column > div:first-child .player_wonders {
     /* Space between the two player areas with wonders, relevant in square mode where they would otherwise touch. */
     margin-bottom: var(--gutter);
 }
@@ -342,21 +351,23 @@ html {
 #wonder_selection_block {
     display: none;
 }
+
 #swd[data-state=selectWonder] #wonder_selection_block {
     display: block;
 }
 
-#wonder_selection_container>div {
+#wonder_selection_container > div {
     width: calc(var(--wonder-small-scale) * var(--wonder-width));
     height: calc(var(--wonder-small-scale) * var(--wonder-height));
     float: left;
     --wonder-small-scale: calc(0.8 * var(--scale));
 }
 
-#wonder_selection_container>div:nth-of-type(1), #wonder_selection_container>div:nth-of-type(2) {
+#wonder_selection_container > div:nth-of-type(1), #wonder_selection_container > div:nth-of-type(2) {
     margin-bottom: var(--gutter);
 }
-#wonder_selection_container>div:nth-of-type(1), #wonder_selection_container>div:nth-of-type(3) {
+
+#wonder_selection_container > div:nth-of-type(1), #wonder_selection_container > div:nth-of-type(3) {
     margin-right: var(--gutter);
 }
 
@@ -373,7 +384,7 @@ html {
     align-items: center;
     flex-wrap: wrap;
 
-    width: calc(7 * var(--building-small-width) + 6 * 2px + 2 * var(--gutter));/* This keeps content in the middle_column, especially something like select_start_player within the allowed size. */
+    width: calc(7 * var(--building-small-width) + 6 * 2px + 2 * var(--gutter)); /* This keeps content in the middle_column, especially something like select_start_player within the allowed size. */
 }
 
 #board_column {
@@ -382,14 +393,17 @@ html {
     justify-content: space-between;
     flex-wrap: wrap;
 }
+
 #swd_wrap.portrait #board_column {
     /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
     width: calc(220px * var(--scale));
 }
+
 #swd_wrap.square #board_column, #swd_wrap.landscape #board_column {
     /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
     width: calc(225px * var(--scale));
 }
+
 /*
  ____                      _
 | __ )  ___   __ _ _ __ __| |
@@ -433,7 +447,6 @@ html {
 }
 
 
-
 #board_progress_tokens {
     --element-scale: 1.1;
     position: relative;
@@ -443,53 +456,53 @@ html {
     height: calc(var(--board-height) * var(--board-scale) * 0.5);
 }
 
-#board_progress_tokens>div {
+#board_progress_tokens > div {
     position: absolute;
     width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
     height: calc(var(--progress-token-width) * var(--progress-token-small-scale));
 }
 
-#board_progress_tokens>div:nth-of-type(1) {
+#board_progress_tokens > div:nth-of-type(1) {
 
 }
 
-#board_progress_tokens>div:nth-of-type(2) {
+#board_progress_tokens > div:nth-of-type(2) {
     top: calc(var(--board-height) * var(--board-scale) * 0.10);
 }
 
-#board_progress_tokens>div:nth-of-type(3) {
+#board_progress_tokens > div:nth-of-type(3) {
     top: calc(var(--board-height) * var(--board-scale) * 0.20);
 }
 
-#board_progress_tokens>div:nth-of-type(4) {
+#board_progress_tokens > div:nth-of-type(4) {
     top: calc(var(--board-height) * var(--board-scale) * 0.30);
 }
 
-#board_progress_tokens>div:nth-of-type(5) {
+#board_progress_tokens > div:nth-of-type(5) {
     top: calc(var(--board-height) * var(--board-scale) * 0.40);
 }
 
 
-#military_tokens>div {
+#military_tokens > div {
     position: absolute;
 }
 
-#military_tokens>div:nth-of-type(1) {
+#military_tokens > div:nth-of-type(1) {
     left: calc(var(--board-width) * var(--board-scale) * 0.0775);
     top: calc(var(--board-height) * var(--board-scale) * 0.104);
 }
 
-#military_tokens>div:nth-of-type(2) {
+#military_tokens > div:nth-of-type(2) {
     left: calc(var(--board-width) * var(--board-scale) * 0.095);
     top: calc(var(--board-height) * var(--board-scale) * 0.257);
 }
 
-#military_tokens>div:nth-of-type(3) {
+#military_tokens > div:nth-of-type(3) {
     left: calc(var(--board-width) * var(--board-scale) * 0.095);
     top: calc(var(--board-height) * var(--board-scale) * 0.643);
 }
 
-#military_tokens>div:nth-of-type(4) {
+#military_tokens > div:nth-of-type(4) {
     left: calc(var(--board-width) * var(--board-scale) * 0.0775);
     top: calc(var(--board-height) * var(--board-scale) * 0.778);
 }
@@ -557,12 +570,15 @@ html {
 .draftpool_building_cost {
     position: relative;
 }
+
 .draftpool_building_cost.opponent {
     top: calc(var(--building-height) * var(--building-small-scale) * 0.73);
 }
+
 .draftpool_building_cost.me {
     top: calc(var(--building-height) * var(--building-small-scale) * 0.80);
 }
+
 .draftpool_building_cost .coin {
     --element-scale: 0.85;
 }
@@ -571,11 +587,13 @@ html {
     text-align: center;
     visibility: hidden;
 }
-#draftpool_actions>a>div {
+
+#draftpool_actions > a > div {
     margin-right: var(--gutter);
 }
-#draftpool_actions>a {
-    margin:0;
+
+#draftpool_actions > a {
+    margin: 0;
     height: calc(34px * var(--scale));
     font-size: calc(14px * var(--scale));
     line-height: calc(34px * var(--scale));
@@ -588,32 +606,86 @@ html {
 #buttonDiscardBuilding {
     float: right;
 }
+
 #buttonDiscardBuilding .coin {
     --element-scale: calc(2.0 - var(--scale));
 }
-#buttonDiscardBuilding .coin>span {
+
+#buttonDiscardBuilding .coin > span {
 
 }
 
-#draftpool .column1 { left: calc(var(--draftpool-column-width) * (1 - 1)); }
-#draftpool .column2 { left: calc(var(--draftpool-column-width) * (2 - 1)); }
-#draftpool .column3 { left: calc(var(--draftpool-column-width) * (3 - 1)); }
-#draftpool .column4 { left: calc(var(--draftpool-column-width) * (4 - 1)); }
-#draftpool .column5 { left: calc(var(--draftpool-column-width) * (5 - 1)); }
-#draftpool .column6 { left: calc(var(--draftpool-column-width) * (6 - 1)); }
-#draftpool .column7 { left: calc(var(--draftpool-column-width) * (7 - 1)); }
-#draftpool .column8 { left: calc(var(--draftpool-column-width) * (8 - 1)); }
-#draftpool .column9 { left: calc(var(--draftpool-column-width) * (9 - 1)); }
-#draftpool .column10 { left: calc(var(--draftpool-column-width) * (10 - 1)); }
-#draftpool .column11 { left: calc(var(--draftpool-column-width) * (11 - 1)); }
+#draftpool .column1 {
+    left: calc(var(--draftpool-column-width) * (1 - 1));
+}
 
-#draftpool .row1 { top: calc(var(--draftpool-row-height) * (1 - 1)); }
-#draftpool .row2 { top: calc(var(--draftpool-row-height) * (2 - 1)); }
-#draftpool .row3 { top: calc(var(--draftpool-row-height) * (3 - 1)); }
-#draftpool .row4 { top: calc(var(--draftpool-row-height) * (4 - 1)); }
-#draftpool .row5 { top: calc(var(--draftpool-row-height) * (5 - 1)); }
-#draftpool .row6 { top: calc(var(--draftpool-row-height) * (6 - 1)); }
-#draftpool .row7 { top: calc(var(--draftpool-row-height) * (7 - 1)); }
+#draftpool .column2 {
+    left: calc(var(--draftpool-column-width) * (2 - 1));
+}
+
+#draftpool .column3 {
+    left: calc(var(--draftpool-column-width) * (3 - 1));
+}
+
+#draftpool .column4 {
+    left: calc(var(--draftpool-column-width) * (4 - 1));
+}
+
+#draftpool .column5 {
+    left: calc(var(--draftpool-column-width) * (5 - 1));
+}
+
+#draftpool .column6 {
+    left: calc(var(--draftpool-column-width) * (6 - 1));
+}
+
+#draftpool .column7 {
+    left: calc(var(--draftpool-column-width) * (7 - 1));
+}
+
+#draftpool .column8 {
+    left: calc(var(--draftpool-column-width) * (8 - 1));
+}
+
+#draftpool .column9 {
+    left: calc(var(--draftpool-column-width) * (9 - 1));
+}
+
+#draftpool .column10 {
+    left: calc(var(--draftpool-column-width) * (10 - 1));
+}
+
+#draftpool .column11 {
+    left: calc(var(--draftpool-column-width) * (11 - 1));
+}
+
+#draftpool .row1 {
+    top: calc(var(--draftpool-row-height) * (1 - 1));
+}
+
+#draftpool .row2 {
+    top: calc(var(--draftpool-row-height) * (2 - 1));
+}
+
+#draftpool .row3 {
+    top: calc(var(--draftpool-row-height) * (3 - 1));
+}
+
+#draftpool .row4 {
+    top: calc(var(--draftpool-row-height) * (4 - 1));
+}
+
+#draftpool .row5 {
+    top: calc(var(--draftpool-row-height) * (5 - 1));
+}
+
+#draftpool .row6 {
+    top: calc(var(--draftpool-row-height) * (6 - 1));
+}
+
+#draftpool .row7 {
+    top: calc(var(--draftpool-row-height) * (7 - 1));
+}
 
 /*
  ____  _             _           _                                  _           _   _
@@ -634,11 +706,11 @@ html {
     align-items: center;
 }
 
-#select_start_player>.action_button>img {
+#select_start_player > .action_button > img {
     margin-right: var(--gutter);
 }
 
-#select_start_player>div {
+#select_start_player > div {
     margin: 0 var(--gutter) 0 var(--gutter);
     word-wrap: break-spaces;
     line-height: calc(18px * var(--scale));
@@ -648,8 +720,9 @@ html {
     max-width: 60%;
     font-weight: bold;
 }
-#select_start_player>.action_button {
-    margin:0;
+
+#select_start_player > .action_button {
+    margin: 0;
     height: calc(34px * var(--scale));
     line-height: calc(34px * var(--scale));
     text-overflow: unset;
@@ -675,6 +748,7 @@ html {
 #progress_token_from_box {
     display: none;
 }
+
 #swd[data-state=chooseProgressTokenFromBox] #progress_token_from_box {
     display: block;
 }
@@ -682,13 +756,15 @@ html {
 .current_player_is_active #progress_token_from_box_container .progress_token {
     cursor: pointer;
 }
-#progress_token_from_box_container>div {
+
+#progress_token_from_box_container > div {
     display: inline-block;
     --progress-token-small-scale: calc(0.5 * var(--scale));
     width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
     height: calc(var(--progress-token-height) * var(--progress-token-small-scale));
 }
-#progress_token_from_box_container>div:not(:last-child) {
+
+#progress_token_from_box_container > div:not(:last-child) {
     margin-right: var(--gutter);
 }
 
@@ -702,26 +778,31 @@ html {
  */
 
 .player_info_sub {
-    display : flex;
-    align-items : center;
+    display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
 .player_info {
     text-align: center;
 }
+
 .player_info.opponent {
     margin-bottom: var(--gutter) !important;
 }
+
 .player_info.me {
     margin-top: var(--gutter) !important;
 }
+
 #swd_wrap.portrait .player_info.opponent {
-    border-radius:  0 0 var(--small-border-radius) 0;
+    border-radius: 0 0 var(--small-border-radius) 0;
 }
+
 #swd_wrap.portrait .player_info.me {
     border-radius: 0 var(--small-border-radius) 0 0;
 }
+
 #swd_wrap.square .player_info, #swd_wrap.landscape .player_info {
     border-radius: 0 var(--small-border-radius) var(--small-border-radius) 0;
 }
@@ -732,8 +813,9 @@ html {
     width: 75%;
     text-align: center;
 }
+
 .player_area_name h3 {
-    margin:0 !important;
+    margin: 0 !important;
 }
 
 .player_buildings.me {
@@ -750,15 +832,19 @@ html {
     align-items: flex-end;
     justify-content: space-between;
 }
+
 #swd_wrap.square .player_buildings.opponent, #swd_wrap.landscape .player_buildings.opponent {
     border-radius: 0 0 var(--small-border-radius) 0;
 }
+
 #swd_wrap.square .player_buildings.me, #swd_wrap.landscape .player_buildings.me {
     border-radius: 0 var(--small-border-radius) 0 0;
 }
+
 #swd_wrap.portrait .player_buildings.opponent {
     border-radius: 0 0 var(--small-border-radius) var(--small-border-radius);
 }
+
 #swd_wrap.portrait .player_buildings.me {
     border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
 }
@@ -774,10 +860,12 @@ html {
     background-position: bottom !important;
     margin: 0 1px 0 1px;
 }
+
 .player_buildings.opponent .player_building_column {
     background-position: bottom !important;
     flex-direction: column-reverse;
 }
+
 .player_buildings.me .player_building_column {
     background-position: top !important;
 }
@@ -868,6 +956,7 @@ html {
     color: #006c2f;
     text-shadow: 1px 1px 1px #FFFFFF;
 }
+
 .science_progress span {
     cursor: default;
     pointer-events: none;
@@ -876,15 +965,19 @@ html {
 #swd_wrap.portrait .player_wonders.opponent {
     border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
 }
+
 #swd_wrap.portrait .player_wonders.me {
     border-radius: 0 0 var(--small-border-radius) var(--small-border-radius);
 }
+
 #swd_wrap.square .player_wonders.opponent, #swd_wrap.landscape .player_wonders.opponent {
     border-radius: var(--small-border-radius) 0 var(--small-border-radius) var(--small-border-radius);
 }
+
 #swd_wrap.square .player_wonders.me, #swd_wrap.landscape .player_wonders.me {
     border-radius: var(--small-border-radius) var(--small-border-radius) 0 var(--small-border-radius);
 }
+
 .player_wonders .wonder_small {
     z-index: 2;
     position: absolute;
@@ -912,7 +1005,7 @@ html {
 }
 
 .player_wonders .red_border {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .player_wonders .age_card_container .building_small {
@@ -922,10 +1015,11 @@ html {
 
 .player_wonder_cost {
     left: calc(var(--wonder-width) * var(--wonder-small-scale) * 0.99);
-    top: calc(var(--wonder-height) * var(--wonder-small-scale) *0.4);
+    top: calc(var(--wonder-height) * var(--wonder-small-scale) * 0.4);
     position: absolute;
     z-index: 2;
 }
+
 .player_wonder_cost .coin {
     --element-scale: 0.85;
 }
@@ -934,10 +1028,12 @@ html {
     width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
     height: calc(4 * var(--wonder-small-scale) * var(--wonder-height) + 3 * var(--gutter));
 }
+
 #swd_wrap.landscape .player_wonders {
     width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
     height: calc(2 * var(--wonder-small-scale) * var(--wonder-height) + 1 * var(--gutter));
 }
+
 #swd_wrap.portrait .player_wonders {
     min-width: calc(4 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 3 * var(--gutter));
     height: calc(var(--wonder-small-scale) * var(--wonder-height));
@@ -955,6 +1051,7 @@ html {
 .player_wonders > div:not(:last-child) {
     margin-right: var(--gutter);
 }
+
 .player_wonders > div {
     width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
     height: calc(var(--wonder-small-scale) * var(--wonder-height));
@@ -965,16 +1062,19 @@ html {
     text-align: center;
     position: relative;
 }
-.player_area_progress_tokens>div {
+
+.player_area_progress_tokens > div {
     display: inline-block;
     position: relative;
     width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
     height: calc(var(--progress-token-height) * var(--progress-token-small-scale));
 }
-.player_area_progress_tokens>div:nth-of-type(4)>div, .player_area_progress_tokens>div:nth-of-type(5)>div, .player_area_progress_tokens>div:nth-of-type(6)>div {
+
+.player_area_progress_tokens > div:nth-of-type(4) > div, .player_area_progress_tokens > div:nth-of-type(5) > div, .player_area_progress_tokens > div:nth-of-type(6) > div {
     margin-bottom: calc(-12px * var(--scale));
 }
-.player_area_progress_tokens>div:nth-of-type(4), .player_area_progress_tokens>div:nth-of-type(5), .player_area_progress_tokens>div:nth-of-type(6) {
+
+.player_area_progress_tokens > div:nth-of-type(4), .player_area_progress_tokens > div:nth-of-type(5), .player_area_progress_tokens > div:nth-of-type(6) {
     position: relative;
     top: calc(-8px * var(--scale));
     margin-bottom: calc(-12px * var(--scale));
@@ -993,6 +1093,7 @@ html {
     z-index: 105; /* So animated coins fly under it */
     position: relative; /* For the z-index to work */
 }
+
 .player_area_points {
     /* Define width/height to keep the same position when the points icon moves to the end game table. */
     width: calc(var(--scale) * 30px);
@@ -1051,9 +1152,8 @@ html {
     height: var(--building-height);
     background-image: url('img/buildings.jpg');
     border-radius: 14px;
-    box-shadow:
-        calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0,0,0,0.4),
-        inset 0 0 0 calc(var(--scale) * 1px) #00000060;
+    box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 calc(var(--scale) * 1px) #00000060;
     display: inline-block;
     position: relative;
 }
@@ -1063,9 +1163,8 @@ html {
     height: var(--building-header-small-height);
     background-size: calc(var(--building-spritesheet-width) * var(--building-small-scale)) calc(var(--building-spritesheet-height) * var(--building-small-scale));
     border-radius: var(--small-border-radius);
-    box-shadow:
-            0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0,0,0,0.4),
-            inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
+    box-shadow: 0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0, 0, 0, 0.4),
+    inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
     display: block;
     position: relative; /* For the sliding animation (draftpool to player area) to work */
     z-index: 15; /* So they are on top of the draftpool buildings during animation */
@@ -1082,6 +1181,7 @@ Because of reversing the flexbox order for the opponent there are 2 different ru
 .player_buildings.me .player_building_column.red_border .building_header_small_container:not(:last-child) {
     margin-bottom: calc(2 * var(--gutter));
 }
+
 .player_buildings.opponent .player_building_column.red_border .building_header_small_container:not(:first-child) {
     margin-bottom: calc(2 * var(--gutter));
 }
@@ -1091,8 +1191,7 @@ Because of reversing the flexbox order for the opponent there are 2 different ru
 }
 
 .current_player_is_active #swd[data-state=playerTurn] #draftpool .building_small.available,
-.current_player_is_active #swd[data-state=client_useAgeCard] #draftpool .building_small.available
-{
+.current_player_is_active #swd[data-state=client_useAgeCard] #draftpool .building_small.available {
     cursor: pointer;
 }
 
@@ -1101,17 +1200,27 @@ Because of reversing the flexbox order for the opponent there are 2 different ru
     height: var(--building-small-height);
     background-size: calc(var(--building-spritesheet-width) * var(--building-small-scale)) calc(var(--building-spritesheet-height) * var(--building-small-scale));
     border-radius: var(--small-border-radius);
-    box-shadow:
-        0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0,0,0,0.4),
-        inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
+    box-shadow: 0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0, 0, 0, 0.4),
+    inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
     text-align: center;
     backface-visibility: hidden;
 }
 
-.age1_back { background-position: -300% -700%; }
-.age2_back { background-position: -400% -700%; }
-.age3_back { background-position: -500% -700%; }
-.guild_back { background-position: -600% -700%; }
+.age1_back {
+    background-position: -300% -700%;
+}
+
+.age2_back {
+    background-position: -400% -700%;
+}
+
+.age3_back {
+    background-position: -500% -700%;
+}
+
+.guild_back {
+    background-position: -600% -700%;
+}
 
 /*
 __        __              _
@@ -1131,9 +1240,8 @@ __        __              _
     height: var(--wonder-height);
     background-image: url('img/wonders.jpg');
     border-radius: var(--wonder-border-radius);
-    box-shadow:
-        calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0,0,0,0.4),
-        inset 0 0 0 1px #00000060;
+    box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px #00000060;
 
     /* Temporary: */
     display: inline-block;
@@ -1145,9 +1253,8 @@ __        __              _
     height: calc(var(--wonder-height) * var(--wonder-small-scale));
     background-size: calc(var(--wonder-spritesheet-width) * var(--wonder-small-scale)) calc(var(--wonder-spritesheet-height) * var(--wonder-small-scale));
     border-radius: var(--small-border-radius);
-    box-shadow:
-            0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0,0,0,0.4),
-            inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
+    box-shadow: 0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0, 0, 0, 0.4),
+    inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
     text-align: center;
 }
 
@@ -1166,6 +1273,7 @@ __        __              _
     text-align: center;
     text-transform: uppercase;
 }
+
 .building .swd_title {
     position: absolute;
     top: 89%;
@@ -1175,6 +1283,7 @@ __        __              _
     margin-right: auto;
     width: var(--building-width);
 }
+
 .building_small .swd_title {
     top: 89.5%;
     font-size: calc(13.5px * var(--building-small-scale));
@@ -1182,6 +1291,7 @@ __        __              _
     margin-right: auto;
     width: var(--building-small-width);
 }
+
 .wonder .swd_title {
     position: relative;
     top: 86%;
@@ -1189,9 +1299,11 @@ __        __              _
     font-size: 16px;
     display: block;
 }
+
 .wonder_small .swd_title {
     font-size: calc(16px * var(--wonder-small-scale));
 }
+
 .progress_token .swd_title {
     font-size: 22px;
 }
@@ -1214,9 +1326,8 @@ __        __              _
     height: var(--progress-token-height);
     background-image: url('img/progress_tokens.jpg');
     border-radius: calc(var(--progress-token-width) * 0.5);
-    box-shadow:
-        calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0,0,0,0.4),
-        inset 0 0 0 calc(var(--scale) * 1px) #00000060;
+    box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 calc(var(--scale) * 1px) #00000060;
 
     /* Temporary: */
     display: inline-block;
@@ -1230,9 +1341,8 @@ __        __              _
     height: calc(var(--progress-token-height) * var(--progress-token-small-scale) * var(--element-scale));
     background-size: calc(var(--progress-token-spritesheet-width) * var(--progress-token-small-scale) * var(--element-scale)) calc(var(--progress-token-spritesheet-height) * var(--progress-token-small-scale) * var(--element-scale));
     border-radius: calc(var(--progress-token-width) * var(--progress-token-small-scale) * var(--element-scale) * 0.5);
-    box-shadow:
-            0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0,0,0,0.4),
-            inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
+    box-shadow: 0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0, 0, 0, 0.4),
+    inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
 }
 
 .linked_building_icon {
@@ -1242,9 +1352,8 @@ __        __              _
     position: absolute;
     border-radius: calc(var(--scale) * 3px);
     display: inline-block;
-    box-shadow:
-        calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0 rgba(0,0,0,0.4),
-        inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
+    box-shadow: calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
 }
 
 .linked_building_icon_small {
@@ -1255,10 +1364,10 @@ __        __              _
     left: calc(var(--building-small-width) * 0.55);
     top: calc(var(--scale) * 18px);
     z-index: 2;
-    box-shadow:
-        calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 1px) 0 rgba(0,0,0,0.3),
-        inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
+    box-shadow: calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 1px) 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
 }
+
 .opponent .linked_building_icon_small {
     top: calc(var(--scale) * -7px);
 }
@@ -1281,6 +1390,7 @@ __        __              _
 #discarded_cards_container {
     margin: 0 calc(0px - var(--gutter)) calc(0px - var(--gutter)) 0;
 }
+
 #discarded_cards_container div {
     position: relative !important;
     display: inline-block;
@@ -1314,6 +1424,7 @@ __        __              _
     /* Trick to hide white borders on the outside of the table. */
     border-style: hidden;
 }
+
 #end_game_container td {
     border: calc(3px * var(--scale)) solid #ffffff88;
     padding: calc(5px * var(--scale)) calc(1px * var(--scale)) calc(5px * var(--scale)) calc(1px * var(--scale));
@@ -1337,6 +1448,7 @@ __        __              _
 .end_game_icon {
     display: inline-block;
 }
+
 .end_game_card {
     background-size: calc(var(--scale) * 29px) calc(var(--scale) * 44px);
     width: calc(var(--scale) * 29px);
@@ -1349,6 +1461,7 @@ __        __              _
     background-color: #0074bc30;
     text-shadow: 0 0 0 #000000bb;
 }
+
 .end_game_blue .end_game_card {
     background-image: url('img/tmp_card_blue.png');
 }
@@ -1358,6 +1471,7 @@ __        __              _
     background-color: #008d4830;
     text-shadow: 0 0 0 #000000bb;
 }
+
 .end_game_green .end_game_card {
     background-image: url('img/tmp_card_green.png');
 }
@@ -1367,6 +1481,7 @@ __        __              _
     background-color: #fccc1430;
     text-shadow: 0 0 0 #000000bb;
 }
+
 .end_game_yellow .end_game_card {
     background-image: url('img/tmp_card_yellow.png');
 }
@@ -1376,6 +1491,7 @@ __        __              _
     background-color: #7a5b9230;
     text-shadow: 0 0 0 #000000bb;
 }
+
 .end_game_purple .end_game_card {
     background-image: url('img/tmp_card_purple.png');
 }
@@ -1385,6 +1501,7 @@ __        __              _
     background-color: #f7c16130;
     text-shadow: 0 0 0 #000000bb;
 }
+
 .end_game_wonders .end_game_card {
     background-image: url('img/tmp_construct_wonder_icon.png');
     background-size: calc(var(--scale) * 58px) calc(var(--scale) * 44px);
@@ -1397,6 +1514,7 @@ __        __              _
     background-color: #1b633230;
     text-shadow: 0 0 0 #000000bb;
 }
+
 .end_game_progresstokens .end_game_card {
     background-image: url('img/tmp_end_game_progress.png');
     background-size: calc(var(--scale) * 44px) calc(var(--scale) * 44px);
@@ -1409,6 +1527,7 @@ __        __              _
     background-color: #e0bd0e30;
     text-shadow: 0 0 0 #000000bb;
 }
+
 .end_game_coins .end_game_card {
     background-image: url('img/tmp_coin.png');
     background-size: calc(var(--scale) * 44px) calc(var(--scale) * 44px);
@@ -1421,6 +1540,7 @@ __        __              _
     background-color: #c21f2c30;
     text-shadow: 0 0 0 #000000bb;
 }
+
 .end_game_military .end_game_card {
     background-image: url('img/tmp_end_game_military.png');
     background-size: calc(var(--scale) * 44px) calc(var(--scale) * 44px);
@@ -1451,9 +1571,11 @@ __        __              _
     display: flex;
     justify-content: space-between;
 }
-.swd_tooltip>div {
-    flex-grow:1;
+
+.swd_tooltip > div {
+    flex-grow: 1;
 }
+
 .swd_tooltip * {
     /*zoom: 1;*/
 }
@@ -1461,15 +1583,19 @@ __        __              _
 .swd_tooltip li {
     list-style: inside;
 }
+
 .building_tooltip {
 
 }
+
 .wonder_tooltip {
 
 }
+
 .progress_token_tooltip {
     width: 500px;
 }
+
 .tooltipWiggle {
     animation: tooltipWiggle 2s infinite alternate;
     align-self: center;
@@ -1483,12 +1609,7 @@ __        __              _
 @font-face {
     font-family: "PossumSaltareNF";
     src: url("img/PossumSaltareNF.eot"); /* IE9 Compat Modes */
-    src: url("img/PossumSaltareNF.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-    url("img/PossumSaltareNF.otf") format("opentype"), /* Open Type Font */
-    url("img/PossumSaltareNF.svg") format("svg"), /* Legacy iOS */
-    url("img/PossumSaltareNF.ttf") format("truetype"), /* Safari, Android, iOS */
-    url("img/PossumSaltareNF.woff") format("woff"), /* Modern Browsers */
-    url("img/PossumSaltareNF.woff2") format("woff2"); /* Modern Browsers */
+    src: url("img/PossumSaltareNF.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */ url("img/PossumSaltareNF.otf") format("opentype"), /* Open Type Font */ url("img/PossumSaltareNF.svg") format("svg"), /* Legacy iOS */ url("img/PossumSaltareNF.ttf") format("truetype"), /* Safari, Android, iOS */ url("img/PossumSaltareNF.woff") format("woff"), /* Modern Browsers */ url("img/PossumSaltareNF.woff2") format("woff2"); /* Modern Browsers */
     font-weight: normal;
     font-style: normal;
 }
