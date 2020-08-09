@@ -531,6 +531,7 @@ define([
                         var linkedBuildingId = 0;
                         var data = {
                             jsId: '',
+                            jsName: '',
                             jsRow: position.row,
                             jsColumn: position.column,
                             jsZindex: position.row,
@@ -545,8 +546,10 @@ define([
                             jsLinkY: 0,
                         };
                         if (typeof position.building != 'undefined') {
+                            var buildingData = this.gamedatas.buildings[position.building];
                             spriteId = position.building;
                             data.jsId = position.building;
+                            data.jsName = buildingData.name;
                             data.jsDisplayCostMe = position.available ? 'block' : 'none',
                             data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
                             data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
@@ -555,7 +558,7 @@ define([
                             data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
 
                             // Linked building symbol
-                            linkedBuildingId = this.gamedatas.buildings[position.building].linkedBuilding;
+                            linkedBuildingId = buildingData.linkedBuilding;
                             if (linkedBuildingId > 0) {
                                 var spritesheetColumns = 9;
                                 var linkedBuildingSpriteId = this.gamedatas.buildingIdsToLinkIconId[linkedBuildingId];
@@ -664,10 +667,12 @@ define([
             },
 
             createDiscardedBuildingNode: function (buildingId) {
+                var buildingData = this.gamedatas.buildings[buildingId];
                 var spriteId = buildingId;
                 var linkedBuildingId = 0;
                 var data = {
                     jsId: buildingId,
+                    jsName: buildingData.name,
                     jsRow: '',
                     jsColumn: '',
                     jsZindex: 1,
@@ -930,7 +935,7 @@ define([
                     else {
                         data.cardType = _("Guild card");
                     }
-                    data.name = building.name;
+                    data.jsName = building.name;
                     data.jsBackX = ((id - 1) % spritesheetColumns);
                     data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
                     data.jsCostMe = '';

@@ -197,7 +197,7 @@
             <div>
                 <!-- BEGIN block_catalog_wonder -->
                 <div id="catalog_wonder_{id}" data-wonder-id="{id}" class="wonder wonder_small"
-                     style="background-position: -{x}00% -{y}00%;"><span class="zone_title">{title}</span></div>
+                     style="background-position: -{x}00% -{y}00%;"><span class="swd_title">{title}</span></div>
                 <!-- END block_catalog_wonder -->
             </div>
         </div>
@@ -207,7 +207,7 @@
             <div>
                 <!-- BEGIN block_catalog_building -->
                 <div id="catalog_building_{id}" data-building-id="{id}" class="building building_small"
-                     style="background-position: -{x}00% -{y}00%;"></div>
+                     style="background-position: -{x}00% -{y}00%;"><span class="swd_title">{title}</span></div>
                 <!-- END block_catalog_building -->
             </div>
         </div>
@@ -217,7 +217,16 @@
             <div>
                 <!-- BEGIN block_catalog_progress_token -->
                 <div id="catalog_progress_token_{id}" data-progress-token-id="{id}"
-                     class="progress_token progress_token_small" style="background-position: -{x}00% -{y}00%;"></div>
+                     class="progress_token progress_token_small" style="background-position: -{x}00% -{y}00%;">
+                    <svg viewBox="0 0 200 200">
+                        <path id="curve" fill="transparent" d="M14,97.526C13.19,144.073,51.722,184,99.5,184c47.28,0,85.77-39.112,85.5-85.491C184.732,52.519,146.437,14,99.5,14,52.808,14,14.791,52.1,14,97.526Z" />
+                        <text width="200">
+                            <textPath xlink:href="#curve" class="swd_title" text-anchor="middle" startOffset="25%">
+                                {title}
+                            </textPath>
+                        </text>
+                    </svg>
+                </div>
                 <!-- END block_catalog_progress_token -->
             </div>
         </div>
@@ -248,6 +257,7 @@ var jstpl_draftpool_building = '\
                 style="background-position: -${jsLinkX}00% -${jsLinkY}00%;"\
             ></div>\
         </div>\
+        <span class="swd_title">${jsName}</span>\
         <div class="draftpool_building_cost me" style="display: ${jsDisplayCostMe}"><div class="coin"><span style="color: ${jsCostColorMe} !important">${jsCostMe}</span></div>\
             <div\
                 class="linked_building_icon linked_building_icon_small"\
@@ -328,14 +338,16 @@ var jstpl_tooltip_cost_opponent = '\
 var jstpl_building_tooltip = '\
     <div class="swd_tooltip building_tooltip">\
         <div class="cardinfos">\
-            <strong>${cardType} “${name}”</strong>\
+            <strong>${cardType} “${jsName}”</strong>\
             <hr\>\
             ${jsCostOpponent}\
             <hr\>\
             ${jsCostMe}\
         </div>\
         <div>\
-            <div class="building tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;"></div>\
+            <div class="building tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
+                <span class="swd_title">${jsName}</span>\
+            </div>\
         </div>\
         <div class="clear"></div>\
     </div>';

@@ -1054,10 +1054,8 @@ html {
     box-shadow:
         calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0px rgba(0,0,0,0.4),
         inset 0px 0px 0px calc(var(--scale) * 1px) #00000060;
-
-    /* Temporary?: */
     display: inline-block;
-    position: inherit;
+    position: relative;
 }
 
 .building_header_small {
@@ -1167,6 +1165,22 @@ __        __              _
     font-family: "PossumSaltareNF";
     text-align: center;
     text-transform: uppercase;
+}
+.building .swd_title {
+    position: absolute;
+    top: 89%;
+    font-size: 14px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: var(--building-width);
+}
+.building_small .swd_title {
+    top: 89.5%;
+    font-size: calc(13.5px * var(--building-small-scale));
+    margin-left: auto;
+    margin-right: auto;
+    width: var(--building-small-width);
 }
 .wonder .swd_title {
     position: relative;
@@ -1477,12 +1491,4 @@ __        __              _
     url("img/PossumSaltareNF.woff2") format("woff2"); /* Modern Browsers */
     font-weight: normal;
     font-style: normal;
-}
-
-.zone_title {
-    display: inline-block;
-    position: absolute;
-    font: normal 12px/12px "PossumSaltareNF";
-    height: 12px;
-    width: auto;
 }

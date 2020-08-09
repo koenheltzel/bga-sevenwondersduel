@@ -24,7 +24,10 @@
  *
  */
 
+use SWD\Building;
 use SWD\Player;
+use SWD\ProgressToken;
+use SWD\Wonder;
 
 require_once(APP_BASE_PATH . "view/common/game.view.php");
 
@@ -185,9 +188,11 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                 $spritesheetColumns = 10;
                 $x = (($id - 1) % $spritesheetColumns);
                 $y = floor(($id - 1) / $spritesheetColumns);
+                $building = Building::get($id);
 
                 $this->page->insert_block("block_catalog_building", [
                     'id' => $id,
+                    'title' => $building ? $building->name : '',
                     'x' => $x,
                     'y' => $y,
                 ]);
@@ -198,9 +203,11 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                 $spritesheetColumns = 5;
                 $x = (($id - 1) % $spritesheetColumns);
                 $y = floor(($id - 1) / $spritesheetColumns);
+                $wonder = Wonder::get($id);
 
                 $this->page->insert_block("block_catalog_wonder", [
                     'id' => $id,
+                    'title' => $wonder ? $wonder->name : '',
                     'x' => $x,
                     'y' => $y,
                 ]);
@@ -211,9 +218,11 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                 $spritesheetColumns = 4;
                 $x = (($id - 1) % $spritesheetColumns);
                 $y = floor(($id - 1) / $spritesheetColumns);
+                $progressToken = ProgressToken::get($id);
 
                 $this->page->insert_block("block_catalog_progress_token", [
                     'id' => $id,
+                    'title' => $progressToken ? $progressToken->name : '',
                     'x' => $x,
                     'y' => $y,
                 ]);
