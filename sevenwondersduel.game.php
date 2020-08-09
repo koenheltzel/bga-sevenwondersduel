@@ -364,7 +364,10 @@ class SevenWondersDuel extends Table
 
         $cardsPerAge = 20;
         $totalCards = $cardsPerAge * 3;
-        $agePercentage = ((($this->getGameStateValue(self::VALUE_CURRENT_AGE) - 1) * $cardsPerAge) + Draftpool::countCardsInCurrentAge()) / $totalCards;
+        $agePercentage = 0;
+        if ($this->getGameStateValue(self::VALUE_CURRENT_AGE) > 0) {
+            $agePercentage = ((($this->getGameStateValue(self::VALUE_CURRENT_AGE) - 1) * $cardsPerAge) + ($cardsPerAge - Draftpool::countCardsInCurrentAge())) / $totalCards;
+        }
 
         return (int)($wonderPercentage * 10 + $agePercentage * 90);
     }
