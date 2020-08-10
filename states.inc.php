@@ -144,6 +144,7 @@ $machinestates = [
             SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_ID,
             SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
             SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_ID,
+            SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID, // For immediate victories, skipping special wonder action states.
         ]
     ],
 
@@ -230,7 +231,7 @@ $machinestates = [
         "description" => clienttranslate("Debug End of game"),
         "descriptionmyturn" => clienttranslate('Debug End of game'),
         "type" => "activeplayer",
-        "action" => "stGameEndDebug",
+        "action" => "enterStateGameEndDebug",
         "args" => "argGameEndDebug",
         "possibleactions" => [
             "dummyAction",

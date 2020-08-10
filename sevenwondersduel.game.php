@@ -50,6 +50,7 @@ class SevenWondersDuel extends Table
     use SWD\States\ChooseProgressTokenFromBoxTrait;
     use SWD\States\ChooseOpponentBuildingTrait;
     use SWD\States\ChooseProgressTokenTrait;
+    use SWD\States\GameEndDebugTrait;
     use SWD\States\GameSetupTrait;
     use SWD\States\NextAgeTrait;
     use SWD\States\NextPlayerTurnTrait;
@@ -446,13 +447,6 @@ class SevenWondersDuel extends Table
     }    
     */
 
-    function argGameEndDebug() {
-        // This will update the player situation automatically through onEnteringState
-        return [
-            'playersSituation' => Players::getSituation(true)
-        ];
-    }
-
 //////////////////////////////////////////////////////////////////////////////
 //////////// Game state actions
 ////////////
@@ -474,10 +468,6 @@ class SevenWondersDuel extends Table
         $this->gamestate->nextState( 'some_gamestate_transition' );
     }
     */
-
-    function stGameEndDebug() {
-        $this->gamestate->nextState( self::STATE_GAME_END_NAME );
-    }
 
 //////////////////////////////////////////////////////////////////////////////
 //////////// Zombie

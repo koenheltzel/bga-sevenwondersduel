@@ -78,57 +78,64 @@ trait PlayerTurnTrait {
         $wonder->checkWonderAvailable();
         $payment = $wonder->construct(Player::me(), $building);
 
-        // Handle some special rewards that possibly require going to a separate state. If not move on to the Next Player Turn.
-        switch ($wonder->id) {
-            case 5: // Wonder The Mausoleum - Choose a discarded building and construct it for free.
-                if (count(SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard')) > 0) {
-                    $this->gamestate->nextState( self::STATE_CHOOSE_DISCARDED_BUILDING_NAME);
-                }
-                else {
+        if ($this->checkImmediateVictory()) {
+            // Specific for Wonders Circus Maximus & The Statue of Zeus we check if a immediate victory (military in this case) is the case.
+            // In that case, we don't have to enter the CHOOSE_OPPONENT_BUILDING state.
+            $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
+        }
+        else {
+            // Handle some special rewards that possibly require going to a separate state. If not move on to the Next Player Turn.
+            switch ($wonder->id) {
+                case 5: // Wonder The Mausoleum - Choose a discarded building and construct it for free.
+                    if (count(SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard')) > 0) {
+                        $this->gamestate->nextState( self::STATE_CHOOSE_DISCARDED_BUILDING_NAME);
+                    }
+                    else {
+                        $this->notifyAllPlayers(
+                            'message',
+                            clienttranslate('${player_name} can\'t choose a discarded card (Wonder “${wonderName}”)'),
+                            [
+                                'player_name' => $this->getCurrentPlayerName(),
+                                'wonderName' => $wonder->name
+                            ]
+                        );
+                        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+                    }
+                    break;
+                case 6: // Wonder The Great Library - Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box.
                     $this->notifyAllPlayers(
                         'message',
-                        clienttranslate('${player_name} can\'t choose a discarded card (Wonder “${wonderName}”)'),
+                        clienttranslate('${player_name} must choose a Progress token from the box (Wonder “${wonderName}”)'),
                         [
                             'player_name' => $this->getCurrentPlayerName(),
-                            'wonderName' => $wonder->name
+                            'wonderName' => $wonder->name,
                         ]
                     );
+                    $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
+                    break;
+                case 9: // Wonder The Statue of Zeus - Discard a brown building of your choice constructed by your opponent.
+                case 12: // Wonder Circus Maximus - Discard a grey building of your choice constructed by your opponent.
+                    $this->setGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, $wonderId);
+                    if (count(Player::opponent()->getBuildings()->filterByTypes([$wonderId == 9 ? Building::TYPE_BROWN : Building::TYPE_GREY])->array) > 0) {
+                        $this->gamestate->nextState( self::STATE_CHOOSE_OPPONENT_BUILDING_NAME);
+                    }
+                    else {
+                        $this->notifyAllPlayers(
+                            'message',
+                            clienttranslate('${player_name} can\'t choose a ${buildingType} card from the opponent (Wonder “${wonderName}”)'),
+                            [
+                                'player_name' => $this->getCurrentPlayerName(),
+                                'buildingType' => $wonderId == 9 ? Building::TYPE_BROWN : Building::TYPE_GREY,
+                                'wonderName' => $wonder->name
+                            ]
+                        );
+                        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+                    }
+                    break;
+                default:
                     $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
-                }
-                break;
-            case 6: // Wonder The Great Library - Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box.
-                $this->notifyAllPlayers(
-                    'message',
-                    clienttranslate('${player_name} must choose a Progress token from the box (Wonder “${wonderName}”)'),
-                    [
-                        'player_name' => $this->getCurrentPlayerName(),
-                        'wonderName' => $wonder->name,
-                    ]
-                );
-                $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
-                break;
-            case 9: // Wonder The Statue of Zeus - Discard a brown building of your choice constructed by your opponent.
-            case 12: // Wonder Circus Maximus - Discard a grey building of your choice constructed by your opponent.
-                $this->setGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, $wonderId);
-                if (count(Player::opponent()->getBuildings()->filterByTypes([$wonderId == 9 ? Building::TYPE_BROWN : Building::TYPE_GREY])->array) > 0) {
-                    $this->gamestate->nextState( self::STATE_CHOOSE_OPPONENT_BUILDING_NAME);
-                }
-                else {
-                    $this->notifyAllPlayers(
-                        'message',
-                        clienttranslate('${player_name} can\'t choose a ${buildingType} card from the opponent (Wonder “${wonderName}”)'),
-                        [
-                            'player_name' => $this->getCurrentPlayerName(),
-                            'buildingType' => $wonderId == 9 ? Building::TYPE_BROWN : Building::TYPE_GREY,
-                            'wonderName' => $wonder->name
-                        ]
-                    );
-                    $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
-                }
-                break;
-            default:
-                $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
-                break;
+                    break;
+            }
         }
     }
 }
