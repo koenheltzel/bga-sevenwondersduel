@@ -39,7 +39,7 @@ define([
             rememberScrollY: 0,
 
             // Tooltip settings
-            toolTipDelay: 750,
+            toolTipDelay: 1750,
 
             // Game logic properties
             playerTurnBuildingId: null,
@@ -550,12 +550,14 @@ define([
                             spriteId = position.building;
                             data.jsId = position.building;
                             data.jsName = buildingData.name;
-                            data.jsDisplayCostMe = position.available ? 'block' : 'none',
-                            data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
-                            data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
-                            data.jsDisplayCostOpponent = position.available ? 'block' : 'none',
-                            data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playersSituation[this.opponent_id].coins),
-                            data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
+                            if (position.available) {
+                                data.jsDisplayCostMe = position.available ? 'block' : 'none',
+                                data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
+                                data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
+                                data.jsDisplayCostOpponent = position.available ? 'block' : 'none',
+                                data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playersSituation[this.opponent_id].coins),
+                                data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
+                            }
 
                             // Linked building symbol
                             linkedBuildingId = buildingData.linkedBuilding;
@@ -576,7 +578,7 @@ define([
 
                         // Remove linked symbols dom elements that aren't needed.
                         Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                            if (linkedBuildingId == 0 || !position.hasLinkedBuilding[playerId]) {
+                            if (linkedBuildingId == 0 || (!position.hasLinkedBuilding || !position.hasLinkedBuilding[playerId])) {
                                 dojo.destroy(dojo.query('.' + this.getPlayerAlias(playerId) + ' .linked_building_icon', newNode)[0]);
                             }
                         }));
@@ -942,16 +944,17 @@ define([
                     data.jsCostOpponent = '';
                     if (draftpoolBuilding) {
                         var position = this.getDraftpoolCardData(id);
+                        if (position.payment) {
+                            data.jsCostMe = this.format_block('jstpl_tooltip_cost_me', {
+                                jsCoinHtml: meCoinHtml,
+                                jsPayment: this.getPaymentPlan(position.payment[this.me_id])
+                            });
 
-                        data.jsCostMe = this.format_block('jstpl_tooltip_cost_me', {
-                            jsCoinHtml: meCoinHtml,
-                            jsPayment: this.getPaymentPlan(position.payment[this.me_id])
-                        });
-
-                        data.jsCostOpponent = this.format_block('jstpl_tooltip_cost_opponent', {
-                            jsCoinHtml: opponentCoinHtml,
-                            jsPayment: this.getPaymentPlan(position.payment[this.opponent_id])
-                        });
+                            data.jsCostOpponent = this.format_block('jstpl_tooltip_cost_opponent', {
+                                jsCoinHtml: opponentCoinHtml,
+                                jsPayment: this.getPaymentPlan(position.payment[this.opponent_id])
+                            });
+                        }
                     }
 
                     return this.format_block('jstpl_building_tooltip', data);

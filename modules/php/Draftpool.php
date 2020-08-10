@@ -102,18 +102,20 @@ class Draftpool extends Base
                         $position['available'] = $available;
                         $position['building'] = $building->id;
 
-                        // Cost and payment plan for each player
-                        $position['cost'] = [];
-                        $position['discardGain'] = [];
-                        $position['payment'] = [];
-                        $position['hasLinkedBuilding'] = [];
-                        $players = SevenWondersDuel::get()->loadPlayersBasicInfos();
-                        $playerIds = array_keys($players);
-                        foreach ($playerIds as $playerId) {
-                            $payment = Player::get($playerId)->getPaymentPlan($building);
-                            $position['cost'][$playerId] = $payment->totalCost();
-                            $position['payment'][$playerId] = $payment;
-                            $position['hasLinkedBuilding'][$playerId] = Player::get($playerId)->hasBuilding($building->linkedBuilding);
+                        if ($available) {
+                            // Cost and payment plan for each player
+                            $position['cost'] = [];
+                            $position['discardGain'] = [];
+                            $position['payment'] = [];
+                            $position['hasLinkedBuilding'] = [];
+                            $players = SevenWondersDuel::get()->loadPlayersBasicInfos();
+                            $playerIds = array_keys($players);
+                            foreach ($playerIds as $playerId) {
+                                $payment = Player::get($playerId)->getPaymentPlan($building);
+                                $position['cost'][$playerId] = $payment->totalCost();
+                                $position['payment'][$playerId] = $payment;
+                                $position['hasLinkedBuilding'][$playerId] = Player::get($playerId)->hasBuilding($building->linkedBuilding);
+                            }
                         }
                     }
                     else {
