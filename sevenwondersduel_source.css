@@ -1556,6 +1556,12 @@ __        __              _
     margin: auto;
 }
 
+#settings_whiteblock {
+    margin-top: var(--gutter) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
+}
 
 /*
  _____           _ _   _

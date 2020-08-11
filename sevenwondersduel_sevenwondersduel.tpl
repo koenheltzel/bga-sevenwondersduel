@@ -190,6 +190,34 @@
         </div>
     </div>
 
+    <div id="settings_whiteblock" class="whiteblock">
+        <h3>Settings:</h3>
+        <table>
+            <tr>
+                <td>Auto scale</td>
+                <td><input type="checkbox" id="setting_auto_scale" checked="checked"></td>
+            </tr>
+            <tr>
+                <td>Scale</td>
+                <td><input type="number" id="setting_scale" style="width: 50px" disabled>%</td>
+            </tr>
+            <tr>
+                <td>Auto layout</td>
+                <td><input type="checkbox" id="setting_auto_layout" checked="checked"></td>
+            </tr>
+            <tr>
+                <td>Layout</td>
+                <td>
+                    <select id="setting_layout" disabled>
+                        <option value="portrait">Portrait</option>
+                        <option value="square">Square</option>
+                        <option value="landscape">Landscape</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+
     <!-- BEGIN block_catalog -->
     <div>
         <div class="whiteblock">

@@ -2188,10 +2188,20 @@ define([
                 };
             },
 
+            setLayout: function (layout) {
+                var swdNode = $('swd_wrap');
+                dojo.removeClass(swdNode, 'square');
+                dojo.removeClass(swdNode, 'portrait');
+                dojo.removeClass(swdNode, 'landscape');
+                dojo.addClass(swdNode, layout);
+                $('setting_layout').value = layout;
+            },
+
             setScale: function (scale) {
                 if (!this.dontScale) {
                     this.setCssVariable('--scale', scale);
                 }
+                $('setting_scale').value = parseInt(scale * 100);
             },
 
             getCssVariable: function (name) {
@@ -2238,18 +2248,13 @@ define([
                 // var square = 947 / 897; // 1.056
                 var landscape = 1.74; //1131/ 756; // 1.60
 
-                var swdNode = $('swd_wrap');
-                dojo.removeClass(swdNode, 'square');
-                dojo.removeClass(swdNode, 'portrait');
-                dojo.removeClass(swdNode, 'landscape');
-
                 if (ratio >= landscape) {
                     Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
                         dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
                     }));
 
                     // console.log('ratio: ', ratio, 'choosing landscape');
-                    dojo.addClass(swdNode, 'landscape');
+                    this.setLayout('landscape');
                     this.setScale(1);
                     this.setScale(height / dojo.style($('swd_wrap'), 'height'));
                 } else if (ratio < landscape && ratio > portrait) {
@@ -2258,7 +2263,7 @@ define([
                     }));
 
                     // console.log('ratio: ', ratio, 'choosing square');
-                    dojo.addClass(swdNode, 'square');
+                    this.setLayout('square');
                     if (width > height) {
                         this.setScale(1);
                         this.setScale(height / dojo.style($('swd_wrap'), 'height'));
@@ -2273,12 +2278,13 @@ define([
                     }));
 
                     // console.log('ratio: ', ratio, 'choosing portrait');
-                    dojo.addClass(swdNode, 'portrait');
+                    this.setLayout('portrait');
                     this.setScale(1);
                     this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
                 }
 
                 dojo.style($('discarded_cards_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
+                dojo.style($('settings_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
                 // console.log('swd_wrap height: ', $('swd_wrap'), 'height');
             },
 
