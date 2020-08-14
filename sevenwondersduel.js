@@ -32,8 +32,17 @@ define([
             
             instance: null,
 
+            LAYOUT_LANDSCAPE: 'landscape',
+            LAYOUT_SQUARE: 'square',
+            LAYOUT_PORTRAIT: 'portrait',
             // Debug settings
+
             dontScale: 0,
+
+            autoScale: 1,
+            scale: 1,
+            autoLayout: 1,
+            layout: "",
 
             rememberScrollX: 0,
             rememberScrollY: 0,
@@ -179,6 +188,11 @@ define([
                 dojo.query("#buttonConstructBuilding").on("click", dojo.hitch(this, "onPlayerTurnConstructBuildingClick"));
                 dojo.query("#buttonDiscardBuilding").on("click", dojo.hitch(this, "onPlayerTurnDiscardBuildingClick"));
                 dojo.query("#buttonConstructWonder").on("click", dojo.hitch(this, "onPlayerTurnConstructWonderClick"));
+
+                dojo.query("#setting_auto_scale").on("change", dojo.hitch(this, "onSettingAutoScaleChange"));
+                dojo.query("#setting_scale").on("change", dojo.hitch(this, "onSettingScaleChange"));
+                dojo.query("#setting_auto_layout").on("change", dojo.hitch(this, "onSettingAutoLayoutChange"));
+                dojo.query("#setting_layout").on("change", dojo.hitch(this, "onSettingLayoutChange"));
 
                 // Resize/scroll handler to determine layout and scale factor
                 window.addEventListener('resize', dojo.hitch(this, "onWindowUpdate"));
@@ -2190,9 +2204,9 @@ define([
 
             setLayout: function (layout) {
                 var swdNode = $('swd_wrap');
-                dojo.removeClass(swdNode, 'square');
-                dojo.removeClass(swdNode, 'portrait');
-                dojo.removeClass(swdNode, 'landscape');
+                dojo.removeClass(swdNode, this.LAYOUT_SQUARE);
+                dojo.removeClass(swdNode, this.LAYOUT_PORTRAIT);
+                dojo.removeClass(swdNode, this.LAYOUT_LANDSCAPE);
                 dojo.addClass(swdNode, layout);
                 $('setting_layout').value = layout;
             },
@@ -2227,6 +2241,7 @@ define([
             },
 
             updateLayout: function () {
+                console.trace();
                 var titlePosition = dojo.position('page-title', false);
                 var titleMarginBottom = 5;
                 var width = titlePosition.w - 5;
@@ -2248,44 +2263,140 @@ define([
                 // var square = 947 / 897; // 1.056
                 var landscape = 1.74; //1131/ 756; // 1.60
 
-                if (ratio >= landscape) {
-                    Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                        dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
-                    }));
-
-                    // console.log('ratio: ', ratio, 'choosing landscape');
-                    this.setLayout('landscape');
-                    this.setScale(1);
-                    this.setScale(height / dojo.style($('swd_wrap'), 'height'));
-                } else if (ratio < landscape && ratio > portrait) {
-                    Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                        dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
-                    }));
-
-                    // console.log('ratio: ', ratio, 'choosing square');
-                    this.setLayout('square');
-                    if (width > height) {
-                        this.setScale(1);
-                        this.setScale(height / dojo.style($('swd_wrap'), 'height'));
-                    } else {
-                        this.setScale(1);
-                        this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
+                if (this.autoLayout) {
+                    if (ratio >= landscape) {
+                        // console.log('ratio: ', ratio, 'choosing landscape');
+                        this.layout = this.LAYOUT_LANDSCAPE;
+                    } else if (ratio < landscape && ratio > portrait) {
+                        // console.log('ratio: ', ratio, 'choosing square');
+                        this.layout = this.LAYOUT_SQUARE;
+                    } else { // ratio <= portrait
+                        // console.log('ratio: ', ratio, 'choosing portrait');
+                        this.layout = this.LAYOUT_PORTRAIT;
                     }
+                }
 
-                } else { // ratio <= portrait
-                    Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                        dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
-                    }));
+                switch(this.layout) {
+                    case this.LAYOUT_LANDSCAPE:
+                        Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                            dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
+                        }));
 
-                    // console.log('ratio: ', ratio, 'choosing portrait');
-                    this.setLayout('portrait');
-                    this.setScale(1);
-                    this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
+                        // console.log('ratio: ', ratio, 'choosing landscape');
+                        this.setLayout(this.LAYOUT_LANDSCAPE);
+                        if (this.autoScale) {
+                            this.scale = height / dojo.style($('swd_wrap'), 'height');
+                            this.setScale(1);
+                            this.setScale(this.scale);
+                        }
+                        else {
+                            this.setScale(this.scale);
+                        }
+                        break;
+                    case this.LAYOUT_SQUARE:
+                        Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                            dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
+                        }));
+
+                        // console.log('ratio: ', ratio, 'choosing square');
+                        this.setLayout(this.LAYOUT_SQUARE);
+                        if (this.autoScale) {
+                            if (width > height) {
+                                this.scale = height / dojo.style($('swd_wrap'), 'height');
+                                this.setScale(1);
+                                this.setScale(this.scale);
+                            } else {
+                                this.scale = width / dojo.style($('layout_flexbox'), 'width');
+                                this.setScale(1);
+                                this.setScale(this.scale);
+                            }
+                        }
+                        else {
+                            this.setScale(this.scale);
+                        }
+                        break;
+                    case this.LAYOUT_PORTRAIT:
+                        Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                            dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
+                        }));
+
+                        // console.log('ratio: ', ratio, 'choosing portrait');
+                        this.setLayout(this.LAYOUT_PORTRAIT);
+                        if (this.autoScale) {
+                            this.scale = width / dojo.style($('layout_flexbox'), 'width');
+                            this.setScale(1);
+                            this.setScale(this.scale);
+                        }
+                        else {
+                            this.setScale(this.scale);
+                        }
+                        break;
                 }
 
                 dojo.style($('discarded_cards_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
                 dojo.style($('settings_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
                 // console.log('swd_wrap height: ', $('swd_wrap'), 'height');
+            },
+
+            onSettingAutoScaleChange: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+                console.log('onSettingAutoScaleChange');
+
+                this.autoScale = 1 - parseInt(this.autoScale);
+                this.updateLayout();
+                this.updateSettings();
+            },
+
+            onSettingScaleChange: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+                console.log('onSettingScaleChange');
+
+                if (!this.autoScale) {
+                    this.scale = parseInt(e.target.value) / 100;
+                    this.updateLayout();
+                }
+                this.updateSettings();
+            },
+
+            onSettingAutoLayoutChange: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+                console.log('onSettingAutoLayoutChange');
+
+                this.autoLayout = 1 - parseInt(this.autoLayout);
+                this.updateLayout();
+                this.updateSettings();
+            },
+
+            onSettingLayoutChange: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+                console.log('onSettingLayoutChange');
+
+                if (!this.autoLayout) {
+                    this.layout = e.target.value;
+                    this.updateLayout();
+                }
+                this.updateSettings();
+            },
+
+            updateSettings: function() {
+                if (this.autoScale) {
+                    dojo.attr('setting_scale', 'disabled', '');
+                }
+                else {
+                    dojo.removeAttr('setting_scale', 'disabled');
+                }
+
+                if (this.autoLayout) {
+                    dojo.attr('setting_layout', 'disabled', '');
+                }
+                else {
+                    dojo.removeAttr('setting_layout', 'disabled');
+                }
+
             },
 
             //  _   _      _                   _____                 _   _
