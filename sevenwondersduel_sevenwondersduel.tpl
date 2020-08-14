@@ -197,21 +197,33 @@
                 <td>Automatic scaling</td>
                 <td>
                     <input type="checkbox" id="setting_auto_scale" checked="checked">
-                    <input type="number" id="setting_scale" style="width: 50px" disabled>%
                 </td>
                 <td><small>Choose game scale automatically based on browser window size and current game layout.</small></td>
+            </tr>
+            <tr>
+                <td>Scale</td>
+                <td>
+                    <input type="number" id="setting_scale" style="width: 50px" disabled>%
+                </td>
+                <td></td>
             </tr>
             <tr>
                 <td>Automatic layout</td>
                 <td>
                     <input type="checkbox" id="setting_auto_layout" checked="checked">
+                </td>
+                <td><small>Choose game layout automatically based on browser window ratio.</small></td>
+            </tr>
+            <tr>
+                <td>Layout</td>
+                <td>
                     <select id="setting_layout" disabled>
                         <option value="portrait">Portrait</option>
                         <option value="square">Square</option>
                         <option value="landscape">Landscape</option>
                     </select>
                 </td>
-                <td><small>Choose game layout (landscape/square/portrait) automatically based on browser window ratio.</small></td>
+                <td></td>
             </tr>
         </table>
     </div>
