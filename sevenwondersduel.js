@@ -2241,7 +2241,7 @@ define([
             },
 
             updateLayout: function () {
-                console.trace();
+                console.log('updateLayout');
                 var titlePosition = dojo.position('page-title', false);
                 var titleMarginBottom = 5;
                 var width = titlePosition.w - 5;
@@ -2285,13 +2285,10 @@ define([
                         // console.log('ratio: ', ratio, 'choosing landscape');
                         this.setLayout(this.LAYOUT_LANDSCAPE);
                         if (this.autoScale) {
-                            this.scale = height / dojo.style($('swd_wrap'), 'height');
                             this.setScale(1);
-                            this.setScale(this.scale);
+                            this.scale = height / dojo.style($('swd_wrap'), 'height');
                         }
-                        else {
-                            this.setScale(this.scale);
-                        }
+                        this.setScale(this.scale);
                         break;
                     case this.LAYOUT_SQUARE:
                         Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
@@ -2302,18 +2299,14 @@ define([
                         this.setLayout(this.LAYOUT_SQUARE);
                         if (this.autoScale) {
                             if (width > height) {
+                                this.setScale(1);
                                 this.scale = height / dojo.style($('swd_wrap'), 'height');
-                                this.setScale(1);
-                                this.setScale(this.scale);
                             } else {
-                                this.scale = width / dojo.style($('layout_flexbox'), 'width');
                                 this.setScale(1);
-                                this.setScale(this.scale);
+                                this.scale = width / dojo.style($('layout_flexbox'), 'width');
                             }
                         }
-                        else {
-                            this.setScale(this.scale);
-                        }
+                        this.setScale(this.scale);
                         break;
                     case this.LAYOUT_PORTRAIT:
                         Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
@@ -2323,13 +2316,10 @@ define([
                         // console.log('ratio: ', ratio, 'choosing portrait');
                         this.setLayout(this.LAYOUT_PORTRAIT);
                         if (this.autoScale) {
-                            this.scale = width / dojo.style($('layout_flexbox'), 'width');
                             this.setScale(1);
-                            this.setScale(this.scale);
+                            this.scale = width / dojo.style($('layout_flexbox'), 'width');
                         }
-                        else {
-                            this.setScale(this.scale);
-                        }
+                        this.setScale(this.scale);
                         break;
                 }
 
