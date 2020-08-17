@@ -39,7 +39,7 @@ define([
             rememberScrollY: 0,
 
             // Tooltip settings
-            toolTipDelay: 1750,
+            toolTipDelay: 200,
 
             // Game logic properties
             playerTurnBuildingId: null,
@@ -48,6 +48,7 @@ define([
 
             // General properties
             windowResizeTimeoutId: null,
+            customTooltips: [],
 
             // Animation durations
             constructBuildingAnimationDuration: 1000,
@@ -829,97 +830,126 @@ define([
                 // this.addTooltipToClass( 'draftpool_building_cost.me', _('Current cost for you to construct the building'), '', this.toolTipDelay );
                 // this.addTooltipToClass( 'draftpool_building_cost.opponent', _('Current cost for your opponent to construct the building'), '', this.toolTipDelay );
 
-                new dijit.Tooltip({
-                    connectId: "swd",
-                    selector: '.player_info .point',
-                    showDelay: this.toolTipDelay,
-                    label: _('Victory points')
-                });
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "swd",
+                        selector: '.player_info .point',
+                        showDelay: this.toolTipDelay,
+                        label: _('Victory points')
+                    })
+                );
 
-                new dijit.Tooltip({
-                    connectId: "swd",
-                    selector: '.player_info .coin',
-                    showDelay: this.toolTipDelay,
-                    label: _('Coins')
-                });
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "swd",
+                        selector: '.player_info .coin',
+                        showDelay: this.toolTipDelay,
+                        label: _('Coins')
+                    })
+                );
 
-                new dijit.Tooltip({
-                    connectId: "swd",
-                    selector: '.player_wonders.me .coin',
-                    showDelay: this.toolTipDelay,
-                    label: _('Current construction cost for you')
-                });
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "swd",
+                        selector: '.player_wonders.me .coin',
+                        showDelay: this.toolTipDelay,
+                        label: _('Current construction cost for you')
+                    })
+                );
 
-                new dijit.Tooltip({
-                    connectId: "swd",
-                    selector: '.player_wonders.opponent .coin',
-                    showDelay: this.toolTipDelay,
-                    label: _('Current construction cost for your opponent')
-                });
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "swd",
+                        selector: '.player_wonders.opponent .coin',
+                        showDelay: this.toolTipDelay,
+                        label: _('Current construction cost for your opponent')
+                    })
+                );
 
                 // Add tooltips to building cost.
-                new dijit.Tooltip({
-                    connectId: "swd",
-                    selector: '.draftpool_building_cost.me .coin',
-                    showDelay: this.toolTipDelay,
-                    label: _('Current construction cost for you')
-                });
-                new dijit.Tooltip({
-                    connectId: "swd",
-                    selector: '.draftpool_building_cost.opponent .coin',
-                    showDelay: this.toolTipDelay,
-                    label: _('Current construction cost for your opponent')
-                });
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "swd",
+                        selector: '.draftpool_building_cost.me .coin',
+                        showDelay: this.toolTipDelay,
+                        label: _('Current construction cost for you')
+                    })
+                );
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "swd",
+                        selector: '.draftpool_building_cost.opponent .coin',
+                        showDelay: this.toolTipDelay,
+                        label: _('Current construction cost for your opponent')
+                    })
+                );
 
                 // Add tooltips to buildings everywhere.
-                new dijit.Tooltip({
-                    connectId: "game_play_area",
-                    selector: '#swd:not(.nextAge) .building_small, .building_header_small', // Not during nextAge animation
-                    position: ["above-centered", "below-centered"],
-                    showDelay: this.toolTipDelay,
-                    getContent: dojo.hitch(this, function (node) {
-                        var id = dojo.attr(node, "data-building-id");
-                        var draftpoolBuilding = dojo.query(node).closest("#draftpool")[0];
-                        var meCoinHtml;
-                        var opponentCoinHtml;
-                        if (draftpoolBuilding) {
-                            meCoinHtml = dojo.query('.me .coin', node)[0].outerHTML;
-                            opponentCoinHtml = dojo.query('.opponent .coin', node)[0].outerHTML;
-                        }
-                        return this.getBuildingTooltip(id, draftpoolBuilding, meCoinHtml, opponentCoinHtml);
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '#swd:not(.nextAge) .building_small, .building_header_small', // Not during nextAge animation
+                        position: ["above-centered", "below-centered"],
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            var id = dojo.attr(node, "data-building-id");
+                            var draftpoolBuilding = dojo.query(node).closest("#draftpool")[0];
+                            var meCoinHtml;
+                            var opponentCoinHtml;
+                            if (draftpoolBuilding) {
+                                meCoinHtml = dojo.query('.me .coin', node)[0].outerHTML;
+                                opponentCoinHtml = dojo.query('.opponent .coin', node)[0].outerHTML;
+                            }
+                            return this.getBuildingTooltip(id, draftpoolBuilding, meCoinHtml, opponentCoinHtml);
+                        })
                     })
-                });
+                );
 
                 // Add tooltips to wonders everywhere.
-                new dijit.Tooltip({
-                    connectId: "game_play_area",
-                    selector: '.wonder_small',
-                    showDelay: this.toolTipDelay,
-                    getContent: dojo.hitch(this, function (node) {
-                        var id = dojo.attr(node, "data-wonder-id");
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '.wonder_small',
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            var id = dojo.attr(node, "data-wonder-id");
 
-                        var playerId = undefined;
-                        var coinHtml = undefined;
-                        var playerWondersNode = dojo.query(node).closest(".player_wonders")[0];
-                        if (playerWondersNode) {
-                            playerId = dojo.hasClass(playerWondersNode, 'me') ? this.me_id : this.opponent_id;
-                            coinHtml = dojo.query('.coin', node)[0].outerHTML;
-                        }
-                        return this.getWonderTooltip(id, playerId, coinHtml);
+                            var playerId = undefined;
+                            var coinHtml = undefined;
+                            var playerWondersNode = dojo.query(node).closest(".player_wonders")[0];
+                            if (playerWondersNode) {
+                                playerId = dojo.hasClass(playerWondersNode, 'me') ? this.me_id : this.opponent_id;
+                                coinHtml = dojo.query('.coin', node)[0].outerHTML;
+                            }
+                            return this.getWonderTooltip(id, playerId, coinHtml);
+                        })
                     })
-                });
+                );
 
                 // Add tooltips to progress tokens everywhere.
-                new dijit.Tooltip({
-                    connectId: "game_play_area",
-                    selector: '.progress_token_small',
-                    position: ['before'],
-                    showDelay: this.toolTipDelay,
-                    getContent: dojo.hitch(this, function (node) {
-                        var id = dojo.attr(node, "data-progress-token-id");
-                        return this.getProgressTokenTooltip(id);
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '.progress_token_small',
+                        position: ['before'],
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            var id = dojo.attr(node, "data-progress-token-id");
+                            return this.getProgressTokenTooltip(id);
+                        })
                     })
-                });
+                );
+
+                // Mimick BGA's default behavior of closing the tooltip over mouseover and click.
+                dojo.query('body').on("#dijit__MasterTooltip_0:mouseover", dojo.hitch(this, "closeTooltips"));
+                dojo.query('body').on("#dijit__MasterTooltip_0:click", dojo.hitch(this, "closeTooltips"));
+            },
+
+            closeTooltips: function() {
+                console.log('closeTooltips()');
+                Object.keys(this.customTooltips).forEach(dojo.hitch(this, function (index) {
+                    this.customTooltips[index].close();
+                }));
             },
 
             getBuildingTooltip: function (id, draftpoolBuilding, meCoinHtml, opponentCoinHtml) {
