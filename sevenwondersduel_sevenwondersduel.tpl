@@ -320,6 +320,7 @@ var jstpl_military_token = '<div class="military_token military_token_${jsValue}
 var jstpl_coin_animated = '<div class="coin animated"></div>';
 
 var jstpl_tooltip_cost_me = '\
+    <hr\>\
     <strong class="me">{CURRENT_COST_YOU}:</strong>\
     <div class="payment_plan">\
         ${jsPayment}\
@@ -328,6 +329,7 @@ var jstpl_tooltip_cost_me = '\
     ';
 
 var jstpl_tooltip_cost_opponent = '\
+    <hr\>\
     <strong class="opponent">{CURRENT_COST_OPPONENT}:</strong>\
     <div class="payment_plan">\
         ${jsPayment}\
@@ -341,9 +343,7 @@ var jstpl_building_tooltip = '\
             <strong>${cardType} “${jsName}”</strong>\
             <hr\>\
             <p>${jsText}</p>\
-            <hr\>\
             ${jsCostOpponent}\
-            <hr\>\
             ${jsCostMe}\
         </div>\
         <div>\
@@ -360,7 +360,6 @@ var jstpl_wonder_tooltip = '\
             <strong>{WONDER} “${jsName}”</strong>\
             <hr\>\
             <p>${jsText}</p>\
-            <hr\>\
             ${jsCost}\
         </div>\
         <div>\

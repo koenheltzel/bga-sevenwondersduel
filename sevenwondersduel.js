@@ -1010,7 +1010,9 @@ define([
 
             getTextHtml: function(text) {
                 if (text instanceof Array) {
-                    return "<ul><li>" + text.join("</li><li>") + "</li></ul>";
+                    if (text.length == 0) return '';
+                    else if (text.length == 1) return text;
+                    else return "<ul><li>" + text.join("</li><li>") + "</li></ul>";
                 }
                 else {
                     return text;
