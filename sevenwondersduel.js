@@ -950,7 +950,6 @@ define([
             },
 
             closeTooltips: function() {
-                console.log('closeTooltips()');
                 Object.keys(this.customTooltips).forEach(dojo.hitch(this, function (index) {
                     this.customTooltips[index].close();
                 }));
