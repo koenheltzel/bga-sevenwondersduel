@@ -511,6 +511,7 @@ class Material extends Base
             ->setCoins(6)
             ->addText(clienttranslate("Each time you construct a Building for free through linking (free construction condition, chain), you gain 4 coins."));
 
+        // Set the link relationship in the other way, to add text to the tooltip about it.
         Building::get(9)->setLinkedBuilding(29);
         Building::get(10)->setLinkedBuilding(30);
         Building::get(11)->setLinkedBuilding(50);
