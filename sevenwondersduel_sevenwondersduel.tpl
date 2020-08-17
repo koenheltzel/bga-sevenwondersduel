@@ -340,6 +340,8 @@ var jstpl_building_tooltip = '\
         <div class="cardinfos">\
             <strong>${cardType} “${jsName}”</strong>\
             <hr\>\
+            <p>${jsText}</p>\
+            <hr\>\
             ${jsCostOpponent}\
             <hr\>\
             ${jsCostMe}\

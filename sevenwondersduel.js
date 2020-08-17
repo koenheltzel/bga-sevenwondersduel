@@ -971,6 +971,7 @@ define([
                         data.cardType = _("Guild card");
                     }
                     data.jsName = building.name;
+                    data.jsText = this.getTextHtml(building.text);
                     data.jsBackX = ((id - 1) % spritesheetColumns);
                     data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
                     data.jsCostMe = '';
@@ -1007,6 +1008,15 @@ define([
                 return output;
             },
 
+            getTextHtml: function(text) {
+                if (text instanceof Array) {
+                    return "<ul><li>" + text.join("</li><li>") + "</li></ul>";
+                }
+                else {
+                    return text;
+                }
+            },
+
             getWonderTooltip: function (id, playerId, coinHtml) {
                 if (typeof this.gamedatas.wonders[id] != 'undefined') {
                     var wonder = this.gamedatas.wonders[id];
@@ -1015,7 +1025,8 @@ define([
 
                     var data = {};
                     data.jsName = wonder.name;
-                    data.jsText = wonder.text;
+                    data.jsText = this.getTextHtml(wonder.text);
+
                     data.jsBackX = ((id - 1) % spritesheetColumns);
                     data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
                     data.jsCost = '';
@@ -1043,7 +1054,7 @@ define([
 
                     var data = {};
                     data.jsName = progressToken.name;
-                    data.jsText = progressToken.text;
+                    data.jsText = this.getTextHtml(progressToken.text);
                     data.jsBackX = ((id - 1) % spritesheetColumns);
                     data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
                     return this.format_block('jstpl_progress_token_tooltip', data);

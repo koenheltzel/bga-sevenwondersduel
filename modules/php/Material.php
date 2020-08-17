@@ -45,98 +45,98 @@ class Material extends Base
 
         $this->wonders = new Wonders();
 
-        $this->wonders[1] = (new Wonder(1, clienttranslate("The Pyramids"), clienttranslate("
-                This Wonder is worth 9 victory points.
-            ")))
+        $this->wonders[1] = (new Wonder(1, clienttranslate("The Pyramids"), [
+                clienttranslate("This Wonder is worth 9 victory points.")
+            ]))
             ->setCost([PAPYRUS => 1, STONE => 3])
             ->setVictoryPoints(9);
 
-        $this->wonders[2] = (new Wonder(2, clienttranslate("The Colossus"), clienttranslate("
-                This Wonder is worth 2 Shields.<br/>
-                This Wonder is worth 3 victory points.
-            ")))
+        $this->wonders[2] = (new Wonder(2, clienttranslate("The Colossus"), [
+                clienttranslate("This Wonder is worth 2 Shields."),
+                clienttranslate("This Wonder is worth 3 victory points.")
+            ]))
             ->setCost([GLASS => 1, CLAY => 3])
             ->setMilitary(2)
             ->setVictoryPoints(3);
 
-        $this->wonders[3] = (new Wonder(3, clienttranslate("The Great Lighthouse"), clienttranslate("
-                This Wonder produces one unit of the resources shown (Stone, Clay, or Wood) for you each turn.<br/>
-                This Wonder is worth 4 victory points.
-            ")))
+        $this->wonders[3] = (new Wonder(3, clienttranslate("The Great Lighthouse"), [
+                clienttranslate("This Wonder produces one unit of the resources shown (Stone, Clay, or Wood) for you each turn."),
+                clienttranslate("This Wonder is worth 4 victory points.")
+            ]))
             ->setCost([PAPYRUS => 2, STONE => 1, WOOD => 1])
             ->setResourceChoice([WOOD, STONE, CLAY])
             ->setVictoryPoints(4);
 
-        $this->wonders[4] = (new Wonder(4, clienttranslate("The Temple of Artemis"), clienttranslate("
-                Immediately take 12 coins from the Bank.<br/>
-                Immediately play a second turn.
-            ")))
+        $this->wonders[4] = (new Wonder(4, clienttranslate("The Temple of Artemis"), [
+                clienttranslate("Immediately take 12 coins from the Bank."),
+                clienttranslate("Immediately play a second turn.")
+            ]))
             ->setCost([PAPYRUS => 1, GLASS => 1, STONE => 1, WOOD => 1])
             ->setCoins(12)
             ->setVisualCoinPosition([0.412, -0.125])
             ->setExtraTurn();
 
-        $this->wonders[5] = (new Wonder(5, clienttranslate("The Mausoleum"), clienttranslate("
-                Take all of the cards which have been discarded since the beginning of the game and immediately construct one of your choice for free.<br/>
-                This Wonder is worth 2 victory points.
-            ")))
+        $this->wonders[5] = (new Wonder(5, clienttranslate("The Mausoleum"), [
+                clienttranslate("Take all of the cards which have been discarded since the beginning of the game and immediately construct one of your choice for free."),
+                clienttranslate("This Wonder is worth 2 victory points.")
+            ]))
             ->setCost([PAPYRUS => 1, GLASS => 2, CLAY => 2])
             ->setConstructDiscardedBuilding()
             ->setVictoryPoints(2);
 
-        $this->wonders[6] = (new Wonder(6, clienttranslate("The Great Library"), clienttranslate("
-                Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box.<br/>
-                This Wonder is worth 4 victory points.
-            ")))
+        $this->wonders[6] = (new Wonder(6, clienttranslate("The Great Library"), [
+                clienttranslate("Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box."),
+                clienttranslate("This Wonder is worth 4 victory points.")
+            ]))
             ->setCost([PAPYRUS => 1, GLASS => 1, WOOD => 3])
             ->setProgressTokenFromBox()
             ->setVictoryPoints(6);
 
-        $this->wonders[7] = (new Wonder(7, clienttranslate("Piraeus"), clienttranslate("
-                This Wonder produces one unit of one of the resources shown (Glass or Papyrus) for you each turn.<br/>
-                Immediately play a second turn.<br/>
-                This Wonder is worth 2 victory points.
-            ")))
+        $this->wonders[7] = (new Wonder(7, clienttranslate("Piraeus"), [
+                clienttranslate("This Wonder produces one unit of one of the resources shown (Glass or Papyrus) for you each turn."),
+                clienttranslate("Immediately play a second turn."),
+                clienttranslate("This Wonder is worth 2 victory points.")
+            ]))
             ->setCost([CLAY => 1, STONE => 1, WOOD => 2])
             ->setResourceChoice([PAPYRUS, GLASS])
             ->setExtraTurn()
             ->setVictoryPoints(2);
 
-        $this->wonders[8] = (new Wonder(8, clienttranslate("The Hanging Gardens"), clienttranslate("
-                You take 6 coins from the bank.<br/>
-                Immediately play a second turn.<br/>
-                This Wonder is worth 3 victory points.
-            ")))
+        $this->wonders[8] = (new Wonder(8, clienttranslate("The Hanging Gardens"), [
+                clienttranslate("You take 6 coins from the bank."),
+                clienttranslate("Immediately play a second turn."),
+                clienttranslate("This Wonder is worth 3 victory points.")
+            ]))
             ->setCost([PAPYRUS => 1, GLASS => 1, WOOD => 2])
             ->setCoins(6)
             ->setVisualCoinPosition([0.412, -0.208])
             ->setExtraTurn()
             ->setVictoryPoints(3);
 
-        $this->wonders[9] = (new Wonder(9, clienttranslate("The Statue of Zeus"), clienttranslate("
-                Put in the discard pile one brown card (Raw goods) of your choice constructed by their opponent.<br/>
-                This Wonder is worth 1 Shield.<br/>
-                This Wonder is worth 3 victory points.
-            ")))
+        $this->wonders[9] = (new Wonder(9, clienttranslate("The Statue of Zeus"), [
+                clienttranslate("Put in the discard pile one brown card (Raw goods) of your choice constructed by their opponent."),
+                clienttranslate("This Wonder is worth 1 Shield."),
+                clienttranslate("This Wonder is worth 3 victory points.")
+            ]))
             ->setCost([PAPYRUS => 2, CLAY => 1, WOOD => 1, STONE => 1])
             ->setDiscardOpponentBuilding(Building::TYPE_BROWN)
             ->setMilitary(1)
             ->setVictoryPoints(3);
 
-        $this->wonders[10] = (new Wonder(10, clienttranslate("The Sphinx"), clienttranslate("
-                Immediately play a second turn.<br/>
-                This Wonder is worth 6 victory points.
-            ")))
+        $this->wonders[10] = (new Wonder(10, clienttranslate("The Sphinx"), [
+                clienttranslate("Immediately play a second turn."),
+                clienttranslate("This Wonder is worth 6 victory points.")
+            ]))
             ->setCost([GLASS => 2, CLAY => 1, STONE => 1])
             ->setExtraTurn()
             ->setVictoryPoints(6);
 
-        $this->wonders[11] = (new Wonder(11, clienttranslate("The Appian Way"), clienttranslate("
-                You take 3 coins from the bank.<br/>
-                Your opponent loses 3 coins, which are returned to the bank.<br/>
-                Immediately play a second turn.<br/>
-                This Wonder is worth 3 victory points.
-            ")))
+        $this->wonders[11] = (new Wonder(11, clienttranslate("The Appian Way"), [
+                clienttranslate("You take 3 coins from the bank."),
+                clienttranslate("Your opponent loses 3 coins, which are returned to the bank."),
+                clienttranslate("Immediately play a second turn."),
+                clienttranslate("This Wonder is worth 3 victory points."),
+            ]))
             ->setCost([PAPYRUS => 1, CLAY => 2, STONE => 2])
             ->setCoins(3)
             ->setVisualCoinPosition([0.412, -0.296])
@@ -145,11 +145,11 @@ class Material extends Base
             ->setExtraTurn()
             ->setVictoryPoints(3);
 
-        $this->wonders[12] = (new Wonder(12, clienttranslate("Circus Maximus"), clienttranslate("
-                Place in the discard pile a grey card (manufactured goods) of your choice constructed by your opponent.<br/>
-                This Wonder is worth 1 Shield.<br/>
-                This Wonder is worth 3 victory points.
-            ")))
+        $this->wonders[12] = (new Wonder(12, clienttranslate("Circus Maximus"), [
+                clienttranslate("Place in the discard pile a grey card (manufactured goods) of your choice constructed by your opponent."),
+                clienttranslate("This Wonder is worth 1 Shield."),
+                clienttranslate("This Wonder is worth 3 victory points.")
+            ]))
             ->setCost([GLASS => 1, WOOD => 1, STONE => 2])
             ->setDiscardOpponentBuilding(Building::TYPE_GREY)
             ->setMilitary(1)
@@ -470,31 +470,50 @@ class Material extends Base
         // | |_| | |_| | | | (_| \__ \
         //  \____|\__,_|_|_|\__,_|___/
 
-        $this->buildings[67] = (new Building(67, 4, clienttranslate("Merchants Guild"), Building::TYPE_PURPLE))
+        $this->buildings[67] = (new Building(67, 4, clienttranslate("Merchants Guild"), Building::TYPE_PURPLE, [
+            sprintf(self::_("At the time it is constructed, this card grants you 1 coin for each %s card in the city which has the most %s cards."), clienttranslate('yellow'), clienttranslate('yellow')),
+            sprintf(self::_("At the end of the game, this card is worth 1 victory point for each %s card in the city which has the most %s cards."), clienttranslate('yellow'), clienttranslate('yellow')),
+        ]))
             ->setCost([CLAY => 1, WOOD => 1, GLASS => 1, PAPYRUS => 1])
             ->setGuildRewardBuildingTypes([Building::TYPE_YELLOW]);
 
-        $this->buildings[68] = (new Building(68, 4, clienttranslate("Shipowners Guild"), Building::TYPE_PURPLE))
+        $this->buildings[68] = (new Building(68, 4, clienttranslate("Shipowners Guild"), Building::TYPE_PURPLE, [
+            clienttranslate("At the time it is constructed, this card grants you 1 coin for each brown and each grey card in the city which has the most brown and grey cards."),
+            clienttranslate("At the end of the game, this card is worth 1 victory point for each brown and each grey card in the city which has the most brown and grey cards."),
+        ]))
             ->setCost([CLAY => 1, STONE => 1, GLASS => 1, PAPYRUS => 1])
             ->setGuildRewardBuildingTypes([Building::TYPE_BROWN, Building::TYPE_GREY]);
 
-        $this->buildings[69] = (new Building(69, 4, clienttranslate("Builders Guild"), Building::TYPE_PURPLE))
+        $this->buildings[69] = (new Building(69, 4, clienttranslate("Builders Guild"), Building::TYPE_PURPLE, [
+            clienttranslate("At the end of the game, this card is worth 2 victory points for each Wonder constructed in the city which has the most wonders."),
+        ]))
             ->setCost([STONE => 2, CLAY => 1, WOOD => 1, GLASS => 1])
             ->setGuildRewardWonders(true);
 
-        $this->buildings[70] = (new Building(70, 4, clienttranslate("Magistrates Guild"), Building::TYPE_PURPLE))
+        $this->buildings[70] = (new Building(70, 4, clienttranslate("Magistrates Guild"), Building::TYPE_PURPLE, [
+            sprintf(self::_("At the time it is constructed, this card grants you 1 coin for each %s card in the city which has the most %s cards."), clienttranslate('blue'), clienttranslate('blue')),
+            sprintf(self::_("At the end of the game, this card is worth 1 victory point for each %s card in the city which has the most %s cards."), clienttranslate('blue'), clienttranslate('blue')),
+        ]))
             ->setCost([WOOD => 2, CLAY => 1, PAPYRUS => 1])
             ->setGuildRewardBuildingTypes([Building::TYPE_BLUE]);
 
-        $this->buildings[71] = (new Building(71, 4, clienttranslate("Scientists Guild"), Building::TYPE_PURPLE))
+        $this->buildings[71] = (new Building(71, 4, clienttranslate("Scientists Guild"), Building::TYPE_PURPLE, [
+            sprintf(self::_("At the time it is constructed, this card grants you 1 coin for each %s card in the city which has the most %s cards."), clienttranslate('green'), clienttranslate('green')),
+            sprintf(self::_("At the end of the game, this card is worth 1 victory point for each %s card in the city which has the most %s cards."), clienttranslate('green'), clienttranslate('green')),
+        ]))
             ->setCost([CLAY => 2, WOOD => 2])
             ->setGuildRewardBuildingTypes([Building::TYPE_GREEN]);
 
-        $this->buildings[72] = (new Building(72, 4, clienttranslate("Moneylenders Guild"), Building::TYPE_PURPLE))
+        $this->buildings[72] = (new Building(72, 4, clienttranslate("Moneylenders Guild"), Building::TYPE_PURPLE, [
+            clienttranslate("At the end of the game, this card is worth 1 victory point for each set of 3 coins in the richest city."),
+        ]))
             ->setCost([STONE => 2, WOOD => 2])
             ->setGuildRewardCoinTriplets(true);
 
-        $this->buildings[73] = (new Building(73, 4, clienttranslate("Tacticians Guild"), Building::TYPE_PURPLE))
+        $this->buildings[73] = (new Building(73, 4, clienttranslate("Tacticians Guild"), Building::TYPE_PURPLE, [
+            sprintf(self::_("At the time it is constructed, this card grants you 1 coin for each %s card in the city which has the most %s cards."), clienttranslate('red'), clienttranslate('red')),
+            sprintf(self::_("At the end of the game, this card is worth 1 victory point for each %s card in the city which has the most %s cards."), clienttranslate('red'), clienttranslate('red')),
+        ]))
             ->setCost([STONE => 2, CLAY => 1, PAPYRUS => 1])
             ->setGuildRewardBuildingTypes([Building::TYPE_RED]);
 
@@ -507,44 +526,54 @@ class Material extends Base
 
         $this->progressTokens = new ProgressTokens();
         
-        $this->progressTokens[1] = (new ProgressToken(1, clienttranslate("Agriculture"), clienttranslate("
-            Immediately take 6 coins from the Bank.<br/>
-            The token is worth 4 victory points.")))
+        $this->progressTokens[1] = (new ProgressToken(1, clienttranslate("Agriculture"), [
+            clienttranslate("Immediately take 6 coins from the Bank."),
+            clienttranslate("The token is worth 4 victory points.")
+        ]))
             ->setCoins(6)
             ->setVictoryPoints(4);
 
-        $this->progressTokens[2] = (new ProgressToken(2, clienttranslate("Architecture"), clienttranslate("
-            Any future Wonders built by you will cost 2 fewer resources.<br/>
-            BGA will calculate and choose the most advantageous resources for you.")));
+        $this->progressTokens[2] = (new ProgressToken(2, clienttranslate("Architecture"), [
+            clienttranslate("Any future Wonders built by you will cost 2 fewer resources.") . "<br/>" .
+            clienttranslate("BGA will calculate and choose the most advantageous resources for you.")
+        ]));
 
-        $this->progressTokens[3] = (new ProgressToken(3, clienttranslate("Economy"), clienttranslate("
-            You gain the money spent by your opponent when they trade for resources.")));
+        $this->progressTokens[3] = (new ProgressToken(3, clienttranslate("Economy"), [
+            clienttranslate("You gain the money spent by your opponent when they trade for resources.")
+        ]));
 
-        $this->progressTokens[4] = (new ProgressToken(4, clienttranslate("Law"), clienttranslate("
-            This token is worth a scientific symbol.")))
+        $this->progressTokens[4] = (new ProgressToken(4, clienttranslate("Law"), [
+            clienttranslate("This token is worth a scientific symbol.")
+        ]))
             ->setScientificSymbol(2);
 
-        $this->progressTokens[5] = (new ProgressToken(5, clienttranslate("Masonry"), clienttranslate("
-            Any future blue cards constructed by you will cost 2 fewer resources.<br/>
-            BGA will calculate and choose the most advantageous resources for you.")));
+        $this->progressTokens[5] = (new ProgressToken(5, clienttranslate("Masonry"), [
+            clienttranslate("Any future blue cards constructed by you will cost 2 fewer resources.") . "<br/>" .
+            clienttranslate("BGA will calculate and choose the most advantageous resources for you.")
+        ]));
 
-        $this->progressTokens[6] = (new ProgressToken(6, clienttranslate("Mathematics"), clienttranslate("
-            At the end of the game, score 3 victory points for each Progress token in your possession (including itself).")));
+        $this->progressTokens[6] = (new ProgressToken(6, clienttranslate("Mathematics"), [
+            clienttranslate("At the end of the game, score 3 victory points for each Progress token in your possession (including itself).")
+        ]));
 
-        $this->progressTokens[7] = (new ProgressToken(7, clienttranslate("Philosophy"), clienttranslate("
-            The token is worth 7 victory points.")))
+        $this->progressTokens[7] = (new ProgressToken(7, clienttranslate("Philosophy"), [
+            clienttranslate("The token is worth 7 victory points.")
+        ]))
             ->setVictoryPoints(7);
 
-        $this->progressTokens[8] = (new ProgressToken(8, clienttranslate("Strategy"), clienttranslate("
-            Once this token enters play, your new military Buildings (red cards) will benefit from 1 extra Shield.")));
+        $this->progressTokens[8] = (new ProgressToken(8, clienttranslate("Strategy"), [
+            clienttranslate("Once this token enters play, your new military Buildings (red cards) will benefit from 1 extra Shield.")
+        ]));
 
-        $this->progressTokens[9] = (new ProgressToken(9, clienttranslate("Theology"), clienttranslate("
-            All future Wonders constructed by you are all treated as though they have the “Play Again” effect.<br/>
-            Wonders which already have this effect are not affected.")));
+        $this->progressTokens[9] = (new ProgressToken(9, clienttranslate("Theology"), [
+            clienttranslate("All future Wonders constructed by you are all treated as though they have the “Play Again” effect."). "<br/>" .
+            clienttranslate("Wonders which already have this effect are not affected.")
+        ]));
 
-        $this->progressTokens[10] = (new ProgressToken(10, clienttranslate("Urbanism"), clienttranslate("
-            Immediately take 6 coins from the Bank.<br/>
-            Each time you construct a Building for free through linking (free construction condition, chain), you gain 4 coins.")))
+        $this->progressTokens[10] = (new ProgressToken(10, clienttranslate("Urbanism"), [
+            clienttranslate("Immediately take 6 coins from the Bank."),
+            clienttranslate("Each time you construct a Building for free through linking (free construction condition, chain), you gain 4 coins.")
+        ]))
             ->setCoins(6);
 
         $this->buildingIdsToLinkIconId = [
