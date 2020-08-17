@@ -1236,10 +1236,11 @@ __        __              _
 }
 
 .wonder {
-    width: var(--wonder-width);
-    height: var(--wonder-height);
+    width: calc(var(--wonder-width) * var(--scale));
+    height: calc(var(--wonder-height) * var(--scale));
+    background-size: calc(var(--wonder-spritesheet-width) * var(--scale)) calc(var(--wonder-spritesheet-height) * var(--scale));
     background-image: url('img/wonders.jpg');
-    border-radius: var(--wonder-border-radius);
+    border-radius: calc(var(--wonder-border-radius) * var(--scale));
     box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
     inset 0 0 0 1px #00000060;
 
@@ -1257,16 +1258,6 @@ __        __              _
     inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
     text-align: center;
 }
-
-.wonder .swd_title_container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-    width: calc(var(--wonder-width) * var(--wonder-small-scale));
-    height: calc(var(--wonder-height) * var(--wonder-small-scale));
-}
-
 
 .swd_title {
     font-family: "PossumSaltareNF";
@@ -1296,7 +1287,7 @@ __        __              _
     position: relative;
     top: 86%;
     left: -3.5%;
-    font-size: 16px;
+    font-size: calc(16px * var(--scale));
     display: block;
 }
 
@@ -1566,18 +1557,17 @@ __        __              _
                         |_|
  */
 
+.swd_tooltip * {
+    font-size: calc(var(--scale) * 14px);
+}
 .swd_tooltip {
-    width: 700px;
+    width: calc(var(--scale) * 700px);
     display: flex;
     justify-content: space-between;
 }
 
 .swd_tooltip > div {
     flex-grow: 1;
-}
-
-.swd_tooltip * {
-    /*zoom: 1;*/
 }
 
 .swd_tooltip li {
