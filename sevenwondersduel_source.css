@@ -122,16 +122,16 @@ __     __         _       _     _
  \____|\___|_| |_|\___|_|  \__,_|_|
  */
 
-html {
-    background-image: none !important;
-    background-color: black;
-}
+/*html {*/
+/*    background-image: none !important;*/
+/*    background-color: black;*/
+/*}*/
 
-.whiteblock {
-    background-image: none !important;
-    /*background: url('https://en.1.studio.boardgamearena.com:8083/data/themereleases/200730-1036/img/layout/back-main.jpg') !important;*/
-    background-color: white;
-}
+/*.whiteblock {*/
+/*    background-image: none !important;*/
+/*    !*background: url('https://en.1.studio.boardgamearena.com:8083/data/themereleases/200730-1036/img/layout/back-main.jpg') !important;*!*/
+/*    background-color: white;*/
+/*}*/
 
 #game_play_area {
 
@@ -1148,10 +1148,11 @@ html {
  */
 
 .building {
-    width: var(--building-width);
-    height: var(--building-height);
+    width: calc(var(--building-width) * var(--scale));
+    height: calc(var(--building-height) * var(--scale));
+    background-size: calc(var(--building-spritesheet-width) * var(--scale)) calc(var(--building-spritesheet-height) * var(--scale));
     background-image: url('img/buildings.jpg');
-    border-radius: 14px;
+    border-radius: calc(14px * var(--scale));
     box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
     inset 0 0 0 calc(var(--scale) * 1px) #00000060;
     display: inline-block;
@@ -1236,10 +1237,11 @@ __        __              _
 }
 
 .wonder {
-    width: var(--wonder-width);
-    height: var(--wonder-height);
+    width: calc(var(--wonder-width) * var(--scale));
+    height: calc(var(--wonder-height) * var(--scale));
+    background-size: calc(var(--wonder-spritesheet-width) * var(--scale)) calc(var(--wonder-spritesheet-height) * var(--scale));
     background-image: url('img/wonders.jpg');
-    border-radius: var(--wonder-border-radius);
+    border-radius: calc(var(--wonder-border-radius) * var(--scale));
     box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
     inset 0 0 0 1px #00000060;
 
@@ -1258,16 +1260,6 @@ __        __              _
     text-align: center;
 }
 
-.wonder .swd_title_container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-    width: calc(var(--wonder-width) * var(--wonder-small-scale));
-    height: calc(var(--wonder-height) * var(--wonder-small-scale));
-}
-
-
 .swd_title {
     font-family: "PossumSaltareNF";
     text-align: center;
@@ -1277,11 +1269,11 @@ __        __              _
 .building .swd_title {
     position: absolute;
     top: 89%;
-    font-size: 14px;
+    font-size: calc(14px * var(--scale));
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: var(--building-width);
+    width: calc(var(--building-width) * var(--scale));
 }
 
 .building_small .swd_title {
@@ -1296,7 +1288,7 @@ __        __              _
     position: relative;
     top: 86%;
     left: -3.5%;
-    font-size: 16px;
+    font-size: calc(16px * var(--scale));
     display: block;
 }
 
@@ -1305,7 +1297,7 @@ __        __              _
 }
 
 .progress_token .swd_title {
-    font-size: 22px;
+    font-size: calc(22px * var(--scale));
 }
 
 /*
@@ -1322,8 +1314,9 @@ __        __              _
 }
 
 .progress_token {
-    width: var(--progress-token-width);
-    height: var(--progress-token-height);
+    width: calc(var(--progress-token-width) * var(--scale));
+    height: calc(var(--progress-token-height) * var(--scale));
+    background-size: calc(var(--progress-token-spritesheet-width) * var(--scale)) calc(var(--progress-token-spritesheet-height) * var(--scale));
     background-image: url('img/progress_tokens.jpg');
     border-radius: calc(var(--progress-token-width) * 0.5);
     box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
@@ -1572,8 +1565,11 @@ __        __              _
                         |_|
  */
 
+.swd_tooltip * {
+    font-size: calc(var(--scale) * 14px);
+}
 .swd_tooltip {
-    width: 700px;
+    width: calc(var(--scale) * 700px);
     display: flex;
     justify-content: space-between;
 }
@@ -1582,12 +1578,9 @@ __        __              _
     flex-grow: 1;
 }
 
-.swd_tooltip * {
-    /*zoom: 1;*/
-}
-
 .swd_tooltip li {
-    list-style: inside;
+    list-style: outside;
+    margin-left: calc(25px * var(--scale));
 }
 
 .building_tooltip {

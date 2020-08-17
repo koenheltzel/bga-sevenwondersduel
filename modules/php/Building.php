@@ -16,6 +16,7 @@ class Building extends Item {
 
     public $age;
     public $type;
+    public $resources = [];
     public $chain = null; // coins and or resources
     public $fixedPriceResources = [];
     public $linkedBuilding = 0;
@@ -33,10 +34,10 @@ class Building extends Item {
         return Material::get()->buildings[$id];
     }
 
-    public function __construct($id, $age, $name, $type) {
+    public function __construct($id, $age, $name, $type, Array $text = []) {
         $this->age = $age;
         $this->type = $type;
-        parent::__construct($id, $name);
+        parent::__construct($id, $name, $text);
     }
 
     public function checkBuildingAvailable() {
@@ -202,6 +203,24 @@ class Building extends Item {
         }
     }
 
+    protected function getBuildingTypeString($type) {
+        switch($type){
+            case Building::TYPE_BROWN:
+                return self::_('Brown');
+            case Building::TYPE_GREY:
+                return self::_('Grey');
+            case Building::TYPE_YELLOW:
+                return self::_('Yellow');
+            case Building::TYPE_RED:
+                return self::_('Red');
+            case Building::TYPE_BLUE:
+                return self::_('Blue');
+            case Building::TYPE_GREEN:
+                return self::_('Green');
+            case Building::TYPE_PURPLE:
+                return self::_('Purple');
+        }
+    }
     protected function getScoreCategory() {
         return strtolower($this->type);
     }
@@ -220,11 +239,34 @@ class Building extends Item {
     }
 
     /**
+     * @param array $resources
+     * @return static
+     */
+    public function setResources($resources) {
+        $this->resources = $resources;
+        $resource = array_keys($resources)[0];
+        $amount = array_shift($resources);
+        if (in_array($resource, [CLAY, WOOD, STONE])) {
+            if ($amount == 1) {
+                $this->text[] = clienttranslate("This card produces one unit of the raw goods represented.");
+            }
+            if ($amount == 2) {
+                $this->text[] = clienttranslate("This card produces two units of the raw goods represented.");
+            }
+        }
+        else {
+            $this->text[] = clienttranslate("This card produces one unit of the manufactured goods represented.");
+        }
+        return $this;
+    }
+
+    /**
      * @param array $fixedPriceResources
      * @return static
      */
     public function setFixedPriceResources(array $fixedPriceResources) {
         $this->fixedPriceResources = $fixedPriceResources;
+        $this->text[] = clienttranslate("This card changes the trading rules for the indicated resource(s). Starting on the following turn, you will purchase the indicated resource(s) from the bank at the fixed cost of 1 coin per unit.");
         return $this;
     }
 
@@ -233,7 +275,13 @@ class Building extends Item {
      * @return static
      */
     public function setLinkedBuilding(int $linkedBuilding) {
-        $this->linkedBuilding = $linkedBuilding;
+        if ($linkedBuilding < $this->id) {
+            $this->linkedBuilding = $linkedBuilding;
+        }
+        else {
+            $building = Building::get($linkedBuilding);
+            $this->text[] = sprintf(self::_("This card grants the linking symbol shown. During Age %s you will be able to construct building “%s” for free."), ageRoman($building->age), $building->name);
+        }
         return $this;
     }
 
@@ -243,6 +291,12 @@ class Building extends Item {
      */
     public function setCoinsPerBuildingOfType(string $type, int $coins) {
         $this->coinsPerBuildingOfType = [$type, $coins];
+        $this->text[] = sprintf(
+            self::_("This card is worth %d coin(s) for each %s card in your city %s at the time it is constructed."),
+            $coins,
+            $this->getBuildingTypeString($type),
+            $type == Building::TYPE_YELLOW ? self::_("(including itself)") : ''
+        );
         return $this;
     }
 
@@ -252,6 +306,7 @@ class Building extends Item {
      */
     public function setCoinsPerWonder(int $coinsPerWonder) {
         $this->coinsPerWonder = $coinsPerWonder;
+        $this->text[] = clienttranslate("This card is worth %d coins per Wonder constructed in your city at the time it is constructed.");
         return $this;
     }
 
@@ -261,6 +316,7 @@ class Building extends Item {
      */
     public function setGuildRewardWonders(bool $guildRewardWonders) {
         $this->guildRewardWonders = $guildRewardWonders;
+        $this->text[] = clienttranslate("At the end of the game, this card is worth 2 victory points for each Wonder constructed in the city which has the most wonders.");
         return $this;
     }
 
@@ -270,6 +326,7 @@ class Building extends Item {
      */
     public function setGuildRewardCoinTriplets(bool $guildRewardCoinTriplets) {
         $this->guildRewardCoinTriplets = $guildRewardCoinTriplets;
+        $this->text[] = clienttranslate("At the end of the game, this card is worth 1 victory point for each set of 3 coins in the richest city.");
         return $this;
     }
 
@@ -279,6 +336,15 @@ class Building extends Item {
      */
     public function setGuildRewardBuildingTypes(array $guildRewardBuildingTypes) {
         $this->guildRewardBuildingTypes = $guildRewardBuildingTypes;
+        if (count($guildRewardBuildingTypes) == 1) {
+            $buildingType = $this->getBuildingTypeString($this->guildRewardBuildingTypes[0]);
+            $this->text[] = sprintf(self::_("At the time it is constructed, this card grants you 1 coin for each %s card in the city which has the most %s cards."), $buildingType, $buildingType);
+            $this->text[] = sprintf(self::_("At the end of the game, this card is worth 1 victory point for each %s card in the city which has the most %s cards."), $buildingType, $buildingType);
+        }
+        else {
+            $this->text[] = clienttranslate("At the time it is constructed, this card grants you 1 coin for each brown and each grey card in the city which has the most brown and grey cards.");
+            $this->text[] = clienttranslate("At the end of the game, this card is worth 1 victory point for each brown and each grey card in the city which has the most brown and grey cards.");
+        }
         return $this;
     }
 

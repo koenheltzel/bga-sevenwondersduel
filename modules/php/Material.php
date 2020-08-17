@@ -32,11 +32,15 @@ class Material extends Base
     public static function get() {
         if (is_null(self::$instance)) {
             self::$instance = new Material();
+            self::$instance->initialize();
         }
         return self::$instance;
     }
 
-    private function __construct() {
+    /**
+     * This would be the constructor, but later on we use Building::get(), which in turn tries to get the Material singleton instance which wouldn't exist yet during execution of the constructor.
+     */
+    private function initialize() {
         // __        __              _
         // \ \      / /__  _ __   __| | ___ _ __ ___
         //  \ \ /\ / / _ \| '_ \ / _` |/ _ \ '__/ __|
@@ -45,98 +49,61 @@ class Material extends Base
 
         $this->wonders = new Wonders();
 
-        $this->wonders[1] = (new Wonder(1, clienttranslate("The Pyramids"), clienttranslate("
-                This Wonder is worth 9 victory points.
-            ")))
+        $this->wonders[1] = (new Wonder(1, clienttranslate("The Pyramids")))
             ->setCost([PAPYRUS => 1, STONE => 3])
             ->setVictoryPoints(9);
 
-        $this->wonders[2] = (new Wonder(2, clienttranslate("The Colossus"), clienttranslate("
-                This Wonder is worth 2 Shields.<br/>
-                This Wonder is worth 3 victory points.
-            ")))
+        $this->wonders[2] = (new Wonder(2, clienttranslate("The Colossus")))
             ->setCost([GLASS => 1, CLAY => 3])
             ->setMilitary(2)
             ->setVictoryPoints(3);
 
-        $this->wonders[3] = (new Wonder(3, clienttranslate("The Great Lighthouse"), clienttranslate("
-                This Wonder produces one unit of the resources shown (Stone, Clay, or Wood) for you each turn.<br/>
-                This Wonder is worth 4 victory points.
-            ")))
+        $this->wonders[3] = (new Wonder(3, clienttranslate("The Great Lighthouse")))
             ->setCost([PAPYRUS => 2, STONE => 1, WOOD => 1])
             ->setResourceChoice([WOOD, STONE, CLAY])
             ->setVictoryPoints(4);
 
-        $this->wonders[4] = (new Wonder(4, clienttranslate("The Temple of Artemis"), clienttranslate("
-                Immediately take 12 coins from the Bank.<br/>
-                Immediately play a second turn.
-            ")))
+        $this->wonders[4] = (new Wonder(4, clienttranslate("The Temple of Artemis")))
             ->setCost([PAPYRUS => 1, GLASS => 1, STONE => 1, WOOD => 1])
             ->setCoins(12)
             ->setVisualCoinPosition([0.412, -0.125])
             ->setExtraTurn();
 
-        $this->wonders[5] = (new Wonder(5, clienttranslate("The Mausoleum"), clienttranslate("
-                Take all of the cards which have been discarded since the beginning of the game and immediately construct one of your choice for free.<br/>
-                This Wonder is worth 2 victory points.
-            ")))
+        $this->wonders[5] = (new Wonder(5, clienttranslate("The Mausoleum")))
             ->setCost([PAPYRUS => 1, GLASS => 2, CLAY => 2])
             ->setConstructDiscardedBuilding()
             ->setVictoryPoints(2);
 
-        $this->wonders[6] = (new Wonder(6, clienttranslate("The Great Library"), clienttranslate("
-                Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box.<br/>
-                This Wonder is worth 4 victory points.
-            ")))
+        $this->wonders[6] = (new Wonder(6, clienttranslate("The Great Library")))
             ->setCost([PAPYRUS => 1, GLASS => 1, WOOD => 3])
             ->setProgressTokenFromBox()
             ->setVictoryPoints(6);
 
-        $this->wonders[7] = (new Wonder(7, clienttranslate("Piraeus"), clienttranslate("
-                This Wonder produces one unit of one of the resources shown (Glass or Papyrus) for you each turn.<br/>
-                Immediately play a second turn.<br/>
-                This Wonder is worth 2 victory points.
-            ")))
+        $this->wonders[7] = (new Wonder(7, clienttranslate("Piraeus")))
             ->setCost([CLAY => 1, STONE => 1, WOOD => 2])
             ->setResourceChoice([PAPYRUS, GLASS])
             ->setExtraTurn()
             ->setVictoryPoints(2);
 
-        $this->wonders[8] = (new Wonder(8, clienttranslate("The Hanging Gardens"), clienttranslate("
-                You take 6 coins from the bank.<br/>
-                Immediately play a second turn.<br/>
-                This Wonder is worth 3 victory points.
-            ")))
+        $this->wonders[8] = (new Wonder(8, clienttranslate("The Hanging Gardens")))
             ->setCost([PAPYRUS => 1, GLASS => 1, WOOD => 2])
             ->setCoins(6)
             ->setVisualCoinPosition([0.412, -0.208])
             ->setExtraTurn()
             ->setVictoryPoints(3);
 
-        $this->wonders[9] = (new Wonder(9, clienttranslate("The Statue of Zeus"), clienttranslate("
-                Put in the discard pile one brown card (Raw goods) of your choice constructed by their opponent.<br/>
-                This Wonder is worth 1 Shield.<br/>
-                This Wonder is worth 3 victory points.
-            ")))
+        $this->wonders[9] = (new Wonder(9, clienttranslate("The Statue of Zeus")))
             ->setCost([PAPYRUS => 2, CLAY => 1, WOOD => 1, STONE => 1])
             ->setDiscardOpponentBuilding(Building::TYPE_BROWN)
             ->setMilitary(1)
             ->setVictoryPoints(3);
 
-        $this->wonders[10] = (new Wonder(10, clienttranslate("The Sphinx"), clienttranslate("
-                Immediately play a second turn.<br/>
-                This Wonder is worth 6 victory points.
-            ")))
+        $this->wonders[10] = (new Wonder(10, clienttranslate("The Sphinx")))
             ->setCost([GLASS => 2, CLAY => 1, STONE => 1])
             ->setExtraTurn()
             ->setVictoryPoints(6);
 
-        $this->wonders[11] = (new Wonder(11, clienttranslate("The Appian Way"), clienttranslate("
-                You take 3 coins from the bank.<br/>
-                Your opponent loses 3 coins, which are returned to the bank.<br/>
-                Immediately play a second turn.<br/>
-                This Wonder is worth 3 victory points.
-            ")))
+        $this->wonders[11] = (new Wonder(11, clienttranslate("The Appian Way")))
             ->setCost([PAPYRUS => 1, CLAY => 2, STONE => 2])
             ->setCoins(3)
             ->setVisualCoinPosition([0.412, -0.296])
@@ -145,11 +112,7 @@ class Material extends Base
             ->setExtraTurn()
             ->setVictoryPoints(3);
 
-        $this->wonders[12] = (new Wonder(12, clienttranslate("Circus Maximus"), clienttranslate("
-                Place in the discard pile a grey card (manufactured goods) of your choice constructed by your opponent.<br/>
-                This Wonder is worth 1 Shield.<br/>
-                This Wonder is worth 3 victory points.
-            ")))
+        $this->wonders[12] = (new Wonder(12, clienttranslate("Circus Maximus")))
             ->setCost([GLASS => 1, WOOD => 1, STONE => 2])
             ->setDiscardOpponentBuilding(Building::TYPE_GREY)
             ->setMilitary(1)
@@ -278,13 +241,13 @@ class Material extends Base
 
         $this->buildings[29] = (new Building(29, 2, clienttranslate("Horse Breeders"), Building::TYPE_RED))
             ->setCost([CLAY => 1, WOOD => 1])
-            ->setLinkedBuilding(9) // Stable
-            ->setMilitary(1);
+            ->setMilitary(1)
+            ->setLinkedBuilding(9); // Stable
 
         $this->buildings[30] = (new Building(30, 2, clienttranslate("Barracks"), Building::TYPE_RED))
             ->setCost([COINS => 3])
-            ->setLinkedBuilding(10) // Garrison
-            ->setMilitary(1);
+            ->setMilitary(1)
+            ->setLinkedBuilding(10); // Garrison
 
         $this->buildings[31] = (new Building(31, 2, clienttranslate("Walls"), Building::TYPE_RED))
             ->setCost([STONE => 2])
@@ -310,15 +273,15 @@ class Material extends Base
 
         $this->buildings[36] = (new Building(36, 2, clienttranslate("Dispensary"), Building::TYPE_GREEN))
             ->setCost([CLAY => 2, STONE => 1])
-            ->setLinkedBuilding(15) // Pharmacist
             ->setScientificSymbol(4)
-            ->setVictoryPoints(2);
+            ->setVictoryPoints(2)
+            ->setLinkedBuilding(15); // Pharmacist
 
         $this->buildings[37] = (new Building(37, 2, clienttranslate("Library"), Building::TYPE_GREEN))
             ->setCost([STONE => 1, WOOD => 1, GLASS => 1])
-            ->setLinkedBuilding(13) // Scriptorium
             ->setScientificSymbol(6)
-            ->setVictoryPoints(2);
+            ->setVictoryPoints(2)
+            ->setLinkedBuilding(13); // Scriptorium
 
         $this->buildings[38] = (new Building(38, 2, clienttranslate("Brewery"), Building::TYPE_YELLOW))
             ->setCoins(6);
@@ -337,13 +300,13 @@ class Material extends Base
 
         $this->buildings[42] = (new Building(42, 2, clienttranslate("Temple"), Building::TYPE_BLUE))
             ->setCost([WOOD => 1, PAPYRUS => 1])
-            ->setLinkedBuilding(22) // Altar
-            ->setVictoryPoints(4);
+            ->setVictoryPoints(4)
+            ->setLinkedBuilding(22); // Altar
 
         $this->buildings[43] = (new Building(43, 2, clienttranslate("Statue"), Building::TYPE_BLUE))
             ->setCost([CLAY => 2])
-            ->setLinkedBuilding(21) // Theater
-            ->setVictoryPoints(4);
+            ->setVictoryPoints(4)
+            ->setLinkedBuilding(21); // Theater
 
         $this->buildings[44] = (new Building(44, 2, clienttranslate("Courthouse"), Building::TYPE_BLUE))
             ->setCost([WOOD => 2, GLASS => 1])
@@ -351,8 +314,8 @@ class Material extends Base
 
         $this->buildings[45] = (new Building(45, 2, clienttranslate("Aqueduct"), Building::TYPE_BLUE))
             ->setCost([STONE => 3])
-            ->setLinkedBuilding(23) // Baths
-            ->setVictoryPoints(5);
+            ->setVictoryPoints(5)
+            ->setLinkedBuilding(23); // Baths
 
         $this->buildings[46] = (new Building(46, 2, clienttranslate("Rostrum"), Building::TYPE_BLUE))
             ->setCost([STONE => 1, WOOD => 1])
@@ -367,8 +330,8 @@ class Material extends Base
 
         $this->buildings[47] = (new Building(47, 3, clienttranslate("Circus"), Building::TYPE_RED))
             ->setCost([CLAY => 2, STONE => 2])
-            ->setLinkedBuilding(33) // Parade Ground
-            ->setMilitary(2);
+            ->setMilitary(2)
+            ->setLinkedBuilding(33); // Parade Ground
 
         $this->buildings[48] = (new Building(48, 3, clienttranslate("Arsenal"), Building::TYPE_RED))
             ->setCost([CLAY => 3, WOOD => 2])
@@ -376,13 +339,13 @@ class Material extends Base
 
         $this->buildings[49] = (new Building(49, 3, clienttranslate("Siege Workshop"), Building::TYPE_RED))
             ->setCost([WOOD => 3, GLASS => 1])
-            ->setLinkedBuilding(32) // Archery Range
-            ->setMilitary(2);
+            ->setMilitary(2)
+            ->setLinkedBuilding(32); // Archery Range
 
         $this->buildings[50] = (new Building(50, 3, clienttranslate("Fortifications"), Building::TYPE_RED))
             ->setCost([STONE => 2, CLAY => 1, PAPYRUS => 1])
-            ->setLinkedBuilding(11) // Palisade
-            ->setMilitary(2);
+            ->setMilitary(2)
+            ->setLinkedBuilding(11); // Palisade
 
         $this->buildings[51] = (new Building(51, 3, clienttranslate("Pretorium"), Building::TYPE_RED))
             ->setCost([COINS => 8])
@@ -395,9 +358,9 @@ class Material extends Base
 
         $this->buildings[53] = (new Building(53, 3, clienttranslate("University"), Building::TYPE_GREEN))
             ->setCost([CLAY => 1, GLASS => 1, PAPYRUS => 1])
-            ->setLinkedBuilding(34) // School
             ->setScientificSymbol(1)
-            ->setVictoryPoints(2);
+            ->setVictoryPoints(2)
+            ->setLinkedBuilding(34); // School
 
         $this->buildings[54] = (new Building(54, 3, clienttranslate("Study"), Building::TYPE_GREEN))
             ->setCost([WOOD => 2, GLASS => 1, PAPYRUS => 1])
@@ -406,15 +369,15 @@ class Material extends Base
 
         $this->buildings[55] = (new Building(55, 3, clienttranslate("Observatory"), Building::TYPE_GREEN))
             ->setCost([STONE => 1, PAPYRUS => 2])
-            ->setLinkedBuilding(35) // Laboratory
             ->setScientificSymbol(1)
-            ->setVictoryPoints(2);
+            ->setVictoryPoints(2)
+            ->setLinkedBuilding(35); // Laboratory
 
         $this->buildings[56] = (new Building(56, 3, clienttranslate("Arena"), Building::TYPE_YELLOW))
             ->setCost([CLAY => 1, STONE => 1, WOOD => 1])
-            ->setLinkedBuilding(38) // Brewery
             ->setCoinsPerWonder(2)
-            ->setVictoryPoints(3);
+            ->setVictoryPoints(3)
+            ->setLinkedBuilding(38); // Brewery
 
         $this->buildings[57] = (new Building(57, 3, clienttranslate("Chamber Of Commerce"), Building::TYPE_YELLOW))
             ->setCost([PAPYRUS => 2])
@@ -428,9 +391,9 @@ class Material extends Base
 
         $this->buildings[59] = (new Building(59, 3, clienttranslate("Lighthouse"), Building::TYPE_YELLOW))
             ->setCost([CLAY => 2, GLASS => 1])
-            ->setLinkedBuilding(17) // Tavern
             ->setCoinsPerBuildingOfType(Building::TYPE_YELLOW, 1)
-            ->setVictoryPoints(3);
+            ->setVictoryPoints(3)
+            ->setLinkedBuilding(17); // Tavern
 
         $this->buildings[60] = (new Building(60, 3, clienttranslate("Armory"), Building::TYPE_YELLOW))
             ->setCost([STONE => 2, GLASS => 1])
@@ -443,13 +406,13 @@ class Material extends Base
 
         $this->buildings[62] = (new Building(62, 3, clienttranslate("Gardens"), Building::TYPE_BLUE))
             ->setCost([CLAY => 2, WOOD => 2])
-            ->setLinkedBuilding(43) // Statue
-            ->setVictoryPoints(6);
+            ->setVictoryPoints(6)
+            ->setLinkedBuilding(43); // Statue
 
         $this->buildings[63] = (new Building(63, 3, clienttranslate("Pantheon"), Building::TYPE_BLUE))
             ->setCost([CLAY => 1, WOOD => 1, PAPYRUS => 2])
-            ->setLinkedBuilding(42) // Temple
-            ->setVictoryPoints(6);
+            ->setVictoryPoints(6)
+            ->setLinkedBuilding(42); // Temple
 
         $this->buildings[64] = (new Building(64, 3, clienttranslate("Town Hall"), Building::TYPE_BLUE))
             ->setCost([STONE => 3, WOOD => 2])
@@ -457,8 +420,8 @@ class Material extends Base
 
         $this->buildings[65] = (new Building(65, 3, clienttranslate("Senate"), Building::TYPE_BLUE))
             ->setCost([CLAY => 2, STONE => 1, PAPYRUS => 1])
-            ->setLinkedBuilding(46) // Rostrum
-            ->setVictoryPoints(5);
+            ->setVictoryPoints(5)
+            ->setLinkedBuilding(46); // Rostrum
 
         $this->buildings[66] = (new Building(66, 3, clienttranslate("Obelisk"), Building::TYPE_BLUE))
             ->setCost([STONE => 2, GLASS => 1])
@@ -507,66 +470,85 @@ class Material extends Base
 
         $this->progressTokens = new ProgressTokens();
         
-        $this->progressTokens[1] = (new ProgressToken(1, clienttranslate("Agriculture"), clienttranslate("
-            Immediately take 6 coins from the Bank.<br/>
-            The token is worth 4 victory points.")))
+        $this->progressTokens[1] = (new ProgressToken(1, clienttranslate("Agriculture")))
             ->setCoins(6)
             ->setVictoryPoints(4);
 
-        $this->progressTokens[2] = (new ProgressToken(2, clienttranslate("Architecture"), clienttranslate("
-            Any future Wonders built by you will cost 2 fewer resources.<br/>
-            BGA will calculate and choose the most advantageous resources for you.")));
+        $this->progressTokens[2] = (new ProgressToken(2, clienttranslate("Architecture")))
+            ->addText(
+                clienttranslate("Any future Wonders built by you will cost 2 fewer resources.") . "<br/>" .
+                clienttranslate("BGA will calculate and choose the most advantageous resources for you.")
+            );
 
-        $this->progressTokens[3] = (new ProgressToken(3, clienttranslate("Economy"), clienttranslate("
-            You gain the money spent by your opponent when they trade for resources.")));
+        $this->progressTokens[3] = (new ProgressToken(3, clienttranslate("Economy")))
+            ->addText(clienttranslate("You gain the money spent by your opponent when they trade for resources."));
 
-        $this->progressTokens[4] = (new ProgressToken(4, clienttranslate("Law"), clienttranslate("
-            This token is worth a scientific symbol.")))
+        $this->progressTokens[4] = (new ProgressToken(4, clienttranslate("Law")))
             ->setScientificSymbol(2);
 
-        $this->progressTokens[5] = (new ProgressToken(5, clienttranslate("Masonry"), clienttranslate("
-            Any future blue cards constructed by you will cost 2 fewer resources.<br/>
-            BGA will calculate and choose the most advantageous resources for you.")));
+        $this->progressTokens[5] = (new ProgressToken(5, clienttranslate("Masonry")))
+            ->addText(
+                clienttranslate("Any future blue cards constructed by you will cost 2 fewer resources.") . "<br/>" .
+                clienttranslate("BGA will calculate and choose the most advantageous resources for you.")
+            );
 
-        $this->progressTokens[6] = (new ProgressToken(6, clienttranslate("Mathematics"), clienttranslate("
-            At the end of the game, score 3 victory points for each Progress token in your possession (including itself).")));
+        $this->progressTokens[6] = (new ProgressToken(6, clienttranslate("Mathematics")))
+            ->addText(clienttranslate("At the end of the game, score 3 victory points for each Progress token in your possession (including itself)."));
 
-        $this->progressTokens[7] = (new ProgressToken(7, clienttranslate("Philosophy"), clienttranslate("
-            The token is worth 7 victory points.")))
+        $this->progressTokens[7] = (new ProgressToken(7, clienttranslate("Philosophy")))
             ->setVictoryPoints(7);
 
-        $this->progressTokens[8] = (new ProgressToken(8, clienttranslate("Strategy"), clienttranslate("
-            Once this token enters play, your new military Buildings (red cards) will benefit from 1 extra Shield.")));
+        $this->progressTokens[8] = (new ProgressToken(8, clienttranslate("Strategy")))
+            ->addText(clienttranslate("Once this token enters play, your new military Buildings (red cards) will benefit from 1 extra Shield."));
 
-        $this->progressTokens[9] = (new ProgressToken(9, clienttranslate("Theology"), clienttranslate("
-            All future Wonders constructed by you are all treated as though they have the “Play Again” effect.<br/>
-            Wonders which already have this effect are not affected.")));
+        $this->progressTokens[9] = (new ProgressToken(9, clienttranslate("Theology")))
+            ->addText(
+                clienttranslate("All future Wonders constructed by you are all treated as though they have the “Play Again” effect.") . "<br/>" .
+                clienttranslate("Wonders which already have this effect are not affected.")
+            );
 
-        $this->progressTokens[10] = (new ProgressToken(10, clienttranslate("Urbanism"), clienttranslate("
-            Immediately take 6 coins from the Bank.<br/>
-            Each time you construct a Building for free through linking (free construction condition, chain), you gain 4 coins.")))
-            ->setCoins(6);
+        $this->progressTokens[10] = (new ProgressToken(10, clienttranslate("Urbanism")))
+            ->setCoins(6)
+            ->addText(clienttranslate("Each time you construct a Building for free through linking (free construction condition, chain), you gain 4 coins."));
+
+        // Set the link relationship in the other way, to add text to the tooltip about it.
+        Building::get(9)->setLinkedBuilding(29);
+        Building::get(10)->setLinkedBuilding(30);
+        Building::get(11)->setLinkedBuilding(50);
+        Building::get(32)->setLinkedBuilding(49);
+        Building::get(33)->setLinkedBuilding(47);
+        Building::get(13)->setLinkedBuilding(37);
+        Building::get(15)->setLinkedBuilding(36);
+        Building::get(34)->setLinkedBuilding(53);
+        Building::get(35)->setLinkedBuilding(55);
+        Building::get(21)->setLinkedBuilding(43);
+        Building::get(43)->setLinkedBuilding(62);
+        Building::get(22)->setLinkedBuilding(42);
+        Building::get(42)->setLinkedBuilding(63);
+        Building::get(23)->setLinkedBuilding(45);
+        Building::get(46)->setLinkedBuilding(65);
+        Building::get(17)->setLinkedBuilding(59);
+        Building::get(38)->setLinkedBuilding(56);
 
         $this->buildingIdsToLinkIconId = [
-            9 => 12, // Horseshoe sybmol
-            10 => 13, // Sword sybmol
-            11 => 14, // Tower sybmol
-            32 => 10, // Target sybmol
-            33 => 11, // Roman helmet sybmol
-            13 => 17, // Book sybmol
-            15 => 16, // Gear sybmol
-            34 => 15, // Lyre sybmol
-            35 => 18, // Oil lamp sybmol
-            21 => 3, // Theatre mask sybmol
-            43 => 7, // Pillar sybmol
-            22 => 8, // Moon sybmol
-            42 => 5, // Sun sybmol
-            23 => 6, // Water drop sybmol
-            46 => 7, // Greek building sybmol
-            17 => 1, // Amphora (vase) sybmol
-            38 => 2, // Barrel sybmol
+            9 => 12, // Horseshoe symbol
+            10 => 13, // Sword symbol
+            11 => 14, // Tower symbol
+            32 => 10, // Target symbol
+            33 => 11, // Roman helmet symbol
+            13 => 17, // Book symbol
+            15 => 16, // Gear symbol
+            34 => 15, // Lyre symbol
+            35 => 18, // Oil lamp symbol
+            21 => 3, // Theatre mask symbol
+            43 => 7, // Pillar symbol
+            22 => 8, // Moon symbol
+            42 => 5, // Sun symbol
+            23 => 6, // Water drop symbol
+            46 => 7, // Greek building symbol
+            17 => 1, // Amphora (vase) symbol
+            38 => 2, // Barrel symbol
         ];
-
     }
 
 }
