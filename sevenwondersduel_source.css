@@ -1339,14 +1339,14 @@ __        __              _
 }
 
 .linked_building_icon {
-    width: var(--linked-building-icon-width);
-    height: var(--linked-building-icon-height);
     background-image: url('img/linked-building-icons.jpg');
-    position: absolute;
+    width: calc(var(--scale) * var(--element-scale) * var(--linked-building-icon-width));
+    height: calc(var(--scale) * var(--element-scale) * var(--linked-building-icon-height));
+    background-size: calc(var(--linked-building-icon-spritesheet-width) * var(--scale) * var(--element-scale)) calc(var(--linked-building-icon-spritesheet-height) * var(--scale) * var(--element-scale));
     border-radius: calc(var(--scale) * 3px);
     display: inline-block;
-    box-shadow: calc(var(--scale) * 3px) calc(var(--scale) * 3px) calc(var(--scale) * 3px) 0 rgba(0, 0, 0, 0.4),
-    inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
+    box-shadow: calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 3px) 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 calc(var(--scale) * 1px) #00000060;
 }
 
 .linked_building_icon_small {
@@ -1354,6 +1354,7 @@ __        __              _
     height: calc(var(--linked-building-icon-height) * var(--linked-building-icon-small-scale));
     background-size: calc(var(--linked-building-icon-spritesheet-width) * var(--linked-building-icon-small-scale)) calc(var(--linked-building-icon-spritesheet-height) * var(--linked-building-icon-small-scale));
     border-radius: calc(var(--scale) * 2px);
+    position: absolute;
     left: calc(var(--building-small-width) * 0.55);
     top: calc(var(--scale) * 18px);
     z-index: 2;
@@ -1596,6 +1597,10 @@ __        __              _
 
 .payment_plan {
     margin: var(--gutter) 0 var(--gutter) var(--gutter);
+}
+
+.payment_plan>div {
+    vertical-align: middle;
 }
 
 /* font converted using font-converter.net. thank you! */

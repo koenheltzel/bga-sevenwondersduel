@@ -34,6 +34,7 @@ define([
 
             // Debug settings
             dontScale: 0,
+            debugTooltips: 0,
 
             rememberScrollX: 0,
             rememberScrollY: 0,
@@ -900,11 +901,23 @@ define([
                             var draftpoolBuilding = dojo.query(node).closest("#draftpool")[0];
                             var meCoinHtml;
                             var opponentCoinHtml;
+                            var meIconHtml;
+                            var opponentIconHtml;
+                            var linkedBuilding;
                             if (draftpoolBuilding) {
                                 meCoinHtml = dojo.query('.me .coin', node)[0].outerHTML;
+                                linkedBuilding = dojo.query('.me .linked_building_icon', node)[0];
+                                if (linkedBuilding) {
+                                    meIconHtml = linkedBuilding.outerHTML;
+                                }
+
                                 opponentCoinHtml = dojo.query('.opponent .coin', node)[0].outerHTML;
+                                linkedBuilding = dojo.query('.opponent .linked_building_icon', node)[0];
+                                if (linkedBuilding) {
+                                    opponentIconHtml = linkedBuilding.outerHTML;
+                                }
                             }
-                            return this.getBuildingTooltip(id, draftpoolBuilding, meCoinHtml, opponentCoinHtml);
+                            return this.getBuildingTooltip(id, draftpoolBuilding, meCoinHtml, opponentCoinHtml, meIconHtml, opponentIconHtml);
                         })
                     })
                 );
@@ -945,8 +958,10 @@ define([
                 );
 
                 // Mimick BGA's default behavior of closing the tooltip over mouseover and click.
-                dojo.query('body').on("#dijit__MasterTooltip_0:mouseover", dojo.hitch(this, "closeTooltips"));
-                dojo.query('body').on("#dijit__MasterTooltip_0:click", dojo.hitch(this, "closeTooltips"));
+                if (!this.debugTooltips) {
+                    dojo.query('body').on("#dijit__MasterTooltip_0:mouseover", dojo.hitch(this, "closeTooltips"));
+                    dojo.query('body').on("#dijit__MasterTooltip_0:click", dojo.hitch(this, "closeTooltips"));
+                }
             },
 
             closeTooltips: function() {
@@ -955,7 +970,7 @@ define([
                 }));
             },
 
-            getBuildingTooltip: function (id, draftpoolBuilding, meCoinHtml, opponentCoinHtml) {
+            getBuildingTooltip: function (id, draftpoolBuilding, meCoinHtml, opponentCoinHtml, meIconHtml, opponentIconHtml) {
                 if (typeof this.gamedatas.buildings[id] != 'undefined') {
                     var building = this.gamedatas.buildings[id];
 
@@ -981,12 +996,12 @@ define([
                         if (position.payment) {
                             data.jsCostMe = this.format_block('jstpl_tooltip_cost_me', {
                                 jsCoinHtml: meCoinHtml,
-                                jsPayment: this.getPaymentPlan(position.payment[this.me_id])
+                                jsPayment: this.getPaymentPlan(position.payment[this.me_id], meIconHtml)
                             });
 
                             data.jsCostOpponent = this.format_block('jstpl_tooltip_cost_opponent', {
                                 jsCoinHtml: opponentCoinHtml,
-                                jsPayment: this.getPaymentPlan(position.payment[this.opponent_id])
+                                jsPayment: this.getPaymentPlan(position.payment[this.opponent_id], opponentIconHtml)
                             });
                         }
                     }
@@ -996,11 +1011,16 @@ define([
                 return false;
             },
 
-            getPaymentPlan: function (data) {
+            getPaymentPlan: function (data, linkedIcon) {
                 var output = '';
                 var steps = data.steps;
                 for (var i = 0; i < steps.length; i++) {
-                    output += this.getResourceIcon(steps[i].resource, steps[i].amount);
+                    if (steps[i].resource == "linked") {
+                        output += linkedIcon.replace('linked_building_icon_small', '');
+                    }
+                    else {
+                        output += this.getResourceIcon(steps[i].resource, steps[i].amount);
+                    }
                     output += ' &rightarrow; ';
                     output += dojo.string.substitute(steps[i].string, { costIcon: steps[i].cost ? this.getResourceIcon('coin', steps[i].cost) : '' });
                     output += '<br/>';
