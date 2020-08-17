@@ -165,7 +165,7 @@ class Wonder extends Item {
      */
     public function setOpponentCoinLoss(int $opponentCoinLoss) {
         $this->opponentCoinLoss = $opponentCoinLoss;
-        $this->text[] = clienttranslate("Your opponent loses %d coins, which are returned to the bank.", $opponentCoinLoss);
+        $this->text[] = sprintf(self::_("Your opponent loses %d coins, which are returned to the bank."), $opponentCoinLoss);
         return $this;
     }
 
