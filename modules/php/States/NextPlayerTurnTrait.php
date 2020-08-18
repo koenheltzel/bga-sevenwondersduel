@@ -31,6 +31,7 @@ trait NextPlayerTurnTrait {
                     'message',
                     $message,
                     [
+                        'i18n' => ['progressTokenName'],
                         'player_name' => Player::getActive()->name,
                         'progressTokenName' => ProgressToken::get(9)->name, // Theology
                     ]
@@ -87,6 +88,7 @@ trait NextPlayerTurnTrait {
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 2 for each constructed Wonder in the city which has the most of them (${mostPlayerName}\'s)'),
                                 [
+                                    'i18n' => ['guildName'],
                                     'player_name' => $player->name,
                                     'points' => $points,
                                     'guildName' => $building->name,
@@ -109,6 +111,7 @@ trait NextPlayerTurnTrait {
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each set of 3 coins in the richest city (${mostPlayerName}\'s)'),
                                 [
+                                    'i18n' => ['guildName'],
                                     'player_name' => $player->name,
                                     'points' => $points,
                                     'guildName' => $building->name,
@@ -131,6 +134,7 @@ trait NextPlayerTurnTrait {
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),
                                 [
+                                    'i18n' => ['guildName', 'buildingType'],
                                     'player_name' => $player->name,
                                     'points' => $points,
                                     'buildingType' => count($building->guildRewardBuildingTypes) > 1 ? clienttranslate('Brown and Grey') : $building->guildRewardBuildingTypes[0],
@@ -155,6 +159,7 @@ trait NextPlayerTurnTrait {
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Progress token “${progressTokenName}”)'),
                                 [
+                                    'i18n' => ['progressTokenName'],
                                     'player_name' => $player->name,
                                     'points' => $points,
                                     'progressTokenName' => ProgressToken::get(6)->name,

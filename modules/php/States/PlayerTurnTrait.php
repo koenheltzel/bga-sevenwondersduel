@@ -53,11 +53,11 @@ trait PlayerTurnTrait {
 
         $this->notifyAllPlayers(
             'discardBuilding',
-            clienttranslate('${player_name} discarded building “${buildingName}” for ${gainDescription}'),
+            clienttranslate('${player_name} discarded building “${buildingName}” for ${gain} coins'),
             [
+                'i18n' => ['buildingName'],
                 'buildingName' => $building->name,
                 'gain' => $discardGain,
-                'gainDescription' => $discardGain . " " . COINS,
                 'player_name' => $this->getCurrentPlayerName(),
                 'playerId' => Player::me()->id,
                 'buildingId' => $building->id,

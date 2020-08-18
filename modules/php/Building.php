@@ -75,6 +75,7 @@ class Building extends Item {
             'constructBuilding',
             $message,
             [
+                'i18n' => ['buildingName', 'wonderName', 'cost'],
                 'buildingName' => $this->name,
                 'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : 'free',
                 'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
@@ -131,6 +132,7 @@ class Building extends Item {
                 'message',
                 clienttranslate('${player_name} gets 4 coins (Progress token “${progressTokenName}”)'),
                 [
+                    'i18n' => ['progressTokenName'],
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                     'progressTokenName' => ProgressToken::get(10)->name, // Urbanism
                 ]
@@ -148,6 +150,7 @@ class Building extends Item {
                     'message',
                     clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerBuilding} for each ${buildingType} building in his/her city'),
                     [
+                        'i18n' => ['buildingType'],
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                         'coins' => $payment->coinReward,
                         'coinsPerBuilding' => $this->coinsPerBuildingOfType[1],
@@ -174,6 +177,7 @@ class Building extends Item {
                     'message',
                     clienttranslate('${player_name} gets ${coins} coin(s), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),
                     [
+                        'i18n' => ['buildingType'],
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                         'coins' => $payment->coinReward,
                         'buildingType' => count($this->guildRewardBuildingTypes) > 1 ? clienttranslate('Brown and Grey') : $this->guildRewardBuildingTypes[0],
@@ -248,14 +252,14 @@ class Building extends Item {
         $amount = array_shift($resources);
         if (in_array($resource, [CLAY, WOOD, STONE])) {
             if ($amount == 1) {
-                $this->text[] = clienttranslate("This card produces one unit of the raw goods represented.");
+                $this->text[] = clienttranslate("This building produces one unit of the raw goods represented.");
             }
             if ($amount == 2) {
-                $this->text[] = clienttranslate("This card produces two units of the raw goods represented.");
+                $this->text[] = clienttranslate("This building produces two units of the raw goods represented.");
             }
         }
         else {
-            $this->text[] = clienttranslate("This card produces one unit of the manufactured goods represented.");
+            $this->text[] = clienttranslate("This building produces one unit of the manufactured goods represented.");
         }
         return $this;
     }

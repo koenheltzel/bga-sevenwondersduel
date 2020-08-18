@@ -29,6 +29,7 @@ class ProgressToken extends Item
             'progressTokenChosen',
             clienttranslate('${player_name} chose Progress token “${progressTokenName}”'),
             [
+                'i18n' => ['progressTokenName'],
                 'progressTokenName' => $this->name,
                 'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                 'playerId' => Player::me()->id,

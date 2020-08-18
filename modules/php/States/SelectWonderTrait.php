@@ -47,6 +47,7 @@ trait SelectWonderTrait {
             'wonderSelected',
             clienttranslate('${player_name} selected wonder “${wonderName}”'),
             [
+                'i18n' => ['wonderName'],
                 'wonderName' => $wonder->name,
                 'player_name' => $this->getCurrentPlayerName(),
                 'playerId' => $playerId,
