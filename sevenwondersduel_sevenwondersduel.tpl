@@ -321,20 +321,20 @@ var jstpl_coin_animated = '<div class="coin animated"></div>';
 
 var jstpl_tooltip_cost_me = '\
     <hr\>\
-    <strong class="me">{CURRENT_COST_YOU}:</strong>\
+    <strong class="me">${translateCurrentCost}:</strong>\
     <div class="payment_plan">\
         ${jsPayment}\
     </div>\
-    <strong>{TOTAL}:</strong> ${jsCoinHtml}\
+    <strong>${translateTotal}:</strong> ${jsCoinHtml}\
     ';
 
 var jstpl_tooltip_cost_opponent = '\
     <hr\>\
-    <strong class="opponent">{CURRENT_COST_OPPONENT}:</strong>\
+    <strong class="opponent">${translateCurrentCost}:</strong>\
     <div class="payment_plan">\
         ${jsPayment}\
     </div>\
-    <strong>{TOTAL}:</strong> ${jsCoinHtml}\
+    <strong>${translateTotal}:</strong> ${jsCoinHtml}\
     ';
 
 var jstpl_building_tooltip = '\
@@ -357,7 +357,7 @@ var jstpl_building_tooltip = '\
 var jstpl_wonder_tooltip = '\
     <div class="swd_tooltip wonder_tooltip">\
         <div class="cardinfos">\
-            <strong>{WONDER} “${jsName}”</strong>\
+            <strong>${translateWonder} “${jsName}”</strong>\
             <hr\>\
             <p>${jsText}</p>\
             ${jsCost}\
@@ -373,7 +373,7 @@ var jstpl_wonder_tooltip = '\
 var jstpl_progress_token_tooltip = '\
     <div class="swd_tooltip progress_token_tooltip">\
         <div class="cardinfos">\
-            <strong>{PROGRESS_TOKEN} “${jsName}”</strong>\
+            <strong>${translateProgressToken} “${jsName}”</strong>\
             <hr\>\
             <p>${jsText}</p>\
         </div>\

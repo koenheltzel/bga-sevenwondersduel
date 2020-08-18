@@ -310,7 +310,7 @@ class Building extends Item {
      */
     public function setCoinsPerWonder(int $coinsPerWonder) {
         $this->coinsPerWonder = $coinsPerWonder;
-        $this->text[] = clienttranslate("This card is worth %d coins per Wonder constructed in your city at the time it is constructed.");
+        $this->text[] = clienttranslate("This card is worth 2 coins per Wonder constructed in your city at the time it is constructed.");
         return $this;
     }
 

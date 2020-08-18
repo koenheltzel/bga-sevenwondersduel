@@ -476,8 +476,7 @@ class Material extends Base
 
         $this->progressTokens[2] = (new ProgressToken(2, clienttranslate("Architecture")))
             ->addText(
-                clienttranslate("Any future Wonders built by you will cost 2 fewer resources.") . "<br/>" .
-                clienttranslate("BGA will calculate and choose the most advantageous resources for you.")
+                clienttranslate("Any future Wonders built by you will cost 2 fewer resources.<br/>BGA will calculate and choose the most advantageous resources for you.")
             );
 
         $this->progressTokens[3] = (new ProgressToken(3, clienttranslate("Economy")))
@@ -488,8 +487,7 @@ class Material extends Base
 
         $this->progressTokens[5] = (new ProgressToken(5, clienttranslate("Masonry")))
             ->addText(
-                clienttranslate("Any future blue cards constructed by you will cost 2 fewer resources.") . "<br/>" .
-                clienttranslate("BGA will calculate and choose the most advantageous resources for you.")
+                clienttranslate("Any future blue cards constructed by you will cost 2 fewer resources.<br/>BGA will calculate and choose the most advantageous resources for you.")
             );
 
         $this->progressTokens[6] = (new ProgressToken(6, clienttranslate("Mathematics")))
@@ -503,8 +501,7 @@ class Material extends Base
 
         $this->progressTokens[9] = (new ProgressToken(9, clienttranslate("Theology")))
             ->addText(
-                clienttranslate("All future Wonders constructed by you are all treated as though they have the “Play Again” effect.") . "<br/>" .
-                clienttranslate("Wonders which already have this effect are not affected.")
+                clienttranslate("All future Wonders constructed by you are all treated as though they have the “Play Again” effect.<br/>Wonders which already have this effect are not affected.")
             );
 
         $this->progressTokens[10] = (new ProgressToken(10, clienttranslate("Urbanism")))

@@ -359,7 +359,7 @@ define([
                 var wonder = this.gamedatas.wonders[wonderId];
                 var data = {
                     jsId: wonderId,
-                    jsName: wonder.name,
+                    jsName: _(wonder.name),
                     jsDisplayCost: displayCost ? 'inline-block' : 'none',
                     jsCost: this.getCostValue(cost),
                     jsCostColor: this.getCostColor(cost, playerCoins),
@@ -555,7 +555,7 @@ define([
                             var buildingData = this.gamedatas.buildings[position.building];
                             spriteId = position.building;
                             data.jsId = position.building;
-                            data.jsName = buildingData.name;
+                            data.jsName = _(buildingData.name);
                             if (position.available) {
                                 data.jsDisplayCostMe = position.available ? 'block' : 'none',
                                 data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
@@ -680,7 +680,7 @@ define([
                 var linkedBuildingId = 0;
                 var data = {
                     jsId: buildingId,
-                    jsName: buildingData.name,
+                    jsName: _(buildingData.name),
                     jsRow: '',
                     jsColumn: '',
                     jsZindex: 1,
@@ -746,7 +746,7 @@ define([
                 var progressToken = this.gamedatas.progressTokens[progressTokenId];
                 var data = {
                     jsId: progressTokenId,
-                    jsName: progressToken.name,
+                    jsName: _(progressToken.name),
                     jsData: 'data-progress-token-id="' + progressTokenId + '"',
                 };
                 var spritesheetColumns = 4;
@@ -985,7 +985,7 @@ define([
                     else {
                         data.cardType = _("Guild card");
                     }
-                    data.jsName = building.name;
+                    data.jsName = _(building.name);
                     data.jsText = this.getTextHtml(building.text);
                     data.jsBackX = ((id - 1) % spritesheetColumns);
                     data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
@@ -995,11 +995,15 @@ define([
                         var position = this.getDraftpoolCardData(id);
                         if (position.payment) {
                             data.jsCostMe = this.format_block('jstpl_tooltip_cost_me', {
+                                translateCurrentCost: _("Current construction cost for you"),
+                                translateTotal: _("Total"),
                                 jsCoinHtml: meCoinHtml,
                                 jsPayment: this.getPaymentPlan(position.payment[this.me_id], meIconHtml)
                             });
 
                             data.jsCostOpponent = this.format_block('jstpl_tooltip_cost_opponent', {
+                                translateCurrentCost: _("Current construction cost for opponent"),
+                                translateTotal: _("Total"),
                                 jsCoinHtml: opponentCoinHtml,
                                 jsPayment: this.getPaymentPlan(position.payment[this.opponent_id], opponentIconHtml)
                             });
@@ -1031,11 +1035,20 @@ define([
             getTextHtml: function(text) {
                 if (text instanceof Array) {
                     if (text.length == 0) return '';
-                    else if (text.length == 1) return text;
-                    else return "<ul><li>" + text.join("</li><li>") + "</li></ul>";
+                    else if (text.length == 1) return _(text[0]);
+                    else {
+                        var string = '';
+                        for (let i = 0; i < text.length; i++) {
+                            string += _(text[i]);
+                            if (i < text.length - 1) {
+                                string += "</li><li>";
+                            }
+                        }
+                        return "<ul><li>" + string + "</li></ul>";
+                    }
                 }
                 else {
-                    return text;
+                    return _(text);
                 }
             },
 
@@ -1046,7 +1059,8 @@ define([
                     var spritesheetColumns = 5;
 
                     var data = {};
-                    data.jsName = wonder.name;
+                    data.translateWonder = _("Wonder");
+                    data.jsName = _(wonder.name);
                     data.jsText = this.getTextHtml(wonder.text);
 
                     data.jsBackX = ((id - 1) % spritesheetColumns);
@@ -1057,6 +1071,8 @@ define([
                         if (!cardData) return false; // Happens in Edge sometimes.
                         if (!cardData.constructed) {
                             data.jsCost = this.format_block(playerId == this.me_id ? 'jstpl_tooltip_cost_me' : 'jstpl_tooltip_cost_opponent', {
+                                translateCurrentCost: playerId == this.me_id ? _("Current construction cost for you") : _("Current construction cost for opponent"),
+                                translateTotal: _("Total"),
                                 jsCoinHtml: coinHtml,
                                 jsPayment: this.getPaymentPlan(cardData.payment)
                             });
@@ -1075,7 +1091,8 @@ define([
                     var spritesheetColumns = 4;
 
                     var data = {};
-                    data.jsName = progressToken.name;
+                    data.translateProgressToken = _("Progress token");
+                    data.jsName = _(progressToken.name);
                     data.jsText = this.getTextHtml(progressToken.text);
                     data.jsBackX = ((id - 1) % spritesheetColumns);
                     data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
