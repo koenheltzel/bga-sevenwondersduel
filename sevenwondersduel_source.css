@@ -433,7 +433,7 @@ __     __         _       _     _
 }
 
 .pawn {
-    background-image: url('img/conflict_pawn.png');
+    background-image: url('img/tmp_conflict_pawn.png');
     width: calc(var(--scale) * 73px);
     height: calc(var(--scale) * 26px);
     background-size: calc(var(--scale) * 73px) calc(var(--scale) * 26px);
@@ -515,14 +515,14 @@ __     __         _       _     _
 }
 
 .military_token_2 {
-    background-image: url('img/military_token_2.png');
+    background-image: url('img/tmp_military_token_2.png');
     width: calc(var(--board-scale) * 61px);
     height: calc(var(--board-scale) * 141px);
     background-size: calc(var(--board-scale) * 61px) calc(var(--board-scale) * 141px);
 }
 
 .military_token_5 {
-    background-image: url('img/military_token_5.png');
+    background-image: url('img/tmp_military_token_5.png');
     width: calc(var(--board-scale) * 73px);
     height: calc(var(--board-scale) * 167px);
     background-size: calc(var(--board-scale) * 73px) calc(var(--board-scale) * 167px);
