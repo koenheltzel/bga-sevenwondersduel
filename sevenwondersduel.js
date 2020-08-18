@@ -986,6 +986,8 @@ define([
                         data.cardType = _("Guild card");
                     }
                     data.jsName = _(building.name);
+                    data.jsBuildingTypeColor = building.typeColor;
+                    data.jsBuildingTypeDescription = _(building.typeDescription);
                     data.jsText = this.getTextHtml(building.text);
                     data.jsBackX = ((id - 1) % spritesheetColumns);
                     data.jsBackY = Math.floor((id - 1) / spritesheetColumns);

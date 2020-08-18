@@ -16,6 +16,8 @@ class Building extends Item {
 
     public $age;
     public $type;
+    public $typeColor;
+    public $typeDescription;
     public $resources = [];
     public $chain = null; // coins and or resources
     public $fixedPriceResources = [];
@@ -37,6 +39,38 @@ class Building extends Item {
     public function __construct($id, $age, $name, $type, Array $text = []) {
         $this->age = $age;
         $this->type = $type;
+
+        switch ($this->type) {
+            case self::TYPE_BROWN:
+                $this->typeColor = '#702c12';
+                $this->typeDescription = clienttranslate('Raw materials');
+                break;
+            case self::TYPE_GREY:
+                $this->typeColor = '#858680';
+                $this->typeDescription = clienttranslate('Manufactured goods');
+                break;
+            case self::TYPE_BLUE:
+                $this->typeColor = '#0275aa';
+                $this->typeDescription = clienttranslate('Civilian Building');
+                break;
+            case self::TYPE_GREEN:
+                $this->typeColor = '#027234';
+                $this->typeDescription = clienttranslate('Scientific Building');
+                break;
+            case self::TYPE_YELLOW:
+                $this->typeColor = '#f8b305';
+                $this->typeDescription = clienttranslate('Commercial Building');
+                break;
+            case self::TYPE_RED:
+                $this->typeColor = '#b7110e';
+                $this->typeDescription = clienttranslate('Military Building');
+                break;
+            case self::TYPE_PURPLE:
+                $this->typeColor = '#6f488b';
+                $this->typeDescription = clienttranslate('Guild');
+                break;
+        }
+
         parent::__construct($id, $name, $text);
     }
 
