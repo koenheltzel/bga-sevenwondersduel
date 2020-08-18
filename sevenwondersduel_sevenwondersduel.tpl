@@ -108,15 +108,15 @@
                     <!-- END end_game -->
                     <!-- BEGIN player_buildings -->
                     <div class="player_buildings whiteblock player{PLAYER_ID} {PLAYER_ALIAS}">
-                        <div class="player_building_column Brown" title="Raw materials"></div>
-                        <div class="player_building_column Grey" title="Manufactured goods"></div>
-                        <div class="player_building_column Yellow" title="Commercial Buildings"></div>
-                        <div class="player_building_column Red" title="Military Buildings"></div>
-                        <div class="player_building_column Blue" title="Civilian Buildings"></div>
-                        <div class="player_building_column Green" title="Scientific Buildings">
+                        <div class="player_building_column Brown"></div>
+                        <div class="player_building_column Grey"></div>
+                        <div class="player_building_column Yellow"></div>
+                        <div class="player_building_column Red"></div>
+                        <div class="player_building_column Blue"></div>
+                        <div class="player_building_column Green">
                             <div class="building_header_small_container card_outline science_progress"><span></span></div>
                         </div>
-                        <div class="player_building_column Purple" title="Guilds"></div>
+                        <div class="player_building_column Purple"></div>
                     </div>
                     <!-- END player_buildings -->
                 <!-- END middle_column_block -->

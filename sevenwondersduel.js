@@ -812,7 +812,7 @@ define([
             setupTooltips: function () {
                 // Simple tooltips
 
-                let militaryTokenText = _( 'Military token: the opponent of the active player discards ${x} coins.' );
+                let militaryTokenText = _('Military token: the opponent of the active player discards ${x} coins.');
                 this.addTooltipToClass( 'military_token_2',
                     dojo.string.substitute(
                         militaryTokenText, {
