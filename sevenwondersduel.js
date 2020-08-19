@@ -2301,7 +2301,8 @@ define([
                 var titlePosition = dojo.position('page-title', false);
                 var titleMarginBottom = 5;
                 var width = titlePosition.w - 5;
-                var height = window.innerHeight - titlePosition.y - titlePosition.h - 2 * titleMarginBottom;
+                var pageZoom = dojo.style($('page-content'), "zoom");
+                var height = (window.innerHeight / pageZoom - titlePosition.y - titlePosition.h - 2 * titleMarginBottom);
 
                 var playarea = $('playarea');
                 dojo.style(playarea, "width", width + 'px');
