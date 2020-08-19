@@ -85,7 +85,7 @@ trait NextPlayerTurnTrait {
                             $maxConstructedWonders = max($constructedWonders, $constructedWondersOpponent);
                             $mostPlayer = $constructedWonders >= $constructedWondersOpponent ? $player : $player->getOpponent();
                             $points = $maxConstructedWonders * 2;
-                            $player->increaseScore($points, $building->type);
+                            $player->increaseScore($points, $building->getScoreCategory());
                             SevenWondersDuel::get()->notifyAllPlayers(
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 2 for each constructed Wonder in the city which has the most of them (${mostPlayerName}\'s)'),
@@ -108,7 +108,7 @@ trait NextPlayerTurnTrait {
                             $maxCoinTriplets = max($coinTriplets, $coinTripletsOpponent);
                             $mostPlayer = $coinTriplets >= $coinTripletsOpponent ? $player : $player->getOpponent();
                             $points = $maxCoinTriplets;
-                            $player->increaseScore($points, $building->type);
+                            $player->increaseScore($points, $building->getScoreCategory());
                             SevenWondersDuel::get()->notifyAllPlayers(
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each set of 3 coins in the richest city (${mostPlayerName}\'s)'),
@@ -131,7 +131,7 @@ trait NextPlayerTurnTrait {
                             $maxBuildingsOfType = max($buildingsOfType, $buildingsOfTypeOpponent);
                             $mostPlayer = $buildingsOfType >= $buildingsOfTypeOpponent ? $player : $player->getOpponent();
                             $points = $maxBuildingsOfType;
-                            $player->increaseScore($points, $building->type);
+                            $player->increaseScore($points, $building->getScoreCategory());
                             SevenWondersDuel::get()->notifyAllPlayers(
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),

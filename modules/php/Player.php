@@ -128,7 +128,7 @@ class Player extends Base{
             }
 
             SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VICTORY_POINTS, $this->id);
-            switch ($category) {
+            switch (strtolower($category)) { // strtolower to be sure but shouldn't be necessary anymore.
                 case strtolower(Building::TYPE_BLUE):
                     SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_BLUE, $this->id);
                     break;

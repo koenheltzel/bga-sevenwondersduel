@@ -122,7 +122,7 @@ $stats_type = [
         ],
         "victory_points" => [
             "id" => 50,
-            "name" => totranslate("Victory Points"),
+            "name" => totranslate("Victory Points (VP)"),
             "type" => "int"
         ],
         "vp_blue" => [
