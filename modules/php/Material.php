@@ -497,7 +497,7 @@ class Material extends Base
             ->setVictoryPoints(7);
 
         $this->progressTokens[8] = (new ProgressToken(8, clienttranslate("Strategy")))
-            ->addText(clienttranslate("Once this token enters play, your new military Buildings (red cards) will benefit from 1 extra Shield."));
+            ->addText(clienttranslate("Once this token enters play, your new Military Buildings (red cards) will benefit from 1 extra Shield."));
 
         $this->progressTokens[9] = (new ProgressToken(9, clienttranslate("Theology")))
             ->addText(

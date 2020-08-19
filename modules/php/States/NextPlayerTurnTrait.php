@@ -300,7 +300,7 @@ trait NextPlayerTurnTrait {
 
                     $this->notifyAllPlayers(
                         'message',
-                        '${player_name} wins the game with a tied score but a majority of blue buildings, ${winnerBuildings} to ${loserBuildings} (Civilian Victory)',
+                        '${player_name} wins the game with a tied score but a majority of Civilian Buildings (blue cards), ${winnerBuildings} to ${loserBuildings} (Civilian Victory)',
                         [
                             'player_name' => $winner->name,
                             'winnerBuildings' => $winner->getValue('player_score_blue'),
@@ -315,7 +315,7 @@ trait NextPlayerTurnTrait {
 
                 $this->notifyAllPlayers(
                     'message',
-                    'Game ends in a draw (victory points and blue buildings count are both tied)',
+                    'Game ends in a draw (victory points and Civilian Buildings (blue cards) count are both tied)',
                     []
                 );
                 return null;
