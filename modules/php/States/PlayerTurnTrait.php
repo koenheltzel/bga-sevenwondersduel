@@ -26,6 +26,7 @@ trait PlayerTurnTrait {
     }
 
     public function enterStatePlayerTurn() {
+        $this->incStat(1, self::STAT_TURNS_NUMBER);
         $this->incStat(1, self::STAT_TURNS_NUMBER, $this->getActivePlayerId());
     }
 
@@ -35,6 +36,11 @@ trait PlayerTurnTrait {
         $building = Building::get($buildingId);
         $building->checkBuildingAvailable();
         $payment = $building->construct(Player::me());
+
+        $this->incStat(1, self::STAT_BUILDINGS_CONSTRUCTED, Player::me()->id);
+        if (count($payment->steps) == 1 && $payment->steps[0]->resource == "linked") {
+            $this->incStat(1, self::STAT_CHAINED_CONSTRUCTIONS, Player::me()->id);
+        }
 
         if ($payment->selectProgressToken) {
             $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_NAME);
@@ -50,6 +56,8 @@ trait PlayerTurnTrait {
         $building = Building::get($buildingId);
         $building->checkBuildingAvailable();
         $discardGain = $building->discard(Player::me());
+
+        $this->incStat(1, self::STAT_DISCARDED_CARDS, Player::me()->id);
 
         $this->notifyAllPlayers(
             'discardBuilding',
@@ -77,6 +85,8 @@ trait PlayerTurnTrait {
         $wonder = Wonder::get($wonderId);
         $wonder->checkWonderAvailable();
         $payment = $wonder->construct(Player::me(), $building);
+
+        $this->incStat(1, self::STAT_WONDERS_CONSTRUCTED, Player::me()->id);
 
         if ($this->checkImmediateVictory()) {
             // Specific for Wonders Circus Maximus & The Statue of Zeus we check if a immediate victory (military in this case) is the case.

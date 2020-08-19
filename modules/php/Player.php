@@ -126,6 +126,34 @@ class Player extends Base{
                 // Blue is also the deciding factor in case of a tie, so fill the player_score_aux column with the same value.
                 $this->setValue('player_score_aux', $this->getValue($category_column));
             }
+
+            SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VICTORY_POINTS, $this->id);
+            switch ($category) {
+                case strtolower(Building::TYPE_BLUE):
+                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_BLUE, $this->id);
+                    break;
+                case strtolower(Building::TYPE_GREEN):
+                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_GREEN, $this->id);
+                    break;
+                case strtolower(Building::TYPE_YELLOW):
+                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_YELLOW, $this->id);
+                    break;
+                case strtolower(Building::TYPE_PURPLE):
+                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_PURPLE, $this->id);
+                    break;
+                case SevenWondersDuel::SCORE_WONDERS:
+                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_WONDERS, $this->id);
+                    break;
+                case SevenWondersDuel::SCORE_PROGRESSTOKENS:
+                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_PROGRESS_TOKENS, $this->id);
+                    break;
+                case SevenWondersDuel::SCORE_COINS:
+                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_COINS, $this->id);
+                    break;
+                case SevenWondersDuel::SCORE_MILITARY:
+                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_MILITARY, $this->id);
+                    break;
+            }
         }
         return $count;
     }

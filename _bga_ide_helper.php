@@ -450,7 +450,7 @@ class Table {
      * @param      $name
      * @param null $player_id
      */
-    protected function setStat($value, $name, $player_id = NULL)
+    public function setStat($value, $name, $player_id = NULL)
     {
     }
 
@@ -461,7 +461,7 @@ class Table {
      * @param      $name
      * @param null $player_id
      */
-    protected function incStat($delta, $name, $player_id = NULL)
+    public function incStat($delta, $name, $player_id = NULL)
     {
     }
 
@@ -471,7 +471,7 @@ class Table {
      * @param      $name
      * @param null $player_id
      */
-    protected function getStat($name, $player_id = NULL)
+    public function getStat($name, $player_id = NULL)
     {
     }
 

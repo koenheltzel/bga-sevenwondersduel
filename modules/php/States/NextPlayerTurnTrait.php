@@ -36,6 +36,8 @@ trait NextPlayerTurnTrait {
                         'progressTokenName' => ProgressToken::get(9)->name, // Theology
                     ]
                 );
+
+                $this->incStat(1, self::STAT_EXTRA_TURNS, Player::getActive()->id);
             }
             else {
                 $this->activeNextPlayer();
@@ -225,8 +227,11 @@ trait NextPlayerTurnTrait {
     }
 
     public function checkImmediateVictory() {
+        $scienceSymbolCount = Player::getActive()->getScientificSymbolCount();
+        SevenWondersDuel::get()->setStat($scienceSymbolCount, SevenWondersDuel::STAT_SCIENCE_SYMBOLS, Player::getActive()->id);
+
         $conflictPawnPosition = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
-        if (Player::getActive()->getScientificSymbolCount() >= 6) {
+        if ($scienceSymbolCount >= 6) {
             Player::getActive()->setWinner();
             self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_SCIENTIFIC);
             $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY);

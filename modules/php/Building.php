@@ -122,6 +122,30 @@ class Building extends Item {
 
         $this->constructEffects($player, $payment);
 
+        switch ($this->type) {
+            case self::TYPE_BROWN:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_BROWN_CARDS, $player->id);
+                break;
+            case self::TYPE_GREY:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_GREY_CARDS, $player->id);
+                break;
+            case self::TYPE_YELLOW:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_YELLOW_CARDS, $player->id);
+                break;
+            case self::TYPE_RED:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_RED_CARDS, $player->id);
+                break;
+            case self::TYPE_BLUE:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_BLUE_CARDS, $player->id);
+                break;
+            case self::TYPE_GREEN:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_GREEN_CARDS, $player->id);
+                break;
+            case self::TYPE_PURPLE:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_PURPLE_CARDS, $player->id);
+                break;
+        }
+
         return $payment;
     }
 

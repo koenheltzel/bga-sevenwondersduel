@@ -170,9 +170,9 @@ $stats_type = [
             "name" => totranslate("Brown cards"),
             "type" => "int"
         ],
-        "gray_cards" => [
+        "grey_cards" => [
             "id" => 150,
-            "name" => totranslate("Gray cards"),
+            "name" => totranslate("Grey cards"),
             "type" => "int"
         ],
         "yellow_cards" => [
@@ -198,6 +198,11 @@ $stats_type = [
         "purple_cards" => [
             "id" => 200,
             "name" => totranslate("Purple cards"),
+            "type" => "int"
+        ],
+        "buildings_constructed" => [
+            "id" => 205,
+            "name" => totranslate("Buildings constructed"),
             "type" => "int"
         ],
         "wonders_constructed" => [

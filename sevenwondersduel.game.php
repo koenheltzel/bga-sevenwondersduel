@@ -151,12 +151,13 @@ class SevenWondersDuel extends Table
     const STAT_VP_COINS = "vp_coins";
     const STAT_VP_MILITARY = "vp_military";
     const STAT_BROWN_CARDS = "brown_cards";
-    const STAT_GRAY_CARDS = "gray_cards";
+    const STAT_GREY_CARDS = "grey_cards";
     const STAT_YELLOW_CARDS = "yellow_cards";
     const STAT_RED_CARDS = "red_cards";
     const STAT_BLUE_CARDS = "blue_cards";
     const STAT_GREEN_CARDS = "green_cards";
     const STAT_PURPLE_CARDS = "purple_cards";
+    const STAT_BUILDINGS_CONSTRUCTED = "buildings_constructed";
     const STAT_WONDERS_CONSTRUCTED = "wonders_constructed";
     const STAT_PROGRESS_TOKENS = "progress_tokens";
     const STAT_SHIELDS = "shields";
@@ -336,7 +337,7 @@ class SevenWondersDuel extends Table
         self::initStat('player', self::STAT_VP_COINS, 0);
         self::initStat('player', self::STAT_VP_MILITARY, 0);
         self::initStat('player', self::STAT_BROWN_CARDS, 0);
-        self::initStat('player', self::STAT_GRAY_CARDS, 0);
+        self::initStat('player', self::STAT_GREY_CARDS, 0);
         self::initStat('player', self::STAT_YELLOW_CARDS, 0);
         self::initStat('player', self::STAT_RED_CARDS, 0);
         self::initStat('player', self::STAT_BLUE_CARDS, 0);
