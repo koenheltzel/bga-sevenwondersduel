@@ -16,6 +16,8 @@ class Building extends Item {
 
     public $age;
     public $type;
+    public $typeColor;
+    public $typeDescription;
     public $resources = [];
     public $chain = null; // coins and or resources
     public $fixedPriceResources = [];
@@ -37,6 +39,38 @@ class Building extends Item {
     public function __construct($id, $age, $name, $type, Array $text = []) {
         $this->age = $age;
         $this->type = $type;
+
+        switch ($this->type) {
+            case self::TYPE_BROWN:
+                $this->typeColor = '#702c12';
+                $this->typeDescription = clienttranslate('Raw materials');
+                break;
+            case self::TYPE_GREY:
+                $this->typeColor = '#858680';
+                $this->typeDescription = clienttranslate('Manufactured goods');
+                break;
+            case self::TYPE_BLUE:
+                $this->typeColor = '#0275aa';
+                $this->typeDescription = clienttranslate('Civilian Building');
+                break;
+            case self::TYPE_GREEN:
+                $this->typeColor = '#027234';
+                $this->typeDescription = clienttranslate('Scientific Building');
+                break;
+            case self::TYPE_YELLOW:
+                $this->typeColor = '#f8b305';
+                $this->typeDescription = clienttranslate('Commercial Building');
+                break;
+            case self::TYPE_RED:
+                $this->typeColor = '#b7110e';
+                $this->typeDescription = clienttranslate('Military Building');
+                break;
+            case self::TYPE_PURPLE:
+                $this->typeColor = '#6f488b';
+                $this->typeDescription = clienttranslate('Guild');
+                break;
+        }
+
         parent::__construct($id, $name, $text);
     }
 
@@ -75,6 +109,7 @@ class Building extends Item {
             'constructBuilding',
             $message,
             [
+                'i18n' => ['buildingName', 'wonderName', 'cost'],
                 'buildingName' => $this->name,
                 'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : 'free',
                 'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
@@ -86,6 +121,30 @@ class Building extends Item {
         );
 
         $this->constructEffects($player, $payment);
+
+        switch ($this->type) {
+            case self::TYPE_BROWN:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_BROWN_CARDS, $player->id);
+                break;
+            case self::TYPE_GREY:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_GREY_CARDS, $player->id);
+                break;
+            case self::TYPE_YELLOW:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_YELLOW_CARDS, $player->id);
+                break;
+            case self::TYPE_RED:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_RED_CARDS, $player->id);
+                break;
+            case self::TYPE_BLUE:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_BLUE_CARDS, $player->id);
+                break;
+            case self::TYPE_GREEN:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_GREEN_CARDS, $player->id);
+                break;
+            case self::TYPE_PURPLE:
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_PURPLE_CARDS, $player->id);
+                break;
+        }
 
         return $payment;
     }
@@ -131,6 +190,7 @@ class Building extends Item {
                 'message',
                 clienttranslate('${player_name} gets 4 coins (Progress token “${progressTokenName}”)'),
                 [
+                    'i18n' => ['progressTokenName'],
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                     'progressTokenName' => ProgressToken::get(10)->name, // Urbanism
                 ]
@@ -148,6 +208,7 @@ class Building extends Item {
                     'message',
                     clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerBuilding} for each ${buildingType} building in his/her city'),
                     [
+                        'i18n' => ['buildingType'],
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                         'coins' => $payment->coinReward,
                         'coinsPerBuilding' => $this->coinsPerBuildingOfType[1],
@@ -174,6 +235,7 @@ class Building extends Item {
                     'message',
                     clienttranslate('${player_name} gets ${coins} coin(s), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),
                     [
+                        'i18n' => ['buildingType'],
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                         'coins' => $payment->coinReward,
                         'buildingType' => count($this->guildRewardBuildingTypes) > 1 ? clienttranslate('Brown and Grey') : $this->guildRewardBuildingTypes[0],
@@ -248,14 +310,14 @@ class Building extends Item {
         $amount = array_shift($resources);
         if (in_array($resource, [CLAY, WOOD, STONE])) {
             if ($amount == 1) {
-                $this->text[] = clienttranslate("This card produces one unit of the raw goods represented.");
+                $this->text[] = clienttranslate("This building produces one unit of the raw goods represented.");
             }
             if ($amount == 2) {
-                $this->text[] = clienttranslate("This card produces two units of the raw goods represented.");
+                $this->text[] = clienttranslate("This building produces two units of the raw goods represented.");
             }
         }
         else {
-            $this->text[] = clienttranslate("This card produces one unit of the manufactured goods represented.");
+            $this->text[] = clienttranslate("This building produces one unit of the manufactured goods represented.");
         }
         return $this;
     }
@@ -306,7 +368,7 @@ class Building extends Item {
      */
     public function setCoinsPerWonder(int $coinsPerWonder) {
         $this->coinsPerWonder = $coinsPerWonder;
-        $this->text[] = clienttranslate("This card is worth %d coins per Wonder constructed in your city at the time it is constructed.");
+        $this->text[] = clienttranslate("This card is worth 2 coins per Wonder constructed in your city at the time it is constructed.");
         return $this;
     }
 

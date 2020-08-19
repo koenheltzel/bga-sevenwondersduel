@@ -108,15 +108,15 @@
                     <!-- END end_game -->
                     <!-- BEGIN player_buildings -->
                     <div class="player_buildings whiteblock player{PLAYER_ID} {PLAYER_ALIAS}">
-                        <div class="player_building_column Brown" title="Raw materials"></div>
-                        <div class="player_building_column Grey" title="Manufactured goods"></div>
-                        <div class="player_building_column Yellow" title="Commercial Buildings"></div>
-                        <div class="player_building_column Red" title="Military Buildings"></div>
-                        <div class="player_building_column Blue" title="Civilian Buildings"></div>
-                        <div class="player_building_column Green" title="Scientific Buildings">
+                        <div class="player_building_column Brown"></div>
+                        <div class="player_building_column Grey"></div>
+                        <div class="player_building_column Yellow"></div>
+                        <div class="player_building_column Red"></div>
+                        <div class="player_building_column Blue"></div>
+                        <div class="player_building_column Green">
                             <div class="building_header_small_container card_outline science_progress"><span></span></div>
                         </div>
-                        <div class="player_building_column Purple" title="Guilds"></div>
+                        <div class="player_building_column Purple"></div>
                     </div>
                     <!-- END player_buildings -->
                 <!-- END middle_column_block -->
@@ -359,26 +359,26 @@ var jstpl_coin_animated = '<div class="coin animated"></div>';
 
 var jstpl_tooltip_cost_me = '\
     <hr\>\
-    <strong class="me">{CURRENT_COST_YOU}:</strong>\
+    <strong class="me">${translateCurrentCost}:</strong>\
     <div class="payment_plan">\
         ${jsPayment}\
     </div>\
-    <strong>{TOTAL}:</strong> ${jsCoinHtml}\
+    <strong>${translateTotal}:</strong> ${jsCoinHtml}\
     ';
 
 var jstpl_tooltip_cost_opponent = '\
     <hr\>\
-    <strong class="opponent">{CURRENT_COST_OPPONENT}:</strong>\
+    <strong class="opponent">${translateCurrentCost}:</strong>\
     <div class="payment_plan">\
         ${jsPayment}\
     </div>\
-    <strong>{TOTAL}:</strong> ${jsCoinHtml}\
+    <strong>${translateTotal}:</strong> ${jsCoinHtml}\
     ';
 
 var jstpl_building_tooltip = '\
     <div class="swd_tooltip building_tooltip">\
         <div class="cardinfos">\
-            <strong>${cardType} “${jsName}”</strong>\
+            <strong>${cardType} “${jsName}”</strong><strong style="float:right; color: ${jsBuildingTypeColor}">${jsBuildingTypeDescription}</strong>\
             <hr\>\
             <p>${jsText}</p>\
             ${jsCostOpponent}\
@@ -395,7 +395,7 @@ var jstpl_building_tooltip = '\
 var jstpl_wonder_tooltip = '\
     <div class="swd_tooltip wonder_tooltip">\
         <div class="cardinfos">\
-            <strong>{WONDER} “${jsName}”</strong>\
+            <strong>${translateWonder} “${jsName}”</strong>\
             <hr\>\
             <p>${jsText}</p>\
             ${jsCost}\
@@ -411,7 +411,7 @@ var jstpl_wonder_tooltip = '\
 var jstpl_progress_token_tooltip = '\
     <div class="swd_tooltip progress_token_tooltip">\
         <div class="cardinfos">\
-            <strong>{PROGRESS_TOKEN} “${jsName}”</strong>\
+            <strong>${translateProgressToken} “${jsName}”</strong>\
             <hr\>\
             <p>${jsText}</p>\
         </div>\

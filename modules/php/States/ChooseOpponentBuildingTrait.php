@@ -43,6 +43,7 @@ trait ChooseOpponentBuildingTrait {
             'opponentDiscardBuilding',
             clienttranslate('${player_name} discarded opponent\'s building “${buildingName}” (Wonder “${wonderName}”)'),
             [
+                'i18n' => ['buildingName', 'wonderName'],
                 'buildingName' => Building::get($buildingId)->name,
                 'wonderName' => Wonder::get($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER))->name,
                 'player_name' => $this->getCurrentPlayerName(),

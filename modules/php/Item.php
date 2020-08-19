@@ -86,6 +86,7 @@ class Item extends Base
                     'message',
                     clienttranslate('${coins} coin(s) of the cost for ${item_name} go to ${player_name} (“${progressTokenName}” Progress token)'),
                     [
+                        'i18n' => ['item_name', 'progressTokenName'],
                         'player_name' => Player::opponent()->name,
                         'item_name' => $payment->getItem()->name,
                         'coins' => $payment->economyProgressTokenCoins,
@@ -134,6 +135,7 @@ class Item extends Base
                 'message',
                 $message,
                 [
+                    'i18n' => ['progressTokenName'],
                     'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                     'steps' => $payment->militarySteps,
                     'progressTokenName' => ProgressToken::get(8)->name, //Strategy

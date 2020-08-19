@@ -25,10 +25,13 @@ class ProgressToken extends Item
 
         SevenWondersDuel::get()->progressTokenDeck->insertCardOnExtremePosition($this->id, $player->id, true);
 
+        SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_PROGRESS_TOKENS, Player::me()->id);
+
         SevenWondersDuel::get()->notifyAllPlayers(
             'progressTokenChosen',
             clienttranslate('${player_name} chose Progress token “${progressTokenName}”'),
             [
+                'i18n' => ['progressTokenName'],
                 'progressTokenName' => $this->name,
                 'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                 'playerId' => Player::me()->id,

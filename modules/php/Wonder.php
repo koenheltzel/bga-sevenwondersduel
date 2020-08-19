@@ -49,11 +49,12 @@ class Wonder extends Item {
             'constructWonder',
             clienttranslate('${player_name} constructed wonder “${wonderName}” for ${cost} using building “${buildingName}”'),
             [
+                'i18n' => ['wonderName', 'cost', 'buildingName'],
                 'wonderId' => $this->id,
                 'wonderName' => $this->name,
                 'buildingId' => $building->id,
                 'buildingName' => $building->name,
-                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : 'free',
+                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : clienttranslate('free'),
                 'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                 'playerId' => Player::me()->id,
                 'payment' => $payment,
@@ -79,6 +80,7 @@ class Wonder extends Item {
                 'message',
                 clienttranslate('${player_name}\'s Wonder “${wonderName}” is removed from the game because 7 Wonders have been constructed'),
                 [
+                    'i18n' => ['wonderName'],
                     'player_name' => Player::me()->hasWonder($eightWonder->id) ? Player::me()->name : Player::opponent()->name,
                     'wonderName' => $eightWonder->name,
                 ]
@@ -165,7 +167,7 @@ class Wonder extends Item {
      */
     public function setOpponentCoinLoss(int $opponentCoinLoss) {
         $this->opponentCoinLoss = $opponentCoinLoss;
-        $this->text[] = clienttranslate("Your opponent loses %d coins, which are returned to the bank.", $opponentCoinLoss);
+        $this->text[] = sprintf(self::_("Your opponent loses %d coins, which are returned to the bank."), $opponentCoinLoss);
         return $this;
     }
 

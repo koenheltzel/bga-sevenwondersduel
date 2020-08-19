@@ -65,6 +65,7 @@ class SevenWondersDuel extends Table
      */
     public static $instance;
 
+    // Game state ids & names
     const STATE_GAME_SETUP_ID = 1;
     const STATE_GAME_SETUP_NAME = "gameSetup";
     
@@ -107,6 +108,7 @@ class SevenWondersDuel extends Table
     const STATE_GAME_END_ID = 99;
     const STATE_GAME_END_NAME = "gameEnd";
 
+    // Global value labels
     const VALUE_CURRENT_WONDER_SELECTION_ROUND = "current_wonder_selection_round";
     const VALUE_CURRENT_AGE = "current_age";
     const VALUE_CONFLICT_PAWN_POSITION = "conflict_pawn_position";
@@ -120,17 +122,49 @@ class SevenWondersDuel extends Table
     const VALUE_DISCARD_OPPONENT_BUILDING_WONDER = "discard_opponent_building_type";
     const VALUE_END_GAME_CONDITION = "end_game_condition";
 
+    // End game scoring categories
     const SCORE_WONDERS = "wonders";
     const SCORE_PROGRESSTOKENS = "progresstokens";
     const SCORE_COINS = "coins";
     const SCORE_MILITARY = "military";
 
+    // End game conditions
     const END_GAME_CONDITION_SCIENTIFIC = 1;
     const END_GAME_CONDITION_MILITARY = 2;
     const END_GAME_CONDITION_NORMAL = 3;
     const END_GAME_CONDITION_NORMAL_AUX = 4;
     const END_GAME_CONDITION_DRAW = 5;
 
+    // Statistics
+    const STAT_TURNS_NUMBER = "turns_number";
+    const STAT_CIVILIAN_VICTORY = "civilian_victory";
+    const STAT_SCIENTIFIC_SUPREMACY = "scientific_supremacy";
+    const STAT_MILITARY_SUPREMACY = "military_supremacy";
+    const STAT_DRAW = "draw";
+    const STAT_VICTORY_POINTS = "victory_points";
+    const STAT_VP_BLUE = "vp_blue";
+    const STAT_VP_GREEN = "vp_green";
+    const STAT_VP_YELLOW = "vp_yellow";
+    const STAT_VP_PURPLE = "vp_purple";
+    const STAT_VP_WONDERS = "vp_wonders";
+    const STAT_VP_PROGRESS_TOKENS = "vp_progress_tokens";
+    const STAT_VP_COINS = "vp_coins";
+    const STAT_VP_MILITARY = "vp_military";
+    const STAT_BROWN_CARDS = "brown_cards";
+    const STAT_GREY_CARDS = "grey_cards";
+    const STAT_YELLOW_CARDS = "yellow_cards";
+    const STAT_RED_CARDS = "red_cards";
+    const STAT_BLUE_CARDS = "blue_cards";
+    const STAT_GREEN_CARDS = "green_cards";
+    const STAT_PURPLE_CARDS = "purple_cards";
+    const STAT_BUILDINGS_CONSTRUCTED = "buildings_constructed";
+    const STAT_WONDERS_CONSTRUCTED = "wonders_constructed";
+    const STAT_PROGRESS_TOKENS = "progress_tokens";
+    const STAT_SHIELDS = "shields";
+    const STAT_SCIENCE_SYMBOLS = "science_symbols";
+    const STAT_EXTRA_TURNS = "extra_turns";
+    const STAT_DISCARDED_CARDS = "discarded_cards";
+    const STAT_CHAINED_CONSTRUCTIONS = "chained_constructions";
 
     /**
      * @var Deck
@@ -281,8 +315,41 @@ class SevenWondersDuel extends Table
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)
-        //self::initStat( 'table', 'table_teststat1', 0 );    // Init a table statistics
-        //self::initStat( 'player', 'player_teststat1', 0 );  // Init a player statistics (for all players)
+        // Table statistics
+        self::initStat('table', self::STAT_TURNS_NUMBER, 0);
+        self::initStat('table', self::STAT_CIVILIAN_VICTORY, 0);
+        self::initStat('table', self::STAT_SCIENTIFIC_SUPREMACY, 0);
+        self::initStat('table', self::STAT_MILITARY_SUPREMACY, 0);
+        self::initStat('table', self::STAT_DRAW, 0);
+        // Player statistics (for all players)
+        self::initStat('player', self::STAT_TURNS_NUMBER, 0);
+        self::initStat('player', self::STAT_CIVILIAN_VICTORY, 0);
+        self::initStat('player', self::STAT_SCIENTIFIC_SUPREMACY, 0);
+        self::initStat('player', self::STAT_MILITARY_SUPREMACY, 0);
+        self::initStat('player', self::STAT_DRAW, 0);
+        self::initStat('player', self::STAT_VICTORY_POINTS, 0);
+        self::initStat('player', self::STAT_VP_BLUE, 0);
+        self::initStat('player', self::STAT_VP_GREEN, 0);
+        self::initStat('player', self::STAT_VP_YELLOW, 0);
+        self::initStat('player', self::STAT_VP_PURPLE, 0);
+        self::initStat('player', self::STAT_VP_WONDERS, 0);
+        self::initStat('player', self::STAT_VP_PROGRESS_TOKENS, 0);
+        self::initStat('player', self::STAT_VP_COINS, 0);
+        self::initStat('player', self::STAT_VP_MILITARY, 0);
+        self::initStat('player', self::STAT_BROWN_CARDS, 0);
+        self::initStat('player', self::STAT_GREY_CARDS, 0);
+        self::initStat('player', self::STAT_YELLOW_CARDS, 0);
+        self::initStat('player', self::STAT_RED_CARDS, 0);
+        self::initStat('player', self::STAT_BLUE_CARDS, 0);
+        self::initStat('player', self::STAT_GREEN_CARDS, 0);
+        self::initStat('player', self::STAT_PURPLE_CARDS, 0);
+        self::initStat('player', self::STAT_WONDERS_CONSTRUCTED, 0);
+        self::initStat('player', self::STAT_PROGRESS_TOKENS, 0);
+        self::initStat('player', self::STAT_SHIELDS, 0);
+        self::initStat('player', self::STAT_SCIENCE_SYMBOLS, 0);
+        self::initStat('player', self::STAT_EXTRA_TURNS, 0);
+        self::initStat('player', self::STAT_DISCARDED_CARDS, 0);
+        self::initStat('player', self::STAT_CHAINED_CONSTRUCTIONS, 0);
 
         // TODO: setup the initial game situation here
 

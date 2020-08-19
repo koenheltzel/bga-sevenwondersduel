@@ -29,7 +29,7 @@ define([
     ],
     function (dojo, declare, on, dom) {
         return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
-            
+
             instance: null,
 
             LAYOUT_LANDSCAPE: 'landscape',
@@ -38,6 +38,7 @@ define([
             // Debug settings
 
             dontScale: 0,
+            debugTooltips: 0,
 
             autoScale: 1,
             scale: 1,
@@ -125,8 +126,7 @@ define([
                     var buttonNode;
                     if (player_id == this.me_id) {
                         buttonNode = $('buttonPlayerLeft');
-                    }
-                    else {
+                    } else {
                         buttonNode = $('buttonPlayerRight');
                     }
                     dojo.attr(buttonNode, 'data-player-id', player_id);
@@ -140,8 +140,7 @@ define([
                         if (avatarSrc) {
                             dojo.attr(buttonImg, 'src', avatarSrc);
                         }
-                    }
-                    else {
+                    } else {
                         dojo.destroy(buttonImg);
                     }
 
@@ -239,12 +238,12 @@ define([
                 //
 
                 dojo.subscribe('wonderSelected', this, "notif_wonderSelected");
-                this.notifqueue.setSynchronous( 'wonderSelected' );
+                this.notifqueue.setSynchronous('wonderSelected');
 
                 dojo.subscribe('nextAge', this, "notif_nextAge");
 
                 dojo.subscribe('constructBuilding', this, "notif_constructBuilding");
-                this.notifqueue.setSynchronous( 'constructBuilding' );
+                this.notifqueue.setSynchronous('constructBuilding');
 
                 dojo.subscribe('discardBuilding', this, "notif_discardBuilding");
                 this.notifqueue.setSynchronous('discardBuilding');
@@ -253,25 +252,25 @@ define([
                 this.notifqueue.setSynchronous('constructWonder');
 
                 dojo.subscribe('progressTokenChosen', this, "notif_progressTokenChosen");
-                this.notifqueue.setSynchronous( 'progressTokenChosen' );
+                this.notifqueue.setSynchronous('progressTokenChosen');
 
                 dojo.subscribe('opponentDiscardBuilding', this, "notif_opponentDiscardBuilding");
-                this.notifqueue.setSynchronous( 'opponentDiscardBuilding' );
+                this.notifqueue.setSynchronous('opponentDiscardBuilding');
 
                 dojo.subscribe('nextAgeDraftpoolReveal', this, "notif_nextAgeDraftpoolReveal");
-                this.notifqueue.setSynchronous( 'nextAgeDraftpoolReveal' );
+                this.notifqueue.setSynchronous('nextAgeDraftpoolReveal');
 
                 dojo.subscribe('nextPlayerTurnScientificSupremacy', this, "notif_nextPlayerTurnScientificSupremacy");
-                this.notifqueue.setSynchronous( 'nextPlayerTurnScientificSupremacy' );
+                this.notifqueue.setSynchronous('nextPlayerTurnScientificSupremacy');
 
                 dojo.subscribe('nextPlayerTurnMilitarySupremacy', this, "notif_nextPlayerTurnMilitarySupremacy");
-                this.notifqueue.setSynchronous( 'nextPlayerTurnMilitarySupremacy' );
+                this.notifqueue.setSynchronous('nextPlayerTurnMilitarySupremacy');
 
                 dojo.subscribe('nextPlayerTurnEndGameScoring', this, "notif_nextPlayerTurnEndGameScoring");
-                this.notifqueue.setSynchronous( 'nextPlayerTurnEndGameScoring' );
+                this.notifqueue.setSynchronous('nextPlayerTurnEndGameScoring');
 
                 dojo.subscribe('endGameCategoryUpdate', this, "notif_endGameCategoryUpdate");
-                this.notifqueue.setSynchronous( 'endGameCategoryUpdate' );
+                this.notifqueue.setSynchronous('endGameCategoryUpdate');
 
 
             },
@@ -289,7 +288,7 @@ define([
 
                 if (args.args && stateName.substring(0, 7) != "client_") {
                     // Update player coins / scores
-                    if(args.args.playersSituation) {
+                    if (args.args.playersSituation) {
                         this.updatePlayersSituation(args.args.playersSituation);
                     }
 
@@ -298,7 +297,7 @@ define([
 
                     // We chose to group all of the states' functions together, so we create a seperate "onEnter{StateName}" function and call it here if it exists.
                     var functionName = 'onEnter' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
-                    if(typeof this[functionName] === 'function') {
+                    if (typeof this[functionName] === 'function') {
                         this[functionName](args.args);
                     }
                 }
@@ -372,7 +371,7 @@ define([
                 var wonder = this.gamedatas.wonders[wonderId];
                 var data = {
                     jsId: wonderId,
-                    jsName: wonder.name,
+                    jsName: _(wonder.name),
                     jsDisplayCost: displayCost ? 'inline-block' : 'none',
                     jsCost: this.getCostValue(cost),
                     jsCostColor: this.getCostColor(cost, playerCoins),
@@ -396,7 +395,7 @@ define([
             /*
             Transition (3D flip) from old node to new node. Destroy old node afterwards.
              */
-            twistAnimation: function(oldNode, newNode, ) {
+            twistAnimation: function (oldNode, newNode,) {
                 if (!oldNode || dojo.style(oldNode, 'display') == 'none' || oldNode.innerHTML != newNode.innerHTML) {
                     var displayValue = dojo.style(newNode, 'display'); // probably inline-block or block.
                     dojo.style(newNode, 'display', 'none');
@@ -441,8 +440,7 @@ define([
 
                     var anim = dojo.fx.chain(anims);
                     anim.play();
-                }
-                else {
+                } else {
                     dojo.destroy(oldNode);
                 }
             },
@@ -568,14 +566,14 @@ define([
                             var buildingData = this.gamedatas.buildings[position.building];
                             spriteId = position.building;
                             data.jsId = position.building;
-                            data.jsName = buildingData.name;
+                            data.jsName = _(buildingData.name);
                             if (position.available) {
                                 data.jsDisplayCostMe = position.available ? 'block' : 'none',
-                                data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
-                                data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
+                                    data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
+                                    data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
                                 data.jsDisplayCostOpponent = position.available ? 'block' : 'none',
-                                data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playersSituation[this.opponent_id].coins),
-                                data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
+                                    data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playersSituation[this.opponent_id].coins),
+                                    data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
                             }
 
                             // Linked building symbol
@@ -693,7 +691,7 @@ define([
                 var linkedBuildingId = 0;
                 var data = {
                     jsId: buildingId,
-                    jsName: buildingData.name,
+                    jsName: _(buildingData.name),
                     jsRow: '',
                     jsColumn: '',
                     jsZindex: 1,
@@ -755,11 +753,11 @@ define([
                 }
             },
 
-            getProgressTokenDivHtml: function(progressTokenId) {
+            getProgressTokenDivHtml: function (progressTokenId) {
                 var progressToken = this.gamedatas.progressTokens[progressTokenId];
                 var data = {
                     jsId: progressTokenId,
-                    jsName: progressToken.name,
+                    jsName: _(progressToken.name),
                     jsData: 'data-progress-token-id="' + progressTokenId + '"',
                 };
                 var spritesheetColumns = 4;
@@ -780,7 +778,7 @@ define([
                 this.maybeShowSecondRowProgressTokens(playerId);
             },
 
-            maybeShowSecondRowProgressTokens: function(playerId) {
+            maybeShowSecondRowProgressTokens: function (playerId) {
                 var nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div>div');
                 var containers = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div');
                 for (var i = 4; i <= 5; i++) {
@@ -825,24 +823,24 @@ define([
             setupTooltips: function () {
                 // Simple tooltips
 
-                let militaryTokenText = _( 'Military token: the opponent of the active player discards ${x} coins.' );
-                this.addTooltipToClass( 'military_token_2',
+                let militaryTokenText = _('Military token: the opponent of the active player discards ${x} coins.');
+                this.addTooltipToClass('military_token_2',
                     dojo.string.substitute(
                         militaryTokenText, {
                             x: 2
-                        } ), '', this.toolTipDelay );
-                this.addTooltipToClass( 'military_token_5',
+                        }), '', this.toolTipDelay);
+                this.addTooltipToClass('military_token_5',
                     dojo.string.substitute(
                         militaryTokenText, {
                             x: 5
-                        } ), '', this.toolTipDelay );
+                        }), '', this.toolTipDelay);
 
                 this.addTooltip('conflict_pawn',
                     _('Conflict pawn: When it enters a zone, active player applies the effect of the corresponding token, then returns it to the box.'), ''
                 );
 
-                this.addTooltipToClass( 'science_progress',
-                    _('If you gather 6 different scientific symbols, you immediately win the game (Scientific Supremacy).'), '', this.toolTipDelay );
+                this.addTooltipToClass('science_progress',
+                    _('If you gather 6 different scientific symbols, you immediately win the game (Scientific Supremacy).'), '', this.toolTipDelay);
 
 
                 // this.addTooltipToClass( 'draftpool_building_cost.me', _('Current cost for you to construct the building'), '', this.toolTipDelay );
@@ -914,11 +912,23 @@ define([
                             var draftpoolBuilding = dojo.query(node).closest("#draftpool")[0];
                             var meCoinHtml;
                             var opponentCoinHtml;
+                            var meIconHtml;
+                            var opponentIconHtml;
+                            var linkedBuilding;
                             if (draftpoolBuilding) {
                                 meCoinHtml = dojo.query('.me .coin', node)[0].outerHTML;
+                                linkedBuilding = dojo.query('.me .linked_building_icon', node)[0];
+                                if (linkedBuilding) {
+                                    meIconHtml = linkedBuilding.outerHTML;
+                                }
+
                                 opponentCoinHtml = dojo.query('.opponent .coin', node)[0].outerHTML;
+                                linkedBuilding = dojo.query('.opponent .linked_building_icon', node)[0];
+                                if (linkedBuilding) {
+                                    opponentIconHtml = linkedBuilding.outerHTML;
+                                }
                             }
-                            return this.getBuildingTooltip(id, draftpoolBuilding, meCoinHtml, opponentCoinHtml);
+                            return this.getBuildingTooltip(id, draftpoolBuilding, meCoinHtml, opponentCoinHtml, meIconHtml, opponentIconHtml);
                         })
                     })
                 );
@@ -959,17 +969,19 @@ define([
                 );
 
                 // Mimick BGA's default behavior of closing the tooltip over mouseover and click.
-                dojo.query('body').on("#dijit__MasterTooltip_0:mouseover", dojo.hitch(this, "closeTooltips"));
-                dojo.query('body').on("#dijit__MasterTooltip_0:click", dojo.hitch(this, "closeTooltips"));
+                if (!this.debugTooltips) {
+                    dojo.query('body').on("#dijit__MasterTooltip_0:mouseover", dojo.hitch(this, "closeTooltips"));
+                    dojo.query('body').on("#dijit__MasterTooltip_0:click", dojo.hitch(this, "closeTooltips"));
+                }
             },
 
-            closeTooltips: function() {
+            closeTooltips: function () {
                 Object.keys(this.customTooltips).forEach(dojo.hitch(this, function (index) {
                     this.customTooltips[index].close();
                 }));
             },
 
-            getBuildingTooltip: function (id, draftpoolBuilding, meCoinHtml, opponentCoinHtml) {
+            getBuildingTooltip: function (id, draftpoolBuilding, meCoinHtml, opponentCoinHtml, meIconHtml, opponentIconHtml) {
                 if (typeof this.gamedatas.buildings[id] != 'undefined') {
                     var building = this.gamedatas.buildings[id];
 
@@ -977,14 +989,15 @@ define([
 
                     var data = {};
                     if (building.age <= 3) {
-                        data.cardType = dojo.string.substitute( _("Age ${ageRoman} card"), {
+                        data.cardType = dojo.string.substitute(_("Age ${ageRoman} card"), {
                             ageRoman: this.ageRoman(building.age)
-                        } );
-                    }
-                    else {
+                        });
+                    } else {
                         data.cardType = _("Guild card");
                     }
-                    data.jsName = building.name;
+                    data.jsName = _(building.name);
+                    data.jsBuildingTypeColor = building.typeColor;
+                    data.jsBuildingTypeDescription = _(building.typeDescription);
                     data.jsText = this.getTextHtml(building.text);
                     data.jsBackX = ((id - 1) % spritesheetColumns);
                     data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
@@ -994,13 +1007,17 @@ define([
                         var position = this.getDraftpoolCardData(id);
                         if (position.payment) {
                             data.jsCostMe = this.format_block('jstpl_tooltip_cost_me', {
+                                translateCurrentCost: _("Current construction cost for you"),
+                                translateTotal: _("Total"),
                                 jsCoinHtml: meCoinHtml,
-                                jsPayment: this.getPaymentPlan(position.payment[this.me_id])
+                                jsPayment: this.getPaymentPlan(position.payment[this.me_id], meIconHtml)
                             });
 
                             data.jsCostOpponent = this.format_block('jstpl_tooltip_cost_opponent', {
+                                translateCurrentCost: _("Current construction cost for opponent"),
+                                translateTotal: _("Total"),
                                 jsCoinHtml: opponentCoinHtml,
-                                jsPayment: this.getPaymentPlan(position.payment[this.opponent_id])
+                                jsPayment: this.getPaymentPlan(position.payment[this.opponent_id], opponentIconHtml)
                             });
                         }
                     }
@@ -1010,26 +1027,38 @@ define([
                 return false;
             },
 
-            getPaymentPlan: function (data) {
+            getPaymentPlan: function (data, linkedIcon) {
                 var output = '';
                 var steps = data.steps;
                 for (var i = 0; i < steps.length; i++) {
-                    output += this.getResourceIcon(steps[i].resource, steps[i].amount);
+                    if (steps[i].resource == "linked") {
+                        output += linkedIcon.replace('linked_building_icon_small', '');
+                    } else {
+                        output += this.getResourceIcon(steps[i].resource, steps[i].amount);
+                    }
                     output += ' &rightarrow; ';
-                    output += dojo.string.substitute(steps[i].string, { costIcon: steps[i].cost ? this.getResourceIcon('coin', steps[i].cost) : '' });
+                    output += dojo.string.substitute(steps[i].string, {costIcon: steps[i].cost ? this.getResourceIcon('coin', steps[i].cost) : ''});
                     output += '<br/>';
                 }
                 return output;
             },
 
-            getTextHtml: function(text) {
+            getTextHtml: function (text) {
                 if (text instanceof Array) {
                     if (text.length == 0) return '';
-                    else if (text.length == 1) return text;
-                    else return "<ul><li>" + text.join("</li><li>") + "</li></ul>";
-                }
-                else {
-                    return text;
+                    else if (text.length == 1) return _(text[0]);
+                    else {
+                        var string = '';
+                        for (let i = 0; i < text.length; i++) {
+                            string += _(text[i]);
+                            if (i < text.length - 1) {
+                                string += "</li><li>";
+                            }
+                        }
+                        return "<ul><li>" + string + "</li></ul>";
+                    }
+                } else {
+                    return _(text);
                 }
             },
 
@@ -1040,7 +1069,8 @@ define([
                     var spritesheetColumns = 5;
 
                     var data = {};
-                    data.jsName = wonder.name;
+                    data.translateWonder = _("Wonder");
+                    data.jsName = _(wonder.name);
                     data.jsText = this.getTextHtml(wonder.text);
 
                     data.jsBackX = ((id - 1) % spritesheetColumns);
@@ -1051,6 +1081,8 @@ define([
                         if (!cardData) return false; // Happens in Edge sometimes.
                         if (!cardData.constructed) {
                             data.jsCost = this.format_block(playerId == this.me_id ? 'jstpl_tooltip_cost_me' : 'jstpl_tooltip_cost_opponent', {
+                                translateCurrentCost: playerId == this.me_id ? _("Current construction cost for you") : _("Current construction cost for opponent"),
+                                translateTotal: _("Total"),
                                 jsCoinHtml: coinHtml,
                                 jsPayment: this.getPaymentPlan(cardData.payment)
                             });
@@ -1069,7 +1101,8 @@ define([
                     var spritesheetColumns = 4;
 
                     var data = {};
-                    data.jsName = progressToken.name;
+                    data.translateProgressToken = _("Progress token");
+                    data.jsName = _(progressToken.name);
                     data.jsText = this.getTextHtml(progressToken.text);
                     data.jsBackX = ((id - 1) % spritesheetColumns);
                     data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
@@ -1131,23 +1164,22 @@ define([
             //     \_/\_/ \___/|_| |_|\__,_|\___|_|    |___/\___|_|\___|\___|\__|_|\___/|_| |_|
 
 
-            onEnterSelectWonder: function(args) {
-                $('wonder_selection_block_title').innerText = dojo.string.substitute( _("Wonders selection - round ${round} of 2"), {
+            onEnterSelectWonder: function (args) {
+                $('wonder_selection_block_title').innerText = dojo.string.substitute(_("Wonders selection - round ${round} of 2"), {
                     round: args.round
-                } );
+                });
 
                 if (args.updateWonderSelection) {
                     this.updateWonderSelectionAfterLoading(args.wonderSelection);
                 }
             },
 
-            updateWonderSelectionAfterLoading: function(selection) {
+            updateWonderSelectionAfterLoading: function (selection) {
                 var loaderNode = $('loader_mask2');
-                if(!loaderNode || loaderNode.style.display == 'none') {
+                if (!loaderNode || loaderNode.style.display == 'none') {
                     this.updateWonderSelection(selection);
-                }
-                else {
-                    const updateWonderSelectionAfterLoading = () => this.updateWonderSelectionAfterLoading( selection );
+                } else {
+                    const updateWonderSelectionAfterLoading = () => this.updateWonderSelectionAfterLoading(selection);
                     // Wait till the loader is no longer visible.
                     setTimeout(updateWonderSelectionAfterLoading, 50);
                 }
@@ -1236,14 +1268,14 @@ define([
                 var endScale = 0.58 * this.getCssVariable('--scale');
 
                 wonderNode.style.setProperty('--wonder-small-scale', startScale);
-                this.placeOnObject( wonderNode, selectionContainer );
+                this.placeOnObject(wonderNode, selectionContainer);
 
                 var anim = dojo.fx.combine([
                     dojo.animateProperty({
                         node: wonderNode,
                         duration: this.selectWonderAnimationDuration,
                         properties: {
-                            propertyScale: { start: startScale, end: endScale }
+                            propertyScale: {start: startScale, end: endScale}
                         },
                         onEnd: function () {
                             wonderNode.style.removeProperty('--wonder-small-scale');
@@ -1267,7 +1299,7 @@ define([
             //  |_|   |_|\__,_|\__, |\___|_|      |_| \__,_|_|  |_| |_|
             //                 |___/
 
-            onEnterPlayerTurn: function(args) {
+            onEnterPlayerTurn: function (args) {
                 // console.log('in onEnterPlayerTurn', args);
             },
 
@@ -1367,7 +1399,7 @@ define([
                 }
             },
 
-            getEconomyProgressTokenAnimation: function(coins, player_id) {
+            getEconomyProgressTokenAnimation: function (coins, player_id) {
                 return bgagame.CoinAnimator.get().getAnimation(
                     this.getPlayerCoinContainer(player_id),
                     this.getPlayerCoinContainer(this.getOppositePlayerId(player_id)),
@@ -1656,7 +1688,7 @@ define([
                             wonderNode,
                             notif.args.payment.opponentCoinLoss,
                             this.getOppositePlayerId(notif.args.playerId),
-                            [0,0],
+                            [0, 0],
                             [wonder.visualOpponentCoinLossPosition[0] * wonderNodePosition.w, wonder.visualOpponentCoinLossPosition[1] * wonderNodePosition.h]
                         );
 
@@ -1751,13 +1783,13 @@ define([
             //  \____|_| |_|\___/ \___/|___/\___|  \___/| .__/| .__/ \___/|_| |_|\___|_| |_|\__| |_.__/ \__,_|_|_|\__,_|_|_| |_|\__, |
             //                                          |_|   |_|                                                               |___/
 
-            onEnterChooseOpponentBuilding: function(args) {
+            onEnterChooseOpponentBuilding: function (args) {
                 var opponentId = this.getOppositePlayerId(this.getActivePlayerId());
                 var buildingColumn = dojo.query('.player' + opponentId + ' .player_building_column.' + args.buildingType)[0];
                 dojo.addClass(buildingColumn, 'red_border');
             },
 
-            onOpponentBuildingClick: function(e) {
+            onOpponentBuildingClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
@@ -1830,7 +1862,7 @@ define([
             //  \____|_| |_|\___/ \___/|___/\___|  \__,_|_|___/\___\__,_|_|  \__,_|\___|\__,_| |_.__/ \__,_|_|_|\__,_|_|_| |_|\__, |
             //                                                                                                                |___/
 
-            onEnterChooseDiscardedBuilding: function(args) {
+            onEnterChooseDiscardedBuilding: function (args) {
                 if (this.isCurrentPlayerActive()) {
                     var whiteblock = $('discarded_cards_whiteblock');
                     dojo.addClass(whiteblock, 'red_border');
@@ -1843,7 +1875,7 @@ define([
                 }
             },
 
-            onDiscardedBuildingClick: function(e) {
+            onDiscardedBuildingClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
@@ -1881,7 +1913,7 @@ define([
             //   \____|_| |_|\___/ \___/|___/\___| |_|   |_|  \___/ \__, |_|  \___||___/___/   |_|\___/|_|\_\___|_| |_|
             //                                                      |___/
 
-            onEnterChooseProgressToken: function(args) {
+            onEnterChooseProgressToken: function (args) {
                 console.log('onEnterChooseProgressToken', args);
                 dojo.addClass($('board_progress_tokens'), 'red_border');
             },
@@ -1961,7 +1993,7 @@ define([
                 this.notifqueue.setSynchronousDuration(animationDuration);
             },
 
-            getPlayerCoinContainer: function(playerId, oppositePlayerInstead=false) {
+            getPlayerCoinContainer: function (playerId, oppositePlayerInstead = false) {
                 var playerAlias = this.getPlayerAlias(oppositePlayerInstead ? this.getOppositePlayerId(playerId) : playerId);
                 return dojo.query('.player_info.' + playerAlias + ' .player_area_coins')[0];
             },
@@ -1983,11 +2015,11 @@ define([
             //  ___) |  __/ |  __/ (__| |_  \__ \ || (_| | |  | |_  | |_) | | (_| | |_| |  __/ |
             // |____/ \___|_|\___|\___|\__| |___/\__\__,_|_|   \__| | .__/|_|\__,_|\__, |\___|_|
             //                                                      |_|            |___/
-            onEnterSelectStartPlayer: function(args) {
+            onEnterSelectStartPlayer: function (args) {
                 console.log('onEnterSelectStartPlayer', args, 'ageRoman: ', args.ageRoman);
-                $('select_start_player_text').innerText = dojo.string.substitute( _("You must choose who begins Age ${ageRoman}"), {
+                $('select_start_player_text').innerText = dojo.string.substitute(_("You must choose who begins Age ${ageRoman}"), {
                     ageRoman: args.ageRoman
-                } );
+                });
             },
 
             onStartPlayerClick: function (e) {
@@ -2028,7 +2060,7 @@ define([
             //  \____|_| |_|\___/ \___/|___/\___| | .__/|_|  \___/ \__, |_|  \___||___/___/  \__\___/|_|\_\___|_| |_| |_| |_|  \___/|_| |_| |_| |_.__/ \___/_/\_\
             //                                    |_|              |___/
 
-            onEnterChooseProgressTokenFromBox: function(args) {
+            onEnterChooseProgressTokenFromBox: function (args) {
                 console.log('onEnterChooseProgressTokenFromBox', args);
                 Object.keys(args.progressTokensFromBox).forEach(dojo.hitch(this, function (progressTokenId) {
                     var card = args.progressTokensFromBox[progressTokenId];
@@ -2044,28 +2076,28 @@ define([
                 console.log('onProgressTokenFromBoxClick', e);
 
                 // if (this.isCurrentPlayerActive()) {
-                    // Check that this action is possible (see "possibleactions" in states.inc.php)
-                    if (!this.checkAction('actionChooseProgressTokenFromBox')) {
-                        return;
+                // Check that this action is possible (see "possibleactions" in states.inc.php)
+                if (!this.checkAction('actionChooseProgressTokenFromBox')) {
+                    return;
+                }
+
+                var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
+                var progressTokenId = progressToken.attr("data-progress-token-id");
+
+                this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseProgressTokenFromBox.html", {
+                        lock: true,
+                        progressTokenId: progressTokenId
+                    },
+                    this, function (result) {
+                        // What to do after the server call if it succeeded
+                        // (most of the time: nothing)
+
+                    }, function (is_error) {
+                        // What to do after the server call in anyway (success or failure)
+                        // (most of the time: nothing)
+
                     }
-
-                    var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
-                    var progressTokenId = progressToken.attr("data-progress-token-id");
-
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseProgressTokenFromBox.html", {
-                            lock: true,
-                            progressTokenId: progressTokenId
-                        },
-                        this, function (result) {
-                            // What to do after the server call if it succeeded
-                            // (most of the time: nothing)
-
-                        }, function (is_error) {
-                            // What to do after the server call in anyway (success or failure)
-                            // (most of the time: nothing)
-
-                        }
-                    );
+                );
                 // }
             },
 
@@ -2085,7 +2117,7 @@ define([
                 this.notifqueue.setSynchronousDuration(animationDuration);
             },
 
-            scientificSupremacyAnimation: function(playersSituation) {
+            scientificSupremacyAnimation: function (playersSituation) {
                 console.log('scientificSupremacyAnimation', playersSituation);
                 dojo.addClass(dojo.query('.player' + playersSituation.winner + ' .player_building_column.Green')[0], 'endgame_highlight');
                 var progressTokenNode = $('progress_token_4');
@@ -2108,7 +2140,7 @@ define([
                 this.notifqueue.setSynchronousDuration(animationDuration);
             },
 
-            militarySupremacyAnimation: function(playersSituation) {
+            militarySupremacyAnimation: function (playersSituation) {
                 console.log('militarySupremacyAnimation', playersSituation);
                 dojo.addClass($('conflict_pawn'), 'endgame_highlight');
 
@@ -2129,7 +2161,7 @@ define([
                 this.notifqueue.setSynchronousDuration(animationDuration);
             },
 
-            endGameScoringAnimation: function(playersSituation) {
+            endGameScoringAnimation: function (playersSituation) {
                 console.log('endGameScoringAnimation', playersSituation);
                 dojo.style($('draftpool_container'), 'display', 'none');
                 dojo.style($('end_game_container'), 'display', 'block');
@@ -2161,7 +2193,7 @@ define([
                                 node: playerPointsNode,
                                 duration: this.victorypoints_slide_duration,
                                 properties: {
-                                    propertyScale: { start: startScale, end: endScale }
+                                    propertyScale: {start: startScale, end: endScale}
                                 },
                                 onEnd: dojo.hitch(this, function (node) {
                                     playerPointsNode.style.removeProperty('--element-scale');
@@ -2181,7 +2213,7 @@ define([
                 return this.victorypoints_slide_duration;
             },
 
-            notif_endGameCategoryUpdate: function(notif) {
+            notif_endGameCategoryUpdate: function (notif) {
                 var categoryNode = dojo.query('#end_game_container .end_game_' + notif.args.category + '.player' + notif.args.playerId)[0];
                 var totalNode = dojo.query('#end_game_container .end_game_total.player' + notif.args.playerId + ' span')[0];
                 dojo.addClass(categoryNode, 'endgame_highlight');
@@ -2200,7 +2232,10 @@ define([
                         node: 'swd',
                         duration: notif.args.points * 100,
                         properties: {
-                            propertyScale: { start: parseInt(categoryNode.innerHTML), end: parseInt(categoryNode.innerHTML) + parseInt(notif.args.points) }
+                            propertyScale: {
+                                start: parseInt(categoryNode.innerHTML),
+                                end: parseInt(categoryNode.innerHTML) + parseInt(notif.args.points)
+                            }
                         },
                         onAnimate: function (values) {
                             var score = Math.floor(parseFloat(values.propertyScale.replace("px", "")));
@@ -2291,7 +2326,8 @@ define([
                 var titlePosition = dojo.position('page-title', false);
                 var titleMarginBottom = 5;
                 var width = titlePosition.w - 5;
-                var height = window.innerHeight - titlePosition.y - titlePosition.h - 2 * titleMarginBottom;
+                var pageZoom = dojo.style($('page-content'), "zoom");
+                var height = (window.innerHeight / pageZoom - titlePosition.y - titlePosition.h - 2 * titleMarginBottom);
 
                 var playarea = $('playarea');
                 dojo.style(playarea, "width", width + 'px');
@@ -2472,7 +2508,7 @@ define([
                 }
             },
 
-            ageRoman: function(age) {
+            ageRoman: function (age) {
                 return "I".repeat(age);
             },
 

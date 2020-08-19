@@ -14,6 +14,7 @@ class MilitaryTrack extends Base
         if($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
             $shields += 1;
         }
+        SevenWondersDuel::get()->incStat($shields, SevenWondersDuel::STAT_SHIELDS, $player->id);
 
         if ($player->id <> SevenWondersDuel::get()->getGameStartPlayerId()) {
             $shields *= -1;

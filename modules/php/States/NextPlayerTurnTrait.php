@@ -31,10 +31,13 @@ trait NextPlayerTurnTrait {
                     'message',
                     $message,
                     [
+                        'i18n' => ['progressTokenName'],
                         'player_name' => Player::getActive()->name,
                         'progressTokenName' => ProgressToken::get(9)->name, // Theology
                     ]
                 );
+
+                $this->incStat(1, self::STAT_EXTRA_TURNS, Player::getActive()->id);
             }
             else {
                 $this->activeNextPlayer();
@@ -82,11 +85,12 @@ trait NextPlayerTurnTrait {
                             $maxConstructedWonders = max($constructedWonders, $constructedWondersOpponent);
                             $mostPlayer = $constructedWonders >= $constructedWondersOpponent ? $player : $player->getOpponent();
                             $points = $maxConstructedWonders * 2;
-                            $player->increaseScore($points, $building->type);
+                            $player->increaseScore($points, $building->getScoreCategory());
                             SevenWondersDuel::get()->notifyAllPlayers(
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 2 for each constructed Wonder in the city which has the most of them (${mostPlayerName}\'s)'),
                                 [
+                                    'i18n' => ['guildName'],
                                     'player_name' => $player->name,
                                     'points' => $points,
                                     'guildName' => $building->name,
@@ -104,11 +108,12 @@ trait NextPlayerTurnTrait {
                             $maxCoinTriplets = max($coinTriplets, $coinTripletsOpponent);
                             $mostPlayer = $coinTriplets >= $coinTripletsOpponent ? $player : $player->getOpponent();
                             $points = $maxCoinTriplets;
-                            $player->increaseScore($points, $building->type);
+                            $player->increaseScore($points, $building->getScoreCategory());
                             SevenWondersDuel::get()->notifyAllPlayers(
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each set of 3 coins in the richest city (${mostPlayerName}\'s)'),
                                 [
+                                    'i18n' => ['guildName'],
                                     'player_name' => $player->name,
                                     'points' => $points,
                                     'guildName' => $building->name,
@@ -126,11 +131,12 @@ trait NextPlayerTurnTrait {
                             $maxBuildingsOfType = max($buildingsOfType, $buildingsOfTypeOpponent);
                             $mostPlayer = $buildingsOfType >= $buildingsOfTypeOpponent ? $player : $player->getOpponent();
                             $points = $maxBuildingsOfType;
-                            $player->increaseScore($points, $building->type);
+                            $player->increaseScore($points, $building->getScoreCategory());
                             SevenWondersDuel::get()->notifyAllPlayers(
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),
                                 [
+                                    'i18n' => ['guildName', 'buildingType'],
                                     'player_name' => $player->name,
                                     'points' => $points,
                                     'buildingType' => count($building->guildRewardBuildingTypes) > 1 ? clienttranslate('Brown and Grey') : $building->guildRewardBuildingTypes[0],
@@ -155,6 +161,7 @@ trait NextPlayerTurnTrait {
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Progress token “${progressTokenName}”)'),
                                 [
+                                    'i18n' => ['progressTokenName'],
                                     'player_name' => $player->name,
                                     'points' => $points,
                                     'progressTokenName' => ProgressToken::get(6)->name,
@@ -220,10 +227,15 @@ trait NextPlayerTurnTrait {
     }
 
     public function checkImmediateVictory() {
+        $scienceSymbolCount = Player::getActive()->getScientificSymbolCount();
+        SevenWondersDuel::get()->setStat($scienceSymbolCount, SevenWondersDuel::STAT_SCIENCE_SYMBOLS, Player::getActive()->id);
+
         $conflictPawnPosition = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
-        if (Player::getActive()->getScientificSymbolCount() >= 6) {
-            Player::me()->setWinner();
+        if ($scienceSymbolCount >= 6) {
+            Player::getActive()->setWinner();
             self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_SCIENTIFIC);
+            $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY);
+            $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY, Player::getActive()->id);
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'nextPlayerTurnScientificSupremacy',
@@ -239,6 +251,8 @@ trait NextPlayerTurnTrait {
         elseif ($conflictPawnPosition <= -9 || $conflictPawnPosition >= 9) {
             Player::me()->setWinner();
             self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_MILITARY);
+            $this->setStat(1, self::STAT_MILITARY_SUPREMACY);
+            $this->setStat(1, self::STAT_MILITARY_SUPREMACY, Player::getActive()->id);
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'nextPlayerTurnMilitarySupremacy',
@@ -271,6 +285,8 @@ trait NextPlayerTurnTrait {
             if($determine) {
                 $winner->setWinner();
                 $this->setGameStateValue(self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_NORMAL);
+                $this->setStat(1, self::STAT_CIVILIAN_VICTORY);
+                $this->setStat(1, self::STAT_CIVILIAN_VICTORY, $winner->id);
 
                 $this->notifyAllPlayers(
                     'message',
@@ -292,10 +308,12 @@ trait NextPlayerTurnTrait {
                 if ($determine) {
                     $winner->setWinner();
                     $this->setGameStateValue(self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_NORMAL_AUX);
+                    $this->setStat(1, self::STAT_CIVILIAN_VICTORY);
+                    $this->setStat(1, self::STAT_CIVILIAN_VICTORY, $winner->id);
 
                     $this->notifyAllPlayers(
                         'message',
-                        '${player_name} wins the game with a tied score but a majority of blue buildings, ${winnerBuildings} to ${loserBuildings} (Civilian Victory)',
+                        '${player_name} wins the game with a tied score but a majority of Civilian Buildings (blue cards), ${winnerBuildings} to ${loserBuildings} (Civilian Victory)',
                         [
                             'player_name' => $winner->name,
                             'winnerBuildings' => $winner->getValue('player_score_blue'),
@@ -307,10 +325,13 @@ trait NextPlayerTurnTrait {
             }
             else {
                 $this->setGameStateValue(self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_DRAW);
+                $this->setStat(1, self::STAT_DRAW, Player::me()->id);
+                $this->setStat(1, self::STAT_DRAW, Player::opponent()->id);
+                $this->setStat(1, self::STAT_DRAW);
 
                 $this->notifyAllPlayers(
                     'message',
-                    'Game ends in a draw (victory points and blue buildings count are both tied)',
+                    'Game ends in a draw (victory points and Civilian Buildings (blue cards) count are both tied)',
                     []
                 );
                 return null;
