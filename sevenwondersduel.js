@@ -2320,47 +2320,51 @@ define([
                 var landscape = 1.74; //1131/ 756; // 1.60
 
                 var swdNode = $('swd_wrap');
-                dojo.removeClass(swdNode, 'square');
-                dojo.removeClass(swdNode, 'portrait');
-                dojo.removeClass(swdNode, 'landscape');
+                swdNodePosition = dojo.position(swdNode); // swdNodePosition can be all 0 if the "Game results" tab is visible (and so swd_wrap is invisible). In that case don't update the layout / scaling.
+                if (swdNodePosition.w > 0) {
+                    dojo.removeClass(swdNode, 'square');
+                    dojo.removeClass(swdNode, 'portrait');
+                    dojo.removeClass(swdNode, 'landscape');
 
-                if (ratio >= landscape) {
-                    Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                        dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
-                    }));
+                    if (ratio >= landscape) {
+                        Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                            dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
+                        }));
 
-                    // console.log('ratio: ', ratio, 'choosing landscape');
-                    dojo.addClass(swdNode, 'landscape');
-                    this.setScale(1);
-                    this.setScale(height / dojo.style($('swd_wrap'), 'height'));
-                } else if (ratio < landscape && ratio > portrait) {
-                    Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                        dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
-                    }));
-
-                    // console.log('ratio: ', ratio, 'choosing square');
-                    dojo.addClass(swdNode, 'square');
-                    if (width > height) {
+                        // console.log('ratio: ', ratio, 'choosing landscape');
+                        dojo.addClass(swdNode, 'landscape');
                         this.setScale(1);
-                        this.setScale(height / dojo.style($('swd_wrap'), 'height'));
-                    } else {
+                        this.setScale(height / dojo.style(swdNode, 'height'));
+                    } else if (ratio < landscape && ratio > portrait) {
+                        Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                            dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
+                        }));
+
+                        // console.log('ratio: ', ratio, 'choosing square');
+                        dojo.addClass(swdNode, 'square');
+                        if (width > height) {
+                            this.setScale(1);
+                            this.setScale(height / dojo.style(swdNode, 'height'));
+                        } else {
+                            this.setScale(1);
+                            this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
+                        }
+
+                    } else { // ratio <= portrait
+                        Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                            dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
+                        }));
+
+                        // console.log('ratio: ', ratio, 'choosing portrait');
+                        dojo.addClass(swdNode, 'portrait');
                         this.setScale(1);
                         this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
                     }
 
-                } else { // ratio <= portrait
-                    Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                        dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
-                    }));
-
-                    // console.log('ratio: ', ratio, 'choosing portrait');
-                    dojo.addClass(swdNode, 'portrait');
-                    this.setScale(1);
-                    this.setScale(width / dojo.style($('layout_flexbox'), 'width'));
+                    dojo.style($('discarded_cards_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
+                    // console.log('swd_wrap height: ', swdNode, 'height');
                 }
 
-                dojo.style($('discarded_cards_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
-                // console.log('swd_wrap height: ', $('swd_wrap'), 'height');
             },
 
             //  _   _      _                   _____                 _   _
