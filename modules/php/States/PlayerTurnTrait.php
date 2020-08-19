@@ -26,7 +26,7 @@ trait PlayerTurnTrait {
     }
 
     public function enterStatePlayerTurn() {
-
+        $this->incStat(1, self::STAT_TURNS_NUMBER, $this->getActivePlayerId());
     }
 
     public function actionConstructBuilding($buildingId) {

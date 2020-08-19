@@ -140,6 +140,7 @@ class SevenWondersDuel extends Table
     const STAT_CIVILIAN_VICTORY = "civilian_victory";
     const STAT_SCIENTIFIC_SUPREMACY = "scientific_supremacy";
     const STAT_MILITARY_SUPREMACY = "military_supremacy";
+    const STAT_DRAW = "draw";
     const STAT_VICTORY_POINTS = "victory_points";
     const STAT_VP_BLUE = "vp_blue";
     const STAT_VP_GREEN = "vp_green";
@@ -318,11 +319,13 @@ class SevenWondersDuel extends Table
         self::initStat('table', self::STAT_CIVILIAN_VICTORY, 0);
         self::initStat('table', self::STAT_SCIENTIFIC_SUPREMACY, 0);
         self::initStat('table', self::STAT_MILITARY_SUPREMACY, 0);
+        self::initStat('table', self::STAT_DRAW, 0);
         // Player statistics (for all players)
         self::initStat('player', self::STAT_TURNS_NUMBER, 0);
         self::initStat('player', self::STAT_CIVILIAN_VICTORY, 0);
         self::initStat('player', self::STAT_SCIENTIFIC_SUPREMACY, 0);
         self::initStat('player', self::STAT_MILITARY_SUPREMACY, 0);
+        self::initStat('player', self::STAT_DRAW, 0);
         self::initStat('player', self::STAT_VICTORY_POINTS, 0);
         self::initStat('player', self::STAT_VP_BLUE, 0);
         self::initStat('player', self::STAT_VP_GREEN, 0);

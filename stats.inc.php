@@ -72,6 +72,11 @@ $stats_type = [
             "name" => totranslate("Military Supremacy"),
             "type" => "int"
         ],
+        "draw" => [
+            "id" => 41,
+            "name" => totranslate("Draw"),
+            "type" => "int"
+        ],
 
         /*
                 Examples:
@@ -108,6 +113,11 @@ $stats_type = [
         "military_supremacy" => [
             "id" => 40,
             "name" => totranslate("Military Supremacy"),
+            "type" => "int"
+        ],
+        "draw" => [
+            "id" => 41,
+            "name" => totranslate("Draw"),
             "type" => "int"
         ],
         "victory_points" => [
@@ -242,15 +252,19 @@ $stats_type = [
     ],
 
     "value_labels" => [
-        15 => [ // Civilian Victory
+        20 => [ // Civilian Victory
             0 => totranslate("No"),
             1 => totranslate("Yes"),
         ],
-        20 => [ // Scientific Supremacy
+        30 => [ // Scientific Supremacy
             0 => totranslate("No"),
             1 => totranslate("Yes"),
         ],
-        25 => [ // Military Supremacy
+        40 => [ // Military Supremacy
+            0 => totranslate("No"),
+            1 => totranslate("Yes"),
+        ],
+        41 => [ // Draw
             0 => totranslate("No"),
             1 => totranslate("Yes"),
         ],

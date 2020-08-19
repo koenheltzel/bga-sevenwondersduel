@@ -227,8 +227,10 @@ trait NextPlayerTurnTrait {
     public function checkImmediateVictory() {
         $conflictPawnPosition = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
         if (Player::getActive()->getScientificSymbolCount() >= 6) {
-            Player::me()->setWinner();
+            Player::getActive()->setWinner();
             self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_SCIENTIFIC);
+            $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY);
+            $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY, Player::getActive()->id);
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'nextPlayerTurnScientificSupremacy',
@@ -244,6 +246,8 @@ trait NextPlayerTurnTrait {
         elseif ($conflictPawnPosition <= -9 || $conflictPawnPosition >= 9) {
             Player::me()->setWinner();
             self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_MILITARY);
+            $this->setStat(1, self::STAT_MILITARY_SUPREMACY);
+            $this->setStat(1, self::STAT_MILITARY_SUPREMACY, Player::getActive()->id);
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'nextPlayerTurnMilitarySupremacy',
@@ -276,6 +280,8 @@ trait NextPlayerTurnTrait {
             if($determine) {
                 $winner->setWinner();
                 $this->setGameStateValue(self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_NORMAL);
+                $this->setStat(1, self::STAT_CIVILIAN_VICTORY);
+                $this->setStat(1, self::STAT_CIVILIAN_VICTORY, $winner->id);
 
                 $this->notifyAllPlayers(
                     'message',
@@ -297,6 +303,8 @@ trait NextPlayerTurnTrait {
                 if ($determine) {
                     $winner->setWinner();
                     $this->setGameStateValue(self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_NORMAL_AUX);
+                    $this->setStat(1, self::STAT_CIVILIAN_VICTORY);
+                    $this->setStat(1, self::STAT_CIVILIAN_VICTORY, $winner->id);
 
                     $this->notifyAllPlayers(
                         'message',
@@ -312,6 +320,9 @@ trait NextPlayerTurnTrait {
             }
             else {
                 $this->setGameStateValue(self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_DRAW);
+                $this->setStat(1, self::STAT_DRAW, Player::me()->id);
+                $this->setStat(1, self::STAT_DRAW, Player::opponent()->id);
+                $this->setStat(1, self::STAT_DRAW);
 
                 $this->notifyAllPlayers(
                     'message',
