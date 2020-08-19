@@ -2322,12 +2322,16 @@ define([
             },
 
             updateLayout: function () {
-                console.log('updateLayout');
+                // TODO: When BGA stops using the "zoom" css attribute for page-content and other elements, this function should be rewritten / simplified making it much more precise.
                 var titlePosition = dojo.position('page-title', false);
                 var titleMarginBottom = 5;
-                var width = titlePosition.w - 5;
+
                 var pageZoom = dojo.style($('page-content'), "zoom");
-                var height = (window.innerHeight / pageZoom - titlePosition.y - titlePosition.h - 2 * titleMarginBottom);
+                // At the end of the game there's more room taken up by bars up top but no idea how to reliably calculate that.
+                var endGameScaleCompensation = ($('maingameview_menuheader') && dojo.style($('maingameview_menuheader'), 'display') != 'none') ? 0.93 : 1.0;
+
+                var width = titlePosition.w - 5;
+                var height = (window.innerHeight / pageZoom * endGameScaleCompensation - titlePosition.y - titlePosition.h - 2 * titleMarginBottom);
 
                 var playarea = $('playarea');
                 dojo.style(playarea, "width", width + 'px');
