@@ -192,30 +192,13 @@
 
     <div id="settings_whiteblock" class="whiteblock">
         <h3>Settings:</h3>
-        <table>
+        <table class="settings_table">
             <tr>
-                <td>Automatic scaling</td>
-                <td>
-                    <input type="checkbox" id="setting_auto_scale" checked="checked">
-                </td>
-                <td><small>Choose game scale automatically based on browser window size and current game layout.</small></td>
+                <td><span>Automatic layout</span></td>
+                <td><input type="checkbox" id="setting_auto_layout" checked="checked"> <span>Choose game layout automatically based on browser window ratio (recommended).</span></td>
             </tr>
             <tr>
-                <td>Scale</td>
-                <td>
-                    <input type="number" id="setting_scale" style="width: 50px" disabled>%
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Automatic layout</td>
-                <td>
-                    <input type="checkbox" id="setting_auto_layout" checked="checked">
-                </td>
-                <td><small>Choose game layout automatically based on browser window ratio.</small></td>
-            </tr>
-            <tr>
-                <td>Layout</td>
+                <td><span>Layout</span></td>
                 <td>
                     <select id="setting_layout" disabled>
                         <option value="portrait">Portrait</option>
@@ -223,7 +206,16 @@
                         <option value="landscape">Landscape</option>
                     </select>
                 </td>
-                <td></td>
+            </tr>
+            <tr>
+                <td><span>Automatic scaling</span></td>
+                <td><input type="checkbox" id="setting_auto_scale" checked="checked"> <span>Choose game scale automatically based on browser window size and current game layout & situation (recommended).</span></td>
+            </tr>
+            <tr>
+                <td><span>Scale</span></td>
+                <td>
+                    <input type="number" id="setting_scale" style="width: 50px" disabled>%
+                </td>
             </tr>
         </table>
     </div>

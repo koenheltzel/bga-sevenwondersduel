@@ -1556,6 +1556,19 @@ __        __              _
     margin-right: auto !important;
     box-sizing: border-box;
 }
+.settings_table {
+    font-size: max(14px, calc(16px * var(--scale)));
+    line-height: max(16px, calc(28px * var(--scale)));
+}
+.settings_table tr td {
+    vertical-align: top;
+}
+.settings_table tr td:first-of-type {
+    white-space: nowrap;
+}
+.settings_table tr td:not(:last-of-type) {
+    padding-right: var(--gutter);
+}
 
 /*
  _____           _ _   _
