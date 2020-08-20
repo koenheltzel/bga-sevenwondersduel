@@ -25,7 +25,7 @@ trait SelectStartPlayerTrait {
     }
 
     public function enterStateSelectStartPlayer() {
-
+        $this->giveExtraTime($this->getActivePlayerId());
     }
 
     public function actionSelectStartPlayer($playerId) {

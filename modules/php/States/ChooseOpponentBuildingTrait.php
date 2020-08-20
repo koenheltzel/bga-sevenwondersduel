@@ -27,7 +27,7 @@ trait ChooseOpponentBuildingTrait {
     }
 
     public function enterStateChooseOpponentBuilding() {
-
+        $this->giveExtraTime($this->getActivePlayerId());
     }
 
     public function actionChooseOpponentBuilding($buildingId) {

@@ -18,7 +18,7 @@ trait SelectWonderTrait {
         ];
     }
     public function enterStateSelectWonder() {
-
+        $this->giveExtraTime($this->getActivePlayerId());
     }
 
     public function actionSelectWonder($wonderId){
@@ -55,8 +55,6 @@ trait SelectWonderTrait {
                 'wonderId' => $wonder->id,
             ]
         );
-
-        $this->giveExtraTime($playerId);
 
         $this->gamestate->nextState( self::STATE_WONDER_SELECTED_NAME );
     }

@@ -26,7 +26,7 @@ trait ChooseDiscardedBuildingTrait
     }
 
     public function enterStateChooseDiscardedBuilding() {
-
+        $this->giveExtraTime($this->getActivePlayerId());
     }
 
     public function actionChooseDiscardedBuilding($buildingId) {

@@ -24,7 +24,7 @@ trait ChooseProgressTokenTrait {
     }
 
     public function enterStateChooseProgressToken() {
-
+        $this->giveExtraTime($this->getActivePlayerId());
     }
 
     public function actionChooseProgressToken($progressTokenId) {

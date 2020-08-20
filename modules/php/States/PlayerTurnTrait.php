@@ -26,6 +26,8 @@ trait PlayerTurnTrait {
     }
 
     public function enterStatePlayerTurn() {
+        $this->giveExtraTime($this->getActivePlayerId());
+
         $this->incStat(1, self::STAT_TURNS_NUMBER);
         $this->incStat(1, self::STAT_TURNS_NUMBER, $this->getActivePlayerId());
     }
