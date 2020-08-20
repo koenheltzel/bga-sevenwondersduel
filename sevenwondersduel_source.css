@@ -1630,3 +1630,16 @@ __        __              _
     font-weight: normal;
     font-style: normal;
 }
+
+.list_of_cards {
+    background-image: url('img/list_of_cards.png');
+    width: calc(var(--scale) * 1004px);
+    height: calc(var(--scale) * 829px);
+    background-size: calc(var(--scale) * 1004px) calc(var(--scale) *  829px);
+}
+.list_of_cards_linked {
+    background-image: url('img/list_of_cards_linked.png');
+    width: calc(var(--scale) * 1004px);
+    height: calc(var(--scale) * 945px);
+    background-size: calc(var(--scale) * 1004px) calc(var(--scale) *  945px);
+}
