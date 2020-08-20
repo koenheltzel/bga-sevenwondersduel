@@ -2330,7 +2330,7 @@ define([
                 // At the end of the game there's more room taken up by bars up top but no idea how to reliably calculate that.
                 var endGameScaleCompensation = ($('maingameview_menuheader') && dojo.style($('maingameview_menuheader'), 'display') != 'none') ? 0.93 : 1.0;
 
-                var width = titlePosition.w - 5;
+                var width = titlePosition.w; // - 5
                 var height = (window.innerHeight / pageZoom * endGameScaleCompensation - titlePosition.y - titlePosition.h - 2 * titleMarginBottom);
 
                 var playarea = $('playarea');
@@ -2339,15 +2339,16 @@ define([
 
                 // console.log('titlePosition: ', titlePosition);
                 // console.log('available play area: ', width, height);
-                var ratio = window.innerWidth / window.innerHeight;
+                var ratio = width / height;
+                // console.log('ratio', ratio);
 
                 var pageZoom = dojo.style($('page-content'), "zoom");
                 // console.log('pageZoom', pageZoom);
 
                 // Measured in 75% view, without any player buildings (meaning the height can become heigher:
-                var portrait = 0.8;//747 / 987; // 0.76
+                var portrait = 0.78;//747 / 987; // 0.76
                 // var square = 947 / 897; // 1.056
-                var landscape = 1.74; //1131/ 756; // 1.60
+                var landscape = 1.6; //1131/ 756; // 1.60
 
                 if (this.autoLayout) {
                     if (ratio >= landscape) {
@@ -2403,7 +2404,12 @@ define([
                         this.setLayout(this.LAYOUT_PORTRAIT);
                         if (this.autoScale) {
                             this.setScale(1);
-                            this.scale = width / dojo.style($('layout_flexbox'), 'width');
+                            if (ratio <= portrait) {
+                                this.scale = width / dojo.style($('layout_flexbox'), 'width');
+                            }
+                            else {
+                                this.scale = height / dojo.style($('swd_wrap'), 'height');
+                            }
                         }
                         this.setScale(this.scale);
                         break;
