@@ -96,6 +96,10 @@ define([
                 }
                 this.updateSettings();
 
+                dojo.query('#setting_layout option[value="portrait"]')[0].innerText = _('Portrait');
+                dojo.query('#setting_layout option[value="square"]')[0].innerText = _('Square');
+                dojo.query('#setting_layout option[value="landscape"]')[0].innerText = _('Landscape');
+
                 // Tooltip settings
                 // dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
             },

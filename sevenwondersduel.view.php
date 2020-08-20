@@ -48,6 +48,13 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->tpl['DISCARD_BUILDING'] = self::_("Discard for coins");
         $this->tpl['CHOOSE_PROGRESS_TOKEN_FROM_BOX'] = self::_("Choose a progress token from the box");
         $this->tpl['DISCARDED_BUILDINGS'] = self::_("Discarded buildings");
+        $this->tpl['SETTINGS'] = self::_("Settings");
+        $this->tpl['AUTOMATIC_LAYOUT'] = self::_("Automatic layout");
+        $this->tpl['AUTOMATIC_LAYOUT_DESCRIPTION'] = self::_("Choose game layout automatically based on browser window ratio (recommended).");
+        $this->tpl['LAYOUT'] = self::_("Layout");
+        $this->tpl['AUTOMATIC_SCALING'] = self::_("Automatic scaling");
+        $this->tpl['AUTOMATIC_SCALING_DESCRIPTION'] = self::_("Choose game scale automatically based on browser window size and current game layout & situation (recommended).");
+        $this->tpl['SCALE'] = self::_("Scale");
 
         /*********** Place your code below:  ************/
 

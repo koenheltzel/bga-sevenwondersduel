@@ -184,37 +184,37 @@
         </div>
     </div>
     <div id="discarded_cards_whiteblock" class="whiteblock">
-        <h3>{DISCARDED_BUILDINGS}:</h3>
+        <h3>{DISCARDED_BUILDINGS}</h3>
         <div id="discarded_cards_container">
             <div class="discarded_cards_cursor"></div>
         </div>
     </div>
 
     <div id="settings_whiteblock" class="whiteblock">
-        <h3>Settings:</h3>
+        <h3>{SETTINGS}</h3>
         <table class="settings_table">
             <tr>
-                <td><span>Automatic layout</span></td>
-                <td><input type="checkbox" id="setting_auto_layout" checked="checked"> <span>Choose game layout automatically based on browser window ratio (recommended).</span></td>
+                <td>{AUTOMATIC_LAYOUT}</td>
+                <td><input type="checkbox" id="setting_auto_layout" checked="checked"> {AUTOMATIC_LAYOUT_DESCRIPTION}</td>
             </tr>
             <tr>
-                <td><span>Layout</span></td>
+                <td>{LAYOUT}</td>
                 <td>
                     <select id="setting_layout" disabled>
-                        <option value="portrait">Portrait</option>
-                        <option value="square">Square</option>
-                        <option value="landscape">Landscape</option>
+                        <option value="portrait"></option>
+                        <option value="square"></option>
+                        <option value="landscape"></option>
                     </select>
                 </td>
             </tr>
             <tr>
-                <td><span>Automatic scaling</span></td>
-                <td><input type="checkbox" id="setting_auto_scale" checked="checked"> <span>Choose game scale automatically based on browser window size and current game layout & situation (recommended).</span></td>
+                <td>{AUTOMATIC_SCALING}</td>
+                <td><input type="checkbox" id="setting_auto_scale" checked="checked"> {AUTOMATIC_SCALING_DESCRIPTION}</td>
             </tr>
             <tr>
-                <td><span>Scale</span></td>
+                <td>{SCALE}</td>
                 <td>
-                    <input type="number" id="setting_scale" style="width: 50px" disabled>%
+                    <input type="number" id="setting_scale" style="width: 50px" min="25" max="200" disabled>%
                 </td>
             </tr>
         </table>
