@@ -1653,4 +1653,7 @@ __        __              _
     .wonder {
         background-image: url('img/wonders@2X.jpg');
     }
+    .progress_token {
+        background-image: url('img/progress_tokens@2X.jpg');
+    }
 }
