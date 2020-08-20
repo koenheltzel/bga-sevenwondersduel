@@ -189,11 +189,13 @@
             <div class="discarded_cards_cursor"></div>
         </div>
     </div>
-{*    <div id="list_of_cards" class="whiteblock">*}
-{*        <h3>List of cards</h3>*}
-{*        <div class="list_of_cards" style="display: inline-block"></div>*}
-{*        <div class="list_of_cards_linked" style="display: inline-block"></div>*}
-{*    </div>*}
+    <!--
+    <div id="list_of_cards" class="whiteblock">
+        <h3>List of cards</h3>
+        <div class="list_of_cards" style="display: inline-block"></div>
+        <div class="list_of_cards_linked" style="display: inline-block"></div>
+    </div>
+    -->
 
     <div id="settings_whiteblock" class="whiteblock">
         <h3>{SETTINGS}</h3>
