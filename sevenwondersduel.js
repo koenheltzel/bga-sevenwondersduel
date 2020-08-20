@@ -1426,6 +1426,7 @@ define([
                 console.log('notif_constructBuilding', notif);
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
+                var buildingNodeParent = buildingNode.parentElement; // Only used when we are constructing a discarded building.
 
                 var building = this.gamedatas.buildings[notif.args.buildingId];
                 var container = dojo.query('.player_buildings.player' + notif.args.playerId + ' .' + building.type)[0];
@@ -1449,6 +1450,7 @@ define([
                         dojo.removeClass(whiteblock, 'red_border');
                         window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
                         this.freezeLayout = 0;
+                        dojo.destroy(buildingNodeParent); // Destroy old parent (container in discarded buildings block).
                     }));
                 }
 
