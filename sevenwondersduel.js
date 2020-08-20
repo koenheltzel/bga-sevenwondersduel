@@ -36,17 +36,16 @@ define([
             LAYOUT_LANDSCAPE: 'landscape',
             LAYOUT_SQUARE: 'square',
             LAYOUT_PORTRAIT: 'portrait',
-            // Debug settings
 
-            dontScale: 0,
-            debugTooltips: 0,
-            cookieExpireDays: 60,
-
+            // Settings
             autoScale: 1,
             scale: 1,
             autoLayout: 1,
             layout: "",
+            cookieExpireDays: 60,
 
+            // Freezes layout during disabled card selection (remembering old scroll position)
+            freezeLayout: 0,
             rememberScrollX: 0,
             rememberScrollY: 0,
 
@@ -59,8 +58,8 @@ define([
             currentAge: 0,
 
             // General properties
-            windowResizeTimeoutId: null,
             customTooltips: [],
+            windowResizeTimeoutId: null,
 
             // Animation durations
             constructBuildingAnimationDuration: 1000,
@@ -68,15 +67,12 @@ define([
             constructWonderAnimationDuration: 1600,
             selectWonderAnimationDuration: 300,
             progressTokenDuration: 1000,
-
             twistCoinDuration: 250,
             turnAroundCardDuration: 500,
             putDraftpoolCard: 250,
             coin_slide_duration: 500,
             coin_slide_delay: 100,
             notification_safe_margin: 100,
-
-            /* End game animations */
             victorypoints_slide_duration: 1000,
 
             constructor: function () {
@@ -96,9 +92,9 @@ define([
                 }
                 this.updateSettings();
 
-                dojo.query('#setting_layout option[value="portrait"]')[0].innerText = _('Portrait');
-                dojo.query('#setting_layout option[value="square"]')[0].innerText = _('Square');
-                dojo.query('#setting_layout option[value="landscape"]')[0].innerText = _('Landscape');
+                dojo.query('#setting_layout option[value="' + this.LAYOUT_PORTRAIT + '"]')[0].innerText = _('Portrait');
+                dojo.query('#setting_layout option[value="' + this.LAYOUT_SQUARE + '"]')[0].innerText = _('Square');
+                dojo.query('#setting_layout option[value="' + this.LAYOUT_LANDSCAPE + '"]')[0].innerText = _('Landscape');
 
                 // Tooltip settings
                 // dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
@@ -989,10 +985,8 @@ define([
                 );
 
                 // Mimick BGA's default behavior of closing the tooltip over mouseover and click.
-                if (!this.debugTooltips) {
-                    dojo.query('body').on("#dijit__MasterTooltip_0:mouseover", dojo.hitch(this, "closeTooltips"));
-                    dojo.query('body').on("#dijit__MasterTooltip_0:click", dojo.hitch(this, "closeTooltips"));
-                }
+                dojo.query('body').on("#dijit__MasterTooltip_0:mouseover", dojo.hitch(this, "closeTooltips"));
+                dojo.query('body').on("#dijit__MasterTooltip_0:click", dojo.hitch(this, "closeTooltips"));
             },
 
             closeTooltips: function () {
@@ -1454,7 +1448,7 @@ define([
                         var whiteblock = $('discarded_cards_whiteblock');
                         dojo.removeClass(whiteblock, 'red_border');
                         window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
-                        this.dontScale = 0;
+                        this.freezeLayout = 0;
                     }));
                 }
 
@@ -1888,7 +1882,7 @@ define([
                     dojo.addClass(whiteblock, 'red_border');
 
                     // Scroll so the discarded card whiteblock is visible (remember the scroll position so we can restore the view later).
-                    this.dontScale = 1;
+                    this.freezeLayout = 1;
                     this.rememberScrollX = window.scrollX;
                     this.rememberScrollY = window.scrollY;
                     whiteblock.scrollIntoView(false);
@@ -2313,9 +2307,7 @@ define([
             },
 
             setScale: function (scale) {
-                if (!this.dontScale) {
-                    this.setCssVariable('--scale', scale);
-                }
+                this.setCssVariable('--scale', scale);
                 $('setting_scale').value = parseInt(scale * 100);
             },
 
@@ -2391,7 +2383,7 @@ define([
 
                         // console.log('ratio: ', ratio, 'choosing landscape');
                         this.setLayout(this.LAYOUT_LANDSCAPE);
-                        if (this.autoScale) {
+                        if (this.autoScale && !this.freezeLayout) {
                             this.setScale(1);
                             this.scale = height / dojo.style($('swd_wrap'), 'height');
                         }
@@ -2404,7 +2396,7 @@ define([
 
                         // console.log('ratio: ', ratio, 'choosing square');
                         this.setLayout(this.LAYOUT_SQUARE);
-                        if (this.autoScale) {
+                        if (this.autoScale && !this.freezeLayout) {
                             if (width > height) {
                                 this.setScale(1);
                                 this.scale = height / dojo.style($('swd_wrap'), 'height');
@@ -2422,7 +2414,7 @@ define([
 
                         // console.log('ratio: ', ratio, 'choosing portrait');
                         this.setLayout(this.LAYOUT_PORTRAIT);
-                        if (this.autoScale) {
+                        if (this.autoScale && !this.freezeLayout) {
                             this.setScale(1);
                             if (ratio <= portrait) {
                                 this.scale = width / dojo.style($('layout_flexbox'), 'width');
