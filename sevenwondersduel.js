@@ -22,12 +22,13 @@ define([
         "dojo/NodeList-traverse",
         "dojo/on",
         "dojo/dom",
+        "dojo/cookie",
         "ebg/core/gamegui",
         "ebg/counter",
         g_gamethemeurl + "modules/js/CoinAnimator.js",
         g_gamethemeurl + "modules/js/MilitaryTrackAnimator.js",
     ],
-    function (dojo, declare, on, dom) {
+    function (dojo, declare, on, dom, cookie) {
         return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
 
             instance: null,
@@ -39,6 +40,7 @@ define([
 
             dontScale: 0,
             debugTooltips: 0,
+            cookieExpireDays: 60,
 
             autoScale: 1,
             scale: 1,
@@ -79,6 +81,20 @@ define([
 
             constructor: function () {
                 bgagame.sevenwondersduel.instance = this;
+
+                if (dojo.cookie('swd_autoLayout') !== undefined) {
+                    this.autoLayout = parseInt(dojo.cookie('swd_autoLayout'));
+                }
+                if (!this.autoLayout && dojo.cookie('swd_layout') !== undefined) {
+                    this.layout = dojo.cookie('swd_layout');
+                }
+                if (dojo.cookie('swd_autoScale') !== undefined) {
+                    this.autoScale = parseInt(dojo.cookie('swd_autoScale'));
+                }
+                if (!this.autoScale && dojo.cookie('swd_scale') !== undefined) {
+                    this.scale = parseFloat(dojo.cookie('swd_scale'));
+                }
+                this.updateSettings();
 
                 // Tooltip settings
                 // dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
@@ -2428,6 +2444,8 @@ define([
                 this.autoScale = 1 - parseInt(this.autoScale);
                 this.updateLayout();
                 this.updateSettings();
+
+                dojo.cookie('swd_autoScale', this.autoScale, { expires: this.cookieExpireDays });
             },
 
             onSettingScaleChange: function (e) {
@@ -2438,6 +2456,11 @@ define([
                 if (!this.autoScale) {
                     this.scale = parseInt(e.target.value) / 100;
                     this.updateLayout();
+
+                    dojo.cookie('swd_scale', this.scale, { expires: this.cookieExpireDays });
+                }
+                else {
+                    dojo.cookie("swd_scale", null, {expires: -1});
                 }
                 this.updateSettings();
             },
@@ -2450,6 +2473,8 @@ define([
                 this.autoLayout = 1 - parseInt(this.autoLayout);
                 this.updateLayout();
                 this.updateSettings();
+
+                dojo.cookie('swd_autoLayout', this.autoLayout, { expires: this.cookieExpireDays });
             },
 
             onSettingLayoutChange: function (e) {
@@ -2460,22 +2485,30 @@ define([
                 if (!this.autoLayout) {
                     this.layout = e.target.value;
                     this.updateLayout();
+                    dojo.cookie('swd_layout', this.layout, { expires: this.cookieExpireDays });
+                }
+                else {
+                    dojo.cookie("swd_layout", null, {expires: -1});
                 }
                 this.updateSettings();
             },
 
             updateSettings: function() {
                 if (this.autoScale) {
+                    dojo.attr('setting_auto_scale', 'checked', 'checked');
                     dojo.attr('setting_scale', 'disabled', '');
                 }
                 else {
+                    dojo.removeAttr('setting_auto_scale', 'checked');
                     dojo.removeAttr('setting_scale', 'disabled');
                 }
 
                 if (this.autoLayout) {
+                    dojo.attr('setting_auto_layout', 'checked', 'checked');
                     dojo.attr('setting_layout', 'disabled', '');
                 }
                 else {
+                    dojo.removeAttr('setting_auto_layout', 'checked');
                     dojo.removeAttr('setting_layout', 'disabled');
                 }
 
