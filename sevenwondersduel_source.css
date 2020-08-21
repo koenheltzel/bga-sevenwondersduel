@@ -1668,4 +1668,10 @@ __        __              _
     .military_token_5 {
         background-image: url('img/tmp_military_token_5@2X.png');
     }
+    .coin {
+        background-image: url('img/tmp_coin@2X.png');
+    }
+    .coin.opponent {
+        background-image: url('img/tmp_coin_opponent@2X.png');
+    }
 }
