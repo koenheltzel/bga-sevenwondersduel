@@ -1674,4 +1674,16 @@ __        __              _
     .coin.opponent {
         background-image: url('img/tmp_coin_opponent@2X.png');
     }
+    .end_game_blue .end_game_card {
+        background-image: url('img/tmp_card_blue@2X.png');
+    }
+    .end_game_green .end_game_card {
+        background-image: url('img/tmp_card_green@2X.png');
+    }
+    .end_game_yellow .end_game_card {
+        background-image: url('img/tmp_card_yellow@2X.png');
+    }
+    .end_game_purple .end_game_card {
+        background-image: url('img/tmp_card_purple@2X.png');
+    }
 }
