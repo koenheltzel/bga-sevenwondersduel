@@ -1686,4 +1686,7 @@ __        __              _
     .end_game_purple .end_game_card {
         background-image: url('img/tmp_card_purple@2X.png');
     }
+    .linked_building_icon {
+        background-image: url('img/linked-building-icons@2X.jpg');
+    }
 }
