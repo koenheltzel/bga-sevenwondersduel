@@ -1122,8 +1122,8 @@ __     __         _       _     _
 
 .action_wonder {
     background-image: url('img/tmp_construct_wonder_icon.png');
-    background-size: calc(45px * var(--scale)) calc(34px * var(--scale));
-    width: calc(45px * var(--scale));
+    background-size: calc(41px * var(--scale)) calc(34px * var(--scale));
+    width: calc(41px * var(--scale));
     height: calc(34px * var(--scale));
 }
 
