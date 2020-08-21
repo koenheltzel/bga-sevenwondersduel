@@ -111,7 +111,7 @@ __     __         _       _     _
     --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.6);
     --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
 
-    --military-track-header: 0.0464;
+    --military-track-header: 0.0414;
     --military-track-body: 0.87;
     --conflict-pawn-position: 0; /* -9 to 9 */
 }
@@ -436,10 +436,10 @@ __     __         _       _     _
 
 .pawn {
     background-image: url('img/tmp_conflict_pawn.png');
-    width: calc(var(--scale) * 73px);
-    height: calc(var(--scale) * 26px);
-    background-size: calc(var(--scale) * 73px) calc(var(--scale) * 26px);
-    left: calc(var(--scale) * 50px);
+    width: calc(var(--scale) * 80px);
+    height: calc(var(--scale) * 29px);
+    background-size: calc(var(--scale) * 80px) calc(var(--scale) * 29px);
+    left: calc(var(--scale) * 45px);
     top: calc((var(--military-track-header) + (var(--conflict-pawn-position) + 9) / 18 * var(--military-track-body)) * var(--board-height) * var(--board-scale));
     /*border-radius: var(--small-border-radius);*/
     filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
@@ -1659,5 +1659,8 @@ __        __              _
     }
     .board {
         background-image: url('img/board@2X.png');
+    }
+    .pawn {
+        background-image: url('img/tmp_conflict_pawn@2X.png');
     }
 }
