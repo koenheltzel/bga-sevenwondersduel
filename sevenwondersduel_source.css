@@ -510,7 +510,6 @@ __     __         _       _     _
 }
 
 .military_token {
-    border-radius: calc(var(--board-scale) * 10px);
     filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
     position: relative;
     /*display: inline-block;*/
@@ -1662,5 +1661,11 @@ __        __              _
     }
     .pawn {
         background-image: url('img/tmp_conflict_pawn@2X.png');
+    }
+    .military_token_2 {
+        background-image: url('img/tmp_military_token_2@2X.png');
+    }
+    .military_token_5 {
+        background-image: url('img/tmp_military_token_5@2X.png');
     }
 }
