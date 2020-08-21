@@ -1115,8 +1115,8 @@ __     __         _       _     _
 .action_construct {
     background-image: url('img/tmp_construct_building_icon.png');
     /*background-position: -0px -170px;*/
-    background-size: calc(82px * var(--scale)) calc(32px * var(--scale));
-    width: calc(82px * var(--scale));
+    background-size: calc(90px * var(--scale)) calc(32px * var(--scale));
+    width: calc(90px * var(--scale));
     height: calc(32px * var(--scale));
 }
 
@@ -1688,5 +1688,11 @@ __        __              _
     }
     .linked_building_icon {
         background-image: url('img/linked-building-icons@2X.jpg');
+    }
+    .action_construct {
+        background-image: url('img/tmp_construct_building_icon@2X.png');
+    }
+    .action_wonder {
+        background-image: url('img/tmp_construct_wonder_icon@2X.png');
     }
 }
