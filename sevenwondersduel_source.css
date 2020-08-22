@@ -200,23 +200,33 @@ __     __         _       _     _
 }
 
 .wood {
-    background-image: url('img/tmp_wood.png');
+    background-image: url('img/sprites.png');
+    background-position: 85.8491% 21.6981%;
+    background-size: 581.818%;
 }
 
 .clay {
-    background-image: url('img/tmp_clay.png');
+    background-image: url('img/sprites.png');
+    background-position: 64.6226% 42.9245%;
+    background-size: 581.818%;
 }
 
 .stone {
-    background-image: url('img/tmp_stone.png');
+    background-image: url('img/sprites.png');
+    background-position: 64.6226% 21.6981%;
+    background-size: 581.818%;
 }
 
 .glass {
-    background-image: url('img/tmp_glass.png');
+    background-image: url('img/sprites.png');
+    background-position: 78.7736% 0.471698%;
+    background-size: 581.818%;
 }
 
 .papyrus {
-    background-image: url('img/tmp_papyrus.png');
+    background-image: url('img/sprites.png');
+    background-position: 21.6981% 79.5294%;
+    background-size: 581.818%;
 }
 
 .glass, .papyrus {
@@ -230,10 +240,12 @@ __     __         _       _     _
 }
 
 .point {
-    background-image: url('img/tmp_point.png');
+    background-image: url('img/sprites.png');
+    background-position: 62.5000% 78.6047%;
+    background-size: 581.818%;
+
     width: calc(var(--scale) * var(--element-scale) * 30px);
     height: calc(var(--scale) * var(--element-scale) * 30px);
-    background-size: calc(var(--scale) * var(--element-scale) * 30px) calc(var(--scale) * var(--element-scale) * 30px);
     text-align: center;
     position: absolute;
     z-index: 10; /* Fly over military track during end game animation */
@@ -1125,16 +1137,19 @@ __     __         _       _     _
  */
 
 .action_construct {
-    background-image: url('img/tmp_construct_building_icon.png');
-    /*background-position: -0px -170px;*/
-    background-size: calc(90px * var(--scale)) calc(32px * var(--scale));
+    background-image: url('img/sprites.png');
+    background-position: 0.600601% 95.5357%;
+    background-size: 286.034%;
+
     width: calc(90px * var(--scale));
     height: calc(32px * var(--scale));
 }
 
 .action_wonder {
-    background-image: url('img/tmp_construct_wonder_icon.png');
-    background-size: calc(41px * var(--scale)) calc(34px * var(--scale));
+    background-image: url('img/sprites.png');
+    background-position: 82.5581% 76.1261%;
+    background-size: 624.390%;
+
     width: calc(41px * var(--scale));
     height: calc(34px * var(--scale));
 }
@@ -1456,7 +1471,7 @@ __        __              _
 }
 
 .end_game_card {
-    background-size: calc(var(--scale) * 29px) calc(var(--scale) * 44px);
+    background-image: url('img/sprites.png');
     width: calc(var(--scale) * 29px);
     height: calc(var(--scale) * 44px);
     background-color: initial !important;
@@ -1469,7 +1484,8 @@ __        __              _
 }
 
 .end_game_blue .end_game_card {
-    background-image: url('img/tmp_card_blue.png');
+    background-position: 93.3921% 0.471698%;
+    background-size: 882.759%;
 }
 
 .end_game_green {
@@ -1479,7 +1495,8 @@ __        __              _
 }
 
 .end_game_green .end_game_card {
-    background-image: url('img/tmp_card_green.png');
+    background-position: 80.1762% 42.9245%;
+    background-size: 882.759%;
 }
 
 .end_game_yellow {
@@ -1489,7 +1506,8 @@ __        __              _
 }
 
 .end_game_yellow .end_game_card {
-    background-image: url('img/tmp_card_yellow.png');
+    background-position: 60.3524% 0.471698%;
+    background-size: 882.759%;
 }
 
 .end_game_purple {
@@ -1499,7 +1517,8 @@ __        __              _
 }
 
 .end_game_purple .end_game_card {
-    background-image: url('img/tmp_card_purple.png');
+    background-position: 93.3921% 42.9245%;
+    background-size: 882.759%;
 }
 
 .end_game_wonders {
@@ -1509,9 +1528,11 @@ __        __              _
 }
 
 .end_game_wonders .end_game_card {
-    background-image: url('img/tmp_construct_wonder_icon.png');
-    background-size: calc(var(--scale) * 58px) calc(var(--scale) * 44px);
-    width: calc(var(--scale) * 58px);
+    background-image: url('img/sprites.png');
+    background-position: 82.5581% 76.1261%;
+    background-size: 624.390%;
+
+    width: calc(var(--scale) * 53px);
     height: calc(var(--scale) * 44px);
 }
 
@@ -1522,8 +1543,8 @@ __        __              _
 }
 
 .end_game_progresstokens .end_game_card {
-    background-image: url('img/tmp_end_game_progress.png');
-    background-size: calc(var(--scale) * 44px) calc(var(--scale) * 44px);
+    background-position: 0.471698% 79.7170%;
+    background-size: 581.818%;
     width: calc(var(--scale) * 44px);
     height: calc(var(--scale) * 44px);
 }
@@ -1535,8 +1556,10 @@ __        __              _
 }
 
 .end_game_coins .end_game_card {
-    background-image: url('img/tmp_coin.png');
-    background-size: calc(var(--scale) * 44px) calc(var(--scale) * 44px);
+    background-image: url('img/sprites.png');
+    background-position: 40.4867% 94.6903%;
+    background-size: 853.333%;
+
     width: calc(var(--scale) * 44px);
     height: calc(var(--scale) * 44px);
 }
@@ -1548,8 +1571,8 @@ __        __              _
 }
 
 .end_game_military .end_game_card {
-    background-image: url('img/tmp_end_game_military.png');
-    background-size: calc(var(--scale) * 44px) calc(var(--scale) * 44px);
+    background-position: 42.2274% 79.3427%;
+    background-size: 632.099%;
     width: calc(var(--scale) * 44px);
     height: calc(var(--scale) * 44px);
 }
@@ -1660,101 +1683,5 @@ __        __              _
 @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     .action_construct, .action_wonder, .clay, .coin, .coin.opponent, .end_game_blue .end_game_card, .end_game_green .end_game_card, .end_game_military .end_game_card, .end_game_progresstokens .end_game_card, .end_game_purple .end_game_card, .end_game_yellow .end_game_card, .glass, .military_token_2, .military_token_5, .papyrus, .pawn, .point, .stone, .wood {
         background-image: url('img/sprites@2X.png');
-    }
-
-    .action_construct {
-        background-position: 0.600601% 95.5357%;
-        background-size: 286.034%;
-    }
-
-    .action_wonder {
-        background-position: 82.5581% 76.1261%;
-        background-size: 624.390%;
-    }
-
-    .clay {
-        background-position: 64.6226% 42.9245%;
-        background-size: 581.818%;
-    }
-
-    /*.coin {*/
-    /*    background-image: url('img/sprites.png');*/
-    /*    background-position: 40.4867% 94.6903%;*/
-    /*    background-size: 853.333%;*/
-    /*}*/
-
-    /*.coin.opponent {*/
-    /*    background-position: 97.1239% 74.7788%;*/
-    /*    background-size: 853.333%;*/
-    /*}*/
-
-    .end_game_blue .end_game_card {
-        background-position: 93.3921% 0.471698%;
-        background-size: 882.759%;
-    }
-
-    .end_game_green .end_game_card {
-        background-position: 80.1762% 42.9245%;
-        background-size: 882.759%;
-    }
-
-    .end_game_military .end_game_card {
-        background-position: 42.2274% 79.3427%;
-        background-size: 632.099%;
-    }
-
-    .end_game_progresstokens .end_game_card {
-        background-position: 0.471698% 79.7170%;
-        background-size: 581.818%;
-    }
-
-    .end_game_purple .end_game_card {
-        background-position: 93.3921% 42.9245%;
-        background-size: 882.759%;
-    }
-
-    .end_game_yellow .end_game_card {
-        background-position: 60.3524% 0.471698%;
-        background-size: 882.759%;
-    }
-
-    .glass {
-        background-position: 78.7736% 0.471698%;
-        background-size: 581.818%;
-    }
-
-    /*.military_token_2 {*/
-    /*    background-position: 38.4615% 0.869565%;*/
-    /*    background-size: 419.672%;*/
-    /*}*/
-
-    /*.military_token_5 {*/
-    /*    background-position: 0.546448% 1.12360%;*/
-    /*    background-size: 350.685%;*/
-    /*}*/
-
-    .papyrus {
-        background-position: 21.6981% 79.5294%;
-        background-size: 581.818%;
-    }
-
-    /*.pawn {*/
-    /*    background-position: 69.6023% 94.2731%;*/
-    /*    background-size: 320.000%;*/
-    /*}*/
-
-    .point {
-        background-position: 62.5000% 78.6047%;
-        background-size: 581.818%;
-    }
-
-    .stone {
-        background-position: 64.6226% 21.6981%;
-        background-size: 581.818%;
-    }
-
-    .wood {
-        background-position: 85.8491% 21.6981%;
-        background-size: 581.818%;
     }
 }
