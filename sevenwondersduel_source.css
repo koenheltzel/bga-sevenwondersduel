@@ -1659,6 +1659,9 @@ __        __              _
     .board {
         background-image: url('img/board@2X.png');
     }
+    .linked_building_icon {
+        background-image: url('img/linked-building-icons@2X.jpg');
+    }
     .pawn {
         background-image: url('img/tmp_conflict_pawn@2X.png');
     }
@@ -1674,6 +1677,21 @@ __        __              _
     .coin.opponent {
         background-image: url('img/tmp_coin_opponent@2X.png');
     }
+    .wood {
+        background-image: url('img/tmp_wood@2X.png');
+    }
+    .clay {
+        background-image: url('img/tmp_clay@2X.png');
+    }
+    .stone {
+        background-image: url('img/tmp_stone@2X.png');
+    }
+    .glass {
+        background-image: url('img/tmp_glass@2X.png');
+    }
+    .papyrus {
+        background-image: url('img/tmp_papyrus@2X.png');
+    }
     .end_game_blue .end_game_card {
         background-image: url('img/tmp_card_blue@2X.png');
     }
@@ -1686,13 +1704,22 @@ __        __              _
     .end_game_purple .end_game_card {
         background-image: url('img/tmp_card_purple@2X.png');
     }
-    .linked_building_icon {
-        background-image: url('img/linked-building-icons@2X.jpg');
+    .end_game_military .end_game_card {
+        background-image: url('img/tmp_end_game_military@2X.png');
+    }
+    .end_game_progresstokens .end_game_card {
+        background-image: url('img/tmp_end_game_progress@2X.png');
+    }
+    .end_game_coins .end_game_card {
+        background-image: url('img/tmp_coin@2X.png');
     }
     .action_construct {
         background-image: url('img/tmp_construct_building_icon@2X.png');
     }
     .action_wonder {
         background-image: url('img/tmp_construct_wonder_icon@2X.png');
+    }
+    .point {
+        background-image: url('img/tmp_point@2X.png');
     }
 }
