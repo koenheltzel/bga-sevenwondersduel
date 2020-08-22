@@ -118,6 +118,22 @@ define([
 
                 this.dontPreloadImage("game_banner.jpg");
                 this.dontPreloadImage("game_display0.jpg");
+                var isRetina = "(-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
+                if (window.matchMedia(isRetina).matches) {
+                    this.dontPreloadImage('board.png');
+                    this.dontPreloadImage('buildings.jpg');
+                    this.dontPreloadImage('linked-building-icons.jpg');
+                    this.dontPreloadImage('progress_tokens.jpg');
+                    this.dontPreloadImage('sprites.png');
+                    this.dontPreloadImage('wonders.jpg');
+                } else {
+                    this.dontPreloadImage('board@2X.png');
+                    this.dontPreloadImage('buildings@2X.jpg');
+                    this.dontPreloadImage('linked-building-icons@2X.jpg');
+                    this.dontPreloadImage('progress_tokens@2X.jpg');
+                    this.dontPreloadImage('sprites@2X.png');
+                    this.dontPreloadImage('wonders@2X.jpg');
+                }
 
                 dojo.destroy('debug_output'); // TODO: Remove? See http://en.doc.boardgamearena.com/Tools_and_tips_of_BGA_Studio#Speed_up_game_re-loading_by_disabling_Input.2FOutput_debug_section
 
