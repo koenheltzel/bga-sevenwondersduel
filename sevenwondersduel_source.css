@@ -105,7 +105,7 @@ __     __         _       _     _
     --board-scale: calc(0.75 * var(--scale));
     --military-token-scale: calc(0.5 * var(--scale));
 
-    --small-border-radius: 7px;
+    --small-border-radius: calc(7px * var(--scale));
 
     --draftpool-row-height-multiplier: 0.536;
     --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.6);
@@ -1281,7 +1281,7 @@ __        __              _
     width: calc(var(--wonder-width) * var(--wonder-small-scale));
     height: calc(var(--wonder-height) * var(--wonder-small-scale));
     background-size: calc(var(--wonder-spritesheet-width) * var(--wonder-small-scale)) calc(var(--wonder-spritesheet-height) * var(--wonder-small-scale));
-    border-radius: var(--small-border-radius);
+    border-radius: calc(var(--wonder-border-radius) * var(--wonder-small-scale));
     box-shadow: 0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0, 0, 0, 0.4),
     inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
     text-align: center;
@@ -1324,7 +1324,7 @@ __        __              _
 }
 
 .progress_token .swd_title {
-    font-size: calc(22px * var(--scale));
+    font-size: 22px; /* Scales automatically through the svg */
 }
 
 /*
@@ -1345,7 +1345,7 @@ __        __              _
     height: calc(var(--progress-token-height) * var(--scale));
     background-size: calc(var(--progress-token-spritesheet-width) * var(--scale)) calc(var(--progress-token-spritesheet-height) * var(--scale));
     background-image: url('img/progress_tokens.jpg');
-    border-radius: calc(var(--progress-token-width) * 0.5);
+    border-radius: calc(var(--progress-token-width) * var(--scale) * 0.5);
     box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
     inset 0 0 0 calc(var(--scale) * 1px) #00000060;
 
@@ -1683,5 +1683,20 @@ __        __              _
 @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     .action_construct, .action_wonder, .clay, .coin, .coin.opponent, .end_game_blue .end_game_card, .end_game_green .end_game_card, .end_game_military .end_game_card, .end_game_progresstokens .end_game_card, .end_game_purple .end_game_card, .end_game_yellow .end_game_card, .glass, .military_token_2, .military_token_5, .papyrus, .pawn, .point, .stone, .wood {
         background-image: url('img/sprites@2X.png');
+    }
+    .board {
+        background-image: url('img/board@2X.png');
+    }
+    .building {
+        background-image: url('img/buildings@2X.jpg');
+    }
+    .wonder {
+        background-image: url('img/wonders@2X.jpg');
+    }
+    .progress_token {
+        background-image: url('img/progress_tokens@2X.jpg');
+    }
+    .linked_building_icon {
+        background-image: url('img/linked-building-icons@2X.jpg');
     }
 }
