@@ -164,7 +164,9 @@ __     __         _       _     _
 }
 
 .opponent .coin, .coin.opponent {
-    background-image: url('img/tmp_coin_opponent.png');
+    background-image: url('img/sprites.png');
+    background-position: 97.1239% 74.7788%;
+    background-size: 853.333%;
 }
 
 .coin.animated {
@@ -173,13 +175,16 @@ __     __         _       _     _
 }
 
 .resource, .coin {
-    background-image: url('img/tmp_coin.png');
+    background-image: url('img/sprites.png');
+    background-position: 40.4867% 94.6903%;
+    background-size: 853.333%;
+
     width: calc(var(--scale) * var(--element-scale) * 30px);
     height: calc(var(--scale) * var(--element-scale) * 30px);
-    background-size: calc(var(--scale) * var(--element-scale) * 30px) calc(var(--scale) * var(--element-scale) * 30px);
+
     display: inline-block;
     text-align: center;
-    border-radius: calc(30px * 0.5);
+    border-radius: calc(var(--scale) * var(--element-scale) * 30px * 0.5);
     box-shadow: calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 3px) 0 rgba(0, 0, 0, 0.4),
     inset 0 0 0 calc(var(--scale) * 1px) #00000060;
     backface-visibility: hidden;
@@ -435,10 +440,13 @@ __     __         _       _     _
 }
 
 .pawn {
-    background-image: url('img/tmp_conflict_pawn.png');
+    background-image: url('img/sprites.png');
+    background-position: 69.6023% 94.2731%;
+    background-size: 320.000%;
+
     width: calc(var(--scale) * 80px);
     height: calc(var(--scale) * 29px);
-    background-size: calc(var(--scale) * 80px) calc(var(--scale) * 29px);
+    /*background-size: calc(var(--scale) * 80px) calc(var(--scale) * 29px);*/
     left: calc(var(--scale) * 45px);
     top: calc((var(--military-track-header) + (var(--conflict-pawn-position) + 9) / 18 * var(--military-track-body)) * var(--board-height) * var(--board-scale));
     /*border-radius: var(--small-border-radius);*/
@@ -516,17 +524,21 @@ __     __         _       _     _
 }
 
 .military_token_2 {
-    background-image: url('img/tmp_military_token_2.png');
+    background-image: url('img/sprites.png');
+    background-position: 38.4615% 0.869565%;
+    background-size: 419.672%;
+
     width: calc(var(--military-token-scale) * 61px);
     height: calc(var(--military-token-scale) * 141px);
-    background-size: calc(var(--military-token-scale) * 61px) calc(var(--military-token-scale) * 141px);
 }
 
 .military_token_5 {
-    background-image: url('img/tmp_military_token_5.png');
+    background-image: url('img/sprites.png');
+    background-position: 0.546448% 1.12360%;
+    background-size: 350.685%;
+
     width: calc(var(--military-token-scale) * 73px);
     height: calc(var(--military-token-scale) * 167px);
-    background-size: calc(var(--military-token-scale) * 73px) calc(var(--military-token-scale) * 167px);
 }
 
 .board_player_left, .board_player_right {
@@ -1645,81 +1657,104 @@ __        __              _
 }
 
 /* High-res 2X assets (retina): */
-@media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi)
-{
-    .building {
-        background-image: url('img/buildings@2X.jpg');
+@media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .action_construct, .action_wonder, .clay, .coin, .coin.opponent, .end_game_blue .end_game_card, .end_game_green .end_game_card, .end_game_military .end_game_card, .end_game_progresstokens .end_game_card, .end_game_purple .end_game_card, .end_game_yellow .end_game_card, .glass, .military_token_2, .military_token_5, .papyrus, .pawn, .point, .stone, .wood {
+        background-image: url('img/sprites@2X.png');
     }
-    .wonder {
-        background-image: url('img/wonders@2X.jpg');
-    }
-    .progress_token {
-        background-image: url('img/progress_tokens@2X.jpg');
-    }
-    .board {
-        background-image: url('img/board@2X.png');
-    }
-    .linked_building_icon {
-        background-image: url('img/linked-building-icons@2X.jpg');
-    }
-    .pawn {
-        background-image: url('img/tmp_conflict_pawn@2X.png');
-    }
-    .military_token_2 {
-        background-image: url('img/tmp_military_token_2@2X.png');
-    }
-    .military_token_5 {
-        background-image: url('img/tmp_military_token_5@2X.png');
-    }
-    .coin {
-        background-image: url('img/tmp_coin@2X.png');
-    }
-    .coin.opponent {
-        background-image: url('img/tmp_coin_opponent@2X.png');
-    }
-    .wood {
-        background-image: url('img/tmp_wood@2X.png');
-    }
-    .clay {
-        background-image: url('img/tmp_clay@2X.png');
-    }
-    .stone {
-        background-image: url('img/tmp_stone@2X.png');
-    }
-    .glass {
-        background-image: url('img/tmp_glass@2X.png');
-    }
-    .papyrus {
-        background-image: url('img/tmp_papyrus@2X.png');
-    }
-    .end_game_blue .end_game_card {
-        background-image: url('img/tmp_card_blue@2X.png');
-    }
-    .end_game_green .end_game_card {
-        background-image: url('img/tmp_card_green@2X.png');
-    }
-    .end_game_yellow .end_game_card {
-        background-image: url('img/tmp_card_yellow@2X.png');
-    }
-    .end_game_purple .end_game_card {
-        background-image: url('img/tmp_card_purple@2X.png');
-    }
-    .end_game_military .end_game_card {
-        background-image: url('img/tmp_end_game_military@2X.png');
-    }
-    .end_game_progresstokens .end_game_card {
-        background-image: url('img/tmp_end_game_progress@2X.png');
-    }
-    .end_game_coins .end_game_card {
-        background-image: url('img/tmp_coin@2X.png');
-    }
+
     .action_construct {
-        background-image: url('img/tmp_construct_building_icon@2X.png');
+        background-position: 0.600601% 95.5357%;
+        background-size: 286.034%;
     }
+
     .action_wonder {
-        background-image: url('img/tmp_construct_wonder_icon@2X.png');
+        background-position: 82.5581% 76.1261%;
+        background-size: 624.390%;
     }
+
+    .clay {
+        background-position: 64.6226% 42.9245%;
+        background-size: 581.818%;
+    }
+
+    /*.coin {*/
+    /*    background-image: url('img/sprites.png');*/
+    /*    background-position: 40.4867% 94.6903%;*/
+    /*    background-size: 853.333%;*/
+    /*}*/
+
+    /*.coin.opponent {*/
+    /*    background-position: 97.1239% 74.7788%;*/
+    /*    background-size: 853.333%;*/
+    /*}*/
+
+    .end_game_blue .end_game_card {
+        background-position: 93.3921% 0.471698%;
+        background-size: 882.759%;
+    }
+
+    .end_game_green .end_game_card {
+        background-position: 80.1762% 42.9245%;
+        background-size: 882.759%;
+    }
+
+    .end_game_military .end_game_card {
+        background-position: 42.2274% 79.3427%;
+        background-size: 632.099%;
+    }
+
+    .end_game_progresstokens .end_game_card {
+        background-position: 0.471698% 79.7170%;
+        background-size: 581.818%;
+    }
+
+    .end_game_purple .end_game_card {
+        background-position: 93.3921% 42.9245%;
+        background-size: 882.759%;
+    }
+
+    .end_game_yellow .end_game_card {
+        background-position: 60.3524% 0.471698%;
+        background-size: 882.759%;
+    }
+
+    .glass {
+        background-position: 78.7736% 0.471698%;
+        background-size: 581.818%;
+    }
+
+    /*.military_token_2 {*/
+    /*    background-position: 38.4615% 0.869565%;*/
+    /*    background-size: 419.672%;*/
+    /*}*/
+
+    /*.military_token_5 {*/
+    /*    background-position: 0.546448% 1.12360%;*/
+    /*    background-size: 350.685%;*/
+    /*}*/
+
+    .papyrus {
+        background-position: 21.6981% 79.5294%;
+        background-size: 581.818%;
+    }
+
+    /*.pawn {*/
+    /*    background-position: 69.6023% 94.2731%;*/
+    /*    background-size: 320.000%;*/
+    /*}*/
+
     .point {
-        background-image: url('img/tmp_point@2X.png');
+        background-position: 62.5000% 78.6047%;
+        background-size: 581.818%;
+    }
+
+    .stone {
+        background-position: 64.6226% 21.6981%;
+        background-size: 581.818%;
+    }
+
+    .wood {
+        background-position: 85.8491% 21.6981%;
+        background-size: 581.818%;
     }
 }
