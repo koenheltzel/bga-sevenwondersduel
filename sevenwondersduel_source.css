@@ -1681,7 +1681,7 @@ __        __              _
 
 /* High-res 2X assets (retina): */
 @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .action_construct, .action_wonder, .clay, .coin, .coin.opponent, .end_game_blue .end_game_card, .end_game_green .end_game_card, .end_game_military .end_game_card, .end_game_progresstokens .end_game_card, .end_game_purple .end_game_card, .end_game_yellow .end_game_card, .glass, .military_token_2, .military_token_5, .papyrus, .pawn, .point, .stone, .wood {
+    .action_construct, .action_wonder, .clay, .coin, .coin.opponent, .end_game_card, .glass, .military_token_2, .military_token_5, .papyrus, .pawn, .point, .stone, .wood {
         background-image: url('img/sprites@2X.png') !important;
     }
     .board {
