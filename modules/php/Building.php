@@ -283,7 +283,7 @@ class Building extends Item {
                 return self::_('Purple');
         }
     }
-    protected function getScoreCategory() {
+    public function getScoreCategory() {
         return strtolower($this->type);
     }
 
