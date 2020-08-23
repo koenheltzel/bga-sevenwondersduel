@@ -1464,6 +1464,7 @@ __        __              _
 
 .end_game_player_name {
     font-size: calc(18px * var(--scale)) !important;
+    text-shadow: 1px 1px 1px #FFFFFF;
 }
 
 .end_game_icon {
