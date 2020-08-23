@@ -111,7 +111,7 @@ __     __         _       _     _
     --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.6);
     --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
 
-    --military-track-header: 0.0414;
+    --military-track-header: 0.0434;
     --military-track-body: 0.87;
     --conflict-pawn-position: 0; /* -9 to 9 */
 }
@@ -510,7 +510,7 @@ __     __         _       _     _
 }
 
 #military_tokens > div:nth-of-type(1) {
-    left: calc(var(--board-width) * var(--board-scale) * 0.0775);
+    left: calc(var(--board-width) * var(--board-scale) * 0.0825);
     top: calc(var(--board-height) * var(--board-scale) * 0.104);
 }
 
@@ -525,7 +525,7 @@ __     __         _       _     _
 }
 
 #military_tokens > div:nth-of-type(4) {
-    left: calc(var(--board-width) * var(--board-scale) * 0.0775);
+    left: calc(var(--board-width) * var(--board-scale) * 0.0825);
     top: calc(var(--board-height) * var(--board-scale) * 0.778);
 }
 
