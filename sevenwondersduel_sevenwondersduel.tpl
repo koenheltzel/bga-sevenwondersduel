@@ -310,7 +310,7 @@ var jstpl_player_building = '\
             data-building-id="${jsId}"\
             title=""\
             class="building building_header_small"\
-            style="background-position: -${jsX}00% calc(-5px + -${jsY} * var(--building-height) * var(--building-small-scale));"\
+            style="background-position: -${jsX}00% calc((-10px + -${jsY} * var(--building-height)) * var(--building-small-scale));"\
         >\
         </div>\
     </div>';
