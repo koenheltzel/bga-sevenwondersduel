@@ -206,7 +206,7 @@ class Building extends Item {
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
-                    clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerBuilding} for each ${buildingType} building in his/her city'),
+                    clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerBuilding} for each ${buildingType} building in their city'),
                     [
                         'i18n' => ['buildingType'],
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
@@ -254,7 +254,7 @@ class Building extends Item {
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
-                    clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerWonder} for each constructed Wonder in his/her city'),
+                    clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerWonder} for each constructed Wonder in their city'),
                     [
                         'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
                         'coins' => $payment->coinReward,

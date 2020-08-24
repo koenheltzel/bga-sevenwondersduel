@@ -53,7 +53,7 @@ trait NextPlayerTurnTrait {
 
                 SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
-                    clienttranslate('${player_name} loses his extra turn because the age has ended'),
+                    clienttranslate('${player_name} loses their extra turn because the age has ended'),
                     [
                         'player_name' => Player::getActive()->name,
                     ]
