@@ -375,7 +375,7 @@ var jstpl_tooltip_cost_opponent = '\
     ';
 
 var jstpl_building_tooltip = '\
-    <div class="swd_tooltip building_tooltip">\
+    <div class="swd_tooltip">\
         <div class="cardinfos">\
             <strong>${cardType} “${jsName}”</strong><strong style="float:right; color: ${jsBuildingTypeColor}">${jsBuildingTypeDescription}</strong>\
             <hr\>\
@@ -392,7 +392,7 @@ var jstpl_building_tooltip = '\
     </div>';
 
 var jstpl_wonder_tooltip = '\
-    <div class="swd_tooltip wonder_tooltip">\
+    <div class="swd_tooltip">\
         <div class="cardinfos">\
             <strong>${translateWonder} “${jsName}”</strong>\
             <hr\>\

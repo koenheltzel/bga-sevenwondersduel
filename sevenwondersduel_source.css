@@ -1434,7 +1434,7 @@ __        __              _
 |  _| | '_ \ / _` | | |  _ / _` | '_ ` _ \ / _ \   | |/ _` | '_ \| |/ _ \
 | |___| | | | (_| | | |_| | (_| | | | | | |  __/   | | (_| | |_) | |  __/
 |_____|_| |_|\__,_|  \____|\__,_|_| |_| |_|\___|   |_|\__,_|_.__/|_|\___|
-
+End game table for Civilian Victory
  */
 
 #end_game_container {
@@ -1586,6 +1586,15 @@ __        __              _
     margin: auto;
 }
 
+/*
+ ____       _   _   _
+/ ___|  ___| |_| |_(_)_ __   __ _ ___
+\___ \ / _ \ __| __| | '_ \ / _` / __|
+ ___) |  __/ |_| |_| | | | | (_| \__ \
+|____/ \___|\__|\__|_|_| |_|\__, |___/
+                            |___/
+ */
+
 #settings_whiteblock {
     margin-top: var(--gutter) !important;
     margin-left: auto !important;
@@ -1633,16 +1642,8 @@ __        __              _
     margin-left: calc(25px * var(--scale));
 }
 
-.building_tooltip {
-
-}
-
-.wonder_tooltip {
-
-}
-
 .progress_token_tooltip {
-    width: 500px;
+    width: calc(450px * var(--scale));
 }
 
 .tooltipWiggle {
