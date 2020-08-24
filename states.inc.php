@@ -172,7 +172,7 @@ $machinestates = [
         "args" => "argChooseOpponentBuilding",
         "possibleactions" => [
             "actionChooseOpponentBuilding",
-            // If there is no building to discard, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
+            // If there are no building to discard, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
         ],
         "transitions" => [
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
@@ -234,8 +234,7 @@ $machinestates = [
         "action" => "enterStateGameEndDebug",
         "args" => "argGameEndDebug",
         "possibleactions" => [
-            "dummyAction",
-            // If there is no discarded building to construct, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
+            "dummyAction"
         ],
         "transitions" => [
             SevenWondersDuel::STATE_GAME_END_NAME => SevenWondersDuel::STATE_GAME_END_ID
