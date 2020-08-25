@@ -56,6 +56,10 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->tpl['AUTOMATIC_SCALING'] = self::_("Automatic scaling");
         $this->tpl['AUTOMATIC_SCALING_DESCRIPTION'] = self::_("Choose game scale automatically based on browser window size and current game layout & situation (recommended).");
         $this->tpl['SCALE'] = self::_("Scale");
+        $this->tpl['AGE'] = self::_("Age");
+        $this->tpl['GUILDS'] = self::_("Guilds");
+        $this->tpl['BUILDINGS_WITH_LINKS'] = self::_("Buildings with links");
+        $this->tpl['BUILDINGS_WITHOUT_LINKS'] = self::_("Buildings without links");
 
         /*********** Place your code below:  ************/
 
@@ -179,6 +183,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
         }
 
+        // List of linked / unlinked buildings.
         foreach(Material::get()->buildings->array as $building) {
             switch($building->listPage) {
                 case 1:
