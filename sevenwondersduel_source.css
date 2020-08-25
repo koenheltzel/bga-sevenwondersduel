@@ -114,6 +114,8 @@ __     __         _       _     _
     --military-track-header: 0.0434;
     --military-track-body: 0.87;
     --conflict-pawn-position: 0; /* -9 to 9 */
+
+    --list-of-cards-scale: calc(var(--scale) * 0.75);
 }
 
 /*
@@ -1667,17 +1669,35 @@ __        __              _
     vertical-align: middle;
 }
 
+/*
+ _     _     _            __                     _
+| |   (_)___| |_    ___  / _|   ___ __ _ _ __ __| |___
+| |   | / __| __|  / _ \| |_   / __/ _` | '__/ _` / __|
+| |___| \__ \ |_  | (_) |  _| | (_| (_| | | | (_| \__ \
+|_____|_|___/\__|  \___/|_|    \___\__,_|_|  \__,_|___/
+ */
+
+#list_of_cards_flexbox {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.list_of_cards_whiteblock {
+    margin: var(--gutter) calc(0.5 * var(--gutter)) 0 calc(0.5 * var(--gutter)) !important;
+}
 .list_of_cards {
     background-image: url('img/list_of_cards.png');
-    width: calc(var(--scale) * 1004px);
-    height: calc(var(--scale) * 829px);
-    background-size: calc(var(--scale) * 1004px) calc(var(--scale) *  829px);
+    width: calc(var(--list-of-cards-scale) * 1004px);
+    height: calc(var(--list-of-cards-scale) * 829px);
+    background-size: calc(var(--list-of-cards-scale) * 1004px) calc(var(--list-of-cards-scale) *  829px);
 }
 .list_of_cards_linked {
     background-image: url('img/list_of_cards_linked.png');
-    width: calc(var(--scale) * 1004px);
-    height: calc(var(--scale) * 945px);
-    background-size: calc(var(--scale) * 1004px) calc(var(--scale) *  945px);
+    width: calc(var(--list-of-cards-scale) * 1004px);
+    height: calc(var(--list-of-cards-scale) * 945px);
+    background-size: calc(var(--list-of-cards-scale) * 1004px) calc(var(--list-of-cards-scale) *  945px);
 }
 
 /*
