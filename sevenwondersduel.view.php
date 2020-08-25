@@ -189,7 +189,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                 case 1:
                     $this->page->insert_block("list_of_cards_page1", [
                         'ID' => $building->id,
-                        'TITLE' => $building->name,
+                        'TITLE' => self::_($building->name),
                         'X' => $building->listPosition[0],
                         'Y' => $building->listPosition[1],
                         'COLOR' => $building->type == Building::TYPE_YELLOW ? 'black' : 'white',
@@ -198,7 +198,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                 case 2:
                     $this->page->insert_block("list_of_cards_page2", [
                         'ID' => $building->id,
-                        'TITLE' => $building->name,
+                        'TITLE' => self::_($building->name),
                         'X' => $building->listPosition[0],
                         'Y' => $building->listPosition[1],
                         'COLOR' => $building->type == Building::TYPE_YELLOW ? 'black' : 'white',
