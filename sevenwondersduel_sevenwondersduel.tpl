@@ -198,7 +198,11 @@
                 <div><h3>Age II</h3></div>
                 <div><h3>Age III</h3></div>
             </div>
-            <div class="list_of_cards_linked" style="display: inline-block"></div>
+            <div class="list_of_cards list_of_cards_linked" style="display: inline-block">
+                <!-- BEGIN list_of_cards_page1 -->
+                <div class="list_card_page1" data-building-id="{ID}" style="left: calc(var(--list-of-cards-scale) * {X}px); top: calc(var(--list-of-cards-scale) * {Y}px); color: {COLOR};"><span>{TITLE}</span></div>
+                <!-- END list_of_cards_page1 -->
+            </div>
         </div>
         <div class="list_of_cards_whiteblock whiteblock">
             <h3>Buildings without links</h3>
@@ -208,7 +212,11 @@
                 <div><h3>Age III</h3></div>
                 <div><h3>Guilds</h3></div>
             </div>
-            <div class="list_of_cards" style="display: inline-block"></div>
+            <div class="list_of_cards list_of_cards_unlinked" style="display: inline-block">
+                <!-- BEGIN list_of_cards_page2 -->
+                <div class="{CLASS}" data-building-id="{ID}" style="left: calc(var(--list-of-cards-scale) * {X}px); top: calc(var(--list-of-cards-scale) * {Y}px); color: {COLOR};"><span>{TITLE}</span></div>
+                <!-- END list_of_cards_page2 -->
+            </div>
         </div>
     </div>
 

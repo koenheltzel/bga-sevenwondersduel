@@ -1692,17 +1692,46 @@ __        __              _
     display: flex;
     justify-content: space-around;
 }
+.list_of_cards_header > div {
+    text-align: center;
+}
 .list_of_cards {
-    background-image: url('img/list_of_cards.png');
-    width: calc(var(--list-of-cards-scale) * 1004px);
-    height: calc(var(--list-of-cards-scale) * 829px);
-    background-size: calc(var(--list-of-cards-scale) * 1004px) calc(var(--list-of-cards-scale) *  829px);
+    position: relative;
+}
+.list_of_cards > div {
+    position: absolute;
+}
+.list_of_cards span {
+    font-family: "PossumSaltareNF";
+    font-size: calc(var(--list-of-cards-scale) * 18px);
+    text-transform: uppercase;
+    left: calc(var(--list-of-cards-scale) * 10px);
+    top: calc(var(--list-of-cards-scale) * 3px);
+    position: relative;
+}
+.list_card_page1 {
+    width: calc(var(--list-of-cards-scale) * 295px);
+    height: calc(var(--list-of-cards-scale) * 55px);
+}
+.list_card_page2 {
+    width: calc(var(--list-of-cards-scale) * 228px);
+    height: calc(var(--list-of-cards-scale) * 55px);
+}
+.list_card_guild {
+    width: calc(var(--list-of-cards-scale) * 269px);
+    height: calc(var(--list-of-cards-scale) * 78px);
 }
 .list_of_cards_linked {
     background-image: url('img/list_of_cards_linked.png');
     width: calc(var(--list-of-cards-scale) * 1004px);
     height: calc(var(--list-of-cards-scale) * 945px);
     background-size: calc(var(--list-of-cards-scale) * 1004px) calc(var(--list-of-cards-scale) *  945px);
+}
+.list_of_cards_unlinked {
+    background-image: url('img/list_of_cards.png');
+    width: calc(var(--list-of-cards-scale) * 1004px);
+    height: calc(var(--list-of-cards-scale) * 829px);
+    background-size: calc(var(--list-of-cards-scale) * 1004px) calc(var(--list-of-cards-scale) *  829px);
 }
 
 /*

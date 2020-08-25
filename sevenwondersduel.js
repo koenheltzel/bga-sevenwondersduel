@@ -936,7 +936,7 @@ define([
                 this.customTooltips.push(
                     new dijit.Tooltip({
                         connectId: "game_play_area",
-                        selector: '#swd:not(.nextAge) .building_small, .building_header_small', // Not during nextAge animation
+                        selector: '#swd:not(.nextAge) div[data-building-id]', // Not during nextAge animation
                         position: ["above-centered", "below-centered"],
                         showDelay: this.toolTipDelay,
                         getContent: dojo.hitch(this, function (node) {

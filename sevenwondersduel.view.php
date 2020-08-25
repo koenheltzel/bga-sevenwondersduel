@@ -25,6 +25,7 @@
  */
 
 use SWD\Building;
+use SWD\Material;
 use SWD\Player;
 use SWD\ProgressToken;
 use SWD\Wonder;
@@ -64,6 +65,8 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board");
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_column_block");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "list_of_cards_page1");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "list_of_cards_page2");
 
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", 'player_buildings');
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "draftpool");
@@ -175,6 +178,31 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
 
         }
+
+        foreach(Material::get()->buildings->array as $building) {
+            switch($building->listPage) {
+                case 1:
+                    $this->page->insert_block("list_of_cards_page1", [
+                        'ID' => $building->id,
+                        'TITLE' => $building->name,
+                        'X' => $building->listPosition[0],
+                        'Y' => $building->listPosition[1],
+                        'COLOR' => $building->type == Building::TYPE_YELLOW ? 'black' : 'white',
+                    ]);
+                    break;
+                case 2:
+                    $this->page->insert_block("list_of_cards_page2", [
+                        'ID' => $building->id,
+                        'TITLE' => $building->name,
+                        'X' => $building->listPosition[0],
+                        'Y' => $building->listPosition[1],
+                        'COLOR' => $building->type == Building::TYPE_YELLOW ? 'black' : 'white',
+                        'CLASS' => $building->type == Building::TYPE_PURPLE ? 'list_card_guild' : 'list_card_page2',
+                    ]);
+                    break;
+            }
+        }
+
 
         // The "catalog". For testing spritesheets / tooltips.
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_wonder");

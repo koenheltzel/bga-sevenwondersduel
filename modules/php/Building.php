@@ -27,6 +27,8 @@ class Building extends Item {
     public $guildRewardWonders = false;
     public $guildRewardCoinTriplets = false;
     public $guildRewardBuildingTypes = null;
+    public $listPage = 2;
+    public $listPosition = [0, 0];
 
     /**
      * @param $id
@@ -337,6 +339,7 @@ class Building extends Item {
      * @return static
      */
     public function setLinkedBuilding(int $linkedBuilding) {
+        $this->setListPage(1);
         if ($linkedBuilding < $this->id) {
             $this->linkedBuilding = $linkedBuilding;
         }
@@ -407,6 +410,24 @@ class Building extends Item {
             $this->text[] = clienttranslate("At the time it is constructed, this card grants you 1 coin for each brown and each grey card in the city which has the most brown and grey cards.");
             $this->text[] = clienttranslate("At the end of the game, this card is worth 1 victory point for each brown and each grey card in the city which has the most brown and grey cards.");
         }
+        return $this;
+    }
+
+    /**
+     * @param int $listPage
+     * @return static
+     */
+    public function setListPage(int $listPage) {
+        $this->listPage = $listPage;
+        return $this;
+    }
+
+    /**
+     * @param array $listPosition
+     * @return static
+     */
+    public function setListPosition(array $listPosition) {
+        $this->listPosition = $listPosition;
         return $this;
     }
 
