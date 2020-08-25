@@ -193,10 +193,21 @@
     <div id="list_of_cards_flexbox">
         <div class="list_of_cards_whiteblock whiteblock">
             <h3>Linked buildings</h3>
+            <div class="list_of_cards_header">
+                <div><h3>Age I</h3></div>
+                <div><h3>Age II</h3></div>
+                <div><h3>Age III</h3></div>
+            </div>
             <div class="list_of_cards_linked" style="display: inline-block"></div>
         </div>
         <div class="list_of_cards_whiteblock whiteblock">
             <h3>Buildings without links</h3>
+            <div class="list_of_cards_header">
+                <div><h3>Age I</h3></div>
+                <div><h3>Age II</h3></div>
+                <div><h3>Age III</h3></div>
+                <div><h3>Guilds</h3></div>
+            </div>
             <div class="list_of_cards" style="display: inline-block"></div>
         </div>
     </div>

@@ -1687,6 +1687,11 @@ __        __              _
 .list_of_cards_whiteblock {
     margin: var(--gutter) calc(0.5 * var(--gutter)) 0 calc(0.5 * var(--gutter)) !important;
 }
+.list_of_cards_header {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
 .list_of_cards {
     background-image: url('img/list_of_cards.png');
     width: calc(var(--list-of-cards-scale) * 1004px);
