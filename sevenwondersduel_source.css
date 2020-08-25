@@ -1600,16 +1600,20 @@ __        __              _
     margin-right: auto !important;
     box-sizing: border-box;
 }
+
 .settings_table {
     font-size: max(14px, calc(16px * var(--scale)));
     line-height: max(16px, calc(28px * var(--scale)));
 }
+
 .settings_table tr td {
     vertical-align: top;
 }
+
 .settings_table tr td:first-of-type {
     white-space: nowrap;
 }
+
 .settings_table tr td:not(:last-of-type) {
     padding-right: var(--gutter);
 }
@@ -1626,6 +1630,7 @@ __        __              _
 .swd_tooltip * {
     font-size: calc(var(--scale) * 14px);
 }
+
 .swd_tooltip {
     width: calc(var(--scale) * 700px);
     display: flex;
@@ -1665,7 +1670,7 @@ __        __              _
     margin: var(--gutter) 0 var(--gutter) var(--gutter);
 }
 
-.payment_plan>div {
+.payment_plan > div {
     vertical-align: middle;
 }
 
@@ -1687,20 +1692,25 @@ __        __              _
 .list_of_cards_whiteblock {
     margin: var(--gutter) calc(0.5 * var(--gutter)) 0 calc(0.5 * var(--gutter)) !important;
 }
+
 .list_of_cards_header {
     width: 100%;
     display: flex;
     justify-content: space-around;
 }
+
 .list_of_cards_header > div {
     text-align: center;
 }
+
 .list_of_cards {
     position: relative;
 }
+
 .list_of_cards > div {
     position: absolute;
 }
+
 .list_of_cards span {
     font-family: "PossumSaltareNF";
     font-size: calc(var(--list-of-cards-scale) * 18px);
@@ -1709,29 +1719,34 @@ __        __              _
     top: calc(var(--list-of-cards-scale) * 3px);
     position: relative;
 }
+
 .list_card_page1 {
     width: calc(var(--list-of-cards-scale) * 295px);
     height: calc(var(--list-of-cards-scale) * 55px);
 }
+
 .list_card_page2 {
     width: calc(var(--list-of-cards-scale) * 228px);
     height: calc(var(--list-of-cards-scale) * 55px);
 }
+
 .list_card_guild {
     width: calc(var(--list-of-cards-scale) * 269px);
     height: calc(var(--list-of-cards-scale) * 78px);
 }
+
 .list_of_cards_linked {
     background-image: url('img/list_of_cards_linked.png');
     width: calc(var(--list-of-cards-scale) * 1004px);
     height: calc(var(--list-of-cards-scale) * 945px);
-    background-size: calc(var(--list-of-cards-scale) * 1004px) calc(var(--list-of-cards-scale) *  945px);
+    background-size: calc(var(--list-of-cards-scale) * 1004px) calc(var(--list-of-cards-scale) * 945px);
 }
+
 .list_of_cards_unlinked {
     background-image: url('img/list_of_cards.png');
     width: calc(var(--list-of-cards-scale) * 1004px);
     height: calc(var(--list-of-cards-scale) * 829px);
-    background-size: calc(var(--list-of-cards-scale) * 1004px) calc(var(--list-of-cards-scale) *  829px);
+    background-size: calc(var(--list-of-cards-scale) * 1004px) calc(var(--list-of-cards-scale) * 829px);
 }
 
 /*
@@ -1748,18 +1763,23 @@ __        __              _
     .action_construct, .action_wonder, .clay, .coin, .coin.opponent, .end_game_card, .glass, .military_token_2, .military_token_5, .papyrus, .pawn, .point, .stone, .wood {
         background-image: url('img/sprites@2X.png') !important;
     }
+
     .board {
         background-image: url('img/board@2X.png') !important;;
     }
+
     .building {
         background-image: url('img/buildings@2X.jpg') !important;;
     }
+
     .wonder {
         background-image: url('img/wonders@2X.jpg') !important;;
     }
+
     .progress_token {
         background-image: url('img/progress_tokens@2X.jpg') !important;;
     }
+
     .linked_building_icon {
         background-image: url('img/linked-building-icons@2X.jpg') !important;;
     }
