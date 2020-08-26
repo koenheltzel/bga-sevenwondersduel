@@ -27,7 +27,7 @@
 
 
 <!-- BEGIN swd -->
-<div id="playarea" style="position: absolute; width: 20px; height: 20px;
+<div id="debugPlayArea" style="position: absolute; width: 20px; height: 20px;
     box-shadow: rgba(0, 0, 0, 1) 0px 0px 0px 10px inset;
     background-color: red;
     z-index: 50; opacity: 0.5; display: none"></div>
@@ -200,7 +200,9 @@
             </div>
             <div class="list_of_cards list_of_cards_linked">
                 <!-- BEGIN list_of_cards_page1 -->
-                <div class="list_card_page1" data-building-id="{ID}" style="left: calc(var(--list-of-cards-scale) * {X}px); top: calc(var(--list-of-cards-scale) * {Y}px); color: {COLOR};"><span>{TITLE}</span></div>
+                <div class="list_card_page1" data-building-id="{ID}" style="left: calc(var(--list-of-cards-scale) * {X}px); top: calc(var(--list-of-cards-scale) * {Y}px); color: {COLOR};">
+                    {TITLE}
+                </div>
                 <!-- END list_of_cards_page1 -->
             </div>
         </div>
@@ -214,7 +216,9 @@
             </div>
             <div class="list_of_cards list_of_cards_unlinked">
                 <!-- BEGIN list_of_cards_page2 -->
-                <div class="{CLASS}" data-building-id="{ID}" style="left: calc(var(--list-of-cards-scale) * {X}px); top: calc(var(--list-of-cards-scale) * {Y}px); color: {COLOR};"><span>{TITLE}</span></div>
+                <div class="{CLASS}" data-building-id="{ID}" style="left: calc(var(--list-of-cards-scale) * {X}px); top: calc(var(--list-of-cards-scale) * {Y}px); color: {COLOR};">
+                    {TITLE}
+                </div>
                 <!-- END list_of_cards_page2 -->
             </div>
         </div>

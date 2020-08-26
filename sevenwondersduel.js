@@ -2363,9 +2363,9 @@ define([
                 var width = titlePosition.w; // - 5
                 var height = (window.innerHeight / pageZoom * endGameScaleCompensation - titlePosition.y - titlePosition.h - 2 * titleMarginBottom);
 
-                var playarea = $('playarea');
-                dojo.style(playarea, "width", width + 'px');
-                dojo.style(playarea, "height", height + 'px');
+                var debugPlayArea = $('debugPlayArea');
+                dojo.style(debugPlayArea, "width", width + 'px');
+                dojo.style(debugPlayArea, "height", height + 'px');
 
                 // console.log('titlePosition: ', titlePosition);
                 // console.log('available play area: ', width, height);
