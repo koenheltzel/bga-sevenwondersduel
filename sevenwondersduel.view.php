@@ -51,15 +51,16 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->tpl['DISCARDED_BUILDINGS'] = self::_("Discarded buildings");
         $this->tpl['SETTINGS'] = self::_("Settings");
         $this->tpl['AUTOMATIC_LAYOUT'] = self::_("Automatic layout");
-        $this->tpl['AUTOMATIC_LAYOUT_DESCRIPTION'] = self::_("Choose game layout automatically based on browser window ratio (recommended).");
+        $this->tpl['AUTOMATIC_LAYOUT_DESCRIPTION'] = self::_("Choose game layout automatically based on browser window ratio (recommended)");
         $this->tpl['LAYOUT'] = self::_("Layout");
         $this->tpl['AUTOMATIC_SCALING'] = self::_("Automatic scaling");
-        $this->tpl['AUTOMATIC_SCALING_DESCRIPTION'] = self::_("Choose game scale automatically based on browser window size and current game layout & situation (highly recommended).");
+        $this->tpl['AUTOMATIC_SCALING_DESCRIPTION'] = self::_("Choose game scale automatically based on browser window size and current game situation (highly recommended)");
         $this->tpl['SCALE'] = self::_("Scale");
         $this->tpl['AGE'] = self::_("Age");
         $this->tpl['GUILDS'] = self::_("Guilds");
         $this->tpl['BUILDINGS_WITH_LINKS'] = self::_("Buildings with links");
         $this->tpl['BUILDINGS_WITHOUT_LINKS'] = self::_("Buildings without links");
+        $this->tpl['SETTING_SCALE_DESCRIPTION'] = self::_("(value between 50 and 200)");
 
         /*********** Place your code below:  ************/
 

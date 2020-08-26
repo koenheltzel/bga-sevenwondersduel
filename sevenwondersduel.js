@@ -2468,7 +2468,7 @@ define([
                 console.log('onSettingScaleChange');
 
                 if (!this.autoScale) {
-                    this.scale = parseInt(e.target.value) / 100;
+                    this.scale = Math.min(200, Math.max(50, parseInt(e.target.value))) / 100;
                     this.updateLayout();
 
                     dojo.cookie('swd_scale', this.scale, { expires: this.cookieExpireDays });
@@ -2516,6 +2516,7 @@ define([
                     dojo.removeAttr('setting_auto_scale', 'checked');
                     dojo.removeAttr('setting_scale', 'disabled');
                 }
+                dojo.style('setting_scale_description', 'display', this.autoScale ? 'none' : 'inline-block');
 
                 if (this.autoLayout) {
                     dojo.attr('setting_auto_layout', 'checked', 'checked');

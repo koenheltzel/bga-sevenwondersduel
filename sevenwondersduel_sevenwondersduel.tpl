@@ -248,7 +248,7 @@
             <tr>
                 <td>{SCALE}</td>
                 <td>
-                    <input type="number" id="setting_scale" style="width: 50px" min="25" max="200" disabled>%
+                    <input type="number" id="setting_scale" style="width: 50px" min="50" max="200" disabled>% <span id="setting_scale_description">{SETTING_SCALE_DESCRIPTION}</span>
                 </td>
             </tr>
         </table>
