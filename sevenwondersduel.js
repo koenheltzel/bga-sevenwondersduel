@@ -92,10 +92,6 @@ define([
                 }
                 this.updateSettings();
 
-                dojo.query('#setting_layout option[value="' + this.LAYOUT_PORTRAIT + '"]')[0].innerText = _('Portrait');
-                dojo.query('#setting_layout option[value="' + this.LAYOUT_SQUARE + '"]')[0].innerText = _('Square');
-                dojo.query('#setting_layout option[value="' + this.LAYOUT_LANDSCAPE + '"]')[0].innerText = _('Landscape');
-
                 // Tooltip settings
                 // dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
             },
@@ -180,6 +176,11 @@ define([
                     this.updatePlayerBuildings(player_id, this.gamedatas.playerBuildings[player_id]);
                     this.updatePlayerProgressTokens(player_id, this.gamedatas.progressTokensSituation[player_id]);
                 }
+
+                // Set setting dropdown values (translations don't work yet in the constructor, so we do it here).
+                dojo.query('#setting_layout option[value="' + this.LAYOUT_PORTRAIT + '"]')[0].innerText = _('Portrait');
+                dojo.query('#setting_layout option[value="' + this.LAYOUT_SQUARE + '"]')[0].innerText = _('Square');
+                dojo.query('#setting_layout option[value="' + this.LAYOUT_LANDSCAPE + '"]')[0].innerText = _('Landscape');
 
                 // Click handlers using event delegation:
                 dojo.query('body')
@@ -855,7 +856,7 @@ define([
             setupTooltips: function () {
                 // Simple tooltips
 
-                let militaryTokenText = _('Military token: the opponent of the active player discards ${x} coins.');
+                let militaryTokenText = _('Military token: the opponent of the active player discards ${x} coins');
                 this.addTooltipToClass('military_token_2',
                     dojo.string.substitute(
                         militaryTokenText, {
@@ -868,11 +869,11 @@ define([
                         }), '', this.toolTipDelay);
 
                 this.addTooltip('conflict_pawn',
-                    _('Conflict pawn: When it enters a zone, active player applies the effect of the corresponding token, then returns it to the box.'), ''
+                    _('Conflict pawn: When it enters a zone, active player applies the effect of the corresponding token, then returns it to the box'), ''
                 );
 
                 this.addTooltipToClass('science_progress',
-                    _('If you gather 6 different scientific symbols, you immediately win the game (Scientific Supremacy).'), '', this.toolTipDelay);
+                    _('If you gather 6 different scientific symbols, you immediately win the game (Scientific Supremacy)'), '', this.toolTipDelay);
 
 
                 // this.addTooltipToClass( 'draftpool_building_cost.me', _('Current cost for you to construct the building'), '', this.toolTipDelay );
