@@ -1204,18 +1204,18 @@ define([
                 });
 
                 if (args.updateWonderSelection) {
-                    this.updateWonderSelectionAfterLoading(args.wonderSelection);
+                    this.callFunctionAfterLoading(dojo.hitch(this, "updateWonderSelection"), [args.wonderSelection])
                 }
             },
 
-            updateWonderSelectionAfterLoading: function (selection) {
-                var loaderNode = $('loader_mask2');
+            callFunctionAfterLoading: function(functionToCall, args) {
+                var loaderNode = $('loader_mask');
                 if (!loaderNode || loaderNode.style.display == 'none') {
-                    this.updateWonderSelection(selection);
+                    functionToCall(...args);
                 } else {
-                    const updateWonderSelectionAfterLoading = () => this.updateWonderSelectionAfterLoading(selection);
+                    const functionToCallPromise = () => this.callFunctionAfterLoading(functionToCall, args);
                     // Wait till the loader is no longer visible.
-                    setTimeout(updateWonderSelectionAfterLoading, 50);
+                    setTimeout(functionToCallPromise, 50);
                 }
             },
 
