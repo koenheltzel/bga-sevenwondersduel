@@ -31,13 +31,21 @@ trait SelectStartPlayerTrait {
     public function actionSelectStartPlayer($playerId) {
         $this->checkAction("actionSelectStartPlayer");
 
-        $this->setGameStateValue(self::VALUE_AGE_START_PLAYER, $playerId);
+        $this->performActionSelectStartPlayer(Player::get($playerId));
+    }
+
+    /**
+     * Broken out of actionSelectStartPlayer so it's callable by zombieTurn as well.
+     * @param Player $player Has to be passed because zombieTurn can't use current player
+     */
+    private function performActionSelectStartPlayer(Player $player) {
+        $this->setGameStateValue(self::VALUE_AGE_START_PLAYER, $player->id);
 
         $this->notifyAllPlayers(
             'message',
             clienttranslate('${player_name} begins Age ${ageRoman}'),
             [
-                'player_name' => Player::get($playerId)->name,
+                'player_name' => $player->name,
                 'ageRoman' => ageRoman($this->getGameStateValue(self::VALUE_CURRENT_AGE)),
             ]
         );

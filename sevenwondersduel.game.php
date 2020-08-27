@@ -108,6 +108,8 @@ class SevenWondersDuel extends Table
     const STATE_GAME_END_ID = 99;
     const STATE_GAME_END_NAME = "gameEnd";
 
+    const ZOMBIE_PASS = "zombiePass";
+
     // Global value labels
     const VALUE_CURRENT_WONDER_SELECTION_ROUND = "current_wonder_selection_round";
     const VALUE_CURRENT_AGE = "current_age";
@@ -555,26 +557,29 @@ class SevenWondersDuel extends Table
 
     function zombieTurn( $state, $active_player )
     {
-    	$statename = $state['name'];
-    	
-        if ($state['type'] === "activeplayer") {
-            switch ($statename) {
-                default:
-                    $this->gamestate->nextState( "zombiePass" );
-                	break;
-            }
+    	switch($state['name']) {
+            case self::STATE_SELECT_WONDER_NAME:
+                $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
+                $cards = Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}");
+                $card = array_shift($cards);
+                $wonderId = $card['id'];
 
-            return;
+                $this->performActionSelectWonder(Player::get($active_player), $wonderId);
+                break;
+            case self::STATE_SELECT_START_PLAYER_NAME:
+                // Set the opponent of the zombie as start player of the next age.
+                $this->performActionSelectStartPlayer(Player::opponent($active_player));
+                break;
+            case self::STATE_PLAYER_TURN_NAME:
+            case self::STATE_CHOOSE_PROGRESS_TOKEN_NAME:
+            case self::STATE_CHOOSE_OPPONENT_BUILDING_NAME:
+            case self::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME:
+            case self::STATE_CHOOSE_DISCARDED_BUILDING_NAME:
+                $this->gamestate->nextState( self::ZOMBIE_PASS );
+                break;
+            default:
+                throw new feException( "Zombie mode not supported at this game state: ".$state['name'] );
         }
-
-        if ($state['type'] === "multipleactiveplayer") {
-            // Make sure player is in a non blocking status for role turn
-            $this->gamestate->setPlayerNonMultiactive( $active_player, '' );
-            
-            return;
-        }
-
-        throw new feException( "Zombie mode not supported at this game state: ".$statename );
     }
     
 ///////////////////////////////////////////////////////////////////////////////////:
