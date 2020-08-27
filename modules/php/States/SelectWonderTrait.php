@@ -24,7 +24,7 @@ trait SelectWonderTrait {
     public function actionSelectWonder($wonderId){
         $this->checkAction("actionSelectWonder");
 
-        $this->performActionSelectWonder(Player::me(), $wonderId);
+        $this->performActionSelectWonder(Player::getActive(), $wonderId);
     }
 
     /**

@@ -227,38 +227,39 @@ trait NextPlayerTurnTrait {
     }
 
     public function checkImmediateVictory() {
-        $scienceSymbolCount = Player::getActive()->getScientificSymbolCount();
-        SevenWondersDuel::get()->setStat($scienceSymbolCount, SevenWondersDuel::STAT_SCIENCE_SYMBOLS, Player::getActive()->id);
+        $player = Player::getActive();
+        $scienceSymbolCount = $player->getScientificSymbolCount();
+        SevenWondersDuel::get()->setStat($scienceSymbolCount, SevenWondersDuel::STAT_SCIENCE_SYMBOLS, $player->id);
 
         $conflictPawnPosition = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
         if ($scienceSymbolCount >= 6) {
-            Player::getActive()->setWinner();
+            $player->setWinner();
             self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_SCIENTIFIC);
             $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY);
-            $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY, Player::getActive()->id);
+            $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY, $player->id);
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'nextPlayerTurnScientificSupremacy',
                 clienttranslate('${player_name} wins the game through Scientific Supremacy (gathered 6 different scientific symbols)'),
                 [
-                    'player_name' => Player::getActive()->name,
-                    'playerId' => Player::getActive()->id,
+                    'player_name' => $player->name,
+                    'playerId' => $player->id,
                     'playersSituation' => Players::getSituation(true),
                 ]
             );
             return true;
         }
         elseif ($conflictPawnPosition <= -9 || $conflictPawnPosition >= 9) {
-            Player::me()->setWinner();
+            $player->setWinner();
             self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_MILITARY);
             $this->setStat(1, self::STAT_MILITARY_SUPREMACY);
-            $this->setStat(1, self::STAT_MILITARY_SUPREMACY, Player::getActive()->id);
+            $this->setStat(1, self::STAT_MILITARY_SUPREMACY, $player->id);
 
             SevenWondersDuel::get()->notifyAllPlayers(
                 'nextPlayerTurnMilitarySupremacy',
                 clienttranslate('${player_name} wins the game through Military Supremacy (Conflict pawn reached the opponent\'s capital)'),
                 [
-                    'player_name' => Player::getActive()->name,
+                    'player_name' => $player->name,
                     'playersSituation' => Players::getSituation(true),
                 ]
             );

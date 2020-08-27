@@ -31,7 +31,7 @@ trait ChooseProgressTokenTrait {
         $this->checkAction("actionChooseProgressToken");
 
         $progressToken = ProgressToken::get($progressTokenId);
-        $payment = $progressToken->construct(Player::me());
+        $payment = $progressToken->construct(Player::getActive());
 
         $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
     }

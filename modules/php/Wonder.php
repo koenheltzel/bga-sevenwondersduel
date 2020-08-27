@@ -26,16 +26,6 @@ class Wonder extends Item {
         return Material::get()->wonders[$id];
     }
 
-    public function checkWonderAvailable() {
-        if (!in_array($this->id, Player::me()->getWonderIds())) {
-            throw new \BgaUserException( clienttranslate("The wonder you selected is not available.") );
-        }
-
-        if ($this->isConstructed()) {
-            throw new \BgaUserException( clienttranslate("The wonder you selected has already been constructed.") );
-        }
-    }
-
     /**
      * @param Building $building
      * @return PaymentPlan
@@ -55,15 +45,15 @@ class Wonder extends Item {
                 'buildingId' => $building->id,
                 'buildingName' => $building->name,
                 'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : clienttranslate('free'),
-                'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
-                'playerId' => Player::me()->id,
+                'player_name' => $player->name,
+                'playerId' => $player->id,
                 'payment' => $payment,
                 'wondersSituation' => Wonders::getSituation(),
             ]
         );
 
         $eightWonder = null;
-        foreach(array_merge(Player::me()->getWonders()->array, Player::opponent()->getWonders()->array) as $wonder) {
+        foreach(array_merge($player->getWonders()->array, $player->getOpponent()->getWonders()->array) as $wonder) {
             if (!$wonder->isConstructed()) {
                 if ($eightWonder) {
                     // Found a second unconstructed wonder, means there aren't 7 wonders constructed yet.
@@ -81,7 +71,7 @@ class Wonder extends Item {
                 clienttranslate('${player_name}\'s Wonder “${wonderName}” is removed from the game because 7 Wonders have been constructed'),
                 [
                     'i18n' => ['wonderName'],
-                    'player_name' => Player::me()->hasWonder($eightWonder->id) ? Player::me()->name : Player::opponent()->name,
+                    'player_name' => $player->hasWonder($eightWonder->id) ? $player->name : $player->getOpponent()->name,
                     'wonderName' => $eightWonder->name,
                 ]
             );

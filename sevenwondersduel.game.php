@@ -557,10 +557,6 @@ class SevenWondersDuel extends Table
 
     function zombieTurn( $state, $active_player )
     {
-        self::warn("==================================");
-        self::warn("IN ZOMBIETURN");
-        self::warn("==================================");
-
         switch($state['name']) {
             case self::STATE_SELECT_WONDER_NAME:
                 $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
@@ -639,16 +635,6 @@ class SevenWondersDuel extends Table
      */
     public function getCurrentPlayerId($bReturnNullIfNotLogged = false) {
         return parent::getCurrentPlayerId($bReturnNullIfNotLogged);
-    }
-
-    /**
-     * Get the "current_player" name
-     * Be careful using this method (see above).
-     * @return string
-     */
-    public function getCurrentPlayerName($bReturnEmptyIfNotLogged = false)
-    {
-        return parent::getCurrentPlayerName($bReturnEmptyIfNotLogged);
     }
 
     // Make _() public so we can call it from Base

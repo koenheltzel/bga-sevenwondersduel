@@ -38,7 +38,7 @@ trait ChooseDiscardedBuildingTrait
         }
 
         $building = Building::get($buildingId);
-        $payment = $building->construct(Player::me(), null, true);
+        $payment = $building->construct(Player::getActive(), null, true);
 
         if ($payment->selectProgressToken) {
             $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_NAME);

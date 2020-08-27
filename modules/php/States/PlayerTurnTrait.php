@@ -35,13 +35,14 @@ trait PlayerTurnTrait {
     public function actionConstructBuilding($buildingId) {
         $this->checkAction("actionConstructBuilding");
 
+        $player = Player::active();
         $building = Building::get($buildingId);
         $building->checkBuildingAvailable();
-        $payment = $building->construct(Player::me());
+        $payment = $building->construct($player);
 
-        $this->incStat(1, self::STAT_BUILDINGS_CONSTRUCTED, Player::me()->id);
+        $this->incStat(1, self::STAT_BUILDINGS_CONSTRUCTED, $player->id);
         if (count($payment->steps) == 1 && $payment->steps[0]->resource == "linked") {
-            $this->incStat(1, self::STAT_CHAINED_CONSTRUCTIONS, Player::me()->id);
+            $this->incStat(1, self::STAT_CHAINED_CONSTRUCTIONS, $player->id);
         }
 
         if ($payment->selectProgressToken) {
@@ -55,11 +56,12 @@ trait PlayerTurnTrait {
     public function actionDiscardBuilding($buildingId) {
         $this->checkAction("actionDiscardBuilding");
 
+        $player = Player::active();
         $building = Building::get($buildingId);
         $building->checkBuildingAvailable();
-        $discardGain = $building->discard(Player::me());
+        $discardGain = $building->discard($player);
 
-        $this->incStat(1, self::STAT_DISCARDED_CARDS, Player::me()->id);
+        $this->incStat(1, self::STAT_DISCARDED_CARDS, $player->id);
 
         $this->notifyAllPlayers(
             'discardBuilding',
@@ -68,8 +70,8 @@ trait PlayerTurnTrait {
                 'i18n' => ['buildingName'],
                 'buildingName' => $building->name,
                 'gain' => $discardGain,
-                'player_name' => $this->getCurrentPlayerName(),
-                'playerId' => Player::me()->id,
+                'player_name' => $player->name,
+                'playerId' => $player->id,
                 'buildingId' => $building->id,
             ]
         );
@@ -81,14 +83,23 @@ trait PlayerTurnTrait {
     public function actionConstructWonder($buildingId, $wonderId) {
         $this->checkAction("actionConstructWonder");
 
+        $player = Player::getActive();
         $building = Building::get($buildingId);
         $building->checkBuildingAvailable();
 
-        $wonder = Wonder::get($wonderId);
-        $wonder->checkWonderAvailable();
-        $payment = $wonder->construct(Player::me(), $building);
 
-        $this->incStat(1, self::STAT_WONDERS_CONSTRUCTED, Player::me()->id);
+        if (!in_array($wonderId, $player->getWonderIds())) {
+            throw new \BgaUserException( clienttranslate("The wonder you selected is not available.") );
+        }
+
+        $wonder = Wonder::get($wonderId);
+        if ($wonder->isConstructed()) {
+            throw new \BgaUserException( clienttranslate("The wonder you selected has already been constructed.") );
+        }
+
+        $payment = $wonder->construct($player, $building);
+
+        $this->incStat(1, self::STAT_WONDERS_CONSTRUCTED, $player->id);
 
         if ($this->checkImmediateVictory()) {
             // Specific for Wonders Circus Maximus & The Statue of Zeus we check if a immediate victory (military in this case) is the case.
@@ -107,7 +118,7 @@ trait PlayerTurnTrait {
                             'message',
                             clienttranslate('${player_name} can\'t choose a discarded card (Wonder “${wonderName}”)'),
                             [
-                                'player_name' => $this->getCurrentPlayerName(),
+                                'player_name' => $player->name,
                                 'wonderName' => $wonder->name
                             ]
                         );
@@ -119,7 +130,7 @@ trait PlayerTurnTrait {
                         'message',
                         clienttranslate('${player_name} must choose a Progress token from the box (Wonder “${wonderName}”)'),
                         [
-                            'player_name' => $this->getCurrentPlayerName(),
+                            'player_name' => $player->name,
                             'wonderName' => $wonder->name,
                         ]
                     );
@@ -136,7 +147,7 @@ trait PlayerTurnTrait {
                             'message',
                             clienttranslate('${player_name} can\'t choose a ${buildingType} card from the opponent (Wonder “${wonderName}”)'),
                             [
-                                'player_name' => $this->getCurrentPlayerName(),
+                                'player_name' => $player->name,
                                 'buildingType' => $wonderId == 9 ? Building::TYPE_BROWN : Building::TYPE_GREY,
                                 'wonderName' => $wonder->name
                             ]

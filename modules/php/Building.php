@@ -114,8 +114,8 @@ class Building extends Item {
                 'i18n' => ['buildingName', 'wonderName', 'cost'],
                 'buildingName' => $this->name,
                 'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : 'free',
-                'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
-                'playerId' => Player::me()->id,
+                'player_name' => $player->name,
+                'playerId' => $player->id,
                 'buildingId' => $this->id,
                 'payment' => $payment,
                 'wonderName' => $discardedCard ? Wonder::get(5)->name : ''
@@ -160,7 +160,7 @@ class Building extends Item {
         parent::constructEffects($player, $payment);
 
         if ($this->scientificSymbol) {
-            $buildings = Player::me()->getBuildings()->filterByScientificSymbol($this->scientificSymbol);
+            $buildings = $player->getBuildings()->filterByScientificSymbol($this->scientificSymbol);
             if (count($buildings->array) == 2) {
                 if (count(SevenWondersDuel::get()->progressTokenDeck->getCardsInLocation('board')) > 0) {
                     $payment->selectProgressToken = true;
@@ -168,7 +168,7 @@ class Building extends Item {
                         'message',
                         clienttranslate('${player_name} gathered a pair of identical scientific symbols, and may now choose a Progress token'),
                         [
-                            'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                            'player_name' => $player->name,
                         ]
                     );
                 }
@@ -177,7 +177,7 @@ class Building extends Item {
                         'message',
                         clienttranslate('${player_name} gathered a pair of identical scientific symbols, but there are no Progress tokens left'),
                         [
-                            'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                            'player_name' => $player->name,
                         ]
                     );
                 }
@@ -193,7 +193,7 @@ class Building extends Item {
                 clienttranslate('${player_name} gets 4 coins (Progress token “${progressTokenName}”)'),
                 [
                     'i18n' => ['progressTokenName'],
-                    'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                    'player_name' => $player->name,
                     'progressTokenName' => ProgressToken::get(10)->name, // Urbanism
                 ]
             );
@@ -211,7 +211,7 @@ class Building extends Item {
                     clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerBuilding} for each ${buildingType} building in their city'),
                     [
                         'i18n' => ['buildingType'],
-                        'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                        'player_name' => $player->name,
                         'coins' => $payment->coinReward,
                         'coinsPerBuilding' => $this->coinsPerBuildingOfType[1],
                         'buildingType' => $this->coinsPerBuildingOfType[0],
@@ -238,7 +238,7 @@ class Building extends Item {
                     clienttranslate('${player_name} gets ${coins} coin(s), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),
                     [
                         'i18n' => ['buildingType'],
-                        'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                        'player_name' => $player->name,
                         'coins' => $payment->coinReward,
                         'buildingType' => count($this->guildRewardBuildingTypes) > 1 ? clienttranslate('Brown and Grey') : $this->guildRewardBuildingTypes[0],
                         'mostPlayerName' => $mostPlayerName,
@@ -258,7 +258,7 @@ class Building extends Item {
                     'message',
                     clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerWonder} for each constructed Wonder in their city'),
                     [
-                        'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                        'player_name' => $player->name,
                         'coins' => $payment->coinReward,
                         'coinsPerWonder' => $this->coinsPerWonder,
                     ]

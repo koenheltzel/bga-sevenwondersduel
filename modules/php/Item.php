@@ -87,7 +87,7 @@ class Item extends Base
                     clienttranslate('${coins} coin(s) of the cost for ${item_name} go to ${player_name} (“${progressTokenName}” Progress token)'),
                     [
                         'i18n' => ['item_name', 'progressTokenName'],
-                        'player_name' => Player::opponent()->name,
+                        'player_name' => $player->getOpponent()->name,
                         'item_name' => $payment->getItem()->name,
                         'coins' => $payment->economyProgressTokenCoins,
                         'progressTokenName' => ProgressToken::get(3)->name,
@@ -103,7 +103,7 @@ class Item extends Base
                 'message',
                 clienttranslate('${player_name} scores ${points} victory point(s)'),
                 [
-                    'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                    'player_name' => $player->name,
                     'points' => $this->victoryPoints,
                 ]
             );
@@ -116,13 +116,13 @@ class Item extends Base
                 'message',
                 clienttranslate('${player_name} takes ${coins} coin(s) from the bank'),
                 [
-                    'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                    'player_name' => $player->name,
                     'coins' => $payment->coinReward,
                 ]
             );
         }
         if ($this->military > 0) {
-            MilitaryTrack::movePawn(Player::me(), $this->military, $payment);
+            MilitaryTrack::movePawn($player, $this->military, $payment);
 
             if($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
                 $message = clienttranslate('${player_name} moves the Conflict pawn ${steps} space(s) (+1 from Progress token “${progressTokenName}”)');
@@ -136,7 +136,7 @@ class Item extends Base
                 $message,
                 [
                     'i18n' => ['progressTokenName'],
-                    'player_name' => SevenWondersDuel::get()->getCurrentPlayerName(),
+                    'player_name' => $player->name,
                     'steps' => $payment->militarySteps,
                     'progressTokenName' => ProgressToken::get(8)->name, //Strategy
                 ]
@@ -144,7 +144,7 @@ class Item extends Base
 
             list($payment->militaryTokenNumber, $payment->militaryTokenValue) = MilitaryTrack::getMilitaryToken();
             if ($payment->militaryTokenValue > 0) {
-                $opponent = Player::opponent($player->id);
+                $opponent = $player->getOpponent();
                 $payment->militaryOpponentPays = min($payment->militaryTokenValue, $opponent->getCoins());
                 if($payment->militaryOpponentPays > 0) {
                     $opponent->increaseCoins(-$payment->militaryOpponentPays);
@@ -153,7 +153,7 @@ class Item extends Base
                         'message',
                         clienttranslate('The military token is removed, ${player_name} discards ${coins} coin(s)'),
                         [
-                            'player_name' => Player::opponent()->name,
+                            'player_name' => $opponent->name,
                             'coins' => $payment->militaryOpponentPays,
                         ]
                     );

@@ -33,7 +33,8 @@ trait ChooseOpponentBuildingTrait {
     public function actionChooseOpponentBuilding($buildingId) {
         $this->checkAction("actionChooseOpponentBuilding");
 
-        if (!Player::opponent()->hasBuilding($buildingId)) {
+        $player = Player::getActive();
+        if (!$player->getOpponent()->hasBuilding($buildingId)) {
             throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
         }
 
@@ -46,8 +47,8 @@ trait ChooseOpponentBuildingTrait {
                 'i18n' => ['buildingName', 'wonderName'],
                 'buildingName' => Building::get($buildingId)->name,
                 'wonderName' => Wonder::get($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER))->name,
-                'player_name' => $this->getCurrentPlayerName(),
-                'playerId' => Player::me()->id,
+                'player_name' => $player->name,
+                'playerId' => $player->id,
                 'buildingId' => $buildingId,
             ]
         );
