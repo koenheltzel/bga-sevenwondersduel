@@ -2361,6 +2361,8 @@ define([
                 var titleMarginBottom = 5;
 
                 var pageZoom = dojo.style($('page-content'), "zoom");
+                if (pageZoom == undefined) pageZoom = 1;
+
                 // At the end of the game there's more room taken up by bars up top but no idea how to reliably calculate that.
                 var endGameScaleCompensation = ($('maingameview_menuheader') && dojo.style($('maingameview_menuheader'), 'display') != 'none') ? 0.93 : 1.0;
 
@@ -2376,8 +2378,6 @@ define([
                 if (this.debug) console.log('titlePosition: ', titlePosition);
                 if (this.debug) console.log('available play area: ', width, height);
                 if (this.debug) console.log('ratio', ratio);
-
-                var pageZoom = dojo.style($('page-content'), "zoom");
                 if (this.debug) console.log('pageZoom', pageZoom);
 
                 // Measured in 75% view, without any player buildings (meaning the height can become heigher:
