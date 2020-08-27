@@ -35,7 +35,7 @@ trait PlayerTurnTrait {
     public function actionConstructBuilding($buildingId) {
         $this->checkAction("actionConstructBuilding");
 
-        $player = Player::active();
+        $player = Player::getActive();
         $building = Building::get($buildingId);
         $building->checkBuildingAvailable();
         $payment = $building->construct($player);
@@ -56,7 +56,7 @@ trait PlayerTurnTrait {
     public function actionDiscardBuilding($buildingId) {
         $this->checkAction("actionDiscardBuilding");
 
-        $player = Player::active();
+        $player = Player::getActive();
         $building = Building::get($buildingId);
         $building->checkBuildingAvailable();
         $discardGain = $building->discard($player);
