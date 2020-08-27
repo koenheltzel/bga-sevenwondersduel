@@ -557,7 +557,11 @@ class SevenWondersDuel extends Table
 
     function zombieTurn( $state, $active_player )
     {
-    	switch($state['name']) {
+        self::warn("==================================");
+        self::warn("IN ZOMBIETURN");
+        self::warn("==================================");
+
+        switch($state['name']) {
             case self::STATE_SELECT_WONDER_NAME:
                 $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
                 $cards = Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}");
