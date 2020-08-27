@@ -38,7 +38,7 @@ define([
             LAYOUT_PORTRAIT: 'portrait',
 
             // Show console.log messages
-            debug: 0,
+            debug: 1,
 
             // Settings
             autoScale: 1,
@@ -139,8 +139,8 @@ define([
                 this.gamedatas = gamedatas;
 
                 // Because of spectators we can't assume everywhere that this.player_id is one of the two players.
-                this.me_id = parseInt(this.gamedatas.playerorder[0]); // me = alias for the player on the bottom
-                this.opponent_id = parseInt(this.gamedatas.playerorder[1]); // opponent = alias for the player on the top
+                this.me_id = parseInt(this.gamedatas.me_id); // me = alias for the player on the bottom
+                this.opponent_id = parseInt(this.gamedatas.opponent_id); // opponent = alias for the player on the top
 
                 // Setup game situation.
                 this.updateWondersSituation(this.gamedatas.wondersSituation);

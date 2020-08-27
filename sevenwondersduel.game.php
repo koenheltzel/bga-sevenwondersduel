@@ -391,10 +391,12 @@ class SevenWondersDuel extends Table
         // Wonder selection stuff
         $result['wondersSituation'] = Wonders::getSituation();
 
+        $me = Player::me();
+        $opponent = Player::opponent();
         $result['discardedBuildings'] = SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
         $result['playerBuildings'] = [
-            Player::me()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::me()->id),
-            Player::opponent()->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation(Player::opponent()->id),
+            $me->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($me->id),
+            $opponent->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($opponent->id),
         ];
         $result['playersSituation'] = Players::getSituation((int)$this->getGameStateValue(self::VALUE_END_GAME_CONDITION) != 0);
         $result['buildings'] = Material::get()->buildings->array;
@@ -407,11 +409,12 @@ class SevenWondersDuel extends Table
         $result['militaryTrack'] = MilitaryTrack::getData();
         $result['progressTokensSituation'] = ProgressTokens::getSituation();
         $result['buildingIdsToLinkIconId'] = Material::get()->buildingIdsToLinkIconId;
+        $result['me_id'] = $me->id;
+        $result['opponent_id'] = $opponent->id;
         $result['players'] = [
-            Player::me()->id => json_decode(json_encode(Player::me()), true),
-            Player::opponent()->id => json_decode(json_encode(Player::opponent()), true),
+            $me->id => json_decode(json_encode($me), true),
+            $opponent->id => json_decode(json_encode($opponent), true),
         ];
-//        $result['cards'] = $this->buildingDeck;
 
         return $result;
     }
