@@ -32,11 +32,11 @@ class Player extends Base{
         if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
             return self::get(1);
         } else {
+            $playerIds = array_keys(SevenWondersDuel::get()->loadPlayersBasicInfos());
             $playerId = SevenWondersDuel::get()->getCurrentPlayerId(true); // pass true to prevent crash in zombie turn mode
-            if (is_null($playerId)) {
-                // In case getCurrentPlayerId, this means we are in zombie turn. Take first player as "me".
-                $players = SevenWondersDuel::get()->loadPlayersBasicInfos();
-                $playerId = array_shift($players)['player_id'];
+            if (is_null($playerId) || !in_array($playerId, $playerIds)) {
+                // We are either in zombieTurn (server initiated), or a spectator. Take the first player as me.
+                $playerId = $playerIds[0];
             }
             return self::get($playerId);
         }
