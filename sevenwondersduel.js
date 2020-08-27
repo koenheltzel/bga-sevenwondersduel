@@ -37,6 +37,9 @@ define([
             LAYOUT_SQUARE: 'square',
             LAYOUT_PORTRAIT: 'portrait',
 
+            // Show console.log messages
+            debug: 0,
+
             // Settings
             autoScale: 1,
             scale: 1,
@@ -110,7 +113,7 @@ define([
             */
 
             setup: function (gamedatas) {
-                console.log("setup(gamedatas)", gamedatas);
+                if (this.debug) console.log("setup(gamedatas)", gamedatas);
 
                 this.dontPreloadImage("game_banner.jpg");
                 this.dontPreloadImage("game_display0.jpg");
@@ -258,7 +261,7 @@ define([
 
             */
             setupNotifications: function () {
-                console.log('notifications subscriptions setup');
+                if (this.debug) console.log('notifications subscriptions setup');
 
                 // Example 1: standard notification handling
                 // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
@@ -315,7 +318,7 @@ define([
             //                  You can use this method to perform some user interface changes at this moment.
             //
             onEnteringState: function (stateName, args) {
-                console.log('Entering state: ' + stateName, args);
+                if (this.debug) console.log('Entering state: ' + stateName, args);
 
                 dojo.attr($('swd'), 'data-state', stateName);
 
@@ -340,7 +343,7 @@ define([
             //                 You can use this method to perform some user interface changes at this moment.
             //
             onLeavingState: function (stateName) {
-                console.log('Leaving state: ' + stateName);
+                if (this.debug) console.log('Leaving state: ' + stateName);
 
                 switch (stateName) {
 
@@ -364,7 +367,7 @@ define([
             //                        action status bar (ie: the HTML links in the status bar).
             //
             onUpdateActionButtons: function (stateName, args) {
-                console.log('onUpdateActionButtons: ' + stateName);
+                if (this.debug) console.log('onUpdateActionButtons: ' + stateName);
 
                 if (this.isCurrentPlayerActive()) {
                     switch (stateName) {
@@ -479,7 +482,7 @@ define([
             },
 
             updatePlayerWonders: function (playerId, rows) {
-                console.log('updatePlayerWonders', playerId, rows);
+                if (this.debug) console.log('updatePlayerWonders', playerId, rows);
                 var i = 1;
                 Object.keys(rows).forEach(dojo.hitch(this, function (index) {
                     var row = rows[index];
@@ -560,7 +563,7 @@ define([
              * @returns {number} Duration of the full animation.
              */
             updateDraftpool: function (draftpool, setupGame = false) {
-                console.log('updateDraftpool: ', draftpool, setupGame, 'age: ', draftpool.age);
+                if (this.debug) console.log('updateDraftpool: ', draftpool, setupGame, 'age: ', draftpool.age);
 
                 dojo.style('draftpool_container', 'display', draftpool.age > 0 ? 'block' : 'none');
 
@@ -772,7 +775,7 @@ define([
             //                  |___/
 
             updateProgressTokensSituation: function (progressTokensSituation) {
-                console.log('updateProgressTokensSituation: ', progressTokensSituation);
+                if (this.debug) console.log('updateProgressTokensSituation: ', progressTokensSituation);
                 this.progressTokensSituation = progressTokensSituation;
 
                 dojo.query("#board_progress_tokens>div").forEach(dojo.empty);
@@ -800,7 +803,7 @@ define([
             },
 
             updatePlayerProgressTokens: function (playerId, deckCards) {
-                console.log('updatePlayerProgressTokens', playerId, deckCards);
+                if (this.debug) console.log('updatePlayerProgressTokens', playerId, deckCards);
 
                 Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
                     var container = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + (parseInt(index) + 1) + ')')[0]; // parseInt(index) is apparently necessary?
@@ -1158,7 +1161,7 @@ define([
             },
 
             updatePlayersSituation: function (situation) {
-                console.log('updatePlayersSituation', situation)
+                if (this.debug) console.log('updatePlayersSituation', situation)
                 this.gamedatas.playersSituation = situation;
                 for (var playerId in this.gamedatas.players) {
                     $('player_area_' + playerId + '_coins').innerHTML = situation[playerId].coins;
@@ -1257,7 +1260,7 @@ define([
             },
 
             onWonderSelectionClick: function (e) {
-                console.log('onWonderSelectionClick');
+                if (this.debug) console.log('onWonderSelectionClick');
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
@@ -1286,7 +1289,7 @@ define([
             },
 
             notif_wonderSelected: function (notif) {
-                console.log('notif_wonderSelected', notif);
+                if (this.debug) console.log('notif_wonderSelected', notif);
 
                 var wonderContainerNode = $('wonder_' + notif.args.wonderId + '_container');
                 var selectionContainer = wonderContainerNode.parentElement;
@@ -1331,11 +1334,11 @@ define([
             //                 |___/
 
             onEnterPlayerTurn: function (args) {
-                // console.log('in onEnterPlayerTurn', args);
+                if (this.debug) console.log('in onEnterPlayerTurn', args);
             },
 
             onPlayerTurnDraftpoolClick: function (e) {
-                console.log('onPlayerTurnDraftpoolClick');
+                if (this.debug) console.log('onPlayerTurnDraftpoolClick');
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
@@ -1404,7 +1407,7 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
-                console.log('onPlayerTurnConstructBuildingClick');
+                if (this.debug) console.log('onPlayerTurnConstructBuildingClick');
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
@@ -1440,7 +1443,7 @@ define([
             },
 
             notif_constructBuilding: function (notif) {
-                console.log('notif_constructBuilding', notif);
+                if (this.debug) console.log('notif_constructBuilding', notif);
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
                 var buildingNodeParent = buildingNode.parentElement; // Only used when we are constructing a discarded building.
@@ -1538,7 +1541,7 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
-                console.log('onPlayerTurnDiscardBuildingClick');
+                if (this.debug) console.log('onPlayerTurnDiscardBuildingClick');
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
@@ -1565,7 +1568,7 @@ define([
             },
 
             notif_discardBuilding: function (notif) {
-                console.log('notif_discardBuilding', notif);
+                if (this.debug) console.log('notif_discardBuilding', notif);
 
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
@@ -1612,7 +1615,7 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
-                console.log('onPlayerTurnConstructWonderClick');
+                if (this.debug) console.log('onPlayerTurnConstructWonderClick');
 
                 if (this.isCurrentPlayerActive()) {
                     Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
@@ -1634,7 +1637,7 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
-                console.log('onPlayerTurnConstructWonderSelectedClick', e);
+                if (this.debug) console.log('onPlayerTurnConstructWonderSelectedClick', e);
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
@@ -1665,7 +1668,7 @@ define([
             },
 
             notif_constructWonder: function (notif) {
-                console.log('notif_constructWonder', notif);
+                if (this.debug) console.log('notif_constructWonder', notif);
 
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
@@ -1826,7 +1829,7 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
-                console.log('onOpponentBuildingClick', e);
+                if (this.debug) console.log('onOpponentBuildingClick', e);
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
@@ -1854,7 +1857,7 @@ define([
             },
 
             notif_opponentDiscardBuilding: function (notif) {
-                console.log('notif_opponentDiscardBuilding', notif);
+                if (this.debug) console.log('notif_opponentDiscardBuilding', notif);
 
                 var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
                 var playerBuildingNode = $('player_building_' + notif.args.buildingId);
@@ -1912,7 +1915,7 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
-                console.log('onDiscardedBuildingClick', e);
+                if (this.debug) console.log('onDiscardedBuildingClick', e);
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
@@ -1947,7 +1950,7 @@ define([
             //                                                      |___/
 
             onEnterChooseProgressToken: function (args) {
-                console.log('onEnterChooseProgressToken', args);
+                if (this.debug) console.log('onEnterChooseProgressToken', args);
                 dojo.addClass($('board_progress_tokens'), 'red_border');
             },
 
@@ -1955,7 +1958,7 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
-                console.log('onProgressTokenClick', e);
+                if (this.debug) console.log('onProgressTokenClick', e);
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
@@ -1984,7 +1987,7 @@ define([
             },
 
             notif_progressTokenChosen: function (notif) {
-                console.log('notif_progressTokenChosen', notif);
+                if (this.debug) console.log('notif_progressTokenChosen', notif);
 
                 dojo.removeClass($('board_progress_tokens'), 'red_border');
 
@@ -2039,7 +2042,7 @@ define([
             //                                |___/
 
             notif_nextAge: function (notif) {
-                console.log('notif_nextAge', notif);
+                if (this.debug) console.log('notif_nextAge', notif);
             },
 
             //  ____       _           _         _             _           _
@@ -2049,7 +2052,7 @@ define([
             // |____/ \___|_|\___|\___|\__| |___/\__\__,_|_|   \__| | .__/|_|\__,_|\__, |\___|_|
             //                                                      |_|            |___/
             onEnterSelectStartPlayer: function (args) {
-                console.log('onEnterSelectStartPlayer', args, 'ageRoman: ', args.ageRoman);
+                if (this.debug) console.log('onEnterSelectStartPlayer', args, 'ageRoman: ', args.ageRoman);
                 $('select_start_player_text').innerText = dojo.string.substitute(_("You must choose who begins Age ${ageRoman}"), {
                     ageRoman: args.ageRoman
                 });
@@ -2059,7 +2062,7 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
-                console.log('onStartPlayerClick', e);
+                if (this.debug) console.log('onStartPlayerClick', e);
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
@@ -2094,7 +2097,7 @@ define([
             //                                    |_|              |___/
 
             onEnterChooseProgressTokenFromBox: function (args) {
-                console.log('onEnterChooseProgressTokenFromBox', args);
+                if (this.debug) console.log('onEnterChooseProgressTokenFromBox', args);
                 Object.keys(args.progressTokensFromBox).forEach(dojo.hitch(this, function (progressTokenId) {
                     var card = args.progressTokensFromBox[progressTokenId];
                     var container = dojo.query('#progress_token_from_box_container>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
@@ -2106,7 +2109,7 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
-                console.log('onProgressTokenFromBoxClick', e);
+                if (this.debug) console.log('onProgressTokenFromBoxClick', e);
 
                 // if (this.isCurrentPlayerActive()) {
                 // Check that this action is possible (see "possibleactions" in states.inc.php)
@@ -2142,7 +2145,7 @@ define([
             //                                      |___/
 
             notif_nextPlayerTurnScientificSupremacy: function (notif) {
-                console.log('notif_nextPlayerTurnScientificSupremacy', notif);
+                if (this.debug) console.log('notif_nextPlayerTurnScientificSupremacy', notif);
 
                 var animationDuration = this.scientificSupremacyAnimation(notif.args.playersSituation);
 
@@ -2151,7 +2154,7 @@ define([
             },
 
             scientificSupremacyAnimation: function (playersSituation) {
-                console.log('scientificSupremacyAnimation', playersSituation);
+                if (this.debug) console.log('scientificSupremacyAnimation', playersSituation);
                 dojo.addClass(dojo.query('.player' + playersSituation.winner + ' .player_building_column.Green')[0], 'endgame_highlight');
                 var progressTokenNode = $('progress_token_4');
                 if (progressTokenNode) {
@@ -2165,7 +2168,7 @@ define([
             },
 
             notif_nextPlayerTurnMilitarySupremacy: function (notif) {
-                console.log('notif_nextPlayerTurnMilitarySupremacy', notif);
+                if (this.debug) console.log('notif_nextPlayerTurnMilitarySupremacy', notif);
 
                 var animationDuration = this.militarySupremacyAnimation(notif.args.playersSituation);
 
@@ -2174,7 +2177,7 @@ define([
             },
 
             militarySupremacyAnimation: function (playersSituation) {
-                console.log('militarySupremacyAnimation', playersSituation);
+                if (this.debug) console.log('militarySupremacyAnimation', playersSituation);
                 dojo.addClass($('conflict_pawn'), 'endgame_highlight');
 
                 // Unset endGameCondition to prevent an infinite loop.
@@ -2184,7 +2187,7 @@ define([
             },
 
             notif_nextPlayerTurnEndGameScoring: function (notif) {
-                console.log('notif_nextPlayerTurnEndGameScoring', notif);
+                if (this.debug) console.log('notif_nextPlayerTurnEndGameScoring', notif);
                 // First update the playersSituation with the pre-endgame situation.
                 this.updatePlayersSituation(notif.args.playersSituation);
 
@@ -2195,7 +2198,7 @@ define([
             },
 
             endGameScoringAnimation: function (playersSituation) {
-                console.log('endGameScoringAnimation', playersSituation);
+                if (this.debug) console.log('endGameScoringAnimation', playersSituation);
                 dojo.style($('draftpool_container'), 'display', 'none');
                 dojo.style($('end_game_container'), 'display', 'block');
                 this.updateLayout();
@@ -2368,13 +2371,14 @@ define([
                 dojo.style(debugPlayArea, "width", width + 'px');
                 dojo.style(debugPlayArea, "height", height + 'px');
 
-                // console.log('titlePosition: ', titlePosition);
-                // console.log('available play area: ', width, height);
                 var ratio = width / height;
-                // console.log('ratio', ratio);
+
+                if (this.debug) console.log('titlePosition: ', titlePosition);
+                if (this.debug) console.log('available play area: ', width, height);
+                if (this.debug) console.log('ratio', ratio);
 
                 var pageZoom = dojo.style($('page-content'), "zoom");
-                // console.log('pageZoom', pageZoom);
+                if (this.debug) console.log('pageZoom', pageZoom);
 
                 // Measured in 75% view, without any player buildings (meaning the height can become heigher:
                 var portrait = 0.78;//747 / 987; // 0.76
@@ -2383,13 +2387,13 @@ define([
 
                 if (this.autoLayout) {
                     if (ratio >= landscape) {
-                        // console.log('ratio: ', ratio, 'choosing landscape');
+                        if (this.debug) console.log('ratio: ', ratio, 'choosing landscape');
                         this.layout = this.LAYOUT_LANDSCAPE;
                     } else if (ratio < landscape && ratio > portrait) {
-                        // console.log('ratio: ', ratio, 'choosing square');
+                        if (this.debug) console.log('ratio: ', ratio, 'choosing square');
                         this.layout = this.LAYOUT_SQUARE;
                     } else { // ratio <= portrait
-                        // console.log('ratio: ', ratio, 'choosing portrait');
+                        if (this.debug) console.log('ratio: ', ratio, 'choosing portrait');
                         this.layout = this.LAYOUT_PORTRAIT;
                     }
                 }
@@ -2400,7 +2404,6 @@ define([
                             dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
                         }));
 
-                        // console.log('ratio: ', ratio, 'choosing landscape');
                         this.setLayout(this.LAYOUT_LANDSCAPE);
                         if (this.autoScale && !this.freezeLayout) {
                             this.setScale(1);
@@ -2413,7 +2416,6 @@ define([
                             dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
                         }));
 
-                        // console.log('ratio: ', ratio, 'choosing square');
                         this.setLayout(this.LAYOUT_SQUARE);
                         if (this.autoScale && !this.freezeLayout) {
                             if (width > height) {
@@ -2431,7 +2433,6 @@ define([
                             dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
                         }));
 
-                        // console.log('ratio: ', ratio, 'choosing portrait');
                         this.setLayout(this.LAYOUT_PORTRAIT);
                         if (this.autoScale && !this.freezeLayout) {
                             this.setScale(1);
@@ -2448,13 +2449,12 @@ define([
 
                 dojo.style($('discarded_cards_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
                 dojo.style($('settings_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
-                // console.log('swd_wrap height: ', $('swd_wrap'), 'height');
             },
 
             onSettingAutoScaleChange: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
-                console.log('onSettingAutoScaleChange');
+                if (this.debug) console.log('onSettingAutoScaleChange');
 
                 this.autoScale = 1 - parseInt(this.autoScale);
                 this.updateLayout();
@@ -2466,7 +2466,7 @@ define([
             onSettingScaleChange: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
-                console.log('onSettingScaleChange');
+                if (this.debug) console.log('onSettingScaleChange');
 
                 if (!this.autoScale) {
                     this.scale = Math.min(200, Math.max(50, parseInt(e.target.value))) / 100;
@@ -2483,7 +2483,7 @@ define([
             onSettingAutoLayoutChange: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
-                console.log('onSettingAutoLayoutChange');
+                if (this.debug) console.log('onSettingAutoLayoutChange');
 
                 this.autoLayout = 1 - parseInt(this.autoLayout);
                 this.updateLayout();
@@ -2495,7 +2495,7 @@ define([
             onSettingLayoutChange: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
-                console.log('onSettingLayoutChange');
+                if (this.debug) console.log('onSettingLayoutChange');
 
                 if (!this.autoLayout) {
                     this.layout = e.target.value;

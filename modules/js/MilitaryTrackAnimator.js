@@ -48,7 +48,6 @@ define([
             },
 
             getAnimation: function (active_player_id, payment) {
-                console.log('getMilitaryTokenAnimation', payment);
                 // The military token animation always concerns the opponent of the active player.
                 var opponent_id = this.game.getOppositePlayerId(active_player_id);
 
