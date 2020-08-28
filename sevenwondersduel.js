@@ -38,7 +38,7 @@ define([
             LAYOUT_PORTRAIT: 'portrait',
 
             // Show console.log messages
-            debug: 1,
+            debug: 0,
 
             // Settings
             autoScale: 1,
