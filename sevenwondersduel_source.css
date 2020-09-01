@@ -1750,6 +1750,49 @@ __        __              _
     background-size: calc(var(--list-of-cards-scale) * 1004px) calc(var(--list-of-cards-scale) * 829px);
 }
 
+
+.agora_cube3d_me, .agora_cube3d_opponent, .agora_cube_me, .agora_cube_opponent, .agora_military_token_1, .agora_military_token_2, .end_game_senate {
+    display: inline-block;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-image: url('img/agora_sprites.png');
+}
+
+.agora_cube3d_me {
+    background-position: 0.537634% 92.8571%;
+    background-size: 365.714%;
+}
+
+.agora_cube3d_opponent {
+    background-position: 73.6559% 0.550964%;
+    background-size: 365.714%;
+}
+
+.agora_cube_me {
+    background-position: 66.5049% 37.1359%;
+    background-size: 512.000%;
+}
+
+.agora_cube_opponent {
+    background-position: 91.2621% 37.1359%;
+    background-size: 512.000%;
+}
+
+.agora_military_token_1 {
+    background-position: 38.4615% 0.869565%;
+    background-size: 419.672%;
+}
+
+.agora_military_token_2 {
+    background-position: 0.546448% 1.12360%;
+    background-size: 350.685%;
+}
+
+.end_game_senate {
+    background-position: 98.1132% 0.428266%;
+    background-size: 581.818%;
+}
+
 /*
  _   _ _       _                                              _
 | | | (_) __ _| |__        _ __ ___  ___    __ _ ___ ___  ___| |_ ___
