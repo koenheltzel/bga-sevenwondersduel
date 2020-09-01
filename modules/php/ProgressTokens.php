@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuel;
+use SevenWondersDuelAgora;
 
 /**
  * @property ProgressToken[] $array
@@ -30,7 +30,7 @@ class ProgressTokens extends Collection {
     }
 
     public static function getDeckCardsSorted($location): array {
-        $cards = SevenWondersDuel::get()->progressTokenDeck->getCardsInLocation($location);
+        $cards = SevenWondersDuelAgora::get()->progressTokenDeck->getCardsInLocation($location);
         usort($cards, function($a, $b) {return strcmp($a['location_arg'], $b['location_arg']);});
         return $cards;
     }

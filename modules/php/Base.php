@@ -4,7 +4,7 @@
 namespace SWD;
 
 
-use SevenWondersDuel;
+use SevenWondersDuelAgora;
 
 class Base extends \APP_DbObject
 {
@@ -19,7 +19,7 @@ class Base extends \APP_DbObject
             return $string;
         }
         else {
-            return SevenWondersDuel::get()->_($string);
+            return SevenWondersDuelAgora::get()->_($string);
         }
     }
 }

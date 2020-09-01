@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuel;
+use SevenWondersDuelAgora;
 
 class Item extends Base
 {
@@ -82,7 +82,7 @@ class Item extends Base
             if ($payment->economyProgressTokenCoins > 0) {
                 $player->getOpponent()->increaseCoins($payment->economyProgressTokenCoins);
 
-                SevenWondersDuel::get()->notifyAllPlayers(
+                SevenWondersDuelAgora::get()->notifyAllPlayers(
                     'message',
                     clienttranslate('${coins} coin(s) of the cost for ${item_name} go to ${player_name} (“${progressTokenName}” Progress token)'),
                     [
@@ -99,7 +99,7 @@ class Item extends Base
         if ($this->victoryPoints > 0) {
             $player->increaseScore($this->victoryPoints, $this->getScoreCategory());
 
-            SevenWondersDuel::get()->notifyAllPlayers(
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} scores ${points} victory point(s)'),
                 [
@@ -112,7 +112,7 @@ class Item extends Base
             $payment->coinReward = $this->coins;
             $player->increaseCoins($payment->coinReward);
 
-            SevenWondersDuel::get()->notifyAllPlayers(
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} takes ${coins} coin(s) from the bank'),
                 [
@@ -131,7 +131,7 @@ class Item extends Base
                 $message = clienttranslate('${player_name} moves the Conflict pawn ${steps} space(s)');
             }
 
-            SevenWondersDuel::get()->notifyAllPlayers(
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
                 'message',
                 $message,
                 [
@@ -149,7 +149,7 @@ class Item extends Base
                 if($payment->militaryOpponentPays > 0) {
                     $opponent->increaseCoins(-$payment->militaryOpponentPays);
 
-                    SevenWondersDuel::get()->notifyAllPlayers(
+                    SevenWondersDuelAgora::get()->notifyAllPlayers(
                         'message',
                         clienttranslate('The military token is removed, ${player_name} discards ${coins} coin(s)'),
                         [

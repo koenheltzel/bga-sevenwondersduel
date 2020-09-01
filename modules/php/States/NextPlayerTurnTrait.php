@@ -2,7 +2,7 @@
 
 namespace SWD\States;
 
-use SevenWondersDuel;
+use SevenWondersDuelAgora;
 use SWD\Building;
 use SWD\Draftpool;
 use SWD\MilitaryTrack;
@@ -17,17 +17,17 @@ trait NextPlayerTurnTrait {
             $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
         }
         elseif (Draftpool::countCardsInCurrentAge() > 0) {
-            if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_NORMAL) || SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_THEOLOGY)) {
-                if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_NORMAL)) {
+            if (SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL) || SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_THEOLOGY)) {
+                if (SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL)) {
                     $message = clienttranslate('${player_name} gets an extra turn');
                 }
                 else {
                     $message = clienttranslate('${player_name} gets an extra turn (Progress token “${progressTokenName}”)');
                 }
-                SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_NORMAL, 0);
-                SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
+                SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL, 0);
+                SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
 
-                SevenWondersDuel::get()->notifyAllPlayers(
+                SevenWondersDuelAgora::get()->notifyAllPlayers(
                     'message',
                     $message,
                     [
@@ -47,11 +47,11 @@ trait NextPlayerTurnTrait {
         }
         // End of the age
         else {
-            if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_NORMAL) || SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_THEOLOGY)) {
-                SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_NORMAL, 0);
-                SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
+            if (SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL) || SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_THEOLOGY)) {
+                SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL, 0);
+                SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
 
-                SevenWondersDuel::get()->notifyAllPlayers(
+                SevenWondersDuelAgora::get()->notifyAllPlayers(
                     'message',
                     clienttranslate('${player_name} loses their extra turn because the age has ended'),
                     [
@@ -64,7 +64,7 @@ trait NextPlayerTurnTrait {
                 // Let's queue the nextPlayerTurnEndGameScoring notification because we want this to arrive first.
                 // However, the playersSituation we pass by reference, empty for now. This will be filled after the foreach and determining the winner.
                 $playerSituation = [];
-                SevenWondersDuel::get()->notifyAllPlayers(
+                SevenWondersDuelAgora::get()->notifyAllPlayers(
                     'nextPlayerTurnEndGameScoring',
                     "",
                     [
@@ -86,7 +86,7 @@ trait NextPlayerTurnTrait {
                             $mostPlayer = $constructedWonders >= $constructedWondersOpponent ? $player : $player->getOpponent();
                             $points = $maxConstructedWonders * 2;
                             $player->increaseScore($points, $building->getScoreCategory());
-                            SevenWondersDuel::get()->notifyAllPlayers(
+                            SevenWondersDuelAgora::get()->notifyAllPlayers(
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 2 for each constructed Wonder in the city which has the most of them (${mostPlayerName}\'s)'),
                                 [
@@ -109,7 +109,7 @@ trait NextPlayerTurnTrait {
                             $mostPlayer = $coinTriplets >= $coinTripletsOpponent ? $player : $player->getOpponent();
                             $points = $maxCoinTriplets;
                             $player->increaseScore($points, $building->getScoreCategory());
-                            SevenWondersDuel::get()->notifyAllPlayers(
+                            SevenWondersDuelAgora::get()->notifyAllPlayers(
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each set of 3 coins in the richest city (${mostPlayerName}\'s)'),
                                 [
@@ -132,7 +132,7 @@ trait NextPlayerTurnTrait {
                             $mostPlayer = $buildingsOfType >= $buildingsOfTypeOpponent ? $player : $player->getOpponent();
                             $points = $maxBuildingsOfType;
                             $player->increaseScore($points, $building->getScoreCategory());
-                            SevenWondersDuel::get()->notifyAllPlayers(
+                            SevenWondersDuelAgora::get()->notifyAllPlayers(
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),
                                 [
@@ -157,7 +157,7 @@ trait NextPlayerTurnTrait {
                         $points = 3 * count($player->getProgressTokens()->array);
                         if ($points > 0) {
                             $player->increaseScore($points, self::SCORE_PROGRESSTOKENS);
-                            SevenWondersDuel::get()->notifyAllPlayers(
+                            SevenWondersDuelAgora::get()->notifyAllPlayers(
                                 'endGameCategoryUpdate',
                                 clienttranslate('${player_name} scores ${points} victory points (Progress token “${progressTokenName}”)'),
                                 [
@@ -179,7 +179,7 @@ trait NextPlayerTurnTrait {
                     $points = floor($player->getCoins() / 3);
                     if ($points > 0) {
                         $player->increaseScore($points, self::SCORE_COINS);
-                        SevenWondersDuel::get()->notifyAllPlayers(
+                        SevenWondersDuelAgora::get()->notifyAllPlayers(
                             'endGameCategoryUpdate',
                             clienttranslate('${player_name} scores ${points} victory points (1 for each set of 3 coins)'),
                             [
@@ -198,7 +198,7 @@ trait NextPlayerTurnTrait {
                     $points = MilitaryTrack::getVictoryPoints($player);
                     if ($points > 0) {
                         $player->increaseScore($points, self::SCORE_MILITARY);
-                        SevenWondersDuel::get()->notifyAllPlayers(
+                        SevenWondersDuelAgora::get()->notifyAllPlayers(
                             'endGameCategoryUpdate',
                             clienttranslate('${player_name} scores ${points} victory points (Conflict pawn position)'),
                             [
@@ -229,16 +229,16 @@ trait NextPlayerTurnTrait {
     public function checkImmediateVictory() {
         $player = Player::getActive();
         $scienceSymbolCount = $player->getScientificSymbolCount();
-        SevenWondersDuel::get()->setStat($scienceSymbolCount, SevenWondersDuel::STAT_SCIENCE_SYMBOLS, $player->id);
+        SevenWondersDuelAgora::get()->setStat($scienceSymbolCount, SevenWondersDuelAgora::STAT_SCIENCE_SYMBOLS, $player->id);
 
-        $conflictPawnPosition = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
+        $conflictPawnPosition = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CONFLICT_PAWN_POSITION);
         if ($scienceSymbolCount >= 6) {
             $player->setWinner();
             self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_SCIENTIFIC);
             $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY);
             $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY, $player->id);
 
-            SevenWondersDuel::get()->notifyAllPlayers(
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
                 'nextPlayerTurnScientificSupremacy',
                 clienttranslate('${player_name} wins the game through Scientific Supremacy (gathered 6 different scientific symbols)'),
                 [
@@ -255,7 +255,7 @@ trait NextPlayerTurnTrait {
             $this->setStat(1, self::STAT_MILITARY_SUPREMACY);
             $this->setStat(1, self::STAT_MILITARY_SUPREMACY, $player->id);
 
-            SevenWondersDuel::get()->notifyAllPlayers(
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
                 'nextPlayerTurnMilitarySupremacy',
                 clienttranslate('${player_name} wins the game through Military Supremacy (Conflict pawn reached the opponent\'s capital)'),
                 [

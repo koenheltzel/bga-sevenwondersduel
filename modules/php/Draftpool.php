@@ -4,7 +4,7 @@
 namespace SWD;
 
 
-use SevenWondersDuel;
+use SevenWondersDuelAgora;
 
 class Draftpool extends Base
 {
@@ -36,8 +36,8 @@ class Draftpool extends Base
     ];
 
     public static function buildingAvailable($buildingId) {
-        $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
-        $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $age = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CURRENT_AGE);
+        $cards = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation("age{$age}");
         $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
 
         $locationArg = 19; // Each age has 20 cards. Make this dynamic when it works: count(self::$ages[$age], COUNT_RECURSIVE) - count(self::$ages[$age]))
@@ -66,8 +66,8 @@ class Draftpool extends Base
     }
 
     public static function get() {
-        $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
-        $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $age = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CURRENT_AGE);
+        $cards = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation("age{$age}");
         $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
 
         $draftpool = [
@@ -108,7 +108,7 @@ class Draftpool extends Base
                             $position['discardGain'] = [];
                             $position['payment'] = [];
                             $position['hasLinkedBuilding'] = [];
-                            $players = SevenWondersDuel::get()->loadPlayersBasicInfos();
+                            $players = SevenWondersDuelAgora::get()->loadPlayersBasicInfos();
                             $playerIds = array_keys($players);
                             foreach ($playerIds as $playerId) {
                                 $payment = Player::get($playerId)->getPaymentPlan($building);
@@ -130,8 +130,8 @@ class Draftpool extends Base
     }
 
     public static function countCardsInCurrentAge() {
-        $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
-        $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $age = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CURRENT_AGE);
+        $cards = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation("age{$age}");
         return count($cards);
     }
 

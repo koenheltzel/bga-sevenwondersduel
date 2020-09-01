@@ -2,7 +2,7 @@
 
 namespace SWD\States;
 
-use SevenWondersDuel;
+use SevenWondersDuelAgora;
 use SWD\Building;
 use SWD\Draftpool;
 use SWD\Player;
@@ -38,7 +38,7 @@ trait ChooseOpponentBuildingTrait {
             throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
         }
 
-        SevenWondersDuel::get()->buildingDeck->insertCardOnExtremePosition($buildingId, 'discard', true);
+        SevenWondersDuelAgora::get()->buildingDeck->insertCardOnExtremePosition($buildingId, 'discard', true);
 
         $this->notifyAllPlayers(
             'opponentDiscardBuilding',

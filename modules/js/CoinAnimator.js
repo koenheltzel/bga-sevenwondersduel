@@ -39,7 +39,7 @@ define([
             },
 
             constructor: function () {
-                this.game = bgagame.sevenwondersduel.instance;
+                this.game = bgagame.sevenwondersduelagora.instance;
             },
 
             /**

@@ -4,7 +4,7 @@
 namespace SWD;
 
 
-use SevenWondersDuel;
+use SevenWondersDuelAgora;
 
 class Players extends Base
 {
@@ -36,7 +36,7 @@ class Players extends Base
             }
         }
         if ($endGameScoring) {
-            $data['endGameCondition'] = (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_END_GAME_CONDITION);
+            $data['endGameCondition'] = (int)SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_END_GAME_CONDITION);
             if ($winner) {
                 $data['winner'] = $winner;
             }

@@ -2,7 +2,7 @@
 
 namespace SWD\States;
 
-use SevenWondersDuel;
+use SevenWondersDuelAgora;
 use SWD\Building;
 use SWD\Draftpool;
 use SWD\Player;
@@ -110,7 +110,7 @@ trait PlayerTurnTrait {
             // Handle some special rewards that possibly require going to a separate state. If not move on to the Next Player Turn.
             switch ($wonder->id) {
                 case 5: // Wonder The Mausoleum - Choose a discarded building and construct it for free.
-                    if (count(SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard')) > 0) {
+                    if (count(SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation('discard')) > 0) {
                         $this->gamestate->nextState( self::STATE_CHOOSE_DISCARDED_BUILDING_NAME);
                     }
                     else {

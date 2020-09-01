@@ -32,10 +32,10 @@ use SWD\Wonder;
 
 require_once(APP_BASE_PATH . "view/common/game.view.php");
 
-class view_sevenwondersduel_sevenwondersduel extends game_view
+class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
 {
     function getGameName() {
-        return "sevenwondersduel";
+        return "sevenwondersduelagora";
     }
 
     function build_page($viewArgs) {
@@ -64,23 +64,23 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
         /*********** Place your code below:  ************/
 
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row_info");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row_progress_tokens");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_column_block");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "list_of_cards_page1");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "list_of_cards_page2");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_player_row_info");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_player_row_progress_tokens");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_player_row");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_player");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_column_block");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "list_of_cards_page1");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "list_of_cards_page2");
 
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", 'player_buildings');
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "draftpool");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_category_header");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_category_player");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_player");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "middle_column_block");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_wonders");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", 'player_buildings');
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "draftpool");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "end_game_category_header");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "end_game_category_player");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "end_game_player");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "end_game");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "middle_column_block");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "player_wonders");
 
         $boardPlayerClasses = ["board_player_left", "board_player_right"];
         $index = 0;
@@ -211,10 +211,10 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
 
         // The "catalog". For testing spritesheets / tooltips.
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_wonder");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_building");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_progress_token");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog_wonder");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog_building");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog_progress_token");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog");
         if (0) {
             $this->page->reset_subblocks('block_catalog_building');
             for ($id = 1; $id <= 77; $id++) {
@@ -263,7 +263,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
             $this->page->insert_block("block_catalog");
         }
 
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "swd");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "swd");
         $this->page->insert_block("swd", [
             "PLAYER_ME_ID" => Player::me()->id,
             "PLAYER_OPPONENT_ID" => Player::opponent()->id,
@@ -293,7 +293,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         //      <!-- END myblock --> 
         
 
-        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "myblock" );
+        $this->page->begin_block( "sevenwondersduelagora_sevenwondersduelagora", "myblock" );
         foreach( $players as $player )
         {
             $this->page->insert_block( "myblock", array( 
