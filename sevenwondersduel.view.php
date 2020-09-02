@@ -265,6 +265,7 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
 
         $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "swd");
         $this->page->insert_block("swd", [
+            "AGORA" => (int)SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::OPTION_AGORA),
             "PLAYER_ME_ID" => Player::me()->id,
             "PLAYER_OPPONENT_ID" => Player::opponent()->id,
         ]);

@@ -73,6 +73,7 @@ __     __         _       _     _
     --building-small-width: calc(var(--building-width) * var(--building-small-scale));
     --building-small-height: calc(var(--building-height) * var(--building-small-scale));
     --building-header-small-height: calc(62px * var(--building-small-scale));
+    --building-columns-count: 7;
 
     --wonder-spritesheet-width: 1845px;
     --wonder-spritesheet-height: 720px;
@@ -110,12 +111,18 @@ __     __         _       _     _
     --draftpool-row-height-multiplier: 0.536;
     --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.6);
     --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
+    --draftpool-column-count: 11;
 
     --military-track-header: 0.0434;
     --military-track-body: 0.87;
     --conflict-pawn-position: 0; /* -9 to 9 */
 
     --list-of-cards-scale: calc(var(--scale) * 0.75);
+}
+
+#swd[data-agora="1"] {
+    --building-columns-count: 8;
+    --draftpool-column-count: 13;
 }
 
 /*
@@ -383,7 +390,7 @@ __     __         _       _     _
     align-items: center;
     flex-wrap: wrap;
 
-    width: calc(7 * var(--building-small-width) + 6 * 2px + 2 * var(--gutter)); /* This keeps content in the middle_column, especially something like select_start_player within the allowed size. */
+    width: calc(var(--building-columns-count) * var(--building-small-width) + (var(--building-columns-count) - 1) * 2px + 2 * var(--gutter)); /* This keeps content in the middle_column, especially something like select_start_player within the allowed size. */
 }
 
 #board_column {
@@ -565,7 +572,7 @@ __     __         _       _     _
     /* Height is being set by updateDraftpool */
 
     /* 5px for rightmost card's shadow, else it will look too narrox. */
-    width: calc(var(--draftpool-column-width) * 10 + var(--building-small-width) + calc(var(--scale) * 5px));
+    width: calc(var(--draftpool-column-width) * (var(--draftpool-column-count) - 1) + var(--building-small-width) + calc(var(--scale) * 5px));
 }
 
 .glow {
@@ -838,7 +845,7 @@ __     __         _       _     _
 .player_buildings {
     min-height: calc(150px * var(--scale));
 
-    width: calc(7 * var(--building-small-width) + 6 * 2px);
+    width: calc(var(--building-columns-count) * var(--building-small-width) + (var(--building-columns-count) - 1) * 2px);
     /* Flexbox setup */
     display: flex;
     flex-direction: row;
@@ -919,6 +926,11 @@ __     __         _       _     _
     background: linear-gradient(to bottom, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
+.player_buildings.opponent .player_building_column.Agora {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
+    background: linear-gradient(to bottom, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
 /* Gradients for me */
 .player_buildings.me .player_building_column.Brown {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#702c12+0,702c12+100&0+0,0.4+100 */
@@ -953,6 +965,11 @@ __     __         _       _     _
 .player_buildings.me .player_building_column.Purple {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6f488b+0,6f488b+100&0+0,0.4+100 */
     background: linear-gradient(to top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_buildings.me .player_building_column.Agora {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 .science_progress {
