@@ -546,16 +546,20 @@ class Material extends Base
         $id = 74;
         // Agora cards
         for($id = 74; $id <= 75; $id++) {
-            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (left chambers)"), Building::TYPE_AGORA_WHITE));
+            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (left chambers)"), Building::TYPE_AGORA_WHITE))
+                ->setListPage(-1);
         }
         for($id = 75; $id <= 77; $id++) {
-            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (center chambers)"), Building::TYPE_AGORA_WHITE));
+            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (center chambers)"), Building::TYPE_AGORA_WHITE))
+                ->setListPage(-1);
         }
         for($id = 78; $id <= 79; $id++) {
-            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (right chambers)"), Building::TYPE_AGORA_WHITE));
+            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (right chambers)"), Building::TYPE_AGORA_WHITE))
+                ->setListPage(-1);
         }
         for($id = 80; $id <= 85; $id++) {
-            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Conspirator"), Building::TYPE_AGORA_BLACK));
+            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Conspirator"), Building::TYPE_AGORA_BLACK))
+                ->setListPage(-1);
         }
 
 
