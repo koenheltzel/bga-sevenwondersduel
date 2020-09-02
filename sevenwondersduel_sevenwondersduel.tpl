@@ -313,6 +313,7 @@ var jstpl_some_game_item='<div class="my_game_item" id="my_game_item_${MY_ITEM_I
 var jstpl_draftpool_building = '\
     <div id="${jsRow}_${jsColumn}"\
         data-building-id="${jsId}"\
+        data-building-type="${jsType}"\
         class="building building_small column${jsColumn} row${jsRow} ${jsAvailable}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\
@@ -412,7 +413,7 @@ var jstpl_building_tooltip = '\
             ${jsCostMe}\
         </div>\
         <div>\
-            <div class="building tooltipWiggle" style="float:right; background-position: -${jsX}00% -${jsY}00%;">\
+            <div data-building-type="${jsType}" class="building tooltipWiggle" style="float:right; background-position: -${jsX}00% -${jsY}00%;">\
                 <span class="swd_title">${jsName}</span>\
             </div>\
         </div>\

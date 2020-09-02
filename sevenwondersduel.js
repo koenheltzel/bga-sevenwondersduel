@@ -578,6 +578,7 @@ define([
                         var data = {
                             jsId: '',
                             jsName: '',
+                            jsType: '',
                             jsRow: position.row,
                             jsColumn: position.column,
                             jsX: position.spriteXY[0],
@@ -597,6 +598,7 @@ define([
                             var buildingData = this.gamedatas.buildings[position.building];
                             data.jsId = position.building;
                             data.jsName = _(buildingData.name);
+                            data.jsType = buildingData.type;
                             if (position.available) {
                                 data.jsDisplayCostMe = position.available ? 'block' : 'none',
                                     data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
@@ -717,6 +719,7 @@ define([
                 var data = {
                     jsId: buildingId,
                     jsName: _(building.name),
+                    jsType: building.type,
                     jsRow: '',
                     jsColumn: '',
                     jsX: building.spriteXY[0],
@@ -1017,6 +1020,7 @@ define([
                         data.cardType = _("Guild card");
                     }
                     data.jsName = _(building.name);
+                    data.jsType = _(building.type);
                     data.jsBuildingTypeColor = building.typeColor;
                     data.jsBuildingTypeDescription = _(building.typeDescription);
                     data.jsText = this.getTextHtml(building.text);

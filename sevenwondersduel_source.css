@@ -109,7 +109,7 @@ __     __         _       _     _
     --small-border-radius: calc(7px * var(--scale));
 
     --draftpool-row-height-multiplier: 0.536;
-    --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.6);
+    --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.58);
     --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
     --draftpool-column-count: 11;
 
@@ -928,7 +928,7 @@ __     __         _       _     _
 
 .player_buildings.opponent .player_building_column.Agora {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
-    background: linear-gradient(to bottom, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 /* Gradients for me */
@@ -969,7 +969,7 @@ __     __         _       _     _
 
 .player_buildings.me .player_building_column.Agora {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
-    background: linear-gradient(to top, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 .science_progress {
@@ -1335,6 +1335,9 @@ __        __              _
     margin-left: auto;
     margin-right: auto;
     width: calc(var(--building-width) * var(--scale));
+}
+.building[data-building-type=Agora] .swd_title {
+    display: none;
 }
 
 .building_small .swd_title {
