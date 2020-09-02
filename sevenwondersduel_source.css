@@ -1066,6 +1066,7 @@ __     __         _       _     _
     display: inline-block;
     text-align: center;
     position: relative;
+    z-index: 10;
 }
 
 .player_area_progress_tokens > div {
