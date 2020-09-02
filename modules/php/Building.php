@@ -13,8 +13,7 @@ class Building extends Item {
     public const TYPE_YELLOW = 'Yellow';
     public const TYPE_RED = 'Red';
     public const TYPE_PURPLE = 'Purple';
-    public const TYPE_AGORA_WHITE = 'White';
-    public const TYPE_AGORA_BLACK = 'Black';
+    public const TYPE_AGORA = 'Agora';
 
     private const SPRITESHEET_COLUMNS = 12;
 
@@ -91,11 +90,7 @@ class Building extends Item {
                 $this->typeColor = '#6f488b';
                 $this->typeDescription = clienttranslate('Guild');
                 break;
-            case self::TYPE_AGORA_WHITE:
-                $this->typeColor = '#ffffff';
-                $this->typeDescription = clienttranslate('Senator');
-                break;
-            case self::TYPE_AGORA_BLACK:
+            case self::TYPE_AGORA:
                 $this->typeColor = '#000000';
                 $this->typeDescription = clienttranslate('Senator');
                 break;
