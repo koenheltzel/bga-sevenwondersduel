@@ -1991,11 +1991,17 @@ define([
 
                 dojo.removeClass($('board_progress_tokens'), 'red_border');
 
-                var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
-
                 var container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + notif.args.progressTokenPosition + ')')[0];
-                progressTokenNode = this.attachToNewParent(progressTokenNode, container);
-                dojo.style(progressTokenNode, 'z-index', 6);
+                var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
+                if (progressTokenNode) {
+                    progressTokenNode = this.attachToNewParent(progressTokenNode, container);
+                }
+                else {
+                    // In case of "Choose progress token from box", the inactive player doesn't have the chosen
+                    // progress token on the screen yet, so we place the progress token on the Wonder.
+                    progressTokenNode = dojo.place(this.getProgressTokenDivHtml(notif.args.progressTokenId), container);
+                    this.placeOnObject(progressTokenNode, 'wonder_6');
+                }
 
                 var anim = dojo.fx.chain([
                     this.slideToObjectPos(progressTokenNode, container, 0, 0, this.progressTokenDuration),
@@ -2012,7 +2018,6 @@ define([
                     anim.stop();
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
-                    dojo.style(progressTokenNode, 'z-index', 5);
                     this.maybeShowSecondRowProgressTokens(notif.args.playerId);
                 }));
 
@@ -2098,11 +2103,13 @@ define([
 
             onEnterChooseProgressTokenFromBox: function (args) {
                 if (this.debug) console.log('onEnterChooseProgressTokenFromBox', args);
-                Object.keys(args.progressTokensFromBox).forEach(dojo.hitch(this, function (progressTokenId) {
-                    var card = args.progressTokensFromBox[progressTokenId];
-                    var container = dojo.query('#progress_token_from_box_container>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
-                    dojo.place(this.getProgressTokenDivHtml(card.id), container);
-                }));
+                if (this.isCurrentPlayerActive()) {
+                    Object.keys(args._private.progressTokensFromBox).forEach(dojo.hitch(this, function (progressTokenId) {
+                        var card = args._private.progressTokensFromBox[progressTokenId];
+                        var container = dojo.query('#progress_token_from_box_container>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
+                        dojo.place(this.getProgressTokenDivHtml(card.id), container);
+                    }));
+                }
             },
 
             onProgressTokenFromBoxClick: function (e) {
