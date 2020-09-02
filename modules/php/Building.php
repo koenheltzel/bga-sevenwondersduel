@@ -13,6 +13,8 @@ class Building extends Item {
     public const TYPE_YELLOW = 'Yellow';
     public const TYPE_RED = 'Red';
     public const TYPE_PURPLE = 'Purple';
+    public const TYPE_AGORA_WHITE = 'White';
+    public const TYPE_AGORA_BLACK = 'Black';
 
     public $age;
     public $type;
