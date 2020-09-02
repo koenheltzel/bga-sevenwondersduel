@@ -1789,6 +1789,7 @@ define([
                         ]);
 
                         dojo.connect(anim, 'beforeBegin', dojo.hitch(this, function () {
+                            dojo.style(wonderContainer, 'z-index', 11);
                             dojo.style(wonderNode, 'z-index', 20);
                             dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em) rotateY(-90deg)'); // The rotateY(-90deg) affects the position the element will end up after the slide. Here's the place to apply it therefor, not before the animation instantiation.
                         }));
@@ -1800,6 +1801,7 @@ define([
 
                             dojo.style(ageCardNode, 'z-index', 1);
                             dojo.style(wonderNode, 'z-index', 2);
+                            dojo.style(wonderContainer, 'z-index', 10);
                         }));
 
                         // Wait for animation before handling the next notification (= state change).
