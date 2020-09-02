@@ -128,6 +128,7 @@ class Draftpool extends Base
                     if ($cardvisible) {
                         $position['available'] = $available;
                         $position['building'] = $building->id;
+                        $position['spriteXY'] = $building->spriteXY;
 
                         if ($available) {
                             // Cost and payment plan for each player
@@ -146,7 +147,7 @@ class Draftpool extends Base
                         }
                     }
                     else {
-                        $position['back'] = 77 + $building->age;
+                        $position['spriteXY'] = Building::getBackSpriteXY($building->age);
                     }
                     array_unshift($draftpool['cards'], $position);
                 }

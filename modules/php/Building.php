@@ -16,6 +16,9 @@ class Building extends Item {
     public const TYPE_AGORA_WHITE = 'White';
     public const TYPE_AGORA_BLACK = 'Black';
 
+    private const SPRITESHEET_COLUMNS = 12;
+
+    public $spriteXY;
     public $age;
     public $type;
     public $typeColor;
@@ -43,6 +46,21 @@ class Building extends Item {
     public function __construct($id, $age, $name, $type, Array $text = []) {
         $this->age = $age;
         $this->type = $type;
+
+        $spriteId = $id;
+        if ($id >= 74 && $id <= 75){
+            $spriteId = 74;
+        }
+        elseif ($id >= 76 && $id <= 78){
+            $spriteId = 75;
+        }
+        elseif ($id >= 79 && $id <= 80){
+            $spriteId = 76;
+        }
+        elseif ($id >= 81 && $id <= 86){
+            $spriteId = 77;
+        }
+        $this->spriteXY = self::getSpriteXY($spriteId);
 
         switch ($this->type) {
             case self::TYPE_BROWN:
@@ -72,6 +90,14 @@ class Building extends Item {
             case self::TYPE_PURPLE:
                 $this->typeColor = '#6f488b';
                 $this->typeDescription = clienttranslate('Guild');
+                break;
+            case self::TYPE_AGORA_WHITE:
+                $this->typeColor = '#ffffff';
+                $this->typeDescription = clienttranslate('Senator');
+                break;
+            case self::TYPE_AGORA_BLACK:
+                $this->typeColor = '#000000';
+                $this->typeDescription = clienttranslate('Senator');
                 break;
         }
 
@@ -302,6 +328,17 @@ class Building extends Item {
 
         SevenWondersDuelAgora::get()->buildingDeck->insertCardOnExtremePosition($this->id, 'discard', true);
         return $discardGain;
+    }
+
+    private static function getSpriteXY($spriteId) {
+        return [
+            ($spriteId - 1) % self::SPRITESHEET_COLUMNS,
+            floor(($spriteId - 1) / self::SPRITESHEET_COLUMNS)
+        ];
+    }
+
+    public static function getBackSpriteXY($age){
+        return self::getSpriteXY(77 + $age);
     }
 
     /**

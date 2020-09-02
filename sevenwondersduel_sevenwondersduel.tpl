@@ -357,7 +357,7 @@ var jstpl_wonder = '\
     </div>';
 
 var jstpl_wonder_age_card = '\
-    <div ${jsData}\
+    <div\
         class="building building_small"\
         style="background-position: -${jsX}00% -${jsY}00%;"\
     >\
@@ -411,7 +411,7 @@ var jstpl_building_tooltip = '\
             ${jsCostMe}\
         </div>\
         <div>\
-            <div class="building tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
+            <div class="building tooltipWiggle" style="float:right; background-position: -${jsX}00% -${jsY}00%;">\
                 <span class="swd_title">${jsName}</span>\
             </div>\
         </div>\

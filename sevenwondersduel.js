@@ -38,7 +38,7 @@ define([
             LAYOUT_PORTRAIT: 'portrait',
 
             // Show console.log messages
-            debug: 0,
+            debug: 1,
 
             // Settings
             autoScale: 1,
@@ -493,15 +493,10 @@ define([
                     var wonderDivHtml = this.getWonderDivHtml(row.wonder, row.constructed == 0, row.cost, this.gamedatas.playersSituation[playerId].coins);
                     var newNode = dojo.place(wonderDivHtml, container);
                     if (row.constructed > 0) {
-                        var age = row.constructed;
-                        id = 77 + age;
                         var data = {
-                            jsData: '',
-                            jsId: id
+                            jsX: row.ageCardSpriteXY[0],
+                            jsY: row.ageCardSpriteXY[1]
                         };
-                        var spritesheetColumns = 12;
-                        data.jsX = (id - 1) % spritesheetColumns;
-                        data.jsY = Math.floor((id - 1) / spritesheetColumns);
                         dojo.place(this.format_block('jstpl_wonder_age_card', data), dojo.query('.age_card_container', newNode)[0]);
                     }
                     this.twistAnimation(
@@ -523,11 +518,10 @@ define([
             getBuildingDivHtml: function (id, building) {
                 var data = {
                     jsId: id,
+                    jsX: building.spriteXY[0],
+                    jsY: building.spriteXY[1],
+                    jsOrder: 0
                 };
-                var spritesheetColumns = 12;
-                data.jsX = (id - 1) % spritesheetColumns;
-                data.jsY = Math.floor((id - 1) / spritesheetColumns);
-                data.jsOrder = 0;
                 if (building.type == "Green") {
                     data.jsOrder = building.scientificSymbol.toString() + building.age.toString();
                 }
@@ -580,13 +574,14 @@ define([
 
                         var oldNode = $(position.row + '_' + position.column);
 
-                        var spriteId = null;
                         var linkedBuildingId = 0;
                         var data = {
                             jsId: '',
                             jsName: '',
                             jsRow: position.row,
                             jsColumn: position.column,
+                            jsX: position.spriteXY[0],
+                            jsY: position.spriteXY[1],
                             jsZindex: position.row,
                             jsAvailable: position.available ? 'available' : '',
                             jsDisplayCostMe: 'none',
@@ -600,7 +595,6 @@ define([
                         };
                         if (typeof position.building != 'undefined') {
                             var buildingData = this.gamedatas.buildings[position.building];
-                            spriteId = position.building;
                             data.jsId = position.building;
                             data.jsName = _(buildingData.name);
                             if (position.available) {
@@ -620,12 +614,7 @@ define([
                                 data.jsLinkX = (linkedBuildingSpriteId - 1) % spritesheetColumns;
                                 data.jsLinkY = Math.floor((linkedBuildingSpriteId - 1) / spritesheetColumns);
                             }
-                        } else {
-                            spriteId = position.back;
                         }
-                        var spritesheetColumns = 12;
-                        data.jsX = (spriteId - 1) % spritesheetColumns;
-                        data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
 
                         var newNode = dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
 
@@ -722,14 +711,16 @@ define([
             },
 
             createDiscardedBuildingNode: function (buildingId) {
-                var buildingData = this.gamedatas.buildings[buildingId];
+                var building = this.gamedatas.buildings[buildingId];
                 var spriteId = buildingId;
                 var linkedBuildingId = 0;
                 var data = {
                     jsId: buildingId,
-                    jsName: _(buildingData.name),
+                    jsName: _(building.name),
                     jsRow: '',
                     jsColumn: '',
+                    jsX: building.spriteXY[0],
+                    jsY: building.spriteXY[1],
                     jsZindex: 1,
                     jsAvailable: '',
                     jsDisplayCostMe: 'none',
@@ -741,10 +732,6 @@ define([
                     jsLinkX: 0,
                     jsLinkY: 0,
                 };
-
-                var spritesheetColumns = 12;
-                data.jsX = (spriteId - 1) % spritesheetColumns;
-                data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
 
                 // Set up a wrapper div so we can move the building to pos 0,0 of that wrapper
                 var discardedCardsContainer = $('discarded_cards_container');
@@ -1033,8 +1020,8 @@ define([
                     data.jsBuildingTypeColor = building.typeColor;
                     data.jsBuildingTypeDescription = _(building.typeDescription);
                     data.jsText = this.getTextHtml(building.text);
-                    data.jsBackX = ((id - 1) % spritesheetColumns);
-                    data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
+                    data.jsX = building.spriteXY[0];
+                    data.jsY = building.spriteXY[1];
                     data.jsCostMe = '';
                     data.jsCostOpponent = '';
                     if (draftpoolBuilding) {

@@ -549,15 +549,15 @@ class Material extends Base
             $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (left chambers)"), Building::TYPE_AGORA_WHITE))
                 ->setListPage(-1);
         }
-        for($id = 75; $id <= 77; $id++) {
+        for($id = 76; $id <= 78; $id++) {
             $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (center chambers)"), Building::TYPE_AGORA_WHITE))
                 ->setListPage(-1);
         }
-        for($id = 78; $id <= 79; $id++) {
+        for($id = 79; $id <= 80; $id++) {
             $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (right chambers)"), Building::TYPE_AGORA_WHITE))
                 ->setListPage(-1);
         }
-        for($id = 80; $id <= 85; $id++) {
+        for($id = 81; $id <= 86; $id++) {
             $this->buildings[$id] = (new Building($id, 5, clienttranslate("Conspirator"), Building::TYPE_AGORA_BLACK))
                 ->setListPage(-1);
         }

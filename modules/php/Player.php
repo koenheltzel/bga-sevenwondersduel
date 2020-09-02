@@ -255,6 +255,7 @@ class Player extends Base{
             $row['wonder'] = $wonder->id;
             $row['position'] = $card['location_arg'];
             $row['constructed'] = $wonder->isConstructed();
+            $row['ageCardSpriteXY'] = $row['constructed'] ? Building::getBackSpriteXY($row['constructed']) : null;
             $payment = $this->getPaymentPlan($wonder);
             $row['cost'] = $row['constructed'] ? -1 : $payment->totalCost();
             $row['payment'] = $payment;
