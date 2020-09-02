@@ -11,7 +11,15 @@ trait GameSetupTrait
 
     public function enterStateGameSetup() {
         // Set up two 4-wonders selection pools, rest of the wonders go back to the box.
-        $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards());
+        $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards(1, 12));
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            if ($this->getGameStateValue(self::OPTION_AGORA_WONDERS)) {
+                // Guarantee the inclusion of the 2 Agora wonders by shuffling the 12 base game wonders and moving 6 of them to the box.
+                $this->wonderDeck->shuffle('deck');
+                $this->wonderDeck->pickCardsForLocation(6, 'deck', 'box');
+            }
+            $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards(13, 14));
+        }
         $this->wonderDeck->shuffle('deck');
         $this->wonderDeck->pickCardsForLocation(4, 'deck', 'selection1');
         $this->wonderDeck->shuffle('selection1'); // Ensures we have defined card_location_arg
