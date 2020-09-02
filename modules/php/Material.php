@@ -606,6 +606,12 @@ class Material extends Base
             ->setCoins(6)
             ->addText(clienttranslate("Each time you construct a Building for free through linking (free construction condition, chain), you gain 4 coins."));
 
+        $this->progressTokens[11] = (new ProgressToken(11, clienttranslate("Corruption")))
+            ->addText(clienttranslate("From now on, you recruit all Senators (Politicians and Conspirators) for free."));
+
+        $this->progressTokens[12] = (new ProgressToken(12, clienttranslate("Organized Crime")))
+            ->addText(clienttranslate("When you Conspire, keep both Conspiracy cards drawn and place them face down in front of you."));
+
         // Set the link relationship in the other way, to add text to the tooltip about it.
         Building::get(9)->setLinkedBuilding(29);
         Building::get(10)->setLinkedBuilding(30);

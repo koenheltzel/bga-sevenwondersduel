@@ -65,7 +65,10 @@ trait GameSetupTrait
         self::DbQuery( "UPDATE building SET card_id = card_id - 1000" );
 
         // Set up progress tokens
-        $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards());
+        $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards(1, 10));
+        if ($agora) {
+            $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards(11, 12));
+        }
         $this->progressTokenDeck->shuffle('deck');
         $this->progressTokenDeck->pickCardsForLocation(5, 'deck', 'board');
         $this->progressTokenDeck->shuffle('board'); // Ensures we have defined card_location_arg
