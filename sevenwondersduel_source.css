@@ -664,6 +664,14 @@ __     __         _       _     _
     left: calc(var(--draftpool-column-width) * (11 - 1));
 }
 
+#draftpool .column12 {
+    left: calc(var(--draftpool-column-width) * (12 - 1));
+}
+
+#draftpool .column13 {
+    left: calc(var(--draftpool-column-width) * (13 - 1));
+}
+
 #draftpool .row1 {
     top: calc(var(--draftpool-row-height) * (1 - 1));
 }

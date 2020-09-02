@@ -10,9 +10,11 @@ trait GameSetupTrait
 {
 
     public function enterStateGameSetup() {
+        $agora = $this->getGameStateValue(self::OPTION_AGORA);
+
         // Set up two 4-wonders selection pools, rest of the wonders go back to the box.
         $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards(1, 12));
-        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+        if ($agora) {
             if ($this->getGameStateValue(self::OPTION_AGORA_WONDERS)) {
                 // Guarantee the inclusion of the 2 Agora wonders by shuffling the 12 base game wonders and moving 6 of them to the box.
                 $this->wonderDeck->shuffle('deck');
@@ -30,20 +32,34 @@ trait GameSetupTrait
         self::DbQuery( "UPDATE wonder SET card_id = card_type_arg + 1000, card_type_arg = 0" );
         self::DbQuery( "UPDATE wonder SET card_id = card_id - 1000" );
 
+        if ($agora) {
+            // Prepare senator cards
+            $this->buildingDeck->createCards(Material::get()->buildings->filterByAge(5)->getDeckCards(), "senators" );
+            $this->buildingDeck->shuffle("senators");
+        }
+
         // Set up card piles for the 3 ages.
         // "Return to the box, without looking at them, 3 cards from each Age deck.
         for ($age = 1; $age <= 3; $age++) {
             $this->buildingDeck->createCards(Material::get()->buildings->filterByAge($age)->getDeckCards(), "age{$age}" );
             $this->buildingDeck->shuffle("age{$age}");
             $this->buildingDeck->pickCardsForLocation(3, "age{$age}", 'box');
+            if ($age == 3) {
+                // Then randomly draw 3 Guild cards and add them to the Age 3 deck.
+                $this->buildingDeck->createCards(Material::get()->buildings->filterByAge(4)->getDeckCards(), 'guilds' );
+                $this->buildingDeck->shuffle( 'guilds' );
+                $this->buildingDeck->pickCardsForLocation(3, 'guilds', 'age3');
+                $this->buildingDeck->shuffle( 'age3' );
+                // Return the remaining Guilds to the box.
+                $this->buildingDeck->moveAllCardsInLocation( 'guilds', 'box');
+            }
+            if ($agora) {
+                // Add 5 (Age 1 & 2) or 3 (Age 3) senator cards.
+                $this->buildingDeck->pickCardsForLocation($age < 3 ? 5 : 3, "senators", "age{$age}");
+                $this->buildingDeck->shuffle("age{$age}");
+            }
         }
-        // Then randomly draw 3 Guild cards and add them to the Age 3 deck.
-        $this->buildingDeck->createCards(Material::get()->buildings->filterByAge(4)->getDeckCards(), 'guilds' );
-        $this->buildingDeck->shuffle( 'guilds' );
-        $this->buildingDeck->pickCardsForLocation(3, 'guilds', 'age3');
-        $this->buildingDeck->shuffle( 'age3' );
-        // Return the remaining Guilds to the box.
-        $this->buildingDeck->moveAllCardsInLocation( 'guilds', 'box');
+
         // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and building ids.
         self::DbQuery( "UPDATE building SET card_id = card_type_arg + 1000, card_type_arg = 0" );
         self::DbQuery( "UPDATE building SET card_id = card_id - 1000" );
@@ -53,8 +69,6 @@ trait GameSetupTrait
         $this->progressTokenDeck->shuffle('deck');
         $this->progressTokenDeck->pickCardsForLocation(5, 'deck', 'board');
         $this->progressTokenDeck->shuffle('board'); // Ensures we have defined card_location_arg
-        $this->progressTokenDeck->pickCardsForLocation(3, 'deck', 'wonder6'); // Preselect 3 progress tokens for Wonder The Great Library. This can only happen once during the game so it doesn't matter if we do it now.
-        $this->progressTokenDeck->shuffle('wonder6'); // Ensures we have defined card_location_arg
         // Return the remaining Progress Tokens to the box.
         $this->progressTokenDeck->moveAllCardsInLocation('deck', 'box');
         // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and progress token ids.
