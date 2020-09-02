@@ -494,12 +494,12 @@ define([
                     var newNode = dojo.place(wonderDivHtml, container);
                     if (row.constructed > 0) {
                         var age = row.constructed;
-                        id = 73 + age;
+                        id = 77 + age;
                         var data = {
                             jsData: '',
                             jsId: id
                         };
-                        var spritesheetColumns = 10;
+                        var spritesheetColumns = 12;
                         data.jsX = (id - 1) % spritesheetColumns;
                         data.jsY = Math.floor((id - 1) / spritesheetColumns);
                         dojo.place(this.format_block('jstpl_wonder_age_card', data), dojo.query('.age_card_container', newNode)[0]);
@@ -524,7 +524,7 @@ define([
                 var data = {
                     jsId: id,
                 };
-                var spritesheetColumns = 10;
+                var spritesheetColumns = 12;
                 data.jsX = (id - 1) % spritesheetColumns;
                 data.jsY = Math.floor((id - 1) / spritesheetColumns);
                 data.jsOrder = 0;
@@ -623,7 +623,7 @@ define([
                         } else {
                             spriteId = position.back;
                         }
-                        var spritesheetColumns = 10;
+                        var spritesheetColumns = 12;
                         data.jsX = (spriteId - 1) % spritesheetColumns;
                         data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
 
@@ -742,7 +742,7 @@ define([
                     jsLinkY: 0,
                 };
 
-                var spritesheetColumns = 10;
+                var spritesheetColumns = 12;
                 data.jsX = (spriteId - 1) % spritesheetColumns;
                 data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
 
@@ -1019,7 +1019,7 @@ define([
                 if (typeof this.gamedatas.buildings[id] != 'undefined') {
                     var building = this.gamedatas.buildings[id];
 
-                    var spritesheetColumns = 10;
+                    var spritesheetColumns = 12;
 
                     var data = {};
                     if (building.age <= 3) {

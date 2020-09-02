@@ -119,7 +119,7 @@ class Draftpool extends Base
                         }
                     }
                     else {
-                        $position['back'] = 73 + $building->age;
+                        $position['back'] = 77 + $building->age;
                     }
                     array_unshift($draftpool['cards'], $position);
                 }
