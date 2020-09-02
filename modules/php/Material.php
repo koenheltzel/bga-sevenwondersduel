@@ -117,6 +117,15 @@ class Material extends Base
             ->setDiscardOpponentBuilding(Building::TYPE_GREY)
             ->setMilitary(1)
             ->setVictoryPoints(3);
+
+        $this->wonders[13] = (new Wonder(13, clienttranslate("Curia Julia")))
+            ->setCost([PAPYRUS => 1, GLASS => 1, CLAY => 1, WOOD => 1, STONE => 1])
+            ->setCoins(6)
+            ->setExtraTurn();
+
+        $this->wonders[14] = (new Wonder(14, clienttranslate("Knossos")))
+            ->setCost([GLASS => 2, CLAY => 1, WOOD => 1, STONE => 1])
+            ->setVictoryPoints(3);
         
         //     _                  ___
         //    / \   __ _  ___    |_ _|
@@ -533,6 +542,22 @@ class Material extends Base
             ->setCost([STONE => 2, CLAY => 1, PAPYRUS => 1])
             ->setGuildRewardBuildingTypes([Building::TYPE_RED])
             ->setListPosition([735, 510]);
+
+        $id = 74;
+        // Agora cards
+        for($id = 74; $id <= 75; $id++) {
+            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (left chambers)"), Building::TYPE_AGORA_WHITE));
+        }
+        for($id = 75; $id <= 77; $id++) {
+            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (center chambers)"), Building::TYPE_AGORA_WHITE));
+        }
+        for($id = 78; $id <= 79; $id++) {
+            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (right chambers)"), Building::TYPE_AGORA_WHITE));
+        }
+        for($id = 80; $id <= 85; $id++) {
+            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Conspirator"), Building::TYPE_AGORA_BLACK));
+        }
+
 
         //  ____                                      _____     _
         // |  _ \ _ __ ___   __ _ _ __ ___  ___ ___  |_   _|__ | | _____ _ __  ___
