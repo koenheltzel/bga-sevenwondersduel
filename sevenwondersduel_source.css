@@ -62,10 +62,10 @@ __     __         _       _     _
     --element-scale: 1.0;
     --gutter: calc(7.5px * var(--scale));
 
-    --building-spritesheet-width: 1660px;
-    --building-spritesheet-height: 2080px;
-    --building-spritesheet-columns: 10;
-    --building-spritesheet-rows: 8;
+    --building-spritesheet-width: 1992px;
+    --building-spritesheet-height: 1792px;
+    --building-spritesheet-columns: 12;
+    --building-spritesheet-rows: 7;
     --building-spritesheet-scale: 1.253; /* Had to make the spritesheet smaller to support the @2X version at 4096 pixels high. */
     --building-width: calc(var(--building-spritesheet-width) / var(--building-spritesheet-columns) * var(--building-spritesheet-scale));
     --building-height: calc(var(--building-spritesheet-height) / var(--building-spritesheet-rows) * var(--building-spritesheet-scale));
@@ -85,9 +85,9 @@ __     __         _       _     _
     --wonder-plus-age-card-scale: 1.1;
 
     --progress-token-spritesheet-width: 800px;
-    --progress-token-spritesheet-height: 600px;
+    --progress-token-spritesheet-height: 800px;
     --progress-token-spritesheet-columns: 4;
-    --progress-token-spritesheet-rows: 3;
+    --progress-token-spritesheet-rows: 4;
     --progress-token-width: calc(var(--progress-token-spritesheet-width) / var(--progress-token-spritesheet-columns));
     --progress-token-height: calc(var(--progress-token-spritesheet-height) / var(--progress-token-spritesheet-rows));
     --progress-token-small-scale: calc(0.4 * (0.5 / 0.63) * var(--scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
