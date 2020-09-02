@@ -19,7 +19,7 @@ trait ChooseProgressTokenFromBoxTrait {
         return [
             '_private' => [ // Using "_private" keyword, all data inside this array will be made private
                 'active' => [ // Using "active" keyword inside "_private", you select active player(s)
-                    'progressTokensFromBox' => $this->progressTokenDeck->getCardsInLocation('wonder6') // will be send only to active player(s)
+                    'progressTokensFromBox' => $this->progressTokenDeck->getCardsInLocation('selection') // will be send only to active player(s)
                 ]
             ],
             'draftpool' => Draftpool::get(),
@@ -37,6 +37,9 @@ trait ChooseProgressTokenFromBoxTrait {
 
         $progressToken = ProgressToken::get($progressTokenId);
         $payment = $progressToken->construct(Player::getActive());
+
+        // Return any remaining progress tokens in the active selection back to the box.
+        $this->progressTokenDeck->moveAllCardsInLocation('selection', 'box');
 
         $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
 

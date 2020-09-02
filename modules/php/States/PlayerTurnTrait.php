@@ -134,6 +134,10 @@ trait PlayerTurnTrait {
                             'wonderName' => $wonder->name,
                         ]
                     );
+
+                    // Would like to this in enterStateChooseProgressTokenFromBox, but aparently argChooseProgressTokenFromBox can be called before, so we need to do it now.
+                    $this->progressTokenDeck->pickCardsForLocation(3, 'box', 'selection'); // Select 3 progress tokens for Wonder The Great Library.
+                    $this->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg
                     $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
                     break;
                 case 9: // Wonder The Statue of Zeus - Discard a brown building of your choice constructed by your opponent.
