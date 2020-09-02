@@ -124,6 +124,10 @@ class SevenWondersDuelAgora extends Table
     const VALUE_DISCARD_OPPONENT_BUILDING_WONDER = "discard_opponent_building_type";
     const VALUE_END_GAME_CONDITION = "end_game_condition";
 
+    // Game options (variants)
+    const OPTION_AGORA = "option_agora";
+    const OPTION_AGORA_WONDERS = "option_agora_wonders";
+
     // End game scoring categories
     const SCORE_WONDERS = "wonders";
     const SCORE_PROGRESSTOKENS = "progresstokens";
@@ -201,6 +205,7 @@ class SevenWondersDuelAgora extends Table
         parent::__construct();
 
         self::initGameStateLabels( array(
+                // Global variables
                 self::VALUE_CURRENT_WONDER_SELECTION_ROUND => 10,
                 self::VALUE_CURRENT_AGE => 11,
                 self::VALUE_CONFLICT_PAWN_POSITION => 12,
@@ -213,11 +218,9 @@ class SevenWondersDuelAgora extends Table
                 self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY => 19,
                 self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER => 20,
                 self::VALUE_END_GAME_CONDITION => 21,
-            //    "my_second_global_variable" => 11,
-            //      ...
-            //    "my_first_game_variant" => 100,
-            //    "my_second_game_variant" => 101,
-            //      ...
+                // Game variants
+                self::OPTION_AGORA => 110,
+                self::OPTION_AGORA_WONDERS => 111,
         ) );
 
         $this->buildingDeck = self::getNew( "module.common.deck" );
