@@ -893,6 +893,15 @@ define([
                 this.customTooltips.push(
                     new dijit.Tooltip({
                         connectId: "swd",
+                        selector: '.player_info .agora_cube',
+                        showDelay: this.toolTipDelay,
+                        label: _('Influence cubes')
+                    })
+                );
+
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "swd",
                         selector: '.player_wonders.me .coin',
                         showDelay: this.toolTipDelay,
                         label: _('Current construction cost for you')
