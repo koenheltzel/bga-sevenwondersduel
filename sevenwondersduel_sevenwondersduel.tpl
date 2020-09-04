@@ -162,6 +162,9 @@
                                         <span id="player_area_{PLAYER_ID}_score"></span>
                                     </div>
                                 </div>
+                                <div class="player_area_cubes">
+                                    <div class="agora_cube3d_{PLAYER_ALIAS}"></div>
+                                </div>
                             </div>
                             <!-- END board_player_row_info -->
                             <!-- BEGIN board_player_row_progress_tokens -->

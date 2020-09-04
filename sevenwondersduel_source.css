@@ -410,6 +410,16 @@ __     __         _       _     _
     width: calc(225px * var(--scale));
 }
 
+#swd[data-agora="1"] #swd_wrap.portrait #board_column {
+    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
+    width: calc(420px * var(--scale));
+}
+
+#swd[data-agora="1"] #swd_wrap.square #board_column, #swd_wrap.landscape #board_column {
+    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
+    width: calc(425px * var(--scale));
+}
+
 /*
  ____                      _
 | __ )  ___   __ _ _ __ __| |
@@ -1779,7 +1789,6 @@ __        __              _
     background-size: calc(var(--list-of-cards-scale) * 1004px) calc(var(--list-of-cards-scale) * 829px);
 }
 
-
 .agora_cube3d_me, .agora_cube3d_opponent, .agora_cube_me, .agora_cube_opponent, .agora_military_token_1, .agora_military_token_2, .end_game_senate {
     display: inline-block;
     overflow: hidden;
@@ -1790,21 +1799,36 @@ __        __              _
 .agora_cube3d_me {
     background-position: 0.537634% 92.8571%;
     background-size: 365.714%;
+
+    width: calc(var(--scale) * var(--element-scale) * 28.4px);
+    height: calc(var(--scale) * var(--element-scale) * 30px);
+    display: inline-block;
 }
 
 .agora_cube3d_opponent {
     background-position: 73.6559% 0.550964%;
     background-size: 365.714%;
+
+    width: calc(var(--scale) * var(--element-scale) * 28.4px);
+    height: calc(var(--scale) * var(--element-scale) * 30px);
+    display: inline-block;
 }
 
 .agora_cube_me {
     background-position: 66.5049% 37.1359%;
     background-size: 512.000%;
+
+    width: calc(var(--scale) * var(--element-scale) * 30px);
+    height: calc(var(--scale) * var(--element-scale) * 30px);
+    display: inline-block;
 }
 
 .agora_cube_opponent {
     background-position: 91.2621% 37.1359%;
     background-size: 512.000%;
+    width: calc(var(--scale) * var(--element-scale) * 30px);
+    height: calc(var(--scale) * var(--element-scale) * 30px);
+    display: inline-block;
 }
 
 .agora_military_token_1 {

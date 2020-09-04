@@ -106,7 +106,8 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
                 $this->page->insert_block($block, array(
                     "PLAYER_ID" => $playerId,
                     "PLAYER_NAME" => $player['player_name'],
-                    "PLAYER_COLOR" => $player['player_color']
+                    "PLAYER_COLOR" => $player['player_color'],
+                    "PLAYER_ALIAS" => Player::get($playerId)->getAlias()
                 ));
                 $this->page->insert_block("board_player_row");
             }
