@@ -127,6 +127,7 @@ class SevenWondersDuelAgora extends Table
     // Game options (variants)
     const OPTION_AGORA = "option_agora";
     const OPTION_AGORA_WONDERS = "option_agora_wonders";
+    const OPTION_AGORA_PROGRESS_TOKENS = "option_agora_progress_tokens";
 
     // End game scoring categories
     const SCORE_WONDERS = "wonders";
@@ -221,6 +222,7 @@ class SevenWondersDuelAgora extends Table
                 // Game variants
                 self::OPTION_AGORA => 110,
                 self::OPTION_AGORA_WONDERS => 111,
+                self::OPTION_AGORA_PROGRESS_TOKENS => 112,
         ) );
 
         $this->buildingDeck = self::getNew( "module.common.deck" );

@@ -67,6 +67,11 @@ trait GameSetupTrait
         // Set up progress tokens
         $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards(1, 10));
         if ($agora) {
+            if ($this->getGameStateValue(self::OPTION_AGORA_PROGRESS_TOKENS)) {
+                // Guarantee the inclusion of the 2 Agora progress tokens by shuffling the 10 base game tokens and moving 7 of them to the box.
+                $this->progressTokenDeck->shuffle('deck');
+                $this->progressTokenDeck->pickCardsForLocation(7, 'deck', 'box');
+            }
             $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards(11, 12));
         }
         $this->progressTokenDeck->shuffle('deck');

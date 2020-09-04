@@ -80,6 +80,25 @@ $game_options = [
                 'value' => 1
             ]
         ],
+    ],
+    112 => [
+        'name' => totranslate('Guarantee Agora Progress Tokens (dev)'),
+        'values' => [
+            0 => ['name' => totranslate('Off')],
+            1 => [
+                'name' => totranslate('On'),
+                'description' => totranslate('Guarantees the inclusion of the 2 Agora Progress Tokens for development/testing purposes.'),
+                'beta' => true,
+            ]
+        ],
+        'default' => 1,
+        'displaycondition' => [ // Note: do not display this option unless these conditions are met
+            [
+                'type' => 'otheroption',
+                'id' => 110,
+                'value' => 1
+            ]
+        ],
     ]
 
 ];
