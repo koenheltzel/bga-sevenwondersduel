@@ -865,6 +865,9 @@ define([
                     _('Conflict pawn: When it enters a zone, active player applies the effect of the corresponding token, then returns it to the box'), ''
                 );
 
+                this.addTooltipToClass('expansion_icon_container_agora',
+                    _('Column for Senators (Agora expansion)'), '', this.toolTipDelay);
+
                 this.addTooltipToClass('science_progress',
                     _('If you gather 6 different scientific symbols, you immediately win the game (Scientific Supremacy)'), '', this.toolTipDelay);
 
