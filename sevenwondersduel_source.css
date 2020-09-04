@@ -125,6 +125,10 @@ __     __         _       _     _
     --draftpool-column-count: 13;
 }
 
+#swd[data-agora="0"] .agora {
+    display: none;
+}
+
 /*
   ____                           _
  / ___| ___ _ __   ___ _ __ __ _| |
@@ -415,7 +419,7 @@ __     __         _       _     _
     width: calc(420px * var(--scale));
 }
 
-#swd[data-agora="1"] #swd_wrap.square #board_column, #swd_wrap.landscape #board_column {
+#swd[data-agora="1"] #swd_wrap.square #board_column, #swd[data-agora="1"] #swd_wrap.landscape #board_column {
     /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
     width: calc(425px * var(--scale));
 }
@@ -1138,6 +1142,14 @@ __     __         _       _     _
 .player_area_points {
     /* Define width/height to keep the same position when the points icon moves to the end game table. */
     width: calc(var(--scale) * 30px);
+    height: calc(var(--scale) * 30px);
+    position: relative;
+    margin-left: var(--gutter);
+}
+
+.player_area_cubes {
+    /* Define width/height to keep the same position when the points icon moves to the end game table. */
+    width: calc(var(--scale) * 28.4px);
     height: calc(var(--scale) * 30px);
     position: relative;
     margin-left: var(--gutter);

@@ -117,7 +117,7 @@
                             <div class="building_header_small_container card_outline science_progress"><span></span></div>
                         </div>
                         <div class="player_building_column Purple"></div>
-                        <div class="player_building_column Agora"></div>
+                        <div class="player_building_column Agora agora"></div>
                     </div>
                     <!-- END player_buildings -->
                 <!-- END middle_column_block -->
@@ -162,7 +162,7 @@
                                         <span id="player_area_{PLAYER_ID}_score"></span>
                                     </div>
                                 </div>
-                                <div class="player_area_cubes">
+                                <div class="player_area_cubes agora">
                                     <div class="agora_cube agora_cube3d_{PLAYER_ALIAS}">
                                         <span id="player_area_{PLAYER_ID}_cubes"></span>
                                     </div>
