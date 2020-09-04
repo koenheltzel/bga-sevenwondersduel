@@ -1126,7 +1126,7 @@ define([
                     var data = {};
                     data.translateWonder = _("Wonder");
                     data.jsName = _(wonder.name);
-                    data.jsText = this.getTextHtml(wonder.text);
+                    data.jsText = _('When you construct this Wonder:') + this.getTextHtml(wonder.text);
 
                     data.jsBackX = ((id - 1) % spritesheetColumns);
                     data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
