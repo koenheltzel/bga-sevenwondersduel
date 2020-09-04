@@ -126,6 +126,8 @@
                     <!-- BEGIN board -->
                     <div id="board_container">
                         <div class="board"></div>
+                        <div id="capital_opponent" class="capital"></div>
+                        <div id="capital_me" class="capital"></div>
                         <div id="conflict_pawn" class="pawn"></div>
                         <div id="board_progress_tokens">
                             <div></div>

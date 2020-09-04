@@ -448,6 +448,19 @@ __     __         _       _     _
     z-index: 3;
 }
 
+.capital {
+    width: calc(var(--board-scale) * 74px);
+    height: calc(var(--board-scale) * 37px);
+    position: absolute;
+    left: calc(var(--board-scale) * 78px);
+}
+#capital_opponent {
+    top: calc(var(--board-scale) * 44px);
+}
+#capital_me {
+    top: calc(var(--board-scale) * 868px);
+}
+
 
 #board_progress_tokens {
     --element-scale: 1.1;

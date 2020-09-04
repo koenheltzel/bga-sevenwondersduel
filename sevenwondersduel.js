@@ -872,7 +872,14 @@ define([
                         }), '', this.toolTipDelay);
 
                 this.addTooltip('conflict_pawn',
-                    _('Conflict pawn: When it enters a zone, active player applies the effect of the corresponding token, then returns it to the box'), ''
+                    _('Conflict pawn: when it enters a zone, active player applies the effect of the corresponding token, then returns it to the box'), ''
+                );
+
+                this.addTooltip('capital_me',
+                    _('Your capital: if the Conflict pawn reaches this space your opponent immediately wins the game (Military Supremacy)'), ''
+                );
+                this.addTooltip('capital_opponent',
+                    _('Opponent\'s capital: if the Conflict pawn reaches this space you immediately win the game (Military Supremacy)'), ''
                 );
 
                 this.addTooltipToClass('science_progress',
