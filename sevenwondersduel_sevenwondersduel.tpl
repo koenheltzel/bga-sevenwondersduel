@@ -117,7 +117,9 @@
                             <div class="building_header_small_container card_outline science_progress"><span></span></div>
                         </div>
                         <div class="player_building_column Purple"></div>
-                        <div class="player_building_column Agora agora"></div>
+                        <div class="player_building_column Agora agora">
+                            <div class="agora_icon"></div>
+                        </div>
                     </div>
                     <!-- END player_buildings -->
                 <!-- END middle_column_block -->

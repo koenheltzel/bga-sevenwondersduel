@@ -925,6 +925,7 @@ __     __         _       _     _
     background-repeat: no-repeat !important;
     background-position: bottom !important;
     margin: 0 1px 0 1px;
+    align-items: center; /* To center expansion icons */
 }
 
 .player_buildings.opponent .player_building_column {
@@ -1833,7 +1834,7 @@ __        __              _
     background-size: calc(var(--list-of-cards-scale) * 1004px) calc(var(--list-of-cards-scale) * 829px);
 }
 
-.agora_cube3d_me, .agora_cube3d_opponent, .agora_cube_me, .agora_cube_opponent, .agora_military_token_1, .agora_military_token_2, .end_game_senate {
+.agora_cube3d_me, .agora_cube3d_opponent, .agora_cube_me, .agora_cube_opponent, .agora_military_token_1, .agora_military_token_2, .end_game_senate, .agora_icon {
     display: inline-block;
     overflow: hidden;
     background-repeat: no-repeat;
@@ -1896,6 +1897,14 @@ __        __              _
 .end_game_senate {
     background-position: 98.1132% 0.428266%;
     background-size: 581.818%;
+}
+
+.agora_icon {
+    background-position: 87.7637% 10.3594%;
+    background-size: 1347.37%;
+    width: calc(var(--scale) * 38px * 0.4);
+    height: calc(var(--scale) * 39px * 0.4);
+    margin: calc((var(--building-header-small-height) - (var(--scale) * 39px * 0.4)) / 2);
 }
 
 /*
