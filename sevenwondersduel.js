@@ -39,6 +39,7 @@ define([
 
             // Show console.log messages
             debug: 1,
+            agora: 0,
 
             // Settings
             autoScale: 1,
@@ -137,6 +138,8 @@ define([
                 dojo.destroy('debug_output'); // TODO: Remove? See http://en.doc.boardgamearena.com/Tools_and_tips_of_BGA_Studio#Speed_up_game_re-loading_by_disabling_Input.2FOutput_debug_section
 
                 this.gamedatas = gamedatas;
+
+                this.agora = this.gamedatas.agora;
 
                 // Because of spectators we can't assume everywhere that this.player_id is one of the two players.
                 this.me_id = parseInt(this.gamedatas.me_id); // me = alias for the player on the bottom
@@ -849,17 +852,25 @@ define([
             setupTooltips: function () {
                 // Simple tooltips
 
-                let militaryTokenText = _('Military token: the opponent of the active player discards ${x} coins');
-                this.addTooltipToClass('military_token_2',
-                    dojo.string.substitute(
-                        militaryTokenText, {
-                            x: 2
-                        }), '', this.toolTipDelay);
-                this.addTooltipToClass('military_token_5',
-                    dojo.string.substitute(
-                        militaryTokenText, {
-                            x: 5
-                        }), '', this.toolTipDelay);
+                if (this.agora) {
+                    this.addTooltipToClass('military_token_2',
+                        _('Military token') + ': ' + _('place 1 of your Influence cubes in a Chamber of your choice'), '', this.toolTipDelay);
+                    this.addTooltipToClass('military_token_5',
+                        _('Military token') + ': ' + '<ul><li>' + _('Remove 1 of your opponent\'s Influence cubes of your choice from the Senate') + '</li><li style="list-style: none">' + _('and') + '</li><li>' + _('You can move 1 of your Influence cubes to an adjacent Chamber') + '</li></ul>', '', this.toolTipDelay);
+                }
+                else {
+                    let militaryTokenText = _('Military token') + ': ' + _('the opponent of the active player discards ${x} coins');
+                    this.addTooltipToClass('military_token_2',
+                        dojo.string.substitute(
+                            militaryTokenText, {
+                                x: 2
+                            }), '', this.toolTipDelay);
+                    this.addTooltipToClass('military_token_5',
+                        dojo.string.substitute(
+                            militaryTokenText, {
+                                x: 5
+                            }), '', this.toolTipDelay);
+                }
 
                 this.addTooltip('conflict_pawn',
                     _('Conflict pawn: when it enters a zone, active player applies the effect of the corresponding token, then returns it to the box'), ''

@@ -420,6 +420,7 @@ class SevenWondersDuelAgora extends Table
             $me->id => json_decode(json_encode($me), true),
             $opponent->id => json_decode(json_encode($opponent), true),
         ];
+        $result['agora'] = (int)$this->getGameStateValue(self::OPTION_AGORA);
 
         return $result;
     }

@@ -1738,7 +1738,7 @@ __        __              _
     flex-grow: 1;
 }
 
-.swd_tooltip li {
+.dijitTooltipContents li {
     list-style: outside;
     margin-left: calc(25px * var(--scale));
 }
@@ -1847,7 +1847,7 @@ __        __              _
     background-size: calc(var(--list-of-cards-scale) * 1004px) calc(var(--list-of-cards-scale) * 829px);
 }
 
-.agora_cube3d_me, .agora_cube3d_opponent, .agora_cube_me, .agora_cube_opponent, .agora_military_token_1, .agora_military_token_2, .end_game_senate, .agora_icon {
+.agora_cube3d_me, .agora_cube3d_opponent, .agora_cube_me, .agora_cube_opponent, #swd[data-agora="1"] .military_token_2, #swd[data-agora="1"] .military_token_5, .end_game_senate, .agora_icon {
     display: inline-block;
     overflow: hidden;
     background-repeat: no-repeat;
@@ -1897,12 +1897,12 @@ __        __              _
     display: inline-block;
 }
 
-.agora_military_token_1 {
+#swd[data-agora="1"] .military_token_2 {
     background-position: 38.4615% 0.869565%;
     background-size: 419.672%;
 }
 
-.agora_military_token_2 {
+#swd[data-agora="1"] .military_token_5 {
     background-position: 0.546448% 1.12360%;
     background-size: 350.685%;
 }
