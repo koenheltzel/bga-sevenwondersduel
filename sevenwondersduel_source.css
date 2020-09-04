@@ -1899,12 +1899,20 @@ __        __              _
     background-size: 581.818%;
 }
 
+.expansion_icon_container {
+    display:none;
+}
+.player_building_column .expansion_icon_container:only-child {
+    /* Only show expansion_icon_container if there are no buildings in this column. */
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 .agora_icon {
     background-position: 87.7637% 10.3594%;
     background-size: 1347.37%;
     width: calc(var(--scale) * 38px * 0.4);
     height: calc(var(--scale) * 39px * 0.4);
-    margin: calc((var(--building-header-small-height) - (var(--scale) * 39px * 0.4)) / 2);
 }
 
 /*

@@ -118,7 +118,9 @@
                         </div>
                         <div class="player_building_column Purple"></div>
                         <div class="player_building_column Agora agora">
-                            <div class="agora_icon"></div>
+                            <div class="building_header_small_container expansion_icon_container">
+                                <div class="agora_icon"></div>
+                            </div>
                         </div>
                     </div>
                     <!-- END player_buildings -->
