@@ -125,21 +125,26 @@
             <div id="board_column">
                 <!-- BEGIN board_column_block -->
                     <!-- BEGIN board -->
-                    <div id="board_container">
-                        <div class="board"></div>
-                        <div id="conflict_pawn" class="pawn"></div>
-                        <div id="board_progress_tokens">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
+                    <div id="board_middle_container">
+                        <div id="senate_container" class="agora">
+                            <div class="senate"></div>
                         </div>
-                        <div id="military_tokens">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
+                        <div id="board_container">
+                            <div class="board"></div>
+                            <div id="conflict_pawn" class="pawn"></div>
+                            <div id="board_progress_tokens">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                            <div id="military_tokens">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
                         </div>
                     </div>
                     <!-- END board -->

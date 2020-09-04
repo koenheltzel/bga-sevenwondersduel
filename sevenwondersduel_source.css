@@ -106,6 +106,10 @@ __     __         _       _     _
     --board-scale: calc(0.75 * var(--scale));
     --military-token-scale: calc(0.5 * var(--scale));
 
+    --senate-width: 220px;
+    --senate-height: 949px;
+    --senate-scale: calc(0.75 * var(--scale));
+
     --small-border-radius: calc(7px * var(--scale));
 
     --draftpool-row-height-multiplier: 0.536;
@@ -562,6 +566,34 @@ __     __         _       _     _
 
 .board_player_right {
     float: right;
+}
+
+/*
+ ____                   _
+/ ___|  ___ _ __   __ _| |_ ___
+\___ \ / _ \ '_ \ / _` | __/ _ \
+ ___) |  __/ | | | (_| | ||  __/
+|____/ \___|_| |_|\__,_|\__\___|
+ */
+
+#senate_container {
+    position: relative;
+    display: inline-block;
+    align-self: flex-end;
+    margin-right: calc(-19px * var(--scale));
+}
+
+.senate, #senate_container {
+    width: calc(var(--senate-width) * var(--senate-scale));
+    height: calc(var(--senate-height) * var(--senate-scale));
+}
+
+.senate {
+    background-image: url('img/agora_senate.png');
+    background-size: calc(var(--senate-width) * var(--senate-scale)) calc(var(--senate-height) * var(--senate-scale));
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+    position: absolute;
+    display: inline-block;
 }
 
 /*
