@@ -208,7 +208,7 @@ __     __         _       _     _
     backface-visibility: hidden;
 }
 
-.resource > span, .coin > span {
+.resource > span, .coin > span, .agora_cube {
     font-weight: bold;
     font-size: calc(var(--scale) * var(--element-scale) * 20px);
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
@@ -1802,7 +1802,14 @@ __        __              _
 
     width: calc(var(--scale) * var(--element-scale) * 28.4px);
     height: calc(var(--scale) * var(--element-scale) * 30px);
+
     display: inline-block;
+}
+
+.agora_cube {
+    text-align: center;
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #000000);
+    backface-visibility: hidden;
 }
 
 .agora_cube3d_opponent {
@@ -1811,6 +1818,7 @@ __        __              _
 
     width: calc(var(--scale) * var(--element-scale) * 28.4px);
     height: calc(var(--scale) * var(--element-scale) * 30px);
+
     display: inline-block;
 }
 

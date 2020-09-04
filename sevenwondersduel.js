@@ -1157,6 +1157,7 @@ define([
                 for (var playerId in this.gamedatas.players) {
                     $('player_area_' + playerId + '_coins').innerHTML = situation[playerId].coins;
                     $('player_area_' + playerId + '_score').innerHTML = situation[playerId].score;
+                    $('player_area_' + playerId + '_cubes').innerHTML = 12;
                     if (typeof situation[playerId].winner != "undefined" && this.scoreCtrl[playerId]) {
                         this.scoreCtrl[playerId].setValue(situation[playerId].winner);
                     }

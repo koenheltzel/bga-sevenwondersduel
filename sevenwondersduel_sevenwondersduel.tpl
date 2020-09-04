@@ -163,7 +163,9 @@
                                     </div>
                                 </div>
                                 <div class="player_area_cubes">
-                                    <div class="agora_cube3d_{PLAYER_ALIAS}"></div>
+                                    <div class="agora_cube agora_cube3d_{PLAYER_ALIAS}">
+                                        <span id="player_area_{PLAYER_ID}_cubes"></span>
+                                    </div>
                                 </div>
                             </div>
                             <!-- END board_player_row_info -->
