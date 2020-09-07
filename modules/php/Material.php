@@ -569,7 +569,10 @@ class Material extends Base
         }
         for($id = 81; $id <= 86; $id++) {
             $this->buildings[$id] = (new Building($id, 5, clienttranslate("Conspirator"), Building::TYPE_AGORA))
-                ->setListPage(-1);
+                ->setListPage(-1)
+                ->addText('Take only one of the following actions:', false)
+                ->addText('Place Influence')
+                ->addText('Conspire');
         }
 
 
