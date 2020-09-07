@@ -248,7 +248,7 @@ define([
                 this.setupNotifications();
 
                 // Debug tooltip content by placing a tooltip at the top of the screen.
-                // dojo.place( this.getWonderTooltip(11, this.opponent_id, '<div class="coin"><span style="color: red !important">9</span></div>'), 'swd_wrap', 'first' );
+                dojo.place( this.getWonderTooltip(11, this.opponent_id, '<div class="coin"><span style="color: red !important">9</span></div>'), 'swd_wrap', 'first' );
             },
 
             ///////////////////////////////////////////////////
@@ -1101,16 +1101,13 @@ define([
             getTextHtml: function (text) {
                 if (text instanceof Array) {
                     if (text.length == 0) return '';
-                    else if (text.length == 1) return _(text[0]);
+                    else if (text.length == 1) return _(text[0][0]);
                     else {
                         var string = '';
                         for (let i = 0; i < text.length; i++) {
-                            string += _(text[i]);
-                            if (i < text.length - 1) {
-                                string += "</li><li>";
-                            }
+                            string += "<li " + (text[i][1] ? '' : 'class="no_li"') + ">" + _(text[i][0]) + "</li>";
                         }
-                        return "<ul><li>" + string + "</li></ul>";
+                        return "<ul>" + string + "</ul>";
                     }
                 } else {
                     return _(text);

@@ -1742,6 +1742,10 @@ __        __              _
     list-style: outside;
     margin-left: calc(25px * var(--scale));
 }
+.swd_tooltip li.no_li {
+    list-style: none;
+    margin-left: 0;
+}
 
 .progress_token_tooltip {
     width: calc(450px * var(--scale));

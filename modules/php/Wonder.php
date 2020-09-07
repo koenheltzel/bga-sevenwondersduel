@@ -147,7 +147,7 @@ class Wonder extends Item {
      */
     public function setExtraTurn() {
         $this->extraTurn = true;
-        $this->text[] = clienttranslate("Immediately play a second turn.");
+        $this->addText(clienttranslate("Immediately play a second turn."));
         return $this;
     }
 
@@ -157,7 +157,7 @@ class Wonder extends Item {
      */
     public function setOpponentCoinLoss(int $opponentCoinLoss) {
         $this->opponentCoinLoss = $opponentCoinLoss;
-        $this->text[] = sprintf(self::_("Your opponent loses %d coins, which are returned to the bank."), $opponentCoinLoss);
+        $this->addText(sprintf(self::_("Your opponent loses %d coins, which are returned to the bank."), $opponentCoinLoss));
         return $this;
     }
 
@@ -176,7 +176,7 @@ class Wonder extends Item {
      */
     public function setConstructDiscardedBuilding() {
         $this->constructDiscardedBuilding = true;
-        $this->text[] = clienttranslate("Take all of the cards which have been discarded since the beginning of the game and immediately construct one of your choice for free.");
+        $this->addText(clienttranslate("Take all of the cards which have been discarded since the beginning of the game and immediately construct one of your choice for free."));
         return $this;
     }
 
@@ -187,10 +187,10 @@ class Wonder extends Item {
     public function setDiscardOpponentBuilding(string $buildingType) {
         $this->discardOpponentBuilding = $buildingType;
         if ($buildingType == Building::TYPE_BROWN) {
-            $this->text[] = clienttranslate("Put in the discard pile one brown card (Raw goods) of your choice constructed by their opponent.");
+            $this->addText(clienttranslate("Put in the discard pile one brown card (Raw goods) of your choice constructed by their opponent."));
         }
         elseif ($buildingType == Building::TYPE_GREY) {
-            $this->text[] = clienttranslate("Place in the discard pile a grey card (manufactured goods) of your choice constructed by your opponent.");
+            $this->addText(clienttranslate("Place in the discard pile a grey card (manufactured goods) of your choice constructed by your opponent."));
         }
         return $this;
     }
@@ -201,7 +201,7 @@ class Wonder extends Item {
      */
     public function setProgressTokenFromBox() {
         $this->progressTokenFromBox = true;
-        $this->text[] = clienttranslate("Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box.");
+        $this->addText(clienttranslate("Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box."));
         return $this;
     }
 

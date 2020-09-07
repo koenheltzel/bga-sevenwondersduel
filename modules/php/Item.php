@@ -182,8 +182,8 @@ class Item extends Base
      * @param string $text
      * @return static
      */
-    public function addText(string $text) {
-        $this->text[] = $text;
+    public function addText(string $text, $bulletPoint=true) {
+        $this->text[] = [$text, $bulletPoint];
         return $this;
     }
 
@@ -202,7 +202,7 @@ class Item extends Base
      */
     public function setMilitary($military) {
         $this->military = $military;
-        $this->text[] = sprintf(self::_('This %s is worth %d Shield(s).'), $this->getItemType(), $military);
+        $this->addText(sprintf(self::_('This %s is worth %d Shield(s).'), $this->getItemType(), $military),false);
         return $this;
     }
 
@@ -212,7 +212,7 @@ class Item extends Base
      */
     public function setVictoryPoints(int $victoryPoints) {
         $this->victoryPoints = $victoryPoints;
-        $this->text[] = sprintf(self::_('This %s is worth %d victory point(s).'), $this->getItemType(), $victoryPoints);
+        $this->addText(sprintf(self::_('This %s is worth %d victory point(s).'), $this->getItemType(), $victoryPoints));
         return $this;
     }
 
@@ -222,7 +222,7 @@ class Item extends Base
      */
     public function setCoins(int $coins) {
         $this->coins = $coins;
-        $this->text[] = sprintf(self::_('You take %d coins from the bank.'), $coins);
+        $this->addText(sprintf(self::_('You take %d coins from the bank.'), $coins));
         return $this;
     }
 
@@ -232,7 +232,7 @@ class Item extends Base
      */
     public function setScientificSymbol(int $scientificSymbol) {
         $this->scientificSymbol = $scientificSymbol;
-        $this->text[] = sprintf(self::_('This %s is worth a scientific symbol.'), $this->getItemType());
+        $this->addText(sprintf(self::_('This %s is worth a scientific symbol.'), $this->getItemType()));
         return $this;
     }
 
@@ -242,7 +242,7 @@ class Item extends Base
      */
     public function setResourceChoice(array $resourceChoice) {
         $this->resourceChoice = $resourceChoice;
-        $this->text[] = sprintf(self::_("This %s produces one unit of one of the resources shown for you each turn."), $this->getItemType());
+        $this->addText(sprintf(self::_("This %s produces one unit of one of the resources shown for you each turn."), $this->getItemType()));
         return $this;
     }
 
