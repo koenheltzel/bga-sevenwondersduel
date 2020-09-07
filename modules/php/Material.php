@@ -563,20 +563,20 @@ class Material extends Base
         }
         for($id = 74; $id <= 80; $id++) {
             $building = $this->buildings[$id];
-            $building->addText('Take a number of Senate actions according to the number of Blue cards in your city.', false)
-                ->addText('0-1 Blue cards: 1 Senate action')
-                ->addText('2-3 Blue cards: 2 Senate action')
-                ->addText('4+ Blue cards: 3 Senate action')
-                ->addText('The 2 different Senate actions are:', false)
-                ->addText('Place Influence')
-                ->addText('Move Influence');
+            $building->addText(clienttranslate('Take a number of Senate actions according to the number of Blue cards in your city.'), false)
+                ->addText(clienttranslate('0-1 Blue cards: 1 Senate action'))
+                ->addText(clienttranslate('2-3 Blue cards: 2 Senate action'))
+                ->addText(clienttranslate('4+ Blue cards: 3 Senate action'))
+                ->addText(clienttranslate('The 2 different Senate actions are:'), false)
+                ->addText(clienttranslate('Place Influence'))
+                ->addText(clienttranslate('Move Influence'));
         }
         for($id = 81; $id <= 86; $id++) {
             $this->buildings[$id] = (new Building($id, 5, clienttranslate("Conspirator"), Building::TYPE_AGORA))
                 ->setListPage(-1)
-                ->addText('Take only one of the following actions:', false)
-                ->addText('Place Influence')
-                ->addText('Conspire');
+                ->addText(clienttranslate('Take only one of the following actions:'), false)
+                ->addText(clienttranslate('Place Influence'))
+                ->addText(clienttranslate('Conspire'));
         }
 
 
