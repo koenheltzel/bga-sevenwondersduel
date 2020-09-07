@@ -119,11 +119,15 @@ class Material extends Base
             ->setVictoryPoints(3);
 
         $this->wonders[13] = (new Wonder(13, clienttranslate("Curia Julia")))
+            ->addText(clienttranslate('When you choose this Wonder:'), false)
+            ->addText(clienttranslate('When you construct this Wonder:'), false)
             ->setCost([PAPYRUS => 1, GLASS => 1, CLAY => 1, WOOD => 1, STONE => 1])
             ->setCoins(6)
             ->setExtraTurn();
 
         $this->wonders[14] = (new Wonder(14, clienttranslate("Knossos")))
+            ->addText(clienttranslate('When you choose this Wonder:'), false)
+            ->addText(clienttranslate('When you construct this Wonder:'), false)
             ->setCost([GLASS => 2, CLAY => 1, WOOD => 1, STONE => 1])
             ->setVictoryPoints(3);
         
