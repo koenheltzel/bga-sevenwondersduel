@@ -132,6 +132,14 @@
                     <div id="board_middle_container">
                         <div id="senate_container" class="agora">
                             <div class="senate"></div>
+                            <div class="decree_containers">
+                                <div id="decree_container1"><div class="decree decree_small" style="background-position: -000% -100%;"></div><div class="decree decree_small" style="background-position: -000% -100%; margin-top: calc(var(--senate-scale) * -13px);"></div></div>
+                                <div id="decree_container2"><div class="decree decree_small" style="background-position: -100% -100%;"></div></div>
+                                <div id="decree_container3"><div class="decree decree_small" style="background-position: -200% -100%;"></div></div>
+                                <div id="decree_container4"><div class="decree decree_small" style="background-position: -300% -100%;"></div></div>
+                                <div id="decree_container5"><div class="decree decree_small" style="background-position: -400% -100%;"></div></div>
+                                <div id="decree_container6"><div class="decree decree_small" style="background-position: -500% -100%;"></div></div>
+                            </div>
                         </div>
                         <div id="board_container">
                             <div class="board"></div>

@@ -93,6 +93,14 @@ __     __         _       _     _
     --progress-token-height: calc(var(--progress-token-spritesheet-height) / var(--progress-token-spritesheet-rows));
     --progress-token-small-scale: calc(0.4 * (0.5 / 0.63) * var(--scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
 
+    --decree-spritesheet-width: 696px;
+    --decree-spritesheet-height: 537px;
+    --decree-spritesheet-columns: 6;
+    --decree-spritesheet-rows: 3;
+    --decree-width: calc(var(--decree-spritesheet-width) / var(--decree-spritesheet-columns));
+    --decree-height: calc(var(--decree-spritesheet-height) / var(--decree-spritesheet-rows));
+    --decree-small-scale: calc(0.4 * var(--senate-scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
+
     --linked-building-icon-spritesheet-width: 288px;
     --linked-building-icon-spritesheet-height: 64px;
     --linked-building-icon-spritesheet-columns: 9;
@@ -1468,6 +1476,72 @@ __        __              _
     border-radius: calc(var(--progress-token-width) * var(--progress-token-small-scale) * var(--element-scale) * 0.5);
     box-shadow: 0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0, 0, 0, 0.4),
     inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
+}
+
+/*
+ ____
+|  _ \  ___  ___ _ __ ___  ___  ___
+| | | |/ _ \/ __| '__/ _ \/ _ \/ __|
+| |_| |  __/ (__| | |  __/  __/\__ \
+|____/ \___|\___|_|  \___|\___||___/
+ */
+
+.decree {
+    width: calc(var(--decree-width) * var(--scale));
+    height: calc(var(--decree-height) * var(--scale));
+    background-size: calc(var(--decree-spritesheet-width) * var(--scale)) calc(var(--decree-spritesheet-height) * var(--scale));
+    background-image: url('img/agora_decrees.png');
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #000000);
+
+    /* Temporary: */
+    display: block;
+    position: relative;
+}
+
+.decree_small {
+    z-index: 5;
+    width: calc(var(--decree-width) * var(--decree-small-scale) * var(--element-scale));
+    height: calc(var(--decree-height) * var(--decree-small-scale) * var(--element-scale));
+    background-size: calc(var(--decree-spritesheet-width) * var(--decree-small-scale) * var(--element-scale)) calc(var(--decree-spritesheet-height) * var(--decree-small-scale) * var(--element-scale));
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #000000);
+}
+
+.decree_containers {
+
+}
+.decree_containers > div {
+    position: absolute;
+    transform-origin: 50% 0%;
+}
+.decree_containers > div:nth-of-type(1) {
+    transform: rotate(135deg);
+    left: calc(var(--senate-scale) * 130px);
+    top: calc(var(--senate-scale) * 118px);
+}
+.decree_containers > div:nth-of-type(2) {
+    transform: rotate(116deg);
+    left: calc(var(--senate-scale) * 43px);
+    top: calc(var(--senate-scale) * 247px);
+}
+.decree_containers > div:nth-of-type(3) {
+    transform: rotate(99deg);
+    left: calc(var(--senate-scale) * -2px);
+    top: calc(var(--senate-scale) * 397px);
+}
+.decree_containers > div:nth-of-type(4) {
+    transform: rotate(81deg);
+    left: calc(var(--senate-scale) * -2px);
+    top: calc(var(--senate-scale) * 557px);
+}
+.decree_containers > div:nth-of-type(5) {
+    transform: rotate(64deg);
+    left: calc(var(--senate-scale) * 43px);
+    top: calc(var(--senate-scale) * 708px);
+}
+.decree_containers > div:nth-of-type(6) {
+    transform: rotate(45deg);
+    left: calc(var(--senate-scale) * 130px);
+    top: calc(var(--senate-scale) * 837px);
 }
 
 /*

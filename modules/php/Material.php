@@ -579,6 +579,44 @@ class Material extends Base
                 ->addText(clienttranslate('Conspire'));
         }
 
+        // Set the link relationship in the other way, to add text to the tooltip about it.
+        Building::get(9)->setLinkedBuilding(29);
+        Building::get(10)->setLinkedBuilding(30);
+        Building::get(11)->setLinkedBuilding(50);
+        Building::get(32)->setLinkedBuilding(49);
+        Building::get(33)->setLinkedBuilding(47);
+        Building::get(13)->setLinkedBuilding(37);
+        Building::get(15)->setLinkedBuilding(36);
+        Building::get(34)->setLinkedBuilding(53);
+        Building::get(35)->setLinkedBuilding(55);
+        Building::get(21)->setLinkedBuilding(43);
+        Building::get(43)->setLinkedBuilding(62);
+        Building::get(22)->setLinkedBuilding(42);
+        Building::get(42)->setLinkedBuilding(63);
+        Building::get(23)->setLinkedBuilding(45);
+        Building::get(46)->setLinkedBuilding(65);
+        Building::get(17)->setLinkedBuilding(59);
+        Building::get(38)->setLinkedBuilding(56);
+
+        $this->buildingIdsToLinkIconId = [
+            9 => 12, // Horseshoe symbol
+            10 => 13, // Sword symbol
+            11 => 14, // Tower symbol
+            32 => 10, // Target symbol
+            33 => 11, // Roman helmet symbol
+            13 => 17, // Book symbol
+            15 => 16, // Gear symbol
+            34 => 15, // Lyre symbol
+            35 => 18, // Oil lamp symbol
+            21 => 3, // Theatre mask symbol
+            43 => 7, // Pillar symbol
+            22 => 8, // Moon symbol
+            42 => 5, // Sun symbol
+            23 => 6, // Water drop symbol
+            46 => 7, // Greek building symbol
+            17 => 1, // Amphora (vase) symbol
+            38 => 2, // Barrel symbol
+        ];
 
         //  ____                                      _____     _
         // |  _ \ _ __ ___   __ _ _ __ ___  ___ ___  |_   _|__ | | _____ _ __  ___
@@ -632,45 +670,12 @@ class Material extends Base
 
         $this->progressTokens[12] = (new ProgressToken(12, clienttranslate("Organized Crime")))
             ->addText(clienttranslate("When you Conspire, keep both Conspiracy cards drawn and place them face down in front of you."));
-
-        // Set the link relationship in the other way, to add text to the tooltip about it.
-        Building::get(9)->setLinkedBuilding(29);
-        Building::get(10)->setLinkedBuilding(30);
-        Building::get(11)->setLinkedBuilding(50);
-        Building::get(32)->setLinkedBuilding(49);
-        Building::get(33)->setLinkedBuilding(47);
-        Building::get(13)->setLinkedBuilding(37);
-        Building::get(15)->setLinkedBuilding(36);
-        Building::get(34)->setLinkedBuilding(53);
-        Building::get(35)->setLinkedBuilding(55);
-        Building::get(21)->setLinkedBuilding(43);
-        Building::get(43)->setLinkedBuilding(62);
-        Building::get(22)->setLinkedBuilding(42);
-        Building::get(42)->setLinkedBuilding(63);
-        Building::get(23)->setLinkedBuilding(45);
-        Building::get(46)->setLinkedBuilding(65);
-        Building::get(17)->setLinkedBuilding(59);
-        Building::get(38)->setLinkedBuilding(56);
-
-        $this->buildingIdsToLinkIconId = [
-            9 => 12, // Horseshoe symbol
-            10 => 13, // Sword symbol
-            11 => 14, // Tower symbol
-            32 => 10, // Target symbol
-            33 => 11, // Roman helmet symbol
-            13 => 17, // Book symbol
-            15 => 16, // Gear symbol
-            34 => 15, // Lyre symbol
-            35 => 18, // Oil lamp symbol
-            21 => 3, // Theatre mask symbol
-            43 => 7, // Pillar symbol
-            22 => 8, // Moon symbol
-            42 => 5, // Sun symbol
-            23 => 6, // Water drop symbol
-            46 => 7, // Greek building symbol
-            17 => 1, // Amphora (vase) symbol
-            38 => 2, // Barrel symbol
-        ];
+        
+        //  ____
+        // |  _ \  ___  ___ _ __ ___  ___  ___
+        // | | | |/ _ \/ __| '__/ _ \/ _ \/ __|
+        // | |_| |  __/ (__| | |  __/  __/\__ \
+        // |____/ \___|\___|_|  \___|\___||___/
     }
 
 }
