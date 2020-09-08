@@ -238,7 +238,7 @@ __     __         _       _     _
 }
 
 .resource > span, .coin > span, .agora_cube3d_me, .agora_cube3d_opponent {
-    font-family: "Cafeteria-Black";
+    font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
     font-weight: bold;
     font-size: calc(var(--scale) * var(--element-scale) * 24px);
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
@@ -300,7 +300,7 @@ __     __         _       _     _
 }
 
 .point > span {
-    font-family: "Cafeteria-Black";
+    font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
     font-weight: bold;
     font-size: calc(var(--scale) * var(--element-scale) * 24px);
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
@@ -1414,7 +1414,7 @@ __        __              _
 }
 
 .swd_title {
-    font-family: "PossumSaltareNF";
+    font-family: "PossumSaltareNF", serif;
     text-align: center;
     text-transform: uppercase;
 }
@@ -2013,7 +2013,7 @@ __        __              _
 }
 
 .list_of_cards span {
-    font-family: "PossumSaltareNF";
+    font-family: "PossumSaltareNF", serif;
     font-size: calc(var(--list-of-cards-scale) * 18px);
     text-transform: uppercase;
     left: calc(var(--list-of-cards-scale) * 10px);
