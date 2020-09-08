@@ -216,7 +216,6 @@ __     __         _       _     _
 
 .resource > span, .coin > span {
     font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
-    font-weight: bold;
     font-size: calc(var(--scale) * var(--element-scale) * 24px);
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
     text-shadow: 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white;
@@ -278,7 +277,6 @@ __     __         _       _     _
 
 .point > span {
     font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
-    font-weight: bold;
     font-size: calc(var(--scale) * var(--element-scale) * 24px);
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
     text-shadow: 0 0 calc(var(--scale) * 3px) black, 0 0 calc(var(--scale) * 3px) black;
