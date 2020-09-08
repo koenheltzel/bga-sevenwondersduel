@@ -134,6 +134,19 @@ __     __         _       _     _
     font-weight: normal;
     font-style: normal;
 }
+/* font converted using font-converter.net. thank you! */
+@font-face {
+    font-family: "Cafeteria-Black";
+    src: url("img/Cafeteria-Black.eot"); /* IE9 Compat Modes */
+    src: url("img/Cafeteria-Black.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("img/Cafeteria-Black.otf") format("opentype"), /* Open Type Font */
+    url("img/Cafeteria-Black.svg") format("svg"), /* Legacy iOS */
+    url("img/Cafeteria-Black.ttf") format("truetype"), /* Safari, Android, iOS */
+    url("img/Cafeteria-Black.woff") format("woff"), /* Modern Browsers */
+    url("img/Cafeteria-Black.woff2") format("woff2"); /* Modern Browsers */
+    font-weight: normal;
+    font-style: normal;
+}
 
 /*html {*/
 /*    background-image: none !important;*/
@@ -202,8 +215,9 @@ __     __         _       _     _
 }
 
 .resource > span, .coin > span {
+    font-family: "Cafeteria-Black";
     font-weight: bold;
-    font-size: calc(var(--scale) * var(--element-scale) * 20px);
+    font-size: calc(var(--scale) * var(--element-scale) * 24px);
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
     text-shadow: 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white;
     color: black;
@@ -263,8 +277,9 @@ __     __         _       _     _
 }
 
 .point > span {
+    font-family: "Cafeteria-Black";
     font-weight: bold;
-    font-size: calc(var(--scale) * var(--element-scale) * 20px);
+    font-size: calc(var(--scale) * var(--element-scale) * 24px);
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
     text-shadow: 0 0 calc(var(--scale) * 3px) black, 0 0 calc(var(--scale) * 3px) black;
     color: white;
