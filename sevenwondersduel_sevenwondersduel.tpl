@@ -427,7 +427,7 @@ var jstpl_draftpool_building = '\
         class="building building_small column${jsColumn} row${jsRow} ${jsAvailable}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\
-        <div class="draftpool_building_cost opponent" style="display: ${jsDisplayCostOpponent}"><div class="coin"><span style="color: ${jsCostColorOpponent} !important">${jsCostOpponent}</span></div>\
+        <div class="draftpool_building_cost opponent" style="display: ${jsDisplayCostOpponent}"><div class="coin opponent"><span style="color: ${jsCostColorOpponent} !important">${jsCostOpponent}</span></div>\
             <div\
                 class="linked_building_icon linked_building_icon_small"\
                 style="background-position: -${jsLinkX}00% -${jsLinkY}00%;"\

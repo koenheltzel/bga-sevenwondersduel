@@ -239,7 +239,6 @@ __     __         _       _     _
 
 .resource > span, .coin > span, .agora_cube3d_me, .agora_cube3d_opponent {
     font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
-    font-weight: bold;
     font-size: calc(var(--scale) * var(--element-scale) * 24px);
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
     text-shadow: 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white;
@@ -301,7 +300,6 @@ __     __         _       _     _
 
 .point > span {
     font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
-    font-weight: bold;
     font-size: calc(var(--scale) * var(--element-scale) * 24px);
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
     text-shadow: 0 0 calc(var(--scale) * 3px) black, 0 0 calc(var(--scale) * 3px) black;
@@ -1577,8 +1575,8 @@ __        __              _
     z-index: 25;
 }
 .influence_containers > div:nth-of-type(1) {
-    left: calc(var(--senate-scale) * 140px);
-    top: calc(var(--senate-scale) * 102px);
+    left: calc(var(--senate-scale) * 143px);
+    top: calc(var(--senate-scale) * 106px);
     transform: rotate(0deg);
 }
 .influence_containers > div:nth-of-type(1) span {
@@ -1641,21 +1639,20 @@ __        __              _
     filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #000000);
     backface-visibility: hidden;
 
-    width: calc(var(--senate-scale) * 30px);
-    height: calc(var(--senate-scale) * 30px);
+    width: calc(var(--senate-scale) * 22px);
+    height: calc(var(--senate-scale) * 22px);
     display: inline-block;
     position: absolute;
 }
 
 .agora_cube > span {
-    font-weight: bold;
-    font-size: calc(var(--scale) * var(--element-scale) * 20px);
-    line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
-    text-shadow: 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white;
+    font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
+    font-size: calc(var(--scale) * var(--element-scale) * 16px);
+    line-height: calc(var(--senate-scale) * 22px) !important;
+    text-shadow: 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white;
     color: black;
     cursor: default;
     position: relative;
-    top: calc(var(--scale) * var(--element-scale) * -3px);
     display: inline-block;
 }
 
