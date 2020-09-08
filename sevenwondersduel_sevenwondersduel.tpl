@@ -427,7 +427,7 @@ var jstpl_draftpool_building = '\
         class="building building_small column${jsColumn} row${jsRow} ${jsAvailable}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\
-        <div class="draftpool_building_cost opponent" style="display: ${jsDisplayCostOpponent}"><div class="coin opponent"><span style="color: ${jsCostColorOpponent} !important">${jsCostOpponent}</span></div>\
+        <div class="draftpool_building_cost opponent" style="display: ${jsDisplayCostOpponent}"><div class="coin"><span style="color: ${jsCostColorOpponent} !important">${jsCostOpponent}</span></div>\
             <div\
                 class="linked_building_icon linked_building_icon_small"\
                 style="background-position: -${jsLinkX}00% -${jsLinkY}00%;"\
@@ -498,7 +498,7 @@ var jstpl_coin_animated = '<div class="coin animated"></div>';
 var jstpl_tooltip_cost_me = '\
     <hr\>\
     <strong class="me">${translateCurrentCost}:</strong>\
-    <div class="payment_plan">\
+    <div class="payment_plan me">\
         ${jsPayment}\
     </div>\
     <strong>${translateTotal}:</strong> ${jsCoinHtml}\
@@ -507,10 +507,10 @@ var jstpl_tooltip_cost_me = '\
 var jstpl_tooltip_cost_opponent = '\
     <hr\>\
     <strong class="opponent">${translateCurrentCost}:</strong>\
-    <div class="payment_plan">\
+    <div class="payment_plan opponent">\
         ${jsPayment}\
     </div>\
-    <strong>${translateTotal}:</strong> ${jsCoinHtml}\
+    <div class="opponent"><strong>${translateTotal}:</strong> ${jsCoinHtml}</div>\
     ';
 
 var jstpl_building_tooltip = '\
