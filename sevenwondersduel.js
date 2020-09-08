@@ -1354,17 +1354,19 @@ define([
 
             onEnterPlayerTurn: function (args) {
                 if (this.debug) console.log('in onEnterPlayerTurn', args);
-
-                // this.attachToNewParent('move_me', 'move_target' )
-                // var anim = this.slideToObject( 'move_me', 'move_target', 1000, 4000);
-                var anim = dojo.fx.slideTo({node: 'move_me', left:0, top:0, units:"px", delay: 3000, duration: 1000});
-                anim.play();
             },
 
             onPlayerTurnDraftpoolClick: function (e) {
                 if (this.debug) console.log('onPlayerTurnDraftpoolClick');
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
+
+                // Influence cubes test animation.
+                dojo.query('.influence_containers .agora_cube').forEach(dojo.hitch(this, function (node, index, arr) {
+                    dojo.toggleClass($(node), 'agora_control');
+                }));
+
+                // dojo.toggleClass('move_target', 'agora_control');
 
                 if (this.isCurrentPlayerActive()) {
                     this.clearPlayerTurnNodeGlow();
