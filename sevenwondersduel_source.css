@@ -198,6 +198,10 @@ __     __         _       _     _
     z-index: 100;
 }
 
+.cost_free {
+    font-weight: bold;
+}
+
 .resource, .coin {
     background-image: url('img/sprites.png');
     background-position: 40.4867% 94.6903%;
