@@ -1761,6 +1761,10 @@ __        __              _
     overflow: hidden;
     text-overflow: ellipsis;
 }
+#end_game_container tr td:not(:first-of-type) {
+    font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
+    font-size: calc(32px * var(--scale));
+}
 
 .end_game_player_name {
     font-size: calc(18px * var(--scale)) !important;
