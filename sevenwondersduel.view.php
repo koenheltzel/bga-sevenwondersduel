@@ -25,6 +25,7 @@
  */
 
 use SWD\Building;
+use SWD\Conspiracy;
 use SWD\Material;
 use SWD\Player;
 use SWD\ProgressToken;
@@ -213,6 +214,8 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
 
         // The "catalog". For testing spritesheets / tooltips.
         $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog_wonder");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog_conspiracy");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog_conspiracy_compact");
         $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog_building");
         $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog_progress_token");
         $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog");
@@ -230,6 +233,24 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
                     'x' => $x,
                     'y' => $y,
                 ]);
+            }
+
+            $this->page->reset_subblocks('block_catalog_conspiracy');
+            $this->page->reset_subblocks('block_catalog_conspiracy_compact');
+            for ($id = 1; $id <= 16; $id++) {
+                $spritesheetColumns = 6;
+                $x = (($id - 1) % $spritesheetColumns);
+                $y = floor(($id - 1) / $spritesheetColumns);
+                $conspiracy = Conspiracy::get($id);
+
+                $data = [
+                    'id' => $id,
+                    'title' => $conspiracy ? $conspiracy->name : '',
+                    'x' => $x,
+                    'y' => $y,
+                ];
+                $this->page->insert_block("block_catalog_conspiracy", $data);
+                $this->page->insert_block("block_catalog_conspiracy_compact", $data);
             }
 
             $this->page->reset_subblocks('block_catalog_wonder');

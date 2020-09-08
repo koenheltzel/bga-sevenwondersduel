@@ -372,6 +372,21 @@
         </div>
 
         <div class="whiteblock">
+            <h3>Conspiracies:</h3>
+            <div>
+                <!-- BEGIN block_catalog_conspiracy -->
+                <div id="catalog_conspiracy_{id}" data-conspiracy-id="{id}" class="conspiracy conspiracy_small"
+                     style="background-position: -{x}00% -{y}00%;"><span class="swd_title">{title}</span></div>
+                <!-- END block_catalog_conspiracy -->
+                <br/>
+                <!-- BEGIN block_catalog_conspiracy_compact -->
+                <div id="catalog_conspiracy_{id}" data-conspiracy-id="{id}" class="conspiracy conspiracy_small conspiracy_compact"
+                     style="background-position: -{x}00% calc(({y} * (100 / 140 * 369) /*+ ((369 - 140) / 369) * 100*/) * 1%);"><span class="swd_title">{title}</span></div>
+                <!-- END block_catalog_conspiracy_compact -->
+            </div>
+        </div>
+
+        <div class="whiteblock">
             <h3>Age cards:</h3>
             <div>
                 <!-- BEGIN block_catalog_building -->

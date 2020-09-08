@@ -20,6 +20,11 @@ class Material extends Base
     public $wonders;
 
     /**
+     * @var Conspiracies
+     */
+    public $conspiracies;
+
+    /**
      * @var ProgressTokens
      */
     public $progressTokens;
@@ -670,7 +675,48 @@ class Material extends Base
 
         $this->progressTokens[12] = (new ProgressToken(12, clienttranslate("Organized Crime")))
             ->addText(clienttranslate("When you Conspire, keep both Conspiracy cards drawn and place them face down in front of you."));
-        
+
+        //   ____                      _                _
+        //  / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___(_) ___  ___
+        // | |   / _ \| '_ \/ __| '_ \| | '__/ _` |/ __| |/ _ \/ __|
+        // | |__| (_) | | | \__ \ |_) | | | | (_| | (__| |  __/\__ \
+        //  \____\___/|_| |_|___/ .__/|_|_|  \__,_|\___|_|\___||___/
+        //                      |_|
+
+        $this->conspiracies = new Conspiracies();
+
+        $this->conspiracies[1] = (new Conspiracy(1, clienttranslate("Extortion")));
+
+        $this->conspiracies[2] = (new Conspiracy(2, clienttranslate("Blackmail")));
+
+        $this->conspiracies[3] = (new Conspiracy(3, clienttranslate("Expropriation")));
+
+        $this->conspiracies[4] = (new Conspiracy(4, clienttranslate("Swindle")));
+
+        $this->conspiracies[5] = (new Conspiracy(5, clienttranslate("Obscurantism")));
+
+        $this->conspiracies[6] = (new Conspiracy(6, clienttranslate("Coup")));
+
+        $this->conspiracies[7] = (new Conspiracy(7, clienttranslate("Property Fraud")));
+
+        $this->conspiracies[8] = (new Conspiracy(8, clienttranslate("Treason")));
+
+        $this->conspiracies[9] = (new Conspiracy(9, clienttranslate("Political Maneuver")));
+
+        $this->conspiracies[10] = (new Conspiracy(10, clienttranslate("Espionage")));
+
+        $this->conspiracies[11] = (new Conspiracy(11, clienttranslate("Turn Of Events")));
+
+        $this->conspiracies[12] = (new Conspiracy(12, clienttranslate("Embezzlement")));
+
+        $this->conspiracies[13] = (new Conspiracy(13, clienttranslate("Foreclosure")));
+
+        $this->conspiracies[14] = (new Conspiracy(14, clienttranslate("Coercion")));
+
+        $this->conspiracies[15] = (new Conspiracy(15, clienttranslate("Insider Influence")));
+
+        $this->conspiracies[16] = (new Conspiracy(16, clienttranslate("Sabotage")));
+
         //  ____
         // |  _ \  ___  ___ _ __ ___  ___  ___
         // | | | |/ _ \/ __| '__/ _ \/ _ \/ __|

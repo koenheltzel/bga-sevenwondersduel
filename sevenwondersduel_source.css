@@ -85,6 +85,16 @@ __     __         _       _     _
     --wonder-small-scale: calc(0.58 * var(--scale));
     --wonder-plus-age-card-scale: 1.1;
 
+    --conspiracy-spritesheet-width: 1440px;
+    --conspiracy-spritesheet-height: 1107px;
+    --conspiracy-spritesheet-columns: 6;
+    --conspiracy-spritesheet-rows: 3;
+    --conspiracy-width: calc(var(--conspiracy-spritesheet-width) / var(--conspiracy-spritesheet-columns));
+    --conspiracy-height: calc(var(--conspiracy-spritesheet-height) / var(--conspiracy-spritesheet-rows));
+    --conspiracy-border-radius: 15px;
+    --conspiracy-small-scale: calc(0.58 * var(--scale));
+    --conspiracy-plus-age-card-scale: 1.1;
+
     --progress-token-spritesheet-width: 800px;
     --progress-token-spritesheet-height: 800px;
     --progress-token-spritesheet-columns: 4;
@@ -1415,6 +1425,47 @@ __        __              _
     text-align: center;
 }
 
+/*
+  ____                      _                _
+ / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___(_) ___  ___
+| |   / _ \| '_ \/ __| '_ \| | '__/ _` |/ __| |/ _ \/ __|
+| |__| (_) | | | \__ \ |_) | | | | (_| | (__| |  __/\__ \
+ \____\___/|_| |_|___/ .__/|_|_|  \__,_|\___|_|\___||___/
+                     |_|
+ */
+
+.conspiracy_container {
+    display: inline-block;
+    position: relative; /* Without this the conspiracy won't slide properly */
+}
+
+.conspiracy {
+    width: calc(var(--conspiracy-width) * var(--scale));
+    height: calc(var(--conspiracy-height) * var(--scale));
+    background-size: calc(var(--conspiracy-spritesheet-width) * var(--scale)) calc(var(--conspiracy-spritesheet-height) * var(--scale));
+    background-image: url('img/agora_conspiracies.jpg');
+    border-radius: calc(var(--conspiracy-border-radius) * var(--scale));
+    box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px #00000060;
+
+    /* Temporary: */
+    display: inline-block;
+    position: inherit;
+}
+
+.conspiracy_small {
+    width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
+    height: calc(var(--conspiracy-height) * var(--conspiracy-small-scale));
+    background-size: calc(var(--conspiracy-spritesheet-width) * var(--conspiracy-small-scale)) calc(var(--conspiracy-spritesheet-height) * var(--conspiracy-small-scale));
+    border-radius: calc(var(--conspiracy-border-radius) * var(--conspiracy-small-scale));
+    box-shadow: 0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0, 0, 0, 0.4),
+    inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
+    text-align: center;
+}
+.conspiracy_compact {
+    height: calc(var(--conspiracy-height) * (140/369) * var(--conspiracy-small-scale));
+}
+
 .swd_title {
     font-family: "PossumSaltareNF", serif;
     text-align: center;
@@ -1456,6 +1507,18 @@ __        __              _
 
 .progress_token .swd_title {
     font-size: 22px; /* Scales automatically through the svg */
+}
+
+.conspiracy .swd_title {
+    position: relative;
+    top: 65.5%;
+    /*left: -3.5%;*/
+    font-size: calc(16px * var(--scale));
+    display: block;
+}
+
+.conspiracy_small .swd_title {
+    font-size: calc(16px * var(--wonder-small-scale));
 }
 
 /*
