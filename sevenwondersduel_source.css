@@ -1566,30 +1566,49 @@ __        __              _
     top: calc(var(--senate-scale) * 102px);
     transform: rotate(0deg);
 }
+.influence_containers > div:nth-of-type(1) span {
+    transform: rotate(0deg);
+}
 .influence_containers > div:nth-of-type(2) {
     left: calc(var(--senate-scale) * 52px);
     top: calc(var(--senate-scale) * 239px);
     transform: rotate(-19deg);
+}
+.influence_containers > div:nth-of-type(2) span {
+    transform: rotate(19deg);
 }
 .influence_containers > div:nth-of-type(3) {
     left: calc(var(--senate-scale) * 7px);
     top: calc(var(--senate-scale) * 393px);
     transform: rotate(-36deg);
 }
+.influence_containers > div:nth-of-type(3) span {
+    transform: rotate(36deg);
+}
 .influence_containers > div:nth-of-type(4) {
     left: calc(var(--senate-scale) * 7px);
     top: calc(var(--senate-scale) * 557px);
     transform: rotate(-54deg);
+}
+.influence_containers > div:nth-of-type(4) span {
+    transform: rotate(54deg);
 }
 .influence_containers > div:nth-of-type(5) {
     left: calc(var(--senate-scale) * 52px);
     top: calc(var(--senate-scale) * 711px);
     transform: rotate(-71deg);
 }
+.influence_containers > div:nth-of-type(5) span {
+    transform: rotate(71deg);
+}
 .influence_containers > div:nth-of-type(6) {
     left: calc(var(--senate-scale) * 140px);
     top: calc(var(--senate-scale) * 846px);
     transform: rotate(-90deg);
+}
+
+.influence_containers > div:nth-of-type(6) span {
+    transform: rotate(90deg);
 }
 
 .influence_containers > div > div {
@@ -1620,6 +1639,9 @@ __        __              _
     text-shadow: 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white;
     color: black;
     cursor: default;
+    position: relative;
+    top: calc(var(--scale) * var(--element-scale) * -3px);
+    display: inline-block;
 }
 
 .agora_cube_me {
