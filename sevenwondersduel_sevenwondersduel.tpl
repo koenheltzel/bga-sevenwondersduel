@@ -132,11 +132,42 @@
                     <div id="board_middle_container">
                         <div id="senate_container" class="agora">
                             <div class="senate"></div>
+                            <div class="influence_containers">
+                                <div>
+                                    <div><div class="agora_cube agora_cube_opponent"></div></div>
+                                    <div><div class="agora_cube agora_cube_me"></div></div>
+                                    <div><div class="agora_cube agora_cube_opponent"></div></div>
+                                </div>
+                                <div>
+                                    <div><div class="agora_cube agora_cube_opponent"></div></div>
+                                    <div><div class="agora_cube agora_cube_me"></div></div>
+                                    <div><div class="agora_cube agora_cube_opponent"></div></div>
+                                </div>
+                                <div>
+                                    <div><div class="agora_cube agora_cube_opponent"><span>1</span></div></div>
+                                    <div><div class="agora_cube agora_cube_me"><span>2</span></div></div>
+                                    <div><div class="agora_cube agora_cube_opponent"><span>3</span></div></div>
+                                </div>
+                                <div>
+                                    <div><div class="agora_cube agora_cube_opponent"></div></div>
+                                    <div><div class="agora_cube agora_cube_me"></div></div>
+                                    <div><div class="agora_cube agora_cube_opponent"></div></div>
+                                </div>
+                                <div>
+                                    <div><div class="agora_cube agora_cube_opponent"></div></div>
+                                    <div><div class="agora_cube agora_cube_me"></div></div>
+                                    <div><div class="agora_cube agora_cube_opponent"></div></div>
+                                </div>
+                                <div>
+                                    <div><div class="agora_cube agora_cube_opponent"></div></div>
+                                    <div><div class="agora_cube agora_cube_me"></div></div>
+                                    <div><div class="agora_cube agora_cube_opponent"></div></div>
+                                </div>
+                            </div>
                             <div class="decree_containers">
                                 <div>
                                     <div>
                                         <div class="decree decree_small" style="background-position: -000% -000%;"></div>
-                                        <div class="agora_cube_me"></div>
                                     </div>
                                     <div>
                                         <div class="decree decree_small" style="background-position: -100% -000%;"></div>
@@ -237,7 +268,7 @@
                                     </div>
                                 </div>
                                 <div class="player_area_cubes agora">
-                                    <div class="agora_cube agora_cube3d_{PLAYER_ALIAS}">
+                                    <div class="agora_cube3d_{PLAYER_ALIAS}">
                                         <span id="player_area_{PLAYER_ID}_cubes"></span>
                                     </div>
                                 </div>
