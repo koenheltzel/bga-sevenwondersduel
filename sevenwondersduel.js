@@ -1354,6 +1354,11 @@ define([
 
             onEnterPlayerTurn: function (args) {
                 if (this.debug) console.log('in onEnterPlayerTurn', args);
+
+                // this.attachToNewParent('move_me', 'move_target' )
+                // var anim = this.slideToObject( 'move_me', 'move_target', 1000, 4000);
+                var anim = dojo.fx.slideTo({node: 'move_me', left:0, top:0, units:"px", delay: 3000, duration: 1000});
+                anim.play();
             },
 
             onPlayerTurnDraftpoolClick: function (e) {
