@@ -428,12 +428,12 @@ __     __         _       _     _
 
 #swd[data-agora="1"] #swd_wrap.portrait #board_column {
     /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
-    width: calc(420px * var(--scale));
+    width: calc(390px * var(--scale));
 }
 
 #swd[data-agora="1"] #swd_wrap.square #board_column, #swd[data-agora="1"] #swd_wrap.landscape #board_column {
     /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
-    width: calc(425px * var(--scale));
+    width: calc(390px * var(--scale));
 }
 
 /*
@@ -602,6 +602,7 @@ __     __         _       _     _
     display: inline-block;
     align-self: flex-end;
     margin-right: calc(-19px * var(--scale));
+    margin-left: calc(var(--scale) * 35px); /* To clear the decrees (with possible double stack) */
 }
 
 .senate, #senate_container {
@@ -1509,9 +1510,13 @@ __        __              _
 .decree_containers {
 
 }
+.decree_containers > div > div:not(:first-of-type) {
+    margin-top: calc(var(--senate-scale) * -13px);
+}
 .decree_containers > div {
     position: absolute;
     transform-origin: 50% 0%;
+    z-index:20; /* Don't know why but this div level specifically needs the z-index set. (Goal is to have the decrees over the age cards if they are stacked 3 deep) */
 }
 .decree_containers > div:nth-of-type(1) {
     transform: rotate(135deg);
@@ -1962,9 +1967,10 @@ __        __              _
     background-position: 66.5049% 37.1359%;
     background-size: 512.000%;
 
-    width: calc(var(--scale) * var(--element-scale) * 30px);
-    height: calc(var(--scale) * var(--element-scale) * 30px);
+    width: calc(var(--senate-scale) * 30px);
+    height: calc(var(--senate-scale) * 30px);
     display: inline-block;
+    position: absolute;
 }
 
 .agora_cube_opponent {

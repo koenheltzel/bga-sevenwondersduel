@@ -133,12 +133,67 @@
                         <div id="senate_container" class="agora">
                             <div class="senate"></div>
                             <div class="decree_containers">
-                                <div id="decree_container1"><div class="decree decree_small" style="background-position: -000% -100%;"></div><div class="decree decree_small" style="background-position: -000% -100%; margin-top: calc(var(--senate-scale) * -13px);"></div></div>
-                                <div id="decree_container2"><div class="decree decree_small" style="background-position: -100% -100%;"></div></div>
-                                <div id="decree_container3"><div class="decree decree_small" style="background-position: -200% -100%;"></div></div>
-                                <div id="decree_container4"><div class="decree decree_small" style="background-position: -300% -100%;"></div></div>
-                                <div id="decree_container5"><div class="decree decree_small" style="background-position: -400% -100%;"></div></div>
-                                <div id="decree_container6"><div class="decree decree_small" style="background-position: -500% -100%;"></div></div>
+                                <div>
+                                    <div>
+                                        <div class="decree decree_small" style="background-position: -000% -000%;"></div>
+                                        <div class="agora_cube_me"></div>
+                                    </div>
+                                    <div>
+                                        <div class="decree decree_small" style="background-position: -100% -000%;"></div>
+                                    </div>
+                                    <div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <div class="decree decree_small" style="background-position: -200% -000%;"></div>
+                                    </div>
+                                    <div>
+                                        <div class="decree decree_small" style="background-position: -300% -000%;"></div>
+                                    </div>
+                                    <div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <div class="decree decree_small" style="background-position: -400% -000%;"></div>
+                                    </div>
+                                    <div>
+                                        <div class="decree decree_small" style="background-position: -500% -000%;"></div>
+                                    </div>
+                                    <div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <div class="decree decree_small" style="background-position: -000% -100%;"></div>
+                                    </div>
+                                    <div>
+                                        <div class="decree decree_small" style="background-position: -100% -100%;"></div>
+                                    </div>
+                                    <div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <div class="decree decree_small" style="background-position: -200% -100%;"></div>
+                                    </div>
+                                    <div>
+                                        <div class="decree decree_small" style="background-position: -300% -100%;"></div>
+                                    </div>
+                                    <div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <div class="decree decree_small" style="background-position: -400% -100%;"></div>
+                                    </div>
+                                    <div>
+                                        <div class="decree decree_small" style="background-position: -500% -100%;"></div>
+                                    </div>
+                                    <div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div id="board_container">
