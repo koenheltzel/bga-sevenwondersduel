@@ -1511,14 +1511,16 @@ __        __              _
 
 .conspiracy .swd_title {
     position: relative;
-    top: 65.5%;
-    /*left: -3.5%;*/
+    top: 65%;
     font-size: calc(16px * var(--scale));
     display: block;
 }
 
 .conspiracy_small .swd_title {
     font-size: calc(16px * var(--wonder-small-scale));
+}
+.conspiracy_small.conspiracy_compact .swd_title {
+    top: 9%;
 }
 
 /*

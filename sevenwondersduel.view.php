@@ -237,7 +237,7 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
 
             $this->page->reset_subblocks('block_catalog_conspiracy');
             $this->page->reset_subblocks('block_catalog_conspiracy_compact');
-            for ($id = 1; $id <= 16; $id++) {
+            for ($id = 1; $id <= 18; $id++) {
                 $spritesheetColumns = 6;
                 $x = (($id - 1) % $spritesheetColumns);
                 $y = floor(($id - 1) / $spritesheetColumns);

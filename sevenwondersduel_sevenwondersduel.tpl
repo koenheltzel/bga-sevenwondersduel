@@ -378,10 +378,12 @@
                 <div id="catalog_conspiracy_{id}" data-conspiracy-id="{id}" class="conspiracy conspiracy_small"
                      style="background-position: -{x}00% -{y}00%;"><span class="swd_title">{title}</span></div>
                 <!-- END block_catalog_conspiracy -->
-                <br/>
+            </div>
+            <h3>Conspiracies compact:</h3>
+            <div>
                 <!-- BEGIN block_catalog_conspiracy_compact -->
                 <div id="catalog_conspiracy_{id}" data-conspiracy-id="{id}" class="conspiracy conspiracy_small conspiracy_compact"
-                     style="background-position: -{x}00% calc(({y} * (100 / 140 * 369) /*+ ((369 - 140) / 369) * 100*/) * 1%);"><span class="swd_title">{title}</span></div>
+                     style="background-position: -{x}00% calc(-{y}.61 * var(--conspiracy-height));"><span class="swd_title">{title}</span></div>
                 <!-- END block_catalog_conspiracy_compact -->
             </div>
         </div>
