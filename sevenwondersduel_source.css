@@ -218,7 +218,7 @@ __     __         _       _     _
     font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
     font-size: calc(var(--scale) * var(--element-scale) * 24px);
     line-height: calc(var(--scale) * var(--element-scale) * 30px) !important;
-    text-shadow: 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white, 0 0 calc(var(--scale) * 6px) white;
+    text-shadow: 0 0 calc(var(--scale) * 3px) white, 0 0 calc(var(--scale) * 3px) white, 0 0 calc(var(--scale) * 3px) white;
     color: black;
     cursor: default;
 }
