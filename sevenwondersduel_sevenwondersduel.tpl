@@ -421,14 +421,14 @@ var jstpl_draftpool_building = '\
         class="building building_small column${jsColumn} row${jsRow} ${jsAvailable}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\
-        <div class="draftpool_building_cost opponent" style="display: ${jsDisplayCostOpponent}"><div class="coin"><span style="color: ${jsCostColorOpponent} !important">${jsCostOpponent}</span></div>\
+        <div class="draftpool_building_cost opponent" style="display: ${jsDisplayCostOpponent}"><div class="coin ${jsCostOpponentClass}"><span style="color: ${jsCostColorOpponent} !important">${jsCostOpponent}</span></div>\
             <div\
                 class="linked_building_icon linked_building_icon_small"\
                 style="background-position: -${jsLinkX}00% -${jsLinkY}00%;"\
             ></div>\
         </div>\
         <span class="swd_title">${jsName}</span>\
-        <div class="draftpool_building_cost me" style="display: ${jsDisplayCostMe}"><div class="coin"><span style="color: ${jsCostColorMe} !important">${jsCostMe}</span></div>\
+        <div class="draftpool_building_cost me" style="display: ${jsDisplayCostMe}"><div class="coin ${jsCostMeClass}"><span style="color: ${jsCostColorMe} !important">${jsCostMe}</span></div>\
             <div\
                 class="linked_building_icon linked_building_icon_small"\
                 style="background-position: -${jsLinkX}00% -${jsLinkY}00%;"\
@@ -455,7 +455,7 @@ var jstpl_wonder = '\
             class="wonder wonder_small"\
             style="background-position: -${jsX}00% -${jsY}00%; "\
         >\
-            <div class="player_wonder_cost" style="display: ${jsDisplayCost}"><div class="coin"><span style="color: ${jsCostColor} !important">${jsCost}</span></div></div>\
+            <div class="player_wonder_cost" style="display: ${jsDisplayCost}"><div class="coin ${jsCostClass}"><span style="color: ${jsCostColor} !important">${jsCost}</span></div></div>\
             <span class="swd_title">${jsName}</span>\
         </div>\
         <div class="age_card_container"></div>\

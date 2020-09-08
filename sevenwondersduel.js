@@ -415,6 +415,7 @@ define([
                     jsCost: this.getCostValue(cost),
                     jsCostColor: this.getCostColor(cost, playerCoins),
                 };
+                data.jsCostClass = isNaN(data.jsCost) ? 'cost_free' : '';
                 var spritesheetColumns = 5;
                 data.jsX = (wonderId - 1) % spritesheetColumns;
                 data.jsY = Math.floor((wonderId - 1) / spritesheetColumns);
@@ -591,9 +592,11 @@ define([
                             jsDisplayCostMe: 'none',
                             jsCostColorMe: 'black',
                             jsCostMe: -1,
+                            jsCostMeClass: '',
                             jsDisplayCostOpponent: 'none',
                             jsCostColorOpponent: 'black',
                             jsCostOpponent: -1,
+                            jsCostOpponentClass: '',
                             jsLinkX: 0,
                             jsLinkY: 0,
                         };
@@ -604,11 +607,14 @@ define([
                             data.jsType = buildingData.type;
                             if (position.available) {
                                 data.jsDisplayCostMe = position.available ? 'block' : 'none',
-                                    data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
-                                    data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
+                                data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
+                                data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
+                                data.jsCostMeClass = isNaN(data.jsCostMe) ? 'cost_free' : '';
+
                                 data.jsDisplayCostOpponent = position.available ? 'block' : 'none',
-                                    data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playersSituation[this.opponent_id].coins),
-                                    data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
+                                data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playersSituation[this.opponent_id].coins),
+                                data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
+                                data.jsCostOpponentClass = isNaN(data.jsCostOpponent) ? 'cost_free' : '';
                             }
 
                             // Linked building symbol
@@ -732,9 +738,11 @@ define([
                     jsDisplayCostMe: 'none',
                     jsCostColorMe: 'black',
                     jsCostMe: -1,
+                    jsCostMeClass: '',
                     jsDisplayCostOpponent: 'none',
                     jsCostColorOpponent: 'black',
                     jsCostOpponent: -1,
+                    jsCostOpponentClass: '',
                     jsLinkX: 0,
                     jsLinkY: 0,
                 };
