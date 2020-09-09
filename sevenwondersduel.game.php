@@ -421,6 +421,9 @@ class SevenWondersDuelAgora extends Table
             $opponent->id => json_decode(json_encode($opponent), true),
         ];
         $result['agora'] = (int)$this->getGameStateValue(self::OPTION_AGORA);
+        if ($result['agora']) {
+            $result['conspiracies'] = Material::get()->conspiracies->array;
+        }
 
         return $result;
     }

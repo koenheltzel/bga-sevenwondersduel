@@ -1032,6 +1032,19 @@ define([
                     })
                 );
 
+                // Add tooltips to conspiracies everywhere.
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: 'div[data-conspiracy-id]',
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            var id = dojo.attr(node, "data-conspiracy-id");
+                            return this.getConspiracyTooltip(id);
+                        })
+                    })
+                );
+
                 // Mimick BGA's default behavior of closing the tooltip over mouseover and click.
                 dojo.query('body').on("#dijit__MasterTooltip_0:mouseover", dojo.hitch(this, "closeTooltips"));
                 dojo.query('body').on("#dijit__MasterTooltip_0:click", dojo.hitch(this, "closeTooltips"));
@@ -1167,6 +1180,23 @@ define([
                     data.jsBackX = ((id - 1) % spritesheetColumns);
                     data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
                     return this.format_block('jstpl_progress_token_tooltip', data);
+                }
+                return false;
+            },
+
+            getConspiracyTooltip: function (id) {
+                if (typeof this.gamedatas.conspiracies[id] != 'undefined') {
+                    var conspiracy = this.gamedatas.conspiracies[id];
+
+                    var spritesheetColumns = 6;
+
+                    var data = {};
+                    data.translateConspiracy = _("Conspiracy");
+                    data.jsName = _(conspiracy.name);
+                    data.jsText = this.getTextHtml(conspiracy.text);
+                    data.jsBackX = ((id - 1) % spritesheetColumns);
+                    data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
+                    return this.format_block('jstpl_conspiracy_tooltip', data);
                 }
                 return false;
             },

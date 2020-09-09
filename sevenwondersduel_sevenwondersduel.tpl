@@ -579,6 +579,21 @@ var jstpl_progress_token_tooltip = '\
         <div class="clear"></div>\
     </div>';
 
+var jstpl_conspiracy_tooltip = '\
+    <div class="swd_tooltip">\
+        <div class="cardinfos">\
+            <strong>${translateConspiracy} “${jsName}”</strong>\
+            <hr\>\
+            <p>${jsText}</p>\
+        </div>\
+        <div>\
+            <div class="conspiracy tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
+                <span class="swd_title">${jsName}</span>\
+            </div>\
+        </div>\
+        <div class="clear"></div>\
+    </div>';
+
 </script>
 
 {OVERALL_GAME_FOOTER}
