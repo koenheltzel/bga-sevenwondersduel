@@ -125,8 +125,6 @@ define([
             setup: function (gamedatas) {
                 if (this.debug) console.log("setup(gamedatas)", gamedatas);
 
-                this.dontPreloadImage("game_banner.jpg");
-                this.dontPreloadImage("game_display0.jpg");
                 if (this.quality == '2x') {
                     this.dontPreloadImage('board.png');
                     this.dontPreloadImage('buildings.jpg');
@@ -134,7 +132,9 @@ define([
                     this.dontPreloadImage('progress_tokens.jpg');
                     this.dontPreloadImage('sprites.png');
                     this.dontPreloadImage('wonders.jpg');
-                } else {
+                }
+
+                if (this.quality == '1x') {
                     this.dontPreloadImage('board@2X.png');
                     this.dontPreloadImage('buildings@2X.jpg');
                     this.dontPreloadImage('linked-building-icons@2X.jpg');
