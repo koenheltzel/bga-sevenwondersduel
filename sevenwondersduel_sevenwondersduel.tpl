@@ -383,7 +383,7 @@
             <div>
                 <!-- BEGIN block_catalog_conspiracy_compact -->
                 <div id="catalog_conspiracy_{id}" data-conspiracy-id="{id}" class="conspiracy conspiracy_small conspiracy_compact"
-                     style="background-position: -{x}00% calc(-{y}.61 * var(--conspiracy-height));"><span class="swd_title">{title}</span></div>
+                     style="background-position: -{x}00% calc(-{y}.62 * var(--conspiracy-height) * var(--conspiracy-small-scale));"><span class="swd_title">{title}</span></div>
                 <!-- END block_catalog_conspiracy_compact -->
             </div>
         </div>
