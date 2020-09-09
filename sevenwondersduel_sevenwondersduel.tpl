@@ -39,12 +39,14 @@
         <div id="layout_flexbox">
             <div id="wonder_column">
                 <!-- BEGIN player_wonders -->
-                <div id="player_wonders_container_{PLAYER_ID}">
-                    <div id="player_wonders_{PLAYER_ID}" class="whiteblock player_wonders player{PLAYER_ID} {PLAYER_ALIAS}">
+                <div id="player_wonders_container_{PLAYER_ID}" class="player_wonders_container whiteblock">
+                    <div id="player_wonders_{PLAYER_ID}" class="player_wonders player{PLAYER_ID} {PLAYER_ALIAS}">
                         <div class="card_outline"></div>
                         <div class="card_outline"></div>
                         <div class="card_outline"></div>
                         <div class="card_outline"></div>
+                    </div>
+                    <div id="player_conspiracies_{PLAYER_ID}" class="player_conspiracies player{PLAYER_ID} {PLAYER_ALIAS}">
                     </div>
                 </div>
                 <!-- END player_wonders -->
@@ -493,6 +495,21 @@ var jstpl_wonder_age_card = '\
         class="building building_small"\
         style="background-position: -${jsX}00% -${jsY}00%;"\
     >\
+    </div>';
+
+var jstpl_conspiracy = '\
+    <div class="card_outline">\
+        <div id="conspiracy_${jsId}_container" class="conspiracy_container">\
+            <div id="conspiracy_${jsId}"\
+                data-conspiracy-id="${jsId}"\
+                class="conspiracy conspiracy_small conspiracy_compact"\
+                style="background-position: -${jsX}00% calc(-${jsY}.62 * var(--conspiracy-height) * var(--conspiracy-small-scale));"\
+            >\
+                <span class="swd_title">${jsName}</span>\
+            </div>\
+            <div class="age_card_container"></div>\
+            <div class="card_outline"></div>\
+        </div>\
     </div>';
 
 var jstpl_progress_token = '\

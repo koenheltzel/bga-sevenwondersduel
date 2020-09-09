@@ -209,6 +209,17 @@ define([
                     this.updatePlayerProgressTokens(player_id, this.gamedatas.progressTokensSituation[player_id]);
                 }
 
+
+                dojo.place(this.getConspiracyDivHtml(1), 'player_conspiracies_2310957');
+                dojo.place(this.getConspiracyDivHtml(2), 'player_conspiracies_2310957');
+                dojo.place(this.getConspiracyDivHtml(3), 'player_conspiracies_2310957');
+                dojo.place(this.getConspiracyDivHtml(4), 'player_conspiracies_2310957');
+                dojo.place(this.getConspiracyDivHtml(5), 'player_conspiracies_2310957');
+                dojo.place(this.getConspiracyDivHtml(6), 'player_conspiracies_2310958');
+                dojo.place(this.getConspiracyDivHtml(7), 'player_conspiracies_2310958');
+                dojo.place(this.getConspiracyDivHtml(8), 'player_conspiracies_2310958');
+                dojo.place(this.getConspiracyDivHtml(9), 'player_conspiracies_2310958');
+
                 // Set setting dropdown values (translations don't work yet in the constructor, so we do it here).
                 dojo.query('#setting_layout option[value="' + this.LAYOUT_PORTRAIT + '"]')[0].innerText = _('Portrait');
                 dojo.query('#setting_layout option[value="' + this.LAYOUT_SQUARE + '"]')[0].innerText = _('Square');
@@ -853,6 +864,25 @@ define([
                     dojo.style(containers[i - 1], 'display', nodes.length >= 3 ? 'inline-block' : 'none');
                 }
                 dojo.style(containers[6 - 1], 'display', nodes.length >= 5 ? 'inline-block' : 'none');
+            },
+
+            //   ____                      _                _
+            //  / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___(_) ___  ___
+            // | |   / _ \| '_ \/ __| '_ \| | '__/ _` |/ __| |/ _ \/ __|
+            // | |__| (_) | | | \__ \ |_) | | | | (_| | (__| |  __/\__ \
+            //  \____\___/|_| |_|___/ .__/|_|_|  \__,_|\___|_|\___||___/
+            //                      |_|
+
+            getConspiracyDivHtml: function (conspiracyId) {
+                var conspiracy = this.gamedatas.conspiracies[conspiracyId];
+                var data = {
+                    jsId: conspiracyId,
+                    jsName: _(conspiracy.name),
+                };
+                var spritesheetColumns = 6;
+                data.jsX = (conspiracyId - 1) % spritesheetColumns;
+                data.jsY = Math.floor((conspiracyId - 1) / spritesheetColumns);
+                return this.format_block('jstpl_conspiracy', data);
             },
 
             //   __  __ _ _ _ _                     _____               _
