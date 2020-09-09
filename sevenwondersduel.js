@@ -88,6 +88,7 @@ define([
                 }
                 if (!this.autoLayout && dojo.cookie('swd_layout') !== undefined) {
                     this.layout = dojo.cookie('swd_layout');
+                    this.setLayout(this.layout);
                 }
                 if (dojo.cookie('swd_autoScale') !== undefined) {
                     this.autoScale = parseInt(dojo.cookie('swd_autoScale'));
