@@ -46,6 +46,8 @@ define([
             scale: 1,
             autoLayout: 1,
             layout: "",
+            autoQuality: 1,
+            quality: "",
             cookieExpireDays: 60,
 
             // Freezes layout during disabled card selection (remembering old scroll position)
@@ -93,8 +95,16 @@ define([
                 }
                 if (!this.autoScale && dojo.cookie('swd_scale') !== undefined) {
                     this.scale = parseFloat(dojo.cookie('swd_scale'));
+                    this.setScale(this.scale);
+                }
+                if (dojo.cookie('swd_autoQuality') !== undefined) {
+                    this.autoQuality = parseInt(dojo.cookie('swd_autoQuality'));
+                }
+                if (!this.autoQuality && dojo.cookie('swd_quality') !== undefined) {
+                    this.quality = dojo.cookie('swd_quality');
                 }
                 this.updateSettings();
+                this.updateQuality(); // To toggle the .quality_2x class (it's important to have called updateSettings() first, so $('setting_quality').value is set correctly).
 
                 // Tooltip settings
                 // dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
@@ -118,8 +128,7 @@ define([
 
                 this.dontPreloadImage("game_banner.jpg");
                 this.dontPreloadImage("game_display0.jpg");
-                var isRetina = "(-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
-                if (window.matchMedia(isRetina).matches) {
+                if (this.quality == '2x') {
                     this.dontPreloadImage('board.png');
                     this.dontPreloadImage('buildings.jpg');
                     this.dontPreloadImage('linked-building-icons.jpg');
@@ -188,6 +197,9 @@ define([
                 dojo.query('#setting_layout option[value="' + this.LAYOUT_SQUARE + '"]')[0].innerText = _('Square');
                 dojo.query('#setting_layout option[value="' + this.LAYOUT_LANDSCAPE + '"]')[0].innerText = _('Landscape');
 
+                dojo.query('#setting_quality option[value="1x"]')[0].innerText = _('Normal');
+                dojo.query('#setting_quality option[value="2x"]')[0].innerText = _('High definition');
+
                 // Click handlers using event delegation:
                 dojo.query('body')
                     .on("#swd *:click",
@@ -236,6 +248,8 @@ define([
                 dojo.query("#setting_scale").on("change", dojo.hitch(this, "onSettingScaleChange"));
                 dojo.query("#setting_auto_layout").on("change", dojo.hitch(this, "onSettingAutoLayoutChange"));
                 dojo.query("#setting_layout").on("change", dojo.hitch(this, "onSettingLayoutChange"));
+                dojo.query("#setting_auto_quality").on("change", dojo.hitch(this, "onSettingAutoQualityChange"));
+                dojo.query("#setting_quality").on("change", dojo.hitch(this, "onSettingQualityChange"));
 
                 // Resize/scroll handler to determine layout and scale factor
                 window.addEventListener('resize', dojo.hitch(this, "onWindowUpdate"));
@@ -2429,6 +2443,22 @@ define([
             },
 
             updateLayout: function () {
+                if (!this.autoLayout) {
+                    this.layout = $('setting_layout').value;
+                    dojo.cookie('swd_layout', this.layout, { expires: this.cookieExpireDays });
+                }
+                else {
+                    dojo.cookie("swd_layout", null, {expires: -1});
+                }
+
+                if (!this.autoScale) {
+                    this.scale = Math.min(200, Math.max(50, parseInt($('setting_scale').value))) / 100;
+                    dojo.cookie('swd_scale', this.scale, { expires: this.cookieExpireDays });
+                }
+                else {
+                    dojo.cookie("swd_scale", null, {expires: -1});
+                }
+
                 // TODO: When BGA stops using the "zoom" css attribute for page-content and other elements, this function should be rewritten / simplified making it much more precise.
                 var titlePosition = dojo.position('page-title', false);
                 var titleMarginBottom = 5;
@@ -2530,10 +2560,10 @@ define([
                 if (this.debug) console.log('onSettingAutoScaleChange');
 
                 this.autoScale = 1 - parseInt(this.autoScale);
+                dojo.cookie('swd_autoScale', this.autoScale, { expires: this.cookieExpireDays });
+
                 this.updateLayout();
                 this.updateSettings();
-
-                dojo.cookie('swd_autoScale', this.autoScale, { expires: this.cookieExpireDays });
             },
 
             onSettingScaleChange: function (e) {
@@ -2541,15 +2571,7 @@ define([
                 dojo.stopEvent(e);
                 if (this.debug) console.log('onSettingScaleChange');
 
-                if (!this.autoScale) {
-                    this.scale = Math.min(200, Math.max(50, parseInt(e.target.value))) / 100;
-                    this.updateLayout();
-
-                    dojo.cookie('swd_scale', this.scale, { expires: this.cookieExpireDays });
-                }
-                else {
-                    dojo.cookie("swd_scale", null, {expires: -1});
-                }
+                this.updateLayout();
                 this.updateSettings();
             },
 
@@ -2559,10 +2581,10 @@ define([
                 if (this.debug) console.log('onSettingAutoLayoutChange');
 
                 this.autoLayout = 1 - parseInt(this.autoLayout);
+                dojo.cookie('swd_autoLayout', this.autoLayout, { expires: this.cookieExpireDays });
+
                 this.updateLayout();
                 this.updateSettings();
-
-                dojo.cookie('swd_autoLayout', this.autoLayout, { expires: this.cookieExpireDays });
             },
 
             onSettingLayoutChange: function (e) {
@@ -2570,14 +2592,28 @@ define([
                 dojo.stopEvent(e);
                 if (this.debug) console.log('onSettingLayoutChange');
 
-                if (!this.autoLayout) {
-                    this.layout = e.target.value;
-                    this.updateLayout();
-                    dojo.cookie('swd_layout', this.layout, { expires: this.cookieExpireDays });
-                }
-                else {
-                    dojo.cookie("swd_layout", null, {expires: -1});
-                }
+                this.updateLayout();
+                this.updateSettings();
+            },
+
+            onSettingAutoQualityChange: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+                if (this.debug) console.log('onSettingAutoQualityChange');
+
+                this.autoQuality = 1 - parseInt(this.autoQuality);
+                dojo.cookie('swd_autoQuality', this.autoQuality, { expires: this.cookieExpireDays });
+
+                this.updateQuality();
+                this.updateSettings();
+            },
+
+            onSettingQualityChange: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+                if (this.debug) console.log('onSettingQualityChange');
+
+                this.updateQuality();
                 this.updateSettings();
             },
 
@@ -2601,6 +2637,30 @@ define([
                     dojo.removeAttr('setting_layout', 'disabled');
                 }
 
+                if (this.autoQuality) {
+                    this.updateQuality();
+                    dojo.attr('setting_auto_quality', 'checked', 'checked');
+                    dojo.attr('setting_quality', 'disabled', '');
+                }
+                else {
+                    dojo.removeAttr('setting_auto_quality', 'checked');
+                    dojo.removeAttr('setting_quality', 'disabled');
+                }
+                $('setting_quality').value = this.quality;
+
+            },
+
+            updateQuality: function () {
+                if (this.autoQuality) {
+                    this.quality = window.devicePixelRatio >= 1.5 ? '2x' : '1x';
+                    dojo.cookie("swd_quality", null, {expires: -1});
+                }
+                else {
+                    this.quality = $('setting_quality').value;
+                    dojo.cookie('swd_quality', this.quality, { expires: this.cookieExpireDays });
+                }
+
+                dojo.toggleClass('swd', 'quality_2x', this.quality == '2x');
             },
 
             //  _   _      _                   _____                 _   _
