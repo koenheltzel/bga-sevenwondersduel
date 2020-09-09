@@ -1800,7 +1800,7 @@ __        __              _
 
 /* High-res 2X assets (retina): */
 
-#swd.quality_2x .action_construct, .action_wonder, .clay, .coin, .coin.opponent, .end_game_card, .glass, .military_token_2, .military_token_5, .papyrus, .pawn, .point, .stone, .wood {
+#swd.quality_2x .action_construct, #swd.quality_2x .action_wonder, #swd.quality_2x .clay, #swd.quality_2x .coin, #swd.quality_2x .coin#swd.quality_2x .opponent, #swd.quality_2x .end_game_card, #swd.quality_2x .glass, #swd.quality_2x .military_token_2, #swd.quality_2x .military_token_5, #swd.quality_2x .papyrus, #swd.quality_2x .pawn, #swd.quality_2x .point, #swd.quality_2x .stone, #swd.quality_2x .wood {
     background-image: url('img/sprites@2X.png') !important;
 }
 
