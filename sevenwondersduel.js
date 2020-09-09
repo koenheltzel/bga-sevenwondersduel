@@ -104,7 +104,7 @@ define([
                     this.quality = dojo.cookie('swd_quality');
                 }
                 this.updateSettings();
-                this.updateQuality(); // To toggle the .quality_2x class (it's important to have called updateSettings() first, so $('setting_quality').value is set correctly).
+                this.updateQuality(); // To update the data-quality attribute (it's important to have called updateSettings() first, so $('setting_quality').value is set correctly).
 
                 // Tooltip settings
                 // dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
@@ -2676,7 +2676,7 @@ define([
                     dojo.cookie('swd_quality', this.quality, { expires: this.cookieExpireDays });
                 }
 
-                dojo.toggleClass('swd', 'quality_2x', this.quality == '2x');
+                dojo.attr('swd', 'data-quality', this.quality);
             },
 
             //  _   _      _                   _____                 _   _
