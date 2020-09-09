@@ -221,8 +221,8 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
         $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog");
         if (0) {
             $this->page->reset_subblocks('block_catalog_building');
-            for ($id = 1; $id <= 77; $id++) {
-                $spritesheetColumns = 10;
+            for ($id = 1; $id <= 82; $id++) {
+                $spritesheetColumns = 12;
                 $x = (($id - 1) % $spritesheetColumns);
                 $y = floor(($id - 1) / $spritesheetColumns);
                 $building = Building::get($id);
@@ -245,12 +245,12 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
 
                 $data = [
                     'id' => $id,
-                    'title' => $conspiracy ? $conspiracy->name : '',
+                    'title' => $conspiracy ? $conspiracy->name : '.',
                     'x' => $x,
                     'y' => $y,
                 ];
-                $this->page->insert_block("block_catalog_conspiracy", $data);
-                $this->page->insert_block("block_catalog_conspiracy_compact", $data);
+                if ($id <> 18) $this->page->insert_block("block_catalog_conspiracy", $data);
+                if ($id <> 17) $this->page->insert_block("block_catalog_conspiracy_compact", $data);
             }
 
             $this->page->reset_subblocks('block_catalog_wonder');
