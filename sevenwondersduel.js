@@ -132,8 +132,6 @@ define([
 
                 this.agora = this.gamedatas.agora;
 
-                this.dontPreloadImage("game_banner.jpg");
-                this.dontPreloadImage("game_display0.jpg");
                 if (this.quality == '2x') {
                     this.dontPreloadImage('board.png');
                     this.dontPreloadImage('buildings.jpg');
