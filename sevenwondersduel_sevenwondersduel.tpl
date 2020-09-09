@@ -252,6 +252,16 @@
                 </td>
                 <td><input type="checkbox" id="setting_auto_scale" checked="checked"> {AUTOMATIC_SCALING_DESCRIPTION}</td>
             </tr>
+            <tr>
+                <td><strong>{QUALITY}</strong></td>
+                <td>
+                    <select id="setting_quality" disabled>
+                        <option value="1x"></option>
+                        <option value="2x"></option>
+                    </select>
+                </td>
+                <td><input type="checkbox" id="setting_auto_quality" checked="checked"> {AUTOMATIC_QUALITY_DESCRIPTION}</td>
+            </tr>
         </table>
     </div>
 

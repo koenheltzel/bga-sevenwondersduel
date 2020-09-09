@@ -1799,28 +1799,27 @@ __        __              _
  */
 
 /* High-res 2X assets (retina): */
-@media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .action_construct, .action_wonder, .clay, .coin, .coin.opponent, .end_game_card, .glass, .military_token_2, .military_token_5, .papyrus, .pawn, .point, .stone, .wood {
-        background-image: url('img/sprites@2X.png') !important;
-    }
 
-    .board {
-        background-image: url('img/board@2X.png') !important;;
-    }
+#swd.quality_2x .action_construct, .action_wonder, .clay, .coin, .coin.opponent, .end_game_card, .glass, .military_token_2, .military_token_5, .papyrus, .pawn, .point, .stone, .wood {
+    background-image: url('img/sprites@2X.png') !important;
+}
 
-    .building {
-        background-image: url('img/buildings@2X.jpg') !important;;
-    }
+#swd.quality_2x .board {
+    background-image: url('img/board@2X.png') !important;
+}
 
-    .wonder {
-        background-image: url('img/wonders@2X.jpg') !important;;
-    }
+#swd.quality_2x .building {
+    background-image: url('img/buildings@2X.jpg') !important;
+}
 
-    .progress_token {
-        background-image: url('img/progress_tokens@2X.jpg') !important;;
-    }
+#swd.quality_2x .wonder {
+    background-image: url('img/wonders@2X.jpg') !important;
+}
 
-    .linked_building_icon {
-        background-image: url('img/linked-building-icons@2X.jpg') !important;;
-    }
+#swd.quality_2x .progress_token {
+    background-image: url('img/progress_tokens@2X.jpg') !important;
+}
+
+#swd.quality_2x .linked_building_icon {
+    background-image: url('img/linked-building-icons@2X.jpg') !important;
 }

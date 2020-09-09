@@ -56,6 +56,8 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->tpl['LAYOUT'] = self::_("Layout");
         $this->tpl['AUTOMATIC_SCALING_DESCRIPTION'] = self::_("Choose game scale automatically based on browser window size and current game situation (highly recommended)");
         $this->tpl['SCALE'] = self::_("Scale");
+        $this->tpl['QUALITY'] = self::_("Graphics quality");
+        $this->tpl['AUTOMATIC_QUALITY_DESCRIPTION'] = self::_("Choose graphics quality based on detected display properties (recommended)");
         $this->tpl['AGE'] = self::_("Age");
         $this->tpl['GUILDS'] = self::_("Guilds");
         $this->tpl['BUILDINGS_WITH_LINKS'] = self::_("Buildings with links");
