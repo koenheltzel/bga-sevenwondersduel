@@ -126,6 +126,12 @@ define([
             setup: function (gamedatas) {
                 if (this.debug) console.log("setup(gamedatas)", gamedatas);
 
+                dojo.destroy('debug_output'); // TODO: Remove? See http://en.doc.boardgamearena.com/Tools_and_tips_of_BGA_Studio#Speed_up_game_re-loading_by_disabling_Input.2FOutput_debug_section
+
+                this.gamedatas = gamedatas;
+
+                this.agora = this.gamedatas.agora;
+
                 this.dontPreloadImage("game_banner.jpg");
                 this.dontPreloadImage("game_display0.jpg");
                 if (this.quality == '2x') {
@@ -135,20 +141,32 @@ define([
                     this.dontPreloadImage('progress_tokens.jpg');
                     this.dontPreloadImage('sprites.png');
                     this.dontPreloadImage('wonders.jpg');
-                } else {
+                    console.log('dontPreloadImage block A');
+                }
+                if (this.quality == '2x' || !this.agora) {
+                    this.dontPreloadImage('agora_conspiracies.jpg');
+                    this.dontPreloadImage('agora_decrees.png');
+                    this.dontPreloadImage('agora_senate.png');
+                    this.dontPreloadImage('agora_sprites.png');
+                    console.log('dontPreloadImage block B');
+                }
+
+                if (this.quality == '1x') {
                     this.dontPreloadImage('board@2X.png');
                     this.dontPreloadImage('buildings@2X.jpg');
                     this.dontPreloadImage('linked-building-icons@2X.jpg');
                     this.dontPreloadImage('progress_tokens@2X.jpg');
                     this.dontPreloadImage('sprites@2X.png');
                     this.dontPreloadImage('wonders@2X.jpg');
+                    console.log('dontPreloadImage block C');
                 }
-
-                dojo.destroy('debug_output'); // TODO: Remove? See http://en.doc.boardgamearena.com/Tools_and_tips_of_BGA_Studio#Speed_up_game_re-loading_by_disabling_Input.2FOutput_debug_section
-
-                this.gamedatas = gamedatas;
-
-                this.agora = this.gamedatas.agora;
+                if (this.quality == '1x' || !this.agora) {
+                    this.dontPreloadImage('agora_conspiracies@2X.jpg');
+                    this.dontPreloadImage('agora_decrees@2X.png');
+                    this.dontPreloadImage('agora_senate@2X.png');
+                    this.dontPreloadImage('agora_sprites@2X.png');
+                    console.log('dontPreloadImage block D');
+                }
 
                 // Because of spectators we can't assume everywhere that this.player_id is one of the two players.
                 this.me_id = parseInt(this.gamedatas.me_id); // me = alias for the player on the bottom

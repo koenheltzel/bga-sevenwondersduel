@@ -2193,7 +2193,7 @@ __        __              _
 
 /* High-res 2X assets (retina): */
 
-#swd.quality_2x .action_construct, .action_wonder, .clay, .coin, .coin.opponent, .end_game_card, .glass, .military_token_2, .military_token_5, .papyrus, .pawn, .point, .stone, .wood {
+#swd.quality_2x .action_construct, #swd.quality_2x .action_wonder, #swd.quality_2x .clay, #swd.quality_2x .coin, #swd.quality_2x .coin#swd.quality_2x .opponent, #swd.quality_2x .end_game_card, #swd.quality_2x .glass, #swd.quality_2x .military_token_2, #swd.quality_2x .military_token_5, #swd.quality_2x .papyrus, #swd.quality_2x .pawn, #swd.quality_2x .point, #swd.quality_2x .stone, #swd.quality_2x .wood {
     background-image: url('img/sprites@2X.png') !important;
 }
 
@@ -2215,4 +2215,19 @@ __        __              _
 
 #swd.quality_2x .linked_building_icon {
     background-image: url('img/linked-building-icons@2X.jpg') !important;
+}
+
+/* Agora */
+
+#swd.quality_2x .conspiracy {
+    background-image: url('img/agora_conspiracies@2X.jpg');
+}
+#swd.quality_2x .decree {
+    background-image: url('img/agora_decrees@2X.png');
+}
+#swd.quality_2x .senate {
+    background-image: url('img/agora_senate@2X.png');
+}
+#swd.quality_2x .agora_cube3d_me, #swd.quality_2x .agora_cube3d_opponent, #swd.quality_2x .agora_cube_me, #swd.quality_2x .agora_cube_opponent, #swd[data-agora="1"] #swd.quality_2x .military_token_2, #swd[data-agora="1"] #swd.quality_2x .military_token_5, #swd.quality_2x .end_game_senate, #swd.quality_2x .agora_icon {
+    background-image: url('img/agora_sprites@2X.png');
 }
