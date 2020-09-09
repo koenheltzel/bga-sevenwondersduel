@@ -1800,26 +1800,26 @@ __        __              _
 
 /* High-res 2X assets (retina): */
 
-#swd.quality_2x .action_construct, #swd.quality_2x .action_wonder, #swd.quality_2x .clay, #swd.quality_2x .coin, #swd.quality_2x .coin#swd.quality_2x .opponent, #swd.quality_2x .end_game_card, #swd.quality_2x .glass, #swd.quality_2x .military_token_2, #swd.quality_2x .military_token_5, #swd.quality_2x .papyrus, #swd.quality_2x .pawn, #swd.quality_2x .point, #swd.quality_2x .stone, #swd.quality_2x .wood {
+#swd[data-quality="2x"] .action_construct, #swd[data-quality="2x"] .action_wonder, #swd[data-quality="2x"] .clay, #swd[data-quality="2x"] .coin, #swd[data-quality="2x"] .coin#swd[data-quality="2x"] .opponent, #swd[data-quality="2x"] .end_game_card, #swd[data-quality="2x"] .glass, #swd[data-quality="2x"] .military_token_2, #swd[data-quality="2x"] .military_token_5, #swd[data-quality="2x"] .papyrus, #swd[data-quality="2x"] .pawn, #swd[data-quality="2x"] .point, #swd[data-quality="2x"] .stone, #swd[data-quality="2x"] .wood {
     background-image: url('img/sprites@2X.png') !important;
 }
 
-#swd.quality_2x .board {
+#swd[data-quality="2x"] .board {
     background-image: url('img/board@2X.png') !important;
 }
 
-#swd.quality_2x .building {
+#swd[data-quality="2x"] .building {
     background-image: url('img/buildings@2X.jpg') !important;
 }
 
-#swd.quality_2x .wonder {
+#swd[data-quality="2x"] .wonder {
     background-image: url('img/wonders@2X.jpg') !important;
 }
 
-#swd.quality_2x .progress_token {
+#swd[data-quality="2x"] .progress_token {
     background-image: url('img/progress_tokens@2X.jpg') !important;
 }
 
-#swd.quality_2x .linked_building_icon {
+#swd[data-quality="2x"] .linked_building_icon {
     background-image: url('img/linked-building-icons@2X.jpg') !important;
 }
