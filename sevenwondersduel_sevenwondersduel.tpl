@@ -230,11 +230,12 @@
         <h3>{SETTINGS}</h3>
         <table class="settings_table">
             <tr>
-                <td>{AUTOMATIC_LAYOUT}</td>
-                <td><input type="checkbox" id="setting_auto_layout" checked="checked"> {AUTOMATIC_LAYOUT_DESCRIPTION}</td>
+                <td></td>
+                <td>{MANUAL}</td>
+                <td>{AUTOMATIC}</td>
             </tr>
             <tr>
-                <td>{LAYOUT}</td>
+                <td><strong>{LAYOUT}</strong></td>
                 <td>
                     <select id="setting_layout" disabled>
                         <option value="portrait"></option>
@@ -242,16 +243,14 @@
                         <option value="landscape"></option>
                     </select>
                 </td>
+                <td><input type="checkbox" id="setting_auto_layout" checked="checked"> {AUTOMATIC_LAYOUT_DESCRIPTION}</td>
             </tr>
             <tr>
-                <td>{AUTOMATIC_SCALING}</td>
-                <td><input type="checkbox" id="setting_auto_scale" checked="checked"> {AUTOMATIC_SCALING_DESCRIPTION}</td>
-            </tr>
-            <tr>
-                <td>{SCALE}</td>
+                <td><strong>{SCALE}</strong></td>
                 <td>
                     <input type="number" id="setting_scale" style="width: 50px" min="50" max="200" disabled>% <span id="setting_scale_description">{SETTING_SCALE_DESCRIPTION}</span>
                 </td>
+                <td><input type="checkbox" id="setting_auto_scale" checked="checked"> {AUTOMATIC_SCALING_DESCRIPTION}</td>
             </tr>
         </table>
     </div>
