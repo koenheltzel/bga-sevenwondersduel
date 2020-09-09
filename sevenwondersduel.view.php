@@ -51,10 +51,10 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
         $this->tpl['CHOOSE_PROGRESS_TOKEN_FROM_BOX'] = self::_("Choose a progress token from the box");
         $this->tpl['DISCARDED_BUILDINGS'] = self::_("Discarded buildings");
         $this->tpl['SETTINGS'] = self::_("Settings");
-        $this->tpl['AUTOMATIC_LAYOUT'] = self::_("Automatic layout");
         $this->tpl['AUTOMATIC_LAYOUT_DESCRIPTION'] = self::_("Choose game layout automatically based on browser window ratio (recommended)");
+        $this->tpl['MANUAL'] = self::_("Manual");
+        $this->tpl['AUTOMATIC'] = self::_("Automatic");
         $this->tpl['LAYOUT'] = self::_("Layout");
-        $this->tpl['AUTOMATIC_SCALING'] = self::_("Automatic scaling");
         $this->tpl['AUTOMATIC_SCALING_DESCRIPTION'] = self::_("Choose game scale automatically based on browser window size and current game situation (highly recommended)");
         $this->tpl['SCALE'] = self::_("Scale");
         $this->tpl['AGE'] = self::_("Age");
