@@ -784,11 +784,11 @@ __     __         _       _     _
     display: none;
 }
 
-#swd[data-state=chooseProgressTokenFromBox] #progress_token_from_box {
+.current_player_is_active #swd[data-state=chooseProgressTokenFromBox] #progress_token_from_box {
     display: block;
 }
 
-.current_player_is_active #progress_token_from_box_container .progress_token {
+#progress_token_from_box_container .progress_token {
     cursor: pointer;
 }
 
