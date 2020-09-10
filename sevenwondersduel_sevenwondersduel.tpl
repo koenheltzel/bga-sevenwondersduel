@@ -33,11 +33,11 @@
     z-index: 50; opacity: 0.5; display: none"></div>
 <div id="swd" data-state="" data-quality="" data-agora="{AGORA}">
     <div id="swd_wrap" class="square" data-wonder-columns="1">
-        <div id="player_wonders_mobile_container_{PLAYER_OPPONENT_ID}" class="whiteblock"></div>
+        <div id="player_wonders_mobile_container_{PLAYER_OPPONENT_ID}" class="player_wonders_mobile opponent whiteblock"></div>
         <div id="layout_flexbox">
             <div id="wonder_column">
                 <!-- BEGIN player_wonders -->
-                <div id="player_wonders_container_{PLAYER_ID}" class="player_wonders_container whiteblock">
+                <div id="player_wonders_container_{PLAYER_ID}" class="player_wonders_container {PLAYER_ALIAS} whiteblock">
                     <div id="player_wonders_{PLAYER_ID}" class="player_wonders player{PLAYER_ID} {PLAYER_ALIAS}">
                         <div class="card_outline"></div>
                         <div class="card_outline"></div>
@@ -284,7 +284,7 @@
                 <!-- END board_column_block -->
             </div>
         </div>
-        <div id="player_wonders_mobile_container_{PLAYER_ME_ID}" class="whiteblock"></div>
+        <div id="player_wonders_mobile_container_{PLAYER_ME_ID}" class="player_wonders_mobile me whiteblock"></div>
     </div>
     <div id="discarded_cards_whiteblock" class="whiteblock">
         <h3>{DISCARDED_BUILDINGS}</h3>

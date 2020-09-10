@@ -403,6 +403,15 @@ __     __         _       _     _
     display: flex;
     flex-wrap: wrap;
 }
+.player_conspiracies .conspiracy {
+    z-index: 2;
+}
+
+.player_conspiracies > div {
+    width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
+    height: calc(var(--conspiracy-compact-height) * var(--conspiracy-small-scale) * var(--conspiracy-plus-age-card-scale));
+}
+
 #swd_wrap.landscape .player_conspiracies {
     width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
     justify-content: flex-end;
@@ -435,12 +444,13 @@ __     __         _       _     _
     margin-right: var(--gutter);
 }
 
-.player_conspiracies > div {
-    width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
-    height: calc(var(--conspiracy-compact-height) * var(--conspiracy-small-scale) * var(--conspiracy-plus-age-card-scale));
+#swd_wrap.portrait .player_conspiracies.me > div {
+    margin-top: var(--gutter);
+    margin-right: var(--gutter);
 }
-.player_conspiracies .conspiracy {
-    z-index: 2;
+#swd_wrap.portrait .player_conspiracies.opponent > div {
+    margin-bottom: var(--gutter);
+    margin-right: var(--gutter);
 }
 
 
@@ -1148,19 +1158,19 @@ __     __         _       _     _
     pointer-events: none;
 }
 
-#swd_wrap.portrait .player_wonders.opponent {
+#swd_wrap.portrait .player_wonders_mobile.opponent {
     border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
 }
 
-#swd_wrap.portrait .player_wonders.me {
+#swd_wrap.portrait .player_wonders_mobile.me {
     border-radius: 0 0 var(--small-border-radius) var(--small-border-radius);
 }
 
-#swd_wrap.square .player_wonders.opponent, #swd_wrap.landscape .player_wonders.opponent {
+#swd_wrap.square .player_wonders_container.opponent, #swd_wrap.landscape .player_wonders_container.opponent {
     border-radius: var(--small-border-radius) 0 var(--small-border-radius) var(--small-border-radius);
 }
 
-#swd_wrap.square .player_wonders.me, #swd_wrap.landscape .player_wonders.me {
+#swd_wrap.square .player_wonders_container.me, #swd_wrap.landscape .player_wonders_container.me {
     border-radius: var(--small-border-radius) var(--small-border-radius) 0 var(--small-border-radius);
 }
 

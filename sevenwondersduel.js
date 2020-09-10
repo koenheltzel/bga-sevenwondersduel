@@ -2612,6 +2612,9 @@ define([
             updateLowerDivsWidth: function() {
                 dojo.style($('discarded_cards_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
                 dojo.style($('settings_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
+                dojo.query('.player_wonders_mobile').forEach(dojo.hitch(this, function (node, index, arr) {
+                    dojo.style(node, 'width', 'calc(' + dojo.style('layout_flexbox', 'width') + 'px' + ' - 2 * var(--gutter))');
+                }));
             },
 
             autoUpdateScale: function() {
