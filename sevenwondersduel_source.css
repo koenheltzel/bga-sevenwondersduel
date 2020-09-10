@@ -192,6 +192,9 @@ __     __         _       _     _
 /*    !*background: url('https://en.1.studio.boardgamearena.com:8083/data/themereleases/200730-1036/img/layout/back-main.jpg') !important;*!*/
 /*    background-color: white;*/
 /*}*/
+.whiteblock:empty {
+    display: none !important;
+}
 
 #game_play_area {
 
@@ -399,26 +402,42 @@ __     __         _       _     _
 .player_conspiracies {
     display: flex;
     flex-wrap: wrap;
-    width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
-    justify-content: flex-end;
-    position: relative;
 }
 #swd_wrap.landscape .player_conspiracies {
-    right: calc(0px - var(--gutter));
-    margin: 0 0 var(--gutter) 0;
+    width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
+    justify-content: flex-end;
 }
+#swd_wrap.landscape .player_conspiracies.me > div {
+    margin-top: var(--gutter);
+    margin-left: var(--gutter);
+}
+#swd_wrap.landscape .player_conspiracies.opponent {
+    flex-wrap: wrap-reverse;
+}
+#swd_wrap.landscape .player_conspiracies.opponent > div {
+    margin-bottom: var(--gutter);
+    margin-left: var(--gutter);
+}
+
 #swd_wrap.square .player_conspiracies {
     flex-direction: column;
-    width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
+    justify-content: flex-start;
 }
-#wonder_column > div:nth-of-type(2) .player_conspiracies {
-    margin: var(--gutter) 0 0 0;
+#swd_wrap.square .player_conspiracies.me > div {
+    margin-bottom: var(--gutter);
+    margin-right: var(--gutter);
+}
+#swd_wrap.square .player_conspiracies.opponent {
+    justify-content: flex-end;
+}
+#swd_wrap.square .player_conspiracies.opponent > div {
+    margin-top: var(--gutter);
+    margin-right: var(--gutter);
 }
 
 .player_conspiracies > div {
     width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
     height: calc(var(--conspiracy-compact-height) * var(--conspiracy-small-scale) * var(--conspiracy-plus-age-card-scale));
-    margin-right: var(--gutter);
 }
 .player_conspiracies .conspiracy {
     z-index: 2;
@@ -496,7 +515,7 @@ __     __         _       _     _
 
 #swd[data-agora="1"] #swd_wrap.portrait #board_column {
     /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
-    width: calc(390px * var(--scale));
+    width: calc(395px * var(--scale));
 }
 
 #swd[data-agora="1"] #swd_wrap.square #board_column, #swd[data-agora="1"] #swd_wrap.landscape #board_column {

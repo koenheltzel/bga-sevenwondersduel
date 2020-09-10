@@ -217,6 +217,10 @@ define([
                 dojo.place(this.getConspiracyDivHtml(3), 'player_conspiracies_2310957');
                 dojo.place(this.getConspiracyDivHtml(4), 'player_conspiracies_2310957');
                 dojo.place(this.getConspiracyDivHtml(5), 'player_conspiracies_2310957');
+                dojo.place(this.getConspiracyDivHtml(5), 'player_conspiracies_2310957');
+                dojo.place(this.getConspiracyDivHtml(5), 'player_conspiracies_2310957');
+                dojo.place(this.getConspiracyDivHtml(5), 'player_conspiracies_2310957');
+
                 dojo.place(this.getConspiracyDivHtml(6), 'player_conspiracies_2310958');
                 dojo.place(this.getConspiracyDivHtml(7), 'player_conspiracies_2310958');
                 dojo.place(this.getConspiracyDivHtml(8), 'player_conspiracies_2310958');
@@ -2467,12 +2471,16 @@ define([
                     case this.LAYOUT_LANDSCAPE:
                     case this.LAYOUT_SQUARE:
                         Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                            dojo.place('player_conspiracies_' + playerId, 'player_wonders_container_' + playerId);
                             dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
+                            dojo.empty('player_wonders_mobile_container_' + playerId);
                         }));
                         break;
                     case this.LAYOUT_PORTRAIT:
                         Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
                             dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
+                            dojo.place('player_conspiracies_' + playerId, 'player_wonders_mobile_container_' + playerId);
+                            dojo.empty('player_wonders_container_' + playerId);
                         }));
                         break;
                 }
