@@ -2418,34 +2418,34 @@ define([
                 // At the end of the game there's more room taken up by bars up top but no idea how to reliably calculate that.
                 var endGameScaleCompensation = ($('maingameview_menuheader') && dojo.style($('maingameview_menuheader'), 'display') != 'none') ? 0.93 : 1.0;
 
-                var width = titlePosition.w; // - 5
-                var height = (window.innerHeight / pageZoom * endGameScaleCompensation - titlePosition.y - titlePosition.h - 2 * titleMarginBottom);
+                var availableWidth = titlePosition.w; // - 5
+                var availableHeight = (window.innerHeight / pageZoom * endGameScaleCompensation - titlePosition.y - titlePosition.h - 2 * titleMarginBottom);
 
                 var debugPlayArea = $('debugPlayArea');
-                dojo.style(debugPlayArea, "width", width + 'px');
-                dojo.style(debugPlayArea, "height", height + 'px');
+                dojo.style(debugPlayArea, "width", availableWidth + 'px');
+                dojo.style(debugPlayArea, "height", availableHeight + 'px');
 
-                var ratio = width / height;
+                var availableRatio = availableWidth / availableHeight;
 
                 if (this.debug) console.log('titlePosition: ', titlePosition);
-                if (this.debug) console.log('available play area: ', width, height);
-                if (this.debug) console.log('ratio', ratio);
+                if (this.debug) console.log('available play area: ', availableWidth, availableHeight);
+                if (this.debug) console.log('ratio', availableRatio);
                 if (this.debug) console.log('pageZoom', pageZoom);
 
                 // Measured in 75% view, without any player buildings (meaning the height can become heigher:
-                var portrait = 0.78;//747 / 987; // 0.76
+                var portrait = 0.69;
                 // var square = 947 / 897; // 1.056
-                var landscape = 1.6; //1131/ 756; // 1.60
+                var landscape = 1.6;
 
                 if (this.autoLayout) {
-                    if (ratio >= landscape) {
-                        if (this.debug) console.log('ratio: ', ratio, 'choosing landscape');
+                    if (availableRatio >= landscape) {
+                        if (this.debug) console.log('ratio: ', availableRatio, 'choosing landscape');
                         this.layout = this.LAYOUT_LANDSCAPE;
-                    } else if (ratio < landscape && ratio > portrait) {
-                        if (this.debug) console.log('ratio: ', ratio, 'choosing square');
+                    } else if (availableRatio < landscape && availableRatio > portrait) {
+                        if (this.debug) console.log('ratio: ', availableRatio, 'choosing square');
                         this.layout = this.LAYOUT_SQUARE;
                     } else { // ratio <= portrait
-                        if (this.debug) console.log('ratio: ', ratio, 'choosing portrait');
+                        if (this.debug) console.log('ratio: ', availableRatio, 'choosing portrait');
                         this.layout = this.LAYOUT_PORTRAIT;
                     }
                 }
@@ -2459,7 +2459,7 @@ define([
                         this.setLayout(this.LAYOUT_LANDSCAPE);
                         if (this.autoScale && !this.freezeLayout) {
                             this.setScale(1);
-                            this.scale = height / dojo.style($('swd_wrap'), 'height');
+                            this.scale = availableHeight / dojo.style($('swd_wrap'), 'height');
                         }
                         this.setScale(this.scale);
                         break;
@@ -2470,12 +2470,12 @@ define([
 
                         this.setLayout(this.LAYOUT_SQUARE);
                         if (this.autoScale && !this.freezeLayout) {
-                            if (width > height) {
+                            if (availableWidth > availableHeight) {
                                 this.setScale(1);
-                                this.scale = height / dojo.style($('swd_wrap'), 'height');
+                                this.scale = availableHeight / dojo.style($('swd_wrap'), 'height');
                             } else {
                                 this.setScale(1);
-                                this.scale = width / dojo.style($('layout_flexbox'), 'width');
+                                this.scale = availableWidth / dojo.style($('layout_flexbox'), 'width');
                             }
                         }
                         this.setScale(this.scale);
@@ -2488,11 +2488,11 @@ define([
                         this.setLayout(this.LAYOUT_PORTRAIT);
                         if (this.autoScale && !this.freezeLayout) {
                             this.setScale(1);
-                            if (ratio <= portrait) {
-                                this.scale = width / dojo.style($('layout_flexbox'), 'width');
+                            if (availableRatio <= portrait) {
+                                this.scale = availableWidth / dojo.style($('layout_flexbox'), 'width');
                             }
                             else {
-                                this.scale = height / dojo.style($('swd_wrap'), 'height');
+                                this.scale = availableHeight / dojo.style($('swd_wrap'), 'height');
                             }
                         }
                         this.setScale(this.scale);
