@@ -2490,6 +2490,8 @@ define([
             setScale: function (scale) {
                 this.setCssVariable('--scale', scale);
                 $('setting_scale').value = parseInt(scale * 100);
+
+                this.updateLowerDivsWidth();
             },
 
             getCssVariable: function (name) {
@@ -2559,6 +2561,7 @@ define([
 
                 if (!this.autoScale) {
                     this.scale = Math.min(200, Math.max(50, parseInt($('setting_scale').value))) / 100;
+                    this.setScale(this.scale);
                     dojo.cookie('swd_scale', this.scale, { expires: this.cookieExpireDays });
                 }
                 else {
@@ -2595,14 +2598,15 @@ define([
                 }
                 this.setLayout(this.layout);
 
+                // Already update based on layout change. (Update later again in autoUpdateScale -> setScale).
+                this.updateLowerDivsWidth();
+
                 if (this.autoScale && !this.freezeLayout) {
                     // Delayed call to update the scale.
                     // Why delayed? Because possibly changing the position of the player wonders div in setLayout, takes a while for css/dom/browser to process.
                     clearTimeout(this.autoUpdateScaleTimeoutId);
                     this.autoUpdateScaleTimeoutId = setTimeout(dojo.hitch(this, "autoUpdateScale"), 50);
                 }
-
-                this.updateLowerDivsWidth();
             },
 
             updateLowerDivsWidth: function() {
@@ -2626,8 +2630,6 @@ define([
                     this.scale = availableDimensions[0] / currentDimensions[0];
                 }
                 this.setScale(this.scale);
-
-                this.updateLowerDivsWidth();
             },
 
             onSettingAutoScaleChange: function (e) {
