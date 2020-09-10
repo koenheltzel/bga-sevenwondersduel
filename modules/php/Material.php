@@ -343,7 +343,7 @@ class Material extends Base
             ->setListPosition([355, 891]);
 
         $this->buildings[39] = (new Building(39, 2, clienttranslate("Forum"), Building::TYPE_YELLOW))
-            ->setCost([COINS => 3, CLAY => 2])
+            ->setCost([COINS => 3, CLAY => 1])
             ->setResourceChoice([GLASS, PAPYRUS])
             ->setListPosition([244, 357]);
 
