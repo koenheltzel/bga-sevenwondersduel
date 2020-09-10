@@ -2489,7 +2489,8 @@ define([
                 this.setLayout(this.layout);
 
                 if (this.autoScale && !this.freezeLayout) {
-                    // Set up the callback
+                    // Delayed call to update the scale.
+                    // Why delayed? Because possibly changing the position of the player wonders div in setLayout, takes a while for css/dom/browser to process.
                     clearTimeout(this.autoUpdateScaleTimeoutId);
                     this.autoUpdateScaleTimeoutId = setTimeout(dojo.hitch(this, "autoUpdateScale"), 50);
                 }
