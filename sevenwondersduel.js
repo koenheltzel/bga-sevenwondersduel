@@ -2470,9 +2470,9 @@ define([
                 }
 
                 // Measured in 75% view, without any player buildings (meaning the height can become heigher:
-                var portrait = 0.69;
+                var portrait = 0.88;
                 // var square = 947 / 897; // 1.056
-                var landscape = 1.6;
+                var landscape = 1.4;
 
                 if (this.autoLayout) {
                     if (availableRatio >= landscape) {
