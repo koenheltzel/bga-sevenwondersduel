@@ -212,12 +212,12 @@ define([
                 }
 
 
-                dojo.place(this.getConspiracyDivHtml(1), 'player_conspiracies_2310957');
-                dojo.place(this.getConspiracyDivHtml(2), 'player_conspiracies_2310957');
+                dojo.place(this.getConspiracyDivHtml(18), 'player_conspiracies_2310957');
+                dojo.place(this.getConspiracyDivHtml(18), 'player_conspiracies_2310957');
                 dojo.place(this.getConspiracyDivHtml(3), 'player_conspiracies_2310957');
                 dojo.place(this.getConspiracyDivHtml(4), 'player_conspiracies_2310957');
 
-                dojo.place(this.getConspiracyDivHtml(7), 'player_conspiracies_2310958');
+                dojo.place(this.getConspiracyDivHtml(18), 'player_conspiracies_2310958');
                 dojo.place(this.getConspiracyDivHtml(8), 'player_conspiracies_2310958');
                 dojo.place(this.getConspiracyDivHtml(9), 'player_conspiracies_2310958');
 
@@ -878,7 +878,7 @@ define([
                 var conspiracy = this.gamedatas.conspiracies[conspiracyId];
                 var data = {
                     jsId: conspiracyId,
-                    jsName: _(conspiracy.name),
+                    jsName: conspiracy ? _(conspiracy.name) : '',
                 };
                 var spritesheetColumns = 6;
                 data.jsX = (conspiracyId - 1) % spritesheetColumns;
