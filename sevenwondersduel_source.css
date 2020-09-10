@@ -402,8 +402,14 @@ __     __         _       _     _
     width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
     justify-content: flex-end;
     position: relative;
+}
+#swd_wrap.landscape .player_conspiracies {
     right: calc(0px - var(--gutter));
     margin: 0 0 var(--gutter) 0;
+}
+#swd_wrap.square .player_conspiracies {
+    flex-direction: column;
+    width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
 }
 #wonder_column > div:nth-of-type(2) .player_conspiracies {
     margin: var(--gutter) 0 0 0;
@@ -1137,6 +1143,18 @@ __     __         _       _     _
 
 #swd_wrap.square .player_wonders.me, #swd_wrap.landscape .player_wonders.me {
     border-radius: var(--small-border-radius) var(--small-border-radius) 0 var(--small-border-radius);
+}
+
+.player_wonders_container {
+    display: flex;
+    flex-direction: column;
+}
+/*#swd_wrap.portrait .player_wonders_container {*/
+/*    border-radius: 0 0 var(--small-border-radius) var(--small-border-radius);*/
+/*}*/
+
+#swd_wrap.square .player_wonders_container {
+    flex-direction: row;
 }
 
 .player_wonders .wonder_small {
