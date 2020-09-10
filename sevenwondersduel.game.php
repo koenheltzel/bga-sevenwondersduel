@@ -395,8 +395,8 @@ class SevenWondersDuel extends Table
         $opponent = Player::opponent();
         $result['discardedBuildings'] = SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
         $result['playerBuildings'] = [
-            $me->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($me->id),
-            $opponent->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($opponent->id),
+            $me->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($me->id, null, 'card_location_arg'),
+            $opponent->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($opponent->id, null, 'card_location_arg'),
         ];
         $result['playersSituation'] = Players::getSituation((int)$this->getGameStateValue(self::VALUE_END_GAME_CONDITION) != 0);
         $result['buildings'] = Material::get()->buildings->array;

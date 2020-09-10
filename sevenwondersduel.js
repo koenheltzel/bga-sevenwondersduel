@@ -554,15 +554,15 @@ define([
             },
 
             updatePlayerBuildings: function (playerId, cards) {
-                if (cards.constructor == Object) {
-                    var i = 1;
-                    Object.keys(cards).forEach(dojo.hitch(this, function (buildingId) {
-                        var building = this.gamedatas.buildings[buildingId];
-                        var container = dojo.query('.player_buildings.player' + playerId + ' .' + building.type)[0];
-                        dojo.place(this.getBuildingDivHtml(buildingId, building), container);
-                        i++;
-                    }));
-                }
+                if (this.debug) console.log('updatePlayerBuildings: ', playerId, cards);
+
+                var i = 1;
+                Object.keys(cards).forEach(dojo.hitch(this, function (index) {
+                    var building = this.gamedatas.buildings[cards[index].id];
+                    var container = dojo.query('.player_buildings.player' + playerId + ' .' + building.type)[0];
+                    dojo.place(this.getBuildingDivHtml(building.id, building), container);
+                    i++;
+                }));
             },
 
             getDraftpoolCardData: function (buildingId) {

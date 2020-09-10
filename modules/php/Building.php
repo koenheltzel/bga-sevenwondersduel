@@ -96,7 +96,7 @@ class Building extends Item {
     public function construct(Player $player, $building = null, $discardedCard = false) {
         $payment = parent::construct($player, $building, $discardedCard);
 
-        SevenWondersDuel::get()->buildingDeck->moveCard($this->id, $player->id);
+        SevenWondersDuel::get()->buildingDeck->insertCardOnExtremePosition($this->id, $player->id, true);
 
         // We want to send this notification first, before the detailed "effects" notifications.
         // However, the Payment object passed in this notification is by reference and this will contain
