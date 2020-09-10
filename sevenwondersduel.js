@@ -66,6 +66,7 @@ define([
             // General properties
             customTooltips: [],
             windowResizeTimeoutId: null,
+            autoUpdateScaleTimeoutId: null,
 
             // Animation durations
             constructBuildingAnimationDuration: 1000,
@@ -83,29 +84,6 @@ define([
 
             constructor: function () {
                 bgagame.sevenwondersduelagora.instance = this;
-
-                if (dojo.cookie('swd_autoLayout') !== undefined) {
-                    this.autoLayout = parseInt(dojo.cookie('swd_autoLayout'));
-                }
-                if (!this.autoLayout && dojo.cookie('swd_layout') !== undefined) {
-                    this.layout = dojo.cookie('swd_layout');
-                    this.setLayout(this.layout);
-                }
-                if (dojo.cookie('swd_autoScale') !== undefined) {
-                    this.autoScale = parseInt(dojo.cookie('swd_autoScale'));
-                }
-                if (!this.autoScale && dojo.cookie('swd_scale') !== undefined) {
-                    this.scale = parseFloat(dojo.cookie('swd_scale'));
-                    this.setScale(this.scale);
-                }
-                if (dojo.cookie('swd_autoQuality') !== undefined) {
-                    this.autoQuality = parseInt(dojo.cookie('swd_autoQuality'));
-                }
-                if (!this.autoQuality && dojo.cookie('swd_quality') !== undefined) {
-                    this.quality = dojo.cookie('swd_quality');
-                }
-                this.updateSettings();
-                this.updateQuality(); // To update the data-quality attribute (it's important to have called updateSettings() first, so $('setting_quality').value is set correctly).
 
                 // Tooltip settings
                 // dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
@@ -132,6 +110,30 @@ define([
                 this.gamedatas = gamedatas;
 
                 this.agora = this.gamedatas.agora;
+
+                // Do this here and not in constructor because setLayout uses gamedatas
+                if (dojo.cookie('swd_autoLayout') !== undefined) {
+                    this.autoLayout = parseInt(dojo.cookie('swd_autoLayout'));
+                }
+                if (!this.autoLayout && dojo.cookie('swd_layout') !== undefined) {
+                    this.layout = dojo.cookie('swd_layout');
+                    this.setLayout(this.layout);
+                }
+                if (dojo.cookie('swd_autoScale') !== undefined) {
+                    this.autoScale = parseInt(dojo.cookie('swd_autoScale'));
+                }
+                if (!this.autoScale && dojo.cookie('swd_scale') !== undefined) {
+                    this.scale = parseFloat(dojo.cookie('swd_scale'));
+                    this.setScale(this.scale);
+                }
+                if (dojo.cookie('swd_autoQuality') !== undefined) {
+                    this.autoQuality = parseInt(dojo.cookie('swd_autoQuality'));
+                }
+                if (!this.autoQuality && dojo.cookie('swd_quality') !== undefined) {
+                    this.quality = dojo.cookie('swd_quality');
+                }
+                this.updateSettings();
+                this.updateQuality(); // To update the data-quality attribute (it's important to have called updateSettings() first, so $('setting_quality').value is set correctly).
 
                 if (this.quality == '2x') {
                     this.dontPreloadImage('board.png');
@@ -2460,6 +2462,20 @@ define([
                 dojo.removeClass(swdNode, this.LAYOUT_LANDSCAPE);
                 dojo.addClass(swdNode, layout);
                 $('setting_layout').value = layout;
+
+                switch(layout) {
+                    case this.LAYOUT_LANDSCAPE:
+                    case this.LAYOUT_SQUARE:
+                        Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                            dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
+                        }));
+                        break;
+                    case this.LAYOUT_PORTRAIT:
+                        Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                            dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
+                        }));
+                        break;
+                }
             },
 
             setScale: function (scale) {
@@ -2489,6 +2505,40 @@ define([
                 this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "updateLayout"), 50);
             },
 
+            getAvailableDimensions: function() {
+                var pageZoom = dojo.style($('page-content'), "zoom");
+                if (pageZoom == undefined) pageZoom = 1;
+
+                // At the end of the game there's more room taken up by bars up top but no idea how to reliably calculate that.
+                var endGameScaleCompensation = ($('maingameview_menuheader') && dojo.style($('maingameview_menuheader'), 'display') != 'none') ? 0.93 : 1.0;
+
+                var titlePosition = dojo.position('page-title', false);
+                var titleMarginBottom = 5;
+
+                if (this.debug) console.log('titlePosition: ', titlePosition);
+                if (this.debug) console.log('pageZoom', pageZoom);
+
+                let width = titlePosition.w;
+                let height = (window.innerHeight / pageZoom * endGameScaleCompensation - titlePosition.y - titlePosition.h - 2 * titleMarginBottom);
+                return [width, height]
+            },
+
+            getAvailableRatio: function() {
+                let dimensions = this.getAvailableDimensions();
+                return dimensions[0] / dimensions[1];
+            },
+
+            getCurrentDimensions: function() {
+                let width = dojo.style($('layout_flexbox'), 'width');
+                let height = dojo.style($('swd_wrap'), 'height');
+                return [width, height]
+            },
+
+            getCurrentRatio: function() {
+                let dimensions = this.getCurrentDimensions();
+                return dimensions[0] / dimensions[1];
+            },
+
             updateLayout: function () {
                 if (!this.autoLayout) {
                     this.layout = $('setting_layout').value;
@@ -2506,29 +2556,16 @@ define([
                     dojo.cookie("swd_scale", null, {expires: -1});
                 }
 
-                // TODO: When BGA stops using the "zoom" css attribute for page-content and other elements, this function should be rewritten / simplified making it much more precise.
-                var titlePosition = dojo.position('page-title', false);
-                var titleMarginBottom = 5;
+                var availableDimensions = this.getAvailableDimensions();
+                var availableRatio = availableDimensions[0] / availableDimensions[1];
+                if (this.debug) {
+                    var debugPlayArea = $('debugPlayArea');
+                    dojo.style(debugPlayArea, "width", availableDimensions[0] + 'px');
+                    dojo.style(debugPlayArea, "height", availableDimensions[1] + 'px');
 
-                var pageZoom = dojo.style($('page-content'), "zoom");
-                if (pageZoom == undefined) pageZoom = 1;
-
-                // At the end of the game there's more room taken up by bars up top but no idea how to reliably calculate that.
-                var endGameScaleCompensation = ($('maingameview_menuheader') && dojo.style($('maingameview_menuheader'), 'display') != 'none') ? 0.93 : 1.0;
-
-                var availableWidth = titlePosition.w; // - 5
-                var availableHeight = (window.innerHeight / pageZoom * endGameScaleCompensation - titlePosition.y - titlePosition.h - 2 * titleMarginBottom);
-
-                var debugPlayArea = $('debugPlayArea');
-                dojo.style(debugPlayArea, "width", availableWidth + 'px');
-                dojo.style(debugPlayArea, "height", availableHeight + 'px');
-
-                var availableRatio = availableWidth / availableHeight;
-
-                if (this.debug) console.log('titlePosition: ', titlePosition);
-                if (this.debug) console.log('available play area: ', availableWidth, availableHeight);
-                if (this.debug) console.log('ratio', availableRatio);
-                if (this.debug) console.log('pageZoom', pageZoom);
+                    if (this.debug) console.log('available play area: ', availableDimensions[0], availableDimensions[1]);
+                    if (this.debug) console.log('ratio', availableRatio);
+                }
 
                 // Measured in 75% view, without any player buildings (meaning the height can become heigher:
                 var portrait = 0.69;
@@ -2547,58 +2584,75 @@ define([
                         this.layout = this.LAYOUT_PORTRAIT;
                     }
                 }
+                this.setLayout(this.layout);
 
-                switch(this.layout) {
-                    case this.LAYOUT_LANDSCAPE:
-                        Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                            dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
-                        }));
-
-                        this.setLayout(this.LAYOUT_LANDSCAPE);
-                        if (this.autoScale && !this.freezeLayout) {
-                            this.setScale(1);
-                            this.scale = availableHeight / dojo.style($('swd_wrap'), 'height');
-                        }
-                        this.setScale(this.scale);
-                        break;
-                    case this.LAYOUT_SQUARE:
-                        Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                            dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
-                        }));
-
-                        this.setLayout(this.LAYOUT_SQUARE);
-                        if (this.autoScale && !this.freezeLayout) {
-                            if (availableWidth > availableHeight) {
-                                this.setScale(1);
-                                this.scale = availableHeight / dojo.style($('swd_wrap'), 'height');
-                            } else {
-                                this.setScale(1);
-                                this.scale = availableWidth / dojo.style($('layout_flexbox'), 'width');
-                            }
-                        }
-                        this.setScale(this.scale);
-                        break;
-                    case this.LAYOUT_PORTRAIT:
-                        Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                            dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
-                        }));
-
-                        this.setLayout(this.LAYOUT_PORTRAIT);
-                        if (this.autoScale && !this.freezeLayout) {
-                            this.setScale(1);
-                            if (availableRatio <= portrait) {
-                                this.scale = availableWidth / dojo.style($('layout_flexbox'), 'width');
-                            }
-                            else {
-                                this.scale = availableHeight / dojo.style($('swd_wrap'), 'height');
-                            }
-                        }
-                        this.setScale(this.scale);
-                        break;
+                if (this.autoScale && !this.freezeLayout) {
+                    // Set up the callback
+                    clearTimeout(this.autoUpdateScaleTimeoutId);
+                    this.autoUpdateScaleTimeoutId = setTimeout(dojo.hitch(this, "autoUpdateScale"), 50);
                 }
 
                 dojo.style($('discarded_cards_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
                 dojo.style($('settings_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
+            },
+
+            autoUpdateScale: function() {
+                this.setScale(1);
+                let availableDimensions = this.getAvailableDimensions();
+                let currentDimensions = this.getCurrentDimensions();
+
+                if (this.getAvailableRatio() > this.getCurrentRatio()) {
+                    this.scale = availableDimensions[1] / currentDimensions[1];
+                }
+                else {
+                    this.scale = availableDimensions[0] / currentDimensions[0];
+                }
+                this.setScale(this.scale);
+                // switch(this.layout) {
+                //     case this.LAYOUT_LANDSCAPE:
+                //         if (this.getAvailableRatio() > this.getCurrentRatio()) {
+                //             this.scale = availableDimensions[1] / currentDimensions[1];
+                //         }
+                //         else {
+                //             this.scale = availableDimensions[0] / currentDimensions[0];
+                //         }
+                //         this.setScale(this.scale);
+                //         break;
+                //     case this.LAYOUT_SQUARE:
+                //         Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                //             dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
+                //         }));
+                //
+                //         this.setLayout(this.LAYOUT_SQUARE);
+                //         if (this.autoScale && !this.freezeLayout) {
+                //             if (availableWidth > availableHeight) {
+                //                 this.setScale(1);
+                //                 this.scale = availableHeight / dojo.style($('swd_wrap'), 'height');
+                //             } else {
+                //                 this.setScale(1);
+                //                 this.scale = availableWidth / dojo.style($('layout_flexbox'), 'width');
+                //             }
+                //         }
+                //         this.setScale(this.scale);
+                //         break;
+                //     case this.LAYOUT_PORTRAIT:
+                //         Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
+                //             dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
+                //         }));
+                //
+                //         this.setLayout(this.LAYOUT_PORTRAIT);
+                //         if (this.autoScale && !this.freezeLayout) {
+                //             this.setScale(1);
+                //             if (availableRatio <= portrait) {
+                //                 this.scale = availableWidth / dojo.style($('layout_flexbox'), 'width');
+                //             }
+                //             else {
+                //                 this.scale = availableHeight / dojo.style($('swd_wrap'), 'height');
+                //             }
+                //         }
+                //         this.setScale(this.scale);
+                //         break;
+                // }
             },
 
             onSettingAutoScaleChange: function (e) {
