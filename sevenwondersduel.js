@@ -2494,67 +2494,32 @@ define([
                     this.autoUpdateScaleTimeoutId = setTimeout(dojo.hitch(this, "autoUpdateScale"), 50);
                 }
 
+                this.updateLowerDivsWidth();
+            },
+
+            updateLowerDivsWidth: function() {
                 dojo.style($('discarded_cards_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
                 dojo.style($('settings_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
             },
 
             autoUpdateScale: function() {
                 this.setScale(1);
-                let availableDimensions = this.getAvailableDimensions();
-                let currentDimensions = this.getCurrentDimensions();
 
-                if (this.getAvailableRatio() > this.getCurrentRatio()) {
+                let availableDimensions = this.getAvailableDimensions();
+                let availableRatio = availableDimensions[0] / availableDimensions[1];
+
+                let currentDimensions = this.getCurrentDimensions();
+                let currentRatio = currentDimensions[0] / currentDimensions[1];
+
+                if (availableRatio > currentRatio) {
                     this.scale = availableDimensions[1] / currentDimensions[1];
                 }
                 else {
                     this.scale = availableDimensions[0] / currentDimensions[0];
                 }
                 this.setScale(this.scale);
-                // switch(this.layout) {
-                //     case this.LAYOUT_LANDSCAPE:
-                //         if (this.getAvailableRatio() > this.getCurrentRatio()) {
-                //             this.scale = availableDimensions[1] / currentDimensions[1];
-                //         }
-                //         else {
-                //             this.scale = availableDimensions[0] / currentDimensions[0];
-                //         }
-                //         this.setScale(this.scale);
-                //         break;
-                //     case this.LAYOUT_SQUARE:
-                //         Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                //             dojo.place('player_wonders_' + playerId, 'player_wonders_container_' + playerId);
-                //         }));
-                //
-                //         this.setLayout(this.LAYOUT_SQUARE);
-                //         if (this.autoScale && !this.freezeLayout) {
-                //             if (availableWidth > availableHeight) {
-                //                 this.setScale(1);
-                //                 this.scale = availableHeight / dojo.style($('swd_wrap'), 'height');
-                //             } else {
-                //                 this.setScale(1);
-                //                 this.scale = availableWidth / dojo.style($('layout_flexbox'), 'width');
-                //             }
-                //         }
-                //         this.setScale(this.scale);
-                //         break;
-                //     case this.LAYOUT_PORTRAIT:
-                //         Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                //             dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
-                //         }));
-                //
-                //         this.setLayout(this.LAYOUT_PORTRAIT);
-                //         if (this.autoScale && !this.freezeLayout) {
-                //             this.setScale(1);
-                //             if (availableRatio <= portrait) {
-                //                 this.scale = availableWidth / dojo.style($('layout_flexbox'), 'width');
-                //             }
-                //             else {
-                //                 this.scale = availableHeight / dojo.style($('swd_wrap'), 'height');
-                //             }
-                //         }
-                //         this.setScale(this.scale);
-                //         break;
-                // }
+
+                this.updateLowerDivsWidth();
             },
 
             onSettingAutoScaleChange: function (e) {
