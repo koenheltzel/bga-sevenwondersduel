@@ -111,6 +111,10 @@ define([
 
                 this.agora = this.gamedatas.agora;
 
+                // Because of spectators we can't assume everywhere that this.player_id is one of the two players.
+                this.me_id = parseInt(this.gamedatas.me_id); // me = alias for the player on the bottom
+                this.opponent_id = parseInt(this.gamedatas.opponent_id); // opponent = alias for the player on the top
+
                 // Do this here and not in constructor because setLayout uses gamedatas
                 if (dojo.cookie('swd_autoLayout') !== undefined) {
                     this.autoLayout = parseInt(dojo.cookie('swd_autoLayout'));
@@ -168,10 +172,6 @@ define([
                     this.dontPreloadImage('agora_sprites@2X.png');
                     console.log('dontPreloadImage block D');
                 }
-
-                // Because of spectators we can't assume everywhere that this.player_id is one of the two players.
-                this.me_id = parseInt(this.gamedatas.me_id); // me = alias for the player on the bottom
-                this.opponent_id = parseInt(this.gamedatas.opponent_id); // opponent = alias for the player on the top
 
                 // Setup game situation.
                 this.updateWondersSituation(this.gamedatas.wondersSituation);
@@ -2478,8 +2478,9 @@ define([
                         break;
                     case this.LAYOUT_PORTRAIT:
                         Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
-                            dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
+                            if (parseInt(playerId) == this.me_id) dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
                             dojo.place('player_conspiracies_' + playerId, 'player_wonders_mobile_container_' + playerId);
+                            if (parseInt(playerId) == this.opponent_id) dojo.place('player_wonders_' + playerId, 'player_wonders_mobile_container_' + playerId);
                             dojo.empty('player_wonders_container_' + playerId);
                         }));
                         break;
