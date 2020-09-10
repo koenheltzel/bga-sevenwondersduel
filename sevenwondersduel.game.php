@@ -400,8 +400,8 @@ class SevenWondersDuelAgora extends Table
         $opponent = Player::opponent();
         $result['discardedBuildings'] = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
         $result['playerBuildings'] = [
-            $me->id => SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation($me->id),
-            $opponent->id => SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation($opponent->id),
+            $me->id => SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation($me->id, null, 'card_location_arg'),
+            $opponent->id => SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation($opponent->id, null, 'card_location_arg'),
         ];
         $result['playersSituation'] = Players::getSituation((int)$this->getGameStateValue(self::VALUE_END_GAME_CONDITION) != 0);
         $result['buildings'] = Material::get()->buildings->array;
