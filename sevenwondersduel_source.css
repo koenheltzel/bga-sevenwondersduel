@@ -647,7 +647,7 @@ __     __         _       _     _
 }
 
 #buttonDiscardBuilding .coin > span {
-
+    font-weight: normal;
 }
 
 #draftpool .column1 {
@@ -1494,6 +1494,7 @@ __        __              _
 #end_game_container tr td:not(:first-of-type) {
     font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
     font-size: calc(32px * var(--scale));
+    font-weight: normal;
 }
 
 .end_game_player_name {
