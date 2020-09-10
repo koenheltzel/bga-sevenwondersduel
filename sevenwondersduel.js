@@ -216,12 +216,7 @@ define([
                 dojo.place(this.getConspiracyDivHtml(2), 'player_conspiracies_2310957');
                 dojo.place(this.getConspiracyDivHtml(3), 'player_conspiracies_2310957');
                 dojo.place(this.getConspiracyDivHtml(4), 'player_conspiracies_2310957');
-                dojo.place(this.getConspiracyDivHtml(5), 'player_conspiracies_2310957');
-                dojo.place(this.getConspiracyDivHtml(5), 'player_conspiracies_2310957');
-                dojo.place(this.getConspiracyDivHtml(5), 'player_conspiracies_2310957');
-                dojo.place(this.getConspiracyDivHtml(5), 'player_conspiracies_2310957');
 
-                dojo.place(this.getConspiracyDivHtml(6), 'player_conspiracies_2310958');
                 dojo.place(this.getConspiracyDivHtml(7), 'player_conspiracies_2310958');
                 dojo.place(this.getConspiracyDivHtml(8), 'player_conspiracies_2310958');
                 dojo.place(this.getConspiracyDivHtml(9), 'player_conspiracies_2310958');
@@ -989,7 +984,7 @@ define([
                 this.customTooltips.push(
                     new dijit.Tooltip({
                         connectId: "swd",
-                        selector: '.player_info .agora_cube',
+                        selector: '.player_info .player_area_cubes>div',
                         showDelay: this.toolTipDelay,
                         label: _('Influence cubes')
                     })
