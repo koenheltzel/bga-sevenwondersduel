@@ -211,15 +211,16 @@ define([
                     this.updatePlayerProgressTokens(player_id, this.gamedatas.progressTokensSituation[player_id]);
                 }
 
+                if (this.agora) {
+                    dojo.place(this.getConspiracyDivHtml(18), 'player_conspiracies_2310957');
+                    dojo.place(this.getConspiracyDivHtml(18), 'player_conspiracies_2310957');
+                    dojo.place(this.getConspiracyDivHtml(3), 'player_conspiracies_2310957');
+                    dojo.place(this.getConspiracyDivHtml(4), 'player_conspiracies_2310957');
 
-                dojo.place(this.getConspiracyDivHtml(18), 'player_conspiracies_2310957');
-                dojo.place(this.getConspiracyDivHtml(18), 'player_conspiracies_2310957');
-                dojo.place(this.getConspiracyDivHtml(3), 'player_conspiracies_2310957');
-                dojo.place(this.getConspiracyDivHtml(4), 'player_conspiracies_2310957');
-
-                dojo.place(this.getConspiracyDivHtml(18), 'player_conspiracies_2310958');
-                dojo.place(this.getConspiracyDivHtml(8), 'player_conspiracies_2310958');
-                dojo.place(this.getConspiracyDivHtml(9), 'player_conspiracies_2310958');
+                    dojo.place(this.getConspiracyDivHtml(18), 'player_conspiracies_2310958');
+                    dojo.place(this.getConspiracyDivHtml(8), 'player_conspiracies_2310958');
+                    dojo.place(this.getConspiracyDivHtml(9), 'player_conspiracies_2310958');
+                }
 
                 // Set setting dropdown values (translations don't work yet in the constructor, so we do it here).
                 dojo.query('#setting_layout option[value="' + this.LAYOUT_PORTRAIT + '"]')[0].innerText = _('Portrait');
