@@ -1328,6 +1328,14 @@ define([
                 if (this.debug) console.log('notif_wonderSelected', notif);
 
                 var wonderContainerNode = $('wonder_' + notif.args.wonderId + '_container');
+                if (!wonderContainerNode) {
+                    // In case of a replay, it's possible this node doesn't exist yet. In that case keep trying.
+                    const functionToCallPromise = () => this.notif_wonderSelected(notif);
+                    // Wait till the wonderContainerNode is present.
+                    setTimeout(functionToCallPromise, 50);
+                    return;
+                }
+
                 var selectionContainer = wonderContainerNode.parentElement;
                 var wonderNode = $('wonder_' + notif.args.wonderId);
                 var targetNode = dojo.query('.player_wonders.player' + notif.args.playerId + '>div:nth-of-type(' + notif.args.playerWonderCount + ')')[0];
