@@ -49,7 +49,7 @@ $gameinfos = array(
 
 
 // Estimated game duration, in minutes (used only for the launch, afterward the real duration is computed)
-'estimated_duration' => 15,           
+'estimated_duration' => 20,
 
 // Time in second add to a player when "giveExtraTime" is called (speed profile = fast)
 'fast_additional_time' => 30,           
@@ -80,10 +80,10 @@ $gameinfos = array(
 
 
 // Complexity of the game, from 0 (extremely simple) to 5 (extremely complex)
-'complexity' => 2,
+'complexity' => 3,
 
 // Luck of the game, from 0 (absolutely no luck in this game) to 5 (totally luck driven)
-'luck' => 3,
+'luck' => 2,
 
 // Strategy of the game, from 0 (no strategy can be setup) to 5 (totally based on strategy)
 'strategy' => 4,
@@ -123,9 +123,9 @@ $gameinfos = array(
 // Each paragraph must be wrapped with totranslate() for translation and should not contain html (plain text without formatting).
 // A good length for this text is between 100 and 150 words (about 6 to 9 lines on a standard display)
 'presentation' => array(
-//    totranslate("This wonderful game is about geometric shapes!"),
-//    totranslate("It was awarded best triangle game of the year in 2005 and nominated for the Spiel des Jahres."),
-//    ...
+    totranslate("One of the most celebrated games in the world can now be experienced in a two-player arena. 7 Wonders Duel takes the game play and excitement of the original and adapts it for one-on-one battles. Take control of your civilization and decide to invest in science, military or prestige."),
+    totranslate("Two new ways to win will keep you on your toes and watching every move your opponent makes. If you fail to build defenses your capital city may be destroyed, but ignore technology and your people may be left in the dark ages. It's a constant tug of war."),
+    totranslate("7 Wonders Duel is an exciting new way to play the game that took the world by storm. Great for both fans of the original and those new to the hobby."),
 ),
 
 // Games categories
@@ -135,7 +135,7 @@ $gameinfos = array(
 //  http://en.doc.boardgamearena.com/Game_meta-information:_gameinfos.inc.php
 //  IMPORTANT: this list should be ORDERED, with the most important tag first.
 //  IMPORTANT: it is mandatory that the FIRST tag is 1, 2, 3 and 4 (= game category)
-'tags' => array( 3, 11,  20, 30, 102, 106, 200, 207, 210),
+'tags' => array( 3, 11,  20, 30, 102),
 
 
 //////// BGA SANDBOX ONLY PARAMETERS (DO NOT MODIFY)
