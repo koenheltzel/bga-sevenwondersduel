@@ -1351,28 +1351,35 @@ define([
                         dojo.empty(container);
 
                         var wonderNode = dojo.place(this.getWonderDivHtml(card.id, false), 'swd'); // Temporary add it to #swd, so card_outline container stay empty and show the outline.
-                        dojo.style(wonderNode, 'display', 'none');
 
-                        dojo.animateProperty({
-                            node: wonderNode,
-                            delay: animationDelay,
-                            duration: this.putDraftpoolCard,
-                            easing: dojo.fx.easing.linear,
-                            properties: {
-                                opacity: {start: 0.0, end: 1.0},
-                                propertyScale: {start: 1.15, end: 1},
-                                propertyTransform: {start: -40, end: 0},
-                            },
-                            onPlay: function (values) {
-                                dojo.place(this.node, container); // This will hide the outline of the container, which is why we do it as late as possible.
-                                dojo.style(wonderNode, 'display', 'inline-block');
-                                dojo.style(this.node, 'opacity', 0);
-                            },
-                            onAnimate: function (values) {
-                                dojo.style(wonderNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg) scale(' + parseFloat(values.propertyScale.replace("px", "")) + ')');
-                            }
-                        }).play();
-                        animationDelay += this.putDraftpoolCard * 0.75;
+                        if (typeof g_replayFrom != 'undefined' || g_archive_mode) {
+                            // Don't animate when replaying to prevent TypeError: Cannot read property 'parentElement' of null
+                            dojo.place(wonderNode, container);
+                        }
+                        else {
+                            dojo.style(wonderNode, 'display', 'none');
+                            dojo.animateProperty({
+                                node: wonderNode,
+                                delay: animationDelay,
+                                duration: this.putDraftpoolCard,
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    opacity: {start: 0.0, end: 1.0},
+                                    propertyScale: {start: 1.15, end: 1},
+                                    propertyTransform: {start: -40, end: 0},
+                                },
+                                onPlay: function (values) {
+                                    dojo.place(wonderNode, container); // This will hide the outline of the container, which is why we do it as late as possible.
+                                    dojo.style(wonderNode, 'display', 'inline-block');
+                                    dojo.style(wonderNode, 'opacity', 0);
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(wonderNode, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg) scale(' + parseFloat(values.propertyScale.replace("px", "")) + ')');
+                                }
+                            }).play();
+                            animationDelay += this.putDraftpoolCard * 0.75;
+                        }
+
 
                         position++;
                     }));
