@@ -124,6 +124,10 @@ class SevenWondersDuelAgora extends Table
     const VALUE_AGE_START_PLAYER = "age_start_player";
     const VALUE_DISCARD_OPPONENT_BUILDING_WONDER = "discard_opponent_building_type";
     const VALUE_END_GAME_CONDITION = "end_game_condition";
+    // Global value labels Agora
+    const VALUE_DECREE2 = "decree2";
+    const VALUE_DECREE4 = "decree4";
+    const VALUE_DECREE6 = "decree6";
 
     // Game options (variants)
     const OPTION_AGORA = "option_agora";
@@ -235,6 +239,10 @@ class SevenWondersDuelAgora extends Table
                 self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY => 19,
                 self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER => 20,
                 self::VALUE_END_GAME_CONDITION => 21,
+                // Global variables Agora
+                self::VALUE_DECREE2 => 30,
+                self::VALUE_DECREE4 => 31,
+                self::VALUE_DECREE6 => 32,
                 // Game variants
                 self::OPTION_AGORA => 110,
                 self::OPTION_AGORA_WONDERS => 111,
@@ -347,6 +355,10 @@ class SevenWondersDuelAgora extends Table
         self::setGameStateInitialValue( self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
         self::setGameStateInitialValue( self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, 0);
         self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, 0);
+        // Agora
+        self::setGameStateInitialValue( self::VALUE_DECREE2, 0);
+        self::setGameStateInitialValue( self::VALUE_DECREE4, 0);
+        self::setGameStateInitialValue( self::VALUE_DECREE6, 0);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)

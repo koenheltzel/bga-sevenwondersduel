@@ -885,11 +885,10 @@ define([
 
                 for (var i = 0; i < decreesSituation.length; i++) {
                     var location = decreesSituation[i];
-                    var decree = this.gamedatas.decrees[location.id];
                     var position = parseInt(decreesSituation[i].location_arg.charAt(0));
                     var stackPosition = parseInt(decreesSituation[i].location_arg.charAt(1));
                     var container = dojo.query('.decree_containers>div:nth-of-type(' + position + ')>div:nth-of-type(' + stackPosition + ')')[0];
-                    dojo.place(this.getDecreeDivHtml(decree.id), container);
+                    dojo.place(this.getDecreeDivHtml(location.id), container);
                 }
             },
 
