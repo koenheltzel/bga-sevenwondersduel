@@ -5,6 +5,7 @@ namespace SWD\States;
 
 
 use SWD\Material;
+use SWD\Player;
 
 trait GameSetupTrait
 {
@@ -82,6 +83,31 @@ trait GameSetupTrait
         // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and progress token ids.
         self::DbQuery( "UPDATE progress_token SET card_id = card_type_arg + 1000, card_type_arg = 0" );
         self::DbQuery( "UPDATE progress_token SET card_id = card_id - 1000" );
+
+
+        if ($agora) {
+            // Set up decrees
+            $this->decreeDeck->createCards(Material::get()->decrees->getDeckCards());
+            $this->decreeDeck->shuffle('deck');
+            $this->decreeDeck->pickCardsForLocation(6, 'deck', 'board');
+            $this->decreeDeck->shuffle('board'); // Ensures we have defined card_location_arg
+            // Return the remaining Decrees to the box.
+            $this->decreeDeck->moveAllCardsInLocation('deck', 'box');
+            // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and decree ids.
+            self::DbQuery( "UPDATE decree SET card_id = card_type_arg + 1000, card_type_arg = 0" );
+            self::DbQuery( "UPDATE decree SET card_id = card_id - 1000" );
+
+            // Set up conspiracies
+            $this->conspiracyDeck->createCards(Material::get()->conspiracies->getDeckCards());
+            $this->conspiracyDeck->shuffle('deck');
+            // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and decree ids.
+            self::DbQuery( "UPDATE conspiracy SET card_id = card_type_arg + 1000, card_type_arg = 0" );
+            self::DbQuery( "UPDATE conspiracy SET card_id = card_id - 1000" );
+
+            // Set up Influence cubes
+            $this->influenceCubeDeck->createCards([['type' => Player::me()->id, 'nbr' => 12, 'type_arg' => 0]], Player::me()->id, 0);
+            $this->influenceCubeDeck->createCards([['type' => Player::opponent()->id, 'nbr' => 12, 'type_arg' => 0]], Player::opponent()->id, 0);
+        }
 
         // TODO: Remove, this will be done by player interaction:
 //        $playerIds = array_keys($players);

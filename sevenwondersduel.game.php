@@ -188,6 +188,21 @@ class SevenWondersDuelAgora extends Table
      */
     public $progressTokenDeck;
 
+    /**
+     * @var Deck
+     */
+    public $decreeDeck;
+
+    /**
+     * @var Deck
+     */
+    public $conspiracyDeck;
+
+    /**
+     * @var Deck
+     */
+    public $influenceCubeDeck;
+
     public static function get() {
         // We can assume self::$instance exists since SevenWondersDuelAgora's constructor is the entry point for SWD code.
         return self::$instance;
@@ -233,6 +248,18 @@ class SevenWondersDuelAgora extends Table
 
         $this->progressTokenDeck = self::getNew( "module.common.deck" );
         $this->progressTokenDeck->init( "progress_token" );
+
+        // Start Agora
+        // Checking wether Agora is active isn't possible here. So create the deck objects anyway.
+        $this->decreeDeck = self::getNew( "module.common.deck" );
+        $this->decreeDeck->init( "decree" );
+
+        $this->conspiracyDeck = self::getNew( "module.common.deck" );
+        $this->conspiracyDeck->init( "conspiracy" );
+
+        $this->influenceCubeDeck = self::getNew( "module.common.deck" );
+        $this->influenceCubeDeck->init( "influence_cube" );
+        // End Agora
 	}
 
     /**
