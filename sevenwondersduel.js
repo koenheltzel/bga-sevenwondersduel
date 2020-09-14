@@ -1095,6 +1095,20 @@ define([
                     })
                 );
 
+                // Add tooltips to progress tokens everywhere.
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '.decree_small',
+                        position: ['before'],
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            var id = dojo.attr(node, "data-decree-id");
+                            return this.getDecreeTooltip(id);
+                        })
+                    })
+                );
+
                 // Add tooltips to conspiracies everywhere.
                 this.customTooltips.push(
                     new dijit.Tooltip({
@@ -1247,6 +1261,25 @@ define([
                 return false;
             },
 
+            getDecreeTooltip: function (id) {
+                console.log('getDecreeTooltip', id);
+                if (typeof this.gamedatas.decrees[id] != 'undefined') {
+                    var decree = this.gamedatas.decrees[id];
+                    console.log('decree', decree);
+
+                    var spritesheetColumns = 4;
+
+                    var data = {};
+                    data.translateDecree = _("Decree");
+                    data.jsName = _(decree.name);
+                    data.jsText = this.getTextHtml(decree.text);
+                    data.jsBackX = ((id - 1) % spritesheetColumns);
+                    data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
+                    return this.format_block('jstpl_decree_tooltip', data);
+                }
+                return false;
+            },
+            
             getConspiracyTooltip: function (id) {
                 if (typeof this.gamedatas.conspiracies[id] != 'undefined') {
                     var conspiracy = this.gamedatas.conspiracies[id];

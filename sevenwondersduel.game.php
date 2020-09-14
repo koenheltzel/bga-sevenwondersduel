@@ -450,6 +450,7 @@ class SevenWondersDuelAgora extends Table
         $result['agora'] = (int)$this->getGameStateValue(self::OPTION_AGORA);
         if ($result['agora']) {
             $result['conspiracies'] = Material::get()->conspiracies->array;
+            $result['decrees'] = Material::get()->decrees->array;
         }
 
         return $result;

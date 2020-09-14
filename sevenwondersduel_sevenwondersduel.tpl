@@ -161,17 +161,17 @@
                             <div class="decree_containers">
                                 <div>
                                     <div>
-                                        <div class="decree decree_small" style="background-position: -000% -000%;"></div>
+                                        <div data-decree-id="1" class="decree decree_small" style="background-position: -000% -000%;"></div>
                                     </div>
                                     <div>
-                                        <div class="decree decree_small" style="background-position: -100% -000%;"></div>
+                                        <div data-decree-id="2" class="decree decree_small" style="background-position: -100% -000%;"></div>
                                     </div>
                                     <div>
                                     </div>
                                 </div>
                                 <div>
                                     <div>
-                                        <div class="decree decree_small" style="background-position: -200% -000%;"></div>
+                                        <div data-decree-id="3" class="decree decree_small" style="background-position: -200% -000%;"></div>
                                     </div>
                                     <div>
                                         <div class="decree decree_small" style="background-position: -300% -000%;"></div>
@@ -597,6 +597,19 @@ var jstpl_progress_token_tooltip = '\
                     </text>\
                 </svg>\
             </div>\
+        </div>\
+        <div class="clear"></div>\
+    </div>';
+
+var jstpl_decree_tooltip = '\
+    <div class="swd_tooltip decree_tooltip">\
+        <div class="cardinfos">\
+            <strong>${translateDecree}</strong>\
+            <hr\>\
+            <p>${jsText}</p>\
+        </div>\
+        <div>\
+            <div class="decree tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;"></div>\
         </div>\
         <div class="clear"></div>\
     </div>';
