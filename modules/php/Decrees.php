@@ -22,12 +22,7 @@ class Decrees extends Collection {
     }
 
     public static function getSituation() {
-//        $selectionRound = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CURRENT_WONDER_SELECTION_ROUND);
-//        return [
-//            'selection' => self::getDeckCardsSorted("selection{$selectionRound}"),
-//            Player::me()->id => Player::me()->getDecreesData(),
-//            Player::opponent()->id => Player::opponent()->getDecreesData(),
-//        ];
+        return self::getDeckCardsSorted("board");
     }
 
     public static function getDeckCardsSorted($location): array {

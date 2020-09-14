@@ -96,6 +96,7 @@ trait GameSetupTrait
             // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and decree ids.
             self::DbQuery( "UPDATE decree SET card_id = card_type_arg + 1000, card_type_arg = 0" );
             self::DbQuery( "UPDATE decree SET card_id = card_id - 1000" );
+            self::DbQuery( "UPDATE decree SET card_location_arg = CONCAT(card_location_arg + 1, '1') WHERE card_location = 'board'" );
 
             // Set up conspiracies
             $this->conspiracyDeck->createCards(Material::get()->conspiracies->getDeckCards());

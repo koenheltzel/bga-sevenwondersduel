@@ -16,6 +16,7 @@
   *
   */
 
+use SWD\Decrees;
 use SWD\Draftpool;
 use SWD\Material;
 use SWD\MilitaryTrack;
@@ -451,6 +452,7 @@ class SevenWondersDuelAgora extends Table
         if ($result['agora']) {
             $result['conspiracies'] = Material::get()->conspiracies->array;
             $result['decrees'] = Material::get()->decrees->array;
+            $result['decreesSituation'] = Decrees::getSituation();
         }
 
         return $result;

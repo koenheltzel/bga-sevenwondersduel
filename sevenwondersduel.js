@@ -180,6 +180,9 @@ define([
                 this.updateMilitaryTrack(this.gamedatas.militaryTrack);
                 this.updateDiscardedBuildings(this.gamedatas.discardedBuildings);
                 this.updatePlayersSituation(this.gamedatas.playersSituation);
+                if (this.agora) {
+                    this.updateDecreesSituation(this.gamedatas.decreesSituation);
+                }
 
                 // Setting up player boards
                 for (var player_id in gamedatas.players) {
@@ -867,6 +870,40 @@ define([
                 }
                 dojo.style(containers[6 - 1], 'display', nodes.length >= 5 ? 'inline-block' : 'none');
             },
+            
+            //  ____                               
+            // |  _ \  ___  ___ _ __ ___  ___  ___ 
+            // | | | |/ _ \/ __| '__/ _ \/ _ \/ __|
+            // | |_| |  __/ (__| | |  __/  __/\__ \
+            // |____/ \___|\___|_|  \___|\___||___/
+
+            updateDecreesSituation: function (decreesSituation) {
+                if (this.debug) console.log('updateDecreesSituation: ', decreesSituation);
+                this.decreesSituation = decreesSituation;
+
+                dojo.query("#board_decrees>div").forEach(dojo.empty);
+
+                for (var i = 0; i < decreesSituation.length; i++) {
+                    var location = decreesSituation[i];
+                    var decree = this.gamedatas.decrees[location.id];
+                    var position = parseInt(decreesSituation[i].location_arg.charAt(0));
+                    var stackPosition = parseInt(decreesSituation[i].location_arg.charAt(1));
+                    var container = dojo.query('.decree_containers>div:nth-of-type(' + position + ')>div:nth-of-type(' + stackPosition + ')')[0];
+                    dojo.place(this.getDecreeDivHtml(decree.id), container);
+                }
+            },
+
+            getDecreeDivHtml: function (decreeId) {
+                var decree = this.gamedatas.decrees[decreeId];
+                var data = {
+                    jsId: decreeId,
+                    jsName: decree ? _(decree.name) : '',
+                };
+                var spritesheetColumns = 6;
+                data.jsX = (decreeId - 1) % spritesheetColumns;
+                data.jsY = Math.floor((decreeId - 1) / spritesheetColumns);
+                return this.format_block('jstpl_decree', data);
+            },
 
             //   ____                      _                _
             //  / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___(_) ___  ___
@@ -1095,7 +1132,7 @@ define([
                     })
                 );
 
-                // Add tooltips to progress tokens everywhere.
+                // Add tooltips to decrees everywhere.
                 this.customTooltips.push(
                     new dijit.Tooltip({
                         connectId: "game_play_area",
@@ -1262,16 +1299,14 @@ define([
             },
 
             getDecreeTooltip: function (id) {
-                console.log('getDecreeTooltip', id);
                 if (typeof this.gamedatas.decrees[id] != 'undefined') {
                     var decree = this.gamedatas.decrees[id];
-                    console.log('decree', decree);
 
-                    var spritesheetColumns = 4;
+                    var spritesheetColumns = 6;
 
                     var data = {};
                     data.translateDecree = _("Decree");
-                    data.jsName = _(decree.name);
+                    // data.jsName = _(decree.name);
                     data.jsText = this.getTextHtml(decree.text);
                     data.jsBackX = ((id - 1) % spritesheetColumns);
                     data.jsBackY = Math.floor((id - 1) / spritesheetColumns);

@@ -160,64 +160,34 @@
                             </div>
                             <div class="decree_containers">
                                 <div>
-                                    <div>
-                                        <div data-decree-id="1" class="decree decree_small" style="background-position: -000% -000%;"></div>
-                                    </div>
-                                    <div>
-                                        <div data-decree-id="2" class="decree decree_small" style="background-position: -100% -000%;"></div>
-                                    </div>
-                                    <div>
-                                    </div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
                                 </div>
                                 <div>
-                                    <div>
-                                        <div data-decree-id="3" class="decree decree_small" style="background-position: -200% -000%;"></div>
-                                    </div>
-                                    <div>
-                                        <div class="decree decree_small" style="background-position: -300% -000%;"></div>
-                                    </div>
-                                    <div>
-                                    </div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
                                 </div>
                                 <div>
-                                    <div>
-                                        <div class="decree decree_small" style="background-position: -400% -000%;"></div>
-                                    </div>
-                                    <div>
-                                        <div class="decree decree_small" style="background-position: -500% -000%;"></div>
-                                    </div>
-                                    <div>
-                                    </div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
                                 </div>
                                 <div>
-                                    <div>
-                                        <div class="decree decree_small" style="background-position: -000% -100%;"></div>
-                                    </div>
-                                    <div>
-                                        <div class="decree decree_small" style="background-position: -100% -100%;"></div>
-                                    </div>
-                                    <div>
-                                    </div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
                                 </div>
                                 <div>
-                                    <div>
-                                        <div class="decree decree_small" style="background-position: -200% -100%;"></div>
-                                    </div>
-                                    <div>
-                                        <div class="decree decree_small" style="background-position: -300% -100%;"></div>
-                                    </div>
-                                    <div>
-                                    </div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
                                 </div>
                                 <div>
-                                    <div>
-                                        <div class="decree decree_small" style="background-position: -400% -100%;"></div>
-                                    </div>
-                                    <div>
-                                        <div class="decree decree_small" style="background-position: -500% -100%;"></div>
-                                    </div>
-                                    <div>
-                                    </div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
                                 </div>
                             </div>
                         </div>
@@ -523,6 +493,8 @@ var jstpl_progress_token = '\
             </text>\
         </svg>\
     </div>';
+
+var jstpl_decree = '<div data-decree-id="${jsId}" class="decree decree_small" style="background-position: -${jsX}00% -${jsY}00%;"></div>';
 
 var jstpl_military_token = '<div class="military_token military_token_${jsValue}"></div>';
 
