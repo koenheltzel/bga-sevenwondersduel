@@ -1571,6 +1571,14 @@ define([
                     dojo.removeClass($('buttonConstructBuilding'), 'bgabutton_darkgray');
                     dojo.addClass($('buttonConstructBuilding'), canAffordBuilding ? 'bgabutton_blue' : 'bgabutton_darkgray');
 
+                    var buildingData = this.gamedatas.buildings[this.playerTurnBuildingId];
+                    if (buildingData.type == "Agora") {
+                        dojo.query('#buttonConstructBuilding > span')[0].innerHTML = _('Recruit senator');
+                    }
+                    else {
+                        dojo.query('#buttonConstructBuilding > span')[0].innerHTML = _('Construct building');
+                    }
+
                     var canAffordWonder = false;
                     Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
                         var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
