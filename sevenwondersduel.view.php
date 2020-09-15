@@ -46,7 +46,6 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
 
         // Variables used in the template (not in the javascript templates!)
         $this->tpl['CONSTRUCT_WONDER'] = self::_("Construct a Wonder");
-        $this->tpl['PREPARE_CONSPIRACY'] = self::_("Prepare Conspiracy");
         $this->tpl['CONSTRUCT_BUILDING'] = self::_("Construct Building");
         $this->tpl['DISCARD_BUILDING'] = self::_("Discard for coins");
         $this->tpl['CHOOSE_PROGRESS_TOKEN_FROM_BOX'] = self::_("Choose a Progress token from the box");
@@ -65,6 +64,10 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
         $this->tpl['BUILDINGS_WITH_LINKS'] = self::_("Buildings with links");
         $this->tpl['BUILDINGS_WITHOUT_LINKS'] = self::_("Buildings without links");
         $this->tpl['SETTING_SCALE_DESCRIPTION'] = self::_("(value between 50 and 200)");
+        // Agora
+        $this->tpl['PREPARE_CONSPIRACY'] = self::_("Prepare Conspiracy");
+        $this->tpl['PLACE_INFLUENCE'] = self::_("Place Influence");
+        $this->tpl['CONSPIRE'] = self::_("Conspire");
 
         /*********** Place your code below:  ************/
 

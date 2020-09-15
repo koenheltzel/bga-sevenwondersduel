@@ -109,6 +109,11 @@ class SevenWondersDuelAgora extends Table
     const STATE_GAME_END_ID = 99;
     const STATE_GAME_END_NAME = "gameEnd";
 
+    // Agora states
+
+    const STATE_CONSPIRATOR_CHOICE_ID = 31;
+    const STATE_CONSPIRATOR_CHOICE_NAME = "conspiratorChoice";
+
     const ZOMBIE_PASS = "zombiePass";
 
     // Global value labels

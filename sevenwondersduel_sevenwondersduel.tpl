@@ -63,9 +63,14 @@
                         <div id="draftpool" class="draftpool age">
                         </div>
                         <div id="draftpool_actions" class="whiteblock">
+                            <a href="#" id="buttonPrepareConspiracy" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{PREPARE_CONSPIRACY}</span></a>
                             <a href="#" id="buttonConstructWonder" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>{CONSTRUCT_WONDER}</span></a>
                             <a href="#" id="buttonConstructBuilding" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>{CONSTRUCT_BUILDING}</span></a>
                             <a href="#" id="buttonDiscardBuilding" class="action_button bgabutton bgabutton_blue"><div class="coin"><span>+X</span></div><span>{DISCARD_BUILDING}</span></a>
+                        </div>
+                        <div id="conspirator_choice" class="whiteblock">
+                            <a href="#" id="buttonPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{PLACE_INFLUENCE}</span></a>
+                            <a href="#" id="buttonConspire" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{CONSPIRE}</span></a>
                         </div>
                         <div id="select_start_player" class="whiteblock">
                             <a href="#" id="buttonPlayerLeft" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Name 1</span></a>
