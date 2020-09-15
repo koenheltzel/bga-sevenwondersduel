@@ -1,0 +1,23 @@
+
+#progress_token_from_box {
+    display: none;
+}
+
+.current_player_is_active #swd[data-state=chooseProgressTokenFromBox] #progress_token_from_box {
+    display: block;
+}
+
+#progress_token_from_box_container .progress_token {
+    cursor: pointer;
+}
+
+#progress_token_from_box_container > div {
+    display: inline-block;
+    --progress-token-small-scale: calc(0.5 * var(--scale));
+    width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
+    height: calc(var(--progress-token-height) * var(--progress-token-small-scale));
+}
+
+#progress_token_from_box_container > div:not(:last-child) {
+    margin-right: var(--gutter);
+}

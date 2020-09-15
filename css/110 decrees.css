@@ -1,0 +1,62 @@
+
+.decree {
+    width: calc(var(--decree-width) * var(--scale));
+    height: calc(var(--decree-height) * var(--scale));
+    background-size: calc(var(--decree-spritesheet-width) * var(--scale)) calc(var(--decree-spritesheet-height) * var(--scale));
+    background-image: url('img/agora_decrees.png');
+    filter: drop-shadow(calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) rgba(0, 0, 0, 0.4));
+
+    /* Temporary: */
+    display: block;
+    position: relative;
+}
+
+.decree_small {
+    z-index: 5;
+    width: calc(var(--decree-width) * var(--decree-small-scale) * var(--element-scale));
+    height: calc(var(--decree-height) * var(--decree-small-scale) * var(--element-scale));
+    background-size: calc(var(--decree-spritesheet-width) * var(--decree-small-scale) * var(--element-scale)) calc(var(--decree-spritesheet-height) * var(--decree-small-scale) * var(--element-scale));
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #000000);
+}
+
+.decree_containers {
+
+}
+.decree_containers > div > div:not(:first-of-type) {
+    margin-top: calc(var(--senate-scale) * -13px);
+}
+.decree_containers > div {
+    position: absolute;
+    transform-origin: 50% 0%;
+    z-index:20; /* Don't know why but this div level specifically needs the z-index set. (Goal is to have the decrees over the age cards if they are stacked 3 deep) */
+}
+.decree_containers > div:nth-of-type(1) {
+    transform: rotate(135deg);
+    left: calc(var(--senate-scale) * 130px);
+    top: calc(var(--senate-scale) * 118px);
+}
+.decree_containers > div:nth-of-type(2) {
+    transform: rotate(116deg);
+    left: calc(var(--senate-scale) * 43px);
+    top: calc(var(--senate-scale) * 247px);
+}
+.decree_containers > div:nth-of-type(3) {
+    transform: rotate(99deg);
+    left: calc(var(--senate-scale) * -2px);
+    top: calc(var(--senate-scale) * 397px);
+}
+.decree_containers > div:nth-of-type(4) {
+    transform: rotate(81deg);
+    left: calc(var(--senate-scale) * -2px);
+    top: calc(var(--senate-scale) * 557px);
+}
+.decree_containers > div:nth-of-type(5) {
+    transform: rotate(64deg);
+    left: calc(var(--senate-scale) * 43px);
+    top: calc(var(--senate-scale) * 708px);
+}
+.decree_containers > div:nth-of-type(6) {
+    transform: rotate(45deg);
+    left: calc(var(--senate-scale) * 130px);
+    top: calc(var(--senate-scale) * 837px);
+}

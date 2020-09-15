@@ -1,0 +1,125 @@
+
+#senate_container {
+    position: relative;
+    display: inline-block;
+    align-self: flex-end;
+    margin-right: calc(-19px * var(--scale));
+    margin-left: calc(var(--scale) * 35px); /* To clear the decrees (with possible double stack) */
+}
+
+.senate, #senate_container {
+    width: calc(var(--senate-width) * var(--senate-scale));
+    height: calc(var(--senate-height) * var(--senate-scale));
+}
+
+.senate {
+    background-image: url('img/agora_senate.png');
+    background-size: calc(var(--senate-width) * var(--senate-scale)) calc(var(--senate-height) * var(--senate-scale));
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+    position: absolute;
+    display: inline-block;
+}
+
+.influence_containers > div {
+    position: absolute;
+    z-index: 25;
+}
+.influence_containers > div:nth-of-type(1) {
+    left: calc(var(--senate-scale) * 143px);
+    top: calc(var(--senate-scale) * 106px);
+    transform: rotate(0deg);
+}
+.influence_containers > div:nth-of-type(1) span {
+    transform: rotate(0deg);
+}
+.influence_containers > div:nth-of-type(2) {
+    left: calc(var(--senate-scale) * 52px);
+    top: calc(var(--senate-scale) * 239px);
+    transform: rotate(-19deg);
+}
+.influence_containers > div:nth-of-type(2) span {
+    transform: rotate(19deg);
+}
+.influence_containers > div:nth-of-type(3) {
+    left: calc(var(--senate-scale) * 6px);
+    top: calc(var(--senate-scale) * 395px);
+    transform: rotate(-36deg);
+}
+.influence_containers > div:nth-of-type(3) span {
+    transform: rotate(36deg);
+}
+.influence_containers > div:nth-of-type(4) {
+    left: calc(var(--senate-scale) * 6px);
+    top: calc(var(--senate-scale) * 560px);
+    transform: rotate(-54deg);
+}
+.influence_containers > div:nth-of-type(4) span {
+    transform: rotate(54deg);
+}
+.influence_containers > div:nth-of-type(5) {
+    left: calc(var(--senate-scale) * 52px);
+    top: calc(var(--senate-scale) * 714px);
+    transform: rotate(-71deg);
+}
+.influence_containers > div:nth-of-type(5) span {
+    transform: rotate(71deg);
+}
+.influence_containers > div:nth-of-type(6) {
+    left: calc(var(--senate-scale) * 143px);
+    top: calc(var(--senate-scale) * 848px);
+    transform: rotate(-90deg);
+}
+
+.influence_containers > div:nth-of-type(6) span {
+    transform: rotate(90deg);
+}
+
+.influence_containers > div > div {
+    position: absolute;
+}
+
+.agora_cube {
+    text-align: center;
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #000000);
+    backface-visibility: hidden;
+
+    width: calc(var(--senate-scale) * 22px);
+    height: calc(var(--senate-scale) * 22px);
+    display: inline-block;
+    position: absolute;
+    transition: top ease-in-out 0.7s, left ease-in-out 0.7s;
+}
+
+.agora_cube > span {
+    font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
+    font-size: calc(var(--scale) * var(--element-scale) * 16px);
+    line-height: calc(var(--senate-scale) * 22px) !important;
+    text-shadow: 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white;
+    color: black;
+    cursor: default;
+    position: relative;
+    display: inline-block;
+}
+
+.agora_cube_me {
+    background-image: url('img/agora_sprites.png');
+    display: inline-block;
+    background-position: 66.5049% 37.1359%;
+    background-size: 512.000%;
+    top: calc(var(--senate-scale) * 35px);
+    left: 0;
+}
+
+.agora_cube_opponent {
+    background-image: url('img/agora_sprites.png');
+    display: inline-block;
+    background-position: 91.2621% 37.1359%;
+    background-size: 512.000%;
+    left: calc(var(--senate-scale) * 35px);
+    top: 0;
+}
+
+.agora_control {
+    left: 0;
+    top: 0;
+}

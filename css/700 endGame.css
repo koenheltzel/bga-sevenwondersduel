@@ -1,0 +1,181 @@
+
+.endgame_highlight {
+    animation: endgame_highlight 0.5s infinite alternate;
+    z-index: 200;
+}
+
+@keyframes endgame_highlight {
+    from {
+        outline-color: #ff000066;
+        outline-width: calc(10px * var(--scale));
+        outline-style: double;
+        outline-offset: calc(1px * var(--scale));
+    }
+    to {
+        outline-color: #ff0000;
+        outline-width: calc(10px * var(--scale));
+        outline-style: double;
+        outline-offset: calc(4px * var(--scale));
+    }
+}
+
+#end_game_container {
+    margin: var(--gutter) !important;
+}
+
+#end_game_container table {
+    /* Trick to hide white borders on the outside of the table. */
+    border-style: hidden;
+}
+
+#end_game_container td {
+    border: calc(3px * var(--scale)) solid #ffffff88;
+    padding: calc(5px * var(--scale)) calc(1px * var(--scale)) calc(5px * var(--scale)) calc(1px * var(--scale));
+
+    font-size: calc(24px * var(--scale));
+    font-weight: bold;
+    /* Make all category columns same width */
+    min-width: calc(var(--scale) * 58px);
+    /* Keep table within width of middle column by keeping the first column narrow enough */
+    max-width: calc(var(--scale) * 155px);
+    /* Cut off player name if it's too long. */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#end_game_container tr td:not(:first-of-type) {
+    font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
+    font-size: calc(32px * var(--scale));
+    font-weight: normal;
+}
+
+.end_game_player_name {
+    font-size: calc(18px * var(--scale)) !important;
+    text-shadow: 1px 1px 1px #FFFFFF;
+}
+
+.end_game_icon {
+    display: inline-block;
+}
+
+.end_game_card {
+    background-image: url('img/sprites.png');
+    width: calc(var(--scale) * 29px);
+    height: calc(var(--scale) * 44px);
+    background-color: initial !important;
+}
+
+.end_game_blue {
+    color: #0074bcaa;
+    background-color: #0074bc30;
+    text-shadow: 0 0 0 #000000bb;
+}
+
+.end_game_blue .end_game_card {
+    background-position: 93.3921% 0.471698%;
+    background-size: 882.759%;
+}
+
+.end_game_green {
+    color: #008d48aa;
+    background-color: #008d4830;
+    text-shadow: 0 0 0 #000000bb;
+}
+
+.end_game_green .end_game_card {
+    background-position: 80.1762% 42.9245%;
+    background-size: 882.759%;
+}
+
+.end_game_yellow {
+    color: #fccc14aa;
+    background-color: #fccc1430;
+    text-shadow: 0 0 0 #000000bb;
+}
+
+.end_game_yellow .end_game_card {
+    background-position: 60.3524% 0.471698%;
+    background-size: 882.759%;
+}
+
+.end_game_purple {
+    color: #7a5b92aa;
+    background-color: #7a5b9230;
+    text-shadow: 0 0 0 #000000bb;
+}
+
+.end_game_purple .end_game_card {
+    background-position: 93.3921% 42.9245%;
+    background-size: 882.759%;
+}
+
+.end_game_wonders {
+    color: #f7c161aa;
+    background-color: #f7c16130;
+    text-shadow: 0 0 0 #000000bb;
+}
+
+.end_game_wonders .end_game_card {
+    background-image: url('img/sprites.png');
+    background-position: 82.5581% 76.1261%;
+    background-size: 624.390%;
+
+    width: calc(var(--scale) * 53px);
+    height: calc(var(--scale) * 44px);
+}
+
+.end_game_progresstokens {
+    color: #1b6332aa;
+    background-color: #1b633230;
+    text-shadow: 0 0 0 #000000bb;
+}
+
+.end_game_progresstokens .end_game_card {
+    background-position: 0.471698% 79.7170%;
+    background-size: 581.818%;
+    width: calc(var(--scale) * 44px);
+    height: calc(var(--scale) * 44px);
+}
+
+.end_game_coins {
+    color: #e0bd0eaa;
+    background-color: #e0bd0e30;
+    text-shadow: 0 0 0 #000000bb;
+}
+
+.end_game_coins .end_game_card {
+    background-image: url('img/sprites.png');
+    background-position: 40.4867% 94.6903%;
+    background-size: 853.333%;
+
+    width: calc(var(--scale) * 44px);
+    height: calc(var(--scale) * 44px);
+}
+
+.end_game_military {
+    color: #c21f2caa;
+    background-color: #c21f2c30;
+    text-shadow: 0 0 0 #000000bb;
+}
+
+.end_game_military .end_game_card {
+    background-position: 42.2274% 79.3427%;
+    background-size: 632.099%;
+    width: calc(var(--scale) * 44px);
+    height: calc(var(--scale) * 44px);
+}
+
+.end_game_senate {
+    background-image: url('img/agora_sprites.png');
+    display: inline-block;
+    background-position: 98.1132% 0.428266%;
+    background-size: 581.818%;
+}
+
+.end_game_total {
+    --element-scale: 1.4;
+    width: calc(var(--scale) * var(--element-scale) * 30px);
+    height: calc(var(--scale) * var(--element-scale) * 30px);
+    position: relative;
+    margin: auto;
+}

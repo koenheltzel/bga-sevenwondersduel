@@ -1,0 +1,27 @@
+
+#discarded_cards_whiteblock {
+    margin-top: var(--gutter) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
+}
+
+#discarded_cards_container {
+    margin: 0 calc(0px - var(--gutter)) calc(0px - var(--gutter)) 0;
+}
+
+#discarded_cards_container div {
+    position: relative !important;
+    display: inline-block;
+    width: var(--building-small-width);
+    height: var(--building-small-height);
+    margin: 0 var(--gutter) var(--gutter) 0;
+}
+
+.current_player_is_active #swd[data-state=chooseDiscardedBuilding] #discarded_cards_container .building_small {
+    cursor: pointer;
+}
+
+.discarded_cards_cursor {
+    display: none !important;
+}

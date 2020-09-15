@@ -1,0 +1,172 @@
+
+#swd_wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#layout_flexbox {
+    /* Use flexbox properties https://www.youtube.com/watch?v=JJSoEo8JSnc */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#wonder_column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#wonder_column > div:first-child {
+    /* Space between the two player areas with wonders, relevant in square mode where they would otherwise touch. */
+    margin-bottom: var(--gutter);
+}
+
+#swd_wrap.landscape .player_wonders_container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+}
+#swd_wrap.landscape .player_wonders_container:first-child {
+    flex-direction: column;
+}
+
+.player_conspiracies {
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: center; /* For portrait layout, but doesn't affect other layouts afaik */
+}
+.player_conspiracies .conspiracy {
+    z-index: 2;
+}
+
+.player_conspiracies > div {
+    width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
+    height: calc(var(--conspiracy-compact-height) * var(--conspiracy-small-scale) * var(--conspiracy-plus-age-card-scale));
+}
+
+#swd_wrap.landscape .player_conspiracies {
+    width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
+    justify-content: flex-end;
+}
+#swd_wrap.landscape .player_conspiracies.me > div {
+    margin-top: var(--gutter);
+    margin-left: var(--gutter);
+}
+#swd_wrap.landscape .player_conspiracies.opponent {
+    flex-wrap: wrap-reverse;
+}
+#swd_wrap.landscape .player_conspiracies.opponent > div {
+    margin-bottom: var(--gutter);
+    margin-left: var(--gutter);
+}
+
+#swd_wrap.square .player_conspiracies {
+    flex-direction: column;
+    justify-content: flex-start;
+}
+#swd_wrap.square .player_conspiracies.me > div {
+    margin-bottom: var(--gutter);
+    margin-right: var(--gutter);
+}
+#swd_wrap.square .player_conspiracies.opponent {
+    justify-content: flex-end;
+}
+#swd_wrap.square .player_conspiracies.opponent > div {
+    margin-top: var(--gutter);
+    margin-right: var(--gutter);
+}
+
+#swd_wrap.portrait .player_conspiracies.me > div {
+    margin-top: var(--gutter);
+    margin-right: var(--gutter);
+}
+#swd_wrap.portrait .player_conspiracies.opponent > div {
+    margin-bottom: var(--gutter);
+    margin-right: var(--gutter);
+}
+
+
+
+
+.card_outline:empty, .card_outline.science_progress {
+    box-shadow: inset 0 0 calc(var(--scale) * 4px) calc(var(--scale) * 1px) #00000029;
+    border-radius: var(--small-border-radius);
+}
+
+.progress_token_outline {
+    box-shadow: inset 0 0 calc(var(--scale) * 4px) calc(var(--scale) * 1px) #00000029;
+    border-radius: calc(var(--progress-token-width) * var(--progress-token-small-scale) * 0.5);
+}
+
+
+#wonder_selection_block {
+    display: none;
+}
+
+#swd[data-state=selectWonder] #wonder_selection_block {
+    display: block;
+}
+
+#wonder_selection_container > div {
+    width: calc(var(--wonder-small-scale) * var(--wonder-width));
+    height: calc(var(--wonder-small-scale) * var(--wonder-height));
+    float: left;
+    --wonder-small-scale: calc(0.8 * var(--scale));
+}
+
+#wonder_selection_container > div:nth-of-type(1), #wonder_selection_container > div:nth-of-type(2) {
+    margin-bottom: var(--gutter);
+}
+
+#wonder_selection_container > div:nth-of-type(1), #wonder_selection_container > div:nth-of-type(3) {
+    margin-right: var(--gutter);
+}
+
+.current_player_is_active #wonder_selection_container .wonder {
+    cursor: pointer;
+}
+
+#middle_column {
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    width: calc(var(--building-columns-count) * var(--building-small-width) + (var(--building-columns-count) - 1) * 2px + 2 * var(--gutter)); /* This keeps content in the middle_column, especially something like select_start_player within the allowed size. */
+}
+
+#board_column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+#swd_wrap.portrait #board_column {
+    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
+    width: calc(220px * var(--scale));
+}
+
+#swd_wrap.square #board_column, #swd_wrap.landscape #board_column {
+    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
+    width: calc(225px * var(--scale));
+}
+
+#swd[data-agora="1"] #swd_wrap.portrait #board_column {
+    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
+    width: calc(395px * var(--scale));
+}
+
+#swd[data-agora="1"] #swd_wrap.square #board_column, #swd[data-agora="1"] #swd_wrap.landscape #board_column {
+    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
+    width: calc(390px * var(--scale));
+}

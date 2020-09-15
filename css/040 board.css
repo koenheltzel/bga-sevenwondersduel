@@ -1,0 +1,162 @@
+
+#board_container {
+    position: relative;
+    display: inline-block;
+    align-self: flex-end;
+}
+
+.board, #board_container {
+    width: calc(var(--board-width) * var(--board-scale));
+    height: calc(var(--board-height) * var(--board-scale));
+}
+
+.board {
+    background-image: url('img/board.png');
+    background-size: calc(var(--board-width) * var(--board-scale)) calc(var(--board-height) * var(--board-scale));
+    /*border-radius: var(--small-border-radius);*/
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+    position: absolute;
+    display: inline-block;
+}
+
+.pawn {
+    background-image: url('img/sprites.png');
+    background-position: 69.6023% 94.2731%;
+    background-size: 320.000%;
+
+    width: calc(var(--scale) * 80px);
+    height: calc(var(--scale) * 29px);
+    /*background-size: calc(var(--scale) * 80px) calc(var(--scale) * 29px);*/
+    left: calc(var(--scale) * 45px);
+    top: calc((var(--military-track-header) + (var(--conflict-pawn-position) + 9) / 18 * var(--military-track-body)) * var(--board-height) * var(--board-scale));
+    /*border-radius: var(--small-border-radius);*/
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+    position: absolute;
+    display: inline-block;
+    z-index: 3;
+}
+
+.capital {
+    width: calc(var(--board-scale) * 74px);
+    height: calc(var(--board-scale) * 37px);
+    position: absolute;
+    left: calc(var(--board-scale) * 78px);
+}
+#capital_opponent {
+    top: calc(var(--board-scale) * 44px);
+}
+#capital_me {
+    top: calc(var(--board-scale) * 868px);
+}
+
+
+#board_progress_tokens {
+    --element-scale: 1.1;
+    position: relative;
+    top: calc(var(--board-height) * var(--board-scale) * 0.25);
+    left: calc(var(--board-width) * var(--board-scale) * 0.635);
+    width: calc(var(--progress-token-width) * var(--progress-token-small-scale) * var(--element-scale));
+    height: calc(var(--board-height) * var(--board-scale) * 0.5);
+}
+
+#board_progress_tokens > div {
+    position: absolute;
+    width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
+    height: calc(var(--progress-token-width) * var(--progress-token-small-scale));
+}
+
+#board_progress_tokens > div:nth-of-type(1) {
+
+}
+
+#board_progress_tokens > div:nth-of-type(2) {
+    top: calc(var(--board-height) * var(--board-scale) * 0.10);
+}
+
+#board_progress_tokens > div:nth-of-type(3) {
+    top: calc(var(--board-height) * var(--board-scale) * 0.20);
+}
+
+#board_progress_tokens > div:nth-of-type(4) {
+    top: calc(var(--board-height) * var(--board-scale) * 0.30);
+}
+
+#board_progress_tokens > div:nth-of-type(5) {
+    top: calc(var(--board-height) * var(--board-scale) * 0.40);
+}
+
+
+#military_tokens > div {
+    position: absolute;
+}
+
+#military_tokens > div:nth-of-type(1) {
+    left: calc(var(--board-width) * var(--board-scale) * 0.0825);
+    top: calc(var(--board-height) * var(--board-scale) * 0.104);
+}
+
+#military_tokens > div:nth-of-type(2) {
+    left: calc(var(--board-width) * var(--board-scale) * 0.095);
+    top: calc(var(--board-height) * var(--board-scale) * 0.257);
+}
+
+#military_tokens > div:nth-of-type(3) {
+    left: calc(var(--board-width) * var(--board-scale) * 0.095);
+    top: calc(var(--board-height) * var(--board-scale) * 0.643);
+}
+
+#military_tokens > div:nth-of-type(4) {
+    left: calc(var(--board-width) * var(--board-scale) * 0.0825);
+    top: calc(var(--board-height) * var(--board-scale) * 0.778);
+}
+
+.military_token {
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+    position: relative;
+    /*display: inline-block;*/
+}
+
+.military_token_2 {
+    background-image: url('img/sprites.png');
+    background-position: 38.4615% 0.869565%;
+    background-size: 419.672%;
+
+    width: calc(var(--military-token-scale) * 61px);
+    height: calc(var(--military-token-scale) * 141px);
+}
+
+.military_token_5 {
+    background-image: url('img/sprites.png');
+    background-position: 0.546448% 1.12360%;
+    background-size: 350.685%;
+
+    width: calc(var(--military-token-scale) * 73px);
+    height: calc(var(--military-token-scale) * 167px);
+}
+
+#swd[data-agora="1"] .military_token_2, #swd[data-agora="1"] .military_token_5 {
+}
+
+#swd[data-agora="1"] .military_token_2 {
+    background-image: url('img/agora_sprites.png');
+    display: inline-block;
+    background-position: 38.4615% 0.869565%;
+    background-size: 419.672%;
+}
+
+#swd[data-agora="1"] .military_token_5 {
+    background-image: url('img/agora_sprites.png');
+    display: inline-block;
+    background-position: 0.546448% 1.12360%;
+    background-size: 350.685%;
+}
+
+.board_player_left, .board_player_right {
+    position: relative;
+    display: inline-block;
+    top: 40px;
+}
+
+.board_player_right {
+    float: right;
+}
