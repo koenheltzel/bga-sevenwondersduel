@@ -1,0 +1,30 @@
+
+.action_construct {
+    background-image: url('img/sprites.png');
+    background-position: 0.600601% 95.5357%;
+    background-size: 286.034%;
+
+    width: calc(90px * var(--scale));
+    height: calc(32px * var(--scale));
+}
+
+.action_wonder {
+    background-image: url('img/sprites.png');
+    background-position: 82.5581% 76.1261%;
+    background-size: 624.390%;
+
+    width: calc(41px * var(--scale));
+    height: calc(34px * var(--scale));
+}
+
+.action_button * {
+    display: inline-block;
+    vertical-align: middle;
+    pointer-events: none;
+    font-size: calc(14px * var(--scale));
+}
+
+.action_button .emblem {
+    width: calc(34px * var(--scale));
+    height: calc(34px * var(--scale));
+}

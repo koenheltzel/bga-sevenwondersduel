@@ -1,0 +1,51 @@
+
+.swd_tooltip * {
+    font-size: calc(var(--scale) * 14px);
+}
+
+.swd_tooltip {
+    width: calc(var(--scale) * 700px);
+    display: flex;
+    justify-content: space-between;
+}
+
+.swd_tooltip > div {
+    flex-grow: 1;
+}
+
+.swd_tooltip li {
+    list-style: outside;
+    margin-left: calc(25px * var(--scale));
+}
+.swd_tooltip li.no_li {
+    list-style: none;
+    margin-left: 0;
+}
+
+.progress_token_tooltip {
+    width: calc(450px * var(--scale));
+}
+
+.tooltipWiggle {
+    animation: tooltipWiggle 2s infinite alternate;
+    align-self: center;
+}
+
+@keyframes tooltipWiggle {
+    from {
+        transform: perspective(40em) rotateY(-18deg) scale(0.93); /* The 0.95 makes the graphic fit the tooltip better */
+        animation-timing-function: ease-in-out;
+    }
+    to {
+        transform: perspective(40em) rotateY(-10deg) scale(0.93); /* The 0.95 makes the graphic fit the tooltip better */
+        animation-timing-function: ease-in-out;
+    }
+}
+
+.payment_plan {
+    margin: var(--gutter) 0 var(--gutter) var(--gutter);
+}
+
+.payment_plan > div {
+    vertical-align: middle;
+}

@@ -1,0 +1,140 @@
+
+#draftpool_container {
+    padding: var(--gutter);
+    display: inline-block;
+}
+
+.draftpool {
+    position: relative;
+    left: var(--gutter); /* Happens to be te space we need to center the draftpool */
+    margin: calc(2 * var(--gutter)) 0px calc(2.5 * var(--gutter)) 0px;
+
+    /* Height is being set by updateDraftpool */
+
+    /* 5px for rightmost card's shadow, else it will look too narrox. */
+    width: calc(var(--draftpool-column-width) * 10 + var(--building-small-width) + calc(var(--scale) * 5px));
+}
+
+.glow {
+    animation: glow 0.5s infinite alternate;
+}
+
+.draftpool_building_cost {
+    position: relative;
+}
+
+.draftpool_building_cost.opponent {
+    top: calc(var(--building-height) * var(--building-small-scale) * 0.73);
+}
+
+.draftpool_building_cost.me {
+    top: calc(var(--building-height) * var(--building-small-scale) * 0.80);
+}
+
+.draftpool_building_cost .coin {
+    --element-scale: 0.85;
+}
+
+#draftpool_actions {
+    text-align: center;
+    visibility: hidden;
+}
+
+#draftpool_actions > a > div {
+    margin-right: var(--gutter);
+}
+
+#draftpool_actions > a {
+    margin: 0;
+    height: calc(34px * var(--scale));
+    font-size: calc(14px * var(--scale));
+    line-height: calc(34px * var(--scale));
+}
+
+#buttonConstructWonder {
+    float: left;
+}
+
+#buttonDiscardBuilding {
+    float: right;
+}
+
+#buttonDiscardBuilding .coin {
+    --element-scale: calc(2.0 - var(--scale));
+}
+
+#buttonDiscardBuilding .coin > span {
+    font-weight: normal;
+}
+
+#draftpool .column1 {
+    left: calc(var(--draftpool-column-width) * (1 - 1));
+}
+
+#draftpool .column2 {
+    left: calc(var(--draftpool-column-width) * (2 - 1));
+}
+
+#draftpool .column3 {
+    left: calc(var(--draftpool-column-width) * (3 - 1));
+}
+
+#draftpool .column4 {
+    left: calc(var(--draftpool-column-width) * (4 - 1));
+}
+
+#draftpool .column5 {
+    left: calc(var(--draftpool-column-width) * (5 - 1));
+}
+
+#draftpool .column6 {
+    left: calc(var(--draftpool-column-width) * (6 - 1));
+}
+
+#draftpool .column7 {
+    left: calc(var(--draftpool-column-width) * (7 - 1));
+}
+
+#draftpool .column8 {
+    left: calc(var(--draftpool-column-width) * (8 - 1));
+}
+
+#draftpool .column9 {
+    left: calc(var(--draftpool-column-width) * (9 - 1));
+}
+
+#draftpool .column10 {
+    left: calc(var(--draftpool-column-width) * (10 - 1));
+}
+
+#draftpool .column11 {
+    left: calc(var(--draftpool-column-width) * (11 - 1));
+}
+
+#draftpool .row1 {
+    top: calc(var(--draftpool-row-height) * (1 - 1));
+}
+
+#draftpool .row2 {
+    top: calc(var(--draftpool-row-height) * (2 - 1));
+}
+
+#draftpool .row3 {
+    top: calc(var(--draftpool-row-height) * (3 - 1));
+}
+
+#draftpool .row4 {
+    top: calc(var(--draftpool-row-height) * (4 - 1));
+}
+
+#draftpool .row5 {
+    top: calc(var(--draftpool-row-height) * (5 - 1));
+}
+
+#draftpool .row6 {
+    top: calc(var(--draftpool-row-height) * (6 - 1));
+}
+
+#draftpool .row7 {
+    top: calc(var(--draftpool-row-height) * (7 - 1));
+}

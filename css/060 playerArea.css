@@ -1,0 +1,326 @@
+
+.player_info_sub {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.player_info {
+    text-align: center;
+}
+
+.player_info.opponent {
+    margin-bottom: var(--gutter) !important;
+}
+
+.player_info.me {
+    margin-top: var(--gutter) !important;
+}
+
+#swd_wrap.portrait .player_info.opponent {
+    border-radius: 0 0 var(--small-border-radius) 0;
+}
+
+#swd_wrap.portrait .player_info.me {
+    border-radius: 0 var(--small-border-radius) 0 0;
+}
+
+#swd_wrap.square .player_info, #swd_wrap.landscape .player_info {
+    border-radius: 0 var(--small-border-radius) var(--small-border-radius) 0;
+}
+
+.player_area_name {
+    position: relative;
+    display: inline-block;
+    width: 75%;
+    text-align: center;
+}
+
+.player_area_name h3 {
+    margin: 0 !important;
+}
+
+.player_buildings.me {
+    align-items: flex-start;
+}
+
+.player_buildings {
+    min-height: calc(150px * var(--scale));
+
+    width: calc(7 * var(--building-small-width) + 6 * 2px);
+    /* Flexbox setup */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+#swd_wrap.square .player_buildings.opponent, #swd_wrap.landscape .player_buildings.opponent {
+    border-radius: 0 0 var(--small-border-radius) 0;
+}
+
+#swd_wrap.square .player_buildings.me, #swd_wrap.landscape .player_buildings.me {
+    border-radius: 0 var(--small-border-radius) 0 0;
+}
+
+#swd_wrap.portrait .player_buildings.opponent {
+    border-radius: 0 0 var(--small-border-radius) var(--small-border-radius);
+}
+
+#swd_wrap.portrait .player_buildings.me {
+    border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
+}
+
+.player_building_column {
+    display: flex;
+    flex-direction: column;
+    min-width: var(--building-small-width);
+    min-height: var(--building-header-small-height);
+    border-radius: var(--small-border-radius);
+    background-size: var(--building-small-width) var(--building-header-small-height) !important;
+    background-repeat: no-repeat !important;
+    background-position: bottom !important;
+    margin: 0 1px 0 1px;
+}
+
+.player_buildings.opponent .player_building_column {
+    background-position: bottom !important;
+    flex-direction: column-reverse;
+}
+
+.player_buildings.me .player_building_column {
+    background-position: top !important;
+}
+
+/* Gradients for opponent */
+.player_buildings.opponent .player_building_column.Brown {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#702c12+0,702c12+100&0+0,0.4+100 */
+    background: linear-gradient(to bottom, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_buildings.opponent .player_building_column.Grey {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
+    background: linear-gradient(to bottom, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_buildings.opponent .player_building_column.Yellow {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f8b305+0,f8b305+100&0+0,0.4+100 */
+    background: linear-gradient(to bottom, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_buildings.opponent .player_building_column.Blue {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#0275aa+0,0275aa+100&0+0,0.4+100 */
+    background: linear-gradient(to bottom, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_buildings.opponent .player_building_column.Red {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#b7110e+0,b7110e+100&0+0,0.4+100 */
+    background: linear-gradient(to bottom, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_buildings.opponent .player_building_column.Green {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#027234+0,027234+100&0+0,0.4+100 */
+    background: linear-gradient(to bottom, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_buildings.opponent .player_building_column.Purple {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6f488b+0,6f488b+100&0+0,0.4+100 */
+    background: linear-gradient(to bottom, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+/* Gradients for me */
+.player_buildings.me .player_building_column.Brown {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#702c12+0,702c12+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(112, 44, 18, 0) 0%, rgba(112, 44, 18, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_buildings.me .player_building_column.Grey {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(133, 134, 128, 0) 0%, rgba(133, 134, 128, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_buildings.me .player_building_column.Yellow {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f8b305+0,f8b305+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(248, 179, 5, 0) 0%, rgba(248, 179, 5, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_buildings.me .player_building_column.Blue {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#0275aa+0,0275aa+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(2, 117, 170, 0) 0%, rgba(2, 117, 170, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_buildings.me .player_building_column.Red {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#b7110e+0,b7110e+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(183, 17, 14, 0) 0%, rgba(183, 17, 14, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_buildings.me .player_building_column.Green {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#027234+0,027234+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(2, 114, 52, 0) 0%, rgba(2, 114, 52, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.player_buildings.me .player_building_column.Purple {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6f488b+0,6f488b+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.science_progress {
+    order: 99;
+    height: calc(var(--building-header-small-height) * 0.75) !important;
+    line-height: calc(var(--building-header-small-height) * 0.75);
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    font-size: calc(14px * var(--scale));
+    font-weight: bold;
+    color: #006c2f;
+    text-shadow: 1px 1px 1px #FFFFFF;
+}
+
+.science_progress span {
+    cursor: default;
+    pointer-events: none;
+}
+
+#swd_wrap.portrait .player_wonders.opponent {
+    border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
+}
+
+#swd_wrap.portrait .player_wonders.me {
+    border-radius: 0 0 var(--small-border-radius) var(--small-border-radius);
+}
+
+#swd_wrap.square .player_wonders.opponent, #swd_wrap.landscape .player_wonders.opponent {
+    border-radius: var(--small-border-radius) 0 var(--small-border-radius) var(--small-border-radius);
+}
+
+#swd_wrap.square .player_wonders.me, #swd_wrap.landscape .player_wonders.me {
+    border-radius: var(--small-border-radius) var(--small-border-radius) 0 var(--small-border-radius);
+}
+
+.player_wonders .wonder_small {
+    z-index: 2;
+    position: absolute;
+}
+
+.player_wonders .age_card_container {
+    position: relative;
+    top: calc(-10px * var(--scale));
+    left: calc(103px * var(--scale));
+    width: var(--building-small-width);
+    height: var(--building-small-height);
+}
+
+/* So during wonder selection, during the sliding animation the player wonder will be on top of the selection wonders. And when constructing a wonder the age card will be on top of the other draftpool cards. */
+.player_wonders .wonder_container {
+    z-index: 10;
+}
+
+.player_wonders .wonder_container .card_outline {
+    position: absolute;
+    top: calc(17px * var(--scale));
+    left: calc(76px * var(--scale));
+    width: var(--building-small-height);
+    height: var(--building-small-width);
+}
+
+.player_wonders .red_border {
+    cursor: pointer;
+}
+
+.player_wonders .age_card_container .building_small {
+    position: absolute;
+    transform: rotate(-90deg);
+}
+
+.player_wonder_cost {
+    left: calc(var(--wonder-width) * var(--wonder-small-scale) * 0.99);
+    top: calc(var(--wonder-height) * var(--wonder-small-scale) * 0.4);
+    position: absolute;
+    z-index: 2;
+}
+
+.player_wonder_cost .coin {
+    --element-scale: 0.85;
+}
+
+#swd_wrap.square .player_wonders {
+    width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
+    height: calc(4 * var(--wonder-small-scale) * var(--wonder-height) + 3 * var(--gutter));
+}
+
+#swd_wrap.landscape .player_wonders {
+    width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
+    height: calc(2 * var(--wonder-small-scale) * var(--wonder-height) + 1 * var(--gutter));
+}
+
+#swd_wrap.portrait .player_wonders {
+    min-width: calc(4 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 3 * var(--gutter));
+    height: calc(var(--wonder-small-scale) * var(--wonder-height));
+}
+
+.player_wonders {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.player_wonders > div:not(:last-child) {
+    margin-right: var(--gutter);
+}
+
+.player_wonders > div {
+    width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
+    height: calc(var(--wonder-small-scale) * var(--wonder-height));
+}
+
+.player_area_progress_tokens {
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.player_area_progress_tokens > div {
+    display: inline-block;
+    position: relative;
+    width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
+    height: calc(var(--progress-token-height) * var(--progress-token-small-scale));
+}
+
+.player_area_progress_tokens > div:nth-of-type(4) > div, .player_area_progress_tokens > div:nth-of-type(5) > div, .player_area_progress_tokens > div:nth-of-type(6) > div {
+    margin-bottom: calc(-12px * var(--scale));
+}
+
+.player_area_progress_tokens > div:nth-of-type(4), .player_area_progress_tokens > div:nth-of-type(5), .player_area_progress_tokens > div:nth-of-type(6) {
+    position: relative;
+    top: calc(-8px * var(--scale));
+    margin-bottom: calc(-12px * var(--scale));
+    display: none;
+}
+
+.player_area_coins {
+    float: right;
+    text-align: center;
+
+    width: calc(var(--scale) * 30px);
+    height: calc(var(--scale) * 30px);
+}
+
+.player_area_coins .coin {
+    z-index: 105; /* So animated coins fly under it */
+    position: relative; /* For the z-index to work */
+}
+
+.player_area_points {
+    /* Define width/height to keep the same position when the points icon moves to the end game table. */
+    width: calc(var(--scale) * 30px);
+    height: calc(var(--scale) * 30px);
+    position: relative;
+    margin-left: var(--gutter);
+}

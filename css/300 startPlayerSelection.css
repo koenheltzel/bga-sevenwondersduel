@@ -1,0 +1,40 @@
+
+#select_start_player {
+    display: none;
+}
+
+.current_player_is_active #swd[data-state=selectStartPlayer] #select_start_player {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#select_start_player > .action_button > img {
+    margin-right: var(--gutter);
+}
+
+#select_start_player > div {
+    margin: 0 var(--gutter) 0 var(--gutter);
+    word-wrap: break-spaces;
+    line-height: calc(18px * var(--scale));
+    font-size: calc(16px * var(--scale));
+    height: calc(36px * var(--scale));
+    display: inline-block;
+    max-width: 60%;
+    font-weight: bold;
+}
+
+#select_start_player > .action_button {
+    margin: 0;
+    height: calc(34px * var(--scale));
+    line-height: calc(34px * var(--scale));
+    text-overflow: unset;
+}
+
+#buttonPlayerLeft {
+    float: left;
+}
+
+#buttonPlayerRight {
+    float: right;
+}

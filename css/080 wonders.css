@@ -1,0 +1,69 @@
+
+.wonder_container {
+    display: inline-block;
+    position: relative; /* Without this the wonder won't slide properly */
+}
+
+.wonder {
+    width: calc(var(--wonder-width) * var(--scale));
+    height: calc(var(--wonder-height) * var(--scale));
+    background-size: calc(var(--wonder-spritesheet-width) * var(--scale)) calc(var(--wonder-spritesheet-height) * var(--scale));
+    background-image: url('img/wonders.jpg');
+    border-radius: calc(var(--wonder-border-radius) * var(--scale));
+    box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px #00000060;
+
+    /* Temporary: */
+    display: inline-block;
+    position: inherit;
+}
+
+.wonder_small {
+    width: calc(var(--wonder-width) * var(--wonder-small-scale));
+    height: calc(var(--wonder-height) * var(--wonder-small-scale));
+    background-size: calc(var(--wonder-spritesheet-width) * var(--wonder-small-scale)) calc(var(--wonder-spritesheet-height) * var(--wonder-small-scale));
+    border-radius: calc(var(--wonder-border-radius) * var(--wonder-small-scale));
+    box-shadow: 0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0, 0, 0, 0.4),
+    inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
+    text-align: center;
+}
+
+.swd_title {
+    font-family: "PossumSaltareNF", serif;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.building .swd_title {
+    position: absolute;
+    top: 89%;
+    font-size: calc(14px * var(--scale));
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: calc(var(--building-width) * var(--scale));
+}
+
+.building_small .swd_title {
+    top: 89.5%;
+    font-size: calc(13.5px * var(--building-small-scale));
+    margin-left: auto;
+    margin-right: auto;
+    width: var(--building-small-width);
+}
+
+.wonder .swd_title {
+    position: relative;
+    top: 86%;
+    left: -3.5%;
+    font-size: calc(16px * var(--scale));
+    display: block;
+}
+
+.wonder_small .swd_title {
+    font-size: calc(16px * var(--wonder-small-scale));
+}
+
+.progress_token .swd_title {
+    font-size: 22px; /* Scales automatically through the svg */
+}
