@@ -88,6 +88,19 @@ class SevenWondersDuelAgora extends Table
     const STATE_PLAYER_TURN_ID = 30;
     const STATE_PLAYER_TURN_NAME = "playerTurn";
 
+    // Start Agora
+
+    const STATE_CHOOSE_CONSPIRATOR_ACTION_ID = 31;
+    const STATE_CHOOSE_CONSPIRATOR_ACTION_NAME = "chooseConspiractorAction";
+
+    const STATE_CONSPIRE_ID = 32;
+    const STATE_CONSPIRE_NAME = "conspire";
+
+    const STATE_CHOOSE_CONSPIRACY_DECK_POSITION_ID = 33;
+    const STATE_CHOOSE_CONSPIRACY_DECK_POSITION_NAME = "chooseConspiracyDeckPosition";
+
+    // End Agora
+
     const STATE_CHOOSE_PROGRESS_TOKEN_ID = 45;
     const STATE_CHOOSE_PROGRESS_TOKEN_NAME = "chooseProgressToken";
 
@@ -109,10 +122,6 @@ class SevenWondersDuelAgora extends Table
     const STATE_GAME_END_ID = 99;
     const STATE_GAME_END_NAME = "gameEnd";
 
-    // Agora states
-
-    const STATE_CONSPIRATOR_CHOICE_ID = 31;
-    const STATE_CONSPIRATOR_CHOICE_NAME = "conspiratorChoice";
 
     const ZOMBIE_PASS = "zombiePass";
 

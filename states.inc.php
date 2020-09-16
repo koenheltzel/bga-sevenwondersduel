@@ -149,6 +149,58 @@ $machinestates = [
         ]
     ],
 
+    SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME,
+        "description" => clienttranslate('${actplayer} must choose to place an Influence cube or to Conspire'),
+        "descriptionmyturn" => clienttranslate('${you} must choose to place an Influence cube or to Conspire'),
+        "type" => "activeplayer",
+        "action" => "enterStateChooseConspiratorAction",
+        "args" => "argChooseConspiratorAction",
+        "possibleactions" => [
+            "actionPlaceInfluence",
+            "actionConspire",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_CONSPIRE_NAME => SevenWondersDuelAgora::STATE_CONSPIRE_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_CONSPIRE_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CONSPIRE_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Conspiracy'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Conspiracy'),
+        "type" => "activeplayer",
+        "action" => "enterStateConspire",
+        "args" => "argConspire",
+        "possibleactions" => [
+            "actionChooseConspiracy",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRACY_DECK_POSITION_NAME => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRACY_DECK_POSITION_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRACY_DECK_POSITION_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRACY_DECK_POSITION_NAME,
+        "description" => clienttranslate('${actplayer} must choose to place the other Conspiracy on the top or bottom of the deck'),
+        "descriptionmyturn" => clienttranslate('${you} must choose to place the other Conspiracy on the top or bottom of the deck'),
+        "type" => "activeplayer",
+        "action" => "enterStateChooseConspiracyDeckPosition",
+        "args" => "argChooseConspiracyDeckPosition",
+        "possibleactions" => [
+            "actionPlaceInfluence",
+            "actionConspire",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
     SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_ID => [
         "name" => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_NAME,
         "description" => clienttranslate('${actplayer} must choose a progress token'),
