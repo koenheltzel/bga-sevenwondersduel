@@ -20,6 +20,17 @@
     display: inline-block;
 }
 
+#senate_chambers  {
+    width: calc(var(--senate-width) * var(--senate-scale));
+    height: calc(var(--senate-height) * var(--senate-scale));
+    position: absolute;
+    display: inline-block;
+}
+
+#senate_chambers path {
+    fill:#00000000;
+}
+
 .influence_containers > div {
     position: absolute;
     z-index: 25;
@@ -80,7 +91,7 @@
 
 .agora_cube {
     text-align: center;
-    filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #000000);
+    filter: drop-shadow(0px 0px calc(var(--scale) * 2.5px) #000000);
     backface-visibility: hidden;
 
     width: calc(var(--senate-scale) * 22px);

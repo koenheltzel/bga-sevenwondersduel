@@ -193,6 +193,22 @@
     }
 }
 
+.red_stroke {
+    animation: red_stroke 0.5s infinite alternate;
+    z-index: 20;
+    stroke-width: calc(var(--senate-scale) * 7px);
+    stroke-dasharray: 10,4;
+}
+
+@keyframes red_stroke {
+    from {
+        stroke:#ff000066;
+    }
+    to {
+        stroke:#FF0000;
+    }
+}
+
 .card_outline:empty, .card_outline.science_progress {
     box-shadow: inset 0 0 calc(var(--scale) * 4px) calc(var(--scale) * 1px) #00000029;
     border-radius: var(--small-border-radius);
