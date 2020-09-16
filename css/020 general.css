@@ -173,20 +173,17 @@
 .red_border {
     animation: red_border 0.5s infinite alternate;
     z-index: 20;
+    outline-width: calc(var(--scale) * 5px);
+    outline-style: dashed;
+    outline-offset: 1px;
 }
 
 @keyframes red_border {
     from {
         outline-color: #ff000066;
-        outline-width: 3px;
-        outline-style: dashed;
-        outline-offset: 1px;
     }
     to {
         outline-color: #ff0000;
-        outline-width: 3px;
-        outline-style: dashed;
-        outline-offset: 1px;
     }
 }
 
