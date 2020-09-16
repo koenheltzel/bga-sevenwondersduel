@@ -2,19 +2,17 @@
 .endgame_highlight {
     animation: endgame_highlight 0.5s infinite alternate;
     z-index: 200;
+    outline-width: calc(10px * var(--scale));
+    outline-style: double;
 }
 
 @keyframes endgame_highlight {
     from {
         outline-color: #ff000066;
-        outline-width: calc(10px * var(--scale));
-        outline-style: double;
         outline-offset: calc(1px * var(--scale));
     }
     to {
         outline-color: #ff0000;
-        outline-width: calc(10px * var(--scale));
-        outline-style: double;
         outline-offset: calc(4px * var(--scale));
     }
 }
