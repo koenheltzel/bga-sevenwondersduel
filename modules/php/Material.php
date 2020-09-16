@@ -560,15 +560,18 @@ class Material extends Base
         $id = 74;
         // Agora cards
         for($id = 74; $id <= 75; $id++) {
-            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (left chambers)"), Building::TYPE_AGORA))
+            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (left chambers)"), Building::TYPE_SENATOR))
+                ->setSubType(Building::SUBTYPE_POLITICIAN)
                 ->setListPage(-1);
         }
         for($id = 76; $id <= 78; $id++) {
-            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (center chambers)"), Building::TYPE_AGORA))
+            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (center chambers)"), Building::TYPE_SENATOR))
+                ->setSubType(Building::SUBTYPE_POLITICIAN)
                 ->setListPage(-1);
         }
         for($id = 79; $id <= 80; $id++) {
-            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (right chambers)"), Building::TYPE_AGORA))
+            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (right chambers)"), Building::TYPE_SENATOR))
+                ->setSubType(Building::SUBTYPE_POLITICIAN)
                 ->setListPage(-1);
         }
         for($id = 74; $id <= 80; $id++) {
@@ -582,7 +585,8 @@ class Material extends Base
                 ->addText(clienttranslate('Move Influence'));
         }
         for($id = 81; $id <= 86; $id++) {
-            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Conspirator"), Building::TYPE_AGORA))
+            $this->buildings[$id] = (new Building($id, 5, clienttranslate("Conspirator"), Building::TYPE_SENATOR))
+                ->setSubType(Building::SUBTYPE_CONSPIRATOR)
                 ->setListPage(-1)
                 ->addText(clienttranslate('Take only one of the following actions:'), false)
                 ->addText(clienttranslate('Place Influence'))

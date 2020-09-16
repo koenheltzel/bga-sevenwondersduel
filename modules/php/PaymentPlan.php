@@ -36,8 +36,8 @@ class PaymentPlan extends Base
     public function calculate(Player $player, $print = false, $printChoices = false) {
         if($print) print "<PRE>Calculate cost for player to buy “{$this->item->name}\" card.</PRE>";
 
-        if ($this->item instanceof Building && $this->item->type == Building::TYPE_AGORA) {
-            $senatorCount = count($player->getBuildings()->filterByTypes([Building::TYPE_AGORA])->array);
+        if ($this->item instanceof Building && $this->item->type == Building::TYPE_SENATOR) {
+            $senatorCount = count($player->getBuildings()->filterByTypes([Building::TYPE_SENATOR])->array);
             $string = self::_('Player has ${count} Senators');
             $string = str_replace('${count}', $senatorCount, $string);
             $this->addStep(COINS, $senatorCount, $senatorCount, null, null, $string);

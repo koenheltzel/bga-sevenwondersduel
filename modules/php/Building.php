@@ -13,13 +13,17 @@ class Building extends Item {
     public const TYPE_YELLOW = 'Yellow';
     public const TYPE_RED = 'Red';
     public const TYPE_PURPLE = 'Purple';
-    public const TYPE_AGORA = 'Agora';
+    public const TYPE_SENATOR = 'Senator';
+
+    public const SUBTYPE_POLITICIAN = 'Politician';
+    public const SUBTYPE_CONSPIRATOR = 'Conspirator';
 
     private const SPRITESHEET_COLUMNS = 12;
 
     public $spriteXY;
     public $age;
     public $type;
+    public $subType;
     public $typeColor;
     public $typeDescription;
     public $resources = [];
@@ -90,7 +94,7 @@ class Building extends Item {
                 $this->typeColor = '#6f488b';
                 $this->typeDescription = clienttranslate('Guild');
                 break;
-            case self::TYPE_AGORA:
+            case self::TYPE_SENATOR:
                 $this->typeColor = '#000000';
                 $this->typeDescription = clienttranslate('Senator');
                 break;
@@ -462,6 +466,15 @@ class Building extends Item {
      */
     public function setListPosition(array $listPosition) {
         $this->listPosition = $listPosition;
+        return $this;
+    }
+
+    /**
+     * @param mixed $subType
+     * @return static
+     */
+    public function setSubType($subType) {
+        $this->subType = $subType;
         return $this;
     }
 

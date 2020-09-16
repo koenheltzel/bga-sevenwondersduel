@@ -48,6 +48,9 @@ trait PlayerTurnTrait {
         if ($payment->selectProgressToken) {
             $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_NAME);
         }
+        elseif ($building->subType == Building::SUBTYPE_CONSPIRATOR) {
+            $this->gamestate->nextState( self::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME);
+        }
         else {
             $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
         }

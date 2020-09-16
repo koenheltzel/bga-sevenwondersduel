@@ -60,6 +60,8 @@ class SevenWondersDuelAgora extends Table
     use SWD\States\SelectWonderTrait;
     use SWD\States\StartPlayerSelectedTrait;
     use SWD\States\WonderSelectedTrait;
+    // Agora
+    use SWD\States\ChooseConspiratorActionTrait;
 
     /**
      * @var SevenWondersDuelAgora
