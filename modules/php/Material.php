@@ -77,7 +77,7 @@ class Material extends Base
         $this->wonders[6] = (new Wonder(6, clienttranslate("The Great Library")))
             ->setCost([PAPYRUS => 1, GLASS => 1, WOOD => 3])
             ->setProgressTokenFromBox()
-            ->setVictoryPoints(6);
+            ->setVictoryPoints(4);
 
         $this->wonders[7] = (new Wonder(7, clienttranslate("Piraeus")))
             ->setCost([CLAY => 1, STONE => 1, WOOD => 2])
