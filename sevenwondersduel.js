@@ -263,6 +263,9 @@ define([
 
                 // Debug tooltip content by placing a tooltip at the top of the screen.
                 // dojo.place( this.getWonderTooltip(11, this.opponent_id, '<div class="coin"><span style="color: red !important">9</span></div>'), 'swd_wrap', 'first' );
+
+                // At the beginning swdPosition's y position is 265 (when it's not visible), so retry after loading to update the layout.
+                this.callFunctionAfterLoading(dojo.hitch(this, "updateLayout"));
             },
 
             ///////////////////////////////////////////////////
@@ -1237,7 +1240,7 @@ define([
                 }
             },
 
-            callFunctionAfterLoading: function(functionToCall, args) {
+            callFunctionAfterLoading: function(functionToCall, args = []) {
                 var loaderNode = $('loader_mask');
                 if (!loaderNode || loaderNode.style.display == 'none') {
                     functionToCall(...args);
@@ -2428,17 +2431,16 @@ define([
                 var pageZoom = dojo.style($('page-content'), "zoom");
                 if (pageZoom == undefined) pageZoom = 1;
 
-                // At the end of the game there's more room taken up by bars up top but no idea how to reliably calculate that.
-                var endGameScaleCompensation = ($('maingameview_menuheader') && dojo.style($('maingameview_menuheader'), 'display') != 'none') ? 0.93 : 1.0;
-
-                var titlePosition = dojo.position('page-title', false);
+                var titlePosition = dojo.position('page-title', true);
                 var titleMarginBottom = 5;
 
                 if (this.debug) console.log('titlePosition: ', titlePosition);
                 if (this.debug) console.log('pageZoom', pageZoom);
 
                 let width = titlePosition.w;
-                let height = (window.innerHeight / pageZoom * endGameScaleCompensation - titlePosition.y - titlePosition.h - 2 * titleMarginBottom);
+                var swdPosition = dojo.position('swd', true);
+                let height = (window.innerHeight / pageZoom - swdPosition.y  - titleMarginBottom);
+
                 return [width, height]
             },
 
@@ -2523,21 +2525,23 @@ define([
             },
 
             autoUpdateScale: function() {
-                this.setScale(1);
-
                 let availableDimensions = this.getAvailableDimensions();
                 let availableRatio = availableDimensions[0] / availableDimensions[1];
 
                 let currentDimensions = this.getCurrentDimensions();
-                let currentRatio = currentDimensions[0] / currentDimensions[1];
+                if (currentDimensions[0] > 0) { // Only to check if the game tab is open (not the Game results tab)
+                    this.setScale(1);
+                    currentDimensions = this.getCurrentDimensions();
+                    let currentRatio = currentDimensions[0] / currentDimensions[1];
 
-                if (availableRatio > currentRatio) {
-                    this.scale = availableDimensions[1] / currentDimensions[1];
+                    if (availableRatio > currentRatio) {
+                        this.scale = availableDimensions[1] / currentDimensions[1];
+                    }
+                    else {
+                        this.scale = availableDimensions[0] / currentDimensions[0];
+                    }
+                    this.setScale(this.scale);
                 }
-                else {
-                    this.scale = availableDimensions[0] / currentDimensions[0];
-                }
-                this.setScale(this.scale);
             },
 
             onSettingAutoScaleChange: function (e) {
