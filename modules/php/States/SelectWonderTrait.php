@@ -18,7 +18,17 @@ trait SelectWonderTrait {
         ];
     }
     public function enterStateSelectWonder() {
-        $this->giveExtraTime($this->getActivePlayerId());
+        $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
+        $location = "selection{$wonderSelectionRound}";
+        $cards = Wonders::getDeckCardsSorted($location);
+        // Automatically select last wonder of the selection round.
+        if (count($cards) == 1) {
+            $card = $this->wonderDeck->getCardOnTop($location);
+            $this->performActionSelectWonder(Player::getActive(), $card['id'], true);
+        }
+        else {
+            $this->giveExtraTime($this->getActivePlayerId());
+        }
     }
 
     public function actionSelectWonder($wonderId){
@@ -32,7 +42,7 @@ trait SelectWonderTrait {
      * @param Player $player Has to be passed because zombieTurn can't use current player
      * @param $wonderId
      */
-    private function performActionSelectWonder(Player $player, $wonderId) {
+    private function performActionSelectWonder(Player $player, $wonderId, $automatic = false) {
         $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
         $cards = Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}");
         $index = array_search($wonderId, array_column($cards, 'id'));
@@ -52,7 +62,7 @@ trait SelectWonderTrait {
         $wonder = Wonder::get($wonderId);
         $this->notifyAllPlayers(
             'wonderSelected',
-            clienttranslate('${player_name} selected wonder “${wonderName}”'),
+            $automatic ? clienttranslate('${player_name} gets the last wonder of the round “${wonderName}”') : clienttranslate('${player_name} selected wonder “${wonderName}”'),
             [
                 'i18n' => ['wonderName'],
                 'wonderName' => $wonder->name,
