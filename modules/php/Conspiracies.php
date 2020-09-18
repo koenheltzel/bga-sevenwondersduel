@@ -36,6 +36,18 @@ class Conspiracies extends Collection {
         return $cards;
     }
 
+    public function conspire() {
+        SevenWondersDuelAgora::get()->conspiracyDeck->pickCardsForLocation(2, 'deck', 'conspire');
+    }
+    public function conspireChoice($conspiracyId) {
+        SevenWondersDuelAgora::get()->conspiracyDeck->insertCardOnExtremePosition($conspiracyId, Player::getActive()->id, true);
+    }
+    public function conspireRemnantPosition($top = true) {
+        $cards = SevenWondersDuelAgora::get()->conspiracyDeck->getCardsInLocation('conspire');
+        $card = array_shift($cards);
+        SevenWondersDuelAgora::get()->conspiracyDeck->insertCardOnExtremePosition($card['id'], 'deck', $top);
+    }
+
     /**
      * @return Conspiracies
      */

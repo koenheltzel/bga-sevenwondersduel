@@ -1,0 +1,8 @@
+
+#conspire {
+    display: none;
+}
+
+.current_player_is_active #swd[data-state=conspire] #conspire {
+    display: block;
+}

@@ -68,9 +68,18 @@
                             <a href="#" id="buttonConstructBuilding" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>{CONSTRUCT_BUILDING}</span></a>
                             <a href="#" id="buttonDiscardBuilding" class="action_button bgabutton bgabutton_blue"><div class="coin"><span>+X</span></div><span>{DISCARD_BUILDING}</span></a>
                         </div>
-                        <div id="choose_conspiracy_action" class="whiteblock">
+                        <div id="choose_conspirator_action" class="whiteblock">
                             <a href="#" id="buttonConspire" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{CONSPIRE}</span></a>
                             <a href="#" id="buttonPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{PLACE_INFLUENCE}</span></a>
+                        </div>
+                        <div id="choose_conspire_remnant_position" class="whiteblock">
+                            <h3>{CHOOSE_CONSPIRE_REMNANT_POSITION}:</h3>
+                            <a href="#" id="buttonConspiracyRemnantBottom" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{BOTTOM}</span></a>
+                            <a href="#" id="buttonConspiracyRemnantTop" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{TOP}</span></a>
+                        </div>
+                        <div id="conspire" class="whiteblock">
+                            <div></div>
+                            <div></div>
                         </div>
                         <div id="select_start_player" class="whiteblock">
                             <a href="#" id="buttonPlayerLeft" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Name 1</span></a>

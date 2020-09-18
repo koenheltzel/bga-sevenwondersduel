@@ -284,6 +284,10 @@ define([
                 dojo.query("#setting_auto_quality").on("change", dojo.hitch(this, "onSettingAutoQualityChange"));
                 dojo.query("#setting_quality").on("change", dojo.hitch(this, "onSettingQualityChange"));
 
+                // Agora click handlers using event delegation:
+                // Agora click handlers without event delegation:
+                dojo.query("#swd[data-state=chooseConspiratorAction] #choose_conspirator_action .action_button").on("click", dojo.hitch(this, "onChooseConspiratorActionClick"));
+
                 // Resize/scroll handler to determine layout and scale factor
                 window.addEventListener('resize', dojo.hitch(this, "onWindowUpdate"));
                 window.addEventListener('scroll', dojo.hitch(this, "onWindowUpdate"));
@@ -2720,6 +2724,13 @@ define([
                 }
                 this.setScale(this.scale);
             },
+
+            //  ____       _   _   _
+            // / ___|  ___| |_| |_(_)_ __   __ _ ___
+            // \___ \ / _ \ __| __| | '_ \ / _` / __|
+            //  ___) |  __/ |_| |_| | | | | (_| \__ \
+            // |____/ \___|\__|\__|_|_| |_|\__, |___/
+            //                             |___/
 
             onSettingAutoScaleChange: function (e) {
                 // Preventing default browser reaction

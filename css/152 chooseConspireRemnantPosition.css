@@ -1,0 +1,8 @@
+
+#choose_conspire_remnant_position {
+    display: none;
+}
+
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position {
+    display: block;
+}

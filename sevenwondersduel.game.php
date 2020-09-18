@@ -62,6 +62,8 @@ class SevenWondersDuelAgora extends Table
     use SWD\States\WonderSelectedTrait;
     // Agora
     use SWD\States\ChooseConspiratorActionTrait;
+    use SWD\States\ConspireTrait;
+    use SWD\States\ChooseConspireRemnantPositionTrait;
 
     /**
      * @var SevenWondersDuelAgora
@@ -98,8 +100,8 @@ class SevenWondersDuelAgora extends Table
     const STATE_CONSPIRE_ID = 32;
     const STATE_CONSPIRE_NAME = "conspire";
 
-    const STATE_CHOOSE_CONSPIRACY_DECK_POSITION_ID = 33;
-    const STATE_CHOOSE_CONSPIRACY_DECK_POSITION_NAME = "chooseConspiracyDeckPosition";
+    const STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_ID = 33;
+    const STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME = "chooseConspireRemnantPosition";
 
     // End Agora
 

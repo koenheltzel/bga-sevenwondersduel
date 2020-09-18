@@ -140,6 +140,34 @@ class action_sevenwondersduelagora extends APP_GameAction
         self::ajaxResponse();
     }
 
+    // Agora
+
+    public function actionConspire() {
+        self::setAjaxMode();
+
+        SevenWondersDuelAgora::get()->actionConspire();
+
+        self::ajaxResponse();
+    }
+
+    public function actionChooseConspiracy() {
+        self::setAjaxMode();
+
+        $conspiracyId = self::getArg("conspiracyId", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionChooseConspiracy($conspiracyId);
+
+        self::ajaxResponse();
+    }
+
+    public function actionChooseConspireRemnantPosition() {
+        self::setAjaxMode();
+
+        $top = self::getArg("top", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionChooseConspireRemnantPosition($top);
+
+        self::ajaxResponse();
+    }
+
 }
   
 

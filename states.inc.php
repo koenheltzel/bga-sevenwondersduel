@@ -179,19 +179,19 @@ $machinestates = [
             "actionChooseConspiracy",
         ],
         "transitions" => [
-            SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRACY_DECK_POSITION_NAME => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRACY_DECK_POSITION_ID,
+            SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
         ]
     ],
 
-    SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRACY_DECK_POSITION_ID => [
-        "name" => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRACY_DECK_POSITION_NAME,
+    SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME,
         "description" => clienttranslate('${actplayer} must choose to place the other Conspiracy on the top or bottom of the deck'),
         "descriptionmyturn" => clienttranslate('${you} must choose to place the other Conspiracy on the top or bottom of the deck'),
         "type" => "activeplayer",
-        "action" => "enterStateChooseConspiracyDeckPosition",
-        "args" => "argChooseConspiracyDeckPosition",
+        "action" => "enterStateChooseConspireRemnantPosition",
+        "args" => "argChooseConspireRemnantPosition",
         "possibleactions" => [
             "actionPlaceInfluence",
             "actionConspire",

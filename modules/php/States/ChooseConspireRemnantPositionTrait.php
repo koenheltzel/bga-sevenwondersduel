@@ -10,14 +10,14 @@ use SWD\Players;
 use SWD\ProgressToken;
 use SWD\Wonders;
 
-trait ChooseConspiratorActionTrait {
+trait ChooseConspireRemnantPositionTrait {
 
     /**
      * Which data to pass with the state change to onEnteringState() in JavaScript.
      * Warning: this "arg" method can be called before the "enterState" method so don't expect data modifications by the "enterState" method to be available in the "arg" method!
      * @return array
      */
-    public function argChooseConspiratorAction() {
+    public function argChooseConspireRemnantPosition() {
         return [
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
@@ -25,24 +25,15 @@ trait ChooseConspiratorActionTrait {
         ];
     }
 
-    public function enterStateChooseConspiratorAction() {
+    public function enterStateChooseConspireRemnantPosition() {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-    public function actionChooseConspiratorActionPlaceInfluence($chamber) {
+    public function actionChooseConspireRemnantPosition($top) {
         $this->checkAction("actionChooseConspiratorPlaceInfluence");
 
-//        $progressToken = ProgressToken::get($progressTokenId);
-//        $payment = $progressToken->construct(Player::getActive());
+        Material::get()->conspiracies->conspireRemnantPosition($top);
 
         $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
-    }
-
-    public function actionConspire() {
-        $this->checkAction("actionConspire");
-
-        Material::get()->conspiracies->conspire();
-
-        $this->gamestate->nextState( self::STATE_CONSPIRE_NAME);
     }
 }
