@@ -8,43 +8,35 @@ class Conspiracy extends Item {
 
     /**
      * @param $id
-     * @return Wonder
+     * @return Conspiracy
      */
     public static function get($id) {
         return Material::get()->conspiracies[$id];
     }
 
     /**
-     * @param Building $building
+     * @param Conspiracy $building
      * @return PaymentPlan
      */
-//    public function construct(Player $player, $building = null, $discardedBuilding = false) {
-//        $payment = parent::construct($player, $building, $discardedBuilding);
-//
-//        SevenWondersDuelAgora::get()->buildingDeck->moveCard($building->id, 'wonder' . $this->id);
-//
-//        SevenWondersDuelAgora::get()->notifyAllPlayers(
-//            'constructWonder',
-//            clienttranslate('${player_name} constructed wonder “${wonderName}” for ${cost} using building “${buildingName}”'),
-//            [
-//                'i18n' => ['wonderName', 'cost', 'buildingName'],
-//                'wonderId' => $this->id,
-//                'wonderName' => $this->name,
-//                'buildingId' => $building->id,
-//                'buildingName' => $building->name,
-//                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : clienttranslate('free'),
-//                'player_name' => $player->name,
-//                'playerId' => $player->id,
-//                'payment' => $payment,
-//                'wondersSituation' => Wonders::getSituation(),
-//            ]
-//        );
-//
-//
-//        $this->constructEffects($player, $payment);
-//
-//        return $payment;
-//    }
+    public function construct(Player $player, $building = null, $discardedCard = false) {
+        $payment = parent::construct($player);
+
+        SevenWondersDuelAgora::get()->conspiracyDeck->insertCardOnExtremePosition($this->id, $player->id, true);
+
+        SevenWondersDuelAgora::get()->notifyAllPlayers(
+            'constructConspiracy',
+            clienttranslate('${player_name} chose a Conspiracy'),
+            [
+                'player_name' => $player->name,
+                'playerId' => $player->id,
+            ]
+        );
+
+
+        $this->constructEffects($player, $payment);
+
+        return $payment;
+    }
 
     /**
      * Handle any effects the item has (victory points, gain coins, military) and send notifications about them.

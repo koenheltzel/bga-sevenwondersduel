@@ -289,6 +289,10 @@ define([
                     .on("#swd[data-state=chooseConspiratorAction] #choose_conspirator_action .action_button :click",
                         dojo.hitch(this, "onChooseConspiratorActionClick")
                     );
+                dojo.query('body')
+                    .on("#swd[data-state=conspire] .conspiracy_small :click",
+                        dojo.hitch(this, "onChooseConspiracyClick")
+                    );
                 // Agora click handlers without event delegation:
 
                 // Resize/scroll handler to determine layout and scale factor
@@ -2381,7 +2385,6 @@ define([
             //                                                         |_|
 
             onChooseConspiratorActionClick: function (e) {
-                console.log('SUP?');
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
@@ -2416,6 +2419,13 @@ define([
                 }
             },
 
+            //   ____                      _
+            //  / ___|___  _ __  ___ _ __ (_)_ __ ___
+            // | |   / _ \| '_ \/ __| '_ \| | '__/ _ \
+            // | |__| (_) | | | \__ \ |_) | | | |  __/
+            //  \____\___/|_| |_|___/ .__/|_|_|  \___|
+            //                      |_|
+
             onEnterConspire: function (args) {
                 if (this.debug) console.log('onEnterConspire', args);
                 if (this.isCurrentPlayerActive()) {
@@ -2427,6 +2437,38 @@ define([
                         dojo.place(this.getConspiracyDivHtml(conspiracyId, true), container);
                         i++;
                     }));
+                }
+            },
+
+            onChooseConspiracyClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onChooseConspiratorActionClick', e);
+
+                var conspiracy = dojo.hasClass(e.target, 'conspiracy') ? dojo.query(e.target) : dojo.query(e.target).closest(".conspiracy");
+                var conspiracyId = conspiracy.attr("data-conspiracy-id");
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseConspiracy')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionChooseConspiracy.html", {
+                            conspiracyId: conspiracyId,
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
                 }
             },
 

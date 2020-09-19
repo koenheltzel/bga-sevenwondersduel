@@ -12,6 +12,10 @@
     justify-content: space-evenly;
 }
 
+.current_player_is_active #swd[data-state=conspire] #conspire .conspiracy_small {
+    cursor: pointer;
+}
+
 #conspire > div {
     width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
     height: calc(var(--conspiracy-height) * var(--conspiracy-small-scale));

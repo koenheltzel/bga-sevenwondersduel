@@ -2,6 +2,7 @@
 
 namespace SWD\States;
 
+use SWD\Conspiracy;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Players;
@@ -35,8 +36,8 @@ trait ConspireTrait {
     public function actionChooseConspiracy($conspiracyId) {
         $this->checkAction("actionChooseConspiracy");
 
-        $progressToken = ProgressToken::get($conspiracyId);
-        $payment = $progressToken->construct(Player::getActive());
+        $conspiracy = Conspiracy::get($conspiracyId);
+        $payment = $conspiracy->construct(Player::getActive());
 
         // Return any remaining progress tokens in the active selection back to the box.
         $this->progressTokenDeck->moveAllCardsInLocation('selection', 'box');
