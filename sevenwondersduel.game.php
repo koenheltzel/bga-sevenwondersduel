@@ -95,7 +95,7 @@ class SevenWondersDuelAgora extends Table
     // Start Agora
 
     const STATE_CHOOSE_CONSPIRATOR_ACTION_ID = 31;
-    const STATE_CHOOSE_CONSPIRATOR_ACTION_NAME = "chooseConspiractorAction";
+    const STATE_CHOOSE_CONSPIRATOR_ACTION_NAME = "chooseConspiratorAction";
 
     const STATE_CONSPIRE_ID = 32;
     const STATE_CONSPIRE_NAME = "conspire";

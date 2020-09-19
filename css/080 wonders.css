@@ -43,7 +43,7 @@
     margin-right: auto;
     width: calc(var(--building-width) * var(--scale));
 }
-.building[data-building-type=Agora] .swd_title {
+.building[data-building-type=Senator] .swd_title {
     display: none;
 }
 

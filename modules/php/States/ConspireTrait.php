@@ -19,7 +19,7 @@ trait ConspireTrait {
         return [
             '_private' => [ // Using "_private" keyword, all data inside this array will be made private
                 'active' => [ // Using "active" keyword inside "_private", you select active player(s)
-                    'conspiracies' => $this->progressTokenDeck->getCardsInLocation('conspire') // will be send only to active player(s)
+                    'conspiracies' => $this->conspiracyDeck->getCardsInLocation('conspire') // will be send only to active player(s)
                 ]
             ],
             'draftpool' => Draftpool::get(),

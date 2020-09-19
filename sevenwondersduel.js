@@ -285,8 +285,11 @@ define([
                 dojo.query("#setting_quality").on("change", dojo.hitch(this, "onSettingQualityChange"));
 
                 // Agora click handlers using event delegation:
+                dojo.query('body')
+                    .on("#swd[data-state=chooseConspiratorAction] #choose_conspirator_action .action_button :click",
+                        dojo.hitch(this, "onChooseConspiratorActionClick")
+                    );
                 // Agora click handlers without event delegation:
-                dojo.query("#swd[data-state=chooseConspiratorAction] #choose_conspirator_action .action_button").on("click", dojo.hitch(this, "onChooseConspiratorActionClick"));
 
                 // Resize/scroll handler to determine layout and scale factor
                 window.addEventListener('resize', dojo.hitch(this, "onWindowUpdate"));
@@ -619,12 +622,12 @@ define([
 
                 dojo.style('draftpool_container', 'display', draftpool.age > 0 ? 'block' : 'none');
 
+                dojo.attr($('swd'), 'data-age', draftpool.age);
+
                 // New age. Animate the build up
                 if (draftpool.age > 0 && draftpool.age >= this.currentAge) {
                     this.currentAge = draftpool.age; // This currentAge business is a bit of dirty check to prevent older notifications (due to animations finishing) arriving after newer notifications. Especially when a new age has arrived.
                     this.gamedatas.draftpool = draftpool;
-
-                    this.setCssVariable('--draftpool-row-height-multiplier', draftpool.age == 3 ? 0.4 : 0.536);
 
                     var animationDelay = 200; // Have some initial delay, so this function can finish updating the DOM.
                     for (var i = 0; i < draftpool.cards.length; i++) {
@@ -918,7 +921,7 @@ define([
             //  \____\___/|_| |_|___/ .__/|_|_|  \__,_|\___|_|\___||___/
             //                      |_|
 
-            getConspiracyDivHtml: function (conspiracyId) {
+            getConspiracyDivHtml: function (conspiracyId, full=false) {
                 var conspiracy = this.gamedatas.conspiracies[conspiracyId];
                 var data = {
                     jsId: conspiracyId,
@@ -927,7 +930,7 @@ define([
                 var spritesheetColumns = 6;
                 data.jsX = (conspiracyId - 1) % spritesheetColumns;
                 data.jsY = Math.floor((conspiracyId - 1) / spritesheetColumns);
-                return this.format_block('jstpl_conspiracy', data);
+                return this.format_block(full ? 'jstpl_conspiracy_full' : 'jstpl_conspiracy', data);
             },
 
             //   __  __ _ _ _ _                     _____               _
@@ -1579,7 +1582,7 @@ define([
                     dojo.addClass($('buttonConstructBuilding'), canAffordBuilding ? 'bgabutton_blue' : 'bgabutton_darkgray');
 
                     var buildingData = this.gamedatas.buildings[this.playerTurnBuildingId];
-                    if (buildingData.type == "Agora") {
+                    if (buildingData.type == "Senator") {
                         dojo.query('#buttonConstructBuilding > span')[0].innerHTML = _('Recruit senator');
                     }
                     else {
@@ -2368,6 +2371,63 @@ define([
                     }
                 );
                 // }
+            },
+
+            //   ____ _                             ____                      _           _                          _   _
+            //  / ___| |__   ___   ___  ___  ___   / ___|___  _ __  ___ _ __ (_)_ __ __ _| |_ ___  _ __    __ _  ___| |_(_) ___  _ __
+            // | |   | '_ \ / _ \ / _ \/ __|/ _ \ | |   / _ \| '_ \/ __| '_ \| | '__/ _` | __/ _ \| '__|  / _` |/ __| __| |/ _ \| '_ \
+            // | |___| | | | (_) | (_) \__ \  __/ | |__| (_) | | | \__ \ |_) | | | | (_| | || (_) | |    | (_| | (__| |_| | (_) | | | |
+            //  \____|_| |_|\___/ \___/|___/\___|  \____\___/|_| |_|___/ .__/|_|_|  \__,_|\__\___/|_|     \__,_|\___|\__|_|\___/|_| |_|
+            //                                                         |_|
+
+            onChooseConspiratorActionClick: function (e) {
+                console.log('SUP?');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onChooseConspiratorActionClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    switch (e.target.id) {
+                        case "buttonConspire":
+                            // Check that this action is possible (see "possibleactions" in states.inc.php)
+                            if (!this.checkAction('actionConspire')) {
+                                return;
+                            }
+
+                            this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionConspire.html", {
+                                    lock: true
+                                },
+                                this, function (result) {
+                                    // What to do after the server call if it succeeded
+                                    // (most of the time: nothing)
+
+                                }, function (is_error) {
+                                    // What to do after the server call in anyway (success or failure)
+                                    // (most of the time: nothing)
+
+                                }
+                            );
+                            break;
+                        case "buttonPlaceInfluence":
+                            break;
+                    }
+
+                }
+            },
+
+            onEnterConspire: function (args) {
+                if (this.debug) console.log('onEnterConspire', args);
+                if (this.isCurrentPlayerActive()) {
+                    let i = 1;
+                    Object.keys(args._private.conspiracies).forEach(dojo.hitch(this, function (conspiracyId) {
+                        var card = args._private.conspiracies[conspiracyId];
+                        var container = dojo.query('#conspire>div:nth-of-type(' + i + ')')[0];
+                        // dojo.place(this.getProgressTokenDivHtml(card.id), container);
+                        dojo.place(this.getConspiracyDivHtml(conspiracyId, true), container);
+                        i++;
+                    }));
+                }
             },
 
             //  _   _           _     ____  _                         _____

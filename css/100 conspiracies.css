@@ -21,6 +21,8 @@
     box-shadow: 0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0, 0, 0, 0.4),
     inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
     text-align: center;
+    position: absolute;
+    display: block;
 }
 .conspiracy_compact {
     height: calc(var(--conspiracy-compact-height) * var(--conspiracy-small-scale));

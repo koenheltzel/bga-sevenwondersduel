@@ -1,4 +1,8 @@
 
+#swd[data-age="1"] {
+    --draftpool-row-height-multiplier: 0.4;
+}
+
 #draftpool_container {
     padding: var(--gutter);
     display: inline-block;

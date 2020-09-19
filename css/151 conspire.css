@@ -3,6 +3,16 @@
     display: none;
 }
 
+.current_player_is_active #swd[data-state=conspire] {
+    --draftpool-row-height-multiplier: 0.3 !important;
+}
 .current_player_is_active #swd[data-state=conspire] #conspire {
-    display: block;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#conspire > div {
+    width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
+    height: calc(var(--conspiracy-height) * var(--conspiracy-small-scale));
+    position: relative;
 }
