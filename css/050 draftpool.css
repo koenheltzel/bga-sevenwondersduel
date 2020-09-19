@@ -1,6 +1,7 @@
 
-#swd[data-age="1"] {
+#swd[data-age="3"] {
     --draftpool-row-height-multiplier: 0.4;
+    --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
 }
 
 #draftpool_container {
