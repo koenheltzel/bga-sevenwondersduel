@@ -1458,7 +1458,7 @@ define([
 
                         var wonderNode = dojo.place(this.getWonderDivHtml(card.id, false), 'swd'); // Temporary add it to #swd, so card_outline container stay empty and show the outline.
 
-                        if (typeof g_replayFrom != 'undefined' || g_archive_mode) {
+                        if ((typeof g_replayFrom != 'undefined' || g_archive_mode) || !this.checkPossibleActions( "actionSelectWonder" )) {
                             // Don't animate when replaying to prevent TypeError: Cannot read property 'parentElement' of null
                             dojo.place(wonderNode, container);
                         }
@@ -2462,6 +2462,7 @@ define([
                         dojo.place(this.getConspiracyDivHtml(conspiracyId, conspiracyId, -1, true), container);
                         i++;
                     }));
+                    this.updateLayout();
                 }
             },
 
@@ -2504,6 +2505,7 @@ define([
 
                 var conspiracyContainerNode = dojo.place(this.getConspiracyDivHtml(conspiracyId, 18, notif.args.conspiracyPosition), 'player_conspiracies_' + notif.args.playerId);
 
+                this.updateLayout();
                 // var conspiracyContainerNode = $('conspiracy_' + notif.args.conspiracyId + '_container');
                 //
                 // var selectionContainer = conspiracyContainerNode.parentElement;
