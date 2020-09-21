@@ -15,15 +15,33 @@
 .current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #conspire {
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
 }
 
 .current_player_is_active #swd[data-state=conspire] #conspire .conspiracy_small {
     cursor: pointer;
 }
 
-#conspire > div,
-#choose_conspire_remnant_position > div:nth-of-type(1) {
+#conspire > div {
     width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
     height: calc(var(--conspiracy-height) * var(--conspiracy-small-scale));
     position: relative;
+}
+
+
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position {
+    width: calc(2 * var(--conspiracy-width) * var(--conspiracy-small-scale));
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position a {
+    width: calc(1 * var(--conspiracy-width) * var(--conspiracy-small-scale));
+    /*height: calc(0.2 * var(--conspiracy-width) * var(--conspiracy-small-scale));*/
+    display: block;
+}
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position a span {
+    font-size: calc(18px * var(--scale));
 }
