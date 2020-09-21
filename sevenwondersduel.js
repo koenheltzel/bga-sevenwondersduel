@@ -212,17 +212,20 @@ define([
                     this.updatePlayerWonders(player_id, this.gamedatas.wondersSituation[player_id]);
                     this.updatePlayerBuildings(player_id, this.gamedatas.playerBuildings[player_id]);
                     this.updatePlayerProgressTokens(player_id, this.gamedatas.progressTokensSituation[player_id]);
+
+                    // Agora
+                    this.updatePlayerConspiracies(player_id, this.gamedatas.conspiraciesSituation[player_id]);
                 }
 
                 if (this.agora) {
-                    dojo.place(this.getConspiracyDivHtml(1, 18, 3), 'player_conspiracies_2310957');
-                    dojo.place(this.getConspiracyDivHtml(2, 18, 2), 'player_conspiracies_2310957');
-                    dojo.place(this.getConspiracyDivHtml(3, 3, 1), 'player_conspiracies_2310957');
-                    dojo.place(this.getConspiracyDivHtml(4, 4, 0), 'player_conspiracies_2310957');
-
-                    dojo.place(this.getConspiracyDivHtml(5, 18, 2), 'player_conspiracies_2310958');
-                    dojo.place(this.getConspiracyDivHtml(8, 8, 1), 'player_conspiracies_2310958');
-                    dojo.place(this.getConspiracyDivHtml(9, 9, 0), 'player_conspiracies_2310958');
+                    // dojo.place(this.getConspiracyDivHtml(1, 18, 3), 'player_conspiracies_2310957');
+                    // dojo.place(this.getConspiracyDivHtml(2, 18, 2), 'player_conspiracies_2310957');
+                    // dojo.place(this.getConspiracyDivHtml(3, 3, 1), 'player_conspiracies_2310957');
+                    // dojo.place(this.getConspiracyDivHtml(4, 4, 0), 'player_conspiracies_2310957');
+                    //
+                    // dojo.place(this.getConspiracyDivHtml(5, 18, 2), 'player_conspiracies_2310958');
+                    // dojo.place(this.getConspiracyDivHtml(8, 8, 1), 'player_conspiracies_2310958');
+                    // dojo.place(this.getConspiracyDivHtml(9, 9, 0), 'player_conspiracies_2310958');
                 }
 
                 // Set setting dropdown values (translations don't work yet in the constructor, so we do it here).
@@ -945,6 +948,18 @@ define([
                 data.jsX = (spriteId - 1) % spritesheetColumns;
                 data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
                 return this.format_block(full ? 'jstpl_conspiracy_full' : 'jstpl_conspiracy', data);
+            },
+
+            updatePlayerConspiracies: function (playerId, rows) {
+                if (this.debug) console.log('updatePlayerConspiracies', playerId, rows);
+
+                let container = $('player_conspiracies_' + playerId);
+                dojo.empty(container);
+
+                Object.keys(rows).forEach(dojo.hitch(this, function (index) {
+                    var row = rows[index];
+                    dojo.place(this.getConspiracyDivHtml(row.conspiracy, row.triggered ? row.conspiracy : 18, row.position), container);
+                }));
             },
 
             //   __  __ _ _ _ _                     _____               _
@@ -2550,7 +2565,9 @@ define([
 
                 if (this.debug) console.log('onChooseConspireRemnantPositionClick', e);
 
-                var top = parseInt(e.target.id == 'buttonConspiracyRemnantTop');
+                var top = (e.target.id == 'buttonConspiracyRemnantTop') ? 1 : 0;
+                console.log(e.target.id, e.target.id == 'buttonConspiracyRemnantTop');
+                console.log('top', top);
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)

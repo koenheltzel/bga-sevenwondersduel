@@ -33,20 +33,16 @@ trait ChooseConspireRemnantPositionTrait {
     }
 
     public function actionChooseConspireRemnantPosition($top) {
-        $this->checkAction("actionChooseConspiratorPlaceInfluence");
+        $this->checkAction("actionChooseConspireRemnantPosition");
 
         Material::get()->conspiracies->conspireRemnantPosition($top);
 
         $this->notifyAllPlayers(
             'chooseConspireRemnantPosition',
-            clienttranslate('${player_name} put the '),
+            clienttranslate('${player_name} put the remaining Conspiracy card on ${topOrBottom} of the deck'),
             [
-                'i18n' => ['buildingName'],
-                'buildingName' => $building->name,
-                'gain' => $discardGain,
-                'player_name' => $player->name,
-                'playerId' => $player->id,
-                'buildingId' => $building->id,
+                'topOrBottom' => $top ? clienttranslate('top') : clienttranslate('bottom'),
+                'player_name' => Player::getActive()->name,
             ]
         );
 

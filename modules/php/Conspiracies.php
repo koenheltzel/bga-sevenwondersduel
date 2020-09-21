@@ -22,9 +22,7 @@ class Conspiracies extends Collection {
     }
 
     public static function getSituation() {
-        $selectionRound = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CURRENT_WONDER_SELECTION_ROUND);
         return [
-            'selection' => self::getDeckCardsSorted("selection{$selectionRound}"),
             Player::me()->id => Player::me()->getConspiraciesData(),
             Player::opponent()->id => Player::opponent()->getConspiraciesData(),
         ];

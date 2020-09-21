@@ -16,6 +16,7 @@
   *
   */
 
+use SWD\Conspiracies;
 use SWD\Decrees;
 use SWD\Draftpool;
 use SWD\Material;
@@ -453,6 +454,7 @@ class SevenWondersDuelAgora extends Table
 
         // Wonder selection stuff
         $result['wondersSituation'] = Wonders::getSituation();
+        $result['conspiraciesSituation'] = Conspiracies::getSituation();
 
         $me = Player::me();
         $opponent = Player::opponent();

@@ -264,6 +264,27 @@ class Player extends Base{
         return $rows;
     }
 
+    public function getConspiracyDeckCards(): array {
+        return Conspiracies::getDeckCardsSorted($this->id);
+    }
+
+    public function getConspiraciesData(): array {
+        $cards = $this->getConspiracyDeckCards();
+        $rows = [];
+        $specifyConspiracyIds = SevenWondersDuelAgora::get()->getCurrentPlayerId(true) == $this->id; // Check if this player is the player requesting this information.
+        foreach($cards as $card) {
+            $conspiracy = Conspiracy::get($card['id']);
+            $row = [];
+            $row['conspiracy'] = $specifyConspiracyIds ? $conspiracy->id : 18;
+            $row['position'] = (int)$card['location_arg'];
+            $row['prepared'] = $conspiracy->isPrepared();
+            $row['triggered'] = (int)$card['type_arg'];
+            $row['ageCardSpriteXY'] = $row['prepared'] ? Building::getBackSpriteXY($row['prepared']) : null;
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+
     /**
      * @return array
      */

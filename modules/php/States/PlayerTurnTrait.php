@@ -4,6 +4,7 @@ namespace SWD\States;
 
 use SevenWondersDuelAgora;
 use SWD\Building;
+use SWD\Conspiracies;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Players;
@@ -18,11 +19,16 @@ trait PlayerTurnTrait {
      * @return array
      */
     public function argPlayerTurn() {
-        return [
+        $data = [
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
         ];
+
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            $data['conspiraciesSituation'] = Conspiracies::getSituation();
+        }
+        return $data;
     }
 
     public function enterStatePlayerTurn() {

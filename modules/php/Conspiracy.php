@@ -71,23 +71,23 @@ class Conspiracy extends Item {
     }
 
     /**
-     * Returns 0 if not constructed, else returns the age number of the building card that was used to construct the wonder.
+     * Returns 0 if not prepared, else returns the age number of the building card that was used to prepare the conspiracy.
      * @return int
      */
-//    public function isConstructed() {
-//        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
-//            // Asume we are testing cost calculation
-//            return true;
-//        }
-//        else {
-//            $cards = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation('wonder' . $this->id);
-//            if (count($cards) > 0) {
-//                $card = array_shift($cards);
-//                return Building::get($card['id'])->age;
-//            }
-//            return 0;
-//        }
-//    }
+    public function isPrepared() {
+        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+            // Asume we are testing cost calculation
+            return true;
+        }
+        else {
+            $cards = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation('conspiracy' . $this->id);
+            if (count($cards) > 0) {
+                $card = array_shift($cards);
+                return Building::get($card['id'])->age;
+            }
+            return 0;
+        }
+    }
 
     protected function getScoreCategory() {
         return SevenWondersDuelAgora::SCORE_WONDERS;

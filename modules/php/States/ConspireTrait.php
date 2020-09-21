@@ -6,7 +6,6 @@ use SWD\Conspiracy;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Players;
-use SWD\ProgressToken;
 use SWD\Wonders;
 
 trait ConspireTrait {
