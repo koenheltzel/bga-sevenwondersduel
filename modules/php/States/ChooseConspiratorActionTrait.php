@@ -32,6 +32,14 @@ trait ChooseConspiratorActionTrait {
     public function actionChooseConspiratorActionPlaceInfluence($chamber) {
         $this->checkAction("actionChooseConspiratorPlaceInfluence");
 
+        $this->notifyAllPlayers(
+            'message',
+            clienttranslate('${player_name} chose to Place Influence'),
+            [
+                'player_name' => Player::getActive()->name
+            ]
+        );
+
 //        $progressToken = ProgressToken::get($progressTokenId);
 //        $payment = $progressToken->construct(Player::getActive());
 
@@ -42,6 +50,14 @@ trait ChooseConspiratorActionTrait {
         $this->checkAction("actionConspire");
 
         Material::get()->conspiracies->conspire();
+
+        $this->notifyAllPlayers(
+            'message',
+            clienttranslate('${player_name} chose to Conspire'),
+            [
+                'player_name' => Player::getActive()->name
+            ]
+        );
 
         $this->gamestate->nextState( self::STATE_CONSPIRE_NAME);
     }

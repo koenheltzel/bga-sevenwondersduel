@@ -65,7 +65,7 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
         $this->tpl['BUILDINGS_WITHOUT_LINKS'] = self::_("Buildings without links");
         $this->tpl['SETTING_SCALE_DESCRIPTION'] = self::_("(value between 50 and 200)");
         // Agora
-        $this->tpl['PREPARE_CONSPIRACY'] = self::_("Prepare Conspiracy");
+        $this->tpl['PREPARE_CONSPIRACY'] = self::_("Prepare a Conspiracy");
         $this->tpl['PLACE_INFLUENCE'] = self::_("Place Influence");
         $this->tpl['CONSPIRE'] = self::_("Conspire");
         $this->tpl['BOTTOM'] = self::_("Bottom");

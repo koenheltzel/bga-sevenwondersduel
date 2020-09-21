@@ -293,6 +293,11 @@ define([
                     .on("#swd[data-state=conspire] .conspiracy_small :click",
                         dojo.hitch(this, "onChooseConspiracyClick")
                     );
+                dojo.query('body')
+                    .on("#swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position .action_button :click",
+                        dojo.hitch(this, "onChooseConspireRemnantPositionClick")
+                    );
+                buttonConspiracyRemnantTop
                 // Agora click handlers without event delegation:
 
                 // Resize/scroll handler to determine layout and scale factor
@@ -2536,6 +2541,37 @@ define([
                     dojo.place(this.getConspiracyDivHtml(args._private.conspiracyId, args._private.conspiracyId, -1, true), container);
 
                     dojo.style(dojo.query('#conspire>div:nth-of-type(2)')[0], 'display', 'none');
+                }
+            },
+
+            onChooseConspireRemnantPositionClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onChooseConspireRemnantPositionClick', e);
+
+                var top = parseInt(e.target.id == 'buttonConspiracyRemnantTop');
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseConspireRemnantPosition')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionChooseConspireRemnantPosition.html", {
+                            top: top,
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
                 }
             },
 

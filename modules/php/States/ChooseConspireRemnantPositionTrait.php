@@ -37,6 +37,19 @@ trait ChooseConspireRemnantPositionTrait {
 
         Material::get()->conspiracies->conspireRemnantPosition($top);
 
+        $this->notifyAllPlayers(
+            'chooseConspireRemnantPosition',
+            clienttranslate('${player_name} put the '),
+            [
+                'i18n' => ['buildingName'],
+                'buildingName' => $building->name,
+                'gain' => $discardGain,
+                'player_name' => $player->name,
+                'playerId' => $player->id,
+                'buildingId' => $building->id,
+            ]
+        );
+
         $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
     }
 }

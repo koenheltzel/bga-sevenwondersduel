@@ -187,14 +187,13 @@ $machinestates = [
 
     SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_ID => [
         "name" => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME,
-        "description" => clienttranslate('${actplayer} must choose to place the other Conspiracy on the top or the bottom of the deck'),
-        "descriptionmyturn" => clienttranslate('${you} must choose to place the other Conspiracy on the top or the bottom of the deck'),
+        "description" => clienttranslate('${actplayer} must choose to place the other Conspiracy card on the top or the bottom of the deck'),
+        "descriptionmyturn" => clienttranslate('${you} must choose to place the other Conspiracy card on the top or the bottom of the deck'),
         "type" => "activeplayer",
         "action" => "enterStateChooseConspireRemnantPosition",
         "args" => "argChooseConspireRemnantPosition",
         "possibleactions" => [
-            "actionPlaceInfluence",
-            "actionConspire",
+            "actionChooseConspireRemnantPosition",
         ],
         "transitions" => [
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
