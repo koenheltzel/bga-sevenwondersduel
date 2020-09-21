@@ -94,11 +94,11 @@
 }
 
 .expansion_icon_container {
-    display:none;
+    display:none !important;
 }
 .player_building_column .expansion_icon_container:only-child {
     /* Only show expansion_icon_container if there are no buildings in this column. */
-    display:flex;
+    display:flex !important;
     justify-content:center;
     align-items:center;
 }
