@@ -25,7 +25,7 @@ class Conspiracy extends Item {
 
         SevenWondersDuelAgora::get()->notifyAllPlayers(
             'constructConspiracy',
-            clienttranslate('${player_name} chose a Conspiracy'),
+            clienttranslate('${player_name} chose a Conspiracy and placed it face down'),
             [
                 'player_name' => $player->name,
                 'playerId' => $player->id,

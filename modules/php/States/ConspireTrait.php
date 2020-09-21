@@ -39,10 +39,7 @@ trait ConspireTrait {
         $conspiracy = Conspiracy::get($conspiracyId);
         $payment = $conspiracy->construct(Player::getActive());
 
-        // Return any remaining progress tokens in the active selection back to the box.
-        $this->progressTokenDeck->moveAllCardsInLocation('selection', 'box');
-
-        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        $this->gamestate->nextState( self::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME);
 
     }
 }
