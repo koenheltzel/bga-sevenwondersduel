@@ -1,6 +1,6 @@
 
 .swd_tooltip * {
-    font-size: calc(var(--scale) * 14px);
+    font-size: calc(var(--scale) * 18px);
 }
 
 .swd_tooltip {
@@ -23,7 +23,7 @@
 }
 
 .progress_token_tooltip {
-    width: calc(450px * var(--scale));
+    width: calc(550px * var(--scale));
 }
 
 .tooltipWiggle {
