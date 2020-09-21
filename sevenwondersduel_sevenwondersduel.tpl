@@ -72,14 +72,14 @@
                             <a href="#" id="buttonConspire" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{CONSPIRE}</span></a>
                             <a href="#" id="buttonPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{PLACE_INFLUENCE}</span></a>
                         </div>
-                        <div id="choose_conspire_remnant_position" class="whiteblock">
-                            <h3>{CHOOSE_CONSPIRE_REMNANT_POSITION}:</h3>
-                            <a href="#" id="buttonConspiracyRemnantBottom" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{BOTTOM}</span></a>
-                            <a href="#" id="buttonConspiracyRemnantTop" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{TOP}</span></a>
-                        </div>
                         <div id="conspire" class="whiteblock">
                             <div></div>
                             <div></div>
+                            <div id="choose_conspire_remnant_position">
+                                <h3>{CHOOSE_CONSPIRE_REMNANT_POSITION}:</h3>
+                                <a href="#" id="buttonConspiracyRemnantTop" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{TOP}</span></a>
+                                <a href="#" id="buttonConspiracyRemnantBottom" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{BOTTOM}</span></a>
+                            </div>
                         </div>
                         <div id="select_start_player" class="whiteblock">
                             <a href="#" id="buttonPlayerLeft" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Name 1</span></a>
@@ -490,6 +490,7 @@ var jstpl_conspiracy = '\
         <div id="conspiracy_${jsId}_container" class="conspiracy_container">\
             <div id="conspiracy_${jsId}"\
                 data-conspiracy-id="${jsId}"\
+                data-conspiracy-position="${jsPosition}"\
                 class="conspiracy conspiracy_small conspiracy_compact"\
                 style="background-position: -${jsX}00% calc(-${jsY}.62 * var(--conspiracy-height) * var(--conspiracy-small-scale));"\
             >\

@@ -215,14 +215,14 @@ define([
                 }
 
                 if (this.agora) {
-                    dojo.place(this.getConspiracyDivHtml(18), 'player_conspiracies_2310957');
-                    dojo.place(this.getConspiracyDivHtml(18), 'player_conspiracies_2310957');
-                    dojo.place(this.getConspiracyDivHtml(3), 'player_conspiracies_2310957');
-                    dojo.place(this.getConspiracyDivHtml(4), 'player_conspiracies_2310957');
+                    dojo.place(this.getConspiracyDivHtml(1, 18, 3), 'player_conspiracies_2310957');
+                    dojo.place(this.getConspiracyDivHtml(2, 18, 2), 'player_conspiracies_2310957');
+                    dojo.place(this.getConspiracyDivHtml(3, 3, 1), 'player_conspiracies_2310957');
+                    dojo.place(this.getConspiracyDivHtml(4, 4, 0), 'player_conspiracies_2310957');
 
-                    dojo.place(this.getConspiracyDivHtml(18), 'player_conspiracies_2310958');
-                    dojo.place(this.getConspiracyDivHtml(8), 'player_conspiracies_2310958');
-                    dojo.place(this.getConspiracyDivHtml(9), 'player_conspiracies_2310958');
+                    dojo.place(this.getConspiracyDivHtml(5, 18, 2), 'player_conspiracies_2310958');
+                    dojo.place(this.getConspiracyDivHtml(8, 8, 1), 'player_conspiracies_2310958');
+                    dojo.place(this.getConspiracyDivHtml(9, 9, 0), 'player_conspiracies_2310958');
                 }
 
                 // Set setting dropdown values (translations don't work yet in the constructor, so we do it here).
@@ -306,7 +306,7 @@ define([
                 this.setupNotifications();
 
                 // Debug tooltip content by placing a tooltip at the top of the screen.
-                // dojo.place( this.getWonderTooltip(11, this.opponent_id, '<div class="coin"><span style="color: red !important">9</span></div>'), 'swd_wrap', 'first' );
+                // dojo.place( this.getWonderTooltip(10, this.opponent_id, '<div class="coin"><span style="color: red !important">9</span></div>'), 'swd_wrap', 'first' );
 
                 // At the beginning swdPosition's y position is 265 (when it's not visible), so retry after loading to update the layout.
                 this.callFunctionAfterLoading(dojo.hitch(this, "updateLayout"));
@@ -372,6 +372,10 @@ define([
                 dojo.subscribe('endGameCategoryUpdate', this, "notif_endGameCategoryUpdate");
                 this.notifqueue.setSynchronous('endGameCategoryUpdate');
 
+                // Agora
+
+                dojo.subscribe('constructConspiracy', this, "notif_constructConspiracy");
+                this.notifqueue.setSynchronous('constructConspiracy');
 
             },
 
@@ -925,15 +929,16 @@ define([
             //  \____\___/|_| |_|___/ .__/|_|_|  \__,_|\___|_|\___||___/
             //                      |_|
 
-            getConspiracyDivHtml: function (conspiracyId, full=false) {
+            getConspiracyDivHtml: function (conspiracyId, spriteId, position, full=false) {
                 var conspiracy = this.gamedatas.conspiracies[conspiracyId];
                 var data = {
                     jsId: conspiracyId,
                     jsName: conspiracy ? _(conspiracy.name) : '',
+                    jsPosition: position,
                 };
                 var spritesheetColumns = 6;
-                data.jsX = (conspiracyId - 1) % spritesheetColumns;
-                data.jsY = Math.floor((conspiracyId - 1) / spritesheetColumns);
+                data.jsX = (spriteId - 1) % spritesheetColumns;
+                data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
                 return this.format_block(full ? 'jstpl_conspiracy_full' : 'jstpl_conspiracy', data);
             },
 
@@ -2434,7 +2439,7 @@ define([
                         var card = args._private.conspiracies[conspiracyId];
                         var container = dojo.query('#conspire>div:nth-of-type(' + i + ')')[0];
                         // dojo.place(this.getProgressTokenDivHtml(card.id), container);
-                        dojo.place(this.getConspiracyDivHtml(conspiracyId, true), container);
+                        dojo.place(this.getConspiracyDivHtml(conspiracyId, conspiracyId, -1, true), container);
                         i++;
                     }));
                 }
@@ -2469,6 +2474,68 @@ define([
 
                         }
                     );
+                }
+            },
+
+            notif_constructConspiracy: function (notif) {
+                if (this.debug) console.log('notif_constructConspiracy', notif);
+
+                let conspiracyId = notif.args.conspiracyId ? notif.args.conspiracyId : 18;
+
+                var conspiracyContainerNode = dojo.place(this.getConspiracyDivHtml(conspiracyId, 18, notif.args.conspiracyPosition), 'player_conspiracies_' + notif.args.playerId);
+
+                // var conspiracyContainerNode = $('conspiracy_' + notif.args.conspiracyId + '_container');
+                //
+                // var selectionContainer = conspiracyContainerNode.parentElement;
+                // var conspiracyNode = $('conspiracy_' + notif.args.conspiracyId);
+                // var targetNode = dojo.query('.player_conspiracies.player' + notif.args.playerId + '>div:nth-of-type(' + notif.args.playerconspiracyCount + ')')[0];
+                // dojo.place(conspiracyContainerNode, targetNode);
+                //
+                // // Next we slide (while adjusting the scale during the animation) the conspiracy.
+                // var startScale = 0.8 * this.getCssVariable('--scale');
+                // var endScale = 0.58 * this.getCssVariable('--scale');
+                //
+                // conspiracyNode.style.setProperty('--conspiracy-small-scale', startScale);
+                // this.placeOnObject(conspiracyNode, selectionContainer);
+                //
+                // var anim = dojo.fx.combine([
+                //     dojo.animateProperty({
+                //         node: conspiracyNode,
+                //         duration: this.selectconspiracyAnimationDuration,
+                //         properties: {
+                //             propertyScale: {start: startScale, end: endScale}
+                //         },
+                //         onEnd: function () {
+                //             conspiracyNode.style.removeProperty('--conspiracy-small-scale');
+                //         },
+                //         onAnimate: function (values) {
+                //             conspiracyNode.style.setProperty('--conspiracy-small-scale', parseFloat(values.propertyScale.replace("px", "")));
+                //         }
+                //     }),
+                //     this.slideToObjectPos(conspiracyNode, targetNode, 0, 0, this.selectconspiracyAnimationDuration),
+                // ]);
+                // anim.play();
+                //
+                // // Wait for animation before handling the next notification (= state change).
+                // this.notifqueue.setSynchronousDuration(anim.duration);
+                this.notifqueue.setSynchronousDuration(100);
+            },
+
+            //   ____ _                             ____                      _            ____                                  _     ____           _ _   _
+            //  / ___| |__   ___   ___  ___  ___   / ___|___  _ __  ___ _ __ (_)_ __ ___  |  _ \ ___ _ __ ___  _ __   __ _ _ __ | |_  |  _ \ ___  ___(_) |_(_) ___  _ __
+            // | |   | '_ \ / _ \ / _ \/ __|/ _ \ | |   / _ \| '_ \/ __| '_ \| | '__/ _ \ | |_) / _ \ '_ ` _ \| '_ \ / _` | '_ \| __| | |_) / _ \/ __| | __| |/ _ \| '_ \
+            // | |___| | | | (_) | (_) \__ \  __/ | |__| (_) | | | \__ \ |_) | | | |  __/ |  _ <  __/ | | | | | | | | (_| | | | | |_  |  __/ (_) \__ \ | |_| | (_) | | | |
+            //  \____|_| |_|\___/ \___/|___/\___|  \____\___/|_| |_|___/ .__/|_|_|  \___| |_| \_\___|_| |_| |_|_| |_|\__,_|_| |_|\__| |_|   \___/|___/_|\__|_|\___/|_| |_|
+            //                                                         |_|
+
+            onEnterChooseConspireRemnantPosition: function (args) {
+                if (this.debug) console.log('onEnterChooseConspireRemnantPosition', args);
+                if (this.isCurrentPlayerActive()) {
+                    var container = dojo.query('#conspire>div:nth-of-type(1)')[0];
+                    dojo.empty(container);
+                    dojo.place(this.getConspiracyDivHtml(args._private.conspiracyId, args._private.conspiracyId, -1, true), container);
+
+                    dojo.style(dojo.query('#conspire>div:nth-of-type(2)')[0], 'display', 'none');
                 }
             },
 

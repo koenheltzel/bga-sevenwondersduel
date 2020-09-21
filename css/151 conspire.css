@@ -1,13 +1,18 @@
 
-#conspire {
+#conspire, #choose_conspire_remnant_position {
     display: none;
 }
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position {
+    display: block;
+}
 
-.current_player_is_active #swd[data-state=conspire] {
+.current_player_is_active #swd[data-state=conspire],
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] {
     --draftpool-row-height-multiplier: 0.35 !important;
     --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
  }
-.current_player_is_active #swd[data-state=conspire] #conspire {
+.current_player_is_active #swd[data-state=conspire] #conspire,
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #conspire {
     display: flex;
     justify-content: space-evenly;
 }
@@ -16,7 +21,8 @@
     cursor: pointer;
 }
 
-#conspire > div {
+#conspire > div,
+#choose_conspire_remnant_position > div:nth-of-type(1) {
     width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
     height: calc(var(--conspiracy-height) * var(--conspiracy-small-scale));
     position: relative;

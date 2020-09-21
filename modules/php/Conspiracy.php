@@ -23,8 +23,9 @@ class Conspiracy extends Item {
 
         SevenWondersDuelAgora::get()->conspiracyDeck->insertCardOnExtremePosition($this->id, $player->id, true);
 
+        // Text notification to all
         SevenWondersDuelAgora::get()->notifyAllPlayers(
-            'constructConspiracy',
+            'message',
             clienttranslate('${player_name} chose a Conspiracy and placed it face down'),
             [
                 'player_name' => $player->name,
@@ -32,6 +33,28 @@ class Conspiracy extends Item {
             ]
         );
 
+        $position = SevenWondersDuelAgora::get()->conspiracyDeck->getExtremePosition(true, $player->id);
+
+        // Send conspiracy id to active player
+        SevenWondersDuelAgora::get()->notifyPlayer($player->id,
+            'constructConspiracy',
+            '',
+            [
+                'playerId' => $player->id,
+                'conspiracyId' => $this->id,
+                'conspiracyPosition' => $position,
+            ]
+        );
+
+        // Don't send conspiracy id to the other player / spectators, only the picked conspiracy's position in the deck's player location
+        SevenWondersDuelAgora::get()->notifyPlayer($player->getOpponent()->id,
+            'constructConspiracy',
+            '',
+            [
+                'playerId' => $player->id,
+                'conspiracyPosition' => $position,
+            ]
+        );
 
         $this->constructEffects($player, $payment);
 
