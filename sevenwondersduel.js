@@ -638,7 +638,7 @@ define([
 
                 dojo.style('draftpool_container', 'display', draftpool.age > 0 ? 'block' : 'none');
 
-                dojo.attr($('swd'), 'data-age', draftpool.age);
+                dojo.attr($('swd'), 'data-age', draftpool.age == undefined ? 0 : draftpool.age);
 
                 // New age. Animate the build up
                 if (draftpool.age > 0 && draftpool.age >= this.currentAge) {

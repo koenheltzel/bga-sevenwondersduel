@@ -1,9 +1,6 @@
 
-#conspire, #choose_conspire_remnant_position {
+#conspire {
     display: none;
-}
-.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position {
-    display: block;
 }
 
 .current_player_is_active #swd[data-state=conspire],
@@ -29,6 +26,12 @@
 }
 
 
+#choose_conspire_remnant_position {
+    display: none;
+}
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position {
+    display: block;
+}
 .current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position {
     width: calc(2 * var(--conspiracy-width) * var(--conspiracy-small-scale));
     height: fit-content;

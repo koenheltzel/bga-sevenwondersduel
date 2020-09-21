@@ -59,6 +59,7 @@ trait ChooseConspiratorActionTrait {
             ]
         );
 
+        $this->setGameStateInitialValue(self::VALUE_CONSPIRE_RETURN_STATE, self::STATE_NEXT_PLAYER_TURN_ID);
         $this->gamestate->nextState( self::STATE_CONSPIRE_NAME);
     }
 }

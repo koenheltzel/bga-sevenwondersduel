@@ -71,7 +71,10 @@ $machinestates = [
         "possibleactions" => [
             "actionSelectWonder",
         ],
-        "transitions" => [SevenWondersDuelAgora::STATE_WONDER_SELECTED_NAME => SevenWondersDuelAgora::STATE_WONDER_SELECTED_ID]
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_WONDER_SELECTED_NAME => SevenWondersDuelAgora::STATE_WONDER_SELECTED_ID,
+            SevenWondersDuelAgora::STATE_CONSPIRE_NAME => SevenWondersDuelAgora::STATE_CONSPIRE_ID,
+        ]
     ],
 
     SevenWondersDuelAgora::STATE_WONDER_SELECTED_ID => [
@@ -197,6 +200,7 @@ $machinestates = [
         ],
         "transitions" => [
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_WONDER_SELECTED_NAME => SevenWondersDuelAgora::STATE_WONDER_SELECTED_ID,
             SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
         ]
     ],

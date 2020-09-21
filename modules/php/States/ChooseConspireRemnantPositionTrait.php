@@ -46,6 +46,7 @@ trait ChooseConspireRemnantPositionTrait {
             ]
         );
 
-        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        $state = $this->getState($this->getGameStateValue(self::VALUE_CONSPIRE_RETURN_STATE));
+        $this->gamestate->nextState($state['name']);
     }
 }

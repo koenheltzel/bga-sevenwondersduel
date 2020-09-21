@@ -147,6 +147,7 @@ class SevenWondersDuelAgora extends Table
     const VALUE_DECREE2 = "decree2";
     const VALUE_DECREE4 = "decree4";
     const VALUE_DECREE6 = "decree6";
+    const VALUE_CONSPIRE_RETURN_STATE = "conspire_return_state";
 
     // Game options (variants)
     const OPTION_AGORA = "option_agora";
@@ -262,6 +263,7 @@ class SevenWondersDuelAgora extends Table
                 self::VALUE_DECREE2 => 30,
                 self::VALUE_DECREE4 => 31,
                 self::VALUE_DECREE6 => 32,
+                self::VALUE_CONSPIRE_RETURN_STATE => 33,
                 // Game variants
                 self::OPTION_AGORA => 110,
                 self::OPTION_AGORA_WONDERS => 111,
@@ -378,6 +380,7 @@ class SevenWondersDuelAgora extends Table
         self::setGameStateInitialValue( self::VALUE_DECREE2, 0);
         self::setGameStateInitialValue( self::VALUE_DECREE4, 0);
         self::setGameStateInitialValue( self::VALUE_DECREE6, 0);
+        self::setGameStateInitialValue( self::VALUE_CONSPIRE_RETURN_STATE, 0);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)
@@ -697,6 +700,10 @@ class SevenWondersDuelAgora extends Table
 //
 
 
+    }
+
+    public function getState($id) {
+        return $this->gamestate->states[$id];
     }
 
     /* Below we make some protected functions public, so the other SWD classes can use them. */

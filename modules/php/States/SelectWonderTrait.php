@@ -2,6 +2,7 @@
 
 namespace SWD\States;
 
+use SWD\Material;
 use SWD\Player;
 use SWD\Wonder;
 use SWD\Wonders;
@@ -73,6 +74,25 @@ trait SelectWonderTrait {
             ]
         );
 
-        $this->gamestate->nextState( self::STATE_WONDER_SELECTED_NAME );
+        // Curia Julia: Conspire
+        if ($wonderId == 13) {
+            Material::get()->conspiracies->conspire();
+
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} must Conspire (“${wonderName}”)'),
+                [
+                    'i18n' => ['wonderName'],
+                    'wonderName' => $wonder->name,
+                    'player_name' => $player->name,
+                ]
+            );
+
+            $this->setGameStateInitialValue(self::VALUE_CONSPIRE_RETURN_STATE, self::STATE_WONDER_SELECTED_ID);
+            $this->gamestate->nextState( self::STATE_CONSPIRE_NAME );
+        }
+        else {
+            $this->gamestate->nextState( self::STATE_WONDER_SELECTED_NAME );
+        }
     }
 }
