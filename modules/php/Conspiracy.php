@@ -89,6 +89,17 @@ class Conspiracy extends Item {
         }
     }
 
+    public function isTriggered() {
+        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+            // Asume we are testing cost calculation
+            return true;
+        }
+        else {
+            $card = SevenWondersDuelAgora::get()->conspiracyDeck->getCard($this->id);
+            return (int)$card['type_arg'];
+        }
+    }
+
     protected function getScoreCategory() {
         return SevenWondersDuelAgora::SCORE_WONDERS;
     }

@@ -277,8 +277,8 @@ class Player extends Base{
             $row = [];
             $row['conspiracy'] = $specifyConspiracyIds ? $conspiracy->id : 18;
             $row['position'] = (int)$card['location_arg'];
-            $row['prepared'] = $conspiracy->isPrepared();
-            $row['triggered'] = (int)$card['type_arg'];
+            $row['prepared'] = $conspiracy->isPrepared(); // Returns 0 or the age of the card used to prepare.
+            $row['triggered'] = (int)$conspiracy->isTriggered();
             $row['ageCardSpriteXY'] = $row['prepared'] ? Building::getBackSpriteXY($row['prepared']) : null;
             $rows[] = $row;
         }
