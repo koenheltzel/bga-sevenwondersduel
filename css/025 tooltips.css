@@ -22,6 +22,12 @@
     margin-left: 0;
 }
 
+.swd_tooltip .building_header_small {
+    transform: scale(1.5);
+    margin: calc(15px * var(--scale)) 0 0 calc(25px * var(--scale));
+    display: inline-block;
+}
+
 .progress_token_tooltip {
     width: calc(550px * var(--scale));
 }

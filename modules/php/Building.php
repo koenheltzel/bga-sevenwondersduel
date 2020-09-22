@@ -345,7 +345,13 @@ class Building extends Item {
         }
         else {
             $building = Building::get($linkedBuilding);
-            $this->addText(sprintf(self::_("This card grants the linking symbol shown. During Age %s you will be able to construct building “%s” for free."), ageRoman($building->age), $building->name));
+            $spritesheetColumns = 10;
+            $x = ($linkedBuilding - 1) % $spritesheetColumns;
+            $y = floor(($linkedBuilding - 1) / $spritesheetColumns);
+            $this->addText(
+                sprintf(self::_("This card grants the linking symbol shown. During Age %s you will be able to construct building “%s” for free."), ageRoman($building->age), $building->name)
+                . '<br/><div class="building building_header_small" style="background-position: -' . $x . '00% calc((-10px + -' . $y . ' * var(--building-height)) * var(--building-small-scale));"></div>'
+            );
         }
         return $this;
     }
