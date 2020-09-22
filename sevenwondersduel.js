@@ -314,7 +314,8 @@ define([
                 this.setupNotifications();
 
                 // Debug tooltip content by placing a tooltip at the top of the screen.
-                // dojo.place( this.getWonderTooltip(10, this.opponent_id, '<div class="coin"><span style="color: red !important">9</span></div>'), 'swd_wrap', 'first' );
+                // dojo.place( this.getWonderTooltip(11, this.opponent_id, '<div class="coin"><span style="color: red !important">9</span></div>'), 'swd_wrap', 'first' );
+                // dojo.place( this.getBuildingTooltip(21, false, '', '', '', ''), 'swd_wrap', 'first');
 
                 // At the beginning swdPosition's y position is 265 (when it's not visible), so retry after loading to update the layout.
                 this.callFunctionAfterLoading(dojo.hitch(this, "updateLayout"));
@@ -896,9 +897,9 @@ define([
                 }
                 dojo.style(containers[6 - 1], 'display', nodes.length >= 5 ? 'inline-block' : 'none');
             },
-            
-            //  ____                               
-            // |  _ \  ___  ___ _ __ ___  ___  ___ 
+
+            //  ____
+            // |  _ \  ___  ___ _ __ ___  ___  ___
             // | | | |/ _ \/ __| '__/ _ \/ _ \/ __|
             // | |_| |  __/ (__| | |  __/  __/\__ \
             // |____/ \___|\___|_|  \___|\___||___/
@@ -1352,7 +1353,7 @@ define([
                 }
                 return false;
             },
-            
+
             getConspiracyTooltip: function (id) {
                 if (typeof this.gamedatas.conspiracies[id] != 'undefined') {
                     var conspiracy = this.gamedatas.conspiracies[id];
