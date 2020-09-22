@@ -495,19 +495,17 @@ var jstpl_wonder_age_card = '\
     </div>';
 
 var jstpl_conspiracy = '\
-    <div class="card_outline">\
-        <div id="conspiracy_${jsId}_container" class="conspiracy_container">\
-            <div id="conspiracy_${jsId}"\
-                data-conspiracy-id="${jsId}"\
-                data-conspiracy-position="${jsPosition}"\
-                class="conspiracy conspiracy_small conspiracy_compact"\
-                style="background-position: -${jsX}00% calc(-${jsY}.62 * var(--conspiracy-height) * var(--conspiracy-small-scale));"\
-            >\
-                <span class="swd_title">${jsName}</span>\
-            </div>\
-            <div class="age_card_container"></div>\
-            <div class="card_outline"></div>\
+    <div class="conspiracy_container">\
+        <div\
+            data-conspiracy-id="${jsId}"\
+            data-conspiracy-position="${jsPosition}"\
+            class="conspiracy conspiracy_small conspiracy_compact"\
+            style="background-position: -${jsX}00% calc(-${jsY}.62 * var(--conspiracy-height) * var(--conspiracy-small-scale));"\
+        >\
+            <span class="swd_title">${jsName}</span>\
         </div>\
+        <div class="age_card_container"></div>\
+        <div class="card_outline"></div>\
     </div>';
 
 var jstpl_conspiracy_full = '\

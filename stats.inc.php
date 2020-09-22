@@ -240,6 +240,16 @@ $stats_type = [
             "name" => totranslate("Chained constructions"),
             "type" => "int"
         ],
+        "conspiracies_prepared" => [
+            "id" => 400,
+            "name" => totranslate("Conspiracies prepared"),
+            "type" => "int"
+        ],
+        "conspiracies_triggered" => [
+            "id" => 410,
+            "name" => totranslate("Conspiracies triggered"),
+            "type" => "int"
+        ],
 
         /*
                 Examples:
