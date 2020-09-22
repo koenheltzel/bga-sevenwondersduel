@@ -95,7 +95,7 @@ trait NextPlayerTurnTrait {
                                     'points' => $points,
                                     'guildName' => $building->name,
                                     'mostPlayerName' => $mostPlayer->name,
-                                    'playerId' => $player->id,
+                                    'playerIds' => [$player->id],
                                     'category' => 'purple',
                                     'highlightId' => 'player_building_container_' . $building->id,
                                 ]
@@ -118,7 +118,7 @@ trait NextPlayerTurnTrait {
                                     'points' => $points,
                                     'guildName' => $building->name,
                                     'mostPlayerName' => $mostPlayer->name,
-                                    'playerId' => $player->id,
+                                    'playerIds' => [$player->id],
                                     'category' => 'purple',
                                     'highlightId' => 'player_building_container_' . $building->id,
                                 ]
@@ -142,7 +142,7 @@ trait NextPlayerTurnTrait {
                                     'buildingType' => count($building->guildRewardBuildingTypes) > 1 ? clienttranslate('Brown and Grey') : $building->guildRewardBuildingTypes[0],
                                     'guildName' => $building->name,
                                     'mostPlayerName' => $mostPlayer->name,
-                                    'playerId' => $player->id,
+                                    'playerIds' => [$player->id],
                                     'category' => 'purple',
                                     'highlightId' => 'player_building_container_' . $building->id,
                                 ]
@@ -165,7 +165,7 @@ trait NextPlayerTurnTrait {
                                     'player_name' => $player->name,
                                     'points' => $points,
                                     'progressTokenName' => ProgressToken::get(6)->name,
-                                    'playerId' => $player->id,
+                                    'playerIds' => [$player->id],
                                     'category' => 'progresstokens',
                                     'highlightId' => 'progress_token_6',
                                 ]
@@ -185,7 +185,7 @@ trait NextPlayerTurnTrait {
                             [
                                 'player_name' => $player->name,
                                 'points' => $points,
-                                'playerId' => $player->id,
+                                'playerIds' => [$player->id],
                                 'category' => 'coins',
                                 'highlightId' => 'player_area_' . $player->id . '_coins_container',
                             ]
@@ -204,7 +204,7 @@ trait NextPlayerTurnTrait {
                             [
                                 'player_name' => $player->name,
                                 'points' => $points,
-                                'playerId' => $player->id,
+                                'playerIds' => [$player->id],
                                 'category' => 'military',
                                 'highlightId' => 'conflict_pawn',
                             ]
@@ -298,6 +298,18 @@ trait NextPlayerTurnTrait {
                         'loserPoints' => $winner->getOpponent()->getScore(),
                     ]
                 );
+
+                SevenWondersDuel::get()->notifyAllPlayers(
+                    'endGameCategoryUpdate',
+                    clienttranslate(''),
+                    [
+                        'points' => 0,
+                        'playerIds' => [$winner->id],
+                        'category' => 'total',
+                        'highlightId' => null,
+                        'stickyCategory' => true,
+                    ]
+                );
             }
             return $winner;
         }
@@ -314,11 +326,35 @@ trait NextPlayerTurnTrait {
 
                     $this->notifyAllPlayers(
                         'message',
-                        '${player_name} wins the game with a tied score but a majority of Civilian Buildings (blue cards), ${winnerBuildings} to ${loserBuildings} (Civilian Victory)',
+                        '${player_name} wins the game with a tied score but a majority of Civilian Building points (blue cards), ${winnerBuildings} to ${loserBuildings} (Civilian Victory)',
                         [
                             'player_name' => $winner->name,
                             'winnerBuildings' => $winner->getValue('player_score_blue'),
                             'loserBuildings' => $winner->getOpponent()->getValue('player_score_blue'),
+                        ]
+                    );
+
+                    SevenWondersDuel::get()->notifyAllPlayers(
+                        'endGameCategoryUpdate',
+                        clienttranslate(''),
+                        [
+                            'points' => 0,
+                            'playerIds' => [Player::me()->id, Player::opponent()->id],
+                            'category' => 'total',
+                            'highlightId' => null,
+                            'stickyCategory' => true,
+                        ]
+                    );
+
+                    SevenWondersDuel::get()->notifyAllPlayers(
+                        'endGameCategoryUpdate',
+                        clienttranslate(''),
+                        [
+                            'points' => 0,
+                            'playerIds' => [$winner->id],
+                            'category' => 'blue',
+                            'highlightId' => null,
+                            'stickyCategory' => true,
                         ]
                     );
                 }
@@ -332,8 +368,32 @@ trait NextPlayerTurnTrait {
 
                 $this->notifyAllPlayers(
                     'message',
-                    'Game ends in a draw (victory points and Civilian Buildings (blue cards) count are both tied)',
+                    'Game ends in a draw (victory points and Civilian Building points (blue cards) count are both tied)',
                     []
+                );
+
+                SevenWondersDuel::get()->notifyAllPlayers(
+                    'endGameCategoryUpdate',
+                    clienttranslate(''),
+                    [
+                        'points' => 0,
+                        'playerIds' => [Player::me()->id, Player::opponent()->id],
+                        'category' => 'total',
+                        'highlightId' => null,
+                        'stickyCategory' => true,
+                    ]
+                );
+
+                SevenWondersDuel::get()->notifyAllPlayers(
+                    'endGameCategoryUpdate',
+                    clienttranslate(''),
+                    [
+                        'points' => 0,
+                        'playerIds' => [Player::me()->id, Player::opponent()->id],
+                        'category' => 'blue',
+                        'highlightId' => null,
+                        'stickyCategory' => true,
+                    ]
                 );
                 return null;
             }
