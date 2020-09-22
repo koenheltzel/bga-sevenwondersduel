@@ -168,6 +168,18 @@ class action_sevenwondersduelagora extends APP_GameAction
         self::ajaxResponse();
     }
 
+    public function actionPrepareConspiracy() {
+        self::setAjaxMode();
+
+        $buildingId = self::getArg("buildingId", AT_posint, true);
+        $conspiracyId = self::getArg("conspiracyId", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionPrepareConspiracy($buildingId, $conspiracyId);
+
+        self::ajaxResponse();
+    }
+
+
+
 }
   
 

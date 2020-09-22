@@ -5,6 +5,7 @@ namespace SWD\States;
 use SevenWondersDuelAgora;
 use SWD\Building;
 use SWD\Conspiracies;
+use SWD\Conspiracy;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Players;
@@ -173,5 +174,31 @@ trait PlayerTurnTrait {
                     break;
             }
         }
+    }
+
+    public function actionPrepareConspiracy($buildingId, $conspiracyId) {
+        $this->checkAction("actionPrepareConspiracy");
+
+        $player = Player::getActive();
+        $building = Building::get($buildingId);
+        $building->checkBuildingAvailable();
+
+        if (!in_array($conspiracyId, $player->getConspiracyIds())) {
+            throw new \BgaUserException( clienttranslate("The Conspiracy you selected is not available.") );
+        }
+
+        $conspiracy = Conspiracy::get($conspiracyId);
+        if ($conspiracy->isPrepared()) {
+            throw new \BgaUserException( clienttranslate("The Conspiracy you selected has already been prepared.") );
+        }
+        if ($conspiracy->isTriggered()) {
+            throw new \BgaUserException( clienttranslate("The Conspiracy you selected has already been triggered.") );
+        }
+
+        $conspiracy->prepare($player, $building);
+
+        $this->incStat(1, self::STAT_CONSPIRACIES_PREPARED, $player->id);
+
+        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
     }
 }

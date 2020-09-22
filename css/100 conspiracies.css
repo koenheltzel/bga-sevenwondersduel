@@ -41,12 +41,16 @@
     z-index: 10;
 }
 
-.player_conspiracies .conspiracy_container .card_outline {
+.player_conspiracies .conspiracy_container .card_outline, .player_conspiracies .conspiracy_container .age_card_container {
     position: absolute;
     top: 0;
     left: calc(17px * var(--scale));
     width: var(--building-small-width);
     height: calc(var(--conspiracy-compact-height) * var(--conspiracy-small-scale));
+}
+
+.player_conspiracies .conspiracy_container:not(.animating) .age_card_container {
+    overflow: hidden;
 }
 
 .conspiracy .swd_title {

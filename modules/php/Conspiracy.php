@@ -70,6 +70,25 @@ class Conspiracy extends Item {
         parent::constructEffects($player, $payment);
     }
 
+    public function prepare(Player $player, $building) {
+
+        SevenWondersDuelAgora::get()->buildingDeck->moveCard($building->id, 'conspiracy' . $this->id);
+
+        SevenWondersDuelAgora::get()->notifyAllPlayers(
+            'prepareConspiracy',
+            clienttranslate('${player_name} prepared a Conspiracy using building “${buildingName}”'),
+            [
+                'i18n' => ['buildingName'],
+                'position' => $this->getPosition($player),
+                'buildingId' => $building->id,
+                'buildingName' => $building->name,
+                'playerId' => $player->id,
+                'player_name' => $player->name,
+                'conspiraciesSituation' => Conspiracies::getSituation(),
+            ]
+        );
+    }
+
     /**
      * Returns 0 if not prepared, else returns the age number of the building card that was used to prepare the conspiracy.
      * @return int
@@ -98,6 +117,10 @@ class Conspiracy extends Item {
             $card = SevenWondersDuelAgora::get()->conspiracyDeck->getCard($this->id);
             return (int)$card['type_arg'];
         }
+    }
+
+    public function getPosition(Player $player) {
+        return (int)SevenWondersDuelAgora::get()->conspiracyDeck->getCard($this->id)['location_arg'];
     }
 
     protected function getScoreCategory() {

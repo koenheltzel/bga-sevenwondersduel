@@ -197,6 +197,9 @@ class SevenWondersDuelAgora extends Table
     const STAT_EXTRA_TURNS = "extra_turns";
     const STAT_DISCARDED_CARDS = "discarded_cards";
     const STAT_CHAINED_CONSTRUCTIONS = "chained_constructions";
+    // Agora Statistics
+    const STAT_CONSPIRACIES_PREPARED = "conspiracies_prepared";
+    const STAT_CONSPIRACIES_TRIGGERED = "conspiracies_triggered";
 
     /**
      * @var Deck
@@ -419,7 +422,11 @@ class SevenWondersDuelAgora extends Table
         self::initStat('player', self::STAT_EXTRA_TURNS, 0);
         self::initStat('player', self::STAT_DISCARDED_CARDS, 0);
         self::initStat('player', self::STAT_CHAINED_CONSTRUCTIONS, 0);
-
+        // Agora
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            self::initStat('player', self::STAT_CONSPIRACIES_PREPARED, 0);
+            self::initStat('player', self::STAT_CONSPIRACIES_TRIGGERED, 0);
+        }
         // TODO: setup the initial game situation here
 
         $this->enterStateGameSetup(); // This state function isn't called automatically apparently.

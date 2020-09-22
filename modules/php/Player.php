@@ -10,6 +10,7 @@ class Player extends Base{
     public $name = null;
     public $color = null;
     private $wonderIds = [];
+    private $conspiracyIds = [];
     private $buildingIds = [];
     public $progressTokenIds = [];
 
@@ -262,6 +263,18 @@ class Player extends Base{
             $rows[] = $row;
         }
         return $rows;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConspiracyIds(): array {
+        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+            return $this->conspiracyIds;
+        }
+        else {
+            return array_column($this->getConspiracyDeckCards(), 'id');
+        }
     }
 
     public function getConspiracyDeckCards(): array {

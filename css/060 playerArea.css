@@ -259,7 +259,11 @@
     height: var(--building-small-width);
 }
 
-.player_wonders .red_border {
+.current_player_is_active .player_wonders .red_border {
+    cursor: pointer;
+}
+
+.current_player_is_active .player_conspiracies .red_border {
     cursor: pointer;
 }
 

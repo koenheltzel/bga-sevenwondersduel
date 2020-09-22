@@ -140,6 +140,7 @@ $machinestates = [
             "actionConstructBuilding",
             "actionDiscardBuilding",
             "actionConstructWonder",
+            "actionPrepareConspiracy",
         ],
         "transitions" => [
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME=> SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,

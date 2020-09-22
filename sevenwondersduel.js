@@ -72,6 +72,7 @@ define([
             constructBuildingAnimationDuration: 1000,
             discardBuildingAnimationDuration: 400,
             constructWonderAnimationDuration: 1600,
+            prepareConspiracyAnimationDuration: 1600,
             selectWonderAnimationDuration: 300,
             progressTokenDuration: 1000,
             twistCoinDuration: 250,
@@ -183,6 +184,7 @@ define([
                 if (this.agora) {
                     this.updateDecreesSituation(this.gamedatas.decreesSituation);
                     this.updateConspiracyDeckCount(this.gamedatas.conspiraciesSituation['deckCount']);
+                    this.updateConspiraciesSituation(this.gamedatas.conspiraciesSituation);
                 }
 
                 // Setting up player boards
@@ -216,7 +218,6 @@ define([
 
                     // Agora
                     if (this.agora) {
-                        this.updatePlayerConspiracies(player_id, this.gamedatas.conspiraciesSituation[player_id]);
                     }
                 }
 
@@ -290,21 +291,28 @@ define([
                 dojo.query("#setting_auto_quality").on("change", dojo.hitch(this, "onSettingAutoQualityChange"));
                 dojo.query("#setting_quality").on("change", dojo.hitch(this, "onSettingQualityChange"));
 
-                // Agora click handlers using event delegation:
-                dojo.query('body')
-                    .on("#swd[data-state=chooseConspiratorAction] #choose_conspirator_action .action_button :click",
-                        dojo.hitch(this, "onChooseConspiratorActionClick")
-                    );
-                dojo.query('body')
-                    .on("#swd[data-state=conspire] .conspiracy_small :click",
-                        dojo.hitch(this, "onChooseConspiracyClick")
-                    );
-                dojo.query('body')
-                    .on("#swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position .action_button :click",
-                        dojo.hitch(this, "onChooseConspireRemnantPositionClick")
-                    );
-                buttonConspiracyRemnantTop
-                // Agora click handlers without event delegation:
+                if (this.agora) {
+                    // Agora click handlers using event delegation:
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseConspiratorAction] #choose_conspirator_action .action_button :click",
+                            dojo.hitch(this, "onChooseConspiratorActionClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=conspire] .conspiracy_small :click",
+                            dojo.hitch(this, "onChooseConspiracyClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position .action_button :click",
+                            dojo.hitch(this, "onChooseConspireRemnantPositionClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=client_useAgeCard] #player_conspiracies_" + this.me_id + " .conspiracy_small:click",
+                            dojo.hitch(this, "onPlayerTurnPrepareConspiracySelectedClick")
+                        );
+
+                    // Agora click handlers without event delegation:
+                    dojo.query("#buttonPrepareConspiracy").on("click", dojo.hitch(this, "onPlayerTurnPrepareConspiracyClick"));
+                }
 
                 // Resize/scroll handler to determine layout and scale factor
                 window.addEventListener('resize', dojo.hitch(this, "onWindowUpdate"));
@@ -388,6 +396,9 @@ define([
 
                 dojo.subscribe('constructConspiracy', this, "notif_constructConspiracy");
                 this.notifqueue.setSynchronous('constructConspiracy');
+
+                dojo.subscribe('prepareConspiracy', this, "notif_prepareConspiracy");
+                this.notifqueue.setSynchronous('prepareConspiracy');
 
             },
 
@@ -948,7 +959,7 @@ define([
                 var conspiracy = this.gamedatas.conspiracies[conspiracyId];
                 var data = {
                     jsId: conspiracyId,
-                    jsName: conspiracy ? _(conspiracy.name) : '',
+                    jsName: spriteId <= 16 ? _(conspiracy.name) : '',
                     jsPosition: position,
                 };
                 var spritesheetColumns = 6;
@@ -961,6 +972,14 @@ define([
                 $('conspiracy_deck_count').innerHTML = count;
             },
 
+            updateConspiraciesSituation: function (situation) {
+                this.gamedatas.conspiraciesSituation = situation;
+                this.updateConspiracyDeckCount(situation.deckCount);
+                for (var player_id in this.gamedatas.players) {
+                    this.updatePlayerConspiracies(player_id, situation[player_id]);
+                }
+            },
+
             updatePlayerConspiracies: function (playerId, rows) {
                 if (this.debug) console.log('updatePlayerConspiracies', playerId, rows);
 
@@ -969,7 +988,15 @@ define([
 
                 Object.keys(rows).forEach(dojo.hitch(this, function (index) {
                     var row = rows[index];
-                    dojo.place(this.getConspiracyDivHtml(row.conspiracy, row.triggered ? row.conspiracy : 18, row.position), container);
+                    let newNode = dojo.place(this.getConspiracyDivHtml(row.conspiracy, row.triggered ? row.conspiracy : 18, row.position), container);
+
+                    if (row.prepared > 0) {
+                        var data = {
+                            jsX: row.ageCardSpriteXY[0],
+                            jsY: row.ageCardSpriteXY[1]
+                        };
+                        dojo.place(this.format_block('jstpl_wonder_age_card', data), dojo.query('.age_card_container', newNode)[0]);
+                    }
                 }));
             },
 
@@ -2080,7 +2107,154 @@ define([
                 }));
                 coinAnimation.play();
             },
+            
+            //  ____                                           ____                      _                      
+            // |  _ \ _ __ ___ _ __   __ _ _ __ ___    __ _   / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___ _   _ 
+            // | |_) | '__/ _ \ '_ \ / _` | '__/ _ \  / _` | | |   / _ \| '_ \/ __| '_ \| | '__/ _` |/ __| | | |
+            // |  __/| | |  __/ |_) | (_| | | |  __/ | (_| | | |__| (_) | | | \__ \ |_) | | | | (_| | (__| |_| |
+            // |_|   |_|  \___| .__/ \__,_|_|  \___|  \__,_|  \____\___/|_| |_|___/ .__/|_|_|  \__,_|\___|\__, |
+            //                |_|                                                 |_|                     |___/ 
 
+            onPlayerTurnPrepareConspiracyClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onPlayerTurnPrepareConspiracyClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    Object.keys(this.gamedatas.conspiraciesSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
+                        var conspiracyData = this.gamedatas.conspiraciesSituation[this.player_id][index];
+                        if (!conspiracyData.prepared) {
+                            let conspiracyNode = dojo.query('#player_conspiracies_' + this.player_id + ' div[data-conspiracy-position="' + conspiracyData.position + '"]')[0];
+                            dojo.addClass(conspiracyNode, 'red_border');
+                        }
+                    }));
+
+                    this.setClientState("client_useAgeCard", {
+                        descriptionmyturn: "${you} must select a Conspiracy to prepare, or select a different card or action.",
+                    });
+                }
+            },
+
+            onPlayerTurnPrepareConspiracySelectedClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onPlayerTurnPrepareConspiracySelectedClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionPrepareConspiracy')) {
+                        return;
+                    }
+
+                    var conspiracyNode = dojo.hasClass(e.target, 'conspiracy') ? e.target : dojo.query(e.target).closest(".conspiracy")[0];
+                    var conspiracyId = dojo.attr(conspiracyNode, "data-conspiracy-id");
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionPrepareConspiracy.html", {
+                            lock: true,
+                            buildingId: this.playerTurnBuildingId,
+                            conspiracyId: conspiracyId,
+                        },
+                        this, function (result) {
+                            dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_prepareConspiracy: function (notif) {
+                if (this.debug) console.log('notif_prepareConspiracy', notif);
+
+                this.clearPlayerTurnNodeGlow();
+                this.clearRedBorder();
+
+                // Update the conspiracies situation, because now the conspiracy is prepared and the age card has been rendered.
+                this.updateConspiraciesSituation(notif.args.conspiraciesSituation);
+
+                var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
+
+                // Animate age card towards conspiracy:
+                if (1) {
+
+                    let conspiracyNode = dojo.query('#player_conspiracies_' + notif.args.playerId + ' div[data-conspiracy-position="' + notif.args.position + '"]')[0];
+                    var conspiracyContainer = conspiracyNode.parentElement;
+                    dojo.addClass(conspiracyContainer, 'animating');
+
+                    var ageCardContainer = dojo.query('.age_card_container', conspiracyContainer)[0];
+                    var ageCardNode = dojo.query('.building_small', ageCardContainer)[0];
+
+                    // Move age card to start position and set starting properties.
+                    this.placeOnObjectPos(ageCardNode, buildingNode, 0, 0);
+                    dojo.style(ageCardNode, 'z-index', 15);
+                    dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em)'); // Somehow affects the position of the element after the slide. Otherwise I would delete this line.
+
+                    var conspiracyNodePosition = dojo.position(conspiracyNode);
+
+                    var anim = dojo.fx.chain([
+                        dojo.fx.combine([
+                            dojo.animateProperty({
+                                node: buildingNode,
+                                duration: this.prepareConspiracyAnimationDuration / 3,
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    propertyTransform: {start: 0, end: 180}
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                },
+                                onEnd: dojo.hitch(this, function (node) {
+                                    dojo.destroy(node);
+                                })
+                            }),
+                            dojo.animateProperty({
+                                node: ageCardNode,
+                                duration: this.prepareConspiracyAnimationDuration / 3,
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    propertyTransform: {start: -180, end: 0}
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                }
+                            }),
+                        ]),
+                        dojo.fx.combine([
+                            this.slideToObjectPos(ageCardNode, ageCardContainer, 0, 0, this.prepareConspiracyAnimationDuration / 3 * 2),
+                        ]),
+                    ]);
+
+                    dojo.connect(anim, 'beforeBegin', dojo.hitch(this, function () {
+                        dojo.style(conspiracyContainer, 'z-index', 11);
+                        dojo.style(conspiracyNode, 'z-index', 20);
+                        dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em) rotateY(-90deg)'); // The rotateY(-90deg) affects the position the element will end up after the slide. Here's the place to apply it therefor, not before the animation instantiation.
+                    }));
+                    dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                        // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayersSituation.
+                        anim.stop();
+                        // Clean up any existing coin nodes (normally cleaned up by their onEnd)
+                        dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
+
+                        dojo.style(ageCardNode, 'z-index', 1);
+                        dojo.style(conspiracyNode, 'z-index', 2);
+                        dojo.style(conspiracyContainer, 'z-index', 10);
+                        dojo.removeClass(conspiracyContainer, 'animating');
+                    }));
+
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+
+                    anim.play();
+                }
+            },
+            
             //   ____ _                                                                     _     _           _ _     _ _
             //  / ___| |__   ___   ___  ___  ___    ___  _ __  _ __   ___  _ __   ___ _ __ | |_  | |__  _   _(_) | __| (_)_ __   __ _
             // | |   | '_ \ / _ \ / _ \/ __|/ _ \  / _ \| '_ \| '_ \ / _ \| '_ \ / _ \ '_ \| __| | '_ \| | | | | |/ _` | | '_ \ / _` |
