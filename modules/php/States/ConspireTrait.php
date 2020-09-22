@@ -2,6 +2,7 @@
 
 namespace SWD\States;
 
+use SWD\Conspiracies;
 use SWD\Conspiracy;
 use SWD\Draftpool;
 use SWD\Player;
@@ -25,6 +26,8 @@ trait ConspireTrait {
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
+            // Because of Curia Julia, update the conspiracies situation (for the deck count)
+            'conspiraciesSituation' => Conspiracies::getSituation(),
         ];
     }
 

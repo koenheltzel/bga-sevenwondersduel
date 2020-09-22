@@ -182,6 +182,7 @@ define([
                 this.updatePlayersSituation(this.gamedatas.playersSituation);
                 if (this.agora) {
                     this.updateDecreesSituation(this.gamedatas.decreesSituation);
+                    this.updateConspiracyDeckCount(this.gamedatas.conspiraciesSituation['deckCount']);
                 }
 
                 // Setting up player boards
@@ -214,7 +215,9 @@ define([
                     this.updatePlayerProgressTokens(player_id, this.gamedatas.progressTokensSituation[player_id]);
 
                     // Agora
-                    this.updatePlayerConspiracies(player_id, this.gamedatas.conspiraciesSituation[player_id]);
+                    if (this.agora) {
+                        this.updatePlayerConspiracies(player_id, this.gamedatas.conspiraciesSituation[player_id]);
+                    }
                 }
 
                 if (this.agora) {
@@ -403,6 +406,9 @@ define([
                     // Update player coins / scores
                     if (args.args.playersSituation) {
                         this.updatePlayersSituation(args.args.playersSituation);
+                    }
+                    if (args.args.conspiraciesSituation) {
+                        this.updateConspiracyDeckCount(args.args.conspiraciesSituation['deckCount']);
                     }
 
                     if (args.args.draftpool) this.updateDraftpool(args.args.draftpool);
@@ -949,6 +955,10 @@ define([
                 data.jsX = (spriteId - 1) % spritesheetColumns;
                 data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
                 return this.format_block(full ? 'jstpl_conspiracy_full' : 'jstpl_conspiracy', data);
+            },
+
+            updateConspiracyDeckCount: function (count) {
+                $('conspiracy_deck_count').innerHTML = count;
             },
 
             updatePlayerConspiracies: function (playerId, rows) {

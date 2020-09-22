@@ -288,7 +288,7 @@
         <div id="conspiracy_deck_container" class="whiteblock">
             <h3>Conspiracy deck</h3>
             <div class="conspiracy conspiracy_small" style="background-position: -400% -200%;">
-                <span>12</span>
+                <span id="conspiracy_deck_count"></span>
             </div>
         </div>
     </div>

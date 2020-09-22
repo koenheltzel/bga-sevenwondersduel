@@ -2,6 +2,7 @@
 
 namespace SWD\States;
 
+use SWD\Conspiracies;
 use SWD\Material;
 use SWD\Player;
 use SWD\Wonder;
@@ -12,11 +13,17 @@ trait SelectWonderTrait {
     public function argSelectWonder() {
         $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
         $cards = Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}");
-        return [
+        $data = [
             'round' => $wonderSelectionRound,
             'updateWonderSelection' => count($cards) == 4, // Update the wonder selection at the end of the first and second selection rounds (second to hide the block).
             'wonderSelection' => count($cards) == 4 ? Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}") : null,
         ];
+
+        // Because of Curia Julia, update the conspiracies situation (for the deck count)
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            $data['conspiraciesSituation'] = Conspiracies::getSituation();
+        }
+        return $data;
     }
     public function enterStateSelectWonder() {
         $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);

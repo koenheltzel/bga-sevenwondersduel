@@ -23,6 +23,7 @@ class Conspiracies extends Collection {
 
     public static function getSituation() {
         return [
+            'deckCount' => count(Conspiracies::getDeckCardsSorted('deck')),
             Player::me()->id => Player::me()->getConspiraciesData(),
             Player::opponent()->id => Player::opponent()->getConspiraciesData(),
         ];
