@@ -739,7 +739,7 @@ define([
 
                     // Adjust the height of the age divs based on the age cards absolutely positioned within.
                     var rows = draftpool.age == 3 ? 7 : 5;
-                    dojo.query('.draftpool').style("height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + " * var(--draftpool-row-height))");
+                    dojo.query('.draftpool').style("height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + ".35 * var(--draftpool-row-height))");
 
                     this.updateLayout();
 
