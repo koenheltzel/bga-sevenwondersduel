@@ -2907,54 +2907,71 @@ console.log('this.myConspiracies', this.myConspiracies);
             },
 
             notif_endGameCategoryUpdate: function (notif) {
-                var categoryNode = dojo.query('#end_game_container .end_game_' + notif.args.category + '.player' + notif.args.playerId)[0];
-                var totalNode = dojo.query('#end_game_container .end_game_total.player' + notif.args.playerId + ' span')[0];
-                dojo.addClass(categoryNode, 'endgame_highlight');
+                var anims = [];
+
                 var zIndex = 1;
                 if (notif.args.highlightId) {
                     zIndex = dojo.style(notif.args.highlightId, 'z-index');
                     dojo.style(notif.args.highlightId, 'z-index', 100);
                     dojo.addClass(notif.args.highlightId, 'endgame_highlight');
                 }
-                var anim = dojo.fx.chain([
-                    dojo.animateProperty({
-                        node: 'swd',
-                        duration: 400
-                    }),
-                    dojo.animateProperty({
-                        node: 'swd',
-                        duration: notif.args.points * 100,
-                        properties: {
-                            propertyScale: {
-                                start: parseInt(categoryNode.innerHTML),
-                                end: parseInt(categoryNode.innerHTML) + parseInt(notif.args.points)
-                            }
-                        },
-                        onAnimate: function (values) {
-                            var score = Math.floor(parseFloat(values.propertyScale.replace("px", "")));
-                            if (parseInt(score) != parseInt(categoryNode.innerHTML)) {
-                                categoryNode.innerHTML = score;
-                                totalNode.innerHTML = parseInt(totalNode.innerHTML) + 1;
-                            }
-                        }
-                    }),
-                    dojo.animateProperty({
-                        node: 'swd',
-                        duration: 400,
-                        onEnd: function (node) {
-                            dojo.removeClass(categoryNode, 'endgame_highlight');
-                            if (notif.args.highlightId) {
-                                dojo.style(notif.args.highlightId, 'z-index', zIndex);
-                                dojo.removeClass(notif.args.highlightId, 'endgame_highlight');
-                            }
-                        }
-                    }),
-                    dojo.animateProperty({
-                        node: 'swd',
-                        duration: 200
-                    }),
-                ]);
 
+                for (var i = 0; i < notif.args.playerIds.length; i++) {
+                    let playerId = notif.args.playerIds[i];
+                    var categoryNode = dojo.query('#end_game_container .end_game_' + notif.args.category + '.player' + playerId)[0];
+                    var totalNode = dojo.query('#end_game_container .end_game_total.player' + playerId + ' span')[0];
+                    dojo.addClass(categoryNode, 'endgame_highlight');
+                    let stickyCategory = notif.args.stickyCategory !== undefined;
+
+                    var pointAnims = [];
+                    if (notif.args.points > 0) {
+                        pointAnims.push(
+                            dojo.animateProperty({
+                                node: 'swd',
+                                duration: notif.args.points * 100,
+                                properties: {
+                                    propertyScale: {
+                                        start: parseInt(categoryNode.innerHTML),
+                                        end: parseInt(categoryNode.innerHTML) + parseInt(notif.args.points)
+                                    }
+                                },
+                                onAnimate: function (values) {
+                                    var score = Math.floor(parseFloat(values.propertyScale.replace("px", "")));
+                                    if (parseInt(score) != parseInt(categoryNode.innerHTML)) {
+                                        categoryNode.innerHTML = score;
+                                        totalNode.innerHTML = parseInt(totalNode.innerHTML) + 1;
+                                    }
+                                }
+                            })
+                        );
+                    }
+
+                    anims.push(dojo.fx.chain([
+                        dojo.animateProperty({
+                            node: 'swd',
+                            duration: 400
+                        }),
+                        dojo.fx.combine(pointAnims),
+                        dojo.animateProperty({
+                            node: 'swd',
+                            duration: 400,
+                            onEnd: function (node) {
+                                if (!stickyCategory) {
+                                    dojo.removeClass(categoryNode, 'endgame_highlight');
+                                }
+                                if (notif.args.highlightId) {
+                                    dojo.style(notif.args.highlightId, 'z-index', zIndex);
+                                    dojo.removeClass(notif.args.highlightId, 'endgame_highlight');
+                                }
+                            }
+                        }),
+                        dojo.animateProperty({
+                            node: 'swd',
+                            duration: 200
+                        }),
+                    ]));
+                }
+                var anim = dojo.fx.combine(anims);
                 anim.play();
 
                 // Wait for animation before handling the next notification (= state change).

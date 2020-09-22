@@ -9,11 +9,11 @@
 @keyframes endgame_highlight {
     from {
         outline-color: #ff000066;
-        outline-offset: calc(1px * var(--scale));
+        outline-offset: calc(-2px * var(--scale));
     }
     to {
         outline-color: #ff0000;
-        outline-offset: calc(4px * var(--scale));
+        outline-offset: calc(2px * var(--scale));
     }
 }
 
