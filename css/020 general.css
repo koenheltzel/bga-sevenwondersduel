@@ -190,6 +190,23 @@
     }
 }
 
+.green_border {
+    animation: green_border 0.5s infinite alternate;
+    z-index: 20;
+    outline-width: calc(var(--scale) * 5px);
+    outline-style: dashed;
+    outline-offset: 1px;
+}
+
+@keyframes green_border {
+    from {
+        outline-color: #078a0066;
+    }
+    to {
+        outline-color: #078a00;
+    }
+}
+
 .red_stroke {
     animation: red_stroke 0.5s infinite alternate;
     z-index: 20;

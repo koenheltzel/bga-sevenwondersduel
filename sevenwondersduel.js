@@ -1619,6 +1619,16 @@ console.log('this.myConspiracies', this.myConspiracies);
 
             onEnterPlayerTurn: function (args) {
                 if (this.debug) console.log('in onEnterPlayerTurn', args);
+
+                if (this.getActivePlayerId() == this.player_id) {
+                    Object.keys(this.gamedatas.conspiraciesSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
+                        var conspiracyData = this.gamedatas.conspiraciesSituation[this.player_id][index];
+                        if (conspiracyData.prepared && !conspiracyData.triggered) {
+                            let conspiracyNode = dojo.query('#player_conspiracies_' + this.player_id + ' div[data-conspiracy-position="' + conspiracyData.position + '"]')[0];
+                            dojo.addClass(conspiracyNode, 'green_border');
+                        }
+                    }));
+                }
             },
 
             onPlayerTurnDraftpoolClick: function (e) {
