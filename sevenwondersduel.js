@@ -62,6 +62,7 @@ define([
             playerTurnBuildingId: null,
             playerTurnNode: null,
             currentAge: 0,
+            myConspiracies: [],
 
             // General properties
             customTooltips: [],
@@ -184,6 +185,7 @@ define([
                 if (this.agora) {
                     this.updateDecreesSituation(this.gamedatas.decreesSituation);
                     this.updateConspiracyDeckCount(this.gamedatas.conspiraciesSituation['deckCount']);
+                    this.myConspiracies = this.gamedatas.myConspiracies;
                     this.updateConspiraciesSituation(this.gamedatas.conspiraciesSituation);
                 }
 
@@ -421,6 +423,7 @@ define([
 
                     if (args.args.draftpool) this.updateDraftpool(args.args.draftpool);
                     if (args.args.wondersSituation) this.updateWondersSituation(args.args.wondersSituation);
+                    if (args.args._private && args.args._private.myConspiracies) this.myConspiracies = args.args._private.myConspiracies;
                     if (args.args.conspiraciesSituation) this.updateConspiraciesSituation(args.args.conspiraciesSituation);
 
                     // We chose to group all of the states' functions together, so we create a seperate "onEnter{StateName}" function and call it here if it exists.
@@ -983,10 +986,14 @@ define([
 
                 let container = $('player_conspiracies_' + playerId);
                 dojo.empty(container);
-
+console.log('this.myConspiracies', this.myConspiracies);
                 Object.keys(rows).forEach(dojo.hitch(this, function (index) {
                     var row = rows[index];
-                    let newNode = dojo.place(this.getConspiracyDivHtml(row.conspiracy, row.triggered ? row.conspiracy : 18, row.position), container);
+                    let id = row.conspiracy;
+                    if (!row.triggered && playerId == this.me_id && this.myConspiracies[row.position]) {
+                        id = this.myConspiracies[row.position].id;
+                    }
+                    let newNode = dojo.place(this.getConspiracyDivHtml(id, row.triggered ? row.conspiracy : 18, row.position), container);
 
                     if (row.prepared > 0) {
                         var data = {

@@ -495,9 +495,21 @@ class SevenWondersDuelAgora extends Table
             $result['conspiracies'] = Material::get()->conspiracies->array;
             $result['decrees'] = Material::get()->decrees->array;
             $result['decreesSituation'] = Decrees::getSituation();
+            $result['myConspiracies'] = Conspiracies::getDeckCardsSorted($current_player_id);
         }
 
         return $result;
+    }
+
+    function addMyConspiracies(&$data) {
+        $meId = Player::me()->id;
+        $opponentId = Player::opponent()->id;
+        if (!isset($data['_private'])) $data['_private'] = [];
+        if (!isset($data['_private'][$meId])) $data['_private'][$meId] = [];
+        if (!isset($data['_private'][$opponentId])) $data['_private'][$opponentId] = [];
+
+        $data['_private'][$meId]['myConspiracies'] = Conspiracies::getDeckCardsLocationArgAsKeys($meId);
+        $data['_private'][$opponentId]['myConspiracies'] = Conspiracies::getDeckCardsLocationArgAsKeys($opponentId);
     }
 
     /*

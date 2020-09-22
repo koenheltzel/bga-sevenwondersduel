@@ -28,6 +28,7 @@ trait PlayerTurnTrait {
 
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             $data['conspiraciesSituation'] = Conspiracies::getSituation();
+            $this->addMyConspiracies($data);
         }
         return $data;
     }

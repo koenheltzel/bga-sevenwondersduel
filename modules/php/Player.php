@@ -284,11 +284,10 @@ class Player extends Base{
     public function getConspiraciesData(): array {
         $cards = $this->getConspiracyDeckCards();
         $rows = [];
-        $specifyConspiracyIds = SevenWondersDuelAgora::get()->getCurrentPlayerId(true) == $this->id; // Check if this player is the player requesting this information.
         foreach($cards as $card) {
             $conspiracy = Conspiracy::get($card['id']);
             $row = [];
-            $row['conspiracy'] = $specifyConspiracyIds ? $conspiracy->id : 18;
+            $row['conspiracy'] = $conspiracy->isTriggered() ? $conspiracy->id : 18;
             $row['position'] = (int)$card['location_arg'];
             $row['prepared'] = $conspiracy->isPrepared(); // Returns 0 or the age of the card used to prepare.
             $row['triggered'] = (int)$conspiracy->isTriggered();

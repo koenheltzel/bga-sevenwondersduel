@@ -35,6 +35,15 @@ class Conspiracies extends Collection {
         return $cards;
     }
 
+    public static function getDeckCardsLocationArgAsKeys($location): array {
+        $cards = SevenWondersDuelAgora::get()->conspiracyDeck->getCardsInLocation($location);
+        $result = [];
+        foreach($cards as $card) {
+            $result[$card['location_arg']] = $card;
+        }
+        return $result;
+    }
+
     public function conspire() {
         SevenWondersDuelAgora::get()->conspiracyDeck->pickCardsForLocation(2, 'deck', 'conspire');
     }
