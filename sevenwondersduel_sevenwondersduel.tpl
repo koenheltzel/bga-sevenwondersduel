@@ -278,12 +278,21 @@
         </div>
         <div id="player_wonders_mobile_container_{PLAYER_ME_ID}" class="player_wonders_mobile me whiteblock"></div>
     </div>
-    <div id="discarded_cards_whiteblock" class="whiteblock">
-        <h3>{DISCARDED_BUILDINGS}</h3>
-        <div id="discarded_cards_container">
-            <div class="discarded_cards_cursor"></div>
+    <div id="discarded_cards_whiteblock">
+        <div id="discarded_cards_container" class="whiteblock">
+            <h3>{DISCARDED_BUILDINGS}</h3>
+            <div id="discarded_cards_container">
+                <div class="discarded_cards_cursor"></div>
+            </div>
+        </div>
+        <div id="conspiracy_deck_container" class="whiteblock">
+            <h3>Conspiracy deck</h3>
+            <div class="conspiracy conspiracy_small" style="background-position: -400% -200%;">
+                <span>12</span>
+            </div>
         </div>
     </div>
+
 
     <div id="list_of_cards_flexbox">
         <div class="list_of_cards_whiteblock whiteblock">
