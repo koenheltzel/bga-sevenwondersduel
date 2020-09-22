@@ -11,8 +11,6 @@
 
 .draftpool {
     position: relative;
-    left: var(--gutter); /* Happens to be te space we need to center the draftpool */
-    margin: calc(2 * var(--gutter)) 0px calc(2.5 * var(--gutter)) 0px;
 
     /* Height is being set by updateDraftpool */
 
