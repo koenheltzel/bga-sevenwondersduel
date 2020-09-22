@@ -34,6 +34,7 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    gap: var(--gutter);
 
     width: calc(7 * var(--building-small-width) + 6 * 2px + 2 * var(--gutter)); /* This keeps content in the middle_column, especially something like select_start_player within the allowed size. */
 }
