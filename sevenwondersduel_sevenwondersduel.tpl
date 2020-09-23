@@ -240,7 +240,7 @@
                     </div>
                     <!-- END board -->
                     <!-- BEGIN board_player -->
-                    <div class="whiteblock player_info {PLAYER_ALIAS}">
+                    <div class="whiteblock player_info {PLAYER_ALIAS} player{PLAYER_ID}">
                         <!-- BEGIN board_player_row -->
                             <!-- BEGIN board_player_row_info -->
 
