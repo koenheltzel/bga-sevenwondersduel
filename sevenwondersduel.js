@@ -183,7 +183,6 @@ define([
                 this.updateProgressTokensSituation(this.gamedatas.progressTokensSituation);
                 this.updateMilitaryTrack(this.gamedatas.militaryTrack);
                 this.updateDiscardedBuildings(this.gamedatas.discardedBuildings);
-                this.updatePlayersSituation(this.gamedatas.playersSituation);
                 if (this.agora) {
                     this.updateDecreesSituation(this.gamedatas.decreesSituation);
                     this.updateConspiracyDeckCount(this.gamedatas.conspiraciesSituation['deckCount']);
@@ -224,6 +223,8 @@ define([
                     if (this.agora) {
                     }
                 }
+                // After updatePlayerProgressTokens so we can highlight the Law progress token for the endgameanimation.
+                this.updatePlayersSituation(this.gamedatas.playersSituation);
 
                 if (this.agora) {
                     // dojo.place(this.getConspiracyDivHtml(1, 18, false, 3), 'player_conspiracies_2310957');
@@ -2268,13 +2269,13 @@ console.log('this.myConspiracies', this.myConspiracies);
                 }));
                 coinAnimation.play();
             },
-            
-            //  ____                                           ____                      _                      
-            // |  _ \ _ __ ___ _ __   __ _ _ __ ___    __ _   / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___ _   _ 
+
+            //  ____                                           ____                      _
+            // |  _ \ _ __ ___ _ __   __ _ _ __ ___    __ _   / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___ _   _
             // | |_) | '__/ _ \ '_ \ / _` | '__/ _ \  / _` | | |   / _ \| '_ \/ __| '_ \| | '__/ _` |/ __| | | |
             // |  __/| | |  __/ |_) | (_| | | |  __/ | (_| | | |__| (_) | | | \__ \ |_) | | | | (_| | (__| |_| |
             // |_|   |_|  \___| .__/ \__,_|_|  \___|  \__,_|  \____\___/|_| |_|___/ .__/|_|_|  \__,_|\___|\__, |
-            //                |_|                                                 |_|                     |___/ 
+            //                |_|                                                 |_|                     |___/
 
             onPlayerTurnPrepareConspiracyClick: function (e) {
                 // Preventing default browser reaction
@@ -2416,7 +2417,7 @@ console.log('this.myConspiracies', this.myConspiracies);
                     anim.play();
                 }
             },
-            
+
             //   ____ _                                                                     _     _           _ _     _ _
             //  / ___| |__   ___   ___  ___  ___    ___  _ __  _ __   ___  _ __   ___ _ __ | |_  | |__  _   _(_) | __| (_)_ __   __ _
             // | |   | '_ \ / _ \ / _ \/ __|/ _ \  / _ \| '_ \| '_ \ / _ \| '_ \ / _ \ '_ \| __| | '_ \| | | | | |/ _` | | '_ \ / _` |
