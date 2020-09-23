@@ -2213,7 +2213,7 @@ define([
             scientificSupremacyAnimation: function (playersSituation) {
                 if (this.debug) console.log('scientificSupremacyAnimation', playersSituation);
                 dojo.addClass(dojo.query('.player' + playersSituation.winner + ' .player_building_column.Green')[0], 'endgame_highlight');
-                var progressTokenNode = $('progress_token_4');
+                var progressTokenNode = dojo.query('.player_info.player' + playersSituation.winner + ' #progress_token_4')[0];
                 if (progressTokenNode) {
                     dojo.addClass(progressTokenNode, 'endgame_highlight');
                 }
