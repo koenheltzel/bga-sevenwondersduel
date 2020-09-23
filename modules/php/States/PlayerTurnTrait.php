@@ -21,6 +21,7 @@ trait PlayerTurnTrait {
      */
     public function argPlayerTurn() {
         $data = [
+            'ageRoman' => ageRoman($this->getGameStateValue(self::VALUE_CURRENT_AGE)),
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
