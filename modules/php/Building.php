@@ -37,6 +37,7 @@ class Building extends Item {
     public $guildRewardBuildingTypes = null;
     public $listPage = 2;
     public $listPosition = [0, 0];
+    public $senateSection = 0;
 
     /**
      * @param $id
@@ -481,6 +482,15 @@ class Building extends Item {
      */
     public function setSubType($subType) {
         $this->subType = $subType;
+        return $this;
+    }
+
+    /**
+     * @param int $senateSection
+     * @return static
+     */
+    public function setSenateSection(int $senateSection) {
+        $this->senateSection = $senateSection;
         return $this;
     }
 

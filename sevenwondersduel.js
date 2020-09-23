@@ -63,6 +63,8 @@ define([
             playerTurnNode: null,
             currentAge: 0,
             myConspiracies: [],
+            // Agora
+            senateActionsSection: 0,
 
             // General properties
             customTooltips: [],
@@ -314,13 +316,12 @@ define([
                         .on("#swd[data-state=playerTurn] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"1\"][data-conspiracy-triggered=\"0\"]:click",
                             dojo.hitch(this, "onPlayerTurnTriggerConspiracyClick")
                         );
-                    dojo.query('body')
-                        .on("#swd[data-state=client_useAgeCard] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"1\"][data-conspiracy-triggered=\"0\"]:click",
-                            dojo.hitch(this, "onPlayerTurnTriggerConspiracyClick")
-                        );
 
                     // Agora click handlers without event delegation:
                     dojo.query("#buttonPrepareConspiracy").on("click", dojo.hitch(this, "onPlayerTurnPrepareConspiracyClick"));
+                    dojo.query("#buttonSenateActionsPlaceInfluence").on("click", dojo.hitch(this, "onSenateActionsPlaceInfluenceButtonClick"));
+                    dojo.query("#buttonSenateActionsMoveInfluence").on("click", dojo.hitch(this, "onSenateActionsMoveInfluenceButtonClick"));
+                    dojo.query("#buttonSenateActionsSkip").on("click", dojo.hitch(this, "onSenateActionsSkipButtonClick"));
                 }
 
                 // Resize/scroll handler to determine layout and scale factor
@@ -2804,7 +2805,7 @@ console.log('this.myConspiracies', this.myConspiracies);
                     Object.keys(args._private.conspiracies).forEach(dojo.hitch(this, function (conspiracyId) {
                         var card = args._private.conspiracies[conspiracyId];
                         var container = dojo.query('#conspire>div:nth-of-type(' + i + ')')[0];
-                        // dojo.place(this.getProgressTokenDivHtml(card.id), container);
+                        dojo.empty(container);
                         dojo.place(this.getConspiracyDivHtml(conspiracyId, conspiracyId,true), container);
                         i++;
                     }));
@@ -2902,8 +2903,6 @@ console.log('this.myConspiracies', this.myConspiracies);
                     var container = dojo.query('#conspire>div:nth-of-type(1)')[0];
                     dojo.empty(container);
                     dojo.place(this.getConspiracyDivHtml(args._private.conspiracyId, args._private.conspiracyId, true), container);
-
-                    dojo.style(dojo.query('#conspire>div:nth-of-type(2)')[0], 'display', 'none');
                 }
             },
 
@@ -2925,6 +2924,81 @@ console.log('this.myConspiracies', this.myConspiracies);
 
                     this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionChooseConspireRemnantPosition.html", {
                             top: top,
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            //  ____                   _            _        _   _
+            // / ___|  ___ _ __   __ _| |_ ___     / \   ___| |_(_) ___  _ __  ___
+            // \___ \ / _ \ '_ \ / _` | __/ _ \   / _ \ / __| __| |/ _ \| '_ \/ __|
+            //  ___) |  __/ | | | (_| | ||  __/  / ___ \ (__| |_| | (_) | | | \__ \
+            // |____/ \___|_| |_|\__,_|\__\___| /_/   \_\___|\__|_|\___/|_| |_|___/
+
+            onEnterSenateActions: function (args) {
+                if (this.debug) console.log('onEnterSenateActions', args);
+                if (this.isCurrentPlayerActive()) {
+                    this.senateActionsSection = parseInt(args.senateActionsSection);
+                    console.log('this.senateActionsSection', this.senateActionsSection);
+                }
+            },
+            markSection(section) {
+                let chamberStart = (section * 2) - 1;
+                this.markChambers([chamberStart, chamberStart + 1]);
+            },
+            markChambers(chambers) {
+                for (let chamber = 1; chamber <= 6; chamber++) {
+                    $('chamber' + chamber).setAttribute("class", chambers.indexOf(chamber) > -1 ? "red_stroke" : ""); // dojo.addClass doesn't work for path/svg
+                }
+            },
+            onSenateActionsPlaceInfluenceButtonClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onSenateActionsPlaceInfluenceButtonClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    this.setClientState("client_placeInfluence", {
+                        descriptionmyturn: "${you} select a Senate chamber to place an Influence cube, or select a different action.",
+                    });
+                    this.markSection(this.senateActionsSection);
+                }
+            },
+            onSenateActionsMoveInfluenceButtonClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onSenateActionsPlaceInfluenceButtonClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    this.setClientState("client_moveInfluence", {
+                        descriptionmyturn: "${you} select a Senate chamber to move an Influence cube from, or select a different action.",
+                    });
+                }
+            },
+            onSenateActionsSkipButtonClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onSenateActionsSkipButtonClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionSenateActionsSkip')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSenateActionsSkip.html", {
                             lock: true
                         },
                         this, function (result) {

@@ -379,4 +379,31 @@ class Player extends Base{
         return in_array($id, $this->getProgressTokenIds());
     }
 
+    public function hasDecree($id) : bool {
+        //TODO: implement
+        return false;
+    }
+
+    public function getSenateActionsCount() {
+        $blueBuildings = count($this->getBuildings()->filterByTypes([Building::TYPE_BLUE])->array);
+        if ($this->hasDecree(12)) {
+            return 2 + $blueBuildings;
+        }
+        else {
+            switch($blueBuildings) {
+                case 0:
+                case 1:
+                    return 1;
+                    break;
+                case 2:
+                case 3:
+                    return 2;
+                    break;
+                default:
+                    return 3;
+                    break;
+            }
+        }
+    }
+
 }

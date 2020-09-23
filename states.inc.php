@@ -150,6 +150,7 @@ $machinestates = [
             SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
             SevenWondersDuelAgora::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuelAgora::STATE_CHOOSE_DISCARDED_BUILDING_ID,
             SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_ID,
+            SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID,
             SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // For immediate victories, skipping special wonder action states.
             SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
         ]
@@ -203,6 +204,24 @@ $machinestates = [
         "transitions" => [
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_WONDER_SELECTED_NAME => SevenWondersDuelAgora::STATE_WONDER_SELECTED_ID,
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID => [
+        "name" => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Senate action (${senateActionsLeft} left)'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Senate action (${senateActionsLeft} left)'),
+        "type" => "activeplayer",
+        "action" => "enterStateSenateActions",
+        "args" => "argSenateActions",
+        "possibleactions" => [
+            "actionPlaceInfluence",
+            "actionMoveInfluence",
+            "actionSenateActionsSkip",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
         ]
     ],

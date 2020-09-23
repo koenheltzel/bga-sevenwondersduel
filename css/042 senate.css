@@ -30,6 +30,9 @@
 #senate_chambers path {
     fill:#00000000;
 }
+#senate_chambers path.red_stroke {
+    cursor: pointer;
+}
 
 .influence_containers > div {
     position: absolute;

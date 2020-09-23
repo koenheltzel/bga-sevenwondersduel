@@ -33,6 +33,9 @@
 -- Example 2: add a custom field to the standard "player" table
 -- ALTER TABLE `player` ADD `player_my_custom_field` INT UNSIGNED NOT NULL DEFAULT '0';
 
+ALTER TABLE `global`
+    CHANGE COLUMN `global_value` `global_value` VARCHAR(255);
+
 ALTER TABLE `player`
     ADD COLUMN `player_coins` SMALLINT UNSIGNED NOT NULL DEFAULT '7',
     ADD COLUMN `player_score_total` SMALLINT UNSIGNED NOT NULL DEFAULT '0',

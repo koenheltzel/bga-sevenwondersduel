@@ -95,7 +95,7 @@ trait SelectWonderTrait {
                 ]
             );
 
-            $this->setGameStateInitialValue(self::VALUE_CONSPIRE_RETURN_STATE, self::STATE_WONDER_SELECTED_ID);
+            $this->setGameStateValue(self::VALUE_CONSPIRE_RETURN_STATE, self::STATE_WONDER_SELECTED_ID);
             $this->gamestate->nextState( self::STATE_CONSPIRE_NAME );
         }
         else {

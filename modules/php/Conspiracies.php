@@ -45,7 +45,10 @@ class Conspiracies extends Collection {
     }
 
     public function conspire() {
-        SevenWondersDuelAgora::get()->conspiracyDeck->pickCardsForLocation(2, 'deck', 'conspire');
+        // Do it like this so the top most card is displayed first (left). This can be relevant information because it could be
+        // the card the opponent did not choose last round and put back on top of the deck.
+        SevenWondersDuelAgora::get()->conspiracyDeck->pickCardsForLocation(1, 'deck', 'conspire', 0);
+        SevenWondersDuelAgora::get()->conspiracyDeck->pickCardsForLocation(1, 'deck', 'conspire', 1);
     }
     public function conspireChoice($conspiracyId) {
         SevenWondersDuelAgora::get()->conspiracyDeck->insertCardOnExtremePosition($conspiracyId, Player::getActive()->id, true);

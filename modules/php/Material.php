@@ -562,16 +562,19 @@ class Material extends Base
         for($id = 74; $id <= 75; $id++) {
             $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (left chambers)"), Building::TYPE_SENATOR))
                 ->setSubType(Building::SUBTYPE_POLITICIAN)
+                ->setSenateSection(1)
                 ->setListPage(-1);
         }
         for($id = 76; $id <= 78; $id++) {
             $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (center chambers)"), Building::TYPE_SENATOR))
                 ->setSubType(Building::SUBTYPE_POLITICIAN)
+                ->setSenateSection(2)
                 ->setListPage(-1);
         }
         for($id = 79; $id <= 80; $id++) {
             $this->buildings[$id] = (new Building($id, 5, clienttranslate("Politician (right chambers)"), Building::TYPE_SENATOR))
                 ->setSubType(Building::SUBTYPE_POLITICIAN)
+                ->setSenateSection(3)
                 ->setListPage(-1);
         }
         for($id = 74; $id <= 80; $id++) {

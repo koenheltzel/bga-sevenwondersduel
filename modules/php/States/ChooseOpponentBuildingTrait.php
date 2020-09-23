@@ -37,6 +37,7 @@ trait ChooseOpponentBuildingTrait {
         if (!$player->getOpponent()->hasBuilding($buildingId)) {
             throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
         }
+        // TODO check if selected building is actually of the type that is allowed to discard?
 
         SevenWondersDuelAgora::get()->buildingDeck->insertCardOnExtremePosition($buildingId, 'discard', true);
 

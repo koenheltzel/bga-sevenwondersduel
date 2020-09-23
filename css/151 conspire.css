@@ -19,6 +19,14 @@
     margin-right: var(--gutter);
 }
 
+/* Hide/show second div */
+.current_player_is_active #swd[data-state=conspire] #conspire > div:nth-of-type(2) {
+    display: block;
+}
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #conspire > div:nth-of-type(2) {
+    display: none;
+}
+
 .current_player_is_active #swd[data-state=conspire] #conspire .conspiracy_small {
     cursor: pointer;
 }

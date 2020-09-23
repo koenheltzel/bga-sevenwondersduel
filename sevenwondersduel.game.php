@@ -65,6 +65,7 @@ class SevenWondersDuelAgora extends Table
     use SWD\States\ChooseConspiratorActionTrait;
     use SWD\States\ConspireTrait;
     use SWD\States\ChooseConspireRemnantPositionTrait;
+    use SWD\States\SenateActionsTrait;
 
     /**
      * @var SevenWondersDuelAgora
@@ -103,6 +104,9 @@ class SevenWondersDuelAgora extends Table
 
     const STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_ID = 33;
     const STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME = "chooseConspireRemnantPosition";
+
+    const STATE_SENATE_ACTIONS_ID = 34;
+    const STATE_SENATE_ACTIONS_NAME = "senateActions";
 
     // End Agora
 
@@ -148,6 +152,8 @@ class SevenWondersDuelAgora extends Table
     const VALUE_DECREE4 = "decree4";
     const VALUE_DECREE6 = "decree6";
     const VALUE_CONSPIRE_RETURN_STATE = "conspire_return_state";
+    const VALUE_SENATE_ACTIONS_SECTION = "senate_actions_section";
+    const VALUE_SENATE_ACTIONS_LEFT = "senate_actions_left";
 
     // Game options (variants)
     const OPTION_AGORA = "option_agora";
@@ -267,6 +273,8 @@ class SevenWondersDuelAgora extends Table
                 self::VALUE_DECREE4 => 31,
                 self::VALUE_DECREE6 => 32,
                 self::VALUE_CONSPIRE_RETURN_STATE => 33,
+                self::VALUE_SENATE_ACTIONS_SECTION => 34,
+                self::VALUE_SENATE_ACTIONS_LEFT => 35,
                 // Game variants
                 self::OPTION_AGORA => 110,
                 self::OPTION_AGORA_WONDERS => 111,
@@ -384,6 +392,8 @@ class SevenWondersDuelAgora extends Table
         self::setGameStateInitialValue( self::VALUE_DECREE4, 0);
         self::setGameStateInitialValue( self::VALUE_DECREE6, 0);
         self::setGameStateInitialValue( self::VALUE_CONSPIRE_RETURN_STATE, 0);
+        self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_SECTION, 0);
+        self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_LEFT, 0);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)
