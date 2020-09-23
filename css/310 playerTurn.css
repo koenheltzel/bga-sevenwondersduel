@@ -28,3 +28,9 @@
     width: calc(34px * var(--scale));
     height: calc(34px * var(--scale));
 }
+
+.current_player_is_active #swd[data-state=client_useAgeCard] .player_conspiracies .conspiracy_small[data-conspiracy-prepared="0"],
+.current_player_is_active #swd[data-state=playerTurn] .player_conspiracies .conspiracy_small[data-conspiracy-prepared="1"][data-conspiracy-triggered="0"],
+.current_player_is_active #swd[data-state=client_useAgeCard] .player_conspiracies .conspiracy_small[data-conspiracy-prepared="1"][data-conspiracy-triggered="0"] {
+    cursor: pointer;
+}

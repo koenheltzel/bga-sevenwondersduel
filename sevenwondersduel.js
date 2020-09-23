@@ -224,14 +224,14 @@ define([
                 }
 
                 if (this.agora) {
-                    // dojo.place(this.getConspiracyDivHtml(1, 18, 3), 'player_conspiracies_2310957');
-                    // dojo.place(this.getConspiracyDivHtml(2, 18, 2), 'player_conspiracies_2310957');
-                    // dojo.place(this.getConspiracyDivHtml(3, 3, 1), 'player_conspiracies_2310957');
-                    // dojo.place(this.getConspiracyDivHtml(4, 4, 0), 'player_conspiracies_2310957');
+                    // dojo.place(this.getConspiracyDivHtml(1, 18, false, 3), 'player_conspiracies_2310957');
+                    // dojo.place(this.getConspiracyDivHtml(2, 18, false, 2), 'player_conspiracies_2310957');
+                    // dojo.place(this.getConspiracyDivHtml(3, 3, false, 1), 'player_conspiracies_2310957');
+                    // dojo.place(this.getConspiracyDivHtml(4, 4, false, 0), 'player_conspiracies_2310957');
                     //
-                    // dojo.place(this.getConspiracyDivHtml(5, 18, 2), 'player_conspiracies_2310958');
-                    // dojo.place(this.getConspiracyDivHtml(8, 8, 1), 'player_conspiracies_2310958');
-                    // dojo.place(this.getConspiracyDivHtml(9, 9, 0), 'player_conspiracies_2310958');
+                    // dojo.place(this.getConspiracyDivHtml(5, 18, false, 2), 'player_conspiracies_2310958');
+                    // dojo.place(this.getConspiracyDivHtml(8, 8, false, 1), 'player_conspiracies_2310958');
+                    // dojo.place(this.getConspiracyDivHtml(9, 9, false, 0), 'player_conspiracies_2310958');
                 }
 
                 // Set setting dropdown values (translations don't work yet in the constructor, so we do it here).
@@ -308,15 +308,15 @@ define([
                             dojo.hitch(this, "onChooseConspireRemnantPositionClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-state=client_useAgeCard] #player_conspiracies_" + this.me_id + " .conspiracy_small:click",
+                        .on("#swd[data-state=client_useAgeCard] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"0\"]:click",
                             dojo.hitch(this, "onPlayerTurnPrepareConspiracySelectedClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-state=playerTurn] #player_conspiracies_" + this.me_id + " .conspiracy_small:click",
+                        .on("#swd[data-state=playerTurn] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"1\"][data-conspiracy-triggered=\"0\"]:click",
                             dojo.hitch(this, "onPlayerTurnTriggerConspiracyClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-state=client_useAgeCard] #player_conspiracies_" + this.me_id + " .conspiracy_small:click",
+                        .on("#swd[data-state=client_useAgeCard] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"1\"][data-conspiracy-triggered=\"0\"]:click",
                             dojo.hitch(this, "onPlayerTurnTriggerConspiracyClick")
                         );
 
@@ -967,12 +967,14 @@ define([
             //  \____\___/|_| |_|___/ .__/|_|_|  \__,_|\___|_|\___||___/
             //                      |_|
 
-            getConspiracyDivHtml: function (conspiracyId, spriteId, position, full=false) {
+            getConspiracyDivHtml: function (conspiracyId, spriteId, full=false, position=-1, prepared=0, triggered=0) {
                 var conspiracy = this.gamedatas.conspiracies[conspiracyId];
                 var data = {
                     jsId: conspiracyId,
                     jsName: spriteId <= 16 ? _(conspiracy.name) : '',
                     jsPosition: position,
+                    jsPrepared: prepared ? 1 : 0, // Make sure this is 0/1, not the age of the age card used to prepare
+                    jsTriggered: triggered,
                 };
                 var spritesheetColumns = 6;
                 data.jsX = (spriteId - 1) % spritesheetColumns;
@@ -1004,7 +1006,7 @@ console.log('this.myConspiracies', this.myConspiracies);
                     if (!row.triggered && playerId == this.me_id && this.myConspiracies[row.position]) {
                         id = this.myConspiracies[row.position].id;
                     }
-                    let newNode = dojo.place(this.getConspiracyDivHtml(id, row.triggered ? row.conspiracy : 18, row.position), container);
+                    let newNode = dojo.place(this.getConspiracyDivHtml(id, row.triggered ? row.conspiracy : 18, false, row.position, row.prepared, row.triggered), container);
 
                     if (row.prepared > 0) {
                         var data = {
@@ -1695,6 +1697,10 @@ console.log('this.myConspiracies', this.myConspiracies);
                     dojo.removeClass($('buttonConstructWonder'), 'bgabutton_darkgray');
                     dojo.addClass($('buttonConstructWonder'), canAffordWonder ? 'bgabutton_blue' : 'bgabutton_darkgray');
 
+                    let conspiraciesToPrepare = dojo.query('#player_conspiracies_' + this.player_id + ' .conspiracy_small[data-conspiracy-prepared="0"]');
+                    dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_blue', conspiraciesToPrepare.length > 0);
+                    dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_darkgray', conspiraciesToPrepare.length == 0);
+
                     dojo.setStyle('draftpool_actions', 'visibility', 'visible');
 
                     this.setClientState("client_useAgeCard", {
@@ -1709,12 +1715,14 @@ console.log('this.myConspiracies', this.myConspiracies);
                 }
             },
 
+            clearGreenBorder: function () {
+                dojo.query('.green_border').removeClass("green_border");
+            },
             clearRedBorder: function () {
                 Object.keys(this.gamedatas.wondersSituation[this.me_id]).forEach(dojo.hitch(this, function (index) {
                     var wonderData = this.gamedatas.wondersSituation[this.me_id][index];
                     dojo.removeClass($('wonder_' + wonderData.wonder), 'red_border');
                 }));
-                dojo.query('.green_border').removeClass("green_border");
             },
 
             //     _        _   _               _____     _                          ____                      _
@@ -1762,6 +1770,7 @@ console.log('this.myConspiracies', this.myConspiracies);
 
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
+                this.clearGreenBorder();
 
                 let oldConspiracyNodeHtml = dojo.query('#player_conspiracies_' + notif.args.playerId + ' div[data-conspiracy-position="' + notif.args.conspiracyPosition + '"]')[0].outerHTML;
 
@@ -2010,6 +2019,7 @@ console.log('this.myConspiracies', this.myConspiracies);
 
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
+                this.clearGreenBorder();
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
@@ -2110,6 +2120,7 @@ console.log('this.myConspiracies', this.myConspiracies);
 
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
+                this.clearGreenBorder();
 
                 var wonderContainer = dojo.query('#player_wonders_' + notif.args.playerId + ' #wonder_' + notif.args.wonderId + '_container')[0];
                 var coinNode = dojo.query('.player_wonder_cost', wonderContainer)[0];
@@ -2319,6 +2330,7 @@ console.log('this.myConspiracies', this.myConspiracies);
 
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
+                this.clearGreenBorder();
 
                 // Update the conspiracies situation, because now the conspiracy is prepared and the age card has been rendered.
                 this.updateConspiraciesSituation(notif.args.conspiraciesSituation);
@@ -2788,7 +2800,7 @@ console.log('this.myConspiracies', this.myConspiracies);
                         var card = args._private.conspiracies[conspiracyId];
                         var container = dojo.query('#conspire>div:nth-of-type(' + i + ')')[0];
                         // dojo.place(this.getProgressTokenDivHtml(card.id), container);
-                        dojo.place(this.getConspiracyDivHtml(conspiracyId, conspiracyId, -1, true), container);
+                        dojo.place(this.getConspiracyDivHtml(conspiracyId, conspiracyId,true), container);
                         i++;
                     }));
                     this.updateLayout();
@@ -2832,7 +2844,7 @@ console.log('this.myConspiracies', this.myConspiracies);
 
                 let conspiracyId = notif.args.conspiracyId ? notif.args.conspiracyId : 18;
 
-                var conspiracyContainerNode = dojo.place(this.getConspiracyDivHtml(conspiracyId, 18, notif.args.conspiracyPosition), 'player_conspiracies_' + notif.args.playerId);
+                var conspiracyContainerNode = dojo.place(this.getConspiracyDivHtml(conspiracyId, 18, false, notif.args.conspiracyPosition), 'player_conspiracies_' + notif.args.playerId);
 
                 this.updateLayout();
                 // var conspiracyContainerNode = $('conspiracy_' + notif.args.conspiracyId + '_container');
@@ -2884,7 +2896,7 @@ console.log('this.myConspiracies', this.myConspiracies);
                 if (this.isCurrentPlayerActive()) {
                     var container = dojo.query('#conspire>div:nth-of-type(1)')[0];
                     dojo.empty(container);
-                    dojo.place(this.getConspiracyDivHtml(args._private.conspiracyId, args._private.conspiracyId, -1, true), container);
+                    dojo.place(this.getConspiracyDivHtml(args._private.conspiracyId, args._private.conspiracyId, true), container);
 
                     dojo.style(dojo.query('#conspire>div:nth-of-type(2)')[0], 'display', 'none');
                 }
