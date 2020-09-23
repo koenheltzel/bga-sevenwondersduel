@@ -252,12 +252,11 @@ define([
                         dojo.hitch(this, "onWonderSelectionClick")
                     );
                 dojo.query('body')
-                    .on("#swd[data-state=playerTurn] #draftpool .building.available:click," +
-                        "#swd[data-state=client_useAgeCard] #draftpool .building.available:click",
+                    .on("#swd[data-state=playerTurn] #draftpool .building.available:click",
                         dojo.hitch(this, "onPlayerTurnDraftpoolClick")
                     );
                 dojo.query('body')
-                    .on("#swd[data-state=client_useAgeCard] #player_wonders_" + this.me_id + " .wonder_small:click",
+                    .on("#swd[data-client-state=client_useAgeCard] #player_wonders_" + this.me_id + " .wonder_small:click",
                         dojo.hitch(this, "onPlayerTurnConstructWonderSelectedClick")
                     );
                 dojo.query('body')
@@ -308,7 +307,7 @@ define([
                             dojo.hitch(this, "onChooseConspireRemnantPositionClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-state=client_useAgeCard] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"0\"]:click",
+                        .on("#swd[data-client-state=client_useAgeCard] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"0\"]:click",
                             dojo.hitch(this, "onPlayerTurnPrepareConspiracySelectedClick")
                         );
                     dojo.query('body')
@@ -424,9 +423,12 @@ define([
             onEnteringState: function (stateName, args) {
                 if (this.debug) console.log('Entering state: ' + stateName, args);
 
-                dojo.attr($('swd'), 'data-state', stateName);
+                // Reset the client state
+                dojo.attr($('swd'), 'data-client-state', '');
 
                 if (args.args && stateName.substring(0, 7) != "client_") {
+                    dojo.attr($('swd'), 'data-state', stateName);
+
                     // Update player coins / scores
                     if (args.args.playersSituation) {
                         this.updatePlayersSituation(args.args.playersSituation);
@@ -442,6 +444,9 @@ define([
                     if (typeof this[functionName] === 'function') {
                         this[functionName](args.args);
                     }
+                }
+                else {
+                    dojo.attr($('swd'), 'data-client-state', stateName);
                 }
             },
 
