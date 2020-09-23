@@ -160,7 +160,6 @@ define([
                 this.updateProgressTokensSituation(this.gamedatas.progressTokensSituation);
                 this.updateMilitaryTrack(this.gamedatas.militaryTrack);
                 this.updateDiscardedBuildings(this.gamedatas.discardedBuildings);
-                this.updatePlayersSituation(this.gamedatas.playersSituation);
 
                 // Setting up player boards
                 for (var player_id in gamedatas.players) {
@@ -191,6 +190,8 @@ define([
                     this.updatePlayerBuildings(player_id, this.gamedatas.playerBuildings[player_id]);
                     this.updatePlayerProgressTokens(player_id, this.gamedatas.progressTokensSituation[player_id]);
                 }
+                // After updatePlayerProgressTokens so we can highlight the Law progress token for the endgameanimation.
+                this.updatePlayersSituation(this.gamedatas.playersSituation);
 
                 // Set setting dropdown values (translations don't work yet in the constructor, so we do it here).
                 dojo.query('#setting_layout option[value="' + this.LAYOUT_PORTRAIT + '"]')[0].innerText = _('Portrait');
