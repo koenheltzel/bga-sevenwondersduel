@@ -203,4 +203,28 @@ trait PlayerTurnTrait {
 
         $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
     }
+
+    public function actionTriggerConspiracy($conspiracyId) {
+        $this->checkAction("actionTriggerConspiracy");
+
+        $player = Player::getActive();
+
+        if (!in_array($conspiracyId, $player->getConspiracyIds())) {
+            throw new \BgaUserException( clienttranslate("The Conspiracy you selected is not available.") );
+        }
+
+        $conspiracy = Conspiracy::get($conspiracyId);
+        if (!$conspiracy->isPrepared()) {
+            throw new \BgaUserException( clienttranslate("The Conspiracy you selected has not been prepared yet.") );
+        }
+        if ($conspiracy->isTriggered()) {
+            throw new \BgaUserException( clienttranslate("The Conspiracy you selected has already been triggered.") );
+        }
+
+        $conspiracy->trigger($player);
+
+        $this->incStat(1, self::STAT_CONSPIRACIES_TRIGGERED, $player->id);
+
+//        $this->gamestate->nextState( self::STATE_PLAYER_TURN_NAME);
+    }
 }

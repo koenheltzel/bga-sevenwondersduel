@@ -26,6 +26,7 @@
 }
 .conspiracy_compact {
     height: calc(var(--conspiracy-compact-height) * var(--conspiracy-small-scale));
+    backface-visibility: hidden;
 }
 
 .conspiracy_container > .conspiracy {
@@ -46,7 +47,7 @@
     top: 0;
     left: calc(17px * var(--scale));
     width: var(--building-small-width);
-    height: calc(var(--conspiracy-compact-height) * var(--conspiracy-small-scale));
+    height: calc(var(--building-small-height) * 0.63);
 }
 
 .player_conspiracies .conspiracy_container:not(.animating) .age_card_container {

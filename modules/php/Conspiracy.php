@@ -71,7 +71,6 @@ class Conspiracy extends Item {
     }
 
     public function prepare(Player $player, $building) {
-
         SevenWondersDuelAgora::get()->buildingDeck->moveCard($building->id, 'conspiracy' . $this->id);
 
         SevenWondersDuelAgora::get()->notifyAllPlayers(
@@ -82,6 +81,26 @@ class Conspiracy extends Item {
                 'position' => $this->getPosition($player),
                 'buildingId' => $building->id,
                 'buildingName' => $building->name,
+                'playerId' => $player->id,
+                'player_name' => $player->name,
+                'conspiraciesSituation' => Conspiracies::getSituation(),
+            ]
+        );
+    }
+
+    public function trigger(Player $player) {
+        // Set this conspiracy's "type_arg" to 1, which we use to indicate if the conspiracy is triggered.
+        $sql = "UPDATE conspiracy SET card_type_arg = 1 WHERE card_id='{$this->id}'";
+        self::DbQuery( $sql );
+
+        SevenWondersDuelAgora::get()->notifyAllPlayers(
+            'triggerConspiracy',
+            clienttranslate('${player_name} triggered Conspiracy “${conspiracyName}”'),
+            [
+                'i18n' => ['conspiracyName'],
+                'conspiracyPosition' => $this->getPosition($player),
+                'conspiracyId' => $this->id,
+                'conspiracyName' => $this->name,
                 'playerId' => $player->id,
                 'player_name' => $player->name,
                 'conspiraciesSituation' => Conspiracies::getSituation(),

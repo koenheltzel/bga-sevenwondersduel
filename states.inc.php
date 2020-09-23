@@ -137,6 +137,7 @@ $machinestates = [
         "action" => "enterStatePlayerTurn",
         "args" => "argPlayerTurn",
         "possibleactions" => [
+            "actionTriggerConspiracy",
             "actionConstructBuilding",
             "actionDiscardBuilding",
             "actionConstructWonder",
