@@ -64,7 +64,6 @@ class Wonder extends Item {
             }
         }
         if ($eightWonder) {
-            SevenWondersDuelAgora::get()->wonderDeck->moveCard($eightWonder->id, 'box');
             $payment->eightWonderId = $eightWonder->id;
             SevenWondersDuelAgora::get()->notifyAllPlayers(
                 'message',
@@ -75,6 +74,7 @@ class Wonder extends Item {
                     'wonderName' => $eightWonder->name,
                 ]
             );
+            SevenWondersDuelAgora::get()->wonderDeck->moveCard($eightWonder->id, 'box');
         }
 
         $this->constructEffects($player, $payment);
