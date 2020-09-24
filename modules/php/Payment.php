@@ -10,8 +10,7 @@ class Payment extends PaymentPlan
     public $militaryOldPosition = 0;
     public $militaryNewPosition = 0;
     public $militarySteps = 0;
-    public $militaryTokenNumber = 0;
-    public $militaryTokenValue = 0;
+    public $militaryTokens = [];
     public $militaryOpponentPays = 0;
 
     public $selectProgressToken = false;

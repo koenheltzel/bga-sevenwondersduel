@@ -142,22 +142,34 @@ class Item extends Base
                 ]
             );
 
-            list($payment->militaryTokenNumber, $payment->militaryTokenValue) = MilitaryTrack::getMilitaryToken();
-            if ($payment->militaryTokenValue > 0) {
-                $opponent = $player->getOpponent();
-                $payment->militaryOpponentPays = min($payment->militaryTokenValue, $opponent->getCoins());
-                if($payment->militaryOpponentPays > 0) {
-                    $opponent->increaseCoins(-$payment->militaryOpponentPays);
+            $opponent = $player->getOpponent();
+            foreach($payment->militaryTokens as &$token) {
+                $militaryOpponentPays = min($token['value'], $opponent->getCoins());
+                $token['militaryOpponentPays'] = $militaryOpponentPays;
+                if($militaryOpponentPays > 0) {
+                    $opponent->increaseCoins(-$militaryOpponentPays);
 
                     SevenWondersDuelAgora::get()->notifyAllPlayers(
                         'message',
-                        clienttranslate('The military token is removed, ${player_name} discards ${coins} coin(s)'),
+                        clienttranslate('A military “${value} coins” token is removed, ${player_name} discards ${coins} coin(s)'),
                         [
+                            'value' => $token['value'],
                             'player_name' => $opponent->name,
-                            'coins' => $payment->militaryOpponentPays,
+                            'coins' => $militaryOpponentPays,
                         ]
                     );
                 }
+                else {
+                    SevenWondersDuel::get()->notifyAllPlayers(
+                        'message',
+                        clienttranslate('A military “${value} coins” token is removed, but ${player_name} can\'t discard any coins'),
+                        [
+                            'value' => $token['value'],
+                            'player_name' => $opponent->name,
+                        ]
+                    );
+                }
+                $payment->militaryOpponentPays += $militaryOpponentPays;
             }
         }
     }

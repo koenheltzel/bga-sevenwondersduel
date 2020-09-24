@@ -9,20 +9,30 @@ use SevenWondersDuelAgora;
 class MilitaryTrack extends Base
 {
 
-    public static function movePawn(Player $player, $shields, PaymentPlan $payment) {
+    public static function movePawn(Player $player, $shields, Payment $payment) {
         // If player has progress token military, an additional shield is counted.
         if($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
             $shields += 1;
         }
         SevenWondersDuelAgora::get()->incStat($shields, SevenWondersDuelAgora::STAT_SHIELDS, $player->id);
 
-        if ($player->id <> SevenWondersDuelAgora::get()->getGameStartPlayerId()) {
-            $shields *= -1;
-        }
+        $direction = $player->id == SevenWondersDuelAgora::get()->getGameStartPlayerId() ? 1 : -1;
 
         $currentPosition = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CONFLICT_PAWN_POSITION);
-        $newPosition = max(-9, min(9, $currentPosition + $shields));
-        SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_CONFLICT_PAWN_POSITION, $newPosition);
+        $newPosition = max(-9, min(9, $currentPosition + $shields * $direction));
+
+        $i = $currentPosition;
+        while ($i != $newPosition) {
+            $i += $direction;
+            SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_CONFLICT_PAWN_POSITION, $i);
+            list($militaryTokenNumber, $militaryTokenValue) = MilitaryTrack::getMilitaryToken();
+            if ($militaryTokenValue > 0) {
+                $payment->militaryTokens[$i] = [
+                    'number' => $militaryTokenNumber,
+                    'value' => $militaryTokenValue,
+                ];
+            }
+        }
 
         $payment->militarySteps = abs($newPosition - $currentPosition);
         $payment->militaryOldPosition = $currentPosition;
