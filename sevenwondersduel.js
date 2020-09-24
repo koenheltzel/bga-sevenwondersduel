@@ -2433,6 +2433,8 @@ define([
             },
 
             onScreenWidthChange: function () {
+                // Hide zoom button as it is actually counter productive with the scaling interface.
+                dojo.style("globalaction_zoom_wrap", "display", "none");
                 this.viewportChange();
             },
 
