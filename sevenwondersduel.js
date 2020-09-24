@@ -1170,7 +1170,7 @@ console.log('this.myConspiracies', this.myConspiracies);
                     new dijit.Tooltip({
                         connectId: "game_play_area",
                         selector: '#swd:not(.nextAge) div[data-building-id]', // Not during nextAge animation
-                        position: ["above-centered", "below-centered"],
+                        position: ["above-centered", "below-centered", "after-centered", "before-centered"],
                         showDelay: this.toolTipDelay,
                         getContent: dojo.hitch(this, function (node) {
                             var id = dojo.attr(node, "data-building-id");
