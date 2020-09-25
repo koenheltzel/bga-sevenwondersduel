@@ -95,6 +95,10 @@ class Player extends Base{
         return (int)$this->getValue("player_coins");
     }
 
+    public function getCubes() {
+        return SevenWondersDuelAgora::get()->influenceCubeDeck->countCardInLocation($this->id);
+    }
+
     public function increaseCoins($increase) {
         if ($increase < 0) {
             $increase = max($increase, -$this->getCoins());

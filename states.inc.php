@@ -216,11 +216,12 @@ $machinestates = [
         "action" => "enterStateSenateActions",
         "args" => "argSenateActions",
         "possibleactions" => [
-            "actionPlaceInfluence",
+            "actionSenateActionsPlaceInfluence",
             "actionMoveInfluence",
             "actionSenateActionsSkip",
         ],
         "transitions" => [
+            SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
         ]

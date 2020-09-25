@@ -24,6 +24,7 @@ use SWD\MilitaryTrack;
 use SWD\Player;
 use SWD\Players;
 use SWD\ProgressTokens;
+use SWD\Senate;
 use SWD\Wonder;
 use SWD\Wonders;
 
@@ -148,9 +149,6 @@ class SevenWondersDuelAgora extends Table
     const VALUE_DISCARD_OPPONENT_BUILDING_WONDER = "discard_opponent_building_type";
     const VALUE_END_GAME_CONDITION = "end_game_condition";
     // Global value labels Agora
-    const VALUE_DECREE2 = "decree2";
-    const VALUE_DECREE4 = "decree4";
-    const VALUE_DECREE6 = "decree6";
     const VALUE_CONSPIRE_RETURN_STATE = "conspire_return_state";
     const VALUE_SENATE_ACTIONS_SECTION = "senate_actions_section";
     const VALUE_SENATE_ACTIONS_LEFT = "senate_actions_left";
@@ -269,9 +267,6 @@ class SevenWondersDuelAgora extends Table
                 self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER => 20,
                 self::VALUE_END_GAME_CONDITION => 21,
                 // Global variables Agora
-                self::VALUE_DECREE2 => 30,
-                self::VALUE_DECREE4 => 31,
-                self::VALUE_DECREE6 => 32,
                 self::VALUE_CONSPIRE_RETURN_STATE => 33,
                 self::VALUE_SENATE_ACTIONS_SECTION => 34,
                 self::VALUE_SENATE_ACTIONS_LEFT => 35,
@@ -388,9 +383,6 @@ class SevenWondersDuelAgora extends Table
         self::setGameStateInitialValue( self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, 0);
         self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, 0);
         // Agora
-        self::setGameStateInitialValue( self::VALUE_DECREE2, 0);
-        self::setGameStateInitialValue( self::VALUE_DECREE4, 0);
-        self::setGameStateInitialValue( self::VALUE_DECREE6, 0);
         self::setGameStateInitialValue( self::VALUE_CONSPIRE_RETURN_STATE, 0);
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_SECTION, 0);
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_LEFT, 0);
@@ -505,6 +497,7 @@ class SevenWondersDuelAgora extends Table
             $result['conspiracies'] = Material::get()->conspiracies->array;
             $result['decrees'] = Material::get()->decrees->array;
             $result['decreesSituation'] = Decrees::getSituation();
+            $result['senateSituation'] = Senate::getSituation();
             $result['myConspiracies'] = Conspiracies::getDeckCardsSorted($current_player_id);
         }
 

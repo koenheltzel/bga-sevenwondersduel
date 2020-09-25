@@ -188,6 +188,7 @@ define([
                     this.updateConspiracyDeckCount(this.gamedatas.conspiraciesSituation['deckCount']);
                     this.myConspiracies = this.gamedatas.myConspiracies;
                     this.updateConspiraciesSituation(this.gamedatas.conspiraciesSituation);
+                    this.updateSenateSituation(this.gamedatas.senateSituation);
                 }
 
                 // Setting up player boards
@@ -316,6 +317,10 @@ define([
                     dojo.query('body')
                         .on("#swd[data-state=playerTurn] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"1\"][data-conspiracy-triggered=\"0\"]:click",
                             dojo.hitch(this, "onPlayerTurnTriggerConspiracyClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-client-state=client_placeInfluence] #senate_chambers .red_stroke:click",
+                            dojo.hitch(this, "onPlaceInfluenceClick")
                         );
 
                     // Agora click handlers without event delegation:
@@ -934,6 +939,40 @@ define([
                 dojo.style(containers[6 - 1], 'display', nodes.length >= 5 ? 'inline-block' : 'none');
             },
 
+            //  ____                   _
+            // / ___|  ___ _ __   __ _| |_ ___
+            // \___ \ / _ \ '_ \ / _` | __/ _ \
+            //  ___) |  __/ | | | (_| | ||  __/
+            // |____/ \___|_| |_|\__,_|\__\___|
+            //
+
+            updateSenateSituation: function (senateSituation) {
+                if (this.debug) console.log('updateSenateSituation: ', senateSituation);
+                this.gamedatas.senateSituation = senateSituation;
+
+                Object.keys(senateSituation.chambers).forEach(dojo.hitch(this, function (chamber) {
+                    let chamberData = senateSituation.chambers[chamber];
+                    let container = dojo.query('.influence_containers>div:nth-of-type(' + chamber + ')')[0];
+                    if (chamberData[this.me_id]) {
+                        dojo.place(this.getCubeDivHtml(chamberData[this.me_id], this.me_id, chamberData.controller), container);
+                    }
+                    if (chamberData[this.opponent_id]) {
+                        dojo.place(this.getCubeDivHtml(chamberData[this.opponent_id], this.opponent_id, chamberData.controller), container);
+                    }
+                }));
+            },
+
+            getCubeDivHtml: function (count, playerId, controllerId) {
+                let conrollerClass = '';
+                var data = {
+                    jsCount: count,
+                    jsPlayerAlias: (playerId == this.me_id ? 'me' : 'opponent'),
+                    jsControllerClass: (playerId == controllerId ? 'agora_control' : ''),
+                };
+                console.log(playerId, controllerId, playerId == controllerId, data);
+                return this.format_block('jstpl_cube', data);
+            },
+
             //  ____
             // |  _ \  ___  ___ _ __ ___  ___  ___
             // | | | |/ _ \/ __| '__/ _ \/ _ \/ __|
@@ -1454,7 +1493,7 @@ console.log('this.myConspiracies', this.myConspiracies);
                 for (var playerId in this.gamedatas.players) {
                     $('player_area_' + playerId + '_coins').innerHTML = situation[playerId].coins;
                     $('player_area_' + playerId + '_score').innerHTML = situation[playerId].score;
-                    $('player_area_' + playerId + '_cubes').innerHTML = 12;
+                    $('player_area_' + playerId + '_cubes').innerHTML = situation[playerId].cubes;
                     if (typeof situation[playerId].winner != "undefined" && this.scoreCtrl[playerId]) {
                         this.scoreCtrl[playerId].setValue(situation[playerId].winner);
                     }
@@ -3000,6 +3039,36 @@ console.log('this.myConspiracies', this.myConspiracies);
                     }
 
                     this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSenateActionsSkip.html", {
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+            onPlaceInfluenceClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onPlaceInfluenceClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionSenateActionsSkip')) {
+                        return;
+                    }
+
+                    var chamber = dojo.attr(e.target, "data-chamber");
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSenateActionsPlaceInfluence.html", {
+                            chamber: chamber,
                             lock: true
                         },
                         this, function (result) {

@@ -22,6 +22,7 @@ class Players extends Base
             $data[$player->id] = [
                 'score' => $player->getScore(),
                 'coins' => $player->getCoins(),
+                'cubes' => $player->getCubes(),
                 'scienceSymbolCount' => $player->getScientificSymbolCount(),
             ];
             $scoringCategories = $player->getScoreCategories();

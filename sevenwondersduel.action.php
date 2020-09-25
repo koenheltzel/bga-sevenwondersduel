@@ -187,6 +187,23 @@ class action_sevenwondersduelagora extends APP_GameAction
         self::ajaxResponse();
     }
 
+    public function actionSenateActionsPlaceInfluence() {
+        self::setAjaxMode();
+
+        $chamber = self::getArg("chamber", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionSenateActionsPlaceInfluence($chamber);
+
+        self::ajaxResponse();
+    }
+
+    public function actionSenateActionsSkip() {
+        self::setAjaxMode();
+
+        SevenWondersDuelAgora::get()->actionSenateActionsSkip();
+
+        self::ajaxResponse();
+    }
+
 }
   
 

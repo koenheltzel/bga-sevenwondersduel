@@ -6,6 +6,7 @@ use SWD\Draftpool;
 use SWD\Player;
 use SWD\Players;
 use SWD\ProgressToken;
+use SWD\Senate;
 use SWD\Wonders;
 
 trait SenateActionsTrait {
@@ -31,8 +32,29 @@ trait SenateActionsTrait {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-    public function actionPlaceInfluence($chamber) {
-        $this->checkAction("actionPlaceInfluence");
+    public function actionSenateActionsPlaceInfluence($chamber) {
+        $this->checkAction("actionSenateActionsPlaceInfluence");
+
+        Senate::placeInfluence($chamber);
+
+        if ($this->incGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, -1) > 0) {
+            $this->gamestate->nextState( self::STATE_SENATE_ACTIONS_NAME);
+        }
+        else {
+            $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        }
+
+//        $progressToken = ProgressToken::get($progressTokenId);
+//        $payment = $progressToken->construct(Player::getActive());
+//
+//        // Return any remaining progress tokens in the active selection back to the box.
+//        $this->progressTokenDeck->moveAllCardsInLocation('selection', 'box');
+//
+//        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+    }
+
+    public function actionMoveInfluence($chamberFrom, $chamberTo) {
+        $this->checkAction("actionMoveInfluence");
 
 //        $progressToken = ProgressToken::get($progressTokenId);
 //        $payment = $progressToken->construct(Player::getActive());
@@ -45,16 +67,5 @@ trait SenateActionsTrait {
 
     public function actionSenateActionsSkip() {
         $this->checkAction("actionSenateActionsSkip");
-    }
-    public function actionMoveInfluence($chamberFrom, $chamberTo) {
-        $this->checkAction("actionMoveInfluence");
-
-//        $progressToken = ProgressToken::get($progressTokenId);
-//        $payment = $progressToken->construct(Player::getActive());
-//
-//        // Return any remaining progress tokens in the active selection back to the box.
-//        $this->progressTokenDeck->moveAllCardsInLocation('selection', 'box');
-//
-//        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
     }
 }

@@ -106,34 +106,36 @@
 
 .agora_cube > span {
     font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
-    font-size: calc(var(--scale) * var(--element-scale) * 16px);
+    font-size: calc(var(--scale) * var(--element-scale) * 18px);
     line-height: calc(var(--senate-scale) * 22px) !important;
-    text-shadow: 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white;
+    text-shadow: 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white;
     color: black;
     cursor: default;
     position: relative;
     display: inline-block;
+    width: calc(var(--senate-scale) * 22px);
+    height: calc(var(--senate-scale) * 22px);
 }
 
 .agora_cube_me {
-    background-image: url('img/agora_sprites.png');
-    display: inline-block;
-    background-position: 66.5049% 37.1359%;
-    background-size: 512.000%;
-    top: calc(var(--senate-scale) * 35px);
-    left: 0;
+background-image: url('img/agora_sprites.png');
+display: inline-block;
+background-position: 66.5049% 37.1359%;
+background-size: 512.000%;
+top: calc(var(--senate-scale) * 35px);
+left: 0;
 }
 
 .agora_cube_opponent {
-    background-image: url('img/agora_sprites.png');
-    display: inline-block;
-    background-position: 91.2621% 37.1359%;
-    background-size: 512.000%;
-    left: calc(var(--senate-scale) * 35px);
-    top: 0;
+background-image: url('img/agora_sprites.png');
+display: inline-block;
+background-position: 91.2621% 37.1359%;
+background-size: 512.000%;
+left: calc(var(--senate-scale) * 35px);
+top: 0;
 }
 
 .agora_control {
-    left: 0;
-    top: 0;
+left: 0;
+top: 0;
 }

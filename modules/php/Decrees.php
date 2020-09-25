@@ -24,22 +24,8 @@ class Decrees extends Collection {
     public static function getSituation() {
         $situation = self::getDeckCardsSorted("board");
         foreach($situation as &$card) {
-            switch ((string)$card['location_arg']) {
-                case "21":
-                    if ((int)SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_DECREE2) == 0) {
-                        $card['id'] = 17;
-                    }
-                    break;
-                case "41":
-                    if ((int)SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_DECREE4) == 0) {
-                        $card['id'] = 17;
-                    }
-                    break;
-                case "61":
-                    if ((int)SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_DECREE6) == 0) {
-                        $card['id'] = 17;
-                    }
-                    break;
+            if ((int)$card['type_arg'] == 0) {
+                $card['id'] = 17;
             }
         }
         return $situation;
