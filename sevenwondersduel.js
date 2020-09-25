@@ -121,27 +121,42 @@ define([
                 this.opponent_id = parseInt(this.gamedatas.opponent_id); // opponent = alias for the player on the top
 
                 // Do this here and not in constructor because setLayout uses gamedatas
-                if (dojo.cookie('swd_autoLayout') !== undefined) {
+                if (this.isCookieSetAndValid('swd_autoLayout', true)) {
                     this.autoLayout = parseInt(dojo.cookie('swd_autoLayout'));
                 }
-                if (!this.autoLayout && dojo.cookie('swd_layout') !== undefined) {
-                    this.layout = dojo.cookie('swd_layout');
-                    this.setLayout(this.layout);
+                if (!this.autoLayout) {
+                    if (this.isCookieSetAndValid('swd_layout')) {
+                        this.layout = dojo.cookie('swd_layout');
+                        this.setLayout(this.layout);
+                    }
+                    else {
+                        this.autoLayout = 1;
+                    }
                 }
-                if (dojo.cookie('swd_autoScale') !== undefined) {
+                if (this.isCookieSetAndValid('swd_autoScale', true)) {
                     this.autoScale = parseInt(dojo.cookie('swd_autoScale'));
                 }
-                if (!this.autoScale && dojo.cookie('swd_scale') !== undefined) {
-                    this.scale = parseFloat(dojo.cookie('swd_scale'));
-                    this.setScale(this.scale);
+                if (!this.autoScale) {
+                    if (this.isCookieSetAndValid('swd_scale', true)) {
+                        this.scale = parseFloat(dojo.cookie('swd_scale'));
+                        this.setScale(this.scale);
+                    }
+                    else {
+                        this.autoScale = 1;
+                    }
                 }
-                if (dojo.cookie('swd_autoQuality') !== undefined) {
+                if (this.isCookieSetAndValid('swd_autoQuality', true)) {
                     this.autoQuality = parseInt(dojo.cookie('swd_autoQuality'));
                 }
-                if (!this.autoQuality && dojo.cookie('swd_quality') !== undefined) {
-                    this.quality = dojo.cookie('swd_quality');
+                if (!this.autoQuality) {
+                    if (this.isCookieSetAndValid('swd_quality')) {
+                        this.quality = dojo.cookie('swd_quality');
+                    }
+                    else {
+                        this.autoQuality = 1;
+                    }
                 }
-                if (dojo.cookie('swd_opponent_cost') !== undefined) {
+                if (this.isCookieSetAndValid('swd_opponent_cost', true)) {
                     this.showOpponentCost = parseInt(dojo.cookie('swd_opponent_cost'));
                     $('setting_opponent_cost').value = this.showOpponentCost;
                 }
@@ -3644,7 +3659,21 @@ console.log('this.myConspiracies', this.myConspiracies);
                 html += (amount > 1 || resource == "coin") ? amount : '&nbsp;';
                 html += '</span></div>';
                 return html;
-            }
+            },
+
+            isCookieSetAndValid: function(name, checkIsNumber=false) {
+                if (dojo.cookie(name) !== undefined) {
+                    if (checkIsNumber && isNaN(dojo.cookie(name))) {
+                        // Cookie value is buggy, unset the cookie
+                        dojo.cookie(name, null, {expires: -1});
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+                return false;
+            },
 
         });
     });
