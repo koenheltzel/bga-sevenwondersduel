@@ -47,6 +47,7 @@ define([
             layout: "",
             autoQuality: 1,
             quality: "",
+            showOpponentCost: 1,
             cookieExpireDays: 60,
 
             // Freezes layout during disabled card selection (remembering old scroll position)
@@ -133,6 +134,10 @@ define([
                 if (!this.autoQuality && dojo.cookie('swd_quality') !== undefined) {
                     this.quality = dojo.cookie('swd_quality');
                 }
+                if (dojo.cookie('swd_opponent_cost') !== undefined) {
+                    this.showOpponentCost = parseInt(dojo.cookie('swd_opponent_cost'));
+                    $('setting_opponent_cost').value = this.showOpponentCost;
+                }
                 this.updateSettings();
                 this.updateQuality(); // To update the data-quality attribute (it's important to have called updateSettings() first, so $('setting_quality').value is set correctly).
 
@@ -201,6 +206,9 @@ define([
                 dojo.query('#setting_quality option[value="1x"]')[0].innerText = _('Normal');
                 dojo.query('#setting_quality option[value="2x"]')[0].innerText = _('High definition');
 
+                dojo.query('#setting_opponent_cost option[value="1"]')[0].innerText = _('Yes');
+                dojo.query('#setting_opponent_cost option[value="0"]')[0].innerText = _('No');
+
                 // Click handlers using event delegation:
                 dojo.query('body')
                     .on("#swd *:click",
@@ -251,6 +259,7 @@ define([
                 dojo.query("#setting_layout").on("change", dojo.hitch(this, "onSettingLayoutChange"));
                 dojo.query("#setting_auto_quality").on("change", dojo.hitch(this, "onSettingAutoQualityChange"));
                 dojo.query("#setting_quality").on("change", dojo.hitch(this, "onSettingQualityChange"));
+                dojo.query("#setting_opponent_cost").on("change", dojo.hitch(this, "onSettingOpponentCostChange"));
 
                 // Resize/scroll handler to determine layout and scale factor
                 window.addEventListener('resize', dojo.hitch(this, "onWindowUpdate"));
@@ -2628,6 +2637,14 @@ define([
                 this.updateSettings();
             },
 
+            onSettingOpponentCostChange: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+                if (this.debug) console.log('onSettingOpponentCostChange');
+
+                this.updateSettings();
+            },
+
             updateSettings: function() {
                 if (this.autoScale) {
                     dojo.attr('setting_auto_scale', 'checked', 'checked');
@@ -2659,6 +2676,9 @@ define([
                 }
                 $('setting_quality').value = this.quality;
 
+                this.showOpponentCost = parseInt($('setting_opponent_cost').value);
+                dojo.cookie('swd_opponent_cost', this.showOpponentCost, { expires: this.cookieExpireDays });
+                dojo.attr('swd', 'data-show-opponent-cost', this.showOpponentCost);
             },
 
             updateQuality: function () {

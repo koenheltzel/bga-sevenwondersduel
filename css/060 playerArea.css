@@ -279,6 +279,14 @@
     height: calc(var(--wonder-small-scale) * var(--wonder-height));
 }
 
+/* Hide opponent coins for "Show opponent cost" setting */
+#swd[data-show-opponent-cost="0"] .player_wonders.opponent .coin {
+    visibility: hidden;
+}
+#swd[data-show-opponent-cost="0"] #draftpool .opponent .coin {
+    visibility: hidden;
+}
+
 .player_area_progress_tokens {
     display: inline-block;
     text-align: center;
