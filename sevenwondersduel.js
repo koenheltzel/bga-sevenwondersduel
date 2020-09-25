@@ -3510,6 +3510,11 @@ console.log('this.myConspiracies', this.myConspiracies);
                 dojo.stopEvent(e);
                 if (this.debug) console.log('onSettingScaleChange');
 
+                // Input can be cleared, in that case restore the current scale.
+                if (isNaN(parseInt(e.target.value))) {
+                    e.target.value = parseInt(Math.round(this.scale * 100));
+                }
+
                 this.updateLayout();
                 this.updateSettings();
             },
