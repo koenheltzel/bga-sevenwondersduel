@@ -59,6 +59,16 @@ class Senate extends Base
         $cubeId = (array_keys($cubes))[0];
         $deck->moveCard($cubeId, "chamber{$chamber}");
 
+        SevenWondersDuelAgora::get()->notifyAllPlayers(
+            'placeInfluence',
+            clienttranslate('${player_name} placed an Influence cube in Senate chamber ${chamber}'),
+            [
+                'chamber' => $chamber,
+                'player_name' => $player->name,
+//                'senateAction' => $player->id,
+            ]
+        );
+
         $newController = self::getControllingPlayer($chamber);
         self::handlePossibleControlChange($oldController, $newController, $chamber);
     }

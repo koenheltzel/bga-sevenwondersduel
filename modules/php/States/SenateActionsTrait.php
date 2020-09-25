@@ -21,6 +21,7 @@ trait SenateActionsTrait {
 
             'senateActionsLeft' => $this->getGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT),
             'senateActionsSection' => $this->getGameStateValue(self::VALUE_SENATE_ACTIONS_SECTION),
+            'senateSituation' => Senate::getSituation(),
             // TODO: not sure what is needed below, I can image the cost of age/wonder cards can change with certain Decrees
 //            'draftpool' => Draftpool::get(),
 //            'wondersSituation' => Wonders::getSituation(),

@@ -469,6 +469,7 @@ define([
                     if (args.args.wondersSituation) this.updateWondersSituation(args.args.wondersSituation);
                     if (args.args._private && args.args._private.myConspiracies) this.myConspiracies = args.args._private.myConspiracies;
                     if (args.args.conspiraciesSituation) this.updateConspiraciesSituation(args.args.conspiraciesSituation);
+                    if (args.args.senateSituation) this.updateSenateSituation(args.args.senateSituation);
 
                     // We chose to group all of the states' functions together, so we create a seperate "onEnter{StateName}" function and call it here if it exists.
                     var functionName = 'onEnter' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
@@ -1069,7 +1070,6 @@ define([
 
                 let container = $('player_conspiracies_' + playerId);
                 dojo.empty(container);
-console.log('this.myConspiracies', this.myConspiracies);
                 Object.keys(rows).forEach(dojo.hitch(this, function (index) {
                     var row = rows[index];
                     let id = row.conspiracy;

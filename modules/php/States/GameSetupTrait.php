@@ -97,6 +97,7 @@ trait GameSetupTrait
             self::DbQuery( "UPDATE decree SET card_id = card_type_arg + 1000, card_type_arg = 0" );
             self::DbQuery( "UPDATE decree SET card_id = card_id - 1000" );
             self::DbQuery( "UPDATE decree SET card_location_arg = CONCAT(card_location_arg + 1, '1') WHERE card_location = 'board'" );
+            self::DbQuery( "UPDATE decree SET card_type_arg = 1 WHERE card_location_arg IN (11, 31 , 51)" ); // Reveal 3 out of 6 decrees.
 
             // Set up conspiracies
             $this->conspiracyDeck->createCards(Material::get()->conspiracies->getDeckCards());

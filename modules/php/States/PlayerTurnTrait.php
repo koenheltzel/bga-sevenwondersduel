@@ -9,6 +9,7 @@ use SWD\Conspiracy;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Players;
+use SWD\Senate;
 use SWD\Wonder;
 use SWD\Wonders;
 
@@ -30,6 +31,7 @@ trait PlayerTurnTrait {
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             $data['conspiraciesSituation'] = Conspiracies::getSituation();
             $this->addMyConspiracies($data);
+            $data['senateSituation'] = Senate::getSituation();
         }
         return $data;
     }
