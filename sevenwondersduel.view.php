@@ -53,7 +53,7 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
         $this->tpl['SETTINGS'] = self::_("Settings");
         $this->tpl['AUTOMATIC_LAYOUT_DESCRIPTION'] = self::_("Choose game layout automatically based on browser window ratio (recommended)");
         $this->tpl['MANUAL'] = self::_("Manual");
-        $this->tpl['AUTOMATIC'] = self::_("Automatic");
+        $this->tpl['AUTOMATIC'] = self::_("Automatic / description");
         $this->tpl['LAYOUT'] = self::_("Layout");
         $this->tpl['AUTOMATIC_SCALING_DESCRIPTION'] = self::_("Choose game scale automatically based on browser window size and current game situation (highly recommended)");
         $this->tpl['SCALE'] = self::_("Scale");
@@ -64,6 +64,8 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
         $this->tpl['BUILDINGS_WITH_LINKS'] = self::_("Buildings with links");
         $this->tpl['BUILDINGS_WITHOUT_LINKS'] = self::_("Buildings without links");
         $this->tpl['SETTING_SCALE_DESCRIPTION'] = self::_("(value between 50 and 200)");
+        $this->tpl['OPPONENT_COST'] = self::_("Opponent cost visible");
+        $this->tpl['OPPONENT_COST_DESCRIPTION'] = self::_("Show opponent cost for Age cards and Wonders (if disabled, this information is still available in tooltips)");
         // Agora
         $this->tpl['PREPARE_CONSPIRACY'] = self::_("Prepare a Conspiracy");
         $this->tpl['PLACE_INFLUENCE'] = self::_("Place Influence");
