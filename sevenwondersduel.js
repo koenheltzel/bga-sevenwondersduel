@@ -443,6 +443,15 @@ define([
                 dojo.subscribe('triggerConspiracy', this, "notif_triggerConspiracy");
                 this.notifqueue.setSynchronous('triggerConspiracy');
 
+                dojo.subscribe('placeInfluence', this, "notif_placeInfluence");
+                this.notifqueue.setSynchronous('placeInfluence');
+
+                dojo.subscribe('moveInfluence', this, "notif_moveInfluence");
+                this.notifqueue.setSynchronous('moveInfluence');
+
+                dojo.subscribe('removeInfluence', this, "notif_removeInfluence");
+                this.notifqueue.setSynchronous('removeInfluence');
+
             },
 
             ///////////////////////////////////////////////////
@@ -978,6 +987,7 @@ define([
                 Object.keys(senateSituation.chambers).forEach(dojo.hitch(this, function (chamber) {
                     let chamberData = senateSituation.chambers[chamber];
                     let container = dojo.query('.influence_containers>div:nth-of-type(' + chamber + ')')[0];
+                    dojo.empty(container);
                     if (chamberData[this.me_id]) {
                         dojo.place(this.getCubeDivHtml(chamberData[this.me_id], this.me_id, chamberData.controller), container);
                     }
@@ -3038,6 +3048,31 @@ define([
                     this.markSection(this.senateActionsSection);
                 }
             },
+
+            notif_placeInfluence: function (notif) {
+                if (this.debug) console.log('notif_placeInfluence', notif);
+
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(100);
+            },
+
+            notif_moveInfluence: function (notif) {
+                if (this.debug) console.log('notif_moveInfluence', notif);
+
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(100);
+            },
+
+            notif_removeInfluence: function (notif) {
+                if (this.debug) console.log('notif_removeInfluence', notif);
+
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(100);
+            },
+
             onSenateActionsMoveInfluenceButtonClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);

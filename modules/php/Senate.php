@@ -59,18 +59,20 @@ class Senate extends Base
         $cubeId = (array_keys($cubes))[0];
         $deck->moveCard($cubeId, "chamber{$chamber}");
 
+        $senateAction = new SenateAction(SenateAction::ACTION_PLACE);
+
         SevenWondersDuelAgora::get()->notifyAllPlayers(
             'placeInfluence',
             clienttranslate('${player_name} placed an Influence cube in Senate chamber ${chamber}'),
             [
                 'chamber' => $chamber,
                 'player_name' => $player->name,
-//                'senateAction' => $player->id,
+                'senateAction' => $senateAction, // Reference, so will be updated after this.
             ]
         );
 
-        $newController = self::getControllingPlayer($chamber);
-        self::handlePossibleControlChange($oldController, $newController, $chamber);
+        $newController = self::getControllingPlayer($chamber, $senateAction);
+        self::handlePossibleControlChange($oldController, $newController, $chamber, $senateAction);
     }
 
     public static function removeInfluence($chamber) {
@@ -88,13 +90,24 @@ class Senate extends Base
         $cubeId = (array_keys($cubes))[0];
         $deck->moveCard($cubeId, $opponent->id);
 
-        self::updateControl($chamber);
+        $senateAction = new SenateAction(SenateAction::ACTION_REMOVE);
 
-        $newController = self::getControllingPlayer($chamber);
-        self::handlePossibleControlChange($oldController, $newController, $chamber);
+        SevenWondersDuelAgora::get()->notifyAllPlayers(
+            'removeInfluence',
+            clienttranslate('${player_name} removed one of ${opponent_name}\'s Influence cubes from Senate chamber ${chamber}'),
+            [
+                'chamber' => $chamber,
+                'player_name' => $player->name,
+                'opponent_name' => $player->getOpponent()->name,
+                'senateAction' => $senateAction, // Reference, so will be updated after this.
+            ]
+        );
+
+        $newController = self::getControllingPlayer($chamber, $senateAction);
+        self::handlePossibleControlChange($oldController, $newController, $chamber, $senateAction);
     }
 
-    public static function moveInfluence($chamberFrom, $chamberTo, $player) {
+    public static function moveInfluence($chamberFrom, $chamberTo) {
         $player = Player::getActive();
 
         $difference = abs($chamberFrom - $chamberTo);
@@ -114,30 +127,82 @@ class Senate extends Base
         $cubeId = (array_keys($cubes))[0];
         $deck->moveCard($cubeId, "chamber{$chamberTo}");
 
-        $newControllerFrom = self::getControllingPlayer($chamberFrom);
-        $newControllerTo = self::getControllingPlayer($chamberTo);
+        $senateAction = new SenateAction(SenateAction::ACTION_MOVE);
+        $senateAction->moveFrom = $chamberFrom;
+        $senateAction->moveTo = $chamberTo;
 
-        self::handlePossibleControlChange($oldControllerFrom, $newControllerFrom, $chamberFrom);
-        self::handlePossibleControlChange($oldControllerTo, $newControllerTo, $chamberTo);
+        SevenWondersDuelAgora::get()->notifyAllPlayers(
+            'moveInfluence',
+            clienttranslate('${player_name} moves an Influence cube from Senate chamber ${chamberFrom} to chamber ${chamberTo}'),
+            [
+                'chamberFrom' => $chamberFrom,
+                'chamberTo' => $chamberTo,
+                'player_name' => $player->name,
+                'senateAction' => $senateAction, // Reference, so will be updated after this.
+            ]
+        );
+
+        $newControllerFrom = self::getControllingPlayer($chamberFrom, $senateAction);
+        $newControllerTo = self::getControllingPlayer($chamberTo, $senateAction);
+
+        self::handlePossibleControlChange($oldControllerFrom, $newControllerFrom, $chamberFrom, $senateAction);
+        self::handlePossibleControlChange($oldControllerTo, $newControllerTo, $chamberTo, $senateAction);
     }
 
-    public static function handlePossibleControlChange(?Player $oldController, ?Player $newController, $chamber) {
+    public static function handlePossibleControlChange(?Player $oldController, ?Player $newController, $chamber, SenateAction &$senateAction=null) {
         if ($oldController == $newController) {
             // Nothing changed, skip chamber
             return;
         }
         elseif(is_null($oldController)) {
             // Someone gained control
+
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
+                '',
+                clienttranslate('${player_name} gained control of Senate chamber ${chamber}'),
+                [
+                    'chamber' => $chamber,
+                    'player_name' => $newController->name,
+                ]
+            );
+
+            if ($senateAction) {
+                $decrees = Decrees::getChamberDecrees($chamber);
+                foreach ($decrees as $id => $card) {
+                    if ($card['card_type_arg'] == 0) {
+                        self::DbQuery( "UPDATE decree SET card_type_arg = 1 WHERE card_id = {$id}" ); // Reveal 3 out of 6 decrees.
+
+                        $senateAction->addDecreeReveal($chamber, $card['card_location_arg'], $id);
+
+                        SevenWondersDuelAgora::get()->notifyAllPlayers(
+                            '',
+                            clienttranslate('A Decree is revealed in Senate chamber ${chamber}'),
+                            [
+                                'chamber' => $chamber,
+                            ]
+                        );
+                    }
+                }
+            }
         }
         elseif(is_null($newController)) {
             // Someone lost control
+
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
+                '',
+                clienttranslate('${player_name} lost control of Senate chamber ${chamber}'),
+                [
+                    'chamber' => $chamber,
+                    'player_name' => $oldController->name,
+                ]
+            );
         }
         else {
             throw new BgaVisibleSystemException ( "A Senate chamber control changed hands within 1 Influence cube move, which should be impossible.");
         }
     }
 
-    public static function getControllingPlayer($chamber) {
+    public static function getControllingPlayer($chamber, SenateAction &$senateAction=null) {
         /** @var Deck $deck */
         $deck = SevenWondersDuelAgora::get()->influenceCubeDeck;
         $me = Player::me();
@@ -145,10 +210,17 @@ class Senate extends Base
 
         $meCubes = $deck->getCardsOfTypeInLocation($me->id, null, "chamber{$chamber}");
         $opponentCubes = $deck->getCardsOfTypeInLocation($opponent->id, null, "chamber{$chamber}");
-        if (count($meCubes) == count($opponentCubes)) {
-            return null;
+
+        $controllingPlayer = null;
+        if (count($meCubes) != count($opponentCubes)) {
+            $controllingPlayer = count($meCubes) > count($opponentCubes) ? $me : $opponent;
         }
-        return count($meCubes) > count($opponentCubes) ? $me : $opponent;
+
+        if ($senateAction) {
+            $senateAction->addChamber($chamber, count($meCubes), count($opponentCubes), $controllingPlayer ? $controllingPlayer->id : null);
+        }
+
+        return $controllingPlayer;
     }
 
 }

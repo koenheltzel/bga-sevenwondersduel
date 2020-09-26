@@ -44,29 +44,34 @@ trait SenateActionsTrait {
         else {
             $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
         }
-
-//        $progressToken = ProgressToken::get($progressTokenId);
-//        $payment = $progressToken->construct(Player::getActive());
-//
-//        // Return any remaining progress tokens in the active selection back to the box.
-//        $this->progressTokenDeck->moveAllCardsInLocation('selection', 'box');
-//
-//        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
     }
 
     public function actionMoveInfluence($chamberFrom, $chamberTo) {
         $this->checkAction("actionMoveInfluence");
 
-//        $progressToken = ProgressToken::get($progressTokenId);
-//        $payment = $progressToken->construct(Player::getActive());
-//
-//        // Return any remaining progress tokens in the active selection back to the box.
-//        $this->progressTokenDeck->moveAllCardsInLocation('selection', 'box');
-//
-//        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        Senate::moveInfluence($chamberFrom, $chamberTo);
+
+        if ($this->incGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, -1) > 0) {
+            $this->gamestate->nextState( self::STATE_SENATE_ACTIONS_NAME);
+        }
+        else {
+            $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        }
     }
 
     public function actionSenateActionsSkip() {
         $this->checkAction("actionSenateActionsSkip");
+
+        $this->notifyAllPlayers(
+            '',
+            clienttranslate('${player_name} skips the remaining ${actionLeft} Senate Action(s)'),
+            [
+                'actionLeft' => $this->getGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT),
+                'player_name' => Player::getActive()->name,
+            ]
+        );
+
+        $this->setGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, 0);
+        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
     }
 }

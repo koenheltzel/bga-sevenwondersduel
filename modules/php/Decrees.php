@@ -37,6 +37,24 @@ class Decrees extends Collection {
         return $cards;
     }
 
+    /*
+     * Array
+     * (
+     *     [3] => Array
+     *         (
+     *             [card_id] => 3
+     *             [card_type] =>
+     *             [card_type_arg] => 1
+     *             [card_location] => board
+     *             [card_location_arg] => 31
+     *         )
+     *
+     * )
+     */
+    public static function getChamberDecrees(int $chamber): array {
+        return self::getCollectionFromDB( "SELECT * FROM decree WHERE card_location = 'board' AND card_location_arg >= {$chamber}0 AND card_location_arg <= {$chamber}9 ORDER BY card_location_arg" );
+    }
+
     /**
      * @return Decrees
      */
