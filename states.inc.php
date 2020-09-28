@@ -217,7 +217,7 @@ $machinestates = [
         "args" => "argSenateActions",
         "possibleactions" => [
             "actionSenateActionsPlaceInfluence",
-            "actionMoveInfluence",
+            "actionSenateActionsMoveInfluence",
             "actionSenateActionsSkip",
         ],
         "transitions" => [
