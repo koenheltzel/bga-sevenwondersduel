@@ -71,6 +71,7 @@ define([
             customTooltips: [],
             windowResizeTimeoutId: null,
             autoUpdateScaleTimeoutId: null,
+            previousAvailableDimensions: null,
 
             // Animation durations
             constructBuildingAnimationDuration: 1000,
@@ -3386,16 +3387,22 @@ define([
             },
 
             onScreenWidthChange: function () {
-                // Hide zoom button as it is actually counter productive with the scaling interface.
-                dojo.style("globalaction_zoom_wrap", "display", "none");
-                this.viewportChange();
+                this.onWindowUpdate();
             },
 
             onWindowUpdate: function (e) {
-                this.viewportChange();
+                // First check if the resolution has changed. We don't have to update when just scrolling down the page (which results in stuttering motion / impossible scrolling).
+                let availableDimensions = this.getAvailableDimensions();
+                if (!this.previousAvailableDimensions || availableDimensions.toString() != this.previousAvailableDimensions.toString()) {
+                    this.previousAvailableDimensions = availableDimensions;
+                    this.viewportChange();
+                }
             },
 
             viewportChange: function (e) {
+                // Hide zoom button as it is actually counter productive with the scaling interface.
+                dojo.style("globalaction_zoom_wrap", "display", "none");
+
                 clearTimeout(this.windowResizeTimeoutId);
                 // Set up the callback
                 this.windowResizeTimeoutId = setTimeout(dojo.hitch(this, "updateLayout"), 50);
