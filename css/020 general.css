@@ -216,10 +216,26 @@
 
 @keyframes red_stroke {
     from {
-        stroke:#ff000066;
+        stroke:#ff000022;
     }
     to {
         stroke:#FF0000;
+    }
+}
+
+.gray_stroke {
+    animation: gray_stroke 0.5s infinite alternate;
+    z-index: 20;
+    stroke-width: calc(var(--senate-scale) * 7px);
+    stroke-dasharray: 10,4;
+}
+
+@keyframes gray_stroke {
+    from {
+        stroke: #aaaaaa22;
+    }
+    to {
+        stroke: #6f6f6f;
     }
 }
 

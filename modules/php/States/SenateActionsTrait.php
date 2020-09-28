@@ -46,8 +46,8 @@ trait SenateActionsTrait {
         }
     }
 
-    public function actionMoveInfluence($chamberFrom, $chamberTo) {
-        $this->checkAction("actionMoveInfluence");
+    public function actionSenateActionsMoveInfluence($chamberFrom, $chamberTo) {
+        $this->checkAction("actionSenateActionsMoveInfluence");
 
         Senate::moveInfluence($chamberFrom, $chamberTo);
 

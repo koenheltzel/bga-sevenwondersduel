@@ -196,6 +196,16 @@ class action_sevenwondersduelagora extends APP_GameAction
         self::ajaxResponse();
     }
 
+    public function actionSenateActionsMoveInfluence() {
+        self::setAjaxMode();
+
+        $chamberFrom = self::getArg("chamberFrom", AT_posint, true);
+        $chamberTo = self::getArg("chamberTo", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionSenateActionsMoveInfluence($chamberFrom, $chamberTo);
+
+        self::ajaxResponse();
+    }
+
     public function actionSenateActionsSkip() {
         self::setAjaxMode();
 

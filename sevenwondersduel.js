@@ -349,11 +349,11 @@ define([
                             dojo.hitch(this, "onPlaceInfluenceClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-client-state=client_moveInfluence] #senate_chambers .red_stroke:click",
+                        .on("#swd[data-client-state=client_moveInfluenceFrom] #senate_chambers .red_stroke:click",
                             dojo.hitch(this, "onMoveInfluenceFromClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-client-state=client_moveInfluence] #senate_chambers .green_stroke:click",
+                        .on("#swd[data-client-state=client_moveInfluenceTo] #senate_chambers .red_stroke:click",
                             dojo.hitch(this, "onMoveInfluenceToClick")
                         );
 
@@ -997,12 +997,25 @@ define([
                 Object.keys(senateSituation.chambers).forEach(dojo.hitch(this, function (chamber) {
                     let chamberData = senateSituation.chambers[chamber];
                     let container = dojo.query('.influence_containers>div:nth-of-type(' + chamber + ')')[0];
-                    dojo.empty(container);
-                    if (chamberData[this.me_id]) {
-                        dojo.place(this.getCubeDivHtml(chamberData[this.me_id], this.me_id, chamberData.controller), container);
-                    }
-                    if (chamberData[this.opponent_id]) {
-                        dojo.place(this.getCubeDivHtml(chamberData[this.opponent_id], this.opponent_id, chamberData.controller), container);
+
+                    for (let player_id of Object.values([this.me_id, this.opponent_id])) {
+                        let node = dojo.query('.agora_cube_' + this.getPlayerAlias(player_id), container)[0];
+                        if (node) {
+                            if (!chamberData[player_id]) {
+                                dojo.destroy(node);
+                                node = null;
+                            }
+                        }
+                        else {
+                            if (chamberData[player_id]) {
+                                node = dojo.place(this.getCubeDivHtml(chamberData[player_id], player_id, false), container);
+                            }
+                        }
+                        if (node) {
+                            dojo.query('span', node)[0].innerHTML = chamberData[player_id];
+                            dojo.toggleClass(node, 'agora_control' , chamberData.controller && player_id == parseInt(chamberData.controller));
+                        }
+
                     }
                 }));
             },
@@ -1014,7 +1027,6 @@ define([
                     jsPlayerAlias: (playerId == this.me_id ? 'me' : 'opponent'),
                     jsControllerClass: (playerId == controllerId ? 'agora_control' : ''),
                 };
-                console.log(playerId, controllerId, playerId == controllerId, data);
                 return this.format_block('jstpl_cube', data);
             },
 
@@ -1748,13 +1760,6 @@ define([
                 if (this.debug) console.log('onPlayerTurnDraftpoolClick');
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
-
-                // Influence cubes test animation.
-                dojo.query('.influence_containers .agora_cube').forEach(dojo.hitch(this, function (node, index, arr) {
-                    dojo.toggleClass($(node), 'agora_control');
-                }));
-
-                // dojo.toggleClass('move_target', 'agora_control');
 
                 if (this.isCurrentPlayerActive()) {
                     this.clearPlayerTurnNodeGlow();
@@ -3043,16 +3048,27 @@ define([
                 if (this.debug) console.log('onEnterSenateActions', args);
                 if (this.isCurrentPlayerActive()) {
                     this.senateActionsSection = parseInt(args.senateActionsSection);
-                    console.log('this.senateActionsSection', this.senateActionsSection);
                 }
             },
             markSection(section) {
                 let chamberStart = (section * 2) - 1;
                 this.markChambers([chamberStart, chamberStart + 1]);
             },
-            markChambers(chambers) {
+            markChambers(redChambers, greenChambers = []) {
                 for (let chamber = 1; chamber <= 6; chamber++) {
-                    $('chamber' + chamber).setAttribute("class", chambers.indexOf(chamber) > -1 ? "red_stroke" : ""); // dojo.addClass doesn't work for path/svg
+                    let node = $('chamber' + chamber);
+                    // dojo.addClass doesn't work for path/svg, so we use setAttribute
+                    node.setAttribute("class", "");
+                    if (redChambers.indexOf(chamber) > -1) {
+                        node.setAttribute("class",  "red_stroke");
+                    }
+                    else if (greenChambers.indexOf(chamber) > -1) {
+                        node.setAttribute("class",  "gray_stroke");
+                    }
+
+                    // Re-add element to DOM, this way the animations are all in sync (else if an element previously had red_stroke it will be out of sync).
+                    var nodeCopy = node.cloneNode(true);
+                    node.parentNode.replaceChild(nodeCopy, node);
                 }
             },
             onSenateActionsPlaceInfluenceButtonClick: function (e) {
@@ -3084,27 +3100,6 @@ define([
                 }
             },
 
-            notif_placeInfluence: function (notif) {
-                if (this.debug) console.log('notif_placeInfluence', notif);
-
-                this.markChambers([]);
-                Object.keys(notif.args.senateAction.chambers).forEach(dojo.hitch(this, function (chamber) {
-                    var chamberData = notif.args.senateAction.chambers[chamber];
-                    this.updateSenateChamber(chamberData);
-                }));
-
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(0);
-            },
-
-            notif_removeInfluence: function (notif) {
-                if (this.debug) console.log('notif_removeInfluence', notif);
-
-
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(100);
-            },
-
             getChambersWithMyInfluenceCubes: function() {
                 let returnChambers = [];
                 Object.keys(this.gamedatas.senateSituation.chambers).forEach(dojo.hitch(this, function (chamber) {
@@ -3116,47 +3111,6 @@ define([
                 return returnChambers;
             },
 
-            onSenateActionsMoveInfluenceButtonClick: function (e) {
-                // Preventing default browser reaction
-                dojo.stopEvent(e);
-
-                if (this.debug) console.log('onSenateActionsPlaceInfluenceButtonClick');
-
-                if (this.isCurrentPlayerActive()) {
-                    this.setClientState("client_moveInfluence", {
-                        descriptionmyturn: "${you} select a Senate chamber to move an Influence cube from, or select a different action.",
-                    });
-
-                    this.markChambers(this.getChambersWithMyInfluenceCubes());
-                }
-            },
-            onSenateActionsSkipButtonClick: function (e) {
-                // Preventing default browser reaction
-                dojo.stopEvent(e);
-
-                if (this.debug) console.log('onSenateActionsSkipButtonClick');
-
-                if (this.isCurrentPlayerActive()) {
-                    // Check that this action is possible (see "possibleactions" in states.inc.php)
-                    if (!this.checkAction('actionSenateActionsSkip')) {
-                        return;
-                    }
-
-                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSenateActionsSkip.html", {
-                            lock: true
-                        },
-                        this, function (result) {
-                            // What to do after the server call if it succeeded
-                            // (most of the time: nothing)
-
-                        }, function (is_error) {
-                            // What to do after the server call in anyway (success or failure)
-                            // (most of the time: nothing)
-
-                        }
-                    );
-                }
-            },
             onPlaceInfluenceClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
@@ -3187,6 +3141,34 @@ define([
                     );
                 }
             },
+
+            notif_placeInfluence: function (notif) {
+                if (this.debug) console.log('notif_placeInfluence', notif);
+
+                this.markChambers([]);
+                Object.keys(notif.args.senateAction.chambers).forEach(dojo.hitch(this, function (chamber) {
+                    var chamberData = notif.args.senateAction.chambers[chamber];
+                    this.updateSenateChamber(chamberData);
+                }));
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(0);
+            },
+
+            onSenateActionsMoveInfluenceButtonClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onSenateActionsPlaceInfluenceButtonClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    this.setClientState("client_moveInfluenceFrom", {
+                        descriptionmyturn: "${you} select a Senate chamber to move an Influence cube from, or select a different action.",
+                    });
+
+                    this.markChambers(this.getChambersWithMyInfluenceCubes());
+                }
+            },
             onMoveInfluenceFromClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
@@ -3199,8 +3181,18 @@ define([
                         return;
                     }
 
-                    var chamber = dojo.attr(e.target, "data-chamber");
+                    this.setClientState("client_moveInfluenceTo", {
+                        descriptionmyturn: "${you} select a Senate chamber to move the Influence cube to, or select a different action.",
+                    });
 
+                    let chamber = parseInt(dojo.attr(e.target, "data-chamber"));
+                    let toChambers = [];
+                    for (let i = Math.max(1, chamber-1); i <= Math.min(6, chamber + 1); i++) {
+                        if (i != chamber) {
+                            toChambers.push(i);
+                        }
+                    }
+                    this.markChambers(toChambers, [chamber]);
                     this.moveInfluenceFrom = chamber;
 
                 }
@@ -3240,6 +3232,51 @@ define([
             notif_moveInfluence: function (notif) {
                 if (this.debug) console.log('notif_moveInfluence', notif);
 
+                this.markChambers([]);
+                Object.keys(notif.args.senateAction.chambers).forEach(dojo.hitch(this, function (chamber) {
+                    var chamberData = notif.args.senateAction.chambers[chamber];
+                    this.updateSenateChamber(chamberData);
+                }));
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(100);
+            },
+
+            onSenateActionsSkipButtonClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onSenateActionsSkipButtonClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionSenateActionsSkip')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSenateActionsSkip.html", {
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+            notif_removeInfluence: function (notif) {
+                if (this.debug) console.log('notif_removeInfluence', notif);
+
+                this.markChambers([]);
+                Object.keys(notif.args.senateAction.chambers).forEach(dojo.hitch(this, function (chamber) {
+                    var chamberData = notif.args.senateAction.chambers[chamber];
+                    this.updateSenateChamber(chamberData);
+                }));
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(100);
