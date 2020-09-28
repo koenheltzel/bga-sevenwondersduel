@@ -21,7 +21,7 @@
     display: inline-block;
     vertical-align: middle;
     pointer-events: none;
-    font-size: calc(14px * var(--scale));
+    font-size: calc(15px * var(--scale));
 }
 
 .action_button .emblem {
