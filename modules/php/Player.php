@@ -58,7 +58,7 @@ class Player extends Base{
                     return self::get($playerId);
                 }
             }
-            throw new \BgaSystemException(clienttranslate("Opponent object couldn't be constructed."));
+            throw new \BgaSystemException("Opponent object couldn't be constructed.");
         }
     }
 
