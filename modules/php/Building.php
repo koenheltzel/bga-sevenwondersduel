@@ -133,15 +133,16 @@ class Building extends Item {
             $message = clienttranslate('${player_name} constructed discarded building “${buildingName}” for free (Wonder “${wonderName}”)');
         }
         else {
-            $message = clienttranslate('${player_name} constructed building “${buildingName}” for ${cost}');
+            $message = clienttranslate('${player_name} constructed building “${buildingName}” for ${cost} ${costUnit}');
         }
         SevenWondersDuelAgora::get()->notifyAllPlayers(
             'constructBuilding',
             $message,
             [
-                'i18n' => ['buildingName', 'wonderName', 'cost'],
+                'i18n' => ['buildingName', 'wonderName', 'costUnit'],
                 'buildingName' => $this->name,
-                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . RESOURCES[COINS] : 'free',
+                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() : "",
+                'costUnit' => $payment->totalCost() > 0 ? RESOURCES[COINS] : clienttranslate('free'),
                 'player_name' => $player->name,
                 'playerId' => $player->id,
                 'buildingId' => $this->id,

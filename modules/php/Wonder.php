@@ -37,14 +37,15 @@ class Wonder extends Item {
 
         SevenWondersDuelAgora::get()->notifyAllPlayers(
             'constructWonder',
-            clienttranslate('${player_name} constructed wonder “${wonderName}” for ${cost} using building “${buildingName}”'),
+            clienttranslate('${player_name} constructed wonder “${wonderName}” for ${cost} ${costUnit} using building “${buildingName}”'),
             [
-                'i18n' => ['wonderName', 'cost', 'buildingName'],
+                'i18n' => ['wonderName', 'costUnit', 'buildingName'],
                 'wonderId' => $this->id,
                 'wonderName' => $this->name,
                 'buildingId' => $building->id,
                 'buildingName' => $building->name,
-                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . RESOURCES[COINS] : clienttranslate('free'),
+                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() : "",
+                'costUnit' => $payment->totalCost() > 0 ? RESOURCES[COINS] : clienttranslate('free'),
                 'player_name' => $player->name,
                 'playerId' => $player->id,
                 'payment' => $payment,
