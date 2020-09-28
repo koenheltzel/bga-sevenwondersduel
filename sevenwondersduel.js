@@ -1056,7 +1056,7 @@ define([
                     new dijit.Tooltip({
                         connectId: "game_play_area",
                         selector: '.progress_token_small',
-                        position: ['before'],
+                        position: ['before', "above-centered", "below-centered", "after-centered", "before-centered"],
                         showDelay: this.toolTipDelay,
                         getContent: dojo.hitch(this, function (node) {
                             var id = dojo.attr(node, "data-progress-token-id");
