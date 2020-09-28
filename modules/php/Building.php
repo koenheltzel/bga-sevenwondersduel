@@ -113,7 +113,7 @@ class Building extends Item {
             [
                 'i18n' => ['buildingName', 'wonderName', 'cost'],
                 'buildingName' => $this->name,
-                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : 'free',
+                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . RESOURCES[COINS] : 'free',
                 'player_name' => $player->name,
                 'playerId' => $player->id,
                 'buildingId' => $this->id,
