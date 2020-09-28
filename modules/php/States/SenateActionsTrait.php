@@ -63,7 +63,7 @@ trait SenateActionsTrait {
         $this->checkAction("actionSenateActionsSkip");
 
         $this->notifyAllPlayers(
-            '',
+            'message',
             clienttranslate('${player_name} skips the remaining ${actionLeft} Senate Action(s)'),
             [
                 'actionLeft' => $this->getGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT),

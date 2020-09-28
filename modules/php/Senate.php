@@ -158,7 +158,7 @@ class Senate extends Base
             // Someone gained control
 
             SevenWondersDuelAgora::get()->notifyAllPlayers(
-                '',
+                'message',
                 clienttranslate('${player_name} gained control of Senate chamber ${chamber}'),
                 [
                     'chamber' => $chamber,
@@ -175,7 +175,7 @@ class Senate extends Base
                         $senateAction->addDecreeReveal($chamber, $card['card_location_arg'], $id);
 
                         SevenWondersDuelAgora::get()->notifyAllPlayers(
-                            '',
+                            'message',
                             clienttranslate('A Decree is revealed in Senate chamber ${chamber}'),
                             [
                                 'chamber' => $chamber,
@@ -189,7 +189,7 @@ class Senate extends Base
             // Someone lost control
 
             SevenWondersDuelAgora::get()->notifyAllPlayers(
-                '',
+                'message',
                 clienttranslate('${player_name} lost control of Senate chamber ${chamber}'),
                 [
                     'chamber' => $chamber,
