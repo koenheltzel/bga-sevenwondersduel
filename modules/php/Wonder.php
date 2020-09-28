@@ -44,7 +44,7 @@ class Wonder extends Item {
                 'wonderName' => $this->name,
                 'buildingId' => $building->id,
                 'buildingName' => $building->name,
-                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . COINS : clienttranslate('free'),
+                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() . " " . RESOURCES[COINS] : clienttranslate('free'),
                 'player_name' => $player->name,
                 'playerId' => $player->id,
                 'payment' => $payment,
