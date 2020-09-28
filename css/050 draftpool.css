@@ -41,13 +41,15 @@
 #draftpool_actions {
     text-align: center;
     visibility: hidden;
+    display: flex;
+    justify-content: space-between;
 }
 
 #draftpool_actions > a > div {
     margin-right: var(--gutter);
 }
 
-#draftpool_actions > a {
+#draftpool_actions > a, #senate_actions > a {
     margin: 0;
     height: calc(34px * var(--scale));
     font-size: calc(14px * var(--scale));

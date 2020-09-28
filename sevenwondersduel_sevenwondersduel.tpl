@@ -94,8 +94,8 @@
                         </div>
                     </div>
                     <div id="senate_actions" class="whiteblock">
-                        <a href="#" id="buttonSenateActionsPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{PLACE_INFLUENCE}</span></a>
-                        <a href="#" id="buttonSenateActionsMoveInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{MOVE_INFLUENCE}</span></a>
+                        <a href="#" id="buttonSenateActionsPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_place_influence"></div><span>{PLACE_INFLUENCE}</span></a>
+                        <a href="#" id="buttonSenateActionsMoveInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_move_influence"></div><span>{MOVE_INFLUENCE}</span></a>
                         <a href="#" id="buttonSenateActionsSkip" class="action_button bgabutton bgabutton_blue"><span>{SKIP}</span></a>
                     </div>
                     <!-- END draftpool -->
