@@ -71,7 +71,7 @@ class Item extends Base
      * @param Player $player
      * @param PaymentPlan $payment
      */
-    protected function constructEffects(Player $player, PaymentPlan $payment) {
+    protected function constructEffects(Player $player, Payment $payment) {
         // Economy Progress Token
         if ($player->getOpponent()->hasProgressToken(3) && $payment->totalCost() > 0) {
             foreach($payment->steps as $paymentStep) {
@@ -144,33 +144,58 @@ class Item extends Base
             );
 
             $opponent = $player->getOpponent();
+            $payment->militarySenateActions = [];
             foreach($payment->militaryTokens as &$token) {
-                $militaryOpponentPays = min($token['value'], $opponent->getCoins());
-                $token['militaryOpponentPays'] = $militaryOpponentPays;
-                if($militaryOpponentPays > 0) {
-                    $opponent->increaseCoins(-$militaryOpponentPays);
-
-                    SevenWondersDuelAgora::get()->notifyAllPlayers(
-                        'message',
-                        clienttranslate('A military “${value} coins” token is removed, ${player_name} discards ${coins} coin(s)'),
-                        [
-                            'value' => $token['value'],
-                            'player_name' => $opponent->name,
-                            'coins' => $militaryOpponentPays,
-                        ]
-                    );
+                if (SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::OPTION_AGORA)) {
+                    if ($token['value'] == 2) {
+                        $payment->militarySenateActions[] = SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME;
+                        SevenWondersDuelAgora::get()->notifyAllPlayers(
+                            'message',
+                            clienttranslate('A small military token is removed, ${player_name} must place an Influence cube'),
+                            [
+                                'player_name' => $opponent->name,
+                            ]
+                        );
+                    }
+                    if ($token['value'] == 5) {
+                        $payment->militarySenateActions[] = SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME;
+                        $payment->militarySenateActions[] = SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME;
+                        SevenWondersDuelAgora::get()->notifyAllPlayers(
+                            'message',
+                            clienttranslate('A large military token is removed, ${player_name} must remove an Influence cube and may move an Influence cube'),
+                            [
+                                'player_name' => $opponent->name,
+                            ]
+                        );
+                    }
                 }
                 else {
-                    SevenWondersDuel::get()->notifyAllPlayers(
-                        'message',
-                        clienttranslate('A military “${value} coins” token is removed, but ${player_name} can\'t discard any coins'),
-                        [
-                            'value' => $token['value'],
-                            'player_name' => $opponent->name,
-                        ]
-                    );
+                    $militaryOpponentPays = min($token['value'], $opponent->getCoins());
+                    $token['militaryOpponentPays'] = $militaryOpponentPays;
+                    if ($militaryOpponentPays > 0) {
+                        $opponent->increaseCoins(-$militaryOpponentPays);
+
+                        SevenWondersDuelAgora::get()->notifyAllPlayers(
+                            'message',
+                            clienttranslate('A military “${value} coins” token is removed, ${player_name} discards ${coins} coin(s)'),
+                            [
+                                'value' => $token['value'],
+                                'player_name' => $opponent->name,
+                                'coins' => $militaryOpponentPays,
+                            ]
+                        );
+                    } else {
+                        SevenWondersDuel::get()->notifyAllPlayers(
+                            'message',
+                            clienttranslate('A military “${value} coins” token is removed, but ${player_name} can\'t discard any coins'),
+                            [
+                                'value' => $token['value'],
+                                'player_name' => $opponent->name,
+                            ]
+                        );
+                    }
+                    $payment->militaryOpponentPays += $militaryOpponentPays;
                 }
-                $payment->militaryOpponentPays += $militaryOpponentPays;
             }
         }
     }

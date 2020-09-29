@@ -12,6 +12,7 @@ class Payment extends PaymentPlan
     public $militarySteps = 0;
     public $militaryTokens = [];
     public $militaryOpponentPays = 0;
+    public $militarySenateActions = [];
 
     public $selectProgressToken = false;
     public $urbanismAward = 0;

@@ -14,7 +14,10 @@ class MilitaryTrack extends Base
         if($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
             $shields += 1;
         }
-        SevenWondersDuelAgora::get()->incStat($shields, SevenWondersDuelAgora::STAT_SHIELDS, $player->id);
+
+        if (!SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::OPTION_AGORA)) {
+            SevenWondersDuelAgora::get()->incStat($shields, SevenWondersDuelAgora::STAT_SHIELDS, $player->id);
+        }
 
         $direction = $player->id == SevenWondersDuelAgora::get()->getGameStartPlayerId() ? 1 : -1;
 

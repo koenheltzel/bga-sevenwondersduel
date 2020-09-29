@@ -56,7 +56,11 @@ trait PlayerTurnTrait {
             $this->incStat(1, self::STAT_CHAINED_CONSTRUCTIONS, $player->id);
         }
 
-        if ($payment->selectProgressToken) {
+        if (count($payment->militarySenateActions) > 0) {
+            $this->setStateStack(array_merge($payment->militarySenateActions, [self::STATE_NEXT_PLAYER_TURN_NAME]));
+            $this->stateStackNextState();
+        }
+        elseif ($payment->selectProgressToken) {
             $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_NAME);
         }
         elseif ($building->subType == Building::SUBTYPE_CONSPIRATOR) {
@@ -125,6 +129,10 @@ trait PlayerTurnTrait {
             // Specific for Wonders Circus Maximus & The Statue of Zeus we check if a immediate victory (military in this case) is the case.
             // In that case, we don't have to enter the CHOOSE_OPPONENT_BUILDING state.
             $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
+        }
+        elseif (count($payment->militarySenateActions) > 0) {
+            $this->setStateStack(array_merge($payment->militarySenateActions, [self::STATE_NEXT_PLAYER_TURN_NAME]));
+            $this->stateStackNextState();
         }
         elseif (count($wonder->actionStates) > 0) {
             $this->setStateStack(array_merge($wonder->actionStates, [self::STATE_NEXT_PLAYER_TURN_NAME]));

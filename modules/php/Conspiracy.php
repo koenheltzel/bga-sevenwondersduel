@@ -66,7 +66,7 @@ class Conspiracy extends Item {
      * @param Player $player
      * @param PaymentPlan $payment
      */
-    protected function constructEffects(Player $player, PaymentPlan $payment) {
+    protected function constructEffects(Player $player, Payment $payment) {
         parent::constructEffects($player, $payment);
     }
 

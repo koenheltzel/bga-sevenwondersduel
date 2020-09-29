@@ -29,8 +29,8 @@ trait ChooseConspiratorActionTrait {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-    public function actionChooseConspiratorActionPlaceInfluence($chamber) {
-        $this->checkAction("actionChooseConspiratorPlaceInfluence");
+    public function actionChooseConspiratorActionPlaceInfluence() {
+        $this->checkAction("actionChooseConspiratorActionPlaceInfluence");
 
         $this->notifyAllPlayers(
             'message',
@@ -40,10 +40,8 @@ trait ChooseConspiratorActionTrait {
             ]
         );
 
-//        $progressToken = ProgressToken::get($progressTokenId);
-//        $payment = $progressToken->construct(Player::getActive());
-
-        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        $this->setStateStack([self::STATE_PLACE_INFLUENCE_NAME, self::STATE_NEXT_PLAYER_TURN_NAME]);
+        $this->stateStackNextState();
     }
 
     public function actionConspire() {

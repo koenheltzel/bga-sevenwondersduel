@@ -142,6 +142,14 @@ class action_sevenwondersduelagora extends APP_GameAction
 
     // Agora
 
+    public function actionChooseConspiratorActionPlaceInfluence() {
+        self::setAjaxMode();
+
+        SevenWondersDuelAgora::get()->actionChooseConspiratorActionPlaceInfluence();
+
+        self::ajaxResponse();
+    }
+
     public function actionConspire() {
         self::setAjaxMode();
 
