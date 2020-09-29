@@ -1452,7 +1452,7 @@ define([
                     dojo.setStyle('draftpool_actions', 'visibility', 'visible');
 
                     this.setClientState("client_useAgeCard", {
-                        descriptionmyturn: _("${you} must choose the action for the age card, or select a different age card."),
+                        descriptionmyturn: _("${you} must choose the action for the age card, or select a different age card"),
                     });
                 }
             },
@@ -1702,7 +1702,7 @@ define([
                     }));
 
                     this.setClientState("client_useAgeCard", {
-                        descriptionmyturn: _("${you} must select a wonder to construct, or select a different card or action."),
+                        descriptionmyturn: _("${you} must select a wonder to construct, or select a different card or action"),
                     });
                 }
             },
