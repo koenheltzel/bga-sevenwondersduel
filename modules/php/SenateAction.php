@@ -24,7 +24,7 @@ class SenateAction extends Base
         $this->chambers[$chamber] = [
             Player::me()->id => $meCount,
             Player::opponent()->id => $opponentCount,
-            "controllingPlayerId" => $controllingPlayerId,
+            "controller" => $controllingPlayerId,
             "revealDecrees" => [],
         ];
     }

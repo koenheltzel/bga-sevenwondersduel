@@ -86,7 +86,7 @@ trait SenateActionsTrait {
 
     public function senateActionNextState() {
         if ($this->gamestate->state()['name'] == self::STATE_SENATE_ACTIONS_NAME) {
-            if (parseInt($this->incGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, -1)) > 0) {
+            if ((int)($this->incGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, -1)) > 0) {
                 $this->gamestate->nextState( self::STATE_SENATE_ACTIONS_NAME);
             }
             else {

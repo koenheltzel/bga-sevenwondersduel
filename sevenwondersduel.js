@@ -998,27 +998,8 @@ define([
 
                 Object.keys(senateSituation.chambers).forEach(dojo.hitch(this, function (chamber) {
                     let chamberData = senateSituation.chambers[chamber];
-                    let container = dojo.query('.influence_containers>div:nth-of-type(' + chamber + ')')[0];
 
-                    for (let player_id of Object.values([this.me_id, this.opponent_id])) {
-                        let node = dojo.query('.agora_cube_' + this.getPlayerAlias(player_id), container)[0];
-                        if (node) {
-                            if (!chamberData[player_id]) {
-                                dojo.destroy(node);
-                                node = null;
-                            }
-                        }
-                        else {
-                            if (chamberData[player_id]) {
-                                node = dojo.place(this.getCubeDivHtml(chamberData[player_id], player_id, false), container);
-                            }
-                        }
-                        if (node) {
-                            dojo.query('span', node)[0].innerHTML = chamberData[player_id];
-                            dojo.toggleClass(node, 'agora_control' , chamberData.controller && player_id == parseInt(chamberData.controller));
-                        }
-
-                    }
+                    this.updateSenateChamber(chamber, chamberData)
                 }));
             },
 
@@ -3087,18 +3068,40 @@ define([
                 }
             },
 
-            updateSenateChamber: function(data) {
+            updateSenateChamber: function(chamber, data) {
                 if (this.debug) console.log('updateSenateChamber', data);
                 // parseInt(data[this.me_id])
                 // parseInt(data[this.opponent_id])
-                // parseInt(data.controllingPlayerId)
+                // parseInt(data.controller)
+                let container = dojo.query('.influence_containers>div:nth-of-type(' + chamber + ')')[0];
+                for (let player_id of Object.values([this.me_id, this.opponent_id])) {
+                    let node = dojo.query('.agora_cube_' + this.getPlayerAlias(player_id), container)[0];
+                    if (node) {
+                        if (!data[player_id]) {
+                            dojo.destroy(node);
+                            node = null;
+                        }
+                    }
+                    else {
+                        if (data[player_id]) {
+                            node = dojo.place(this.getCubeDivHtml(data[player_id], player_id, false), container);
+                        }
+                    }
+                    if (node) {
+                        dojo.query('span', node)[0].innerHTML = data[player_id];
+                        dojo.toggleClass(node, 'agora_control' , data.controller && player_id == parseInt(data.controller));
+                    }
 
-                for (let i = 0; i < data.revealDecrees.length; i++) {
-                    let decreeData = data.revealDecrees[i];
+                }
 
-                    let oldNode = this.getDecreeNode(decreeData.position);
-                    let newNode = this.placeDecree(parseInt(decreeData.id), decreeData.position);
-                    this.twistAnimation(oldNode, newNode);
+                if (data.revealDecrees) {
+                    for (let i = 0; i < data.revealDecrees.length; i++) {
+                        let decreeData = data.revealDecrees[i];
+
+                        let oldNode = this.getDecreeNode(decreeData.position);
+                        let newNode = this.placeDecree(parseInt(decreeData.id), decreeData.position);
+                        this.twistAnimation(oldNode, newNode);
+                    }
                 }
             },
 
@@ -3150,11 +3153,11 @@ define([
                 this.markChambers([]);
                 Object.keys(notif.args.senateAction.chambers).forEach(dojo.hitch(this, function (chamber) {
                     var chamberData = notif.args.senateAction.chambers[chamber];
-                    this.updateSenateChamber(chamberData);
+                    this.updateSenateChamber(chamber, chamberData);
                 }));
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(0);
+                this.notifqueue.setSynchronousDuration(this.twistCoinDuration);
             },
 
             onSenateActionsMoveInfluenceButtonClick: function (e) {
@@ -3237,11 +3240,11 @@ define([
                 this.markChambers([]);
                 Object.keys(notif.args.senateAction.chambers).forEach(dojo.hitch(this, function (chamber) {
                     var chamberData = notif.args.senateAction.chambers[chamber];
-                    this.updateSenateChamber(chamberData);
+                    this.updateSenateChamber(chamber, chamberData);
                 }));
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(100);
+                this.notifqueue.setSynchronousDuration(this.twistCoinDuration);
             },
 
             onSenateActionsSkipButtonClick: function (e) {
@@ -3277,11 +3280,11 @@ define([
                 this.markChambers([]);
                 Object.keys(notif.args.senateAction.chambers).forEach(dojo.hitch(this, function (chamber) {
                     var chamberData = notif.args.senateAction.chambers[chamber];
-                    this.updateSenateChamber(chamberData);
+                    this.updateSenateChamber(chamber, chamberData);
                 }));
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(100);
+                this.notifqueue.setSynchronousDuration(this.twistCoinDuration);
             },
 
             onEnterPlaceInfluence: function (args) {
