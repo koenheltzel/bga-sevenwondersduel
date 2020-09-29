@@ -4,6 +4,8 @@
 namespace SWD;
 
 
+use SevenWondersDuelAgora;
+
 class Material extends Base
 {
 
@@ -130,18 +132,20 @@ class Material extends Base
 
         $this->wonders[13] = (new Wonder(13, clienttranslate("Curia Julia")))
             ->addText(clienttranslate('When you choose this Wonder:'), false)
+            ->addText(clienttranslate('Draw 2 Conspiracy cards. Choose 1 to place in front of you face down and put the other one on the top or bottom of the deck (you choose).'))
             ->addText(clienttranslate('When you construct this Wonder:'), false)
             ->setCost([PAPYRUS => 1, GLASS => 1, CLAY => 1, WOOD => 1, STONE => 1])
+            ->addActionState(SevenWondersDuelAgora::STATE_TRIGGER_CONSPIRACY_NAME)
             ->setCoins(6)
             ->setExtraTurn();
 
         $this->wonders[14] = (new Wonder(14, clienttranslate("Knossos")))
             ->addText(clienttranslate('When you choose this Wonder:'), false)
-            ->addText(clienttranslate('Place 1 Influence cube in a Chamber of your choice'))
+            ->addText(clienttranslate('Place 1 Influence cube in a Chamber of your choice.'))
             ->addText(clienttranslate('When you construct this Wonder:'), false)
-            ->addText(clienttranslate('Place 1 Influence cube in a Chamber of your choice'))
-            ->addText(clienttranslate('Move 1 of your Influence cubes to an adjacent Chamber'))
             ->setCost([GLASS => 2, CLAY => 1, WOOD => 1, STONE => 1])
+            ->addActionState(SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME)
+            ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME)
             ->setVictoryPoints(3);
         
         //     _                  ___

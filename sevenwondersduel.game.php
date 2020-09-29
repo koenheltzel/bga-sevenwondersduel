@@ -121,6 +121,9 @@ class SevenWondersDuelAgora extends Table
     const STATE_REMOVE_INFLUENCE_ID = 37;
     const STATE_REMOVE_INFLUENCE_NAME = "removeInfluence";
 
+    const STATE_TRIGGER_CONSPIRACY_ID = 38;
+    const STATE_TRIGGER_CONSPIRACY_NAME = "triggerConspiracy";
+
     // End Agora
 
     const STATE_CHOOSE_PROGRESS_TOKEN_ID = 45;

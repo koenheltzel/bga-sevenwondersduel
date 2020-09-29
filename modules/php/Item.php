@@ -21,6 +21,7 @@ class Item extends Base
     public $victoryPoints = 0;
     public $coins = 0; // coins as a reward, not cost
     public $scientificSymbol = 0;
+    public $actionStates = [];
 
     /**
      * The visual position of the coin on the card. Percentages from the center of the card.
@@ -264,6 +265,22 @@ class Item extends Base
      */
     public function setVisualCoinPosition(array $visualCoinPosition) {
         $this->visualCoinPosition = $visualCoinPosition;
+        return $this;
+    }
+
+    /**
+     * @return static
+     */
+    public function addActionState($stateName) {
+        $this->actionStates[] = $stateName;
+        switch ($stateName) {
+            case SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME:
+                $this->addText(clienttranslate('Place 1 Influence cube in a Chamber of your choice.'));
+                break;
+            case SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME:
+                $this->addText(clienttranslate('Move 1 of your Influence cubes to an adjacent Chamber.'));
+                break;
+        }
         return $this;
     }
 

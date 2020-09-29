@@ -350,8 +350,7 @@ define([
                             dojo.hitch(this, "onPlaceInfluenceClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-client-state=client_moveInfluenceFrom] #senate_chambers .red_stroke:click," +
-                            "swd[data-state=moveInfluence] #senate_chambers .red_stroke:click",
+                        .on("#swd[data-client-state=client_moveInfluenceFrom] #senate_chambers .red_stroke:click",
                             dojo.hitch(this, "onMoveInfluenceFromClick")
                         );
                     dojo.query('body')
@@ -3062,7 +3061,7 @@ define([
 
                 if (this.isCurrentPlayerActive()) {
                     this.setClientState("client_placeInfluence", {
-                        descriptionmyturn: "${you} select a Senate chamber to place an Influence cube, or select a different action.",
+                        descriptionmyturn: "${you} select a Senate chamber to place an Influence cube, or select a different action",
                     });
                     this.markSection(this.senateActionsSection);
                 }
@@ -3168,7 +3167,7 @@ define([
 
                 if (this.isCurrentPlayerActive()) {
                     this.setClientState("client_moveInfluenceFrom", {
-                        descriptionmyturn: "${you} select a Senate chamber to move an Influence cube from, or select a different action.",
+                        descriptionmyturn: "${you} select a Senate chamber to move an Influence cube from, or select a different action",
                     });
 
                     this.markChambers(this.getChambersWithMyInfluenceCubes());
@@ -3187,7 +3186,7 @@ define([
                     }
 
                     this.setClientState("client_moveInfluenceTo", {
-                        descriptionmyturn: "${you} select a Senate chamber to move the Influence cube to, or select a different action.",
+                        descriptionmyturn: "${you} select a Senate chamber to move the Influence cube to, or select a different action",
                     });
 
                     let chamber = parseInt(dojo.attr(e.target, "data-chamber"));
@@ -3297,6 +3296,8 @@ define([
             onEnterMoveInfluence: function (args) {
                 if (this.debug) console.log('onEnterMoveInfluence', args);
                 if (this.isCurrentPlayerActive()) {
+                    this.setClientState("client_moveInfluenceFrom");
+
                     this.markChambers(this.getChambersWithMyInfluenceCubes());
                 }
             },

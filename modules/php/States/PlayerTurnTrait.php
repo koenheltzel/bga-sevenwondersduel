@@ -126,6 +126,10 @@ trait PlayerTurnTrait {
             // In that case, we don't have to enter the CHOOSE_OPPONENT_BUILDING state.
             $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
         }
+        elseif (count($wonder->actionStates) > 0) {
+            $this->setStateStack(array_merge($wonder->actionStates, [self::STATE_NEXT_PLAYER_TURN_NAME]));
+            $this->stateStackNextState();
+        }
         else {
             // Handle some special rewards that possibly require going to a separate state. If not move on to the Next Player Turn.
             switch ($wonder->id) {
