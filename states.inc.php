@@ -257,6 +257,7 @@ $machinestates = [
         "args" => "argMoveInfluence",
         "possibleactions" => [
             "actionMoveInfluence",
+            "actionSkipMoveInfluence",
         ],
         "transitions" => [
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,

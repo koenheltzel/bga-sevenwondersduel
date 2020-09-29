@@ -8,3 +8,9 @@
     display: block;
 }
 
+#move_influence {
+    display: none;
+}
+.current_player_is_active #swd[data-state=moveInfluence] #move_influence {
+    display: block;
+}

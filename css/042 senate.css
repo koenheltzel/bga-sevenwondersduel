@@ -30,7 +30,7 @@
 #senate_chambers path {
     fill:#00000000;
 }
-#senate_chambers path.red_stroke {
+#senate_chambers path.red_stroke, #senate_chambers path.gray_stroke {
     cursor: pointer;
 }
 

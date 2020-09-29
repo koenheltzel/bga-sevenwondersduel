@@ -357,12 +357,16 @@ define([
                         .on("#swd[data-client-state=client_moveInfluenceTo] #senate_chambers .red_stroke:click",
                             dojo.hitch(this, "onMoveInfluenceToClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-client-state=client_moveInfluenceTo] #senate_chambers .gray_stroke:click",
+                            dojo.hitch(this, "onMoveInfluenceCancelClick")
+                        );
 
                     // Agora click handlers without event delegation:
                     dojo.query("#buttonPrepareConspiracy").on("click", dojo.hitch(this, "onPlayerTurnPrepareConspiracyClick"));
                     dojo.query("#buttonSenateActionsPlaceInfluence").on("click", dojo.hitch(this, "onSenateActionsPlaceInfluenceButtonClick"));
                     dojo.query("#buttonSenateActionsMoveInfluence").on("click", dojo.hitch(this, "onSenateActionsMoveInfluenceButtonClick"));
-                    dojo.query("#buttonSenateActionsSkip").on("click", dojo.hitch(this, "onSenateActionsSkipButtonClick"));
+                    dojo.query("#buttonSenateActionsSkip, #buttonMoveInfluenceSkip").on("click", dojo.hitch(this, "onSenateActionsSkipButtonClick"));
                 }
 
                 // Resize/scroll handler to determine layout and scale factor
@@ -1213,6 +1217,15 @@ define([
                         selector: '.player_info .player_area_cubes>div',
                         showDelay: this.toolTipDelay,
                         label: _('Influence cubes')
+                    })
+                );
+
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "swd",
+                        selector: '#senate_chambers .gray_stroke',
+                        showDelay: this.toolTipDelay,
+                        label: _('Cancel selection')
                     })
                 );
 
@@ -3166,13 +3179,29 @@ define([
                 if (this.debug) console.log('onSenateActionsPlaceInfluenceButtonClick');
 
                 if (this.isCurrentPlayerActive()) {
-                    this.setClientState("client_moveInfluenceFrom", {
-                        descriptionmyturn: "${you} select a Senate chamber to move an Influence cube from, or select a different action",
-                    });
-
-                    this.markChambers(this.getChambersWithMyInfluenceCubes());
+                    this.selectMoveInfluenceMode();
                 }
             },
+
+            selectMoveInfluenceMode: function() {
+                this.setClientState("client_moveInfluenceFrom", {
+                    descriptionmyturn: "${you} select a Senate chamber to move an Influence cube from, or select a different action",
+                });
+
+                this.markChambers(this.getChambersWithMyInfluenceCubes());
+            },
+
+            onMoveInfluenceCancelClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onMoveInfluenceCancelClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    this.selectMoveInfluenceMode();
+                }
+            },
+
             onMoveInfluenceFromClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
@@ -3264,6 +3293,7 @@ define([
                         this, function (result) {
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
+                            this.markChambers([]);
 
                         }, function (is_error) {
                             // What to do after the server call in anyway (success or failure)
