@@ -241,16 +241,16 @@ $machinestates = [
         "transitions" => [
             SevenWondersDuelAgora::STATE_WONDER_SELECTED_NAME => SevenWondersDuelAgora::STATE_WONDER_SELECTED_ID,
             SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME,
-            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME,
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
         ]
     ],
 
     SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID => [
-        "name" => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME,
-        "description" => clienttranslate('${actplayer} must choose a Senate chamber to add an Influence cube to'),
-        "descriptionmyturn" => clienttranslate('${you} must choose a Senate chamber to add an Influence cube to'),
+        "name" => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Senate chamber to move an Influence cube from'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Senate chamber to move an Influence cube from'),
         "type" => "activeplayer",
         "action" => "enterStateMoveInfluence",
         "args" => "argMoveInfluence",

@@ -3,9 +3,7 @@
     display: none;
 }
 
-#swd[data-state=selectWonder] #wonder_selection_block,
-#swd[data-age="0"][data-state=conspire] #wonder_selection_block,
-#swd[data-age="0"][data-state=chooseConspireRemnantPosition] #wonder_selection_block {
+#swd[data-age="0"] #wonder_selection_block {
     display: block;
 }
 

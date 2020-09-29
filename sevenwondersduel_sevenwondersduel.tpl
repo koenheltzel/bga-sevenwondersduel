@@ -89,8 +89,8 @@
                         <div></div>
                         <div id="choose_conspire_remnant_position">
                             <h3>{CHOOSE_CONSPIRE_REMNANT_POSITION}</h3>
-                            <a href="#" id="buttonConspiracyRemnantTop" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{TOP}</span></a>
-                            <a href="#" id="buttonConspiracyRemnantBottom" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{BOTTOM}</span></a>
+                            <a href="#" id="buttonConspiracyRemnantTop" class="action_button bgabutton bgabutton_blue"><span>{TOP}</span></a>
+                            <a href="#" id="buttonConspiracyRemnantBottom" class="action_button bgabutton bgabutton_blue"><span>{BOTTOM}</span></a>
                         </div>
                     </div>
                     <div id="senate_actions" class="whiteblock">

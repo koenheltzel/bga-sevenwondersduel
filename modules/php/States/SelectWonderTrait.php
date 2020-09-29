@@ -100,7 +100,7 @@ trait SelectWonderTrait {
         }
         // Knossos: Place Influence, then Move Influence
         elseif ($wonderId == 14) {
-            $this->setStateStack([self::STATE_PLACE_INFLUENCE_NAME, self::STATE_MOVE_INFLUENCE_NAME, self::STATE_WONDER_SELECTED_NAME]);
+            $this->setStateStack([self::STATE_PLACE_INFLUENCE_NAME, self::STATE_WONDER_SELECTED_NAME]);
             $this->stateStackNextState();
         }
         else {

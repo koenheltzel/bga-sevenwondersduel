@@ -345,11 +345,13 @@ define([
                             dojo.hitch(this, "onPlayerTurnTriggerConspiracyClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-client-state=client_placeInfluence] #senate_chambers .red_stroke:click",
+                        .on("#swd[data-client-state=client_placeInfluence] #senate_chambers .red_stroke:click," +
+                            "#swd[data-state=placeInfluence] #senate_chambers .red_stroke:click",
                             dojo.hitch(this, "onPlaceInfluenceClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-client-state=client_moveInfluenceFrom] #senate_chambers .red_stroke:click",
+                        .on("#swd[data-client-state=client_moveInfluenceFrom] #senate_chambers .red_stroke:click," +
+                            "swd[data-state=moveInfluence] #senate_chambers .red_stroke:click",
                             dojo.hitch(this, "onMoveInfluenceFromClick")
                         );
                     dojo.query('body')
@@ -3280,6 +3282,20 @@ define([
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(100);
+            },
+
+            onEnterPlaceInfluence: function (args) {
+                if (this.debug) console.log('onEnterPlaceInfluence', args);
+                if (this.isCurrentPlayerActive()) {
+                    this.markChambers([1,2,3,4,5,6]);
+                }
+            },
+
+            onEnterMoveInfluence: function (args) {
+                if (this.debug) console.log('onEnterMoveInfluence', args);
+                if (this.isCurrentPlayerActive()) {
+                    this.markChambers(this.getChambersWithMyInfluenceCubes());
+                }
             },
 
             //  _   _           _     ____  _                         _____
