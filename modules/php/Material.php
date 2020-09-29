@@ -137,7 +137,10 @@ class Material extends Base
 
         $this->wonders[14] = (new Wonder(14, clienttranslate("Knossos")))
             ->addText(clienttranslate('When you choose this Wonder:'), false)
+            ->addText(clienttranslate('Place 1 Influence cube in a Chamber of your choice'))
             ->addText(clienttranslate('When you construct this Wonder:'), false)
+            ->addText(clienttranslate('Place 1 Influence cube in a Chamber of your choice'))
+            ->addText(clienttranslate('Move 1 of your Influence cubes to an adjacent Chamber'))
             ->setCost([GLASS => 2, CLAY => 1, WOOD => 1, STONE => 1])
             ->setVictoryPoints(3);
         

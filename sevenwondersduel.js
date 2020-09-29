@@ -3119,13 +3119,13 @@ define([
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
-                    if (!this.checkAction('actionSenateActionsPlaceInfluence')) {
+                    if (!this.checkAction('actionPlaceInfluence')) {
                         return;
                     }
 
                     var chamber = dojo.attr(e.target, "data-chamber");
 
-                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSenateActionsPlaceInfluence.html", {
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionPlaceInfluence.html", {
                             chamber: chamber,
                             lock: true
                         },
@@ -3177,7 +3177,7 @@ define([
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
-                    if (!this.checkAction('actionSenateActionsMoveInfluence')) {
+                    if (!this.checkAction('actionMoveInfluence')) {
                         return;
                     }
 
@@ -3205,13 +3205,13 @@ define([
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
-                    if (!this.checkAction('actionSenateActionsMoveInfluence')) {
+                    if (!this.checkAction('actionMoveInfluence')) {
                         return;
                     }
 
                     var chamber = dojo.attr(e.target, "data-chamber");
 
-                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSenateActionsMoveInfluence.html", {
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionMoveInfluence.html", {
                             chamberFrom: this.moveInfluenceFrom,
                             chamberTo: chamber,
                             lock: true
@@ -3250,11 +3250,11 @@ define([
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
-                    if (!this.checkAction('actionSenateActionsSkip')) {
+                    if (!this.checkAction('actionSkipMoveInfluence')) {
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSenateActionsSkip.html", {
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSkipMoveInfluence.html", {
                             lock: true
                         },
                         this, function (result) {

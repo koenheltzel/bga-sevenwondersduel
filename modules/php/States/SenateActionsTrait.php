@@ -33,45 +33,79 @@ trait SenateActionsTrait {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-    public function actionSenateActionsPlaceInfluence($chamber) {
-        $this->checkAction("actionSenateActionsPlaceInfluence");
+    public function actionPlaceInfluence($chamber) {
+        $this->checkAction("actionPlaceInfluence");
 
         Senate::placeInfluence($chamber);
 
-        if ($this->incGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, -1) > 0) {
-            $this->gamestate->nextState( self::STATE_SENATE_ACTIONS_NAME);
-        }
-        else {
-            $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
-        }
+        $this->senateActionNextState();
     }
 
-    public function actionSenateActionsMoveInfluence($chamberFrom, $chamberTo) {
-        $this->checkAction("actionSenateActionsMoveInfluence");
+    public function actionMoveInfluence($chamberFrom, $chamberTo) {
+        $this->checkAction("actionMoveInfluence");
 
         Senate::moveInfluence($chamberFrom, $chamberTo);
 
-        if ($this->incGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, -1) > 0) {
-            $this->gamestate->nextState( self::STATE_SENATE_ACTIONS_NAME);
+        $this->senateActionNextState();
+    }
+
+    public function actionSkipMoveInfluence() {
+        $this->checkAction("actionSkipMoveInfluence");
+
+        if ($this->gamestate->state()['name'] == self::STATE_SENATE_ACTIONS_NAME) {
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} skips the remaining ${actionLeft} Senate Action(s)'),
+                [
+                    'actionLeft' => $this->getGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT),
+                    'player_name' => Player::getActive()->name,
+                ]
+            );
         }
         else {
-            $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} chose not to move an Influence cube'),
+                [
+                    'player_name' => Player::getActive()->name,
+                ]
+            );
+        }
+
+        $this->setGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, 0);
+        $this->senateActionNextState();
+    }
+
+    public function actionRemoveInfluence($chamber) {
+        $this->checkAction("actionRemoveInfluence");
+
+        Senate::removeInfluence($chamber);
+
+        $this->senateActionNextState();
+    }
+
+    public function senateActionNextState() {
+        if ($this->gamestate->state()['name'] == self::STATE_SENATE_ACTIONS_NAME) {
+            if (parseInt($this->incGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, -1)) > 0) {
+                $this->gamestate->nextState( self::STATE_SENATE_ACTIONS_NAME);
+            }
+            else {
+                $this->stateStackNextState();
+            }
+        }
+        else {
+            $this->stateStackNextState();
         }
     }
 
-    public function actionSenateActionsSkip() {
-        $this->checkAction("actionSenateActionsSkip");
+    public function stateStackNextState() {
+        $stack = json_decode($this->getGameStateValue(self::VALUE_STATE_STACK));
+        $nextState = array_shift($stack);
+        $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
+        $this->gamestate->nextState( $nextState );
+    }
 
-        $this->notifyAllPlayers(
-            'message',
-            clienttranslate('${player_name} skips the remaining ${actionLeft} Senate Action(s)'),
-            [
-                'actionLeft' => $this->getGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT),
-                'player_name' => Player::getActive()->name,
-            ]
-        );
-
-        $this->setGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, 0);
-        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+    public function setStateStack($stack) {
+        $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
     }
 }

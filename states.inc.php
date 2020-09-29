@@ -74,6 +74,7 @@ $machinestates = [
         "transitions" => [
             SevenWondersDuelAgora::STATE_WONDER_SELECTED_NAME => SevenWondersDuelAgora::STATE_WONDER_SELECTED_ID,
             SevenWondersDuelAgora::STATE_CONSPIRE_NAME => SevenWondersDuelAgora::STATE_CONSPIRE_ID,
+            SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID,
         ]
     ],
 
@@ -216,12 +217,66 @@ $machinestates = [
         "action" => "enterStateSenateActions",
         "args" => "argSenateActions",
         "possibleactions" => [
-            "actionSenateActionsPlaceInfluence",
-            "actionSenateActionsMoveInfluence",
-            "actionSenateActionsSkip",
+            "actionPlaceInfluence",
+            "actionMoveInfluence",
+            "actionSkipMoveInfluence",
         ],
         "transitions" => [
             SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID => [
+        "name" => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Senate chamber to add an Influence cube to'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Senate chamber to add an Influence cube to'),
+        "type" => "activeplayer",
+        "action" => "enterStatePlaceInfluence",
+        "args" => "argPlaceInfluence",
+        "possibleactions" => [
+            "actionPlaceInfluence",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_WONDER_SELECTED_NAME => SevenWondersDuelAgora::STATE_WONDER_SELECTED_ID,
+            SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME,
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID => [
+        "name" => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Senate chamber to add an Influence cube to'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Senate chamber to add an Influence cube to'),
+        "type" => "activeplayer",
+        "action" => "enterStateMoveInfluence",
+        "args" => "argMoveInfluence",
+        "possibleactions" => [
+            "actionMoveInfluence",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_ID => [
+        "name" => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME,
+        "description" => clienttranslate('${actplayer} must choose one of your Influence cubes to remove'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Senate chamber to remove one of your opponent\'s Influence cubes from'),
+        "type" => "activeplayer",
+        "action" => "enterStateRemoveInfluence",
+        "args" => "argRemoveInfluence",
+        "possibleactions" => [
+            "actionRemoveInfluence",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
         ]

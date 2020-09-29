@@ -67,6 +67,9 @@ class SevenWondersDuelAgora extends Table
     use SWD\States\ConspireTrait;
     use SWD\States\ChooseConspireRemnantPositionTrait;
     use SWD\States\SenateActionsTrait;
+    use SWD\States\PlaceInfluenceTrait;
+    use SWD\States\MoveInfluenceTrait;
+    use SWD\States\RemoveInfluenceTrait;
 
     /**
      * @var SevenWondersDuelAgora
@@ -108,6 +111,15 @@ class SevenWondersDuelAgora extends Table
 
     const STATE_SENATE_ACTIONS_ID = 34;
     const STATE_SENATE_ACTIONS_NAME = "senateActions";
+
+    const STATE_PLACE_INFLUENCE_ID = 35;
+    const STATE_PLACE_INFLUENCE_NAME = "placeInfluence";
+
+    const STATE_MOVE_INFLUENCE_ID = 36;
+    const STATE_MOVE_INFLUENCE_NAME = "moveInfluence";
+
+    const STATE_REMOVE_INFLUENCE_ID = 37;
+    const STATE_REMOVE_INFLUENCE_NAME = "removeInfluence";
 
     // End Agora
 
@@ -152,6 +164,7 @@ class SevenWondersDuelAgora extends Table
     const VALUE_CONSPIRE_RETURN_STATE = "conspire_return_state";
     const VALUE_SENATE_ACTIONS_SECTION = "senate_actions_section";
     const VALUE_SENATE_ACTIONS_LEFT = "senate_actions_left";
+    const VALUE_STATE_STACK = "state_stack";
 
     // Game options (variants)
     const OPTION_AGORA = "option_agora";
@@ -270,6 +283,7 @@ class SevenWondersDuelAgora extends Table
                 self::VALUE_CONSPIRE_RETURN_STATE => 33,
                 self::VALUE_SENATE_ACTIONS_SECTION => 34,
                 self::VALUE_SENATE_ACTIONS_LEFT => 35,
+                self::VALUE_STATE_STACK => 36,
                 // Game variants
                 self::OPTION_AGORA => 110,
                 self::OPTION_AGORA_WONDERS => 111,
@@ -386,6 +400,7 @@ class SevenWondersDuelAgora extends Table
         self::setGameStateInitialValue( self::VALUE_CONSPIRE_RETURN_STATE, 0);
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_SECTION, 0);
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_LEFT, 0);
+        self::setGameStateInitialValue( self::VALUE_STATE_STACK, json_encode([]));
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)

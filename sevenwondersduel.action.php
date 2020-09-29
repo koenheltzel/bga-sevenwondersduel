@@ -187,29 +187,38 @@ class action_sevenwondersduelagora extends APP_GameAction
         self::ajaxResponse();
     }
 
-    public function actionSenateActionsPlaceInfluence() {
+    public function actionPlaceInfluence() {
         self::setAjaxMode();
 
         $chamber = self::getArg("chamber", AT_posint, true);
-        SevenWondersDuelAgora::get()->actionSenateActionsPlaceInfluence($chamber);
+        SevenWondersDuelAgora::get()->actionPlaceInfluence($chamber);
 
         self::ajaxResponse();
     }
 
-    public function actionSenateActionsMoveInfluence() {
+    public function actionMoveInfluence() {
         self::setAjaxMode();
 
         $chamberFrom = self::getArg("chamberFrom", AT_posint, true);
         $chamberTo = self::getArg("chamberTo", AT_posint, true);
-        SevenWondersDuelAgora::get()->actionSenateActionsMoveInfluence($chamberFrom, $chamberTo);
+        SevenWondersDuelAgora::get()->actionMoveInfluence($chamberFrom, $chamberTo);
 
         self::ajaxResponse();
     }
 
-    public function actionSenateActionsSkip() {
+    public function actionSkipMoveInfluence() {
         self::setAjaxMode();
 
-        SevenWondersDuelAgora::get()->actionSenateActionsSkip();
+        SevenWondersDuelAgora::get()->actionSkipMoveInfluence();
+
+        self::ajaxResponse();
+    }
+
+    public function actionRemoveInfluence() {
+        self::setAjaxMode();
+
+        $chamber = self::getArg("chamber", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionRemoveInfluence($chamber);
 
         self::ajaxResponse();
     }

@@ -65,7 +65,8 @@ trait PlayerTurnTrait {
         elseif ($building->subType == Building::SUBTYPE_POLITICIAN) {
             $this->setGameStateValue(self::VALUE_SENATE_ACTIONS_SECTION, $building->senateSection);
             $this->setGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, $player->getSenateActionsCount());
-            $this->gamestate->nextState( self::STATE_SENATE_ACTIONS_NAME);
+            $this->setStateStack([self::STATE_SENATE_ACTIONS_NAME, self::STATE_NEXT_PLAYER_TURN_NAME]);
+            $this->stateStackNextState();
         }
         else {
             $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);

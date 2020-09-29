@@ -98,6 +98,11 @@ trait SelectWonderTrait {
             $this->setGameStateValue(self::VALUE_CONSPIRE_RETURN_STATE, self::STATE_WONDER_SELECTED_ID);
             $this->gamestate->nextState( self::STATE_CONSPIRE_NAME );
         }
+        // Knossos: Place Influence, then Move Influence
+        elseif ($wonderId == 14) {
+            $this->setStateStack([self::STATE_PLACE_INFLUENCE_NAME, self::STATE_MOVE_INFLUENCE_NAME, self::STATE_WONDER_SELECTED_NAME]);
+            $this->stateStackNextState();
+        }
         else {
             $this->gamestate->nextState( self::STATE_WONDER_SELECTED_NAME );
         }
