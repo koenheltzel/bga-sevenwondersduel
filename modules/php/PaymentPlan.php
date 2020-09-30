@@ -16,8 +16,8 @@ class PaymentPlan extends Base
         $this->item = $item;
     }
 
-    public function addStep($resource, $amount, $cost, $itemType, $itemId, $string) {
-        $this->steps[] = new PaymentPlanStep($resource, $amount, $cost, $itemType, $itemId, $string);
+    public function addStep($resource, $amount, $cost, $itemType, $itemId, $string, $args=[]) {
+        $this->steps[] = new PaymentPlanStep($resource, $amount, $cost, $itemType, $itemId, $string, $args);
     }
 
     private static function applyMask($cost, $mask) {
@@ -46,9 +46,9 @@ class PaymentPlan extends Base
         if ($this->item instanceof Building && $player->hasBuilding($this->item->linkedBuilding)) {
             // Player has the linked building, so no building cost.
             $linkedBuilding = Building::get($this->item->linkedBuilding);
-            $string = self::_('Construction is free through linked building “${name}”');
-            $string = str_replace('${name}', self::_($linkedBuilding->name), $string);
-            $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string);
+            $string = clienttranslate('Construction is free through linked building “${name}”');
+            $args = ['name' => $linkedBuilding->name];
+            $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string, $args);
         }
         else {
             // Coins in the cost
@@ -69,9 +69,9 @@ class PaymentPlan extends Base
                             $canProduce = min($costLeft[$resource], $amount);
 
                             for ($i = 0; $i < $canProduce; $i++) {
-                                $string = self::_('Produce with building “${buildingName}”');
-                                $string = str_replace('${buildingName}', self::_($building->name), $string);
-                                $this->addStep($resource, 1, 0, Item::TYPE_BUILDING, $building->id, $string);
+                                $string = clienttranslate('Produce with building “${buildingName}”');
+                                $args = ['buildingName' => $building->name];
+                                $this->addStep($resource, 1, 0, Item::TYPE_BUILDING, $building->id, $string, $args);
                             }
 
 //                            if($print) print "<PRE>$string</PRE>";
@@ -155,15 +155,14 @@ class PaymentPlan extends Base
                                 self::subtractResource($costLeft, $resource, 1);
                                 $item = $choiceItems[$choiceItemIndex];
                                 if ($item instanceof Building) {
-                                    $string = self::_('Produce with building “${name}”');
-                                    $string = str_replace('${name}', self::_($item->name), $string);
-
-                                    $this->addStep($resource, 1, 0, Item::TYPE_BUILDING, $item->id, $string);
+                                    $string = clienttranslate('Produce with building “${name}”');
+                                    $args = ['name' => $item->name];
+                                    $this->addStep($resource, 1, 0, Item::TYPE_BUILDING, $item->id, $string, $args);
                                 }
                                 if ($item instanceof Wonder) {
-                                    $string = self::_('Produce with wonder “${name}”');
-                                    $string = str_replace('${name}', self::_($item->name), $string);
-                                    $this->addStep($resource, 1, 0, Item::TYPE_WONDER, $item->id, $string);
+                                    $string = clienttranslate('Produce with wonder “${name}”');
+                                    $args = ['name' => $item->name];
+                                    $this->addStep($resource, 1, 0, Item::TYPE_WONDER, $item->id, $string, $args);
                                 }
 //                                if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
                             }
@@ -203,9 +202,9 @@ class PaymentPlan extends Base
                 $discounted = array_diff(array_keys($costLeftFlat), count($maskCombinations) ? $mask : []); // If no mask was chosen (no choices or no choices neceasary due to discount Wonder), use an empty
                 foreach ($discounted as $flatCostIndex) {
                     $resource = $costLeftFlat[$flatCostIndex];
-                    $string = self::_('Discount by Progress token “${name}”');
-                    $string = str_replace('${name}', self::_($discountProgressToken->name), $string);
-                    $this->addStep($resource, 1, 0, Item::TYPE_PROGRESSTOKEN, $discountProgressToken->id, $string);
+                    $string = clienttranslate('Discount by Progress token “${name}”');
+                    $args = ['name' => $discountProgressToken->name];
+                    $this->addStep($resource, 1, 0, Item::TYPE_PROGRESSTOKEN, $discountProgressToken->id, $string, $args);
 
                     self::subtractResource($costLeft, $resource);
 //                            if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
@@ -293,9 +292,9 @@ class PaymentPlan extends Base
             foreach($building->fixedPriceResources as $resource => $price) {
                 if (array_key_exists($resource, $costLeft)) {
                     for ($i = 0; $i < $costLeft[$resource]; $i++) {
-                        $string = self::_('${costIcon} using building “${name}”');
-                        $string = str_replace('${name}', self::_($building->name), $string);
-                        $payment->addStep($resource, 1, $price, Item::TYPE_BUILDING, $building->id, $string);
+                        $string = clienttranslate('${costIcon} using building “${name}”');
+                        $args = ['name' => $building->name];
+                        $payment->addStep($resource, 1, $price, Item::TYPE_BUILDING, $building->id, $string, $args);
                     }
                     unset($costLeft[$resource]);
 //                    if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
@@ -310,15 +309,18 @@ class PaymentPlan extends Base
                 $cost = 2 + $opponentResourceCount;
                 $string = null;
                 if ($opponentResourceCount > 0) {
-                    $color = in_array($resource, [GLASS, PAPYRUS]) ? self::_('grey') : self::_('brown');
-                    $string = self::_('${costIcon} trade cost (opponent can produce ${count} ${resource} with ${color} cards)');
-                    $string = str_replace('${count}', $opponentResourceCount, $string);
-                    $string = str_replace('${resource}', self::_(RESOURCES[$resource]), $string);
-                    $string = str_replace('${color}', $color, $string);
+                    $color = in_array($resource, [GLASS, PAPYRUS]) ? clienttranslate('grey') : clienttranslate('brown');
+                    $string = clienttranslate('${costIcon} trade cost (opponent can produce ${count} ${resource} with ${color} cards)');
+                    $args = [
+                        'count' => $opponentResourceCount,
+                        'resource' => RESOURCES[$resource],
+                        'color' => $color,
+                    ];
                 } else {
-                    $string = self::_('${costIcon} trade cost');
+                    $args = [];
+                    $string = clienttranslate('${costIcon} trade cost');
                 }
-                $payment->addStep($resource, 1, $cost, null, null, $string);
+                $payment->addStep($resource, 1, $cost, null, null, $string, $args);
             }
             unset($costLeft[$resource]);
         }
@@ -400,14 +402,16 @@ class PaymentPlanStep
     public $itemType;
     public $itemId;
     public $string = "";
+    public $args = [];
 
-    public function __construct($resource, $amount, $cost, $itemType, $itemId, $string) {
+    public function __construct($resource, $amount, $cost, $itemType, $itemId, $string, $args = []) {
         $this->resource = $resource;
         $this->amount = $amount;
         $this->cost = $cost;
         $this->itemType = $itemType;
         $this->itemId = $itemId;
         $this->string = $string;
+        $this->args = $args;
     }
 
 }
