@@ -47,7 +47,7 @@ class PaymentPlan extends Base
             // Player has the linked building, so no building cost.
             $linkedBuilding = Building::get($this->item->linkedBuilding);
             $string = self::_('Construction is free through linked building “${name}”');
-            $string = str_replace('${name}', $linkedBuilding->name, $string);
+            $string = str_replace('${name}', self::_($linkedBuilding->name), $string);
             $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string);
         }
         else {
@@ -70,7 +70,7 @@ class PaymentPlan extends Base
 
                             for ($i = 0; $i < $canProduce; $i++) {
                                 $string = self::_('Produce with building “${buildingName}”');
-                                $string = str_replace('${buildingName}', $building->name, $string);
+                                $string = str_replace('${buildingName}', self::_($building->name), $string);
                                 $this->addStep($resource, 1, 0, Item::TYPE_BUILDING, $building->id, $string);
                             }
 
@@ -156,13 +156,13 @@ class PaymentPlan extends Base
                                 $item = $choiceItems[$choiceItemIndex];
                                 if ($item instanceof Building) {
                                     $string = self::_('Produce with building “${name}”');
-                                    $string = str_replace('${name}', $item->name, $string);
+                                    $string = str_replace('${name}', self::_($item->name), $string);
 
                                     $this->addStep($resource, 1, 0, Item::TYPE_BUILDING, $item->id, $string);
                                 }
                                 if ($item instanceof Wonder) {
                                     $string = self::_('Produce with wonder “${name}”');
-                                    $string = str_replace('${name}', $item->name, $string);
+                                    $string = str_replace('${name}', self::_($item->name), $string);
                                     $this->addStep($resource, 1, 0, Item::TYPE_WONDER, $item->id, $string);
                                 }
 //                                if($print && count($costLeft) > 0) print "<PRE>" . print_r($costLeft, true) . "</PRE>";
@@ -204,7 +204,7 @@ class PaymentPlan extends Base
                 foreach ($discounted as $flatCostIndex) {
                     $resource = $costLeftFlat[$flatCostIndex];
                     $string = self::_('Discount by Progress token “${name}”');
-                    $string = str_replace('${name}', $discountProgressToken->name, $string);
+                    $string = str_replace('${name}', self::_($discountProgressToken->name), $string);
                     $this->addStep($resource, 1, 0, Item::TYPE_PROGRESSTOKEN, $discountProgressToken->id, $string);
 
                     self::subtractResource($costLeft, $resource);
@@ -294,7 +294,7 @@ class PaymentPlan extends Base
                 if (array_key_exists($resource, $costLeft)) {
                     for ($i = 0; $i < $costLeft[$resource]; $i++) {
                         $string = self::_('${costIcon} using building “${name}”');
-                        $string = str_replace('${name}', $building->name, $string);
+                        $string = str_replace('${name}', self::_($building->name), $string);
                         $payment->addStep($resource, 1, $price, Item::TYPE_BUILDING, $building->id, $string);
                     }
                     unset($costLeft[$resource]);
@@ -313,7 +313,7 @@ class PaymentPlan extends Base
                     $color = in_array($resource, [GLASS, PAPYRUS]) ? self::_('grey') : self::_('brown');
                     $string = self::_('${costIcon} trade cost (opponent can produce ${count} ${resource} with ${color} cards)');
                     $string = str_replace('${count}', $opponentResourceCount, $string);
-                    $string = str_replace('${resource}', RESOURCES[$resource], $string);
+                    $string = str_replace('${resource}', self::_(RESOURCES[$resource]), $string);
                     $string = str_replace('${color}', $color, $string);
                 } else {
                     $string = self::_('${costIcon} trade cost');
