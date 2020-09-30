@@ -119,6 +119,7 @@ trait PlayerTurnTrait {
                             'message',
                             clienttranslate('${player_name} can\'t choose a discarded card (Wonder “${wonderName}”)'),
                             [
+                                'i18n' => ['wonderName'],
                                 'player_name' => $player->name,
                                 'wonderName' => $wonder->name
                             ]
@@ -131,6 +132,7 @@ trait PlayerTurnTrait {
                         'message',
                         clienttranslate('${player_name} must choose a Progress token from the box (Wonder “${wonderName}”)'),
                         [
+                            'i18n' => ['wonderName'],
                             'player_name' => $player->name,
                             'wonderName' => $wonder->name,
                         ]
@@ -148,6 +150,7 @@ trait PlayerTurnTrait {
                             'message',
                             clienttranslate('${player_name} can\'t choose a ${buildingType} card from the opponent (Wonder “${wonderName}”)'),
                             [
+                                'i18n' => ['wonderName', 'buildingType'],
                                 'player_name' => $player->name,
                                 'buildingType' => $wonderId == 9 ? Building::TYPE_BROWN : Building::TYPE_GREY,
                                 'wonderName' => $wonder->name
