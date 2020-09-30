@@ -1135,7 +1135,7 @@ define([
                     output += ' &rightarrow; ';
                     let args = steps[i].args;
                     args.costIcon = steps[i].cost ? this.getResourceIcon('coin', steps[i].cost) : '';
-                    output += dojo.string.substitute(steps[i].string, args);
+                    output += dojo.string.substitute(_(steps[i].string), args);
                     output += '<br/>';
                 }
                 return output;
