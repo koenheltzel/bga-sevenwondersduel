@@ -1428,7 +1428,12 @@ define([
                         output += this.getResourceIcon(steps[i].resource, steps[i].amount);
                     }
                     output += ' &rightarrow; ';
-                    output += dojo.string.substitute(steps[i].string, {costIcon: steps[i].cost ? this.getResourceIcon('coin', steps[i].cost) : ''});
+                    let args = steps[i].args;
+                    Object.keys(args).forEach(dojo.hitch(this, function (key) {
+                        args[key] = _(args[key]);
+                    }));
+                    args.costIcon = steps[i].cost ? this.getResourceIcon('coin', steps[i].cost) : '';
+                    output += dojo.string.substitute(_(steps[i].string), args);
                     output += '<br/>';
                 }
                 return output;
