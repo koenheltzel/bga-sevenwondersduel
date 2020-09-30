@@ -38,9 +38,9 @@ class PaymentPlan extends Base
 
         if ($this->item instanceof Building && $this->item->type == Building::TYPE_SENATOR) {
             $senatorCount = count($player->getBuildings()->filterByTypes([Building::TYPE_SENATOR])->array);
-            $string = self::_('Player has ${count} Senators');
-            $string = str_replace('${count}', $senatorCount, $string);
-            $this->addStep(COINS, $senatorCount, $senatorCount, null, null, $string);
+            $string = clienttranslate('Player has ${count} Senator(s)');
+            $args = ['count' => $senatorCount];
+            $this->addStep(COINS, $senatorCount, $senatorCount, null, null, $string, $args);
         }
         else {
             $startTime = microtime(true);

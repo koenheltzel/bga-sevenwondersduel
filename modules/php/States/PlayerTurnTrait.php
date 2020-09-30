@@ -248,6 +248,12 @@ trait PlayerTurnTrait {
 
         $this->incStat(1, self::STAT_CONSPIRACIES_TRIGGERED, $player->id);
 
-//        $this->gamestate->nextState( self::STATE_PLAYER_TURN_NAME);
+        if (count($conspiracy->actionStates) > 0) {
+            $this->setStateStack(array_merge($conspiracy->actionStates, [self::STATE_PLAYER_TURN_NAME]));
+            $this->stateStackNextState();
+        }
+        else {
+            $this->gamestate->nextState( self::STATE_PLAYER_TURN_NAME);
+        }
     }
 }

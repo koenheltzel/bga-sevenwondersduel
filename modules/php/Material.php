@@ -705,58 +705,82 @@ class Material extends Base
         $this->conspiracies = new Conspiracies();
 
         $this->conspiracies[1] = (new Conspiracy(1, clienttranslate("Extortion")))
-            ->addText("Take 1 unconstructed Wonder card of your choice from your opponent and add it to your City.");
+            ->addText("Take 1 unconstructed Wonder card of your choice from your opponent and add it to your City.")
+//            ->addActionState(SevenWondersDuelAgora::STATE_) // TODO
+            ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[2] = (new Conspiracy(2, clienttranslate("Blackmail")))
-            ->addText("Take half of your opponent’s Coins (rounded up) and add them to your Treasure.");
+            ->addText("Take half of your opponent’s Coins (rounded up) and add them to your Treasure.")
+//            ->addActionState(SevenWondersDuelAgora::STATE_) // TODO
+            ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[3] = (new Conspiracy(3, clienttranslate("Expropriation")))
-            ->addText("Place 1 Blue card of your choice constructed by your opponent in the discard.");
+            ->addText("Place 1 Blue card of your choice constructed by your opponent in the discard.")
+            ->addActionState(SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_NAME)
+            ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[4] = (new Conspiracy(4, clienttranslate("Swindle")))
-            ->addText("Place 1 Yellow card of your choice constructed by your opponent in the discard.");
+            ->addText("Place 1 Yellow card of your choice constructed by your opponent in the discard.")
+            ->addActionState(SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_NAME)
+            ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[5] = (new Conspiracy(5, clienttranslate("Obscurantism")))
             ->addText("Choose 1 Progress on the board or that your opponent has or out of game and place it face down on this Conspiracy. No one can use it during this game.");
+//            ->addActionState(SevenWondersDuelAgora::STATE_) // TODO
 
         $this->conspiracies[6] = (new Conspiracy(6, clienttranslate("Coup")))
             ->setMilitary(2);
 
         $this->conspiracies[7] = (new Conspiracy(7, clienttranslate("Property Fraud")))
             ->addText("Take 1 Building card placed at the end of the structure and build it for free. Senator cards cannot be chosen.");
+//            ->addActionState(SevenWondersDuelAgora::STATE_) // TODO
 
         $this->conspiracies[8] = (new Conspiracy(8, clienttranslate("Treason")))
             ->addText("In Age I, take the 3 cards removed from Age I.")
             ->addText("In Age II, take the 6 cards removed from Ages I and II (3 per Age).")
             ->addText("In Age III, take the 9 cards removed from Ages I, II and III (3 per Age).")
             ->addText("From these cards, choose 1 to play for free.", false);
+//            ->addActionState(SevenWondersDuelAgora::STATE_) // TODO
 
         $this->conspiracies[9] = (new Conspiracy(9, clienttranslate("Political Maneuver")))
             ->addText("Place 1 of your Influence cubes in a Chamber of your choice.")
             ->addText("Remove 1 of your opponent's Influence cubes of your choice from the Senate.")
-            ->addText("You can move 1 of your Influence cubes to an adjacent Chamber.");
+            ->addText("You can move 1 of your Influence cubes to an adjacent Chamber.")
+            ->addActionState(SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME)
+            ->addActionState(SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME)
+            ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[10] = (new Conspiracy(10, clienttranslate("Espionage")))
             ->addText("Take all the Progress tokens removed at the beginning of the game and choose 1 to play.");
+//            ->addActionState(SevenWondersDuelAgora::STATE_) // TODO
 
         $this->conspiracies[11] = (new Conspiracy(11, clienttranslate("Turn Of Events")))
-            ->addText("Place 1 available card in the structure in the discard. You can immediately repeat this action a second time.");
+            ->addText("Place 1 available card in the structure in the discard. You can immediately repeat this action a second time.")
+//            ->addActionState(SevenWondersDuelAgora::STATE_) // TODO
+            ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[12] = (new Conspiracy(12, clienttranslate("Embezzlement")))
             ->addText("Gain as many Coins as Influence cubes you have in the Senate.")
             ->addText("Your opponent loses as many Coins as Influence cubes they have in the Senate.");
+//            ->setCoins(3) // But dynamic
+//            ->setOpponentCoinLoss(3); // But dynamic
 
         $this->conspiracies[13] = (new Conspiracy(13, clienttranslate("Foreclosure")))
             ->addText("Take 1 Brown or Grey card of your choice from your opponent and add it to your City.");
+//            ->addActionState(SevenWondersDuelAgora::STATE_) // TODO
 
         $this->conspiracies[14] = (new Conspiracy(14, clienttranslate("Coercion")))
             ->addText("Take 1 Blue or Green card of your choice from your opponent and add it to your City. In exchange, give them 1 of your cards of the same color.");
+//            ->addActionState(SevenWondersDuelAgora::STATE_) // TODO
 
         $this->conspiracies[15] = (new Conspiracy(15, clienttranslate("Insider Influence")))
-            ->addText("Choose 1 Decree in the Senate and place it in a Chamber of your choice, under the existing Decree.");
+            ->addText("Choose 1 Decree in the Senate and place it in a Chamber of your choice, under the existing Decree.")
+//            ->addActionState(SevenWondersDuelAgora::STATE_) // TODO
+            ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[16] = (new Conspiracy(16, clienttranslate("Sabotage")))
             ->addText("Choose 1 Wonder constructed by your opponent and return it to the box. It will no longer be used for this game and the effects of this Wonder are lost.");
+//            ->addActionState(SevenWondersDuelAgora::STATE_) // TODO
 
         //  ____
         // |  _ \  ___  ___ _ __ ___  ___  ___
