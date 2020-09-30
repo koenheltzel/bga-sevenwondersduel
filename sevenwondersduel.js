@@ -38,7 +38,7 @@ define([
             LAYOUT_PORTRAIT: 'portrait',
 
             // Show console.log messages
-            debug: 0,
+            debug: 1,
 
             // Settings
             autoScale: 1,
@@ -1135,6 +1135,9 @@ define([
                     output += ' &rightarrow; ';
                     let args = steps[i].args;
                     args.costIcon = steps[i].cost ? this.getResourceIcon('coin', steps[i].cost) : '';
+                    console.log('original:', steps[i].string);
+                    console.log('translated', _(steps[i].string));
+                    console.log(args);
                     output += dojo.string.substitute(_(steps[i].string), args);
                     output += '<br/>';
                 }
