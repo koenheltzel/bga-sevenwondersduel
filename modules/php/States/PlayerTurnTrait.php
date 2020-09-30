@@ -152,7 +152,7 @@ trait PlayerTurnTrait {
                             [
                                 'i18n' => ['wonderName', 'buildingType'],
                                 'player_name' => $player->name,
-                                'buildingType' => $wonderId == 9 ? Building::TYPE_BROWN : Building::TYPE_GREY,
+                                'buildingType' => $wonderId == 9 ? clienttranslate('brown') : clienttranslate('grey'),
                                 'wonderName' => $wonder->name
                             ]
                         );
