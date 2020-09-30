@@ -4,6 +4,7 @@ namespace SWD\States;
 
 use SevenWondersDuelAgora;
 use SWD\Building;
+use SWD\Conspiracy;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Players;
@@ -18,8 +19,15 @@ trait ChooseOpponentBuildingTrait {
      * @return array
      */
     public function argChooseOpponentBuilding() {
+        $buildingType = 0;
+        if ((int)$this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER) > 0) {
+            $buildingType = $this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER) == 9 ? Building::TYPE_BROWN : Building::TYPE_GREY;
+        }
+        elseif ((int)$this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY) > 0) {
+            $buildingType = $this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY) == 3 ? Building::TYPE_BLUE : Building::TYPE_YELLOW;
+        }
         return [
-            'buildingType' => $this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER) == 9 ? Building::TYPE_BROWN : Building::TYPE_GREY,
+            'buildingType' => $buildingType,
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
@@ -41,20 +49,38 @@ trait ChooseOpponentBuildingTrait {
 
         SevenWondersDuelAgora::get()->buildingDeck->insertCardOnExtremePosition($buildingId, 'discard', true);
 
-        $this->notifyAllPlayers(
-            'opponentDiscardBuilding',
-            clienttranslate('${player_name} discarded opponent\'s building “${buildingName}” (Wonder “${wonderName}”)'),
-            [
-                'i18n' => ['buildingName', 'wonderName'],
-                'buildingName' => Building::get($buildingId)->name,
-                'wonderName' => Wonder::get($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER))->name,
-                'player_name' => $player->name,
-                'playerId' => $player->id,
-                'buildingId' => $buildingId,
-            ]
-        );
+        if ($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER) > 0) {
+            $this->notifyAllPlayers(
+                'opponentDiscardBuilding',
+                clienttranslate('${player_name} discarded opponent\'s building “${buildingName}” (Wonder “${wonderName}”)'),
+                [
+                    'i18n' => ['buildingName', 'wonderName'],
+                    'buildingName' => Building::get($buildingId)->name,
+                    'wonderName' => Wonder::get($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER))->name,
+                    'player_name' => $player->name,
+                    'playerId' => $player->id,
+                    'buildingId' => $buildingId,
+                ]
+            );
+            $this->setGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, 0);
+        }
+        elseif ($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY) > 0) {
+            $this->notifyAllPlayers(
+                'opponentDiscardBuilding',
+                clienttranslate('${player_name} discarded opponent\'s building “${buildingName}” (Conspiracy “${conspiracyName}”)'),
+                [
+                    'i18n' => ['buildingName', 'conspiracyName'],
+                    'buildingName' => Building::get($buildingId)->name,
+                    'conspiracyName' => Conspiracy::get($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY))->name,
+                    'player_name' => $player->name,
+                    'playerId' => $player->id,
+                    'buildingId' => $buildingId,
+                ]
+            );
+            $this->setGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY, 0);
+        }
 
-        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        $this->stateStackNextState(self::STATE_NEXT_PLAYER_TURN_NAME);
 
     }
 }

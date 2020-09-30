@@ -98,11 +98,16 @@ trait SenateActionsTrait {
         }
     }
 
-    public function stateStackNextState() {
+    public function stateStackNextState($stateIfEmpty = null) {
         $stack = json_decode($this->getGameStateValue(self::VALUE_STATE_STACK));
-        $nextState = array_shift($stack);
-        $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
-        $this->gamestate->nextState( $nextState );
+        if (count($stack) > 0) {
+            $nextState = array_shift($stack);
+            $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
+            $this->gamestate->nextState( $nextState );
+        }
+        else {
+            $this->gamestate->nextState( $stateIfEmpty );
+        }
     }
 
     public function setStateStack($stack) {

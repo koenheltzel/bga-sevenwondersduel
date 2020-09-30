@@ -270,6 +270,13 @@ class Player extends Base{
     }
 
     /**
+     * @return Conspiracies
+     */
+    public function getConspiracies(): Conspiracies {
+        return Conspiracies::createByConspiracyIds($this->getConspiracyIds());
+    }
+
+    /**
      * @return array
      */
     public function getConspiracyIds(): array {

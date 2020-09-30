@@ -1857,6 +1857,7 @@ define([
                             conspiracyId: conspiracyId,
                         },
                         this, function (result) {
+                            dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
                             // dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)

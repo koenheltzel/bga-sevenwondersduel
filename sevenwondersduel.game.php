@@ -161,8 +161,9 @@ class SevenWondersDuelAgora extends Table
     const VALUE_EXTRA_TURN_NORMAL = "extra_turn";
     const VALUE_EXTRA_TURN_THROUGH_THEOLOGY = "extra_turn_through_theology";
     const VALUE_AGE_START_PLAYER = "age_start_player";
-    const VALUE_DISCARD_OPPONENT_BUILDING_WONDER = "discard_opponent_building_type";
+    const VALUE_DISCARD_OPPONENT_BUILDING_WONDER = "discard_opponent_building_wonder";
     const VALUE_END_GAME_CONDITION = "end_game_condition";
+    const VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY = "discard_opponent_building_conspiracy";
     // Global value labels Agora
     const VALUE_CONSPIRE_RETURN_STATE = "conspire_return_state";
     const VALUE_SENATE_ACTIONS_SECTION = "senate_actions_section";
@@ -283,6 +284,7 @@ class SevenWondersDuelAgora extends Table
                 self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER => 20,
                 self::VALUE_END_GAME_CONDITION => 21,
                 // Global variables Agora
+            self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY => 22,
                 self::VALUE_CONSPIRE_RETURN_STATE => 33,
                 self::VALUE_SENATE_ACTIONS_SECTION => 34,
                 self::VALUE_SENATE_ACTIONS_LEFT => 35,
@@ -404,6 +406,7 @@ class SevenWondersDuelAgora extends Table
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_SECTION, 0);
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_LEFT, 0);
         self::setGameStateInitialValue( self::VALUE_STATE_STACK, json_encode([]));
+        self::setGameStateInitialValue( self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY, 0);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)

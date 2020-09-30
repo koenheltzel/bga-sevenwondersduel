@@ -176,8 +176,8 @@ trait PlayerTurnTrait {
                     break;
                 case 9: // Wonder The Statue of Zeus - Discard a brown building of your choice constructed by your opponent.
                 case 12: // Wonder Circus Maximus - Discard a grey building of your choice constructed by your opponent.
-                    $this->setGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, $wonderId);
                     if (count(Player::opponent()->getBuildings()->filterByTypes([$wonderId == 9 ? Building::TYPE_BROWN : Building::TYPE_GREY])->array) > 0) {
+                        $this->setGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, $wonderId);
                         $this->gamestate->nextState( self::STATE_CHOOSE_OPPONENT_BUILDING_NAME);
                     }
                     else {
@@ -248,12 +248,34 @@ trait PlayerTurnTrait {
 
         $this->incStat(1, self::STAT_CONSPIRACIES_TRIGGERED, $player->id);
 
-        if (count($conspiracy->actionStates) > 0) {
-            $this->setStateStack(array_merge($conspiracy->actionStates, [self::STATE_PLAYER_TURN_NAME]));
-            $this->stateStackNextState();
-        }
-        else {
-            $this->gamestate->nextState( self::STATE_PLAYER_TURN_NAME);
+        switch($conspiracyId) {
+            case 3:
+            case 4:
+                if (count(Player::opponent()->getBuildings()->filterByTypes([$conspiracyId == 3 ? Building::TYPE_BLUE : Building::TYPE_YELLOW])->array) > 0) {
+                    $this->setGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY, $conspiracy->id);
+
+                    $this->setStateStack(array_merge($conspiracy->actionStates, [self::STATE_PLAYER_TURN_NAME]));
+                    $this->stateStackNextState();
+                }
+                else {
+                    $this->notifyAllPlayers(
+                        'message',
+                        clienttranslate('${player_name} can\'t choose a ${buildingType} card from the opponent (Conspiracy “${conspiracyName}”)'),
+                        [
+                            'i18n' => ['conspiracyName', 'buildingType'],
+                            'player_name' => $player->name,
+                            'buildingType' => $conspiracyId == 3 ? clienttranslate('blue') : clienttranslate('yellow'),
+                            'conspiracyName' => $conspiracy->name
+                        ]
+                    );
+                    array_shift($conspiracy->actionStates); // Remove discard opponent state from stack.
+                    $this->setStateStack(array_merge($conspiracy->actionStates, [self::STATE_PLAYER_TURN_NAME]));
+                    $this->stateStackNextState();
+                }
+                break;
+            default:
+                $this->gamestate->nextState( self::STATE_PLAYER_TURN_NAME);
+                break;
         }
     }
 }
