@@ -274,7 +274,8 @@ trait PlayerTurnTrait {
                 }
                 break;
             default:
-                $this->gamestate->nextState( self::STATE_PLAYER_TURN_NAME);
+                $this->setStateStack(array_merge($conspiracy->actionStates, [self::STATE_PLAYER_TURN_NAME]));
+                $this->stateStackNextState();
                 break;
         }
     }

@@ -350,6 +350,10 @@ define([
                             dojo.hitch(this, "onPlaceInfluenceClick")
                         );
                     dojo.query('body')
+                        .on("#swd[data-state=removeInfluence] #senate_chambers .red_stroke:click",
+                            dojo.hitch(this, "onRemoveInfluenceClick")
+                        );
+                    dojo.query('body')
                         .on("#swd[data-client-state=client_moveInfluenceFrom] #senate_chambers .red_stroke:click",
                             dojo.hitch(this, "onMoveInfluenceFromClick")
                         );
@@ -3141,11 +3145,11 @@ define([
                 }
             },
 
-            getChambersWithMyInfluenceCubes: function() {
+            getChambersWithPlayerInfluenceCubes: function(player_id) {
                 let returnChambers = [];
                 Object.keys(this.gamedatas.senateSituation.chambers).forEach(dojo.hitch(this, function (chamber) {
                     var chamberData = this.gamedatas.senateSituation.chambers[chamber];
-                    if (chamberData[this.me_id] > 0) {
+                    if (chamberData[player_id] > 0) {
                         returnChambers.push(parseInt(chamber));
                     }
                 }));
@@ -3212,7 +3216,7 @@ define([
                     descriptionmyturn: "${you} select a Senate chamber to move an Influence cube from, or select a different action",
                 });
 
-                this.markChambers(this.getChambersWithMyInfluenceCubes());
+                this.markChambers(this.getChambersWithPlayerInfluenceCubes(this.me_id));
             },
 
             onMoveInfluenceCancelClick: function (e) {
@@ -3327,6 +3331,43 @@ define([
                     );
                 }
             },
+
+            onEnterRemoveInfluence: function (args) {
+                if (this.debug) console.log('onEnterRemoveInfluence', args);
+                if (this.isCurrentPlayerActive()) {
+                    this.markChambers(this.getChambersWithPlayerInfluenceCubes(this.opponent_id));
+                }
+            },
+            onRemoveInfluenceClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onRemoveInfluenceClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionRemoveInfluence')) {
+                        return;
+                    }
+
+                    var chamber = dojo.attr(e.target, "data-chamber");
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionRemoveInfluence.html", {
+                            chamber: chamber,
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
             notif_removeInfluence: function (notif) {
                 if (this.debug) console.log('notif_removeInfluence', notif);
 
@@ -3352,7 +3393,7 @@ define([
                 if (this.isCurrentPlayerActive()) {
                     this.setClientState("client_moveInfluenceFrom");
 
-                    this.markChambers(this.getChambersWithMyInfluenceCubes());
+                    this.markChambers(this.getChambersWithPlayerInfluenceCubes(this.me_id));
                 }
             },
 
