@@ -119,6 +119,11 @@
     width: calc(220px * var(--scale));
 }
 
+#swd_wrap.square #wonder_column {
+    /* If one player has conspiracies and the other doesn't, make sure the narrower wonder div is aligned to the right.*/
+    align-items: flex-end;
+}
+
 #swd_wrap.square #board_column, #swd_wrap.landscape #board_column {
     /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
     width: calc(225px * var(--scale));
