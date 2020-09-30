@@ -240,7 +240,7 @@ class Item extends Base
      */
     public function setMilitary($military) {
         $this->military = $military;
-        $this->addText(sprintf(self::_('This %s is worth %d Shield(s).'), $this->getItemType(), $military),false);
+        $this->addText(sprintf(self::_('This %s is worth %d Shield(s).'), $this->getItemType(), $military));
         return $this;
     }
 
