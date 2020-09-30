@@ -303,7 +303,10 @@ class Item extends Base
                 $this->addText(clienttranslate('Place 1 Influence cube in a Chamber of your choice.'));
                 break;
             case SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME:
-                $this->addText(clienttranslate('Move 1 of your Influence cubes to an adjacent Chamber.'));
+                $this->addText(clienttranslate('You can move 1 of your Influence cubes to an adjacent Chamber.'));
+                break;
+            case SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME:
+                $this->addText(clienttranslate('Remove 1 of your opponent\'s Influence cubes of your choice from the Senate.'));
                 break;
         }
         return $this;

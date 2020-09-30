@@ -3073,27 +3073,7 @@ define([
                     this.senateActionsSection = parseInt(args.senateActionsSection);
                 }
             },
-            markSection(section) {
-                let chamberStart = (section * 2) - 1;
-                this.markChambers([chamberStart, chamberStart + 1]);
-            },
-            markChambers(redChambers, greenChambers = []) {
-                for (let chamber = 1; chamber <= 6; chamber++) {
-                    let node = $('chamber' + chamber);
-                    // dojo.addClass doesn't work for path/svg, so we use setAttribute
-                    node.setAttribute("class", "");
-                    if (redChambers.indexOf(chamber) > -1) {
-                        node.setAttribute("class",  "red_stroke");
-                    }
-                    else if (greenChambers.indexOf(chamber) > -1) {
-                        node.setAttribute("class",  "gray_stroke");
-                    }
 
-                    // Re-add element to DOM, this way the animations are all in sync (else if an element previously had red_stroke it will be out of sync).
-                    var nodeCopy = node.cloneNode(true);
-                    node.parentNode.replaceChild(nodeCopy, node);
-                }
-            },
             onSenateActionsPlaceInfluenceButtonClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
@@ -3105,6 +3085,17 @@ define([
                         descriptionmyturn: "${you} select a Senate chamber to place an Influence cube, or select a different action",
                     });
                     this.markSection(this.senateActionsSection);
+                }
+            },
+
+            onSenateActionsMoveInfluenceButtonClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onSenateActionsPlaceInfluenceButtonClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    this.selectMoveInfluenceMode();
                 }
             },
 
@@ -3145,6 +3136,29 @@ define([
                 }
             },
 
+            markSection(section) {
+                let chamberStart = (section * 2) - 1;
+                this.markChambers([chamberStart, chamberStart + 1]);
+            },
+
+            markChambers(redChambers, greenChambers = []) {
+                for (let chamber = 1; chamber <= 6; chamber++) {
+                    let node = $('chamber' + chamber);
+                    // dojo.addClass doesn't work for path/svg, so we use setAttribute
+                    node.setAttribute("class", "");
+                    if (redChambers.indexOf(chamber) > -1) {
+                        node.setAttribute("class",  "red_stroke");
+                    }
+                    else if (greenChambers.indexOf(chamber) > -1) {
+                        node.setAttribute("class",  "gray_stroke");
+                    }
+
+                    // Re-add element to DOM, this way the animations are all in sync (else if an element previously had red_stroke it will be out of sync).
+                    var nodeCopy = node.cloneNode(true);
+                    node.parentNode.replaceChild(nodeCopy, node);
+                }
+            },
+
             getChambersWithPlayerInfluenceCubes: function(player_id) {
                 let returnChambers = [];
                 Object.keys(this.gamedatas.senateSituation.chambers).forEach(dojo.hitch(this, function (chamber) {
@@ -3154,6 +3168,19 @@ define([
                     }
                 }));
                 return returnChambers;
+            },
+
+            //     _        _   _               ____  _                  ___        __ _
+            //    / \   ___| |_(_) ___  _ __   |  _ \| | __ _  ___ ___  |_ _|_ __  / _| |_   _  ___ _ __   ___ ___
+            //   / _ \ / __| __| |/ _ \| '_ \  | |_) | |/ _` |/ __/ _ \  | || '_ \| |_| | | | |/ _ \ '_ \ / __/ _ \
+            //  / ___ \ (__| |_| | (_) | | | | |  __/| | (_| | (_|  __/  | || | | |  _| | |_| |  __/ | | | (_|  __/
+            // /_/   \_\___|\__|_|\___/|_| |_| |_|   |_|\__,_|\___\___| |___|_| |_|_| |_|\__,_|\___|_| |_|\___\___|
+
+            onEnterPlaceInfluence: function (args) {
+                if (this.debug) console.log('onEnterPlaceInfluence', args);
+                if (this.isCurrentPlayerActive()) {
+                    this.markChambers([1,2,3,4,5,6]);
+                }
             },
 
             onPlaceInfluenceClick: function (e) {
@@ -3200,14 +3227,18 @@ define([
                 this.notifqueue.setSynchronousDuration(this.twistCoinDuration);
             },
 
-            onSenateActionsMoveInfluenceButtonClick: function (e) {
-                // Preventing default browser reaction
-                dojo.stopEvent(e);
+            //     _        _   _               __  __                  ___        __ _
+            //    / \   ___| |_(_) ___  _ __   |  \/  | _____   _____  |_ _|_ __  / _| |_   _  ___ _ __   ___ ___
+            //   / _ \ / __| __| |/ _ \| '_ \  | |\/| |/ _ \ \ / / _ \  | || '_ \| |_| | | | |/ _ \ '_ \ / __/ _ \
+            //  / ___ \ (__| |_| | (_) | | | | | |  | | (_) \ V /  __/  | || | | |  _| | |_| |  __/ | | | (_|  __/
+            // /_/   \_\___|\__|_|\___/|_| |_| |_|  |_|\___/ \_/ \___| |___|_| |_|_| |_|\__,_|\___|_| |_|\___\___|
 
-                if (this.debug) console.log('onSenateActionsPlaceInfluenceButtonClick');
-
+            onEnterMoveInfluence: function (args) {
+                if (this.debug) console.log('onEnterMoveInfluence', args);
                 if (this.isCurrentPlayerActive()) {
-                    this.selectMoveInfluenceMode();
+                    this.setClientState("client_moveInfluenceFrom");
+
+                    this.markChambers(this.getChambersWithPlayerInfluenceCubes(this.me_id));
                 }
             },
 
@@ -3258,6 +3289,7 @@ define([
 
                 }
             },
+
             onMoveInfluenceToClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
@@ -3332,12 +3364,19 @@ define([
                 }
             },
 
+            //     _        _   _               ____                                 ___        __ _
+            //    / \   ___| |_(_) ___  _ __   |  _ \ ___ _ __ ___   _____   _____  |_ _|_ __  / _| |_   _  ___ _ __   ___ ___
+            //   / _ \ / __| __| |/ _ \| '_ \  | |_) / _ \ '_ ` _ \ / _ \ \ / / _ \  | || '_ \| |_| | | | |/ _ \ '_ \ / __/ _ \
+            //  / ___ \ (__| |_| | (_) | | | | |  _ <  __/ | | | | | (_) \ V /  __/  | || | | |  _| | |_| |  __/ | | | (_|  __/
+            // /_/   \_\___|\__|_|\___/|_| |_| |_| \_\___|_| |_| |_|\___/ \_/ \___| |___|_| |_|_| |_|\__,_|\___|_| |_|\___\___|
+
             onEnterRemoveInfluence: function (args) {
                 if (this.debug) console.log('onEnterRemoveInfluence', args);
                 if (this.isCurrentPlayerActive()) {
                     this.markChambers(this.getChambersWithPlayerInfluenceCubes(this.opponent_id));
                 }
             },
+
             onRemoveInfluenceClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
@@ -3368,6 +3407,7 @@ define([
                     );
                 }
             },
+
             notif_removeInfluence: function (notif) {
                 if (this.debug) console.log('notif_removeInfluence', notif);
 
@@ -3379,22 +3419,6 @@ define([
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(this.twistCoinDuration);
-            },
-
-            onEnterPlaceInfluence: function (args) {
-                if (this.debug) console.log('onEnterPlaceInfluence', args);
-                if (this.isCurrentPlayerActive()) {
-                    this.markChambers([1,2,3,4,5,6]);
-                }
-            },
-
-            onEnterMoveInfluence: function (args) {
-                if (this.debug) console.log('onEnterMoveInfluence', args);
-                if (this.isCurrentPlayerActive()) {
-                    this.setClientState("client_moveInfluenceFrom");
-
-                    this.markChambers(this.getChambersWithPlayerInfluenceCubes(this.me_id));
-                }
             },
 
             //  _   _           _     ____  _                         _____

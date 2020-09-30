@@ -743,9 +743,6 @@ class Material extends Base
 //            ->addActionState(SevenWondersDuelAgora::STATE_) // TODO
 
         $this->conspiracies[9] = (new Conspiracy(9, clienttranslate("Political Maneuver")))
-            ->addText("Place 1 of your Influence cubes in a Chamber of your choice.")
-            ->addText("Remove 1 of your opponent's Influence cubes of your choice from the Senate.")
-            ->addText("You can move 1 of your Influence cubes to an adjacent Chamber.")
             ->addActionState(SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME)
             ->addActionState(SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME)
             ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
