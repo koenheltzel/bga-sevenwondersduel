@@ -2,6 +2,8 @@
 
 namespace SWD\States;
 
+use SWD\Player;
+
 trait MoveInfluenceTrait {
 
     /**
@@ -15,6 +17,21 @@ trait MoveInfluenceTrait {
 
     public function enterStateMoveInfluence() {
 //        $this->giveExtraTime($this->getActivePlayerId());
+    }
+
+    public function shouldSkipMoveInfluence() {
+        if (Player::getActive()->getCubes() == 12) {
+            // Player still has all 12 cubes unused, so skip this state
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} has no Influence cubes to move'),
+                [
+                    'player_name' => Player::getActive()->name,
+                ]
+            );
+            return true;
+        }
+        return false;
     }
 
     // See SenateActionsTrait.php

@@ -100,14 +100,24 @@ trait SenateActionsTrait {
 
     public function stateStackNextState($stateIfEmpty = null) {
         $stack = json_decode($this->getGameStateValue(self::VALUE_STATE_STACK));
-        if (count($stack) > 0) {
+
+        while (count($stack) > 0) {
             $nextState = array_shift($stack);
-            $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
-            $this->gamestate->nextState( $nextState );
+            $shouldSkipMethod = "shouldSkip" . ucfirst($nextState);
+            if (method_exists($this, $shouldSkipMethod) &&
+                $this->{$shouldSkipMethod}()
+            ) {
+                // We now have skipped this state, continue the while loop.
+            }
+            else {
+                // Skip method does not exist or result is false, we can go into this state.
+                $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
+                $this->gamestate->nextState( $nextState );
+                return;
+            }
         }
-        else {
-            $this->gamestate->nextState( $stateIfEmpty );
-        }
+
+        $this->gamestate->nextState( $stateIfEmpty );
     }
 
     public function setStateStack($stack) {
