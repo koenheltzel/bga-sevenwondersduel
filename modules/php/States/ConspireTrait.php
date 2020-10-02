@@ -39,7 +39,7 @@ trait ConspireTrait {
         $this->checkAction("actionChooseConspiracy");
 
         $conspiracy = Conspiracy::get($conspiracyId);
-        $payment = $conspiracy->construct(Player::getActive());
+        $conspiracy->choose(Player::getActive());
 
         $this->gamestate->nextState( self::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME);
 

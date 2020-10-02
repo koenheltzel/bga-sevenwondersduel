@@ -1931,6 +1931,8 @@ define([
                             }),
                         ]),
                         // TODO: conspiracy effects
+                        // Military Track animation (pawn movement, token handling)
+                        bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment, "agora"),
                     ]);
 
                     dojo.connect(anim, 'beforeBegin', dojo.hitch(this, function () {
@@ -2023,7 +2025,7 @@ define([
                 var buildingMoveAnim = this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, this.constructBuildingAnimationDuration * 0.6);
                 if (notif.args.payment.discardedCard) {
                     dojo.connect(buildingMoveAnim, 'onEnd', dojo.hitch(this, function (node) {
-                        var whiteblock = $('discarded_cards_whiteblock');
+                        var whiteblock = $('lower_divs_container');
                         dojo.removeClass(whiteblock, 'red_border');
                         window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
                         this.freezeLayout = 0;
@@ -2609,7 +2611,7 @@ define([
 
             onEnterChooseDiscardedBuilding: function (args) {
                 if (this.isCurrentPlayerActive()) {
-                    var whiteblock = $('discarded_cards_whiteblock');
+                    var whiteblock = $('lower_divs_container');
                     dojo.addClass(whiteblock, 'red_border');
 
                     // Scroll so the discarded card whiteblock is visible (remember the scroll position so we can restore the view later).
@@ -3778,7 +3780,7 @@ define([
             },
 
             updateLowerDivsWidth: function() {
-                dojo.style($('discarded_cards_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
+                dojo.style($('lower_divs_container'), 'width', $('layout_flexbox').offsetWidth + 'px');
                 dojo.style($('settings_whiteblock'), 'width', $('layout_flexbox').offsetWidth + 'px');
                 dojo.query('.player_wonders_mobile').forEach(dojo.hitch(this, function (node, index, arr) {
                     dojo.style(node, 'width', 'calc(' + dojo.style('layout_flexbox', 'width') + 'px' + ' - 2 * var(--gutter))');

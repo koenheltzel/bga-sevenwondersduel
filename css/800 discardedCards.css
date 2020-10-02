@@ -1,5 +1,5 @@
 
-#discarded_cards_whiteblock {
+#lower_divs_container {
     margin-top: var(--gutter) !important;
     margin-left: auto !important;
     margin-right: auto !important;
@@ -27,7 +27,7 @@
     display: none !important;
 }
 
-#discarded_cards_container {
+#discarded_cards_whiteblock {
     flex-grow: 2;
 }
 

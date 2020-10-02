@@ -63,7 +63,7 @@
                         <div id="draftpool" class="draftpool age">
                         </div>
                         <div id="draftpool_actions" class="whiteblock">
-                            <a href="#" id="buttonPrepareConspiracy" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{PREPARE_CONSPIRACY}</span></a>
+                            <a href="#" id="buttonPrepareConspiracy" class="action_button bgabutton bgabutton_blue agora"><div class="action_conspiracy"></div><span>{PREPARE_CONSPIRACY}</span></a>
                             <a href="#" id="buttonConstructWonder" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>{CONSTRUCT_WONDER}</span></a>
                             <a href="#" id="buttonConstructBuilding" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>{CONSTRUCT_BUILDING}</span></a>
                             <a href="#" id="buttonDiscardBuilding" class="action_button bgabutton bgabutton_blue"><div class="coin"><span>+X</span></div><span>{DISCARD_BUILDING}</span></a>
@@ -268,14 +268,14 @@
         </div>
         <div id="player_wonders_mobile_container_{PLAYER_ME_ID}" class="player_wonders_mobile me whiteblock"></div>
     </div>
-    <div id="discarded_cards_whiteblock">
-        <div id="discarded_cards_container" class="whiteblock">
+    <div id="lower_divs_container">
+        <div id="discarded_cards_whiteblock" class="whiteblock">
             <h3>{DISCARDED_BUILDINGS}</h3>
             <div id="discarded_cards_container">
                 <div class="discarded_cards_cursor"></div>
             </div>
         </div>
-        <div id="conspiracy_deck_container" class="whiteblock">
+        <div id="conspiracy_deck_container" class="whiteblock agora">
             <h3>Conspiracy deck</h3>
             <div class="conspiracy conspiracy_small" style="background-position: -400% -200%;">
                 <span id="conspiracy_deck_count"></span>

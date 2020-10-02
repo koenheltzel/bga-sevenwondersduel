@@ -244,7 +244,7 @@ trait PlayerTurnTrait {
             throw new \BgaUserException( clienttranslate("The Conspiracy you selected has already been triggered.") );
         }
 
-        $conspiracy->trigger($player);
+        $payment = $conspiracy->trigger($player);
 
         $this->incStat(1, self::STAT_CONSPIRACIES_TRIGGERED, $player->id);
 
@@ -274,7 +274,7 @@ trait PlayerTurnTrait {
                 }
                 break;
             default:
-                $this->setStateStack(array_merge($conspiracy->actionStates, [self::STATE_PLAYER_TURN_NAME]));
+                $this->setStateStack(array_merge($payment->militarySenateActions, $conspiracy->actionStates, [self::STATE_PLAYER_TURN_NAME]));
                 $this->stateStackNextState();
                 break;
         }

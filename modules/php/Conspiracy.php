@@ -18,9 +18,7 @@ class Conspiracy extends Item {
      * @param Conspiracy $building
      * @return PaymentPlan
      */
-    public function construct(Player $player, $building = null, $discardedCard = false) {
-        $payment = parent::construct($player);
-
+    public function choose(Player $player) {
         SevenWondersDuelAgora::get()->conspiracyDeck->insertCardOnExtremePosition($this->id, $player->id, true);
 
         // Text notification to all
@@ -55,19 +53,6 @@ class Conspiracy extends Item {
                 'conspiracyPosition' => $position,
             ]
         );
-
-        $this->constructEffects($player, $payment);
-
-        return $payment;
-    }
-
-    /**
-     * Handle any effects the item has (victory points, gain coins, military) and send notifications about them.
-     * @param Player $player
-     * @param PaymentPlan $payment
-     */
-    protected function constructEffects(Player $player, Payment $payment) {
-        parent::constructEffects($player, $payment);
     }
 
     public function prepare(Player $player, $building) {
@@ -88,10 +73,17 @@ class Conspiracy extends Item {
         );
     }
 
+    /**
+     * Handle any effects the item has (victory points, gain coins, military) and send notifications about them.
+     * @param Player $player
+     */
     public function trigger(Player $player) {
         // Set this conspiracy's "type_arg" to 1, which we use to indicate if the conspiracy is triggered.
         $sql = "UPDATE conspiracy SET card_type_arg = 1 WHERE card_id='{$this->id}'";
         self::DbQuery( $sql );
+
+        $payment = new Payment(); // Triggering a conspiracy is free.
+        parent::constructEffects($player, $payment);
 
         SevenWondersDuelAgora::get()->notifyAllPlayers(
             'triggerConspiracy',
@@ -101,11 +93,13 @@ class Conspiracy extends Item {
                 'conspiracyPosition' => $this->getPosition($player),
                 'conspiracyId' => $this->id,
                 'conspiracyName' => $this->name,
+                'payment' => $payment,
                 'playerId' => $player->id,
                 'player_name' => $player->name,
                 'conspiraciesSituation' => Conspiracies::getSituation(),
             ]
         );
+        return $payment;
     }
 
     /**
