@@ -502,6 +502,8 @@ define([
                     if (args.args.conspiraciesSituation) this.updateConspiraciesSituation(args.args.conspiraciesSituation);
                     if (args.args.senateSituation) this.updateSenateSituation(args.args.senateSituation);
 
+                    this.updateLayout(); // Because of added height of action button divs being auto shown/hidden because of the state change, it's a good idea to update the layout here.
+
                     // We chose to group all of the states' functions together, so we create a seperate "onEnter{StateName}" function and call it here if it exists.
                     var functionName = 'onEnter' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
                     if (typeof this[functionName] === 'function') {
