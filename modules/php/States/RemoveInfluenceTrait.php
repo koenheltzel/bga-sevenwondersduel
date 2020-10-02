@@ -2,6 +2,8 @@
 
 namespace SWD\States;
 
+use SWD\Player;
+
 trait RemoveInfluenceTrait {
 
     /**
@@ -15,6 +17,21 @@ trait RemoveInfluenceTrait {
 
     public function enterStateRemoveInfluence() {
 //        $this->giveExtraTime($this->getActivePlayerId());
+    }
+
+    public function shouldSkipRemoveInfluence() {
+        if (Player::opponent()->getCubes() == 12) {
+            // Opponent still has all 12 cubes unused, so skip this state
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} has no Influence cubes to remove'),
+                [
+                    'player_name' => Player::opponent()->name,
+                ]
+            );
+            return true;
+        }
+        return false;
     }
 
     // See SenateActionsTrait.php

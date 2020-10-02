@@ -2,6 +2,8 @@
 
 namespace SWD\States;
 
+use SWD\Player;
+
 trait PlaceInfluenceTrait {
 
     /**
@@ -15,6 +17,21 @@ trait PlaceInfluenceTrait {
 
     public function enterStatePlaceInfluence() {
 //        $this->giveExtraTime($this->getActivePlayerId());
+    }
+
+    public function shouldSkipPlaceInfluence() {
+        if (Player::getActive()->getCubes() == 0) {
+            // Player has no more cubes to place, so skip this state
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} has no more Influence cubes left to place'),
+                [
+                    'player_name' => Player::getActive()->name,
+                ]
+            );
+            return true;
+        }
+        return false;
     }
 
     // See SenateActionsTrait.php
