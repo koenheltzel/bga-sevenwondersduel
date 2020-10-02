@@ -210,6 +210,9 @@ class Item extends Base
         if ($this instanceof ProgressToken) {
             return self::_('progress token');
         }
+        if ($this instanceof Conspiracy) {
+            return self::_('conspiracy');
+        }
     }
 
     protected function getScoreCategory() {
