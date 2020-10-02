@@ -471,6 +471,9 @@ define([
                 dojo.subscribe('removeInfluence', this, "notif_removeInfluence");
                 this.notifqueue.setSynchronous('removeInfluence');
 
+                dojo.subscribe('decreeControlChanged', this, "notif_decreeControlChanged");
+                this.notifqueue.setSynchronous('decreeControlChanged');
+
             },
 
             ///////////////////////////////////////////////////
@@ -1062,6 +1065,24 @@ define([
                 data.jsY = Math.floor((decreeId - 1) / spritesheetColumns);
                 return this.format_block('jstpl_decree', data);
             },
+
+            notif_decreeControlChanged: function (notif) {
+                if (this.debug) console.log('notif_decreeControlChanged', notif);
+
+                if (notif.args.payment) {
+                    // Military Track animation (pawn movement, token handling)
+                    let anim = bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment, "agora");
+
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+
+                    anim.play();
+                }
+                else {
+                    this.notifqueue.setSynchronousDuration(0);
+                }
+            },
+
 
             //   ____                      _                _
             //  / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___(_) ___  ___

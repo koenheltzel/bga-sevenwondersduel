@@ -149,7 +149,7 @@ class Senate extends Base
         self::handlePossibleControlChange($oldControllerTo, $newControllerTo, $chamberTo, $senateAction);
     }
 
-    public static function handlePossibleControlChange(?Player $oldController, ?Player $newController, $chamber, SenateAction &$senateAction=null) {
+    public static function handlePossibleControlChange(?Player $oldController, ?Player $newController, $chamber, SenateAction &$senateAction) {
         if ($oldController == $newController) {
             // Nothing changed, skip chamber
             return;
@@ -157,43 +157,64 @@ class Senate extends Base
         elseif(is_null($oldController)) {
             // Someone gained control
 
+            $payment = null;
+            $decrees = Decrees::getChamberDecrees($chamber);
+            foreach ($decrees as $id => $card) {
+                if ($card['card_type_arg'] == 0) {
+                    self::DbQuery( "UPDATE decree SET card_type_arg = 1 WHERE card_id = {$id}" ); // Reveal 3 out of 6 decrees.
+
+                    $senateAction->addDecreeReveal($chamber, $card['card_location_arg'], $id);
+
+                    SevenWondersDuelAgora::get()->notifyAllPlayers(
+                        'message',
+                        clienttranslate('A Decree is revealed in Senate chamber ${chamber}'),
+                        [
+                            'chamber' => $chamber,
+                        ]
+                    );
+                }
+
+                // Decree is the only one with a direct action (conflict pawn movement)
+                if ($id == 9) {
+                    $decree = Decree::get(9);
+                    $decree->setMilitary(1);
+                    $payment = $decree->controlChanged($newController == Player::getActive());
+                }
+            }
+
             SevenWondersDuelAgora::get()->notifyAllPlayers(
-                'message',
+                'decreeControlChanged',
                 clienttranslate('${player_name} gained control of Senate chamber ${chamber}'),
                 [
                     'chamber' => $chamber,
                     'player_name' => $newController->name,
+                    'playerId' => $newController->id,
+                    'payment' => $payment,
                 ]
             );
-
-            if ($senateAction) {
-                $decrees = Decrees::getChamberDecrees($chamber);
-                foreach ($decrees as $id => $card) {
-                    if ($card['card_type_arg'] == 0) {
-                        self::DbQuery( "UPDATE decree SET card_type_arg = 1 WHERE card_id = {$id}" ); // Reveal 3 out of 6 decrees.
-
-                        $senateAction->addDecreeReveal($chamber, $card['card_location_arg'], $id);
-
-                        SevenWondersDuelAgora::get()->notifyAllPlayers(
-                            'message',
-                            clienttranslate('A Decree is revealed in Senate chamber ${chamber}'),
-                            [
-                                'chamber' => $chamber,
-                            ]
-                        );
-                    }
-                }
-            }
         }
         elseif(is_null($newController)) {
             // Someone lost control
 
+            $payment = null;
+            $decrees = Decrees::getChamberDecrees($chamber);
+            foreach ($decrees as $id => $card) {
+                // Decree is the only one with a direct action (conflict pawn movement)
+                if ($id == 9) {
+                    $decree = Decree::get(9);
+                    $decree->setMilitary(1);
+                    $payment = $decree->controlChanged($oldController == Player::opponent());
+                }
+            }
+
             SevenWondersDuelAgora::get()->notifyAllPlayers(
-                'message',
+                'decreeControlChanged',
                 clienttranslate('${player_name} lost control of Senate chamber ${chamber}'),
                 [
                     'chamber' => $chamber,
                     'player_name' => $oldController->name,
+                    'playerId' => $oldController->id,
+                    'payment' => $payment,
                 ]
             );
         }

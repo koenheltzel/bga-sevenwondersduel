@@ -88,15 +88,30 @@ trait GameSetupTrait
         if ($agora) {
             // Set up decrees
             $this->decreeDeck->createCards(Material::get()->decrees->getDeckCards());
-            $this->decreeDeck->shuffle('deck');
-            $this->decreeDeck->pickCardsForLocation(6, 'deck', 'board');
-            $this->decreeDeck->shuffle('board'); // Ensures we have defined card_location_arg
-            // Return the remaining Decrees to the box.
-            $this->decreeDeck->moveAllCardsInLocation('deck', 'box');
             // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and decree ids.
             self::DbQuery( "UPDATE decree SET card_id = card_type_arg + 1000, card_type_arg = 0" );
             self::DbQuery( "UPDATE decree SET card_id = card_id - 1000" );
+            if (1) {
+                // TODO: remove these lines which defines a static set of decrees.
+                $i = 0;
+                $this->decreeDeck->insertCard(13, 'board', $i++);
+                $this->decreeDeck->insertCard(16, 'board', $i++);
+                $this->decreeDeck->insertCard(9, 'board', $i++);
+                $this->decreeDeck->insertCard(15, 'board', $i++);
+                $this->decreeDeck->insertCard(1, 'board', $i++);
+                $this->decreeDeck->insertCard(14, 'board', $i++);
+            }
+            else {
+                $this->decreeDeck->shuffle('deck');
+                $this->decreeDeck->pickCardsForLocation(6, 'deck', 'board');
+                $this->decreeDeck->shuffle('board'); // Ensures we have defined card_location_arg
+            }
+
+            // Return the remaining Decrees to the box.
+            $this->decreeDeck->moveAllCardsInLocation('deck', 'box');
+            // Add decrees stack position suffix
             self::DbQuery( "UPDATE decree SET card_location_arg = CONCAT(card_location_arg + 1, '1') WHERE card_location = 'board'" );
+            // Set decrees visibility
             self::DbQuery( "UPDATE decree SET card_type_arg = 1 WHERE card_location_arg IN (11, 31 , 51)" ); // Reveal 3 out of 6 decrees.
 
             // Set up conspiracies

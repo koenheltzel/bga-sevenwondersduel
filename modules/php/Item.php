@@ -125,7 +125,10 @@ class Item extends Base
         if ($this->military > 0) {
             MilitaryTrack::movePawn($player, $this->military, $payment);
 
-            if($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
+            if($payment->getItem() instanceof Decree) {
+                $message = clienttranslate('${player_name} moves the Conflict pawn 1 space towards ${towards_player_name}\'s capital');
+            }
+            elseif($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
                 $message = clienttranslate('${player_name} moves the Conflict pawn ${steps} space(s) (+1 from Progress token “${progressTokenName}”)');
             }
             else {
@@ -137,7 +140,8 @@ class Item extends Base
                 $message,
                 [
                     'i18n' => ['progressTokenName'],
-                    'player_name' => $player->name,
+                    'player_name' => Player::getActive()->name, // Get the active player here. In case of Agora $player could be the opponent (when losing control of a chamber with the military Decree)
+                    'towards_player_name' => $player == Player::getActive() ? Player::getActive()->getOpponent()->name : Player::getActive()->name,
                     'steps' => $payment->militarySteps,
                     'progressTokenName' => ProgressToken::get(8)->name, //Strategy
                 ]
