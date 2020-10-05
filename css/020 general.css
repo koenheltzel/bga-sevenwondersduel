@@ -74,6 +74,11 @@
     z-index: 100;
 }
 
+.agora_cube.animated {
+    position: absolute;
+    z-index: 100;
+}
+
 .cost_free {
     font-weight: bold;
 }

@@ -545,6 +545,7 @@ var jstpl_cube = '<div class="agora_cube agora_cube_${jsPlayerAlias} ${jsControl
 var jstpl_military_token = '<div class="military_token military_token_${jsValue}"></div>';
 
 var jstpl_coin_animated = '<div class="coin animated"></div>';
+var jstpl_cube_animated = '<div class="agora_cube animated"></div>';
 
 var jstpl_tooltip_cost_me = '\
     <hr\>\

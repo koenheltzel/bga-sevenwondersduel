@@ -101,7 +101,6 @@
     height: calc(var(--senate-scale) * 22px);
     display: inline-block;
     position: absolute;
-    transition: top ease-in-out 0.7s, left ease-in-out 0.7s;
 }
 
 .agora_cube > span {
@@ -118,24 +117,33 @@
 }
 
 .agora_cube_me {
-background-image: url('img/agora_sprites.png');
-display: inline-block;
-background-position: 66.5049% 37.1359%;
-background-size: 512.000%;
-top: calc(var(--senate-scale) * 35px);
-left: 0;
+    background-image: url('img/agora_sprites.png');
+    display: inline-block;
+    background-position: 66.5049% 37.1359%;
+    background-size: 512.000%;
+}
+
+.influence_containers .agora_cube {
+    transition: top ease-in-out 0.7s, left ease-in-out 0.7s;
 }
 
 .agora_cube_opponent {
-background-image: url('img/agora_sprites.png');
-display: inline-block;
-background-position: 91.2621% 37.1359%;
-background-size: 512.000%;
-left: calc(var(--senate-scale) * 35px);
-top: 0;
+    background-image: url('img/agora_sprites.png');
+    display: inline-block;
+    background-position: 91.2621% 37.1359%;
+    background-size: 512.000%;
+}
+
+.influence_containers .agora_cube_me {
+    top: calc(var(--senate-scale) * 35px);
+    left: 0;
+}
+.influence_containers .agora_cube_opponent {
+    left: calc(var(--senate-scale) * 35px);
+    top: 0;
 }
 
 .agora_control {
-left: 0;
-top: 0;
+    left: 0 !important;
+    top: 0 !important;
 }

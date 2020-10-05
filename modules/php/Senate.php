@@ -66,6 +66,7 @@ class Senate extends Base
             clienttranslate('${player_name} placed an Influence cube in Senate chamber ${chamber}'),
             [
                 'chamber' => $chamber,
+                'playerId' => $player->id,
                 'player_name' => $player->name,
                 'senateAction' => $senateAction, // Reference, so will be updated after this.
             ]
@@ -97,6 +98,7 @@ class Senate extends Base
             clienttranslate('${player_name} removed one of ${opponent_name}\'s Influence cubes from Senate chamber ${chamber}'),
             [
                 'chamber' => $chamber,
+                'playerId' => $player->id,
                 'player_name' => $player->name,
                 'opponent_name' => $player->getOpponent()->name,
                 'senateAction' => $senateAction, // Reference, so will be updated after this.
@@ -137,6 +139,7 @@ class Senate extends Base
             [
                 'chamberFrom' => $chamberFrom,
                 'chamberTo' => $chamberTo,
+                'playerId' => $player->id,
                 'player_name' => $player->name,
                 'senateAction' => $senateAction, // Reference, so will be updated after this.
             ]
