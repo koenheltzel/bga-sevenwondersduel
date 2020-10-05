@@ -308,12 +308,13 @@ class Building extends Item {
 
             SevenWondersDuelAgora::get()->notifyAllPlayers(
                 'message',
-                clienttranslate('${player_name} gets ${coins} coin(s) (as many as the current Age) because a ${buildingType} Building was constructed and he controls the corresponding Decree'),
+                clienttranslate('${player_name} gets ${coins} coin(s) (as many as the current Age) because a ${buildingType} Building was constructed and he controls the Decree in Chamber ${chamber}'),
                 [
                     'i18n' => ['buildingType'],
                     'buildingType' => $this->getBuildingTypeString($this->type),
                     'player_name' => $decreePlayer->name,
                     'coins' => $payment->decreeCoinReward,
+                    'chamber' => Decree::get($payment->decreeCoinRewardDecreeId)->getChamber(),
                 ]
             );
         }

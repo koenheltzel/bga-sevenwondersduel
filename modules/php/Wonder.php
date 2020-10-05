@@ -128,10 +128,11 @@ class Wonder extends Item {
 
             SevenWondersDuelAgora::get()->notifyAllPlayers(
                 'message',
-                clienttranslate('${player_name} gets ${coins} coin(s) (as many as the current Age) because a Wonder was constructed and he controls the corresponding Decree'),
+                clienttranslate('${player_name} gets ${coins} coin(s) (as many as the current Age) because a Wonder was constructed and he controls the Decree in Chamber ${chamber}'),
                 [
                     'player_name' => $decreePlayer->name,
                     'coins' => $payment->decreeCoinReward,
+                    'chamber' => Decree::get(14)->getChamber(),
                 ]
             );
         }

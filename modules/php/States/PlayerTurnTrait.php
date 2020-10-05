@@ -6,6 +6,7 @@ use SevenWondersDuelAgora;
 use SWD\Building;
 use SWD\Conspiracies;
 use SWD\Conspiracy;
+use SWD\Decree;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Players;
@@ -69,6 +70,29 @@ trait PlayerTurnTrait {
         elseif ($building->subType == Building::SUBTYPE_POLITICIAN) {
             $this->setGameStateValue(self::VALUE_SENATE_ACTIONS_SECTION, $building->senateSection);
             $this->setGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, $player->getSenateActionsCount());
+
+            if ($player->hasDecree(12)) {
+                $this->notifyAllPlayers(
+                    'message',
+                    clienttranslate('${player_name} may perform ${actionsCount} Senate actions (+2 because he controls the Decree in Chamber ${chamber})'),
+                    [
+                        'player_name' => $player->name,
+                        'actionsCount' => $this->getGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT),
+                        'chamber' => Decree::get(12)->getChamber(),
+                    ]
+                );
+            }
+            else {
+                $this->notifyAllPlayers(
+                    'message',
+                    clienttranslate('${player_name} may perform ${actionsCount} Senate actions'),
+                    [
+                        'player_name' => $player->name,
+                        'actionsCount' => $this->getGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT),
+                    ]
+                );
+            }
+
             $this->setStateStack([self::STATE_SENATE_ACTIONS_NAME, self::STATE_NEXT_PLAYER_TURN_NAME]);
             $this->stateStackNextState();
         }
