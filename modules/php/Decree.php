@@ -20,4 +20,9 @@ class Decree extends Item {
         return $payment;
     }
 
+    public function getChamber() {
+        $cardInfo = SevenWondersDuelAgora::get()->decreeDeck->getCard($this->id);
+        return (int)substr($cardInfo['location_arg'], 0, 1);
+    }
+
 }

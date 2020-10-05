@@ -12,7 +12,6 @@ class Payment extends PaymentPlan
     public $militarySteps = 0;
     public $militaryTokens = [];
     public $militaryOpponentPays = 0;
-    public $militarySenateActions = [];
 
     public $selectProgressToken = false;
     public $urbanismAward = 0;
@@ -21,5 +20,11 @@ class Payment extends PaymentPlan
     public $economyProgressTokenCoins = 0;
     public $discardedCard = false;
     public $eightWonderId = null;
+
+    // Agora
+    public $decreeCoinReward = null;
+    public $decreeCoinRewardDecreeId = null;
+    public $decreeCoinRewardPlayerId = null;
+    public $militarySenateActions = [];
 
 }

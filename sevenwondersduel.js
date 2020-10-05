@@ -2051,7 +2051,7 @@ define([
                 dojo.style(playerBuildingId, 'opacity', 0);
                 dojo.style(playerBuildingId, 'z-index', 20);
 
-                this.updateLayout(); // If the building is added to the highest stack, part of the layout will be pushed below the viewport. So it's better to update the layout now so all animations will be fully visible.
+                this.autoUpdateScale(); // If the building is added to the highest stack, part of the layout will be pushed below the viewport. So it's better to update the scale now so all animations will match the updated scale.
 
                 var playerAlias = this.getPlayerAlias(notif.args.playerId);
                 var coinNode = dojo.query('.draftpool_building_cost.' + playerAlias + ' .coin', buildingNode)[0];
@@ -2097,6 +2097,13 @@ define([
                         this.getPlayerCoinContainer(notif.args.playerId),
                         notif.args.payment.coinReward,
                         notif.args.playerId
+                    ),
+                    // Decree coin reward
+                    bgagame.CoinAnimator.get().getAnimation(
+                        dojo.query('.decree_containers div[data-decree-id="' + notif.args.payment.decreeCoinRewardDecreeId + '"]')[0],
+                        this.getPlayerCoinContainer(notif.args.payment.decreeCoinRewardPlayerId),
+                        notif.args.payment.decreeCoinReward,
+                        notif.args.payment.decreeCoinRewardPlayerId
                     ),
                     // Urbanism Progress Token (4 coins when constructing a Building through a linked building)
                     bgagame.CoinAnimator.get().getAnimation(
@@ -2378,6 +2385,13 @@ define([
                                 this.slideToObjectPos(ageCardNode, ageCardContainer, 0, 0, this.constructWonderAnimationDuration / 3 * 2),
                             ]),
                             coinRewardAnimation,
+                            // Decree coin reward
+                            bgagame.CoinAnimator.get().getAnimation(
+                                dojo.query('.decree_containers div[data-decree-id="' + notif.args.payment.decreeCoinRewardDecreeId + '"]')[0],
+                                this.getPlayerCoinContainer(notif.args.payment.decreeCoinRewardPlayerId),
+                                notif.args.payment.decreeCoinReward,
+                                notif.args.payment.decreeCoinRewardPlayerId
+                            ),
                             opponentCoinLossAnimation,
                             // Military Track animation (pawn movement, token handling)
                             bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment),
@@ -3927,22 +3941,24 @@ define([
             },
 
             autoUpdateScale: function() {
-                let availableDimensions = this.getAvailableDimensions();
-                let availableRatio = availableDimensions[0] / availableDimensions[1];
+                if (this.autoScale && !this.freezeLayout) { // Also check here, since autoUpdateScale is called directly after building construction (because other wise animations don't match with the delayed scale update).
+                    let availableDimensions = this.getAvailableDimensions();
+                    let availableRatio = availableDimensions[0] / availableDimensions[1];
 
-                let currentDimensions = this.getCurrentDimensions();
-                if (currentDimensions[0] > 0) { // Only to check if the game tab is open (not the Game results tab)
-                    this.setScale(1);
-                    currentDimensions = this.getCurrentDimensions();
-                    let currentRatio = currentDimensions[0] / currentDimensions[1];
+                    let currentDimensions = this.getCurrentDimensions();
+                    if (currentDimensions[0] > 0) { // Only to check if the game tab is open (not the Game results tab)
+                        this.setScale(1);
+                        currentDimensions = this.getCurrentDimensions();
+                        let currentRatio = currentDimensions[0] / currentDimensions[1];
 
-                    if (availableRatio > currentRatio) {
-                        this.scale = availableDimensions[1] / currentDimensions[1];
+                        if (availableRatio > currentRatio) {
+                            this.scale = availableDimensions[1] / currentDimensions[1];
+                        }
+                        else {
+                            this.scale = availableDimensions[0] / currentDimensions[0];
+                        }
+                        this.setScale(this.scale);
                     }
-                    else {
-                        this.scale = availableDimensions[0] / currentDimensions[0];
-                    }
-                    this.setScale(this.scale);
                 }
             },
 
@@ -4139,6 +4155,16 @@ define([
                 }
                 return false;
             },
+
+            getDummyAnimation: function(duration) {
+                return dojo.animateProperty({ // End with a dummy animation to make sure the onEnd of the last coin is also executed.
+                    node: 'swd',
+                    duration: duration,
+                    properties: {
+                        dummy: 1
+                    }
+                });
+            }
 
         });
     });

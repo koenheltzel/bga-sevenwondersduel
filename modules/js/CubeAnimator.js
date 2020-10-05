@@ -106,11 +106,11 @@ define([
                                     properties: {
                                         opacity: {
                                             start: 1,
-                                            end: 0
+                                            // Don't fade out the cube if the target node has value 0 and is invisible until the onEnd listener.
+                                            end: (targetNodePlayerId && targetPosition[0] == 0 && targetPosition[1] == 0) ? 0 : (this.getCubeValue(targetNode) > 0 ? 0 : 1)
                                         }
                                     },
                                     onEnd: dojo.hitch(this, function (node) {
-                                        // dojo.destroy(node);
                                         if (targetNodePlayerId && targetPosition[0] == 0 && targetPosition[1] == 0) {
                                             this.game.increasePlayerCubes(targetNodePlayerId, 1);
                                         }
@@ -118,8 +118,9 @@ define([
                                             let span = dojo.query('span', targetNode)[0];
                                             let count = parseInt(span.innerHTML) + 1;
                                             span.innerHTML = count;
-                                            dojo.style(targetNode, 'display', count > 0 ? '1' : '0');
+                                            dojo.style(targetNode, 'opacity', count > 0 ? '1' : '0');
                                         }
+                                        dojo.destroy(node);
                                     }),
                                 }),
                             ]);
@@ -129,14 +130,13 @@ define([
                 }
                 return dojo.fx.chain([
                     dojo.fx.combine(anims),
-                    dojo.animateProperty({ // End with a dummy animation to make sure the onEnd of the last cube is also executed.
-                        node: 'swd',
-                        duration: 0.1,
-                        properties: {
-                            dummy: 1
-                        }
-                    })
+                    this.game.getDummyAnimation(250) // End with a dummy animation to make sure the onEnd of the last coin is also executed.
                 ]);
+            },
+
+            getCubeValue: function (node) {
+                let span = dojo.query('span', node)[0];
+                return parseInt(span.innerHTML);
             },
         });
 

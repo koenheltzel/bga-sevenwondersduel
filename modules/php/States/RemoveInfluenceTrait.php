@@ -3,6 +3,7 @@
 namespace SWD\States;
 
 use SWD\Player;
+use SWD\Senate;
 
 trait RemoveInfluenceTrait {
 
@@ -12,7 +13,9 @@ trait RemoveInfluenceTrait {
      * @return array
      */
     public function argRemoveInfluence() {
-        return [];
+        $data = [];
+        $data['senateSituation'] = Senate::getSituation();
+        return $data;
     }
 
     public function enterStateRemoveInfluence() {

@@ -91,6 +91,8 @@ class Wonder extends Item {
     protected function constructEffects(Player $player, Payment $payment) {
         parent::constructEffects($player, $payment);
 
+        $opponent = $player->getOpponent();
+
         // Set extra turn if the wonder provides it or if the player has progress token Theology.
         if ($this->extraTurn) {
             SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL, 1);
@@ -100,20 +102,38 @@ class Wonder extends Item {
         }
 
         if ($this->opponentCoinLoss > 0) {
-            $opponentCoinLoss = min($player->getOpponent()->getCoins(), $this->opponentCoinLoss);
+            $opponentCoinLoss = min($opponent->getCoins(), $this->opponentCoinLoss);
             if ($opponentCoinLoss > 0) {
                 $payment->opponentCoinLoss = $opponentCoinLoss;
-                $player->getOpponent()->increaseCoins(-$opponentCoinLoss);
+                $opponent->increaseCoins(-$opponentCoinLoss);
 
                 SevenWondersDuelAgora::get()->notifyAllPlayers(
                     'message',
                     clienttranslate('${player_name} loses ${coins} coin(s)'),
                     [
-                        'player_name' => $player->getOpponent()->name,
+                        'player_name' => $opponent->name,
                         'coins' => $opponentCoinLoss,
                     ]
                 );
             }
+        }
+
+        if ($player->hasDecree(14) || $opponent->hasDecree(14)) {
+            $payment->decreeCoinRewardDecreeId = 14;
+            $payment->decreeCoinReward = (int)SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CURRENT_AGE);
+            $decreePlayer = $player->hasDecree(14) ? $player : $opponent;
+
+            $payment->decreeCoinRewardPlayerId = $decreePlayer->id;
+            $decreePlayer->increaseCoins($payment->decreeCoinReward);
+
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} gets ${coins} coin(s) (as many as the current Age) because a Wonder was constructed and he controls the corresponding Decree'),
+                [
+                    'player_name' => $decreePlayer->name,
+                    'coins' => $payment->decreeCoinReward,
+                ]
+            );
         }
 
         // Note: the extra turn effect is handled in NextPlayerTurnTrait so we can also indicate if the extra turn is lost due to the age ending.

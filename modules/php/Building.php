@@ -188,6 +188,8 @@ class Building extends Item {
     protected function constructEffects(Player $player, Payment $payment) {
         parent::constructEffects($player, $payment);
 
+        $opponent = $player->getOpponent();
+
         if ($this->scientificSymbol) {
             $buildings = $player->getBuildings()->filterByScientificSymbol($this->scientificSymbol);
             if (count($buildings->array) == 2) {
@@ -253,11 +255,11 @@ class Building extends Item {
             $buildingsOfType = $player->getBuildings()->filterByTypes($this->guildRewardBuildingTypes);
             $buildingsCount = count($buildingsOfType->array);
 
-            $opponentBuildingsOfType = $player->getOpponent()->getBuildings()->filterByTypes($this->guildRewardBuildingTypes);
+            $opponentBuildingsOfType = $opponent->getBuildings()->filterByTypes($this->guildRewardBuildingTypes);
             $opponentBuildingsCount = count($opponentBuildingsOfType->array);
 
             $maxBuildingsCount = max($buildingsCount, $opponentBuildingsCount);
-            $mostPlayerName = $buildingsCount >= $opponentBuildingsCount ? $player->name : $player->getOpponent()->name;
+            $mostPlayerName = $buildingsCount >= $opponentBuildingsCount ? $player->name : $opponent->name;
             if ($maxBuildingsCount > 0){
                 $payment->coinReward = $maxBuildingsCount;
                 $player->increaseCoins($payment->coinReward);
@@ -293,6 +295,27 @@ class Building extends Item {
                     ]
                 );
             }
+        }
+
+        $colorDecree = [Building::TYPE_BLUE => 1, Building::TYPE_GREEN => 2, Building::TYPE_YELLOW => 3, Building::TYPE_RED => 4];
+        if (isset($colorDecree[$this->type]) && ($player->hasDecree($colorDecree[$this->type]) || $opponent->hasDecree($colorDecree[$this->type]))) {
+            $payment->decreeCoinRewardDecreeId = $colorDecree[$this->type];
+            $payment->decreeCoinReward = (int)SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CURRENT_AGE);
+            $decreePlayer = $player->hasDecree($colorDecree[$this->type]) ? $player : $opponent;
+
+            $payment->decreeCoinRewardPlayerId = $decreePlayer->id;
+            $decreePlayer->increaseCoins($payment->decreeCoinReward);
+
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} gets ${coins} coin(s) (as many as the current Age) because a ${buildingType} Building was constructed and he controls the corresponding Decree'),
+                [
+                    'i18n' => ['buildingType'],
+                    'buildingType' => $this->getBuildingTypeString($this->type),
+                    'player_name' => $decreePlayer->name,
+                    'coins' => $payment->decreeCoinReward,
+                ]
+            );
         }
     }
 

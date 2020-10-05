@@ -3,6 +3,7 @@
 namespace SWD\States;
 
 use SWD\Player;
+use SWD\Senate;
 
 trait PlaceInfluenceTrait {
 
@@ -12,7 +13,9 @@ trait PlaceInfluenceTrait {
      * @return array
      */
     public function argPlaceInfluence() {
-        return [];
+        $data = [];
+        $data['senateSituation'] = Senate::getSituation();
+        return $data;
     }
 
     public function enterStatePlaceInfluence() {

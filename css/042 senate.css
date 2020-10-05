@@ -101,6 +101,7 @@
     height: calc(var(--senate-scale) * 22px);
     display: inline-block;
     position: absolute;
+    pointer-events: none;
 }
 
 .agora_cube > span {

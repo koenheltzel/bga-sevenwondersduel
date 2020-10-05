@@ -391,8 +391,9 @@ class Player extends Base{
     }
 
     public function hasDecree($id) : bool {
-        //TODO: implement
-        return false;
+        $chamber = Decree::get($id)->getChamber();
+        $player = Senate::getControllingPlayer($chamber);
+        return $this == $player;
     }
 
     public function getSenateActionsCount() {
