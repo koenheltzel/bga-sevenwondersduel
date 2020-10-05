@@ -110,7 +110,7 @@ define([
                                         }
                                     },
                                     onEnd: dojo.hitch(this, function (node) {
-                                        dojo.destroy(node);
+                                        // dojo.destroy(node);
                                         if (targetNodePlayerId && targetPosition[0] == 0 && targetPosition[1] == 0) {
                                             this.game.increasePlayerCubes(targetNodePlayerId, 1);
                                         }

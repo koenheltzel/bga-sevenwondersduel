@@ -3377,13 +3377,34 @@ define([
                 if (this.debug) console.log('notif_moveInfluence', notif);
 
                 this.markChambers([]);
-                Object.keys(notif.args.senateAction.chambers).forEach(dojo.hitch(this, function (chamber) {
-                    var chamberData = notif.args.senateAction.chambers[chamber];
-                    this.updateSenateChamber(chamber, chamberData);
+
+                var anim = dojo.fx.chain([
+                    // Influence cube
+                    bgagame.CubeAnimator.get().getAnimation(
+                        dojo.query('.influence_containers div:nth-of-type(' + notif.args.chamberFrom + ') .agora_cube.player'+notif.args.playerId)[0],
+                        dojo.query('.influence_containers div:nth-of-type(' + notif.args.chamberTo + ') .agora_cube.player'+notif.args.playerId)[0],
+                        1,
+                        notif.args.playerId
+                    ),
+                ]);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayersSituation.
+                    anim.stop();
+
+                    Object.keys(notif.args.senateAction.chambers).forEach(dojo.hitch(this, function (chamber) {
+                        var chamberData = notif.args.senateAction.chambers[chamber];
+                        this.updateSenateChamber(chamber, chamberData);
+                    }));
+
+                    // Clean up any existing coin nodes (normally cleaned up by their onEnd).
+                    dojo.query("#swd_wrap .agora_cube.animated").forEach(dojo.destroy);
                 }));
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(this.twistCoinDuration);
+                this.notifqueue.setSynchronousDuration(anim.duration + this.twistCoinDuration + this.notification_safe_margin);
+
+                anim.play();
             },
 
             onSenateActionsSkipButtonClick: function (e) {
