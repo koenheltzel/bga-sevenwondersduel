@@ -1,0 +1,7 @@
+
+#trigger_unprepared_conspiracy {
+    display: none;
+}
+.current_player_is_active #swd[data-state=triggerUnpreparedConspiracy] #trigger_unprepared_conspiracy {
+    display: block;
+}

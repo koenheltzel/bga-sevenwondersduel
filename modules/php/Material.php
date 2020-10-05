@@ -135,7 +135,7 @@ class Material extends Base
             ->addText(clienttranslate('Draw 2 Conspiracy cards. Choose 1 to place in front of you face down and put the other one on the top or bottom of the deck (you choose).'))
             ->addText(clienttranslate('When you construct this Wonder:'), false)
             ->setCost([PAPYRUS => 1, GLASS => 1, CLAY => 1, WOOD => 1, STONE => 1])
-            ->addActionState(SevenWondersDuelAgora::STATE_TRIGGER_CONSPIRACY_NAME)
+            ->addActionState(SevenWondersDuelAgora::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME)
             ->setCoins(6)
             ->setExtraTurn();
 

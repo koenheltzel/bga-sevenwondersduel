@@ -70,6 +70,7 @@ class SevenWondersDuelAgora extends Table
     use SWD\States\PlaceInfluenceTrait;
     use SWD\States\MoveInfluenceTrait;
     use SWD\States\RemoveInfluenceTrait;
+    use SWD\States\TriggerUnpreparedConspiracyTrait;
 
     /**
      * @var SevenWondersDuelAgora
@@ -121,8 +122,8 @@ class SevenWondersDuelAgora extends Table
     const STATE_REMOVE_INFLUENCE_ID = 37;
     const STATE_REMOVE_INFLUENCE_NAME = "removeInfluence";
 
-    const STATE_TRIGGER_CONSPIRACY_ID = 38;
-    const STATE_TRIGGER_CONSPIRACY_NAME = "triggerConspiracy";
+    const STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID = 38;
+    const STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME = "triggerUnpreparedConspiracy";
 
     // End Agora
 

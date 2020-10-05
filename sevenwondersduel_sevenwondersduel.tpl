@@ -101,6 +101,9 @@
                     <div id="move_influence" class="whiteblock">
                         <a href="#" id="buttonMoveInfluenceSkip" class="action_button bgabutton bgabutton_blue"><span>{SKIP_MOVE_INFLUENCE}</span></a>
                     </div>
+                    <div id="trigger_unprepared_conspiracy" class="whiteblock">
+                        <a href="#" id="buttonTriggerUnpreparedConspiracySkip" class="action_button bgabutton bgabutton_blue"><span>{SKIP_TRIGGER_UNPREPARED_CONSPIRACY}</span></a>
+                    </div>
                     <!-- END draftpool -->
                     <!-- BEGIN end_game -->
                     <div id="end_game_container" class="whiteblock" style="display: none;">

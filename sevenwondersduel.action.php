@@ -231,6 +231,14 @@ class action_sevenwondersduelagora extends APP_GameAction
         self::ajaxResponse();
     }
 
+    public function actionSkipTriggerUnpreparedConspiracy() {
+        self::setAjaxMode();
+
+        SevenWondersDuelAgora::get()->actionSkipTriggerUnpreparedConspiracy();
+
+        self::ajaxResponse();
+    }
+
 }
   
 

@@ -341,9 +341,15 @@ define([
                             dojo.hitch(this, "onPlayerTurnPrepareConspiracySelectedClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-state=playerTurn] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"1\"][data-conspiracy-triggered=\"0\"]:click",
+                        .on("#swd[data-state=playerTurn] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"1\"][data-conspiracy-triggered=\"0\"]:click," +
+                            "#swd[data-state=triggerUnpreparedConspiracy] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"0\"][data-conspiracy-triggered=\"0\"]:click",
                             dojo.hitch(this, "onPlayerTurnTriggerConspiracyClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=triggerUnpreparedConspiracy] #buttonTriggerUnpreparedConspiracySkip:click",
+                            dojo.hitch(this, "onPlayerTurnSkipTriggerConspiracyClick")
+                        );
+
                     dojo.query('body')
                         .on("#swd[data-client-state=client_placeInfluence] #senate_chambers .red_stroke:click," +
                             "#swd[data-state=placeInfluence] #senate_chambers .red_stroke:click",
@@ -3444,6 +3450,53 @@ define([
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(this.twistCoinDuration);
+            },
+
+            //  _____     _                         _   _                                               _    ____                      _
+            // |_   _| __(_) __ _  __ _  ___ _ __  | | | |_ __  _ __  _ __ ___ _ __   __ _ _ __ ___  __| |  / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___ _   _
+            //   | || '__| |/ _` |/ _` |/ _ \ '__| | | | | '_ \| '_ \| '__/ _ \ '_ \ / _` | '__/ _ \/ _` | | |   / _ \| '_ \/ __| '_ \| | '__/ _` |/ __| | | |
+            //   | || |  | | (_| | (_| |  __/ |    | |_| | | | | |_) | | |  __/ |_) | (_| | | |  __/ (_| | | |__| (_) | | | \__ \ |_) | | | | (_| | (__| |_| |
+            //   |_||_|  |_|\__, |\__, |\___|_|     \___/|_| |_| .__/|_|  \___| .__/ \__,_|_|  \___|\__,_|  \____\___/|_| |_|___/ .__/|_|_|  \__,_|\___|\__, |
+            //              |___/ |___/                        |_|            |_|                                               |_|                     |___/
+
+            onEnterTriggerUnpreparedConspiracy: function() {
+                if (this.getActivePlayerId() == this.player_id) {
+                    Object.keys(this.gamedatas.conspiraciesSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
+                        var conspiracyData = this.gamedatas.conspiraciesSituation[this.player_id][index];
+                        if (!conspiracyData.prepared && !conspiracyData.triggered) {
+                            let conspiracyNode = dojo.query('#player_conspiracies_' + this.player_id + ' div[data-conspiracy-position="' + conspiracyData.position + '"]')[0];
+                            dojo.addClass(conspiracyNode, 'green_border');
+                        }
+                    }));
+                }
+            },
+
+            onPlayerTurnSkipTriggerConspiracyClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onPlayerTurnSkipTriggerConspiracyClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionSkipTriggerUnpreparedConspiracy')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSkipTriggerUnpreparedConspiracy.html", {
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
             },
 
             //  _   _           _     ____  _                         _____

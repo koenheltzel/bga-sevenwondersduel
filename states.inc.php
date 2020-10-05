@@ -50,6 +50,13 @@
 //    !! It is not a good idea to modify this file when a game is running !!
 
 
+$conspiracyStateTransitions = [
+    SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID, // Conspiracies 2nd/3rd action
+    SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID,
+    SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID,
+    SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_ID,
+];
+
 $machinestates = [
 
     // The initial state. Please do not modify.
@@ -129,7 +136,6 @@ $machinestates = [
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
         ]
     ],
-
     SevenWondersDuelAgora::STATE_PLAYER_TURN_ID => [
         "name" => SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME,
         "description" => clienttranslate('Age ${ageRoman}: ${actplayer} must choose and use an age card'),
@@ -144,20 +150,21 @@ $machinestates = [
             "actionConstructWonder",
             "actionPrepareConspiracy",
         ],
-        "transitions" => [
-            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME=> SevenWondersDuelAgora::STATE_PLAYER_TURN_ID, // After triggering conspiracy
-            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME=> SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
-            SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_ID,
-            SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_ID,
-            SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
-            SevenWondersDuelAgora::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuelAgora::STATE_CHOOSE_DISCARDED_BUILDING_ID,
-            SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_ID,
-            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID, // Conspiracies 2nd/3rd action
-            SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID,
-            SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID,
-            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // For immediate victories, skipping special wonder action states.
-            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
-        ]
+        "transitions" => array_merge(
+            $conspiracyStateTransitions, // Support all conspiracy actions
+            [
+                SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME=> SevenWondersDuelAgora::STATE_PLAYER_TURN_ID, // After triggering conspiracy
+                SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME=> SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_ID,
+                SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_ID,
+                SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
+                SevenWondersDuelAgora::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuelAgora::STATE_CHOOSE_DISCARDED_BUILDING_ID,
+                SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_ID,
+                SevenWondersDuelAgora::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME => SevenWondersDuelAgora::STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID,
+                SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // For immediate victories, skipping special wonder action states.
+                SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
     ],
 
     SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_ID => [
@@ -286,6 +293,26 @@ $machinestates = [
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
         ]
+    ],
+
+    SevenWondersDuelAgora::STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID => [
+        "name" => SevenWondersDuelAgora::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME,
+        "description" => clienttranslate('${actplayer} may choose to trigger an unprepared Conspiracy'),
+        "descriptionmyturn" => clienttranslate('${you} may choose to trigger an unprepared Conspiracy'),
+        "type" => "activeplayer",
+        "action" => "enterStateTriggerUnpreparedConspiracy",
+        "args" => "argTriggerUnpreparedConspiracy",
+        "possibleactions" => [
+            "actionTriggerConspiracy",
+            "actionSkipTriggerUnpreparedConspiracy",
+        ],
+        "transitions" => array_merge(
+            $conspiracyStateTransitions, // Support all conspiracy actions
+            [
+                SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
     ],
 
     SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_ID => [

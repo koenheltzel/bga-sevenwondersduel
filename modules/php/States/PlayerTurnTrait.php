@@ -237,7 +237,7 @@ trait PlayerTurnTrait {
         }
 
         $conspiracy = Conspiracy::get($conspiracyId);
-        if (!$conspiracy->isPrepared()) {
+        if (!$conspiracy->isPrepared() && $this->gamestate->state()['name'] != self::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME) {
             throw new \BgaUserException( clienttranslate("The Conspiracy you selected has not been prepared yet.") );
         }
         if ($conspiracy->isTriggered()) {

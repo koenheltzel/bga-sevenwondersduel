@@ -62,10 +62,10 @@ class Conspiracies extends Collection {
     /**
      * @return Conspiracies
      */
-    public function filterByConstructed() {
+    public function filterByPrepared($prepared=true) {
         $conspiracies = new Conspiracies();
         foreach ($this->array as $conspiracy) {
-            if ($conspiracy->isConstructed()) {
+            if ($conspiracy->isPrepared() == $prepared) {
                 $conspiracies[] = $conspiracy;
             }
         }
