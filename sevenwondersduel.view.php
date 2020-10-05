@@ -83,6 +83,8 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
         $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_player_row_progress_tokens");
         $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_player_row");
         $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_player");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "influence_cube");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "influence_container");
         $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board");
         $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_column_block");
         $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "list_of_cards_page1");
@@ -106,8 +108,21 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
             $this->page->reset_subblocks('board');
             $this->page->reset_subblocks('board_player');
             $this->page->reset_subblocks('board_player_row');
+            $this->page->reset_subblocks('influence_container');
+            $this->page->reset_subblocks('influence_cube');
 
             if ($playerId == Player::me()->id) {
+                for ($chamber = 1; $chamber <= 6; $chamber++) {
+                    $this->page->reset_subblocks('influence_cube');
+
+                    foreach ([Player::opponent()->id, Player::me()->id] as $playerId) {
+                        $this->page->insert_block("influence_cube", array(
+                            "PLAYER_ID" => $playerId,
+                            "PLAYER_ALIAS" => Player::get($playerId)->getAlias()
+                        ));
+                    }
+                    $this->page->insert_block("influence_container");
+                }
                 $this->page->insert_block("board");
             }
 

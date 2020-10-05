@@ -91,7 +91,9 @@ define([
                                         }
                                         else {
                                             let span = dojo.query('span', sourceNode)[0];
-                                            span.innerHTML = parseInt(span.innerHTML) - 1;
+                                            let count = parseInt(span.innerHTML) - 1;
+                                            span.innerHTML = count;
+                                            dojo.style(sourceNode, 'opacity', count > 0 ? '1' : '0');
                                         }
                                     }),
                                 }),
@@ -114,7 +116,9 @@ define([
                                         }
                                         else {
                                             let span = dojo.query('span', targetNode)[0];
-                                            span.innerHTML = parseInt(span.innerHTML) + 1;
+                                            let count = parseInt(span.innerHTML) + 1;
+                                            span.innerHTML = count;
+                                            dojo.style(targetNode, 'display', count > 0 ? '1' : '0');
                                         }
                                     }),
                                 }),
@@ -123,7 +127,16 @@ define([
                         }
                     }
                 }
-                return dojo.fx.combine(anims);
+                return dojo.fx.chain([
+                    dojo.fx.combine(anims),
+                    dojo.animateProperty({ // End with a dummy animation to make sure the onEnd of the last cube is also executed.
+                        node: 'swd',
+                        duration: 0.1,
+                        properties: {
+                            dummy: 1
+                        }
+                    })
+                ]);
             },
         });
 

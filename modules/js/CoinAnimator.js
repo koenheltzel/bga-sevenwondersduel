@@ -108,7 +108,16 @@ define([
                         }
                     }
                 }
-                return dojo.fx.combine(anims);
+                return dojo.fx.chain([
+                    dojo.fx.combine(anims),
+                    dojo.animateProperty({ // End with a dummy animation to make sure the onEnd of the last coin is also executed.
+                        node: 'swd',
+                        duration: 0.1,
+                        properties: {
+                            dummy: 1
+                        }
+                    })
+                ]);
             },
         });
 

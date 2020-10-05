@@ -3148,23 +3148,10 @@ define([
                 // parseInt(data.controller)
                 let container = dojo.query('.influence_containers>div:nth-of-type(' + chamber + ')')[0];
                 for (let player_id of Object.values([this.me_id, this.opponent_id])) {
-                    let node = dojo.query('.agora_cube_' + this.getPlayerAlias(player_id), container)[0];
-                    if (node) {
-                        if (!data[player_id]) {
-                            dojo.destroy(node);
-                            node = null;
-                        }
-                    }
-                    else {
-                        if (data[player_id]) {
-                            node = dojo.place(this.getCubeDivHtml(data[player_id], player_id, false), container);
-                        }
-                    }
-                    if (node) {
-                        dojo.query('span', node)[0].innerHTML = data[player_id];
-                        dojo.toggleClass(node, 'agora_control' , data.controller && player_id == parseInt(data.controller));
-                    }
-
+                    let node = dojo.query('.player' + player_id, container)[0];
+                    dojo.query('span', node)[0].innerHTML = data[player_id];
+                    dojo.style(node, 'opacity', data[player_id] > 0 ? '1' : '0');
+                    dojo.toggleClass(node, 'agora_control' , data.controller && player_id == parseInt(data.controller));
                 }
 
                 if (data.revealDecrees) {
@@ -3262,10 +3249,10 @@ define([
                 this.markChambers([]);
 
                 var anim = dojo.fx.chain([
-                    // Coin payment
+                    // Influence cube
                     bgagame.CubeAnimator.get().getAnimation(
                         this.getPlayerCubeContainer(notif.args.playerId),
-                        dojo.query('.influence_containers div:nth-of-type(' + notif.args.chamber + ') .agora_cube')[0],
+                        dojo.query('.influence_containers div:nth-of-type(' + notif.args.chamber + ') .agora_cube.player'+notif.args.playerId)[0],
                         1,
                         notif.args.playerId
                     ),
@@ -3286,7 +3273,7 @@ define([
                 }));
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                this.notifqueue.setSynchronousDuration(anim.duration + this.twistCoinDuration + this.notification_safe_margin);
 
                 anim.play();
             },
@@ -3476,13 +3463,35 @@ define([
                 if (this.debug) console.log('notif_removeInfluence', notif);
 
                 this.markChambers([]);
-                Object.keys(notif.args.senateAction.chambers).forEach(dojo.hitch(this, function (chamber) {
-                    var chamberData = notif.args.senateAction.chambers[chamber];
-                    this.updateSenateChamber(chamber, chamberData);
+
+                var anim = dojo.fx.chain([
+                    // Influence cube
+                    bgagame.CubeAnimator.get().getAnimation(
+                        dojo.query('.influence_containers div:nth-of-type(' + notif.args.chamber + ') .agora_cube.player' + notif.args.opponentId)[0],
+                        this.getPlayerCubeContainer(notif.args.opponentId),
+                        1,
+                        notif.args.opponentId
+                    ),
+                ]);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayersSituation.
+                    anim.stop();
+                    // Clean up any existing coin nodes (normally cleaned up by their onEnd)
+                    dojo.query("#swd_wrap .agora_cube.animated").forEach(dojo.destroy);
+
+                    // dojo.style(playerBuildingId, 'z-index', 15);
+
+                    Object.keys(notif.args.senateAction.chambers).forEach(dojo.hitch(this, function (chamber) {
+                        var chamberData = notif.args.senateAction.chambers[chamber];
+                        this.updateSenateChamber(chamber, chamberData);
+                    }));
                 }));
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(this.twistCoinDuration);
+                this.notifqueue.setSynchronousDuration(anim.duration + this.twistCoinDuration + this.notification_safe_margin);
+
+                anim.play();
             },
 
             //  _____     _                         _   _                                               _    ____                      _
@@ -4060,7 +4069,7 @@ define([
             },
 
             getOppositePlayerId: function (playerId) {
-                return playerId == this.me_id ? this.opponent_id : this.me_id;
+                return parseInt(playerId) == this.me_id ? this.opponent_id : this.me_id;
             },
 
             getCostValue: function (cost) {

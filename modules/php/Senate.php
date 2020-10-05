@@ -100,6 +100,7 @@ class Senate extends Base
                 'chamber' => $chamber,
                 'playerId' => $player->id,
                 'player_name' => $player->name,
+                'opponentId' => $player->getOpponent()->id,
                 'opponent_name' => $player->getOpponent()->name,
                 'senateAction' => $senateAction, // Reference, so will be updated after this.
             ]

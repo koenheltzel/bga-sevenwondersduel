@@ -158,12 +158,13 @@
                         <div id="senate_container" class="agora">
                             <div class="senate"></div>
                             <div class="influence_containers">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
+                                <!-- BEGIN influence_container -->
+                                <div>
+                                    <!-- BEGIN influence_cube -->
+                                    <div class="agora_cube agora_cube_{PLAYER_ALIAS} player{PLAYER_ID} "><span>0</span></div>
+                                    <!-- END influence_cube -->
+                                </div>
+                                <!-- END influence_container -->
                             </div>
                             <div class="decree_containers">
                                 <div>
