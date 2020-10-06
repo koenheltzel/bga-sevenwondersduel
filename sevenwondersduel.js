@@ -1416,10 +1416,19 @@ define([
                         data.cardType = dojo.string.substitute(_("Age ${ageRoman} card"), {
                             ageRoman: this.ageRoman(building.age)
                         });
-                    } else {
+                    } else if(building.age == 4) {
                         data.cardType = _("Guild card");
+                    } else if(building.age == 5) {
+                        data.cardType = ""; // Senator, but that's already the typeDescription, so leave empty.
                     }
-                    data.jsName = _(building.name);
+
+                    if (data.cardType != "") {
+                        data.jsName = '“' + _(building.name) + '”';
+                    }
+                    else {
+                        data.jsName = _(building.name);
+                    }
+
                     data.jsType = _(building.type);
                     data.jsBuildingTypeColor = building.typeColor;
                     data.jsBuildingTypeDescription = _(building.typeDescription);

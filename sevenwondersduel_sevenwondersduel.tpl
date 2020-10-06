@@ -569,7 +569,7 @@ var jstpl_tooltip_cost_opponent = '\
 var jstpl_building_tooltip = '\
     <div class="swd_tooltip">\
         <div class="cardinfos">\
-            <strong>${cardType} “${jsName}”</strong><strong style="float:right; color: ${jsBuildingTypeColor}">${jsBuildingTypeDescription}</strong>\
+            <strong>${cardType} ${jsName}</strong><strong style="float:right; color: ${jsBuildingTypeColor}">${jsBuildingTypeDescription}</strong>\
             <hr\>\
             <p>${jsText}</p>\
             ${jsCostOpponent}\

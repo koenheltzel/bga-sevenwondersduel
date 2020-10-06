@@ -129,8 +129,20 @@ class Building extends Item {
         // We want to send this notification first, before the detailed "effects" notifications.
         // However, the Payment object passed in this notification is by reference and this will contain
         // the effects' modifications when the notification is send at the end of the request.
+        $wonderName = null;
+        $progressTokenName = null;
         if ($discardedCard) {
             $message = clienttranslate('${player_name} constructed discarded building “${buildingName}” for free (Wonder “${wonderName}”)');
+            $wonderName = Wonder::get(5)->name;
+        }
+        elseif ($this->type == Building::TYPE_SENATOR) {
+            if ($player->hasProgressToken(11)) {
+                $progressTokenName = ProgressToken::get(11)->name;
+                $message = clienttranslate('${player_name} recruited Senator “${buildingName}” for free (Progress Token “${progressTokenName}”)');
+            }
+            else {
+                $message = clienttranslate('${player_name} recruited Senator “${buildingName}” for ${cost} ${costUnit}');
+            }
         }
         else {
             $message = clienttranslate('${player_name} constructed building “${buildingName}” for ${cost} ${costUnit}');
@@ -139,7 +151,7 @@ class Building extends Item {
             'constructBuilding',
             $message,
             [
-                'i18n' => ['buildingName', 'wonderName', 'costUnit'],
+                'i18n' => ['buildingName', 'wonderName', 'costUnit', 'progressTokenName'],
                 'buildingName' => $this->name,
                 'cost' => $payment->totalCost() > 0 ? $payment->totalCost() : "",
                 'costUnit' => $payment->totalCost() > 0 ? RESOURCES[COINS] : clienttranslate('free'),
@@ -147,7 +159,8 @@ class Building extends Item {
                 'playerId' => $player->id,
                 'buildingId' => $this->id,
                 'payment' => $payment,
-                'wonderName' => $discardedCard ? Wonder::get(5)->name : ''
+                'wonderName' => $wonderName,
+                'progressTokenName' => $progressTokenName,
             ]
         );
 

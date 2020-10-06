@@ -37,10 +37,17 @@ class PaymentPlan extends Base
         if($print) print "<PRE>Calculate cost for player to buy “{$this->item->name}\" card.</PRE>";
 
         if ($this->item instanceof Building && $this->item->type == Building::TYPE_SENATOR) {
-            $senatorCount = count($player->getBuildings()->filterByTypes([Building::TYPE_SENATOR])->array);
-            $string = clienttranslate('Player has ${count} Senator(s)');
-            $args = ['count' => $senatorCount];
-            $this->addStep(COINS, $senatorCount, $senatorCount, null, null, $string, $args);
+            if ($player->hasProgressToken(11)) {
+                $string = clienttranslate('Player can recruit Senators for free (Progress Token “${progressTokenName}”)');
+                $args = ['progressTokenName' => ProgressToken::get(11)->name];
+                $this->addStep(COINS, 0, 0, null, null, $string, $args);
+            }
+            else {
+                $senatorCount = count($player->getBuildings()->filterByTypes([Building::TYPE_SENATOR])->array);
+                $string = clienttranslate('Player has ${count} Senator(s)');
+                $args = ['count' => $senatorCount];
+                $this->addStep(COINS, $senatorCount, $senatorCount, null, null, $string, $args);
+            }
         }
         else {
             $startTime = microtime(true);
