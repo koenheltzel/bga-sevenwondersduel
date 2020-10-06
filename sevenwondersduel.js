@@ -1968,6 +1968,8 @@ define([
                         // TODO: conspiracy effects
                         // Military Track animation (pawn movement, token handling)
                         bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment, "agora"),
+                        // Conspiracy Blackmail (coins going from opponent to player)
+                        this.getEconomyProgressTokenAnimation(notif.args.payment.coinsFromOpponent, this.getOppositePlayerId(notif.args.playerId)),
                     ]);
 
                     dojo.connect(anim, 'beforeBegin', dojo.hitch(this, function () {

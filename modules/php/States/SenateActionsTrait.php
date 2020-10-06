@@ -17,16 +17,17 @@ trait SenateActionsTrait {
      * @return array
      */
     public function argSenateActions() {
-        return [
-
+        $data = [
             'senateActionsLeft' => $this->getGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT),
             'senateActionsSection' => $this->getGameStateValue(self::VALUE_SENATE_ACTIONS_SECTION),
             'senateSituation' => Senate::getSituation(),
             // TODO: not sure what is needed below, I can image the cost of age/wonder cards can change with certain Decrees
-//            'draftpool' => Draftpool::get(),
-//            'wondersSituation' => Wonders::getSituation(),
-//            'playersSituation' => Players::getSituation(),
+            'draftpool' => Draftpool::get(),
+            'wondersSituation' => Wonders::getSituation(),
+            'playersSituation' => Players::getSituation(),
         ];
+        $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        return $data;
     }
 
     public function enterStateSenateActions() {

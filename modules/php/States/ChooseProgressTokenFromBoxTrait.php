@@ -16,7 +16,7 @@ trait ChooseProgressTokenFromBoxTrait {
      * @return array
      */
     public function argChooseProgressTokenFromBox() {
-        return [
+        $data = [
             '_private' => [ // Using "_private" keyword, all data inside this array will be made private
                 'active' => [ // Using "active" keyword inside "_private", you select active player(s)
                     'progressTokensFromBox' => $this->progressTokenDeck->getCardsInLocation('selection') // will be send only to active player(s)
@@ -26,6 +26,10 @@ trait ChooseProgressTokenFromBoxTrait {
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
         ];
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        }
+        return $data;
     }
 
     public function enterStateChooseProgressTokenFromBox() {

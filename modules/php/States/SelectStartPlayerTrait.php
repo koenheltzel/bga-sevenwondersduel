@@ -16,12 +16,16 @@ trait SelectStartPlayerTrait {
      */
     public function argSelectStartPlayer() {
         $draftpool = Draftpool::get();
-        return [
+        $data = [
             'ageRoman' => ageRoman($draftpool['age']),
             'draftpool' => $draftpool,
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
         ];
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        }
+        return $data;
     }
 
     public function enterStateSelectStartPlayer() {

@@ -26,12 +26,16 @@ trait ChooseOpponentBuildingTrait {
         elseif ((int)$this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY) > 0) {
             $buildingType = $this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY) == 3 ? Building::TYPE_BLUE : Building::TYPE_YELLOW;
         }
-        return [
+        $data = [
             'buildingType' => $buildingType,
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
         ];
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        }
+        return $data;
     }
 
     public function enterStateChooseOpponentBuilding() {

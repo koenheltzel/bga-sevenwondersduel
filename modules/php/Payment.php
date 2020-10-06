@@ -26,5 +26,6 @@ class Payment extends PaymentPlan
     public $decreeCoinRewardDecreeId = null;
     public $decreeCoinRewardPlayerId = null;
     public $militarySenateActions = [];
+    public $coinsFromOpponent = 0;
 
 }

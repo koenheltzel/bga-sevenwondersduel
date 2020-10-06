@@ -82,8 +82,32 @@ class Conspiracy extends Item {
         $sql = "UPDATE conspiracy SET card_type_arg = 1 WHERE card_id='{$this->id}'";
         self::DbQuery( $sql );
 
+        $opponent = $player->getOpponent();
+
         $payment = new Payment(); // Triggering a conspiracy is free.
         parent::constructEffects($player, $payment);
+
+        switch($this->id) {
+            case 2:
+                $payment->coinsFromOpponent = ceil($opponent->getCoins() / 2);
+                if ($payment->coinsFromOpponent > 0) {
+                    $opponent->increaseCoins(-$payment->coinsFromOpponent);
+                    $player->increaseCoins($payment->coinsFromOpponent);
+
+                    SevenWondersDuelAgora::get()->notifyAllPlayers(
+                        'message',
+                        clienttranslate('${player_name} takes half of ${opponent_name}\'s coin(s) (${coins}, rounded up) (Conspiracy “${conspiracyName}”)'),
+                        [
+                            'i18n' => ['conspiracyName'],
+                            'player_name' => $player->name,
+                            'opponent_name' => $opponent->name,
+                            'coins' => $payment->coinsFromOpponent,
+                            'conspiracyName' => $this->name,
+                        ]
+                    );
+                }
+                break;
+        }
 
         SevenWondersDuelAgora::get()->notifyAllPlayers(
             'triggerConspiracy',

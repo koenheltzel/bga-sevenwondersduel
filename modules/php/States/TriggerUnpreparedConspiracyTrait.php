@@ -13,7 +13,9 @@ trait TriggerUnpreparedConspiracyTrait {
      * @return array
      */
     public function argTriggerUnpreparedConspiracy() {
-        return [];
+        $data = [];
+        $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        return $data;
     }
 
     public function enterStateTriggerUnpreparedConspiracy() {

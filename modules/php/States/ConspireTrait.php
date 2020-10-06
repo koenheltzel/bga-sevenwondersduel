@@ -17,7 +17,7 @@ trait ConspireTrait {
      * @return array
      */
     public function argConspire() {
-        return [
+        $data = [
             '_private' => [ // Using "_private" keyword, all data inside this array will be made private
                 'active' => [ // Using "active" keyword inside "_private", you select active player(s)
                     'conspiracies' => $this->conspiracyDeck->getCardsInLocation('conspire') // will be send only to active player(s)
@@ -26,9 +26,9 @@ trait ConspireTrait {
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
-            // Because of Curia Julia, update the conspiracies situation (for the deck count)
-            'conspiraciesSituation' => Conspiracies::getSituation(),
         ];
+        $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        return $data;
     }
 
     public function enterStateConspire() {

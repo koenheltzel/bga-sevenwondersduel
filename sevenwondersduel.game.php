@@ -526,15 +526,19 @@ class SevenWondersDuelAgora extends Table
         return $result;
     }
 
-    function addMyConspiracies(&$data) {
-        $meId = Player::me()->id;
-        $opponentId = Player::opponent()->id;
-        if (!isset($data['_private'])) $data['_private'] = [];
-        if (!isset($data['_private'][$meId])) $data['_private'][$meId] = [];
-        if (!isset($data['_private'][$opponentId])) $data['_private'][$opponentId] = [];
+    function addConspiraciesSituation(&$data, $includePrivateData=true) {
+        $data['conspiraciesSituation'] = Conspiracies::getSituation();
 
-        $data['_private'][$meId]['myConspiracies'] = Conspiracies::getDeckCardsLocationArgAsKeys($meId);
-        $data['_private'][$opponentId]['myConspiracies'] = Conspiracies::getDeckCardsLocationArgAsKeys($opponentId);
+        if ($includePrivateData) {
+            $meId = Player::me()->id;
+            $opponentId = Player::opponent()->id;
+            if (!isset($data['_private'])) $data['_private'] = [];
+            if (!isset($data['_private'][$meId])) $data['_private'][$meId] = [];
+            if (!isset($data['_private'][$opponentId])) $data['_private'][$opponentId] = [];
+
+            $data['_private'][$meId]['myConspiracies'] = Conspiracies::getDeckCardsLocationArgAsKeys($meId);
+            $data['_private'][$opponentId]['myConspiracies'] = Conspiracies::getDeckCardsLocationArgAsKeys($opponentId);
+        }
     }
 
     /*

@@ -19,9 +19,8 @@ trait SelectWonderTrait {
             'wonderSelection' => count($cards) == 4 ? Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}") : null,
         ];
 
-        // Because of Curia Julia, update the conspiracies situation (for the deck count)
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
-            $data['conspiraciesSituation'] = Conspiracies::getSituation();
+            $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         }
         return $data;
     }

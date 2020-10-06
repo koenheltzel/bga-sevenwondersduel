@@ -15,6 +15,7 @@ trait PlaceInfluenceTrait {
     public function argPlaceInfluence() {
         $data = [];
         $data['senateSituation'] = Senate::getSituation();
+        $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         return $data;
     }
 
