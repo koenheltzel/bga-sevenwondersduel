@@ -62,47 +62,49 @@
                     <div id="draftpool_container">
                         <div id="draftpool" class="draftpool age">
                         </div>
-                        <div id="draftpool_actions" class="whiteblock">
-                            <a href="#" id="buttonPrepareConspiracy" class="action_button bgabutton bgabutton_blue agora"><div class="action_conspiracy"></div><span>{PREPARE_CONSPIRACY}</span></a>
-                            <a href="#" id="buttonConstructWonder" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>{CONSTRUCT_WONDER}</span></a>
-                            <a href="#" id="buttonConstructBuilding" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>{CONSTRUCT_BUILDING}</span></a>
-                            <a href="#" id="buttonDiscardBuilding" class="action_button bgabutton bgabutton_blue"><div class="coin"><span>+X</span></div><span>{DISCARD_BUILDING}</span></a>
-                        </div>
-                        <div id="select_start_player" class="whiteblock">
-                            <a href="#" id="buttonPlayerLeft" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Name 1</span></a>
-                            <div id="select_start_player_text"></div>
-                            <a href="#" id="buttonPlayerRight" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Name 2</span></a>
-                        </div>
-                        <div id="progress_token_from_box" class="whiteblock">
-                            <h3>{CHOOSE_PROGRESS_TOKEN_FROM_BOX}:</h3>
-                            <div id="progress_token_from_box_container">
-                                <div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div>
+                        <div id="action_container">
+                            <div id="draftpool_actions" class="whiteblock">
+                                <a href="#" id="buttonPrepareConspiracy" class="action_button bgabutton bgabutton_blue agora"><div class="action_conspiracy"></div><span>{PREPARE_CONSPIRACY}</span></a>
+                                <a href="#" id="buttonConstructWonder" class="action_button bgabutton bgabutton_blue"><div class="action_wonder"></div><span>{CONSTRUCT_WONDER}</span></a>
+                                <a href="#" id="buttonConstructBuilding" class="action_button bgabutton bgabutton_blue"><div class="action_construct"></div><span>{CONSTRUCT_BUILDING}</span></a>
+                                <a href="#" id="buttonDiscardBuilding" class="action_button bgabutton bgabutton_blue"><div class="coin"><span>+X</span></div><span>{DISCARD_BUILDING}</span></a>
+                            </div>
+                            <div id="select_start_player" class="whiteblock">
+                                <a href="#" id="buttonPlayerLeft" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Name 1</span></a>
+                                <div id="select_start_player_text"></div>
+                                <a href="#" id="buttonPlayerRight" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Name 2</span></a>
+                            </div>
+                            <div id="progress_token_from_box" class="whiteblock">
+                                <h3>{CHOOSE_PROGRESS_TOKEN_FROM_BOX}:</h3>
+                                <div id="progress_token_from_box_container">
+                                    <div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div>
+                                </div>
+                            </div>
+                            <div id="choose_conspirator_action" class="whiteblock">
+                                <a href="#" id="buttonPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_place_influence"></div><span>{PLACE_INFLUENCE}</span></a>
+                                <a href="#" id="buttonConspire" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{CONSPIRE}</span></a>
+                            </div>
+                            <div id="conspire" class="whiteblock">
+                                <div></div>
+                                <div></div>
+                                <div id="choose_conspire_remnant_position">
+                                    <h3>{CHOOSE_CONSPIRE_REMNANT_POSITION}</h3>
+                                    <a href="#" id="buttonConspiracyRemnantTop" class="action_button bgabutton bgabutton_blue"><span>{TOP}</span></a>
+                                    <a href="#" id="buttonConspiracyRemnantBottom" class="action_button bgabutton bgabutton_blue"><span>{BOTTOM}</span></a>
+                                </div>
+                            </div>
+                            <div id="senate_actions" class="whiteblock">
+                                <a href="#" id="buttonSenateActionsPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_place_influence"></div><span>{PLACE_INFLUENCE}</span></a>
+                                <a href="#" id="buttonSenateActionsMoveInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_move_influence"></div><span>{MOVE_INFLUENCE}</span></a>
+                                <a href="#" id="buttonSenateActionsSkip" class="action_button bgabutton bgabutton_blue"><div class="action_skip"></div><span>{SKIP_MOVE_INFLUENCE}</span></a>
+                            </div>
+                            <div id="move_influence" class="whiteblock">
+                                <a href="#" id="buttonMoveInfluenceSkip" class="action_button bgabutton bgabutton_blue"><div class="action_skip"></div><span>{SKIP_MOVE_INFLUENCE}</span></a>
+                            </div>
+                            <div id="trigger_unprepared_conspiracy" class="whiteblock">
+                                <a href="#" id="buttonTriggerUnpreparedConspiracySkip" class="action_button bgabutton bgabutton_blue"><div class="action_skip"></div><span>{SKIP_TRIGGER_UNPREPARED_CONSPIRACY}</span></a>
                             </div>
                         </div>
-                    </div>
-                    <div id="choose_conspirator_action" class="whiteblock">
-                        <a href="#" id="buttonPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_place_influence"></div><span>{PLACE_INFLUENCE}</span></a>
-                        <a href="#" id="buttonConspire" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{CONSPIRE}</span></a>
-                    </div>
-                    <div id="conspire" class="whiteblock">
-                        <div></div>
-                        <div></div>
-                        <div id="choose_conspire_remnant_position">
-                            <h3>{CHOOSE_CONSPIRE_REMNANT_POSITION}</h3>
-                            <a href="#" id="buttonConspiracyRemnantTop" class="action_button bgabutton bgabutton_blue"><span>{TOP}</span></a>
-                            <a href="#" id="buttonConspiracyRemnantBottom" class="action_button bgabutton bgabutton_blue"><span>{BOTTOM}</span></a>
-                        </div>
-                    </div>
-                    <div id="senate_actions" class="whiteblock">
-                        <a href="#" id="buttonSenateActionsPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_place_influence"></div><span>{PLACE_INFLUENCE}</span></a>
-                        <a href="#" id="buttonSenateActionsMoveInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_move_influence"></div><span>{MOVE_INFLUENCE}</span></a>
-                        <a href="#" id="buttonSenateActionsSkip" class="action_button bgabutton bgabutton_blue"><div class="action_skip"></div><span>{SKIP_MOVE_INFLUENCE}</span></a>
-                    </div>
-                    <div id="move_influence" class="whiteblock">
-                        <a href="#" id="buttonMoveInfluenceSkip" class="action_button bgabutton bgabutton_blue"><div class="action_skip"></div><span>{SKIP_MOVE_INFLUENCE}</span></a>
-                    </div>
-                    <div id="trigger_unprepared_conspiracy" class="whiteblock">
-                        <a href="#" id="buttonTriggerUnpreparedConspiracySkip" class="action_button bgabutton bgabutton_blue"><div class="action_skip"></div><span>{SKIP_TRIGGER_UNPREPARED_CONSPIRACY}</span></a>
                     </div>
                     <!-- END draftpool -->
                     <!-- BEGIN end_game -->

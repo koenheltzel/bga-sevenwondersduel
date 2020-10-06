@@ -338,7 +338,7 @@ define([
                             dojo.hitch(this, "onChooseConspireRemnantPositionClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-client-state=client_useAgeCard] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"0\"]:click",
+                        .on("#swd[data-client-state=client_useAgeCard] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"0\"][data-conspiracy-triggered=\"0\"]:click",
                             dojo.hitch(this, "onPlayerTurnPrepareConspiracySelectedClick")
                         );
                     dojo.query('body')
@@ -743,7 +743,7 @@ define([
             updateDraftpool: function (draftpool, setupGame = false) {
                 if (this.debug) console.log('updateDraftpool: ', draftpool, setupGame, 'age: ', draftpool.age);
 
-                dojo.style('draftpool_container', 'display', draftpool.age > 0 ? 'block' : 'none');
+                dojo.style('draftpool_container', 'display', draftpool.age > 0 ? 'flex' : 'none');
 
                 dojo.attr($('swd'), 'data-age', draftpool.age == undefined ? 0 : draftpool.age);
 
@@ -1850,11 +1850,11 @@ define([
                     dojo.removeClass($('buttonConstructWonder'), 'bgabutton_darkgray');
                     dojo.addClass($('buttonConstructWonder'), canAffordWonder ? 'bgabutton_blue' : 'bgabutton_darkgray');
 
-                    let conspiraciesToPrepare = dojo.query('#player_conspiracies_' + this.player_id + ' .conspiracy_small[data-conspiracy-prepared="0"]');
+                    let conspiraciesToPrepare = dojo.query('#player_conspiracies_' + this.player_id + ' .conspiracy_small[data-conspiracy-prepared="0"][data-conspiracy-triggered="0"]');
                     dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_blue', conspiraciesToPrepare.length > 0);
                     dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_darkgray', conspiraciesToPrepare.length == 0);
 
-                    dojo.setStyle('draftpool_actions', 'visibility', 'visible');
+                    dojo.setStyle('draftpool_actions', 'display', 'flex');
 
                     this.setClientState("client_useAgeCard", {
                         descriptionmyturn: _("${you} must choose the action for the age card, or select a different age card"),
@@ -1905,8 +1905,7 @@ define([
                             conspiracyId: conspiracyId,
                         },
                         this, function (result) {
-                            dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
-                            // dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
+                            dojo.setStyle('draftpool_actions', 'display', 'none');
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
 
@@ -2043,7 +2042,7 @@ define([
                             buildingId: this.playerTurnBuildingId
                         },
                         this, function (result) {
-                            dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
+                            dojo.setStyle('draftpool_actions', 'display', 'none');
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
 
@@ -2184,7 +2183,7 @@ define([
                             buildingId: this.playerTurnBuildingId
                         },
                         this, function (result) {
-                            dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
+                            dojo.setStyle('draftpool_actions', 'display', 'none');
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
 
@@ -2285,7 +2284,7 @@ define([
                             wonderId: wonderId,
                         },
                         this, function (result) {
-                            dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
+                            dojo.setStyle('draftpool_actions', 'display', 'none');
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
 
@@ -2502,7 +2501,7 @@ define([
                             conspiracyId: conspiracyId,
                         },
                         this, function (result) {
-                            dojo.setStyle('draftpool_actions', 'visibility', 'hidden');
+                            dojo.setStyle('draftpool_actions', 'display', 'none');
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
 

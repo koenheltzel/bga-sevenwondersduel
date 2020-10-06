@@ -21,7 +21,7 @@ trait ChooseConspireRemnantPositionTrait {
         $cards = $this->conspiracyDeck->getCardsInLocation('conspire');
         $data = [
             '_private' => [ // Using "_private" keyword, all data inside this array will be made private
-                'active' => [ // Using "active" keyword inside "_private", you select active player(s)
+                Player::getActive()->id => [ // Using "active" keyword inside "_private", you select active player(s)
                     'conspiracyId' => array_shift($cards)['id'] // will be send only to active player(s)
                 ]
             ],

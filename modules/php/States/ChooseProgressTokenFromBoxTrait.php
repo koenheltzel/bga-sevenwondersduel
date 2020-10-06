@@ -18,7 +18,7 @@ trait ChooseProgressTokenFromBoxTrait {
     public function argChooseProgressTokenFromBox() {
         $data = [
             '_private' => [ // Using "_private" keyword, all data inside this array will be made private
-                'active' => [ // Using "active" keyword inside "_private", you select active player(s)
+                Player::getActive()->id => [ // Using "active" keyword inside "_private", you select active player(s)
                     'progressTokensFromBox' => $this->progressTokenDeck->getCardsInLocation('selection') // will be send only to active player(s)
                 ]
             ],

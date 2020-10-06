@@ -5,8 +5,10 @@
 }
 
 #draftpool_container {
-    padding: var(--gutter);
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(100% - 2 * var(--gutter));
 }
 
 .draftpool {
@@ -38,22 +40,26 @@
     --element-scale: 0.85;
 }
 
+#action_container {
+    min-height: calc(67px * var(--scale));
+}
+
 #draftpool_actions {
     text-align: center;
-    visibility: hidden;
-    display: flex;
+    display: none;
     justify-content: space-between;
+    width: calc(var(--building-columns-count) * var(--building-small-width) + (var(--building-columns-count) - 1) * 2px - 2 * var(--gutter));
 }
 
-#draftpool_actions > a > div {
-    margin-right: var(--gutter);
-}
-
-#draftpool_actions > a, #senate_actions > a {
+#action_container a {
     margin: 0;
     height: calc(34px * var(--scale));
     font-size: calc(14px * var(--scale));
     line-height: calc(34px * var(--scale));
+}
+
+#action_container a > div {
+    margin-right: var(--gutter);
 }
 
 #buttonConstructWonder {
