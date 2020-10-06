@@ -110,18 +110,36 @@ trait PlayerTurnTrait {
 
         $this->incStat(1, self::STAT_DISCARDED_CARDS, $player->id);
 
-        $this->notifyAllPlayers(
-            'discardBuilding',
-            clienttranslate('${player_name} discarded building “${buildingName}” for ${gain} coins'),
-            [
-                'i18n' => ['buildingName'],
-                'buildingName' => $building->name,
-                'gain' => $discardGain,
-                'player_name' => $player->name,
-                'playerId' => $player->id,
-                'buildingId' => $building->id,
-            ]
-        );
+        if ($player->hasDecree(13)) {
+            $this->notifyAllPlayers(
+                'discardBuilding',
+                clienttranslate('${player_name} discarded building “${buildingName}” for ${gain} coins (+2 because he controls the Decree in Chamber ${chamber})'),
+                [
+                    'i18n' => ['buildingName'],
+                    'buildingName' => $building->name,
+                    'gain' => $discardGain,
+                    'player_name' => $player->name,
+                    'playerId' => $player->id,
+                    'buildingId' => $building->id,
+                    'chamber' => Decree::get(13)->getChamber(),
+                ]
+            );
+        }
+        else {
+            $this->notifyAllPlayers(
+                'discardBuilding',
+                clienttranslate('${player_name} discarded building “${buildingName}” for ${gain} coins'),
+                [
+                    'i18n' => ['buildingName'],
+                    'buildingName' => $building->name,
+                    'gain' => $discardGain,
+                    'player_name' => $player->name,
+                    'playerId' => $player->id,
+                    'buildingId' => $building->id,
+                ]
+            );
+        }
+
 
         $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
 

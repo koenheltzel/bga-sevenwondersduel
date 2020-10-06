@@ -88,7 +88,12 @@ trait SenateActionsTrait {
     public function senateActionNextState() {
         if ($this->gamestate->state()['name'] == self::STATE_SENATE_ACTIONS_NAME) {
             if ((int)($this->incGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, -1)) > 0) {
-                $this->gamestate->nextState( self::STATE_SENATE_ACTIONS_NAME);
+                if ($this->checkImmediateVictory()) {
+                    $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
+                }
+                else {
+                    $this->gamestate->nextState( self::STATE_SENATE_ACTIONS_NAME);
+                }
             }
             else {
                 $this->stateStackNextState();
@@ -100,25 +105,30 @@ trait SenateActionsTrait {
     }
 
     public function stateStackNextState($stateIfEmpty = null) {
-        $stack = json_decode($this->getGameStateValue(self::VALUE_STATE_STACK));
-
-        while (count($stack) > 0) {
-            $nextState = array_shift($stack);
-            $shouldSkipMethod = "shouldSkip" . ucfirst($nextState);
-            if (method_exists($this, $shouldSkipMethod) &&
-                $this->{$shouldSkipMethod}()
-            ) {
-                // We now have skipped this state, continue the while loop.
-            }
-            else {
-                // Skip method does not exist or result is false, we can go into this state.
-                $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
-                $this->gamestate->nextState( $nextState );
-                return;
-            }
+        if ($this->checkImmediateVictory()) {
+            $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
         }
+        else {
+            $stack = json_decode($this->getGameStateValue(self::VALUE_STATE_STACK));
 
-        $this->gamestate->nextState( $stateIfEmpty );
+            while (count($stack) > 0) {
+                $nextState = array_shift($stack);
+                $shouldSkipMethod = "shouldSkip" . ucfirst($nextState);
+                if (method_exists($this, $shouldSkipMethod) &&
+                    $this->{$shouldSkipMethod}()
+                ) {
+                    // We now have skipped this state, continue the while loop.
+                }
+                else {
+                    // Skip method does not exist or result is false, we can go into this state.
+                    $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
+                    $this->gamestate->nextState( $nextState );
+                    return;
+                }
+            }
+
+            $this->gamestate->nextState( $stateIfEmpty );
+        }
     }
 
     public function setStateStack($stack) {

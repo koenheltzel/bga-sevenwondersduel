@@ -205,7 +205,11 @@ class Player extends Base{
     }
 
     public function calculateDiscardGain() {
-        return 2 + count($this->getBuildings()->filterByTypes([Building::TYPE_YELLOW])->array);
+        $gain = 2 + count($this->getBuildings()->filterByTypes([Building::TYPE_YELLOW])->array);
+        if ($this->hasDecree(13)) {
+            $gain += 2;
+        }
+        return $gain;
     }
 
     /**

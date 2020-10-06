@@ -188,12 +188,14 @@ class SevenWondersDuelAgora extends Table
     const END_GAME_CONDITION_NORMAL = 3;
     const END_GAME_CONDITION_NORMAL_AUX = 4;
     const END_GAME_CONDITION_DRAW = 5;
+    const END_GAME_CONDITION_POLITICAL = 6;
 
     // Statistics
     const STAT_TURNS_NUMBER = "turns_number";
     const STAT_CIVILIAN_VICTORY = "civilian_victory";
     const STAT_SCIENTIFIC_SUPREMACY = "scientific_supremacy";
     const STAT_MILITARY_SUPREMACY = "military_supremacy";
+    const STAT_POLITICAL_SUPREMACY = "political_supremacy";
     const STAT_DRAW = "draw";
     const STAT_VICTORY_POINTS = "victory_points";
     const STAT_VP_BLUE = "vp_blue";
@@ -416,12 +418,14 @@ class SevenWondersDuelAgora extends Table
         self::initStat('table', self::STAT_CIVILIAN_VICTORY, 0);
         self::initStat('table', self::STAT_SCIENTIFIC_SUPREMACY, 0);
         self::initStat('table', self::STAT_MILITARY_SUPREMACY, 0);
+        self::initStat('table', self::STAT_POLITICAL_SUPREMACY, 0);
         self::initStat('table', self::STAT_DRAW, 0);
         // Player statistics (for all players)
         self::initStat('player', self::STAT_TURNS_NUMBER, 0);
         self::initStat('player', self::STAT_CIVILIAN_VICTORY, 0);
         self::initStat('player', self::STAT_SCIENTIFIC_SUPREMACY, 0);
         self::initStat('player', self::STAT_MILITARY_SUPREMACY, 0);
+        self::initStat('player', self::STAT_POLITICAL_SUPREMACY, 0);
         self::initStat('player', self::STAT_DRAW, 0);
         self::initStat('player', self::STAT_VICTORY_POINTS, 0);
         self::initStat('player', self::STAT_VP_BLUE, 0);

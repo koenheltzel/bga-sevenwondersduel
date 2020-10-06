@@ -9,6 +9,7 @@ use SWD\MilitaryTrack;
 use SWD\Player;
 use SWD\Players;
 use SWD\ProgressToken;
+use SWD\Senate;
 
 trait NextPlayerTurnTrait {
 
@@ -231,6 +232,23 @@ trait NextPlayerTurnTrait {
         $scienceSymbolCount = $player->getScientificSymbolCount();
         SevenWondersDuelAgora::get()->setStat($scienceSymbolCount, SevenWondersDuelAgora::STAT_SCIENCE_SYMBOLS, $player->id);
 
+        $politicalSupremacyPlayer = null;
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            $situation = Senate::getSituation();
+            $playerChambers = [Player::me()->id => 0, Player::opponent()->id => 0];
+            foreach($situation['chambers'] as $chamber) {
+                if (is_null($chamber['controller'])) {
+                    break;
+                }
+                else {
+                    $playerChambers[$chamber['controller']]++;
+                    if ($playerChambers[$chamber['controller']] == 6) {
+                        $politicalSupremacyPlayer = Player::get($chamber['controller']);
+                    }
+                }
+            }
+        }
+
         $conflictPawnPosition = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CONFLICT_PAWN_POSITION);
         if ($scienceSymbolCount >= 6) {
             $player->setWinner();
@@ -260,6 +278,22 @@ trait NextPlayerTurnTrait {
                 clienttranslate('${player_name} wins the game through Military Supremacy (Conflict pawn reached the opponent\'s capital)'),
                 [
                     'player_name' => $player->name,
+                    'playersSituation' => Players::getSituation(true),
+                ]
+            );
+            return true;
+        }
+        elseif ($politicalSupremacyPlayer) {
+            $politicalSupremacyPlayer->setWinner();
+            self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_POLITICAL);
+            $this->setStat(1, self::STAT_POLITICAL_SUPREMACY);
+            $this->setStat(1, self::STAT_POLITICAL_SUPREMACY, $politicalSupremacyPlayer->id);
+
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
+                'nextPlayerTurnPoliticalSupremacy',
+                clienttranslate('${player_name} wins the game through Political Supremacy (controls all 6 Chambers of the Senate)'),
+                [
+                    'player_name' => $politicalSupremacyPlayer->name,
                     'playersSituation' => Players::getSituation(true),
                 ]
             );

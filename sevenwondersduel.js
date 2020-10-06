@@ -452,6 +452,9 @@ define([
                 dojo.subscribe('nextPlayerTurnMilitarySupremacy', this, "notif_nextPlayerTurnMilitarySupremacy");
                 this.notifqueue.setSynchronous('nextPlayerTurnMilitarySupremacy');
 
+                dojo.subscribe('nextPlayerTurnPoliticalSupremacy', this, "notif_nextPlayerTurnPoliticalSupremacy");
+                this.notifqueue.setSynchronous('nextPlayerTurnPoliticalSupremacy');
+
                 dojo.subscribe('nextPlayerTurnEndGameScoring', this, "notif_nextPlayerTurnEndGameScoring");
                 this.notifqueue.setSynchronous('nextPlayerTurnEndGameScoring');
 
@@ -1628,6 +1631,9 @@ define([
                         case 4:
                         case 5:
                             this.endGameScoringAnimation(situation);
+                            break;
+                        case 6:
+                            this.politicalSupremacyAnimation(situation);
                             break;
                     }
                 }
@@ -3646,6 +3652,26 @@ define([
             militarySupremacyAnimation: function (playersSituation) {
                 if (this.debug) console.log('militarySupremacyAnimation', playersSituation);
                 dojo.addClass($('conflict_pawn'), 'endgame_highlight');
+
+                // Unset endGameCondition to prevent an infinite loop.
+                playersSituation.endGameCondition = undefined;
+                this.updatePlayersSituation(playersSituation);
+                return 500;
+            },
+
+            notif_nextPlayerTurnPoliticalSupremacy: function (notif) {
+                if (this.debug) console.log('notif_nextPlayerTurnPoliticalSupremacy', notif);
+
+                var animationDuration = this.politicalSupremacyAnimation(notif.args.playersSituation);
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(animationDuration);
+            },
+
+            politicalSupremacyAnimation: function (playersSituation) {
+                if (this.debug) console.log('politicalSupremacyAnimation', playersSituation);
+
+                dojo.query(".influence_containers .agora_cube.player" + playersSituation.winner).addClass("endgame_highlight");
 
                 // Unset endGameCondition to prevent an infinite loop.
                 playersSituation.endGameCondition = undefined;

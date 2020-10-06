@@ -72,6 +72,11 @@ $stats_type = [
             "name" => totranslate("Military Supremacy"),
             "type" => "int"
         ],
+        "political_supremacy" => [
+            "id" => 42,
+            "name" => totranslate("Political Supremacy"),
+            "type" => "int"
+        ],
         "draw" => [
             "id" => 41,
             "name" => totranslate("Draw"),
@@ -113,6 +118,11 @@ $stats_type = [
         "military_supremacy" => [
             "id" => 40,
             "name" => totranslate("Military Supremacy"),
+            "type" => "int"
+        ],
+        "political_supremacy" => [
+            "id" => 42,
+            "name" => totranslate("Political Supremacy"),
             "type" => "int"
         ],
         "draw" => [
