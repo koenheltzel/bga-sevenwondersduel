@@ -1,7 +1,20 @@
 
 /* High-res 2X assets (retina): */
 
-#swd[data-quality="2x"] .action_construct, #swd[data-quality="2x"] .action_wonder, #swd[data-quality="2x"] .clay, #swd[data-quality="2x"] .coin, #swd[data-quality="2x"] .coin#swd[data-quality="2x"] .opponent, #swd[data-quality="2x"] .end_game_card, #swd[data-quality="2x"] .glass, #swd[data-quality="2x"] .military_token_2, #swd[data-quality="2x"] .military_token_5, #swd[data-quality="2x"] .papyrus, #swd[data-quality="2x"] .pawn, #swd[data-quality="2x"] .point, #swd[data-quality="2x"] .stone, #swd[data-quality="2x"] .wood {
+#swd[data-quality="2x"] .action_construct,
+#swd[data-quality="2x"] .action_wonder,
+#swd[data-quality="2x"] .clay,
+#swd[data-quality="2x"] .coin,
+#swd[data-quality="2x"] .coin.opponent,
+#swd[data-quality="2x"] .end_game_card,
+#swd[data-quality="2x"] .glass,
+#swd[data-quality="2x"] .military_token_2,
+#swd[data-quality="2x"] .military_token_5,
+#swd[data-quality="2x"] .papyrus,
+#swd[data-quality="2x"] .pawn,
+#swd[data-quality="2x"] .point,
+#swd[data-quality="2x"] .stone,
+#swd[data-quality="2x"] .wood {
     background-image: url('img/sprites@2X.png') !important;
 }
 
@@ -36,6 +49,18 @@
 #swd[data-quality="2x"] .senate {
     background-image: url('img/agora_senate@2X.png');
 }
-#swd[data-quality="2x"] .agora_cube3d_me, #swd[data-quality="2x"] .agora_cube3d_opponent, #swd[data-quality="2x"] .agora_cube_me, #swd[data-quality="2x"] .agora_cube_opponent, #swd[data-agora="1"] #swd[data-quality="2x"] .military_token_2, #swd[data-agora="1"] #swd[data-quality="2x"] .military_token_5, #swd[data-quality="2x"] .end_game_senate, #swd[data-quality="2x"] .agora_icon {
+#swd[data-quality="2x"] .agora_cube3d_me,
+#swd[data-quality="2x"] .agora_cube3d_opponent,
+#swd[data-quality="2x"] .agora_cube_me,
+#swd[data-quality="2x"] .agora_cube_opponent,
+#swd[data-agora="1"] #swd[data-quality="2x"] .military_token_2,
+#swd[data-agora="1"] #swd[data-quality="2x"] .military_token_5,
+#swd[data-quality="2x"] .end_game_senate,
+#swd[data-quality="2x"] .action_conspiracy,
+#swd[data-quality="2x"] .action_place_influence,
+#swd[data-quality="2x"] .action_move_influence,
+#swd[data-quality="2x"] .action_remove_influence,
+#swd[data-quality="2x"] .action_skip,
+#swd[data-quality="2x"] .agora_icon {
     background-image: url('img/agora_sprites@2X.png');
 }

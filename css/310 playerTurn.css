@@ -53,6 +53,15 @@
     height: calc(34px * var(--scale));
 }
 
+.action_skip {
+    background-image: url('img/agora_sprites.png');
+    background-position: 47.722% 95.946%;
+    background-size: 1003.922%;
+
+    width: calc(26px * var(--scale));
+    height: calc(34px * var(--scale));
+}
+
 .action_button * {
     display: inline-block;
     vertical-align: middle;
