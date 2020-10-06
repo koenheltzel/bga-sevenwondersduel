@@ -107,6 +107,42 @@ class Conspiracy extends Item {
                     );
                 }
                 break;
+            case 12:
+                $payment->coinReward = 12 - $player->getCubes();
+                if ($payment->coinReward > 0) {
+                    $player->increaseCoins($payment->coinReward);
+
+                    SevenWondersDuelAgora::get()->notifyAllPlayers(
+                        'message',
+                        clienttranslate('${player_name} gets ${coins} coin(s), as many as Influence cubes he has in the Senate (Conspiracy “${conspiracyName}”)'),
+                        [
+                            'i18n' => ['conspiracyName'],
+                            'player_name' => $player->name,
+                            'coins' => $payment->coinReward,
+                            'conspiracyName' => $this->name,
+                        ]
+                    );
+                }
+                $payment->opponentCoinLoss = 12 - $opponent->getCubes();
+                if ($payment->opponentCoinLoss > 0) {
+                    $possibleOpponentCoinLoss = min($opponent->getCoins(), $payment->opponentCoinLoss);
+                    if ($possibleOpponentCoinLoss > 0) {
+                        $payment->opponentCoinLoss = $possibleOpponentCoinLoss;
+                        $opponent->increaseCoins(-$possibleOpponentCoinLoss);
+
+                        SevenWondersDuelAgora::get()->notifyAllPlayers(
+                            'message',
+                            clienttranslate('${player_name} loses ${coins} coin(s), as many as Influence cubes he has in the Senate (Conspiracy “${conspiracyName}”)'),
+                            [
+                                'i18n' => ['conspiracyName'],
+                                'player_name' => $opponent->name,
+                                'coins' => $possibleOpponentCoinLoss,
+                                'conspiracyName' => $this->name,
+                            ]
+                        );
+                    }
+                }
+                break;
         }
 
         SevenWondersDuelAgora::get()->notifyAllPlayers(

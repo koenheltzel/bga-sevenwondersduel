@@ -758,7 +758,9 @@ class Material extends Base
 
         $this->conspiracies[12] = (new Conspiracy(12, clienttranslate("Embezzlement")))
             ->addText("Gain as many Coins as Influence cubes you have in the Senate.")
-            ->addText("Your opponent loses as many Coins as Influence cubes they have in the Senate.");
+            ->addText("Your opponent loses as many Coins as Influence cubes they have in the Senate.")
+            ->setVisualCoinPosition([-0.176, 0.111])
+            ->setVisualOpponentCoinLossPosition([0.671, 0.611]);
 //            ->setCoins(3) // But dynamic
 //            ->setOpponentCoinLoss(3); // But dynamic
 

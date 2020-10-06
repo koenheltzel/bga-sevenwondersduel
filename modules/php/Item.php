@@ -21,6 +21,7 @@ class Item extends Base
     public $victoryPoints = 0;
     public $coins = 0; // coins as a reward, not cost
     public $scientificSymbol = 0;
+
     public $actionStates = [];
 
     /**
@@ -28,6 +29,12 @@ class Item extends Base
      * @var int
      */
     public $visualCoinPosition = [0, 0];
+
+    /**
+     * The visual position of the opponent coin loss on the card. Percentages from the center of the card.
+     * @var int
+     */
+    public $visualOpponentCoinLossPosition = [0, 0];
 //    public $playEffects = [];
 //    public $endEffects = [];
 
@@ -297,6 +304,15 @@ class Item extends Base
      */
     public function setVisualCoinPosition(array $visualCoinPosition) {
         $this->visualCoinPosition = $visualCoinPosition;
+        return $this;
+    }
+
+    /**
+     * @param array $visualOpponentCoinLossPosition
+     * @return static
+     */
+    public function setVisualOpponentCoinLossPosition(array $visualOpponentCoinLossPosition) {
+        $this->visualOpponentCoinLossPosition = $visualOpponentCoinLossPosition;
         return $this;
     }
 

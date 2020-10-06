@@ -13,12 +13,6 @@ class Wonder extends Item {
     public $progressTokenFromBox = false;
 
     /**
-     * The visual position of the opponent coin loss on the card. Percentages from the center of the card.
-     * @var int
-     */
-    public $visualOpponentCoinLossPosition = [0, 0];
-
-    /**
      * @param $id
      * @return Wonder
      */
@@ -180,15 +174,6 @@ class Wonder extends Item {
     public function setOpponentCoinLoss(int $opponentCoinLoss) {
         $this->opponentCoinLoss = $opponentCoinLoss;
         $this->addText(sprintf(self::_("Your opponent loses %d coins, which are returned to the bank."), $opponentCoinLoss));
-        return $this;
-    }
-
-    /**
-     * @param array $visualOpponentCoinLossPosition
-     * @return static
-     */
-    public function setVisualOpponentCoinLossPosition(array $visualOpponentCoinLossPosition) {
-        $this->visualOpponentCoinLossPosition = $visualOpponentCoinLossPosition;
         return $this;
     }
 

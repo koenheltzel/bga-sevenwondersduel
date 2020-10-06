@@ -1927,6 +1927,7 @@ define([
 
                     let conspiracyNode = dojo.query('#player_conspiracies_' + notif.args.playerId + ' div[data-conspiracy-position="' + notif.args.conspiracyPosition + '"]')[0];
                     var conspiracyContainer = conspiracyNode.parentElement;
+                    var conspiracy = this.gamedatas.conspiracies[notif.args.conspiracyId];
 
                     var ageCardContainer = dojo.query('.age_card_container', conspiracyContainer)[0];
                     var conspiracyBackNode = dojo.place(oldConspiracyNodeHtml, conspiracyContainer);
@@ -1970,6 +1971,23 @@ define([
                         bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment, "agora"),
                         // Conspiracy Blackmail (coins going from opponent to player)
                         this.getEconomyProgressTokenAnimation(notif.args.payment.coinsFromOpponent, this.getOppositePlayerId(notif.args.playerId)),
+                        // Conspiracy Embezzlement part 1
+                        bgagame.CoinAnimator.get().getAnimation(
+                            conspiracyNode,
+                            this.getPlayerCoinContainer(notif.args.playerId),
+                            notif.args.payment.coinReward,
+                            notif.args.playerId,
+                            [conspiracy.visualCoinPosition[0] * conspiracyNodePosition.w, conspiracy.visualCoinPosition[1] * conspiracyNodePosition.h]
+                        ),
+                        // Conspiracy Embezzlement part 2
+                        bgagame.CoinAnimator.get().getAnimation(
+                            this.getPlayerCoinContainer(notif.args.playerId, true),
+                            conspiracyNode,
+                            notif.args.payment.opponentCoinLoss,
+                            this.getOppositePlayerId(notif.args.playerId),
+                            [0, 0],
+                            [conspiracy.visualOpponentCoinLossPosition[0] * conspiracyNodePosition.w, conspiracy.visualOpponentCoinLossPosition[1] * conspiracyNodePosition.h]
+                        ),
                     ]);
 
                     dojo.connect(anim, 'beforeBegin', dojo.hitch(this, function () {
