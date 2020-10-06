@@ -22,7 +22,12 @@ class Decree extends Item {
 
     public function getChamber() {
         $cardInfo = SevenWondersDuelAgora::get()->decreeDeck->getCard($this->id);
-        return (int)substr($cardInfo['location_arg'], 0, 1);
+        if ($cardInfo['location'] == "board") {
+            return (int)substr($cardInfo['location_arg'], 0, 1);
+        }
+        else {
+            return null;
+        }
     }
 
 }

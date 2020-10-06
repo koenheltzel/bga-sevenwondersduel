@@ -228,23 +228,24 @@ class Senate extends Base
     }
 
     public static function getControllingPlayer($chamber, SenateAction &$senateAction=null) {
-        /** @var Deck $deck */
-        $deck = SevenWondersDuelAgora::get()->influenceCubeDeck;
-        $me = Player::me();
-        $opponent = Player::opponent();
-
-        $meCubes = $deck->getCardsOfTypeInLocation($me->id, null, "chamber{$chamber}");
-        $opponentCubes = $deck->getCardsOfTypeInLocation($opponent->id, null, "chamber{$chamber}");
-
         $controllingPlayer = null;
-        if (count($meCubes) != count($opponentCubes)) {
-            $controllingPlayer = count($meCubes) > count($opponentCubes) ? $me : $opponent;
-        }
+        if ($chamber) {
+            /** @var Deck $deck */
+            $deck = SevenWondersDuelAgora::get()->influenceCubeDeck;
+            $me = Player::me();
+            $opponent = Player::opponent();
 
-        if ($senateAction) {
-            $senateAction->addChamber($chamber, count($meCubes), count($opponentCubes), $controllingPlayer ? $controllingPlayer->id : null);
-        }
+            $meCubes = $deck->getCardsOfTypeInLocation($me->id, null, "chamber{$chamber}");
+            $opponentCubes = $deck->getCardsOfTypeInLocation($opponent->id, null, "chamber{$chamber}");
 
+            if (count($meCubes) != count($opponentCubes)) {
+                $controllingPlayer = count($meCubes) > count($opponentCubes) ? $me : $opponent;
+            }
+
+            if ($senateAction) {
+                $senateAction->addChamber($chamber, count($meCubes), count($opponentCubes), $controllingPlayer ? $controllingPlayer->id : null);
+            }
+        }
         return $controllingPlayer;
     }
 

@@ -144,7 +144,8 @@ class Draftpool extends Base
                                     $payment = Player::get($playerId)->getPaymentPlan($building);
                                     $position['cost'][$playerId] = $payment->totalCost();
                                     $position['payment'][$playerId] = $payment;
-                                    $position['hasLinkedBuilding'][$playerId] = Player::get($playerId)->hasBuilding($building->linkedBuilding);
+                                    $position['hasLinkedBuilding'][$playerId] = Player::get($playerId)->hasBuilding($building->linkedBuilding)
+                                        || (Player::get($playerId)->hasDecree(15) && Player::get($playerId)->getOpponent()->hasBuilding($building->linkedBuilding));
                                 }
                             }
                         }

@@ -33,8 +33,17 @@ class PaymentPlan extends Base
         return $flat;
     }
 
+    public function isFreeThroughLinking(){
+        if (count($this->steps) == 1) {
+            return $this->steps[0]->resource == LINKED_BUILDING;
+        }
+        return false;
+    }
+
     public function calculate(Player $player, $print = false, $printChoices = false) {
         if($print) print "<PRE>Calculate cost for player to buy “{$this->item->name}\" card.</PRE>";
+
+        $opponent = $player->getOpponent();
 
         if ($this->item instanceof Building && $this->item->type == Building::TYPE_SENATOR) {
             if ($player->hasProgressToken(11)) {
@@ -62,6 +71,13 @@ class PaymentPlan extends Base
                 $linkedBuilding = Building::get($this->item->linkedBuilding);
                 $string = clienttranslate('Construction is free through linked building “${name}”');
                 $args = ['name' => $linkedBuilding->name];
+                $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string, $args);
+            }
+            elseif ($this->item instanceof Building && $player->hasDecree(15) && $opponent->hasBuilding($this->item->linkedBuilding)) {
+                // Opponent has the linked building, and the player has the Decree to take advantage of it.
+                $linkedBuilding = Building::get($this->item->linkedBuilding);
+                $string = clienttranslate('Construction is free through linked building “${name}” (enabled by controlling Decree in Chamber ${chamber})');
+                $args = ['name' => $linkedBuilding->name, 'chamber' => Decree::get(15)->getChamber()];
                 $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string, $args);
             }
             else {

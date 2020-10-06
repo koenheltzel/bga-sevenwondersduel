@@ -228,7 +228,7 @@ class Building extends Item {
             }
         }
 
-        if ($player->hasBuilding($this->linkedBuilding) && $player->hasProgressToken(10)) {
+        if ($payment->isFreeThroughLinking() && $player->hasProgressToken(10)) {
             $payment->urbanismAward = 4;
             $player->increaseCoins($payment->urbanismAward);
 
