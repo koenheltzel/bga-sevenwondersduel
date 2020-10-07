@@ -55,6 +55,15 @@ $conspiracyStateTransitions = [
     SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID,
     SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID,
     SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_ID,
+    SevenWondersDuelAgora::STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME => SevenWondersDuelAgora::STATE_CONSTRUCT_BUILDING_FROM_BOX_ID,
+    SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME => SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_ID,
+    SevenWondersDuelAgora::STATE_DESTROY_CONSTRUCTED_WONDER_NAME => SevenWondersDuelAgora::STATE_DESTROY_CONSTRUCTED_WONDER_ID,
+    SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_NAME => SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_ID,
+    SevenWondersDuelAgora::STATE_LOCK_PROGRESS_TOKEN_NAME => SevenWondersDuelAgora::STATE_LOCK_PROGRESS_TOKEN_ID,
+    SevenWondersDuelAgora::STATE_MOVE_DECREE_NAME => SevenWondersDuelAgora::STATE_MOVE_DECREE_ID,
+    SevenWondersDuelAgora::STATE_SWAP_BUILDING_NAME => SevenWondersDuelAgora::STATE_SWAP_BUILDING_ID,
+    SevenWondersDuelAgora::STATE_TAKE_BUILDING_NAME => SevenWondersDuelAgora::STATE_TAKE_BUILDING_ID,
+    SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME => SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_ID,
 ];
 
 $machinestates = [
