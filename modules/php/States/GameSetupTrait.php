@@ -122,10 +122,10 @@ trait GameSetupTrait
             self::DbQuery( "UPDATE conspiracy SET card_id = card_id - 1000" );
 
             // TODO: remove these lines which put certain conspiracies on top.
-            $this->conspiracyDeck->insertCardOnExtremePosition(3, 'deck', true);
-            $this->conspiracyDeck->insertCardOnExtremePosition(6, 'deck', true);
-            $this->conspiracyDeck->insertCardOnExtremePosition(9, 'deck', true);
-            $this->conspiracyDeck->insertCardOnExtremePosition(10, 'deck', true);
+            $this->conspiracyDeck->insertCardOnExtremePosition(11, 'deck', true);
+            $this->conspiracyDeck->insertCardOnExtremePosition(14, 'deck', true);
+            $this->conspiracyDeck->insertCardOnExtremePosition(13, 'deck', true);
+            $this->conspiracyDeck->insertCardOnExtremePosition(7, 'deck', true);
 
             // Set up Influence cubes
             $this->influenceCubeDeck->createCards([['type' => Player::me()->id, 'nbr' => 12, 'type_arg' => 0]], Player::me()->id, 0);

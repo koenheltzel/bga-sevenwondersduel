@@ -51,11 +51,11 @@ $game_options = [
     */
 
     110 => [
-        'name' => totranslate('Agora'),
+        'name' => totranslate('Expansion: Agora'),
         'values' => [
-            0 => ['name' => totranslate('Off')],
+            0 => ['name' => totranslate('No')],
             1 => [
-                'name' => totranslate('On'),
+                'name' => totranslate('Yes'),
                 'description' => totranslate('Agora adds Senators and their influence on the Senate. Try to control these Chambers to benefit from Decrees or call on Conspirators who could very well overthrow the situation.'),
                 'beta' => true,
                 'nobeginner' => true
@@ -63,12 +63,12 @@ $game_options = [
         ]
     ],
     111 => [
-        'name' => totranslate('Guarantee Agora Wonders (dev)'),
+        'name' => totranslate('Guarantee Agora Wonders (testing option)'),
         'values' => [
-            0 => ['name' => totranslate('Off')],
+            0 => ['name' => totranslate('No')],
             1 => [
-                'name' => totranslate('On'),
-                'description' => totranslate('Guarantees the inclusion of the 2 Agora Wonders for development/testing purposes.'),
+                'name' => totranslate('Yes'),
+                'description' => totranslate('Guarantees the inclusion of the 2 Agora Wonders for testing purposes.'),
                 'beta' => true,
             ]
         ],
@@ -82,12 +82,12 @@ $game_options = [
         ],
     ],
     112 => [
-        'name' => totranslate('Guarantee Agora Progress Tokens (dev)'),
+        'name' => totranslate('Guarantee Agora Progress Tokens (testing option)'),
         'values' => [
-            0 => ['name' => totranslate('Off')],
+            0 => ['name' => totranslate('No')],
             1 => [
-                'name' => totranslate('On'),
-                'description' => totranslate('Guarantees the inclusion of the 2 Agora Progress Tokens for development/testing purposes.'),
+                'name' => totranslate('Yes'),
+                'description' => totranslate('Guarantees the inclusion of the 2 Agora Progress Tokens for testing purposes.'),
                 'beta' => true,
             ]
         ],
