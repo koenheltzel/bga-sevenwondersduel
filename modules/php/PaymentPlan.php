@@ -2,6 +2,8 @@
 
 namespace SWD;
 
+use SevenWondersDuelAgora;
+
 class PaymentPlan extends Base
 {
 
@@ -45,7 +47,11 @@ class PaymentPlan extends Base
 
         $opponent = $player->getOpponent();
 
-        if ($this->item instanceof Building && $this->item->type == Building::TYPE_SENATOR) {
+        if ($this instanceof Payment && SevenWondersDuelAgora::get()->gamestate->state()['name'] == SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
+            // Player can build a building from the last row for free
+            // No need to construct a payment plan.
+        }
+        elseif ($this->item instanceof Building && $this->item->type == Building::TYPE_SENATOR) {
             if ($player->hasProgressToken(11)) {
                 $string = clienttranslate('Player can recruit Senators for free (Progress Token “${progressTokenName}”)');
                 $args = ['progressTokenName' => ProgressToken::get(11)->name];

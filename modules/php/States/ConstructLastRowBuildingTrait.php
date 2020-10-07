@@ -21,21 +21,6 @@ trait ConstructLastRowBuildingTrait {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-//    public function actionConstructLastRowBuilding($buildingId) {
-//        $this->checkAction("actionConstructLastRowBuilding");
-//
-//        $this->notifyAllPlayers(
-//            'message',
-//            clienttranslate('${player_name} chose to Place Influence'),
-//            [
-//                'player_name' => Player::getActive()->name
-//            ]
-//        );
-//
-//        $this->setStateStack([self::STATE_PLACE_INFLUENCE_NAME, self::STATE_NEXT_PLAYER_TURN_NAME]);
-//        $this->stateStackNextState();
-//    }
-
 //    public function shouldSkipConstructLastRowBuilding() {
 //        return false;
 //    }

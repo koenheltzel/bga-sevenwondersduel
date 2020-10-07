@@ -372,6 +372,12 @@ define([
                         .on("#swd[data-client-state=client_moveInfluenceTo] #senate_chambers .gray_stroke:click",
                             dojo.hitch(this, "onMoveInfluenceCancelClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=constructLastRowBuilding] #draftpool .row1.red_border:click",
+                            dojo.hitch(this, "onConstructLastRowBuildingClick")
+                        );
+
+
 
                     // Agora click handlers without event delegation:
                     dojo.query("#buttonPrepareConspiracy").on("click", dojo.hitch(this, "onPlayerTurnPrepareConspiracyClick"));
@@ -2131,7 +2137,7 @@ define([
                     bgagame.CoinAnimator.get().getAnimation(
                         this.getPlayerCoinContainer(notif.args.playerId),
                         coinNode,
-                        (position ? position.cost[notif.args.playerId] : 0) - notif.args.payment.economyProgressTokenCoins,
+                        ((position && position.cost) ? position.cost[notif.args.playerId] : 0) - notif.args.payment.economyProgressTokenCoins,
                         notif.args.playerId
                     ),
                     // Economy Progress Token
@@ -3723,7 +3729,7 @@ define([
             //                                                                                                                         |___/
 
             onEnterConstructLastRowBuilding: function (args) {
-
+                dojo.query('#draftpool .row1:not([data-building-type="Senator"])').addClass('red_border');
             },
 
             onConstructLastRowBuildingClick: function (e) {
@@ -3734,13 +3740,13 @@ define([
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
-                    if (!this.checkAction('actionConstructLastRowBuilding')) {
+                    if (!this.checkAction('actionConstructBuilding')) {
                         return;
                     }
 
                     var buildingId = dojo.attr(e.target, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionConstructLastRowBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionConstructBuilding.html", {
                             lock: true,
                             buildingId: buildingId
                         },

@@ -48,7 +48,13 @@ trait PlayerTurnTrait {
 
         $player = Player::getActive();
         $building = Building::get($buildingId);
-        $building->checkBuildingAvailable();
+        if (SevenWondersDuelAgora::get()->gamestate->state()['name'] == SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
+            $building->checkBuildingLastRow();
+        }
+        else {
+            $building->checkBuildingAvailable();
+        }
+
         $payment = $building->construct($player);
 
         $this->incStat(1, self::STAT_BUILDINGS_CONSTRUCTED, $player->id);

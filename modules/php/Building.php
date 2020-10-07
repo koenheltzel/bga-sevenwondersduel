@@ -116,6 +116,12 @@ class Building extends Item {
         }
     }
 
+    public function checkBuildingLastRow() {
+        if (Draftpool::buildingRow($this->id) != 1) {
+            throw new \BgaUserException( clienttranslate("The building you selected is not on the last row.") );
+        }
+    }
+
     /**
      * @param Player $player
      * @param $cardId
