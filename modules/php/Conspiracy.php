@@ -85,6 +85,25 @@ class Conspiracy extends Item {
         $opponent = $player->getOpponent();
 
         $payment = new Payment(); // Triggering a conspiracy is free.
+
+        // We want to send this notification first, before the detailed "effects" notifications.
+        // However, the Payment object passed in this notification is by reference and this will contain
+        // the effects' modifications when the notification is send at the end of the request.
+        SevenWondersDuelAgora::get()->notifyAllPlayers(
+            'triggerConspiracy',
+            clienttranslate('${player_name} triggered Conspiracy “${conspiracyName}”'),
+            [
+                'i18n' => ['conspiracyName'],
+                'conspiracyPosition' => $this->getPosition($player),
+                'conspiracyId' => $this->id,
+                'conspiracyName' => $this->name,
+                'payment' => $payment,
+                'playerId' => $player->id,
+                'player_name' => $player->name,
+                'conspiraciesSituation' => Conspiracies::getSituation(),
+            ]
+        );
+
         parent::constructEffects($player, $payment);
 
         switch($this->id) {
@@ -106,6 +125,20 @@ class Conspiracy extends Item {
                         ]
                     );
                 }
+                break;
+            case 10:
+                SevenWondersDuelAgora::get()->notifyAllPlayers(
+                    'message',
+                    clienttranslate('${player_name} must choose a Progress token from the box (Conspiracy “${conspiracyName}”)'),
+                    [
+                        'i18n' => ['conspiracyName'],
+                        'player_name' => $player->name,
+                        'conspiracyName' => $this->name,
+                    ]
+                );
+
+                SevenWondersDuelAgora::get()->progressTokenDeck->moveAllCardsInLocation('box', 'selection');
+                SevenWondersDuelAgora::get()->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg
                 break;
             case 12:
                 $payment->coinReward = 12 - $player->getCubes();
@@ -144,21 +177,6 @@ class Conspiracy extends Item {
                 }
                 break;
         }
-
-        SevenWondersDuelAgora::get()->notifyAllPlayers(
-            'triggerConspiracy',
-            clienttranslate('${player_name} triggered Conspiracy “${conspiracyName}”'),
-            [
-                'i18n' => ['conspiracyName'],
-                'conspiracyPosition' => $this->getPosition($player),
-                'conspiracyId' => $this->id,
-                'conspiracyName' => $this->name,
-                'payment' => $payment,
-                'playerId' => $player->id,
-                'player_name' => $player->name,
-                'conspiraciesSituation' => Conspiracies::getSituation(),
-            ]
-        );
         return $payment;
     }
 

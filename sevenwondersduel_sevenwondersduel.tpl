@@ -77,7 +77,7 @@
                             <div id="progress_token_from_box" class="whiteblock">
                                 <h3>{CHOOSE_PROGRESS_TOKEN_FROM_BOX}:</h3>
                                 <div id="progress_token_from_box_container">
-                                    <div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div>
+                                    <div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div>
                                 </div>
                             </div>
                             <div id="choose_conspirator_action" class="whiteblock">

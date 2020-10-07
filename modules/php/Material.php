@@ -748,8 +748,8 @@ class Material extends Base
             ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[10] = (new Conspiracy(10, clienttranslate("Espionage")))
-            ->addText("Take all the Progress tokens removed at the beginning of the game and choose 1 to play.");
-//            ->addActionState(SevenWondersDuelAgora::STATE_) // TODO
+            ->addText("Take all the Progress tokens removed at the beginning of the game and choose 1 to play.")
+            ->addActionState(SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
 
         $this->conspiracies[11] = (new Conspiracy(11, clienttranslate("Turn Of Events")))
             ->addText("Place 1 available card in the structure in the discard. You can immediately repeat this action a second time.")

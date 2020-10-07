@@ -125,7 +125,7 @@ trait GameSetupTrait
             $this->conspiracyDeck->insertCardOnExtremePosition(3, 'deck', true);
             $this->conspiracyDeck->insertCardOnExtremePosition(6, 'deck', true);
             $this->conspiracyDeck->insertCardOnExtremePosition(9, 'deck', true);
-            $this->conspiracyDeck->insertCardOnExtremePosition(4, 'deck', true);
+            $this->conspiracyDeck->insertCardOnExtremePosition(10, 'deck', true);
 
             // Set up Influence cubes
             $this->influenceCubeDeck->createCards([['type' => Player::me()->id, 'nbr' => 12, 'type_arg' => 0]], Player::me()->id, 0);

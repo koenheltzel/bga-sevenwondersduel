@@ -1878,10 +1878,7 @@ define([
                 dojo.query('.green_border').removeClass("green_border");
             },
             clearRedBorder: function () {
-                Object.keys(this.gamedatas.wondersSituation[this.me_id]).forEach(dojo.hitch(this, function (index) {
-                    var wonderData = this.gamedatas.wondersSituation[this.me_id][index];
-                    dojo.removeClass($('wonder_' + wonderData.wonder), 'red_border');
-                }));
+                dojo.query('.red_border').removeClass("red_border");
             },
 
             //     _        _   _               _____     _                          ____                      _
@@ -2254,6 +2251,7 @@ define([
                 if (this.debug) console.log('onPlayerTurnConstructWonderClick');
 
                 if (this.isCurrentPlayerActive()) {
+                    this.clearRedBorder();
                     Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
                         var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
                         if (!wonderData.constructed) {
@@ -2472,6 +2470,7 @@ define([
                 if (this.debug) console.log('onPlayerTurnPrepareConspiracyClick');
 
                 if (this.isCurrentPlayerActive()) {
+                    this.clearRedBorder();
                     Object.keys(this.gamedatas.conspiraciesSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
                         var conspiracyData = this.gamedatas.conspiraciesSituation[this.player_id][index];
                         if (!conspiracyData.prepared) {
@@ -2903,9 +2902,11 @@ define([
             onEnterChooseProgressTokenFromBox: function (args) {
                 if (this.debug) console.log('onEnterChooseProgressTokenFromBox', args);
                 if (this.isCurrentPlayerActive()) {
+                    dojo.query('#progress_token_from_box_container>div').style('display', 'none');
                     Object.keys(args._private.progressTokensFromBox).forEach(dojo.hitch(this, function (progressTokenId) {
                         var card = args._private.progressTokensFromBox[progressTokenId];
                         var container = dojo.query('#progress_token_from_box_container>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
+                        dojo.style(container, 'display', 'inline-block');
                         dojo.place(this.getProgressTokenDivHtml(card.id), container);
                     }));
                 }

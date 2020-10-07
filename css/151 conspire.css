@@ -15,6 +15,12 @@
     justify-content: space-evenly;
     align-items: center;
 }
+/* During Wonder Selection, for the Curia Julia ability, we need to show draftpool_container, else #conspire isn't visible either. */
+.current_player_is_active #swd[data-state=conspire] #draftpool_container,
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #draftpool_container {
+    display: flex !important; /* Override inline style set by javascript */
+}
+
 .current_player_is_active #swd[data-state=conspire] #conspire > div:nth-of-type(1) {
     margin-right: var(--gutter);
 }
