@@ -60,6 +60,16 @@ class Draftpool extends Base
         ]
     ];
 
+    public static function buildingRow($buildingId) {
+        $draftpool = Draftpool::get();
+        foreach($draftpool['cards'] as $card) {
+            if (isset($card['building']) && $card['building'] == $buildingId) {
+                return $card['row'];
+            }
+        }
+        return null;
+    }
+
     public static function buildingAvailable($buildingId) {
         $age = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CURRENT_AGE);
         $cards = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation("age{$age}");

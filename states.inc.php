@@ -418,13 +418,13 @@ $machinestates = [
 
     SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_ID => [
         "name" => SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME,
-        "description" => clienttranslate('${actplayer} description todo ConstructLastRowBuilding'),
-        "descriptionmyturn" => clienttranslate('${you} description todo ConstructLastRowBuilding'),
+        "description" => clienttranslate('${actplayer} must choose a Building from the last row of the Age structure (excluding Senators) and construct it for free'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Building from the last row of the Age structure (excluding Senators) and construct it for free'),
         "type" => "activeplayer",
         "action" => "enterStateConstructLastRowBuilding",
         "args" => "argConstructLastRowBuilding",
         "possibleactions" => [
-            "actionConstructLastRowBuilding",
+            "actionConstructBuilding",
         ],
         "transitions" => [
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,

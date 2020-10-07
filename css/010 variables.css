@@ -75,6 +75,7 @@
 
     --draftpool-row-height-multiplier: 0.536;
     --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.58);
+    --last-row-reveal-movement: 0px;
     --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
     --draftpool-column-count: 11;
 

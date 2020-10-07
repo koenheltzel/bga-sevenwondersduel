@@ -248,15 +248,6 @@ class action_sevenwondersduelagora extends APP_GameAction
         self::ajaxResponse();
     }
 
-    public function actionConstructLastRowBuilding() {
-        self::setAjaxMode();
-
-        $buildingId = self::getArg("buildingId", AT_posint, true);
-        SevenWondersDuelAgora::get()->actionConstructLastRowBuilding($buildingId);
-
-        self::ajaxResponse();
-    }
-
     public function actionDestroyConstructedWonder() {
         self::setAjaxMode();
 

@@ -47,6 +47,10 @@ Because of reversing the flexbox order for the opponent there are 2 different ru
     cursor: pointer;
 }
 
+.current_player_is_active #swd[data-state=constructLastRowBuilding] #draftpool .row1.red_border {
+    cursor: pointer;
+}
+
 .building_small {
     width: var(--building-small-width);
     height: var(--building-small-height);

@@ -362,6 +362,12 @@ define([
                         .on("#swd[data-client-state=client_moveInfluenceTo] #senate_chambers .gray_stroke:click",
                             dojo.hitch(this, "onMoveInfluenceCancelClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=constructLastRowBuilding] #draftpool .row1.red_border:click",
+                            dojo.hitch(this, "onConstructLastRowBuildingClick")
+                        );
+
+
 
                     // Agora click handlers without event delegation:
                     dojo.query("#buttonPrepareConspiracy").on("click", dojo.hitch(this, "onPlayerTurnPrepareConspiracyClick"));
@@ -476,9 +482,6 @@ define([
 
                 dojo.subscribe('constructBuildingFromBox', this, "notif_constructBuildingFromBox");
                 this.notifqueue.setSynchronous('constructBuildingFromBox');
-
-                dojo.subscribe('constructLastRowBuilding', this, "notif_constructLastRowBuilding");
-                this.notifqueue.setSynchronous('constructLastRowBuilding');
 
                 dojo.subscribe('destroyConstructedWonder', this, "notif_destroyConstructedWonder");
                 this.notifqueue.setSynchronous('destroyConstructedWonder');
@@ -2087,6 +2090,8 @@ define([
             notif_constructBuilding: function (notif) {
                 if (this.debug) console.log('notif_constructBuilding', notif);
 
+                this.clearRedBorder(); // For Conspiracy 7, Property Fraud
+
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
                 var buildingNodeParent = buildingNode.parentElement; // Only used when we are constructing a discarded building.
 
@@ -2103,7 +2108,6 @@ define([
 
                 var playerAlias = this.getPlayerAlias(notif.args.playerId);
                 var coinNode = dojo.query('.draftpool_building_cost.' + playerAlias + ' .coin', buildingNode)[0];
-                var position = this.getDraftpoolCardData(notif.args.buildingId);
 
                 var buildingMoveAnim = this.slideToObjectPos(playerBuildingId, playerBuildingContainer, 0, 0, this.constructBuildingAnimationDuration * 0.6);
                 if (notif.args.payment.discardedCard) {
@@ -2121,7 +2125,7 @@ define([
                     bgagame.CoinAnimator.get().getAnimation(
                         this.getPlayerCoinContainer(notif.args.playerId),
                         coinNode,
-                        (position ? position.cost[notif.args.playerId] : 0) - notif.args.payment.economyProgressTokenCoins,
+                        notif.args.payment.cost - notif.args.payment.economyProgressTokenCoins,
                         notif.args.playerId
                     ),
                     // Economy Progress Token
@@ -3713,7 +3717,7 @@ define([
             //                                                                                                                         |___/
 
             onEnterConstructLastRowBuilding: function (args) {
-
+                dojo.query('#draftpool .row1:not([data-building-type="Senator"])').addClass('red_border');
             },
 
             onConstructLastRowBuildingClick: function (e) {
@@ -3724,13 +3728,13 @@ define([
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
-                    if (!this.checkAction('actionConstructLastRowBuilding')) {
+                    if (!this.checkAction('actionConstructBuilding')) {
                         return;
                     }
 
                     var buildingId = dojo.attr(e.target, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionConstructLastRowBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionConstructBuilding.html", {
                             lock: true,
                             buildingId: buildingId
                         },
@@ -3745,41 +3749,6 @@ define([
                         }
                     );
                 }
-            },
-
-            notif_constructLastRowBuilding: function (notif) {
-                if (this.debug) console.log('notif_constructLastRowBuilding', notif);
-
-                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
-                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
-                //
-                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
-                // dojo.style(buildingNode, 'opacity', 0);
-                // dojo.style(buildingNode, 'z-index', 100);
-                //
-                // var anim = dojo.fx.chain([
-                //     // Cross-fade building into player-building (small header only building)
-                //     dojo.fx.combine([
-                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
-                //         dojo.fadeOut({
-                //             node: playerBuildingNode,
-                //             duration: this.constructBuildingAnimationDuration * 0.4
-                //         }),
-                //     ]),
-                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
-                // ]);
-                //
-                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                //     dojo.style(buildingNode, 'z-index', 5);
-                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
-                //     dojo.removeClass(buildingColumn, 'red_border');
-                //     dojo.destroy(playerBuildingNode.parentNode);
-                // }));
-
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
-
-                anim.play();
             },
 
             //  ____            _                      ____                _                   _           _  __        __              _

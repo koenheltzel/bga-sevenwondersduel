@@ -130,30 +130,34 @@
     left: calc(var(--draftpool-column-width) * (13 - 1));
 }
 
+#swd[data-state=constructLastRowBuilding] {
+    --last-row-reveal-movement: calc(var(--building-height) * var(--building-small-scale) * 0.5);
+}
+
 #draftpool .row1 {
     top: calc(var(--draftpool-row-height) * (1 - 1));
 }
 
 #draftpool .row2 {
-    top: calc(var(--draftpool-row-height) * (2 - 1));
+    top: calc(var(--draftpool-row-height) * (2 - 1) + var(--last-row-reveal-movement));
 }
 
 #draftpool .row3 {
-    top: calc(var(--draftpool-row-height) * (3 - 1));
+    top: calc(var(--draftpool-row-height) * (3 - 1) + var(--last-row-reveal-movement));
 }
 
 #draftpool .row4 {
-    top: calc(var(--draftpool-row-height) * (4 - 1));
+    top: calc(var(--draftpool-row-height) * (4 - 1) + var(--last-row-reveal-movement));
 }
 
 #draftpool .row5 {
-    top: calc(var(--draftpool-row-height) * (5 - 1));
+    top: calc(var(--draftpool-row-height) * (5 - 1) + var(--last-row-reveal-movement));
 }
 
 #draftpool .row6 {
-    top: calc(var(--draftpool-row-height) * (6 - 1));
+    top: calc(var(--draftpool-row-height) * (6 - 1) + var(--last-row-reveal-movement));
 }
 
 #draftpool .row7 {
-    top: calc(var(--draftpool-row-height) * (7 - 1));
+    top: calc(var(--draftpool-row-height) * (7 - 1) + var(--last-row-reveal-movement));
 }
