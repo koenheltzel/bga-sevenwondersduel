@@ -45,8 +45,7 @@ define([
             scale: 1,
             autoLayout: 1,
             layout: "",
-            autoQuality: 1,
-            quality: "",
+            quality: "1x",
             showOpponentCost: 1,
             cookieExpireDays: 60,
 
@@ -139,16 +138,8 @@ define([
                         this.autoScale = 1;
                     }
                 }
-                if (this.isCookieSetAndValid('swd_autoQuality', true)) {
-                    this.autoQuality = parseInt(dojo.cookie('swd_autoQuality'));
-                }
-                if (!this.autoQuality) {
-                    if (this.isCookieSetAndValid('swd_quality')) {
-                        this.quality = dojo.cookie('swd_quality');
-                    }
-                    else {
-                        this.autoQuality = 1;
-                    }
+                if (this.isCookieSetAndValid('swd_quality_v2')) {
+                    this.quality = dojo.cookie('swd_quality_v2');
                 }
                 if (this.isCookieSetAndValid('swd_opponent_cost', true)) {
                     this.showOpponentCost = parseInt(dojo.cookie('swd_opponent_cost'));
@@ -273,7 +264,6 @@ define([
                 dojo.query("#setting_scale").on("change", dojo.hitch(this, "onSettingScaleChange"));
                 dojo.query("#setting_auto_layout").on("change", dojo.hitch(this, "onSettingAutoLayoutChange"));
                 dojo.query("#setting_layout").on("change", dojo.hitch(this, "onSettingLayoutChange"));
-                dojo.query("#setting_auto_quality").on("change", dojo.hitch(this, "onSettingAutoQualityChange"));
                 dojo.query("#setting_quality").on("change", dojo.hitch(this, "onSettingQualityChange"));
                 dojo.query("#setting_opponent_cost").on("change", dojo.hitch(this, "onSettingOpponentCostChange"));
 
@@ -2648,18 +2638,6 @@ define([
                 this.updateSettings();
             },
 
-            onSettingAutoQualityChange: function (e) {
-                // Preventing default browser reaction
-                dojo.stopEvent(e);
-                if (this.debug) console.log('onSettingAutoQualityChange');
-
-                this.autoQuality = 1 - parseInt(this.autoQuality);
-                dojo.cookie('swd_autoQuality', this.autoQuality, { expires: this.cookieExpireDays });
-
-                this.updateQuality();
-                this.updateSettings();
-            },
-
             onSettingQualityChange: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
@@ -2697,15 +2675,6 @@ define([
                     dojo.removeAttr('setting_layout', 'disabled');
                 }
 
-                if (this.autoQuality) {
-                    this.updateQuality();
-                    dojo.attr('setting_auto_quality', 'checked', 'checked');
-                    dojo.attr('setting_quality', 'disabled', '');
-                }
-                else {
-                    dojo.removeAttr('setting_auto_quality', 'checked');
-                    dojo.removeAttr('setting_quality', 'disabled');
-                }
                 $('setting_quality').value = this.quality;
 
                 this.showOpponentCost = parseInt($('setting_opponent_cost').value);
@@ -2714,14 +2683,8 @@ define([
             },
 
             updateQuality: function () {
-                if (this.autoQuality) {
-                    this.quality = window.devicePixelRatio >= 1.5 ? '2x' : '1x';
-                    dojo.cookie("swd_quality", null, {expires: -1});
-                }
-                else {
-                    this.quality = $('setting_quality').value;
-                    dojo.cookie('swd_quality', this.quality, { expires: this.cookieExpireDays });
-                }
+                this.quality = $('setting_quality').value;
+                dojo.cookie('swd_quality_v2', this.quality, { expires: this.cookieExpireDays });
 
                 dojo.attr('swd', 'data-quality', this.quality);
             },

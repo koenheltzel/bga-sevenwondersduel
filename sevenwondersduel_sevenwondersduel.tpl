@@ -255,12 +255,12 @@
             <tr>
                 <td><strong>{QUALITY}</strong></td>
                 <td>
-                    <select id="setting_quality" disabled>
+                    <select id="setting_quality">
                         <option value="1x"></option>
                         <option value="2x"></option>
                     </select>
                 </td>
-                <td><input type="checkbox" id="setting_auto_quality" checked="checked"> {AUTOMATIC_QUALITY_DESCRIPTION}</td>
+                <td>{QUALITY_DESCRIPTION}</td>
             </tr>
             <tr>
                 <td><strong>{OPPONENT_COST}</strong></td>
