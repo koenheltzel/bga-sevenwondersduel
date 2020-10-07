@@ -20,7 +20,7 @@ trait MoveInfluenceTrait {
     }
 
     public function enterStateMoveInfluence() {
-//        $this->giveExtraTime($this->getActivePlayerId());
+        $this->giveExtraTime($this->getActivePlayerId());
     }
 
     public function shouldSkipMoveInfluence() {

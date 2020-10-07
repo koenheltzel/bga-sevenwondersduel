@@ -20,7 +20,7 @@ trait RemoveInfluenceTrait {
     }
 
     public function enterStateRemoveInfluence() {
-//        $this->giveExtraTime($this->getActivePlayerId());
+        $this->giveExtraTime($this->getActivePlayerId());
     }
 
     public function shouldSkipRemoveInfluence() {

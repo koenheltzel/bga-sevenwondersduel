@@ -19,7 +19,7 @@ trait TriggerUnpreparedConspiracyTrait {
     }
 
     public function enterStateTriggerUnpreparedConspiracy() {
-//        $this->giveExtraTime($this->getActivePlayerId());
+        $this->giveExtraTime($this->getActivePlayerId());
     }
 
     public function shouldSkipTriggerUnpreparedConspiracy() {

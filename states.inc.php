@@ -389,6 +389,168 @@ $machinestates = [
         ]
     ],
 
+    SevenWondersDuelAgora::STATE_CONSTRUCT_BUILDING_FROM_BOX_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME,
+        "description" => clienttranslate('${actplayer} description todo ConstructBuildingFromBox'),
+        "descriptionmyturn" => clienttranslate('${you} description todo ConstructBuildingFromBox'),
+        "type" => "activeplayer",
+        "action" => "enterStateConstructBuildingFromBox",
+        "args" => "argConstructBuildingFromBox",
+        "possibleactions" => [
+            "actionConstructBuildingFromBox",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME,
+        "description" => clienttranslate('${actplayer} description todo ConstructLastRowBuilding'),
+        "descriptionmyturn" => clienttranslate('${you} description todo ConstructLastRowBuilding'),
+        "type" => "activeplayer",
+        "action" => "enterStateConstructLastRowBuilding",
+        "args" => "argConstructLastRowBuilding",
+        "possibleactions" => [
+            "actionConstructLastRowBuilding",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_DESTROY_CONSTRUCTED_WONDER_ID => [
+        "name" => SevenWondersDuelAgora::STATE_DESTROY_CONSTRUCTED_WONDER_NAME,
+        "description" => clienttranslate('${actplayer} description todo DestroyConstructedWonder'),
+        "descriptionmyturn" => clienttranslate('${you} description todo DestroyConstructedWonder'),
+        "type" => "activeplayer",
+        "action" => "enterStateDestroyConstructedWonder",
+        "args" => "argDestroyConstructedWonder",
+        "possibleactions" => [
+            "actionDestroyConstructedWonder",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_ID => [
+        "name" => SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_NAME,
+        "description" => clienttranslate('${actplayer} description todo DiscardAvailableCard'),
+        "descriptionmyturn" => clienttranslate('${you} description todo DiscardAvailableCard'),
+        "type" => "activeplayer",
+        "action" => "enterStateDiscardAvailableCard",
+        "args" => "argDiscardAvailableCard",
+        "possibleactions" => [
+            "actionDiscardAvailableCard",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_LOCK_PROGRESS_TOKEN_ID => [
+        "name" => SevenWondersDuelAgora::STATE_LOCK_PROGRESS_TOKEN_NAME,
+        "description" => clienttranslate('${actplayer} description todo LockProgressToken'),
+        "descriptionmyturn" => clienttranslate('${you} description todo LockProgressToken'),
+        "type" => "activeplayer",
+        "action" => "enterStateLockProgressToken",
+        "args" => "argLockProgressToken",
+        "possibleactions" => [
+            "actionLockProgressToken",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_MOVE_DECREE_ID => [
+        "name" => SevenWondersDuelAgora::STATE_MOVE_DECREE_NAME,
+        "description" => clienttranslate('${actplayer} description todo MoveDecree'),
+        "descriptionmyturn" => clienttranslate('${you} description todo MoveDecree'),
+        "type" => "activeplayer",
+        "action" => "enterStateMoveDecree",
+        "args" => "argMoveDecree",
+        "possibleactions" => [
+            "actionMoveDecree",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_SWAP_BUILDING_ID => [
+        "name" => SevenWondersDuelAgora::STATE_SWAP_BUILDING_NAME,
+        "description" => clienttranslate('${actplayer} description todo SwapBuilding'),
+        "descriptionmyturn" => clienttranslate('${you} description todo SwapBuilding'),
+        "type" => "activeplayer",
+        "action" => "enterStateSwapBuilding",
+        "args" => "argSwapBuilding",
+        "possibleactions" => [
+            "actionSwapBuilding",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_TAKE_BUILDING_ID => [
+        "name" => SevenWondersDuelAgora::STATE_TAKE_BUILDING_NAME,
+        "description" => clienttranslate('${actplayer} description todo TakeBuilding'),
+        "descriptionmyturn" => clienttranslate('${you} description todo TakeBuilding'),
+        "type" => "activeplayer",
+        "action" => "enterStateTakeBuilding",
+        "args" => "argTakeBuilding",
+        "possibleactions" => [
+            "actionTakeBuilding",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_ID => [
+        "name" => SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME,
+        "description" => clienttranslate('${actplayer} description todo TakeUnconstructedWonder'),
+        "descriptionmyturn" => clienttranslate('${you} description todo TakeUnconstructedWonder'),
+        "type" => "activeplayer",
+        "action" => "enterStateTakeUnconstructedWonder",
+        "args" => "argTakeUnconstructedWonder",
+        "possibleactions" => [
+            "actionTakeUnconstructedWonder",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
     SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID => [
         "name" => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME,
         "description" => clienttranslate('End of game victory points count...'),

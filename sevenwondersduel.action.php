@@ -239,6 +239,89 @@ class action_sevenwondersduelagora extends APP_GameAction
         self::ajaxResponse();
     }
 
+    public function actionConstructBuildingFromBox() {
+        self::setAjaxMode();
+
+        $buildingId = self::getArg("buildingId", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionConstructBuildingFromBox($buildingId);
+
+        self::ajaxResponse();
+    }
+
+    public function actionConstructLastRowBuilding() {
+        self::setAjaxMode();
+
+        $buildingId = self::getArg("buildingId", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionConstructLastRowBuilding($buildingId);
+
+        self::ajaxResponse();
+    }
+
+    public function actionDestroyConstructedWonder() {
+        self::setAjaxMode();
+
+        $wonderId = self::getArg("wonderId", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionDestroyConstructedWonder($wonderId);
+
+        self::ajaxResponse();
+    }
+
+    public function actionDiscardAvailableCard() {
+        self::setAjaxMode();
+
+        $buildingId = self::getArg("buildingId", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionDiscardAvailableCard($buildingId);
+
+        self::ajaxResponse();
+    }
+
+    public function actionLockProgressToken() {
+        self::setAjaxMode();
+
+        $progressTokenId = self::getArg("progressTokenId", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionLockProgressToken($progressTokenId);
+
+        self::ajaxResponse();
+    }
+
+    public function actionMoveDecree() {
+        self::setAjaxMode();
+
+        $decreeId = self::getArg("decreeId", AT_posint, true);
+        $chamber = self::getArg("chamber", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionMoveDecree($decreeId, $chamber);
+
+        self::ajaxResponse();
+    }
+
+    public function actionSwapBuilding() {
+        self::setAjaxMode();
+
+        $opponentBuildingId = self::getArg("opponentBuildingId", AT_posint, true);
+        $meBuildingId = self::getArg("meBuildingId", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionSwapBuilding($opponentBuildingId, $meBuildingId);
+
+        self::ajaxResponse();
+    }
+
+    public function actionTakeBuilding() {
+        self::setAjaxMode();
+
+        $buildingId = self::getArg("buildingId", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionTakeBuilding($buildingId);
+
+        self::ajaxResponse();
+    }
+
+    public function actionTakeUnconstructedWonder() {
+        self::setAjaxMode();
+
+        $wonderId = self::getArg("wonderId", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionTakeUnconstructedWonder($wonderId);
+
+        self::ajaxResponse();
+    }
+
 }
   
 

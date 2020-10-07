@@ -20,7 +20,7 @@ trait PlaceInfluenceTrait {
     }
 
     public function enterStatePlaceInfluence() {
-//        $this->giveExtraTime($this->getActivePlayerId());
+        $this->giveExtraTime($this->getActivePlayerId());
     }
 
     public function shouldSkipPlaceInfluence() {

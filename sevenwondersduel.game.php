@@ -71,6 +71,15 @@ class SevenWondersDuelAgora extends Table
     use SWD\States\MoveInfluenceTrait;
     use SWD\States\RemoveInfluenceTrait;
     use SWD\States\TriggerUnpreparedConspiracyTrait;
+    use SWD\States\ConstructBuildingFromBoxTrait;
+    use SWD\States\ConstructLastRowBuildingTrait;
+    use SWD\States\DestroyConstructedWonderTrait;
+    use SWD\States\DiscardAvailableCardTrait;
+    use SWD\States\LockProgressTokenTrait;
+    use SWD\States\MoveDecreeTrait;
+    use SWD\States\SwapBuildingTrait;
+    use SWD\States\TakeBuildingTrait;
+    use SWD\States\TakeUnconstructedWonderTrait;
 
     /**
      * @var SevenWondersDuelAgora
@@ -124,6 +133,33 @@ class SevenWondersDuelAgora extends Table
 
     const STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID = 38;
     const STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME = "triggerUnpreparedConspiracy";
+
+    const STATE_CONSTRUCT_BUILDING_FROM_BOX_ID = 39;
+    const STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME = "constructBuildingFromBox";
+
+    const STATE_CONSTRUCT_LAST_ROW_BUILDING_ID = 40;
+    const STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME = "constructLastRowBuilding";
+
+    const STATE_DESTROY_CONSTRUCTED_WONDER_ID = 41;
+    const STATE_DESTROY_CONSTRUCTED_WONDER_NAME = "destroyConstructedWonder";
+
+    const STATE_DISCARD_AVAILABLE_CARD_ID = 42;
+    const STATE_DISCARD_AVAILABLE_CARD_NAME = "discardAvailableCard";
+
+    const STATE_LOCK_PROGRESS_TOKEN_ID = 43;
+    const STATE_LOCK_PROGRESS_TOKEN_NAME = "lockProgressToken";
+
+    const STATE_MOVE_DECREE_ID = 44;
+    const STATE_MOVE_DECREE_NAME = "moveDecree";
+
+    const STATE_SWAP_BUILDING_ID = 46;
+    const STATE_SWAP_BUILDING_NAME = "swapBuilding";
+
+    const STATE_TAKE_BUILDING_ID = 47;
+    const STATE_TAKE_BUILDING_NAME = "takeBuilding";
+
+    const STATE_TAKE_UNCONSTRUCTED_WONDER_ID = 48;
+    const STATE_TAKE_UNCONSTRUCTED_WONDER_NAME = "takeUnconstructedWonder";
 
     // End Agora
 

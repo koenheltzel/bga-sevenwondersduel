@@ -484,6 +484,33 @@ define([
                 dojo.subscribe('decreeControlChanged', this, "notif_decreeControlChanged");
                 this.notifqueue.setSynchronous('decreeControlChanged');
 
+                dojo.subscribe('constructBuildingFromBox', this, "notif_constructBuildingFromBox");
+                this.notifqueue.setSynchronous('constructBuildingFromBox');
+
+                dojo.subscribe('constructLastRowBuilding', this, "notif_constructLastRowBuilding");
+                this.notifqueue.setSynchronous('constructLastRowBuilding');
+
+                dojo.subscribe('destroyConstructedWonder', this, "notif_destroyConstructedWonder");
+                this.notifqueue.setSynchronous('destroyConstructedWonder');
+
+                dojo.subscribe('discardAvailableCard', this, "notif_discardAvailableCard");
+                this.notifqueue.setSynchronous('discardAvailableCard');
+
+                dojo.subscribe('lockProgressToken', this, "notif_lockProgressToken");
+                this.notifqueue.setSynchronous('lockProgressToken');
+
+                dojo.subscribe('moveDecree', this, "notif_moveDecree");
+                this.notifqueue.setSynchronous('moveDecree');
+
+                dojo.subscribe('swapBuilding', this, "notif_swapBuilding");
+                this.notifqueue.setSynchronous('swapBuilding');
+
+                dojo.subscribe('takeBuilding', this, "notif_takeBuilding");
+                this.notifqueue.setSynchronous('takeBuilding');
+
+                dojo.subscribe('takeUnconstructedWonder', this, "notif_takeUnconstructedWonder");
+                this.notifqueue.setSynchronous('takeUnconstructedWonder');
+
             },
 
             ///////////////////////////////////////////////////
@@ -3609,6 +3636,695 @@ define([
                         }
                     );
                 }
+            },
+
+            //   ____                _                   _     ____        _ _     _ _               _____                      ____
+            //  / ___|___  _ __  ___| |_ _ __ _   _  ___| |_  | __ ) _   _(_) | __| (_)_ __   __ _  |  ___| __ ___  _ __ ___   | __ )  _____  __
+            // | |   / _ \| '_ \/ __| __| '__| | | |/ __| __| |  _ \| | | | | |/ _` | | '_ \ / _` | | |_ | '__/ _ \| '_ ` _ \  |  _ \ / _ \ \/ /
+            // | |__| (_) | | | \__ \ |_| |  | |_| | (__| |_  | |_) | |_| | | | (_| | | | | | (_| | |  _|| | | (_) | | | | | | | |_) | (_) >  <
+            //  \____\___/|_| |_|___/\__|_|   \__,_|\___|\__| |____/ \__,_|_|_|\__,_|_|_| |_|\__, | |_|  |_|  \___/|_| |_| |_| |____/ \___/_/\_\
+            //                                                                               |___/
+
+            onEnterConstructBuildingFromBox: function (args) {
+
+            },
+
+            onConstructBuildingFromBoxClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onConstructBuildingFromBoxClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionConstructBuildingFromBox')) {
+                        return;
+                    }
+
+                    var buildingId = dojo.attr(e.target, "data-building-id");
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionConstructBuildingFromBox.html", {
+                            lock: true,
+                            buildingId: buildingId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_constructBuildingFromBox: function (notif) {
+                if (this.debug) console.log('notif_constructBuildingFromBox', notif);
+
+                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
+                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
+                //
+                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
+                // dojo.style(buildingNode, 'opacity', 0);
+                // dojo.style(buildingNode, 'z-index', 100);
+                //
+                // var anim = dojo.fx.chain([
+                //     // Cross-fade building into player-building (small header only building)
+                //     dojo.fx.combine([
+                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
+                //         dojo.fadeOut({
+                //             node: playerBuildingNode,
+                //             duration: this.constructBuildingAnimationDuration * 0.4
+                //         }),
+                //     ]),
+                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                // ]);
+                //
+                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                //     dojo.style(buildingNode, 'z-index', 5);
+                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
+                //     dojo.removeClass(buildingColumn, 'red_border');
+                //     dojo.destroy(playerBuildingNode.parentNode);
+                // }));
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
+
+                anim.play();
+            },
+
+            //   ____                _                   _     _              _     ____                 ____        _ _     _ _
+            //  / ___|___  _ __  ___| |_ _ __ _   _  ___| |_  | |    __ _ ___| |_  |  _ \ _____      __ | __ ) _   _(_) | __| (_)_ __   __ _
+            // | |   / _ \| '_ \/ __| __| '__| | | |/ __| __| | |   / _` / __| __| | |_) / _ \ \ /\ / / |  _ \| | | | | |/ _` | | '_ \ / _` |
+            // | |__| (_) | | | \__ \ |_| |  | |_| | (__| |_  | |__| (_| \__ \ |_  |  _ < (_) \ V  V /  | |_) | |_| | | | (_| | | | | | (_| |
+            //  \____\___/|_| |_|___/\__|_|   \__,_|\___|\__| |_____\__,_|___/\__| |_| \_\___/ \_/\_/   |____/ \__,_|_|_|\__,_|_|_| |_|\__, |
+            //                                                                                                                         |___/
+
+            onEnterConstructLastRowBuilding: function (args) {
+
+            },
+
+            onConstructLastRowBuildingClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onConstructLastRowBuildingClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionConstructLastRowBuilding')) {
+                        return;
+                    }
+
+                    var buildingId = dojo.attr(e.target, "data-building-id");
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionConstructLastRowBuilding.html", {
+                            lock: true,
+                            buildingId: buildingId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_constructLastRowBuilding: function (notif) {
+                if (this.debug) console.log('notif_constructLastRowBuilding', notif);
+
+                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
+                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
+                //
+                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
+                // dojo.style(buildingNode, 'opacity', 0);
+                // dojo.style(buildingNode, 'z-index', 100);
+                //
+                // var anim = dojo.fx.chain([
+                //     // Cross-fade building into player-building (small header only building)
+                //     dojo.fx.combine([
+                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
+                //         dojo.fadeOut({
+                //             node: playerBuildingNode,
+                //             duration: this.constructBuildingAnimationDuration * 0.4
+                //         }),
+                //     ]),
+                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                // ]);
+                //
+                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                //     dojo.style(buildingNode, 'z-index', 5);
+                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
+                //     dojo.removeClass(buildingColumn, 'red_border');
+                //     dojo.destroy(playerBuildingNode.parentNode);
+                // }));
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
+
+                anim.play();
+            },
+
+            //  ____            _                      ____                _                   _           _  __        __              _
+            // |  _ \  ___  ___| |_ _ __ ___  _   _   / ___|___  _ __  ___| |_ _ __ _   _  ___| |_ ___  __| | \ \      / /__  _ __   __| | ___ _ __
+            // | | | |/ _ \/ __| __| '__/ _ \| | | | | |   / _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \/ _` |  \ \ /\ / / _ \| '_ \ / _` |/ _ \ '__|
+            // | |_| |  __/\__ \ |_| | | (_) | |_| | | |__| (_) | | | \__ \ |_| |  | |_| | (__| ||  __/ (_| |   \ V  V / (_) | | | | (_| |  __/ |
+            // |____/ \___||___/\__|_|  \___/ \__, |  \____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|    \_/\_/ \___/|_| |_|\__,_|\___|_|
+            //                                |___/
+
+            onEnterDestroyConstructedWonder: function (args) {
+
+            },
+
+            onDestroyConstructedWonderClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onDestroyConstructedWonderClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionDestroyConstructedWonder')) {
+                        return;
+                    }
+
+                    var buildingId = dojo.attr(e.target, "data-building-id");
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionDestroyConstructedWonder.html", {
+                            lock: true,
+                            buildingId: buildingId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_destroyConstructedWonder: function (notif) {
+                if (this.debug) console.log('notif_destroyConstructedWonder', notif);
+
+                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
+                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
+                //
+                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
+                // dojo.style(buildingNode, 'opacity', 0);
+                // dojo.style(buildingNode, 'z-index', 100);
+                //
+                // var anim = dojo.fx.chain([
+                //     // Cross-fade building into player-building (small header only building)
+                //     dojo.fx.combine([
+                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
+                //         dojo.fadeOut({
+                //             node: playerBuildingNode,
+                //             duration: this.constructBuildingAnimationDuration * 0.4
+                //         }),
+                //     ]),
+                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                // ]);
+                //
+                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                //     dojo.style(buildingNode, 'z-index', 5);
+                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
+                //     dojo.removeClass(buildingColumn, 'red_border');
+                //     dojo.destroy(playerBuildingNode.parentNode);
+                // }));
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
+
+                anim.play();
+            },
+
+            //  ____  _                       _      _             _ _       _     _         ____              _
+            // |  _ \(_)___  ___ __ _ _ __ __| |    / \__   ____ _(_) | __ _| |__ | | ___   / ___|__ _ _ __ __| |
+            // | | | | / __|/ __/ _` | '__/ _` |   / _ \ \ / / _` | | |/ _` | '_ \| |/ _ \ | |   / _` | '__/ _` |
+            // | |_| | \__ \ (_| (_| | | | (_| |  / ___ \ V / (_| | | | (_| | |_) | |  __/ | |__| (_| | | | (_| |
+            // |____/|_|___/\___\__,_|_|  \__,_| /_/   \_\_/ \__,_|_|_|\__,_|_.__/|_|\___|  \____\__,_|_|  \__,_|
+
+            onEnterDiscardAvailableCard: function (args) {
+
+            },
+
+            onDiscardAvailableCardClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onDiscardAvailableCardClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionDiscardAvailableCard')) {
+                        return;
+                    }
+
+                    var buildingId = dojo.attr(e.target, "data-building-id");
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionDiscardAvailableCard.html", {
+                            lock: true,
+                            buildingId: buildingId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_discardAvailableCard: function (notif) {
+                if (this.debug) console.log('notif_discardAvailableCard', notif);
+
+                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
+                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
+                //
+                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
+                // dojo.style(buildingNode, 'opacity', 0);
+                // dojo.style(buildingNode, 'z-index', 100);
+                //
+                // var anim = dojo.fx.chain([
+                //     // Cross-fade building into player-building (small header only building)
+                //     dojo.fx.combine([
+                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
+                //         dojo.fadeOut({
+                //             node: playerBuildingNode,
+                //             duration: this.constructBuildingAnimationDuration * 0.4
+                //         }),
+                //     ]),
+                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                // ]);
+                //
+                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                //     dojo.style(buildingNode, 'z-index', 5);
+                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
+                //     dojo.removeClass(buildingColumn, 'red_border');
+                //     dojo.destroy(playerBuildingNode.parentNode);
+                // }));
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
+
+                anim.play();
+            },
+            //  _               _      ____                                      _____     _
+            // | |    ___   ___| | __ |  _ \ _ __ ___   __ _ _ __ ___  ___ ___  |_   _|__ | | _____ _ __
+            // | |   / _ \ / __| |/ / | |_) | '__/ _ \ / _` | '__/ _ \/ __/ __|   | |/ _ \| |/ / _ \ '_ \
+            // | |__| (_) | (__|   <  |  __/| | | (_) | (_| | | |  __/\__ \__ \   | | (_) |   <  __/ | | |
+            // |_____\___/ \___|_|\_\ |_|   |_|  \___/ \__, |_|  \___||___/___/   |_|\___/|_|\_\___|_| |_|
+            //                                         |___/
+
+            onEnterLockProgressToken: function (args) {
+
+            },
+
+            onLockProgressTokenClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onLockProgressTokenClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionLockProgressToken')) {
+                        return;
+                    }
+
+                    var buildingId = dojo.attr(e.target, "data-building-id");
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionLockProgressToken.html", {
+                            lock: true,
+                            buildingId: buildingId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_lockProgressToken: function (notif) {
+                if (this.debug) console.log('notif_lockProgressToken', notif);
+
+                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
+                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
+                //
+                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
+                // dojo.style(buildingNode, 'opacity', 0);
+                // dojo.style(buildingNode, 'z-index', 100);
+                //
+                // var anim = dojo.fx.chain([
+                //     // Cross-fade building into player-building (small header only building)
+                //     dojo.fx.combine([
+                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
+                //         dojo.fadeOut({
+                //             node: playerBuildingNode,
+                //             duration: this.constructBuildingAnimationDuration * 0.4
+                //         }),
+                //     ]),
+                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                // ]);
+                //
+                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                //     dojo.style(buildingNode, 'z-index', 5);
+                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
+                //     dojo.removeClass(buildingColumn, 'red_border');
+                //     dojo.destroy(playerBuildingNode.parentNode);
+                // }));
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
+
+                anim.play();
+            },
+
+            //  __  __                  ____
+            // |  \/  | _____   _____  |  _ \  ___  ___ _ __ ___  ___
+            // | |\/| |/ _ \ \ / / _ \ | | | |/ _ \/ __| '__/ _ \/ _ \
+            // | |  | | (_) \ V /  __/ | |_| |  __/ (__| | |  __/  __/
+            // |_|  |_|\___/ \_/ \___| |____/ \___|\___|_|  \___|\___|
+
+            onEnterMoveDecree: function (args) {
+
+            },
+
+            onMoveDecreeClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onMoveDecreeClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionMoveDecree')) {
+                        return;
+                    }
+
+                    var buildingId = dojo.attr(e.target, "data-building-id");
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionMoveDecree.html", {
+                            lock: true,
+                            buildingId: buildingId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_moveDecree: function (notif) {
+                if (this.debug) console.log('notif_moveDecree', notif);
+
+                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
+                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
+                //
+                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
+                // dojo.style(buildingNode, 'opacity', 0);
+                // dojo.style(buildingNode, 'z-index', 100);
+                //
+                // var anim = dojo.fx.chain([
+                //     // Cross-fade building into player-building (small header only building)
+                //     dojo.fx.combine([
+                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
+                //         dojo.fadeOut({
+                //             node: playerBuildingNode,
+                //             duration: this.constructBuildingAnimationDuration * 0.4
+                //         }),
+                //     ]),
+                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                // ]);
+                //
+                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                //     dojo.style(buildingNode, 'z-index', 5);
+                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
+                //     dojo.removeClass(buildingColumn, 'red_border');
+                //     dojo.destroy(playerBuildingNode.parentNode);
+                // }));
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
+
+                anim.play();
+            },
+
+            //  ____                       ____        _ _     _ _
+            // / ___|_      ____ _ _ __   | __ ) _   _(_) | __| (_)_ __   __ _
+            // \___ \ \ /\ / / _` | '_ \  |  _ \| | | | | |/ _` | | '_ \ / _` |
+            //  ___) \ V  V / (_| | |_) | | |_) | |_| | | | (_| | | | | | (_| |
+            // |____/ \_/\_/ \__,_| .__/  |____/ \__,_|_|_|\__,_|_|_| |_|\__, |
+            //                    |_|                                    |___/
+
+            onEnterSwapBuilding: function (args) {
+
+            },
+
+            onSwapBuildingClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onSwapBuildingClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionSwapBuilding')) {
+                        return;
+                    }
+
+                    var buildingId = dojo.attr(e.target, "data-building-id");
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSwapBuilding.html", {
+                            lock: true,
+                            buildingId: buildingId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_swapBuilding: function (notif) {
+                if (this.debug) console.log('notif_swapBuilding', notif);
+
+                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
+                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
+                //
+                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
+                // dojo.style(buildingNode, 'opacity', 0);
+                // dojo.style(buildingNode, 'z-index', 100);
+                //
+                // var anim = dojo.fx.chain([
+                //     // Cross-fade building into player-building (small header only building)
+                //     dojo.fx.combine([
+                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
+                //         dojo.fadeOut({
+                //             node: playerBuildingNode,
+                //             duration: this.constructBuildingAnimationDuration * 0.4
+                //         }),
+                //     ]),
+                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                // ]);
+                //
+                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                //     dojo.style(buildingNode, 'z-index', 5);
+                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
+                //     dojo.removeClass(buildingColumn, 'red_border');
+                //     dojo.destroy(playerBuildingNode.parentNode);
+                // }));
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
+
+                anim.play();
+            },
+
+            //  _____     _          ____        _ _     _ _
+            // |_   _|_ _| | _____  | __ ) _   _(_) | __| (_)_ __   __ _
+            //   | |/ _` | |/ / _ \ |  _ \| | | | | |/ _` | | '_ \ / _` |
+            //   | | (_| |   <  __/ | |_) | |_| | | | (_| | | | | | (_| |
+            //   |_|\__,_|_|\_\___| |____/ \__,_|_|_|\__,_|_|_| |_|\__, |
+            //                                                     |___/
+
+            onEnterTakeBuilding: function (args) {
+
+            },
+
+            onTakeBuildingClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onTakeBuildingClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionTakeBuilding')) {
+                        return;
+                    }
+
+                    var buildingId = dojo.attr(e.target, "data-building-id");
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionTakeBuilding.html", {
+                            lock: true,
+                            buildingId: buildingId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_takeBuilding: function (notif) {
+                if (this.debug) console.log('notif_takeBuilding', notif);
+
+                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
+                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
+                //
+                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
+                // dojo.style(buildingNode, 'opacity', 0);
+                // dojo.style(buildingNode, 'z-index', 100);
+                //
+                // var anim = dojo.fx.chain([
+                //     // Cross-fade building into player-building (small header only building)
+                //     dojo.fx.combine([
+                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
+                //         dojo.fadeOut({
+                //             node: playerBuildingNode,
+                //             duration: this.constructBuildingAnimationDuration * 0.4
+                //         }),
+                //     ]),
+                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                // ]);
+                //
+                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                //     dojo.style(buildingNode, 'z-index', 5);
+                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
+                //     dojo.removeClass(buildingColumn, 'red_border');
+                //     dojo.destroy(playerBuildingNode.parentNode);
+                // }));
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
+
+                anim.play();
+            },
+
+            //  _____     _          _   _                           _                   _           _  __        __              _
+            // |_   _|_ _| | _____  | | | |_ __   ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ ___  __| | \ \      / /__  _ __   __| | ___ _ __
+            //   | |/ _` | |/ / _ \ | | | | '_ \ / __/ _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \/ _` |  \ \ /\ / / _ \| '_ \ / _` |/ _ \ '__|
+            //   | | (_| |   <  __/ | |_| | | | | (_| (_) | | | \__ \ |_| |  | |_| | (__| ||  __/ (_| |   \ V  V / (_) | | | | (_| |  __/ |
+            //   |_|\__,_|_|\_\___|  \___/|_| |_|\___\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|    \_/\_/ \___/|_| |_|\__,_|\___|_|
+
+            onEnterTakeUnconstructedWonder: function (args) {
+
+            },
+
+            onTakeUnconstructedWonderClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onTakeUnconstructedWonderClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionTakeUnconstructedWonder')) {
+                        return;
+                    }
+
+                    var buildingId = dojo.attr(e.target, "data-building-id");
+
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionTakeUnconstructedWonder.html", {
+                            lock: true,
+                            buildingId: buildingId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_takeUnconstructedWonder: function (notif) {
+                if (this.debug) console.log('notif_takeUnconstructedWonder', notif);
+
+                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
+                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
+                //
+                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
+                // dojo.style(buildingNode, 'opacity', 0);
+                // dojo.style(buildingNode, 'z-index', 100);
+                //
+                // var anim = dojo.fx.chain([
+                //     // Cross-fade building into player-building (small header only building)
+                //     dojo.fx.combine([
+                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
+                //         dojo.fadeOut({
+                //             node: playerBuildingNode,
+                //             duration: this.constructBuildingAnimationDuration * 0.4
+                //         }),
+                //     ]),
+                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
+                // ]);
+                //
+                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                //     dojo.style(buildingNode, 'z-index', 5);
+                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
+                //     dojo.removeClass(buildingColumn, 'red_border');
+                //     dojo.destroy(playerBuildingNode.parentNode);
+                // }));
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
+
+                anim.play();
             },
 
             //  _   _           _     ____  _                         _____
