@@ -129,7 +129,7 @@ if (isset($_POST['name'])) {
             <h3>Buildings:</h3>
             <div id="buildings">
                 <?php foreach(\SWD\Material::get()->buildings->array as $building):
-                    $spritesheetColumns = 10;
+                    $spritesheetColumns = 12;
                     $x = ($building->id - 1) % $spritesheetColumns;
                     $y = floor(($building->id - 1) / $spritesheetColumns);
                     ?><div id="<?= $building->id ?>" data-id="<?= $building->id ?>"
