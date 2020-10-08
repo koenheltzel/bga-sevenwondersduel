@@ -15,7 +15,7 @@ class Base extends \APP_DbObject
      * @return mixed
      */
     function _($string) {
-        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+        if (isDevEnvironment()) {
             return $string;
         }
         else {

@@ -30,7 +30,7 @@ class Player extends Base{
      * @return Player
      */
     public static function me() {
-        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+        if (isDevEnvironment()) {
             return self::get(1);
         } else {
             $playerIds = array_keys(SevenWondersDuelAgora::get()->loadPlayersBasicInfos());
@@ -47,7 +47,7 @@ class Player extends Base{
      * @return Player
      */
     public static function opponent($meId = null) {
-        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+        if (isDevEnvironment()) {
             return self::get(2);
         } else {
             if (is_null($meId)) $meId = Player::me()->id;
@@ -225,7 +225,7 @@ class Player extends Base{
      * @return array
      */
     public function getWonderIds(): array {
-        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+        if (isDevEnvironment()) {
             return $this->wonderIds;
         }
         else {
@@ -284,7 +284,7 @@ class Player extends Base{
      * @return array
      */
     public function getConspiracyIds(): array {
-        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+        if (isDevEnvironment()) {
             return $this->conspiracyIds;
         }
         else {
@@ -316,7 +316,7 @@ class Player extends Base{
      * @return array
      */
     public function getBuildingIds(): array {
-        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+        if (isDevEnvironment()) {
             return $this->buildingIds;
         }
         else {
@@ -364,7 +364,7 @@ class Player extends Base{
      * @return array
      */
     public function getProgressTokenIds(): array {
-        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+        if (isDevEnvironment()) {
             return $this->progressTokenIds;
         }
         else {

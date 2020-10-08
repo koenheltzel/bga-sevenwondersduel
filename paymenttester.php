@@ -1,23 +1,11 @@
 <?php
-require_once '_bga_ide_helper.php';
+require_once 'sevenwondersduel.game.php';
 
 // SWD namespace autoloader from /modules/php/ folder.
 use SWD\Building;
 use SWD\Player;
 use SWD\ProgressToken;
 use SWD\Wonder;
-
-$swdNamespaceAutoload = function ($class) {
-    $classParts = explode('\\', $class);
-    if ($classParts[0] == 'SWD') {
-        array_shift($classParts);
-        $file = dirname(__FILE__) . "/modules/php/" . implode(DIRECTORY_SEPARATOR, $classParts) . ".php";
-        if (file_exists($file)) {
-            require_once($file);
-        }
-    }
-};
-spl_autoload_register($swdNamespaceAutoload, true, true);
 
 require_once 'material.inc.php';
 

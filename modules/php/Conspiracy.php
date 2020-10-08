@@ -185,7 +185,7 @@ class Conspiracy extends Item {
      * @return int
      */
     public function isPrepared() {
-        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+        if (isDevEnvironment()) {
             // Asume we are testing cost calculation
             return true;
         }
@@ -200,7 +200,7 @@ class Conspiracy extends Item {
     }
 
     public function isTriggered() {
-        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+        if (isDevEnvironment()) {
             // Asume we are testing cost calculation
             return true;
         }

@@ -139,7 +139,7 @@ class Wonder extends Item {
      * @return int
      */
     public function isConstructed() {
-        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+        if (isDevEnvironment()) {
             // Asume we are testing cost calculation
             return true;
         }

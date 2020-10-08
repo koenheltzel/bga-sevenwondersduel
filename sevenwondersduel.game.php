@@ -41,9 +41,14 @@ $swdNamespaceAutoload = function ($class) {
 };
 spl_autoload_register($swdNamespaceAutoload, true, true);
 
-require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
+
 require_once('modules/php/functions.php');
-if (0) require_once '_bga_ide_helper.php';
+if (isDevEnvironment()) {
+    require_once '_bga_ide_helper.php';
+}
+else {
+    require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
+}
 
 
 class SevenWondersDuelAgora extends Table
