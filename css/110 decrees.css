@@ -17,6 +17,7 @@
     height: calc(var(--decree-height) * var(--decree-small-scale) * var(--element-scale));
     background-size: calc(var(--decree-spritesheet-width) * var(--decree-small-scale) * var(--element-scale)) calc(var(--decree-spritesheet-height) * var(--decree-small-scale) * var(--element-scale));
     filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #000000);
+    display: inline-block;
 }
 
 .decree_containers {
@@ -24,6 +25,7 @@
 }
 .decree_containers .decree_small {
     position: absolute;
+    display: block;
 }
 .decree_containers > div > div:not(:first-of-type) {
     margin-top: calc(var(--senate-scale) * -13px);

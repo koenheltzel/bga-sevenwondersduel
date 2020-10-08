@@ -1499,7 +1499,14 @@ define([
                         args[key] = _(args[key]);
                     }));
                     args.costIcon = steps[i].cost ? this.getResourceIcon('coin', steps[i].cost) : '';
-                    output += dojo.string.substitute(_(steps[i].string), args);
+                    if (Array.isArray(steps[i].string)) {
+                        for (let j = 0; j < steps[i].string.length; j++) {
+                            output += dojo.string.substitute(_(steps[i].string[j]), args) + " ";
+                        }
+                    }
+                    else {
+                        output += dojo.string.substitute(_(steps[i].string), args);
+                    }
                     output += '<br/>';
                 }
                 return output;

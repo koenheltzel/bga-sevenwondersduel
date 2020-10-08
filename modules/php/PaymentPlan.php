@@ -259,7 +259,7 @@ class PaymentPlan extends Base
 
         if($print) {
             foreach($this->steps as $step) {
-                $string = $step->string;
+                $string = is_array($step->string) ? join(' ', $step->string) : $step->string;
                 $string = str_replace('${costIcon}', $step->cost ? self::getResourceIcon('coin', $step->cost) : '', $string);
                 print "<PRE>" . self::getResourceIcon($step->resource, $step->amount) . " &rightarrow; {$string}</PRE>";
             }
@@ -345,18 +345,29 @@ class PaymentPlan extends Base
             $opponentResourceCount = $player->getOpponent()->resourceCount($resource);
             for($i = 0; $i < $amount; $i++) {
                 $cost = 2 + $opponentResourceCount;
-                $string = null;
+                $string = [];
+                $args = [];
                 if ($opponentResourceCount > 0) {
                     $color = in_array($resource, [GLASS, PAPYRUS]) ? clienttranslate('grey') : clienttranslate('brown');
-                    $string = clienttranslate('${costIcon} trade cost (opponent can produce ${count} ${resource} with ${color} cards)');
-                    $args = [
+                    $string[] = clienttranslate('${costIcon} trade cost (opponent can produce ${count} ${resource} with ${color} cards)');
+                    $args = array_merge($args, [
                         'count' => $opponentResourceCount,
                         'resource' => RESOURCES[$resource],
                         'color' => $color,
-                    ];
+                    ]);
                 } else {
-                    $args = [];
-                    $string = clienttranslate('${costIcon} trade cost');
+                    $string[] = clienttranslate('${costIcon} trade cost');
+                }
+
+                if (in_array($resource, [WOOD, CLAY, STONE]) && $player->hasDecree(10)) {
+                    $cost--;
+                    $string[] = clienttranslate('(-1 for controlling the Decree in Chamber ${chamber})');
+                    $args['chamber'] = Decree::get(10)->getChamber();
+                }
+                if (in_array($resource, [GLASS, PAPYRUS]) && $player->hasDecree(11)) {
+                    $cost--;
+                    $string[] = clienttranslate('(-1 for controlling the Decree in Chamber ${chamber})');
+                    $args['chamber'] = Decree::get(11)->getChamber();
                 }
                 $payment->addStep($resource, 1, $cost, null, null, $string, $args);
             }

@@ -13,6 +13,7 @@ class Player extends Base{
     private $conspiracyIds = [];
     private $buildingIds = [];
     public $progressTokenIds = [];
+    public $decreeIds = [];
 
     public static $instances = [];
 
@@ -395,9 +396,14 @@ class Player extends Base{
     }
 
     public function hasDecree($id) : bool {
-        $chamber = Decree::get($id)->getChamber();
-        $player = Senate::getControllingPlayer($chamber);
-        return $this == $player;
+        if (isDevEnvironment()) {
+            return in_array($id, $this->decreeIds);
+        }
+        else {
+            $chamber = Decree::get($id)->getChamber();
+            $player = Senate::getControllingPlayer($chamber);
+            return $this == $player;
+        }
     }
 
     public function getSenateActionsCount() {

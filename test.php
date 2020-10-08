@@ -32,12 +32,17 @@ $player1 = Player::me();
 $player2 = Player::opponent();
 
 if (isset($_GET['me_buildings'])) {
+    if (!isset($_GET['me_decrees'])) $_GET['me_decrees'] = "";
+    if (!isset($_GET['opponent_decrees'])) $_GET['opponent_decrees'] = "";
+
     if(strlen($_GET['me_buildings'])) $player1->setBuildingIds(explode(',', $_GET['me_buildings']));
     if(strlen($_GET['me_wonders'])) $player1->setWonderIds(explode(',', $_GET['me_wonders']));
     if(strlen($_GET['me_progress_tokens'])) $player1->setProgressTokenIds(explode(',', $_GET['me_progress_tokens']));
+    if(strlen($_GET['me_decrees'])) $player1->decreeIds = explode(',', $_GET['me_decrees']);
     if(strlen($_GET['opponent_buildings'])) $player2->setBuildingIds(explode(',', $_GET['opponent_buildings']));
     if(strlen($_GET['opponent_wonders'])) $player2->setWonderIds(explode(',', $_GET['opponent_wonders']));
     if(strlen($_GET['opponent_progress_tokens'])) $player2->setProgressTokenIds(explode(',', $_GET['opponent_progress_tokens']));
+    if(strlen($_GET['opponent_decrees'])) $player2->decreeIds = explode(',', $_GET['opponent_decrees']);
     if (strlen($_GET['subject_buildings'])) {
         $payment = Player::me()->getPaymentPlan(Building::get($_GET['subject_buildings']), 1, 0);
 //        print "<PRE>" . print_r($payment, true) . "</PRE>";
