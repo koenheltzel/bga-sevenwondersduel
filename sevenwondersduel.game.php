@@ -223,6 +223,7 @@ class SevenWondersDuelAgora extends Table
     const SCORE_PROGRESSTOKENS = "progresstokens";
     const SCORE_COINS = "coins";
     const SCORE_MILITARY = "military";
+    const SCORE_SENATE = "senate";
 
     // End game conditions
     const END_GAME_CONDITION_SCIENTIFIC = 1;
@@ -266,6 +267,7 @@ class SevenWondersDuelAgora extends Table
     // Agora Statistics
     const STAT_CONSPIRACIES_PREPARED = "conspiracies_prepared";
     const STAT_CONSPIRACIES_TRIGGERED = "conspiracies_triggered";
+    const STAT_VP_SENATE = "vp_senate";
 
     /**
      * @var Deck
@@ -498,6 +500,7 @@ class SevenWondersDuelAgora extends Table
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             self::initStat('player', self::STAT_CONSPIRACIES_PREPARED, 0);
             self::initStat('player', self::STAT_CONSPIRACIES_TRIGGERED, 0);
+            self::initStat('player', self::STAT_VP_SENATE, 0);
         }
         // TODO: setup the initial game situation here
 

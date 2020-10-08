@@ -94,12 +94,12 @@
                                 </div>
                             </div>
                             <div id="senate_actions" class="whiteblock">
+                                <a href="#" id="buttonSenateActionsSkip" class="action_button bgabutton bgabutton_blue action_button_skip" style="margin-right: calc(4 * var(--gutter))"><span>{SKIP_MOVE_INFLUENCE}</span></a>
                                 <a href="#" id="buttonSenateActionsPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_place_influence"></div><span>{PLACE_INFLUENCE}</span></a>
                                 <a href="#" id="buttonSenateActionsMoveInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_move_influence"></div><span>{MOVE_INFLUENCE}</span></a>
-                                <a href="#" id="buttonSenateActionsSkip" class="action_button bgabutton bgabutton_blue"><div class="action_skip"></div><span>{SKIP_MOVE_INFLUENCE}</span></a>
                             </div>
                             <div id="move_influence" class="whiteblock">
-                                <a href="#" id="buttonMoveInfluenceSkip" class="action_button bgabutton bgabutton_blue"><div class="action_skip"></div><span>{SKIP_MOVE_INFLUENCE}</span></a>
+                                <a href="#" id="buttonMoveInfluenceSkip" class="action_button bgabutton bgabutton_blue action_button_skip"><div class="action_skip"></div><span>{SKIP_MOVE_INFLUENCE}</span></a>
                             </div>
                             <div id="trigger_unprepared_conspiracy" class="whiteblock">
                                 <a href="#" id="buttonTriggerUnpreparedConspiracySkip" class="action_button bgabutton bgabutton_blue"><div class="action_skip"></div><span>{SKIP_TRIGGER_UNPREPARED_CONSPIRACY}</span></a>

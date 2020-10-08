@@ -175,6 +175,11 @@ $stats_type = [
             "name" => totranslate("VP from Conflict Pawn position"),
             "type" => "int"
         ],
+        "vp_senate" => [
+            "id" => 135,
+            "name" => totranslate("VP from Senate Chambers"),
+            "type" => "int"
+        ],
         "brown_cards" => [
             "id" => 140,
             "name" => totranslate("Brown cards"),

@@ -170,6 +170,9 @@ $machinestates = [
                 SevenWondersDuelAgora::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuelAgora::STATE_CHOOSE_DISCARDED_BUILDING_ID,
                 SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_ID,
                 SevenWondersDuelAgora::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME => SevenWondersDuelAgora::STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID,
+                SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID,
+                SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_ID,
+                SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID, // If remove influence is skipped
                 SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // For immediate victories, skipping special wonder action states.
                 SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             ]

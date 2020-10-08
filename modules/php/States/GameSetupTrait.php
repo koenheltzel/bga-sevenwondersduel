@@ -91,7 +91,7 @@ trait GameSetupTrait
             // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and decree ids.
             self::DbQuery( "UPDATE decree SET card_id = card_type_arg + 1000, card_type_arg = 0" );
             self::DbQuery( "UPDATE decree SET card_id = card_id - 1000" );
-            if (1) {
+            if (0) {
                 // TODO: remove these lines which defines a static set of decrees.
                 $i = 0;
                 $this->decreeDeck->insertCard(13, 'board', $i++);
@@ -122,10 +122,12 @@ trait GameSetupTrait
             self::DbQuery( "UPDATE conspiracy SET card_id = card_id - 1000" );
 
             // TODO: remove these lines which put certain conspiracies on top.
-            $this->conspiracyDeck->insertCardOnExtremePosition(11, 'deck', true);
-            $this->conspiracyDeck->insertCardOnExtremePosition(14, 'deck', true);
-            $this->conspiracyDeck->insertCardOnExtremePosition(13, 'deck', true);
-            $this->conspiracyDeck->insertCardOnExtremePosition(7, 'deck', true);
+            if (1) {
+                $this->conspiracyDeck->insertCardOnExtremePosition(11, 'deck', true);
+                $this->conspiracyDeck->insertCardOnExtremePosition(14, 'deck', true);
+                $this->conspiracyDeck->insertCardOnExtremePosition(13, 'deck', true);
+                $this->conspiracyDeck->insertCardOnExtremePosition(7, 'deck', true);
+            }
 
             // Set up Influence cubes
             $this->influenceCubeDeck->createCards([['type' => Player::me()->id, 'nbr' => 12, 'type_arg' => 0]], Player::me()->id, 0);

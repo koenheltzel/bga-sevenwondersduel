@@ -196,7 +196,7 @@ class Item extends Base
                             ]
                         );
                     } else {
-                        SevenWondersDuel::get()->notifyAllPlayers(
+                        SevenWondersDuelAgora::get()->notifyAllPlayers(
                             'message',
                             clienttranslate('A military “${value} coins” token is removed, but ${player_name} can\'t discard any coins'),
                             [

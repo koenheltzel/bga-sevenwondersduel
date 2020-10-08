@@ -164,6 +164,9 @@ class Player extends Base{
                 case SevenWondersDuelAgora::SCORE_MILITARY:
                     SevenWondersDuelAgora::get()->incStat($increase, SevenWondersDuelAgora::STAT_VP_MILITARY, $this->id);
                     break;
+                case SevenWondersDuelAgora::SCORE_SENATE:
+                    SevenWondersDuelAgora::get()->incStat($increase, SevenWondersDuelAgora::STAT_VP_SENATE, $this->id);
+                    break;
             }
         }
         return $count;
@@ -182,7 +185,9 @@ class Player extends Base{
     }
 
     public function getScoreCategories() {
-        return self::getCollectionFromDB("SELECT `player_score_blue`,`player_score_green`,`player_score_yellow`,`player_score_purple`,`player_score_wonders`,`player_score_progresstokens`,`player_score_coins`,`player_score_military` FROM player WHERE player_id='{$this->id}'");
+        $agora_column = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::OPTION_AGORA) ? ',`player_score_senate`' : '';
+
+        return self::getCollectionFromDB("SELECT `player_score_blue`,`player_score_green`,`player_score_yellow`,`player_score_purple`,`player_score_wonders`,`player_score_progresstokens`,`player_score_coins`,`player_score_military` {$agora_column} FROM player WHERE player_id='{$this->id}'");
     }
 
     /**

@@ -4381,6 +4381,9 @@ define([
 
                 // First set the table to the situation in this.gamedatas.playersSituation
                 var categories = ['blue', 'green', 'yellow', 'purple', 'wonders', 'progresstokens', 'coins', 'military'];
+                if (this.agora) {
+                    categories.push('senate');
+                }
                 Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
                     for (var i = 0; i < categories.length; i++) {
                         dojo.query('#end_game_container .end_game_' + categories[i] + '.player' + playerId)[0].innerHTML = this.gamedatas.playersSituation[playerId]['player_score_' + categories[i]];
@@ -4430,9 +4433,16 @@ define([
 
                 var zIndex = 1;
                 if (notif.args.highlightId) {
-                    zIndex = dojo.style(notif.args.highlightId, 'z-index');
-                    dojo.style(notif.args.highlightId, 'z-index', 100);
-                    dojo.addClass(notif.args.highlightId, 'endgame_highlight');
+                    if (notif.args.category == "senate") {
+                        for (let i = 0; i < notif.args.highlightId.length; i++) {
+                            $(notif.args.highlightId[i]).setAttribute("class",  "red_stroke");
+                        }
+                    }
+                    else {
+                        zIndex = dojo.style(notif.args.highlightId, 'z-index');
+                        dojo.style(notif.args.highlightId, 'z-index', 100);
+                        dojo.addClass(notif.args.highlightId, 'endgame_highlight');
+                    }
                 }
 
                 for (var i = 0; i < notif.args.playerIds.length; i++) {
@@ -4479,8 +4489,15 @@ define([
                                     dojo.removeClass(categoryNode, 'endgame_highlight');
                                 }
                                 if (notif.args.highlightId) {
-                                    dojo.style(notif.args.highlightId, 'z-index', zIndex);
-                                    dojo.removeClass(notif.args.highlightId, 'endgame_highlight');
+                                    if (notif.args.category == "senate") {
+                                        for (let i = 0; i < notif.args.highlightId.length; i++) {
+                                            $(notif.args.highlightId[i]).setAttribute("class",  "");
+                                        }
+                                    }
+                                    else {
+                                        dojo.style(notif.args.highlightId, 'z-index', zIndex);
+                                        dojo.removeClass(notif.args.highlightId, 'endgame_highlight');
+                                    }
                                 }
                             }
                         }),

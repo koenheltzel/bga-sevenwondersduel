@@ -234,6 +234,44 @@ trait NextPlayerTurnTrait {
                     }
                 }
 
+                if ($this->getGameStateValue(self::OPTION_AGORA)) {
+                    $situation = Senate::getSituation();
+                    foreach(Players::get() as $player) {
+                        $playerChambers = [];
+                        $playerSenatePoints = 0;
+                        $playerChamberIds = [];
+                        for($chamber = 1; $chamber <= 6; $chamber++) {
+                            if ($situation['chambers'][$chamber]['controller'] == $player->id) {
+                                // Senate victory points
+                                $points = 1;
+                                if (in_array($chamber, [2, 5])) $points = 2;
+                                if (in_array($chamber, [3, 4])) $points = 3;
+
+                                $playerChambers[] = $chamber;
+                                $playerChamberIds[] = "chamber{$chamber}";
+                                $playerSenatePoints += $points;
+                            }
+                        }
+
+                        if ($playerSenatePoints > 0) {
+                            $player->increaseScore($playerSenatePoints, self::SCORE_SENATE);
+                            SevenWondersDuelAgora::get()->notifyAllPlayers(
+                                'endGameCategoryUpdate',
+                                clienttranslate('${player_name} scores ${points} victory points (Senate Chamber(s) ${chambers})'),
+                                [
+                                    'player_name' => $player->name,
+                                    'points' => $playerSenatePoints,
+                                    'chambers' => implode(', ', $playerChambers),
+                                    'playerIds' => [$player->id],
+                                    'category' => 'senate',
+                                    'highlightId' => $playerChamberIds,
+                                ]
+                            );
+                        }
+
+                    }
+                }
+
                 // Determine the winner of the game
                 $winner = $this->determineWinner();
 
@@ -354,7 +392,7 @@ trait NextPlayerTurnTrait {
                     ]
                 );
 
-                SevenWondersDuel::get()->notifyAllPlayers(
+                SevenWondersDuelAgora::get()->notifyAllPlayers(
                     'endGameCategoryUpdate',
                     clienttranslate(''),
                     [
@@ -389,7 +427,7 @@ trait NextPlayerTurnTrait {
                         ]
                     );
 
-                    SevenWondersDuel::get()->notifyAllPlayers(
+                    SevenWondersDuelAgora::get()->notifyAllPlayers(
                         'endGameCategoryUpdate',
                         clienttranslate(''),
                         [
@@ -401,7 +439,7 @@ trait NextPlayerTurnTrait {
                         ]
                     );
 
-                    SevenWondersDuel::get()->notifyAllPlayers(
+                    SevenWondersDuelAgora::get()->notifyAllPlayers(
                         'endGameCategoryUpdate',
                         clienttranslate(''),
                         [
@@ -427,7 +465,7 @@ trait NextPlayerTurnTrait {
                     []
                 );
 
-                SevenWondersDuel::get()->notifyAllPlayers(
+                SevenWondersDuelAgora::get()->notifyAllPlayers(
                     'endGameCategoryUpdate',
                     clienttranslate(''),
                     [
@@ -439,7 +477,7 @@ trait NextPlayerTurnTrait {
                     ]
                 );
 
-                SevenWondersDuel::get()->notifyAllPlayers(
+                SevenWondersDuelAgora::get()->notifyAllPlayers(
                     'endGameCategoryUpdate',
                     clienttranslate(''),
                     [
