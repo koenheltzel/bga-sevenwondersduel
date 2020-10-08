@@ -140,6 +140,7 @@ if (!isset($_GET['opponent_decrees'])) $_GET['opponent_decrees'] = "";
                         ?><div id="<?= $building->id ?>" data-id="<?= $building->id ?>"
                              class="item building building_small"
                              style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
+                               title="<?= $building->name ?>"
                         ></div>
                     <?php endif ?>
                 <?php endforeach ?>
@@ -153,6 +154,7 @@ if (!isset($_GET['opponent_decrees'])) $_GET['opponent_decrees'] = "";
                     ?><div id="<?= $wonder->id ?>" data-id="<?= $wonder->id ?>"
                          class="item wonder wonder_small"
                          style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
+                        title="<?= $wonder->name ?>"
                     ></div>
                 <?php endforeach ?>
             </div>
@@ -165,6 +167,7 @@ if (!isset($_GET['opponent_decrees'])) $_GET['opponent_decrees'] = "";
                     ?><div id="<?= $progressToken->id ?>" data-id="<?= $progressToken->id ?>"
                            class="item progress_token progress_token_small"
                            style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
+                           title="<?= $progressToken->name ?>"
                     ></div><?php endforeach ?>
             </div>
             <h3>Decrees (as if controlled):</h3>
