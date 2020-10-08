@@ -4,6 +4,7 @@ namespace SWD\States;
 
 use SevenWondersDuelAgora;
 use SWD\Building;
+use SWD\Decree;
 use SWD\Draftpool;
 use SWD\MilitaryTrack;
 use SWD\Player;
@@ -18,25 +19,41 @@ trait NextPlayerTurnTrait {
             $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
         }
         elseif (Draftpool::countCardsInCurrentAge() > 0) {
-            if (SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL) || SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_THEOLOGY)) {
+            if (SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL)
+                || SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_THEOLOGY)
+                || SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_DECREE)
+            ) {
+                $args = null;
+                $message = null;
                 if (SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL)) {
                     $message = clienttranslate('${player_name} gets an extra turn');
+                    $args = [
+                        'player_name' => Player::getActive()->name
+                    ];
                 }
-                else {
+                elseif (SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_THEOLOGY)) {
                     $message = clienttranslate('${player_name} gets an extra turn (Progress token “${progressTokenName}”)');
-                }
-                SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL, 0);
-                SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
-
-                SevenWondersDuelAgora::get()->notifyAllPlayers(
-                    'message',
-                    $message,
-                    [
+                    $args = [
                         'i18n' => ['progressTokenName'],
                         'player_name' => Player::getActive()->name,
                         'progressTokenName' => ProgressToken::get(9)->name, // Theology
-                    ]
-                );
+                    ];
+                }
+                elseif (SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_DECREE)) {
+                    // This notification is done after constructing the Senator, because some actions remain after that. But we already want to get the information out there that an extra turn is happening.
+                }
+
+                SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL, 0);
+                SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
+                SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_DECREE, 0);
+
+                if ($message) {
+                    SevenWondersDuelAgora::get()->notifyAllPlayers(
+                        'message',
+                        $message,
+                        $args
+                    );
+                }
 
                 $this->incStat(1, self::STAT_EXTRA_TURNS, Player::getActive()->id);
             }
@@ -48,9 +65,13 @@ trait NextPlayerTurnTrait {
         }
         // End of the age
         else {
-            if (SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL) || SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_THEOLOGY)) {
+            if (SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL)
+                || SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_THEOLOGY)
+                || SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_DECREE)
+            ) {
                 SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL, 0);
                 SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
+                SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_DECREE, 0);
 
                 SevenWondersDuelAgora::get()->notifyAllPlayers(
                     'message',

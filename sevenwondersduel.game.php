@@ -202,6 +202,7 @@ class SevenWondersDuelAgora extends Table
     const VALUE_MILITARY_TOKEN4 = "military_token4";
     const VALUE_EXTRA_TURN_NORMAL = "extra_turn";
     const VALUE_EXTRA_TURN_THROUGH_THEOLOGY = "extra_turn_through_theology";
+    const VALUE_EXTRA_TURN_THROUGH_DECREE = "extra_turn_through_decree";
     const VALUE_AGE_START_PLAYER = "age_start_player";
     const VALUE_DISCARD_OPPONENT_BUILDING_WONDER = "discard_opponent_building_wonder";
     const VALUE_END_GAME_CONDITION = "end_game_condition";
@@ -333,6 +334,7 @@ class SevenWondersDuelAgora extends Table
                 self::VALUE_SENATE_ACTIONS_SECTION => 34,
                 self::VALUE_SENATE_ACTIONS_LEFT => 35,
                 self::VALUE_STATE_STACK => 36,
+                self::VALUE_EXTRA_TURN_THROUGH_DECREE => 37,
                 // Game variants
                 self::OPTION_AGORA => 110,
                 self::OPTION_AGORA_WONDERS => 111,
@@ -451,6 +453,7 @@ class SevenWondersDuelAgora extends Table
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_LEFT, 0);
         self::setGameStateInitialValue( self::VALUE_STATE_STACK, json_encode([]));
         self::setGameStateInitialValue( self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY, 0);
+        self::setGameStateInitialValue( self::VALUE_EXTRA_TURN_THROUGH_DECREE, 0);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)

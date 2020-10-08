@@ -337,6 +337,19 @@ class Building extends Item {
                 ]
             );
         }
+
+        if ($this->type == Building::TYPE_SENATOR && $player->hasDecree(16)) {
+            SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_DECREE, 1);
+
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} gets an extra turn after this one (Decree in Chamber ${chamber})'),
+                [
+                    'chamber' => Decree::get(16)->getChamber(),
+                    'player_name' => Player::getActive()->name,
+                ]
+            );
+        }
     }
 
     protected function getBuildingTypeString($type) {

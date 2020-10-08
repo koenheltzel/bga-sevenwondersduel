@@ -253,6 +253,8 @@ class PaymentPlan extends Base
 
             $costLeft = $this->item->cost;
 
+
+            // See if there is a decree under the player's control that lets you ignore one cost symbol.
             $relevantDecree = null;
             if ($this->item instanceof Building) {
                 switch ($this->item->type) {
@@ -272,6 +274,7 @@ class PaymentPlan extends Base
             }
 
             if ($relevantDecree) {
+                // Let's consider all combinations leaving out 1 cost symbol every time.
                 $resourcesTypes = array_unique(array_keys($costLeft));
 
                 $cheapestdecreeIgnoreSymbolIndex = null;
@@ -306,6 +309,7 @@ class PaymentPlan extends Base
                 }
                 $this->steps = $cheapestdecreeIgnoreSymbolSteps;
             }
+            // Normal situation
             else {
                 $scenariosCalculated = $this->calculateCostLeft($player, $print, $printChoices, $costLeft, $scenariosCalculated);
             }
