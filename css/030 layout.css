@@ -136,5 +136,5 @@
 
 #swd[data-agora="1"] #swd_wrap.square #board_column, #swd[data-agora="1"] #swd_wrap.landscape #board_column {
     /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
-    width: calc(390px * var(--scale));
+    width: calc(395px * var(--scale));
 }
