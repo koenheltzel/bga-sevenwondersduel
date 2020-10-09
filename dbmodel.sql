@@ -46,7 +46,7 @@ ALTER TABLE `player`
     ADD COLUMN `player_score_wonders` SMALLINT UNSIGNED NOT NULL DEFAULT '0',
     ADD COLUMN `player_score_progresstokens` SMALLINT UNSIGNED NOT NULL DEFAULT '0',
     ADD COLUMN `player_score_coins` SMALLINT UNSIGNED NOT NULL DEFAULT '0',
-    ADD COLUMN `player_score_military` SMALLINT UNSIGNED NOT NULL DEFAULT '0';
+    ADD COLUMN `player_score_military` SMALLINT UNSIGNED NOT NULL DEFAULT '0',
     ADD COLUMN `player_score_senate` SMALLINT UNSIGNED NOT NULL DEFAULT '0';
 
 CREATE TABLE IF NOT EXISTS `building` (
