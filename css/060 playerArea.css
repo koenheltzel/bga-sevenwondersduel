@@ -289,7 +289,6 @@
 }
 
 #swd_wrap.landscape .player_wonders {
-    --wonder-rows: calc(--number-of-wonders) / 2
     width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
     height: calc(var(--number-of-wonder-rows-landscape) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonder-rows-landscape) - 1) * var(--gutter));
 }

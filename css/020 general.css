@@ -107,6 +107,10 @@
     color: black;
     cursor: default;
 }
+.agora_cube3d_me, .agora_cube3d_opponent {
+    text-shadow: 0 0 calc(var(--scale) * 3px) black, 0 0 calc(var(--scale) * 3px) black, 0 0 calc(var(--scale) * 3px) black;
+    color: white;
+}
 
 .wood {
     background-image: url('img/sprites.png');
@@ -256,7 +260,7 @@
 
 .agora_cube3d_me {
     background-image: url('img/agora_sprites.png');
-    background-position: 0.537634% 92.8571%;
+    background-position: 0.538% 92.857%;
     background-size: 365.714%;
 
     width: calc(var(--scale) * var(--element-scale) * 28.4px);
@@ -267,7 +271,7 @@
 
 .agora_cube3d_opponent {
     background-image: url('img/agora_sprites.png');
-    background-position: 73.6559% 0.550964%;
+    background-position: 73.656% 0.551%;
     background-size: 365.714%;
 
     width: calc(var(--scale) * var(--element-scale) * 28.4px);
