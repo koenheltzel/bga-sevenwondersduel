@@ -285,12 +285,13 @@
 
 #swd_wrap.square .player_wonders {
     width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
-    height: calc(4 * var(--wonder-small-scale) * var(--wonder-height) + 3 * var(--gutter));
+    height: calc(var(--number-of-wonders) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonders) - 1) * var(--gutter));
 }
 
 #swd_wrap.landscape .player_wonders {
+    --wonder-rows: calc(--number-of-wonders) / 2
     width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
-    height: calc(2 * var(--wonder-small-scale) * var(--wonder-height) + 1 * var(--gutter));
+    height: calc(var(--number-of-wonder-rows-landscape) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonder-rows-landscape) - 1) * var(--gutter));
 }
 
 #swd_wrap.portrait .player_wonders {
@@ -308,9 +309,17 @@
     flex-wrap: wrap;
     justify-content: space-between;
 }
+#swd_wrap.landscape .player_wonders {
+    flex-direction: row;
+    align-content: space-between;
+}
 
-.player_wonders > div:not(:last-child) {
+#swd_wrap.portrait .player_wonders > div:not(:last-child) {
     margin-right: var(--gutter);
+}
+
+.player_wonders > div:nth-of-type(5) {
+    display: none;
 }
 
 .player_wonders > div {

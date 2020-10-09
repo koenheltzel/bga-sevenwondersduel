@@ -690,6 +690,15 @@ define([
 
             updatePlayerWonders: function (playerId, rows) {
                 if (this.debug) console.log('updatePlayerWonders', playerId, rows);
+
+                let playerWonderContainer = dojo.query('.player_wonders.player' + playerId)[0];
+                let wondersCount = Math.max(4, rows.length);
+                this.setCssVariable('--number-of-wonders', wondersCount + (wondersCount % 2) , playerWonderContainer);
+                this.setCssVariable('--number-of-wonder-rows-landscape', Math.ceil(wondersCount / 2) , playerWonderContainer);
+                if (wondersCount == 5) {
+                    dojo.style(dojo.query('.player_wonders.player' + playerId + ' > div:nth-of-type(5)')[0], 'display', wondersCount > 4 ? 'inline-block' : 'none');
+                }
+
                 var i = 1;
                 Object.keys(rows).forEach(dojo.hitch(this, function (index) {
                     var row = rows[index];
@@ -4564,12 +4573,17 @@ define([
                 this.updateLowerDivsWidth();
             },
 
-            getCssVariable: function (name) {
+            getCssVariable: function (name, node=null) {
                 return getComputedStyle(document.documentElement).getPropertyValue(name);
             },
 
-            setCssVariable: function (name, value) {
-                document.documentElement.style.setProperty(name, value);
+            setCssVariable: function (name, value, node=null) {
+                if (node) {
+                    node.style.setProperty(name, value);
+                }
+                else {
+                    document.documentElement.style.setProperty(name, value);
+                }
             },
 
             onScreenWidthChange: function () {

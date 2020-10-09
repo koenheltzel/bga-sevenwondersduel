@@ -43,6 +43,7 @@
                         <div class="card_outline"></div>
                         <div class="card_outline"></div>
                         <div class="card_outline"></div>
+                        <div class="card_outline"></div>
                     </div>
                     <div id="player_conspiracies_{PLAYER_ID}" class="player_conspiracies player{PLAYER_ID} {PLAYER_ALIAS}">
                     </div>
