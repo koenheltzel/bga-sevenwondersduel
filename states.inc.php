@@ -466,6 +466,7 @@ $machinestates = [
             "actionDiscardAvailableCard",
         ],
         "transitions" => [
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
@@ -502,6 +503,7 @@ $machinestates = [
             "actionMoveDecree",
         ],
         "transitions" => [
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
@@ -520,6 +522,7 @@ $machinestates = [
             "actionSwapBuilding",
         ],
         "transitions" => [
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
@@ -556,6 +559,7 @@ $machinestates = [
             "actionTakeUnconstructedWonder",
         ],
         "transitions" => [
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy

@@ -70,7 +70,8 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
         $this->tpl['PREPARE_CONSPIRACY'] = self::_("Prepare a Conspiracy");
         $this->tpl['PLACE_INFLUENCE'] = self::_("Place Influence");
         $this->tpl['MOVE_INFLUENCE'] = self::_("Move Influence");
-        $this->tpl['SKIP_MOVE_INFLUENCE'] = self::_("Skip remaining actions");
+        $this->tpl['SKIP_REMAINING_ACTIONS'] = self::_("Skip remaining actions");
+        $this->tpl['SKIP_MOVE_INFLUENCE'] = self::_("Skip");
         $this->tpl['CONSPIRE'] = self::_("Conspire");
         $this->tpl['BOTTOM'] = self::_("Bottom");
         $this->tpl['TOP'] = self::_("Top");

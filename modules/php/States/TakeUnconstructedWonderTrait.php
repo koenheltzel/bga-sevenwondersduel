@@ -2,7 +2,10 @@
 
 namespace SWD\States;
 
+use SWD\Conspiracy;
 use SWD\Player;
+use SWD\Wonder;
+use SWD\Wonders;
 
 trait TakeUnconstructedWonderTrait {
 
@@ -21,20 +24,48 @@ trait TakeUnconstructedWonderTrait {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-//    public function actionTakeUnconstructedWonder($wonderId) {
-//        $this->checkAction("actionTakeUnconstructedWonder");
-//
-//        $this->notifyAllPlayers(
-//            'message',
-//            clienttranslate('${player_name} chose to Place Influence'),
-//            [
-//                'player_name' => Player::getActive()->name
-//            ]
-//        );
-//
-//        $this->setStateStack([self::STATE_PLACE_INFLUENCE_NAME, self::STATE_NEXT_PLAYER_TURN_NAME]);
-//        $this->stateStackNextState();
-//    }
+    public function actionTakeUnconstructedWonder($wonderId) {
+        $this->checkAction("actionTakeUnconstructedWonder");
+
+        $player = Player::me();
+        $opponent = Player::opponent();
+
+        if (!in_array($wonderId, $opponent->getWonderIds())) {
+            throw new \BgaUserException( clienttranslate("The wonder you selected is not available.") );
+        }
+        $wonder = Wonder::get($wonderId);
+        if ($wonder->isConstructed()) {
+            throw new \BgaUserException( clienttranslate("The wonder you selected has already been constructed.") );
+        }
+
+        $cards = $player->getWonderDeckCards();
+        $position = 1;
+        for ($i = 0; $i < count($cards); $i++) {
+            if ($position != $cards[$i]['location_arg']) {
+                break;
+            }
+            $position++;
+        }
+        // This will likely bring $position to 5, but if a wonder was destroyed using Conspiracy Sabotage it could a lower position which is then filled.
+        $this->wonderDeck->moveCard($wonderId, $player->id, $position);
+
+        $this->notifyAllPlayers(
+            'takeUnconstructedWonder',
+            clienttranslate('${player_name} takes unconstructed Wonder “${wonderName}” from his opponent (Conspiracy “${conspiracyName}”)'),
+            [
+                'i18n' => ['wonderName', 'conspiracyName'],
+                'wonderName' => Wonder::get($wonderId)->name,
+                'conspiracyName' => Conspiracy::get(1)->name,
+                'player_name' => $player->name,
+                'playerId' => $player->id,
+                'wonderId' => $wonderId,
+                'position' => $position,
+                'wondersSituation' => Wonders::getSituation(),
+            ]
+        );
+
+        $this->stateStackNextState();
+    }
 
 //    public function shouldSkipTakeUnconstructedWonder() {
 //        return false;

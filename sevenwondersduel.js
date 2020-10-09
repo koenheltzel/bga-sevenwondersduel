@@ -366,6 +366,10 @@ define([
                         .on("#swd[data-state=constructLastRowBuilding] #draftpool .row1.red_border:click",
                             dojo.hitch(this, "onConstructLastRowBuildingClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=takeUnconstructedWonder] .wonder.red_border:click",
+                            dojo.hitch(this, "onTakeUnconstructedWonderClick")
+                        );
 
 
 
@@ -614,6 +618,7 @@ define([
                 var data = {
                     jsId: wonderId,
                     jsName: _(wonder.name),
+                    jsConstructed: displayCost ? 0 : 1,
                     jsDisplayCost: displayCost ? 'inline-block' : 'none',
                     jsCost: this.getCostValue(cost),
                     jsCostColor: this.getCostColor(cost, playerCoins),
@@ -688,16 +693,21 @@ define([
                 }
             },
 
-            updatePlayerWonders: function (playerId, rows) {
-                if (this.debug) console.log('updatePlayerWonders', playerId, rows);
-
+            updatePlayerNumberOfWondersStyling: function (playerId, count) {
                 let playerWonderContainer = dojo.query('.player_wonders.player' + playerId)[0];
-                let wondersCount = Math.max(4, rows.length);
-                this.setCssVariable('--number-of-wonders', wondersCount + (wondersCount % 2) , playerWonderContainer);
+                let wondersCount = Math.max(4, count);
+                this.setCssVariable('--number-of-wonders', wondersCount , playerWonderContainer);
                 this.setCssVariable('--number-of-wonder-rows-landscape', Math.ceil(wondersCount / 2) , playerWonderContainer);
                 if (wondersCount == 5) {
                     dojo.style(dojo.query('.player_wonders.player' + playerId + ' > div:nth-of-type(5)')[0], 'display', wondersCount > 4 ? 'inline-block' : 'none');
                 }
+                this.autoUpdateScale();
+            },
+
+            updatePlayerWonders: function (playerId, rows) {
+                if (this.debug) console.log('updatePlayerWonders', playerId, rows);
+
+                this.updatePlayerNumberOfWondersStyling(playerId, rows.length);
 
                 var i = 1;
                 Object.keys(rows).forEach(dojo.hitch(this, function (index) {
@@ -4233,7 +4243,7 @@ define([
             //   |_|\__,_|_|\_\___|  \___/|_| |_|\___\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|    \_/\_/ \___/|_| |_|\__,_|\___|_|
 
             onEnterTakeUnconstructedWonder: function (args) {
-
+                dojo.query('#player_wonders_' + this.getOppositePlayerId(this.getActivePlayerId()) + ' .wonder[data-constructed="0"]').addClass('red_border');
             },
 
             onTakeUnconstructedWonderClick: function (e) {
@@ -4248,11 +4258,11 @@ define([
                         return;
                     }
 
-                    var buildingId = dojo.attr(e.target, "data-building-id");
+                    var wonderId = dojo.attr(e.target, "data-wonder-id");
 
                     this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionTakeUnconstructedWonder.html", {
                             lock: true,
-                            buildingId: buildingId
+                            wonderId: wonderId
                         },
                         this, function (result) {
                             // What to do after the server call if it succeeded
@@ -4270,31 +4280,27 @@ define([
             notif_takeUnconstructedWonder: function (notif) {
                 if (this.debug) console.log('notif_takeUnconstructedWonder', notif);
 
-                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
-                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
-                //
-                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
-                // dojo.style(buildingNode, 'opacity', 0);
-                // dojo.style(buildingNode, 'z-index', 100);
-                //
-                // var anim = dojo.fx.chain([
-                //     // Cross-fade building into player-building (small header only building)
-                //     dojo.fx.combine([
-                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
-                //         dojo.fadeOut({
-                //             node: playerBuildingNode,
-                //             duration: this.constructBuildingAnimationDuration * 0.4
-                //         }),
-                //     ]),
-                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
-                // ]);
-                //
-                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                //     dojo.style(buildingNode, 'z-index', 5);
-                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
-                //     dojo.removeClass(buildingColumn, 'red_border');
-                //     dojo.destroy(playerBuildingNode.parentNode);
-                // }));
+                this.clearRedBorder();
+
+                var wonderContainerNode = $('wonder_' + notif.args.wonderId + '_container');
+                var newContainer = dojo.query('#player_wonders_' + notif.args.playerId + '>div:nth-of-type(' + notif.args.position + ')')[0];
+                // Show the 5th wonder container
+                if (parseInt(notif.args.position) > 4) {
+                    this.updatePlayerNumberOfWondersStyling(notif.args.playerId, notif.args.position);
+                }
+
+                wonderContainerNode = this.attachToNewParent(wonderContainerNode, newContainer);
+                wonderNode = dojo.query('.wonder', wonderContainerNode)[0];
+                dojo.style(dojo.query('.player_wonder_cost', wonderNode)[0], 'display', 'none');
+
+                var anim = dojo.fx.chain([
+                    this.slideToObjectPos(wonderContainerNode, newContainer, 0, 0, this.selectWonderAnimationDuration),
+                ]);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    // Update the wonders situation, so cost is updated for the new wonder owner.
+                    this.updateWondersSituation(notif.args.wondersSituation);
+                }));
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(anim.duration);
