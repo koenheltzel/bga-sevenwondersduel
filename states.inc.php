@@ -294,7 +294,7 @@ $machinestates = [
 
     SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_ID => [
         "name" => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME,
-        "description" => clienttranslate('${actplayer} must choose one of your Influence cubes to remove'),
+        "description" => clienttranslate('${actplayer} must choose one of the opponent\'s Influence cubes to remove'),
         "descriptionmyturn" => clienttranslate('${you} must choose a Senate chamber to remove one of your opponent\'s Influence cubes from'),
         "type" => "activeplayer",
         "action" => "enterStateRemoveInfluence",
@@ -439,8 +439,8 @@ $machinestates = [
 
     SevenWondersDuelAgora::STATE_DESTROY_CONSTRUCTED_WONDER_ID => [
         "name" => SevenWondersDuelAgora::STATE_DESTROY_CONSTRUCTED_WONDER_NAME,
-        "description" => clienttranslate('${actplayer} description todo DestroyConstructedWonder'),
-        "descriptionmyturn" => clienttranslate('${you} description todo DestroyConstructedWonder'),
+        "description" => clienttranslate('${actplayer} must choose one of the opponent\'s constructed Wonders and return it to the box'),
+        "descriptionmyturn" => clienttranslate('${you} must choose one of the opponent\'s constructed Wonders and return it to the box'),
         "type" => "activeplayer",
         "action" => "enterStateDestroyConstructedWonder",
         "args" => "argDestroyConstructedWonder",
@@ -550,8 +550,8 @@ $machinestates = [
 
     SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_ID => [
         "name" => SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME,
-        "description" => clienttranslate('${actplayer} description todo TakeUnconstructedWonder'),
-        "descriptionmyturn" => clienttranslate('${you} description todo TakeUnconstructedWonder'),
+        "description" => clienttranslate('${actplayer} must take one of the opponent\'s unconstructed Wonders and add it to his city'),
+        "descriptionmyturn" => clienttranslate('${you} must take one of the opponent\'s unconstructed Wonders and add it to his city'),
         "type" => "activeplayer",
         "action" => "enterStateTakeUnconstructedWonder",
         "args" => "argTakeUnconstructedWonder",

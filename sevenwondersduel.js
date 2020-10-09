@@ -370,6 +370,10 @@ define([
                         .on("#swd[data-state=takeUnconstructedWonder] .wonder.red_border:click",
                             dojo.hitch(this, "onTakeUnconstructedWonderClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=destroyConstructedWonder] .wonder.red_border:click",
+                            dojo.hitch(this, "onDestroyConstructedWonderClick")
+                        );
 
 
 
@@ -3785,7 +3789,7 @@ define([
             //                                |___/
 
             onEnterDestroyConstructedWonder: function (args) {
-
+                dojo.query('#player_wonders_' + this.getOppositePlayerId(this.getActivePlayerId()) + ' .wonder[data-constructed="1"]').addClass('red_border');
             },
 
             onDestroyConstructedWonderClick: function (e) {
@@ -3800,11 +3804,11 @@ define([
                         return;
                     }
 
-                    var buildingId = dojo.attr(e.target, "data-building-id");
+                    var wonderId = dojo.attr(e.target, "data-wonder-id");
 
                     this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionDestroyConstructedWonder.html", {
                             lock: true,
-                            buildingId: buildingId
+                            wonderId: wonderId
                         },
                         this, function (result) {
                             // What to do after the server call if it succeeded
@@ -3822,31 +3826,15 @@ define([
             notif_destroyConstructedWonder: function (notif) {
                 if (this.debug) console.log('notif_destroyConstructedWonder', notif);
 
-                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
-                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
-                //
-                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
-                // dojo.style(buildingNode, 'opacity', 0);
-                // dojo.style(buildingNode, 'z-index', 100);
-                //
-                // var anim = dojo.fx.chain([
-                //     // Cross-fade building into player-building (small header only building)
-                //     dojo.fx.combine([
-                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
-                //         dojo.fadeOut({
-                //             node: playerBuildingNode,
-                //             duration: this.constructBuildingAnimationDuration * 0.4
-                //         }),
-                //     ]),
-                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
-                // ]);
-                //
-                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                //     dojo.style(buildingNode, 'z-index', 5);
-                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
-                //     dojo.removeClass(buildingColumn, 'red_border');
-                //     dojo.destroy(playerBuildingNode.parentNode);
-                // }));
+                this.clearRedBorder();
+
+                let anim = dojo.fadeOut({
+                    node: $('wonder_' + notif.args.wonderId + '_container'),
+                    duration: 1000,
+                    onEnd: dojo.hitch(this, function (node) {
+                        dojo.destroy(node);
+                    })
+                });
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(anim.duration);
