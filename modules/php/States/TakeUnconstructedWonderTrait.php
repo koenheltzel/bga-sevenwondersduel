@@ -67,8 +67,22 @@ trait TakeUnconstructedWonderTrait {
         $this->stateStackNextState();
     }
 
-//    public function shouldSkipTakeUnconstructedWonder() {
-//        return false;
-//    }
+    public function shouldSkipTakeUnconstructedWonder() {
+        $opponent = Player::opponent();
+        if (count($opponent->getWonders()->filterByConstructed(false)->array) == 0) {
+            // Player has no unconstructed wonders, so skip this state
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} has no unconstructed Wonder to take (Conspiracy “${conspiracyName}”)'),
+                [
+                    'i18n' => ['conspiracyName'],
+                    'player_name' => $opponent->name,
+                    'conspiracyName' => Conspiracy::get(1)->name,
+                ]
+            );
+            return true;
+        }
+        return false;
+    }
 
 }

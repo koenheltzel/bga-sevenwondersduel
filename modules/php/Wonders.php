@@ -39,10 +39,10 @@ class Wonders extends Collection {
     /**
      * @return Wonders
      */
-    public function filterByConstructed() {
+    public function filterByConstructed($constructed = true) {
         $wonders = new Wonders();
         foreach ($this->array as $wonder) {
-            if ($wonder->isConstructed()) {
+            if ($wonder->isConstructed() == $constructed) {
                 $wonders[] = $wonder;
             }
         }
