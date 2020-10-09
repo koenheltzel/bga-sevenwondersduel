@@ -31,7 +31,7 @@ class ProgressTokens extends Collection {
 
     public static function getDeckCardsSorted($location): array {
         $cards = SevenWondersDuelAgora::get()->progressTokenDeck->getCardsInLocation($location);
-        usort($cards, function($a, $b) {return strcmp($a['location_arg'], $b['location_arg']);});
+        usort($cards, function($a, $b) {return (int)$a['location_arg'] > (int)$b['location_arg'];});
         return $cards;
     }
 
