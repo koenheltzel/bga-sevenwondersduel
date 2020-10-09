@@ -2,6 +2,7 @@
 
 namespace SWD\States;
 
+use SevenWondersDuelAgora;
 use SWD\Conspiracies;
 use SWD\Draftpool;
 use SWD\Material;
@@ -49,17 +50,40 @@ trait ChooseConspiratorActionTrait {
     public function actionConspire() {
         $this->checkAction("actionConspire");
 
-        Material::get()->conspiracies->conspire();
+        // The maximum conspiracies used in 1 game is 13 (6 * 2 using progress token + 1x Curia Julia), so we can always draw 2.
 
-        $this->notifyAllPlayers(
-            'message',
-            clienttranslate('${player_name} chose to Conspire'),
-            [
-                'player_name' => Player::getActive()->name
-            ]
-        );
+        if (Player::me()->hasProgressToken(12)) {
+            $cards = Conspiracies::getDeckCardsSorted('deck');
+            for ($i = 0; $i < 2; $i++) {
+                $card = array_pop($cards);
+                SevenWondersDuelAgora::get()->conspiracyDeck->insertCardOnExtremePosition($card['id'], Player::getActive()->id, true);
+            }
 
-        $this->setGameStateValue(self::VALUE_CONSPIRE_RETURN_STATE, self::STATE_NEXT_PLAYER_TURN_ID);
-        $this->gamestate->nextState( self::STATE_CONSPIRE_NAME);
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} chose to Conspire, keeps both Conspiracies (Progress token “${progressTokenName}”)'),
+                [
+                    'i18n' => ['progressTokenName'],
+                    'player_name' => Player::getActive()->name,
+                    'progressTokenName' => ProgressToken::get(12)->name,
+                ]
+            );
+            $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        }
+        else {
+            // Normal Conspire
+            Material::get()->conspiracies->conspire();
+
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} chose to Conspire'),
+                [
+                    'player_name' => Player::getActive()->name
+                ]
+            );
+
+            $this->setGameStateValue(self::VALUE_CONSPIRE_RETURN_STATE, self::STATE_NEXT_PLAYER_TURN_ID);
+            $this->gamestate->nextState( self::STATE_CONSPIRE_NAME);
+        }
     }
 }
