@@ -1272,6 +1272,10 @@ define([
                 this.addTooltipToClass('science_progress',
                     _('If you gather 6 different scientific symbols, you immediately win the game (Scientific Supremacy)'), '', this.toolTipDelay);
 
+                this.addTooltip('buttonPrepareConspiracy',
+                    _('After preparing a Conspiracy with an Age card, it can be triggered at the start of a following turn, before playing an Age card.'), ''
+                );
+
 
                 // this.addTooltipToClass( 'draftpool_building_cost.me', _('Current cost for you to construct the building'), '', this.toolTipDelay );
                 // this.addTooltipToClass( 'draftpool_building_cost.opponent', _('Current cost for your opponent to construct the building'), '', this.toolTipDelay );

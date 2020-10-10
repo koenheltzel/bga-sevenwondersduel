@@ -38,10 +38,9 @@ class Item extends Base
 //    public $playEffects = [];
 //    public $endEffects = [];
 
-    public function __construct($id, $name, Array $text = []) {
+    public function __construct($id, $name) {
         $this->id = $id;
         $this->name = $name;
-        $this->text = $text;
     }
 
     /**

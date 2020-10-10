@@ -14,6 +14,12 @@ class Conspiracy extends Item {
         return Material::get()->conspiracies[$id];
     }
 
+    public function __construct($id, $name) {
+        $this->addText(clienttranslate('After preparing a Conspiracy with an Age card, it can be triggered at the start of a following turn, before playing an Age card.'), false);
+        $this->addText('&nbsp;', false);
+        $this->addText(clienttranslate('When you trigger this Conspiracy:'), false);
+        parent::__construct($id, $name);
+    }
     /**
      * @param Conspiracy $building
      * @return PaymentPlan

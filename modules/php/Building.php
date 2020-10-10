@@ -47,7 +47,7 @@ class Building extends Item {
         return Material::get()->buildings[$id];
     }
 
-    public function __construct($id, $age, $name, $type, Array $text = []) {
+    public function __construct($id, $age, $name, $type) {
         $this->age = $age;
         $this->type = $type;
 
@@ -101,7 +101,7 @@ class Building extends Item {
                 break;
         }
 
-        parent::__construct($id, $name, $text);
+        parent::__construct($id, $name);
     }
 
     public function checkBuildingAvailable() {
