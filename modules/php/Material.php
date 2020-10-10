@@ -753,6 +753,7 @@ class Material extends Base
         $this->conspiracies[11] = (new Conspiracy(11, clienttranslate("Turn Of Events")))
             ->addText("Place 1 available card in the structure in the discard. You can immediately repeat this action a second time.")
             ->addActionState(SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_NAME)
+            ->addActionState(SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_NAME)
             ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[12] = (new Conspiracy(12, clienttranslate("Embezzlement")))

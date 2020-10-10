@@ -379,11 +379,16 @@ class Building extends Item {
      * @param $cardId
      * @return int
      */
-    public function discard(Player $player) {
-        $discardGain = $player->calculateDiscardGain($this);
-        $player->increaseCoins($discardGain);
+    public function discard(Player $player, $gain=true) {
+        $discardGain = 0;
+        if ($gain) {
+            $discardGain = $player->calculateDiscardGain($this);
+            $player->increaseCoins($discardGain);
+        }
 
         SevenWondersDuelAgora::get()->buildingDeck->insertCardOnExtremePosition($this->id, 'discard', true);
+        SevenWondersDuelAgora::get()->incStat(1, SevenWondersDuelAgora::STAT_DISCARDED_CARDS, $player->id);
+
         return $discardGain;
     }
 

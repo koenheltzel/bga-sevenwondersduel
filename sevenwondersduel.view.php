@@ -71,12 +71,11 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
         $this->tpl['PLACE_INFLUENCE'] = self::_("Place Influence");
         $this->tpl['MOVE_INFLUENCE'] = self::_("Move Influence");
         $this->tpl['SKIP_REMAINING_ACTIONS'] = self::_("Skip remaining actions");
-        $this->tpl['SKIP_MOVE_INFLUENCE'] = self::_("Skip");
+        $this->tpl['SKIP'] = self::_("Skip");
         $this->tpl['CONSPIRE'] = self::_("Conspire");
         $this->tpl['BOTTOM'] = self::_("Bottom");
         $this->tpl['TOP'] = self::_("Top");
         $this->tpl['CHOOSE_CONSPIRE_REMNANT_POSITION'] = self::_("Put the remaining Conspiracy on the top or the bottom of the deck?");
-        $this->tpl['SKIP_TRIGGER_UNPREPARED_CONSPIRACY'] = self::_("Skip, I don't want to trigger an unprepared Conspiracy");
 
         /*********** Place your code below:  ************/
 

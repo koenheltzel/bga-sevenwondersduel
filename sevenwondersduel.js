@@ -332,13 +332,17 @@ define([
                             dojo.hitch(this, "onPlayerTurnPrepareConspiracySelectedClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-state=playerTurn] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"1\"][data-conspiracy-triggered=\"0\"]:click," +
-                            "#swd[data-state=triggerUnpreparedConspiracy] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"0\"][data-conspiracy-triggered=\"0\"]:click",
+                        .on("#swd[data-state=playerTurn] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"1\"][data-conspiracy-triggered=\"0\"].green_border:click," +
+                            "#swd[data-state=triggerUnpreparedConspiracy] #player_conspiracies_" + this.me_id + " .conspiracy_small[data-conspiracy-prepared=\"0\"][data-conspiracy-triggered=\"0\"].green_border:click",
                             dojo.hitch(this, "onPlayerTurnTriggerConspiracyClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-state=triggerUnpreparedConspiracy] #buttonTriggerUnpreparedConspiracySkip:click",
+                        .on("#swd[data-state=triggerUnpreparedConspiracy] #buttonSimpleSkip:click",
                             dojo.hitch(this, "onPlayerTurnSkipTriggerConspiracyClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=moveInfluence] #buttonSimpleSkip:click",
+                            dojo.hitch(this, "onSenateActionsSkipButtonClick")
                         );
 
                     dojo.query('body')
@@ -374,6 +378,14 @@ define([
                         .on("#swd[data-state=destroyConstructedWonder] .wonder.red_border:click",
                             dojo.hitch(this, "onDestroyConstructedWonderClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=discardAvailableCard] #draftpool .available:click",
+                            dojo.hitch(this, "onDiscardAvailableCardClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=discardAvailableCard] #buttonSimpleSkip:click",
+                            dojo.hitch(this, "onDiscardAvailableCardSkipButtonClick")
+                        );
 
 
 
@@ -381,7 +393,7 @@ define([
                     dojo.query("#buttonPrepareConspiracy").on("click", dojo.hitch(this, "onPlayerTurnPrepareConspiracyClick"));
                     dojo.query("#buttonSenateActionsPlaceInfluence").on("click", dojo.hitch(this, "onSenateActionsPlaceInfluenceButtonClick"));
                     dojo.query("#buttonSenateActionsMoveInfluence").on("click", dojo.hitch(this, "onSenateActionsMoveInfluenceButtonClick"));
-                    dojo.query("#buttonSenateActionsSkip, #buttonMoveInfluenceSkip").on("click", dojo.hitch(this, "onSenateActionsSkipButtonClick"));
+                    dojo.query("#buttonSenateActionsSkip").on("click", dojo.hitch(this, "onSenateActionsSkipButtonClick"));
                 }
 
                 // Resize/scroll handler to determine layout and scale factor
@@ -493,9 +505,6 @@ define([
 
                 dojo.subscribe('destroyConstructedWonder', this, "notif_destroyConstructedWonder");
                 this.notifqueue.setSynchronous('destroyConstructedWonder');
-
-                dojo.subscribe('discardAvailableCard', this, "notif_discardAvailableCard");
-                this.notifqueue.setSynchronous('discardAvailableCard');
 
                 dojo.subscribe('lockProgressToken', this, "notif_lockProgressToken");
                 this.notifqueue.setSynchronous('lockProgressToken');
@@ -1483,6 +1492,7 @@ define([
                     else {
                         data.jsName = _(building.name);
                     }
+                    data.jsNameOnCard = _(building.name);
 
                     data.jsType = _(building.type);
                     data.jsBuildingTypeColor = building.typeColor;
@@ -1871,14 +1881,29 @@ define([
             onEnterPlayerTurn: function (args) {
                 if (this.debug) console.log('in onEnterPlayerTurn', args);
 
-                if (this.getActivePlayerId() == this.player_id) {
-                    Object.keys(this.gamedatas.conspiraciesSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
-                        var conspiracyData = this.gamedatas.conspiraciesSituation[this.player_id][index];
-                        if (conspiracyData.prepared && !conspiracyData.triggered) {
-                            let conspiracyNode = dojo.query('#player_conspiracies_' + this.player_id + ' div[data-conspiracy-position="' + conspiracyData.position + '"]')[0];
-                            dojo.addClass(conspiracyNode, 'green_border');
+                let triggerable = 0;
+                if (this.agora) {
+                    Object.keys(this.gamedatas.conspiraciesSituation[this.getActivePlayerId()]).forEach(dojo.hitch(this, function (index) {
+                        var conspiracyData = this.gamedatas.conspiraciesSituation[this.getActivePlayerId()][index];
+                        if (args.mayTriggerConspiracy && conspiracyData.prepared && !conspiracyData.triggered) {
+                            if (this.getActivePlayerId() == this.player_id) {
+                                let conspiracyNode = dojo.query('#player_conspiracies_' + this.getActivePlayerId() + ' div[data-conspiracy-position="' + conspiracyData.position + '"]')[0];
+                                dojo.addClass(conspiracyNode, 'green_border');
+                            }
+                            triggerable++;
                         }
                     }));
+                }
+
+                if (this.agora && triggerable > 0) {
+                    this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must play an Age card or trigger a Conspiracy first');
+                    this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must play an Age card or trigger a Conspiracy first');
+                    this.updatePageTitle();
+                }
+                else {
+                    this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must choose and use an age card');
+                    this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must choose an age card');
+                    this.updatePageTitle();
                 }
             },
 
@@ -2143,6 +2168,7 @@ define([
                 if (this.debug) console.log('notif_constructBuilding', notif);
 
                 this.clearRedBorder(); // For Conspiracy 7, Property Fraud
+                this.clearGreenBorder();
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
                 var buildingNodeParent = buildingNode.parentElement; // Only used when we are constructing a discarded building.
@@ -3784,7 +3810,8 @@ define([
                         return;
                     }
 
-                    var buildingId = dojo.attr(e.target, "data-building-id");
+                    var building = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
+                    var buildingId = dojo.attr(building, "data-building-id");
 
                     this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionConstructBuilding.html", {
                             lock: true,
@@ -3871,7 +3898,19 @@ define([
             // |____/|_|___/\___\__,_|_|  \__,_| /_/   \_\_/ \__,_|_|_|\__,_|_.__/|_|\___|  \____\__,_|_|  \__,_|
 
             onEnterDiscardAvailableCard: function (args) {
+                dojo.query('#draftpool .available').addClass('red_border');
 
+                if (args.round == 1) {
+                    dojo.style($('simple_skip'), 'display', 'none');
+                    this.gamedatas.gamestate.description = _('${actplayer} can move an available card to the discard pile (and may repeat this action a second time if possible)');
+                    this.gamedatas.gamestate.descriptionmyturn = _('${you} can move an available card to the discard pile (and may repeat this action a second time if possible)');
+                }
+                else {
+                    dojo.style($('simple_skip'), 'display', 'block');
+                    this.gamedatas.gamestate.description = _('${actplayer} can move a second available card to the discard pile or skip');
+                    this.gamedatas.gamestate.descriptionmyturn = _('${you} can move a second available card to the discard pile or skip');
+                }
+                this.updatePageTitle();
             },
 
             onDiscardAvailableCardClick: function (e) {
@@ -3886,13 +3925,16 @@ define([
                         return;
                     }
 
-                    var buildingId = dojo.attr(e.target, "data-building-id");
+                    var building = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
+
+                    var buildingId = dojo.attr(building, "data-building-id");
 
                     this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionDiscardAvailableCard.html", {
                             lock: true,
                             buildingId: buildingId
                         },
                         this, function (result) {
+                            dojo.style($('simple_skip'), 'display', ''); // Clear the manually set display block/none.
                             // What to do after the server call if it succeeded
                             // (most of the time: nothing)
 
@@ -3905,40 +3947,36 @@ define([
                 }
             },
 
-            notif_discardAvailableCard: function (notif) {
-                if (this.debug) console.log('notif_discardAvailableCard', notif);
+            onDiscardAvailableCardSkipButtonClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
 
-                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
-                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
-                //
-                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
-                // dojo.style(buildingNode, 'opacity', 0);
-                // dojo.style(buildingNode, 'z-index', 100);
-                //
-                // var anim = dojo.fx.chain([
-                //     // Cross-fade building into player-building (small header only building)
-                //     dojo.fx.combine([
-                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
-                //         dojo.fadeOut({
-                //             node: playerBuildingNode,
-                //             duration: this.constructBuildingAnimationDuration * 0.4
-                //         }),
-                //     ]),
-                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
-                // ]);
-                //
-                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                //     dojo.style(buildingNode, 'z-index', 5);
-                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
-                //     dojo.removeClass(buildingColumn, 'red_border');
-                //     dojo.destroy(playerBuildingNode.parentNode);
-                // }));
+                if (this.debug) console.log('onDiscardAvailableCardSkipButtonClick', e);
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionSkipDiscardAvailableCard')) {
+                        return;
+                    }
 
-                anim.play();
+                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSkipDiscardAvailableCard.html", {
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+                            this.clearRedBorder();
+                            dojo.style($('simple_skip'), 'display', ''); // Clear the manually set display block/none.
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
             },
+
             //  _               _      ____                                      _____     _
             // | |    ___   ___| | __ |  _ \ _ __ ___   __ _ _ __ ___  ___ ___  |_   _|__ | | _____ _ __
             // | |   / _ \ / __| |/ / | |_) | '__/ _ \ / _` | '__/ _ \/ __/ __|   | |/ _ \| |/ / _ \ '_ \

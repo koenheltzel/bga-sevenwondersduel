@@ -85,15 +85,13 @@
     font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
     font-size: calc(var(--scale) * 22px);
     line-height: calc(var(--scale) * 22px);
-    /*text-shadow: 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white;*/
     color: red;
     cursor: default;
     position: relative;
     display: none;
     top: calc(var(--scale) * 3px);
-    /*width: calc(var(--senate-scale) * 24px);*/
-    /*height: calc(var(--senate-scale) * 24px);*/
     z-index:4;
+    pointer-events: none;
     animation: opacity_blink 0.5s infinite alternate;
 }
 .conspiracy_compact .trigger {

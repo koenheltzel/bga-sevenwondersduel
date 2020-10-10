@@ -8,9 +8,9 @@
     display: block;
 }
 
-#move_influence {
+#simple_skip {
     display: none;
 }
-.current_player_is_active #swd[data-state=moveInfluence] #move_influence {
+.current_player_is_active #swd[data-state=moveInfluence] #simple_skip {
     display: block;
 }

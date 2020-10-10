@@ -214,6 +214,8 @@ class SevenWondersDuelAgora extends Table
     const VALUE_SENATE_ACTIONS_SECTION = "senate_actions_section";
     const VALUE_SENATE_ACTIONS_LEFT = "senate_actions_left";
     const VALUE_STATE_STACK = "state_stack";
+    const VALUE_MAY_TRIGGER_CONSPIRACY = "may_trigger_conspiracy";
+    const VALUE_DISCARD_AVAILABLE_CARD_ROUND = "discard_available_card_round";
 
     // Game options (variants)
     const OPTION_AGORA = "option_agora";
@@ -333,12 +335,14 @@ class SevenWondersDuelAgora extends Table
                 self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER => 20,
                 self::VALUE_END_GAME_CONDITION => 21,
                 // Global variables Agora
-            self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY => 22,
+                self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY => 22,
                 self::VALUE_CONSPIRE_RETURN_STATE => 33,
                 self::VALUE_SENATE_ACTIONS_SECTION => 34,
                 self::VALUE_SENATE_ACTIONS_LEFT => 35,
                 self::VALUE_STATE_STACK => 36,
                 self::VALUE_EXTRA_TURN_THROUGH_DECREE => 37,
+                self::VALUE_MAY_TRIGGER_CONSPIRACY => 38,
+                self::VALUE_DISCARD_AVAILABLE_CARD_ROUND => 39,
                 // Game variants
                 self::OPTION_AGORA => 110,
                 self::OPTION_AGORA_WONDERS => 111,
@@ -455,9 +459,10 @@ class SevenWondersDuelAgora extends Table
         self::setGameStateInitialValue( self::VALUE_CONSPIRE_RETURN_STATE, 0);
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_SECTION, 0);
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_LEFT, 0);
-        self::setGameStateInitialValue( self::VALUE_STATE_STACK, json_encode([]));
         self::setGameStateInitialValue( self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY, 0);
         self::setGameStateInitialValue( self::VALUE_EXTRA_TURN_THROUGH_DECREE, 0);
+        self::setGameStateInitialValue( self::VALUE_MAY_TRIGGER_CONSPIRACY, 1);
+        self::setGameStateInitialValue( self::VALUE_DISCARD_AVAILABLE_CARD_ROUND, 1);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)

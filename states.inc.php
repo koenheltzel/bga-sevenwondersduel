@@ -147,8 +147,8 @@ $machinestates = [
     ],
     SevenWondersDuelAgora::STATE_PLAYER_TURN_ID => [
         "name" => SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME,
-        "description" => clienttranslate('Age ${ageRoman}: ${actplayer} must choose and use an age card'),
-        "descriptionmyturn" => clienttranslate('Age ${ageRoman}: ${you} must choose an age card'),
+        "description" => '', // Set in onEnterPlayerTurn
+        "descriptionmyturn" => '', // Set in onEnterPlayerTurn
         "type" => "activeplayer",
         "action" => "enterStatePlayerTurn",
         "args" => "argPlayerTurn",
@@ -457,15 +457,17 @@ $machinestates = [
 
     SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_ID => [
         "name" => SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_NAME,
-        "description" => clienttranslate('${actplayer} description todo DiscardAvailableCard'),
-        "descriptionmyturn" => clienttranslate('${you} description todo DiscardAvailableCard'),
+        "description" => '', // Set in onEnterDiscardAvailableCard
+        "descriptionmyturn" => '', // Set in onEnterDiscardAvailableCard
         "type" => "activeplayer",
         "action" => "enterStateDiscardAvailableCard",
         "args" => "argDiscardAvailableCard",
         "possibleactions" => [
             "actionDiscardAvailableCard",
+            "actionSkipDiscardAvailableCard",
         ],
         "transitions" => [
+            SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_NAME => SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_ID,
             SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,

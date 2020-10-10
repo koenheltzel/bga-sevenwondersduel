@@ -32,6 +32,7 @@ trait PlayerTurnTrait {
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             $this->addConspiraciesSituation($data);
             $data['senateSituation'] = Senate::getSituation();
+            $data['mayTriggerConspiracy'] = (int)SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_MAY_TRIGGER_CONSPIRACY);
         }
         return $data;
     }
@@ -113,8 +114,6 @@ trait PlayerTurnTrait {
         $building = Building::get($buildingId);
         $building->checkBuildingAvailable();
         $discardGain = $building->discard($player);
-
-        $this->incStat(1, self::STAT_DISCARDED_CARDS, $player->id);
 
         if ($player->hasDecree(13)) {
             $this->notifyAllPlayers(
@@ -279,6 +278,9 @@ trait PlayerTurnTrait {
 
         $player = Player::getActive();
 
+        if (!$this->getGameStateValue(self::VALUE_MAY_TRIGGER_CONSPIRACY)) {
+            throw new \BgaUserException( clienttranslate("You already triggered a Conspiracy this turn.") );
+        }
         if (!in_array($conspiracyId, $player->getConspiracyIds())) {
             throw new \BgaUserException( clienttranslate("The Conspiracy you selected is not available.") );
         }
@@ -292,6 +294,8 @@ trait PlayerTurnTrait {
         }
 
         $payment = $conspiracy->trigger($player);
+
+        SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_MAY_TRIGGER_CONSPIRACY, 0);
 
         $this->incStat(1, self::STAT_CONSPIRACIES_TRIGGERED, $player->id);
 

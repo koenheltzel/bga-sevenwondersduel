@@ -99,11 +99,8 @@
                                 <a href="#" id="buttonSenateActionsPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_place_influence"></div><span>{PLACE_INFLUENCE}</span></a>
                                 <a href="#" id="buttonSenateActionsMoveInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_move_influence"></div><span>{MOVE_INFLUENCE}</span></a>
                             </div>
-                            <div id="move_influence" class="whiteblock">
-                                <a href="#" id="buttonMoveInfluenceSkip" class="action_button bgabutton bgabutton_blue action_button_skip"><span>{SKIP_MOVE_INFLUENCE}</span></a>
-                            </div>
-                            <div id="trigger_unprepared_conspiracy" class="whiteblock">
-                                <a href="#" id="buttonTriggerUnpreparedConspiracySkip" class="action_button bgabutton bgabutton_blue"><span>{SKIP_TRIGGER_UNPREPARED_CONSPIRACY}</span></a>
+                            <div id="simple_skip" class="whiteblock">
+                                <a href="#" id="buttonSimpleSkip" class="action_button bgabutton bgabutton_blue action_button_skip"><span>{SKIP}</span></a>
                             </div>
                         </div>
                     </div>
@@ -587,7 +584,7 @@ var jstpl_building_tooltip = '\
         </div>\
         <div>\
             <div data-building-type="${jsType}" class="building tooltipWiggle" style="float:right; background-position: -${jsX}00% -${jsY}00%;">\
-                <span class="swd_title">${jsName}</span>\
+                <span class="swd_title">${jsNameOnCard}</span>\
             </div>\
         </div>\
         <div class="clear"></div>\

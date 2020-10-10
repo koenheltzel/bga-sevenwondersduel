@@ -266,6 +266,14 @@ class action_sevenwondersduelagora extends APP_GameAction
         self::ajaxResponse();
     }
 
+    public function actionSkipDiscardAvailableCard() {
+        self::setAjaxMode();
+
+        SevenWondersDuelAgora::get()->actionSkipDiscardAvailableCard();
+
+        self::ajaxResponse();
+    }
+
     public function actionLockProgressToken() {
         self::setAjaxMode();
 

@@ -2,6 +2,8 @@
 
 namespace SWD\States;
 
+use SWD\Building;
+use SWD\Draftpool;
 use SWD\Player;
 
 trait DiscardAvailableCardTrait {
@@ -14,6 +16,7 @@ trait DiscardAvailableCardTrait {
     public function argDiscardAvailableCard() {
         $data = [];
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        $data['round'] = (int)$this->getGameStateValue(self::VALUE_DISCARD_AVAILABLE_CARD_ROUND);
         return $data;
     }
 
@@ -21,23 +24,62 @@ trait DiscardAvailableCardTrait {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-//    public function actionDiscardAvailableCard($buildingId) {
-//        $this->checkAction("actionDiscardAvailableCard");
-//
-//        $this->notifyAllPlayers(
-//            'message',
-//            clienttranslate('${player_name} chose to Place Influence'),
-//            [
-//                'player_name' => Player::getActive()->name
-//            ]
-//        );
-//
-//        $this->setStateStack([self::STATE_PLACE_INFLUENCE_NAME, self::STATE_NEXT_PLAYER_TURN_NAME]);
-//        $this->stateStackNextState();
-//    }
+    public function actionSkipDiscardAvailableCard() {
+        $this->checkAction("actionSkipDiscardAvailableCard");
 
-//    public function shouldSkipDiscardAvailableCard() {
-//        return false;
-//    }
+        if ($this->getGameStateValue(self::VALUE_DISCARD_AVAILABLE_CARD_ROUND) == 1) {
+            throw new \BgaUserException( clienttranslate("You have to discard at least 1 available card.") );
+        }
+
+        $this->notifyAllPlayers(
+            'message',
+            clienttranslate('${player_name} skipped the second possibility to place an available card in the discard pile'),
+            [
+                'player_name' => Player::getActive()->name,
+            ]
+        );
+
+        $this->stateStackNextState();
+    }
+
+    public function actionDiscardAvailableCard($buildingId) {
+        $this->checkAction("actionDiscardAvailableCard");
+
+        $player = Player::getActive();
+        $building = Building::get($buildingId);
+        $building->checkBuildingAvailable();
+        $building->discard($player, false);
+
+        $this->notifyAllPlayers(
+            'discardBuilding',
+            clienttranslate('${player_name} chose to place ${buildingName} in the discard pile'),
+            [
+                'i18n' => ['buildingName'],
+                'player_name' => $player->name,
+                'buildingName' => Building::get($buildingId)->name,
+                'gain' => 0,
+                'playerId' => $player->id,
+                'buildingId' => $buildingId,
+            ]
+        );
+
+        $this->incGameStateValue(self::VALUE_DISCARD_AVAILABLE_CARD_ROUND, 1);
+
+        $this->stateStackNextState();
+    }
+
+    public function shouldSkipDiscardAvailableCard() {
+        if (Draftpool::countCardsInCurrentAge() == 0) {
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('There are no more cards available for ${player_name} to place in the discard pile'),
+                [
+                    'player_name' => Player::getActive()->name,
+                ]
+            );
+            return true;
+        }
+        return false;
+    }
 
 }

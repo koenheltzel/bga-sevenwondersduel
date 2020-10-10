@@ -15,6 +15,8 @@ use SWD\Senate;
 trait NextPlayerTurnTrait {
 
     public function enterStateNextPlayerTurn() {
+        SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_MAY_TRIGGER_CONSPIRACY, 1);
+
         if ($this->checkImmediateVictory()) {
             $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
         }
