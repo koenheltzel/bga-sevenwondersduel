@@ -28,6 +28,18 @@
     height: calc(var(--conspiracy-compact-height) * var(--conspiracy-small-scale));
     backface-visibility: hidden;
 }
+.conspiracy_peek {
+    width: calc(var(--conspiracy-width) * var(--conspiracy-peek-scale));
+    height: calc(0.63 * var(--conspiracy-compact-height) * var(--conspiracy-peek-scale));
+    backface-visibility: hidden;
+
+    background-size: calc(var(--conspiracy-spritesheet-width) * var(--conspiracy-peek-scale)) calc(var(--conspiracy-spritesheet-height) * var(--conspiracy-peek-scale));
+    border-radius: 0 0 calc(var(--conspiracy-border-radius) * 2 * var(--conspiracy-peek-scale)) calc(var(--conspiracy-border-radius) * 2 * var(--conspiracy-peek-scale));
+    z-index: 4 !important;
+    left: calc(30px * var(--scale));
+    pointer-events: none;
+    box-shadow: none;
+}
 
 .conspiracy_container > .conspiracy {
     top: calc(21px * var(--scale));

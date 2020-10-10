@@ -1158,6 +1158,8 @@ define([
                 var spritesheetColumns = 6;
                 data.jsX = (spriteId - 1) % spritesheetColumns;
                 data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
+                data.jsPeekX = (conspiracyId - 1) % spritesheetColumns;
+                data.jsPeekY = Math.floor((conspiracyId - 1) / spritesheetColumns) - 1;
                 return this.format_block(full ? 'jstpl_conspiracy_full' : 'jstpl_conspiracy', data);
             },
 

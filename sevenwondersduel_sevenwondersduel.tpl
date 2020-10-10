@@ -504,6 +504,10 @@ var jstpl_wonder_age_card = '\
 
 var jstpl_conspiracy = '\
     <div class="conspiracy_container">\
+        <div \
+            class="conspiracy conspiracy_peek"\
+            style="background-position: -${jsPeekX}00% -${jsPeekY}46%;"\
+        ></div>\
         <div\
             data-conspiracy-id="${jsId}"\
             data-conspiracy-position="${jsPosition}"\
