@@ -80,3 +80,34 @@
 .conspiracy_small.conspiracy_compact .swd_title {
     top: 9%;
 }
+
+.conspiracy_compact .trigger, .conspiracy_compact .prepare {
+    font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
+    font-size: calc(var(--scale) * 22px);
+    line-height: calc(var(--scale) * 22px);
+    /*text-shadow: 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white;*/
+    color: red;
+    cursor: default;
+    position: relative;
+    display: none;
+    top: calc(var(--scale) * 3px);
+    /*width: calc(var(--senate-scale) * 24px);*/
+    /*height: calc(var(--senate-scale) * 24px);*/
+    z-index:4;
+    animation: opacity_blink 0.5s infinite alternate;
+}
+.conspiracy_compact .trigger {
+    color: #078a00;
+}
+.conspiracy_compact.green_border .trigger, .conspiracy_compact.red_border .prepare {
+    display: inline-block;
+}
+
+@keyframes opacity_blink {
+    from {
+        opacity: 0.4;
+    }
+    to {
+        outline-color: 1;
+    }
+}

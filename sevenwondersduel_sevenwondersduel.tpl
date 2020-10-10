@@ -517,6 +517,8 @@ var jstpl_conspiracy = '\
             style="background-position: -${jsX}00% calc(-${jsY}.62 * var(--conspiracy-height) * var(--conspiracy-small-scale));"\
         >\
             <span class="swd_title">${jsName}</span>\
+            <span class="trigger">${jsTrigger}</span>\
+            <span class="prepare">${jsPrepare}</span>\
         </div>\
         <div class="age_card_container"></div>\
         <div class="card_outline"></div>\
