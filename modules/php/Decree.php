@@ -14,6 +14,18 @@ class Decree extends Item {
         return Material::get()->decrees[$id];
     }
 
+    public function __construct($id, $name) {
+        $this->addText(clienttranslate('Benefit from the Decree\'s effect by gaining control of the corresponding Senate chamber.'), false);
+        if ($id <= 16) {
+            $this->addText('&nbsp;', false);
+            $this->addText(clienttranslate('Effect of this Decree:'), false);
+        }
+        else {
+            $this->addText(clienttranslate('A face down Decree is revealed when someone first places an Influence cube in the corresponding Senate chamber.'), false);
+        }
+        parent::__construct($id, $name);
+    }
+
     public function controlChanged($gained) {
         $payment = new Payment($this);
         $this->constructEffects($gained ? Player::getActive() : Player::getActive()->getOpponent(), $payment);

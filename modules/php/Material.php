@@ -767,7 +767,8 @@ class Material extends Base
 
         $this->conspiracies[14] = (new Conspiracy(14, clienttranslate("Coercion")))
             ->addText("Take 1 Blue or Green card of your choice from your opponent and add it to your City. In exchange, give them 1 of your cards of the same color.")
-            ->addActionState(SevenWondersDuelAgora::STATE_SWAP_BUILDING_NAME);
+            ->addActionState(SevenWondersDuelAgora::STATE_SWAP_BUILDING_NAME)
+            ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[15] = (new Conspiracy(15, clienttranslate("Insider Influence")))
             ->addText("Choose 1 Decree in the Senate and place it in a Chamber of your choice, under the existing Decree.")

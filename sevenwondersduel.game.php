@@ -17,6 +17,8 @@
   */
 
 use SWD\Conspiracies;
+use SWD\Conspiracy;
+use SWD\Decree;
 use SWD\Decrees;
 use SWD\Draftpool;
 use SWD\Material;
@@ -568,7 +570,9 @@ class SevenWondersDuelAgora extends Table
         $result['agora'] = (int)$this->getGameStateValue(self::OPTION_AGORA);
         if ($result['agora']) {
             $result['conspiracies'] = Material::get()->conspiracies->array;
+            $result['conspiracies'][17] = new Conspiracy(17, ''); // To pass the generic explanation text to the tooltip.
             $result['decrees'] = Material::get()->decrees->array;
+            $result['decrees'][17] = new Decree(17, ''); // To pass the generic explanation text to the tooltip.
             $result['decreesSituation'] = Decrees::getSituation();
             $result['senateSituation'] = Senate::getSituation();
             $result['myConspiracies'] = Conspiracies::getDeckCardsSorted($current_player_id);

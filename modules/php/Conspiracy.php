@@ -16,8 +16,10 @@ class Conspiracy extends Item {
 
     public function __construct($id, $name) {
         $this->addText(clienttranslate('After preparing a Conspiracy with an Age card, it can be triggered at the start of a following turn, before playing an Age card.'), false);
-        $this->addText('&nbsp;', false);
-        $this->addText(clienttranslate('When you trigger this Conspiracy:'), false);
+        if ($id <= 16) {
+            $this->addText('&nbsp;', false);
+            $this->addText(clienttranslate('When you trigger this Conspiracy:'), false);
+        }
         parent::__construct($id, $name);
     }
     /**

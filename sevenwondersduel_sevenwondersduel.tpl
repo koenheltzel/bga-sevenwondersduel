@@ -506,7 +506,7 @@ var jstpl_conspiracy = '\
     <div class="conspiracy_container">\
         <div \
             class="conspiracy conspiracy_peek"\
-            style="background-position: -${jsPeekX}00% -${jsPeekY}46%; display: ${jsPeekDisplay}"\
+            style="background-position: -${jsPeekX}00% calc(-${jsPeekY}.735 * var(--conspiracy-height) * var(--conspiracy-peek-scale)); display: ${jsPeekDisplay}"\
         ></div>\
         <div\
             data-conspiracy-id="${jsId}"\
@@ -645,13 +645,13 @@ var jstpl_decree_tooltip = '\
 var jstpl_conspiracy_tooltip = '\
     <div class="swd_tooltip">\
         <div class="cardinfos">\
-            <strong>${translateConspiracy} “${jsName}”</strong>\
+            <strong>${translateConspiracy} ${jsName} ${jsState}</strong>\
             <hr\>\
             <p>${jsText}</p>\
         </div>\
         <div>\
             <div class="conspiracy tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
-                <span class="swd_title">${jsName}</span>\
+                <span class="swd_title">${jsNameOnCard}</span>\
             </div>\
         </div>\
         <div class="clear"></div>\

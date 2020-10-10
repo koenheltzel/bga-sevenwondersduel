@@ -1159,7 +1159,7 @@ define([
                 data.jsX = (spriteId - 1) % spritesheetColumns;
                 data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
                 data.jsPeekX = (conspiracyId - 1) % spritesheetColumns;
-                data.jsPeekY = Math.floor((conspiracyId - 1) / spritesheetColumns) - 1;
+                data.jsPeekY = Math.floor((conspiracyId - 1) / spritesheetColumns);
                 data.jsPeekDisplay = conspiracyId <= 16 && spriteId > 16 ? 'inline-block' : 'none';
                 return this.format_block(full ? 'jstpl_conspiracy_full' : 'jstpl_conspiracy', data);
             },
@@ -1442,7 +1442,7 @@ define([
                         showDelay: this.toolTipDelay,
                         getContent: dojo.hitch(this, function (node) {
                             var id = dojo.attr(node, "data-conspiracy-id");
-                            return this.getConspiracyTooltip(id);
+                            return this.getConspiracyTooltip(id, node);
                         })
                     })
                 );
@@ -1608,37 +1608,50 @@ define([
             },
 
             getDecreeTooltip: function (id) {
-                if (typeof this.gamedatas.decrees[id] != 'undefined') {
-                    var decree = this.gamedatas.decrees[id];
+                var decree = this.gamedatas.decrees[id];
 
-                    var spritesheetColumns = 6;
+                var spritesheetColumns = 6;
 
-                    var data = {};
-                    data.translateDecree = _("Decree");
-                    // data.jsName = _(decree.name);
-                    data.jsText = this.getTextHtml(decree.text);
-                    data.jsBackX = ((id - 1) % spritesheetColumns);
-                    data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
-                    return this.format_block('jstpl_decree_tooltip', data);
-                }
-                return false;
+                let hidden = id == 17;
+
+                var data = {};
+                data.translateDecree = hidden ? _("Face down Decree token") : _("Decree token");
+                // data.jsName = _(decree.name);
+                data.jsText = this.getTextHtml(decree.text);
+                data.jsBackX = ((id - 1) % spritesheetColumns);
+                data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
+                return this.format_block('jstpl_decree_tooltip', data);
             },
 
-            getConspiracyTooltip: function (id) {
-                if (typeof this.gamedatas.conspiracies[id] != 'undefined') {
-                    var conspiracy = this.gamedatas.conspiracies[id];
+            getConspiracyTooltip: function (id, node) {
+                if (id == 18) id = 17;
+                let hidden = id == 17;
 
-                    var spritesheetColumns = 6;
+                var conspiracy = this.gamedatas.conspiracies[id];
 
-                    var data = {};
-                    data.translateConspiracy = _("Conspiracy");
-                    data.jsName = _(conspiracy.name);
-                    data.jsText = this.getTextHtml(conspiracy.text);
-                    data.jsBackX = ((id - 1) % spritesheetColumns);
-                    data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
-                    return this.format_block('jstpl_conspiracy_tooltip', data);
+                var spritesheetColumns = 6;
+
+                var data = {};
+                data.translateConspiracy = node.dataset.conspiracyTriggered == "1" ? _("Conspiracy") : _("Face down Conspiracy");
+                data.jsName = hidden ? '' : '“' + _(conspiracy.name) + '”';
+                data.jsNameOnCard = hidden ? '' : _(conspiracy.name);
+
+                if(node.dataset.conspiracyTriggered == "1") {
+                    data.jsState = ' - ' + _('Triggered');
                 }
-                return false;
+                else if(node.dataset.conspiracyPrepared == "1") {
+                    data.jsState = ' - ' + _('Prepared');
+                }
+                else if(node.dataset.conspiracyPrepared === "0") {
+                    data.jsState = ' - ' + _('Unprepared');
+                }
+                else {
+                    data.jsState = '';
+                }
+                data.jsText = this.getTextHtml(conspiracy.text);
+                data.jsBackX = ((id - 1) % spritesheetColumns);
+                data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
+                return this.format_block('jstpl_conspiracy_tooltip', data);
             },
 
             //   ____  _                             ___        __
