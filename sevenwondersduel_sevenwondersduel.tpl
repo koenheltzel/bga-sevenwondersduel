@@ -506,7 +506,7 @@ var jstpl_conspiracy = '\
     <div class="conspiracy_container">\
         <div \
             class="conspiracy conspiracy_peek"\
-            style="background-position: -${jsPeekX}00% -${jsPeekY}46%;"\
+            style="background-position: -${jsPeekX}00% -${jsPeekY}46%; display: ${jsPeekDisplay}"\
         ></div>\
         <div\
             data-conspiracy-id="${jsId}"\
