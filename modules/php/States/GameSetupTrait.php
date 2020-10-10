@@ -122,7 +122,7 @@ trait GameSetupTrait
             self::DbQuery( "UPDATE conspiracy SET card_id = card_id - 1000" );
 
             // TODO: remove these lines which put certain conspiracies on top.
-            if (1) {
+            if (0) {
                 $this->conspiracyDeck->insertCardOnExtremePosition(11, 'deck', true);
                 $this->conspiracyDeck->insertCardOnExtremePosition(14, 'deck', true);
                 $this->conspiracyDeck->insertCardOnExtremePosition(13, 'deck', true);

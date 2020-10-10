@@ -325,6 +325,7 @@ $machinestates = [
         "transitions" => array_merge(
             $conspiracyStateTransitions, // Support all conspiracy actions
             [
+                SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
                 SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
                 SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             ]
@@ -553,7 +554,7 @@ $machinestates = [
     SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_ID => [
         "name" => SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME,
         "description" => clienttranslate('${actplayer} must take one of the opponent\'s unconstructed Wonders and add it to his city'),
-        "descriptionmyturn" => clienttranslate('${you} must take one of the opponent\'s unconstructed Wonders and add it to his city'),
+        "descriptionmyturn" => clienttranslate('${you} must take one of the opponent\'s unconstructed Wonders and add it to your city'),
         "type" => "activeplayer",
         "action" => "enterStateTakeUnconstructedWonder",
         "args" => "argTakeUnconstructedWonder",

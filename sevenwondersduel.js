@@ -3900,13 +3900,14 @@ define([
             onEnterDiscardAvailableCard: function (args) {
                 dojo.query('#draftpool .available').addClass('red_border');
 
+                dojo.style($('simple_skip'), 'display', 'none');
+
                 if (args.round == 1) {
-                    dojo.style($('simple_skip'), 'display', 'none');
                     this.gamedatas.gamestate.description = _('${actplayer} can move an available card to the discard pile (and may repeat this action a second time if possible)');
                     this.gamedatas.gamestate.descriptionmyturn = _('${you} can move an available card to the discard pile (and may repeat this action a second time if possible)');
                 }
                 else {
-                    dojo.style($('simple_skip'), 'display', 'block');
+                    if (this.isCurrentPlayerActive()) dojo.style($('simple_skip'), 'display', 'block');
                     this.gamedatas.gamestate.description = _('${actplayer} can move a second available card to the discard pile or skip');
                     this.gamedatas.gamestate.descriptionmyturn = _('${you} can move a second available card to the discard pile or skip');
                 }
