@@ -1160,7 +1160,7 @@ define([
                 data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
                 data.jsPeekX = (conspiracyId - 1) % spritesheetColumns;
                 data.jsPeekY = Math.floor((conspiracyId - 1) / spritesheetColumns) - 1;
-                data.jsPeekDisplay = conspiracyId <= 16 ? 'inline-block' : 'none';
+                data.jsPeekDisplay = conspiracyId <= 16 && spriteId > 16 ? 'inline-block' : 'none';
                 return this.format_block(full ? 'jstpl_conspiracy_full' : 'jstpl_conspiracy', data);
             },
 

@@ -34,11 +34,12 @@
     backface-visibility: hidden;
 
     background-size: calc(var(--conspiracy-spritesheet-width) * var(--conspiracy-peek-scale)) calc(var(--conspiracy-spritesheet-height) * var(--conspiracy-peek-scale));
-    border-radius: 0 0 calc(var(--conspiracy-border-radius) * 2 * var(--conspiracy-peek-scale)) calc(var(--conspiracy-border-radius) * 2 * var(--conspiracy-peek-scale));
+    border-radius: calc(var(--conspiracy-border-radius) * var(--conspiracy-peek-scale));
     z-index: 4 !important;
-    left: calc(30px * var(--scale));
+    left: calc(9px * var(--scale));
+    top: calc(49.5px * var(--scale)) !important;
     pointer-events: none;
-    box-shadow: none;
+    box-shadow: 0 0 0px 1px #505050;
 }
 
 .conspiracy_container > .conspiracy {

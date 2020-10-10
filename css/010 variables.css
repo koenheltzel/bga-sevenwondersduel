@@ -36,7 +36,7 @@
     --conspiracy-compact-height: calc(var(--conspiracy-spritesheet-height) / var(--conspiracy-spritesheet-rows) * (140/369));
     --conspiracy-border-radius: 15px;
     --conspiracy-small-scale: calc(0.58 * var(--scale));
-    --conspiracy-peek-scale: calc(0.561 * var(--conspiracy-small-scale));
+    --conspiracy-peek-scale: calc(0.865 * var(--conspiracy-small-scale));
     --conspiracy-plus-age-card-scale: 1.25;
 
     --progress-token-spritesheet-width: 800px;
