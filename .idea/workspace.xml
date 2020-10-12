@@ -8,7 +8,7 @@
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Wonder Selection" line="1787" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Discard Building" line="2330" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Construct a Wonder" line="2405" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Helper Functions" line="5050" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Helper Functions" line="5037" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Wonders" line="639" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Buildings / Draftpool" line="777" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Players Info" line="1732" />
@@ -19,13 +19,13 @@
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Decrees" line="1116" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Select Start Player" line="3015" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Progress Token From Box" line="3060" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Settings" line="4945" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Settings" line="4932" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Click handlers" line="268" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Agora click handlers" line="319" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Prepare a Conspiracy" line="2624" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Trigger Conspiracy" line="2047" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Military Track" line="1240" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Display functions" line="4738" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Display functions" line="4725" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Next Age" line="3005" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Conspire" line="3172" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Construct Building" line="2187" />
@@ -35,7 +35,7 @@
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Senate" line="1053" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State MoveDecree (Conspiracy 15)" line="4123" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Discard Available Card (Conspiracy 11)" line="3959" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Take Unconstructed Wonder (Conspiracy 1)" line="4444" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Take Unconstructed Wonder (Conspiracy 1)" line="4431" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Construct Last Row Building (Conspiracy 7)" line="3856" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Construct Building From Box (Conspiracy 8)" line="3779" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Swap Building (Conspiracy 14)" line="4250" />
@@ -44,11 +44,11 @@
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Remove Influence" line="3652" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Conspire Remnant Position" line="3271" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Place Influence" line="3415" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State TakeBuilding (Conspiracy 13)" line="4364" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State TakeBuilding (Conspiracy 13)" line="4351" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Destroy Constructed Wonder (Conspiracy 16)" line="3899" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Conspiracies" line="1178" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Senate Actions" line="3319" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Next Player Turn / End game animation" line="4517" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Next Player Turn / End game animation" line="4504" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Lock Progress Token (Conspiracy 5)" line="4047" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Tooltips" line="1266" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Move Influence" line="3494" />
@@ -56,11 +56,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="WIP Move decree conspiracy action">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/070 buildings.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/070 buildings.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/php/States/GameEndDebugTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/GameEndDebugTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/States/SwapBuildingTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/SwapBuildingTrait.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sevenwondersduel.js" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/states.inc.php" beforeDir="false" afterPath="$PROJECT_DIR$/states.inc.php" afterDir="false" />
     </list>
     <ignored path="D:\wamp64\www\bga\sevenwondersduel\.idea\shelf/" />
     <ignored path="D:\wamp64\www\bga\agora\.idea\shelf/" />
@@ -103,8 +100,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="372">
-                  <caret line="4326" column="67" lean-forward="true" selection-start-line="4326" selection-start-column="67" selection-end-line="4326" selection-end-column="67" />
+                <state relative-caret-position="281">
+                  <caret line="80" column="52" lean-forward="true" selection-start-line="80" selection-start-column="52" selection-end-line="80" selection-end-column="52" />
                 </state>
               </provider>
             </entry>
@@ -174,7 +171,7 @@
             <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="125">
-                  <caret line="4407" column="38" lean-forward="true" selection-start-line="4407" selection-start-column="38" selection-end-line="4407" selection-end-column="38" />
+                  <caret line="4394" column="38" lean-forward="true" selection-start-line="4394" selection-start-column="38" selection-end-line="4394" selection-end-column="38" />
                 </state>
               </provider>
             </entry>
@@ -182,7 +179,7 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/modules/php/States/SwapBuildingTrait.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="422">
+                <state relative-caret-position="140">
                   <caret line="64" column="17" selection-start-line="64" selection-start-column="17" selection-end-line="64" selection-end-column="17" />
                   <folding>
                     <element signature="e#30#56#0#PHP" expanded="true" />
@@ -510,14 +507,7 @@
       <workItem from="1601651785222" duration="68790000" />
       <workItem from="1602058359732" duration="68318000" />
       <workItem from="1602237693483" duration="71192000" />
-      <workItem from="1602512275573" duration="14226000" />
-    </task>
-    <task id="LOCAL-00786" summary="Implemented Conspiracy Embezzlement">
-      <created>1601979928797</created>
-      <option name="number" value="00786" />
-      <option name="presentableId" value="LOCAL-00786" />
-      <option name="project" value="LOCAL" />
-      <updated>1601979928797</updated>
+      <workItem from="1602512275573" duration="14878000" />
     </task>
     <task id="LOCAL-00787" summary="Implemented Progress Token Corruption">
       <created>1601984229639</created>
@@ -855,11 +845,18 @@
       <option name="project" value="LOCAL" />
       <updated>1602531027388</updated>
     </task>
-    <option name="localTasksCounter" value="835" />
+    <task id="LOCAL-00835" summary="WIP Swap Building action">
+      <created>1602540327583</created>
+      <option name="number" value="00835" />
+      <option name="presentableId" value="LOCAL-00835" />
+      <option name="project" value="LOCAL" />
+      <updated>1602540327583</updated>
+    </task>
+    <option name="localTasksCounter" value="836" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1981605000" />
+    <option name="totallyTimeSpent" value="1982257000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -883,14 +880,14 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.6748401" visible="true" weight="0.14301191" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.6748401" weight="0.26868907" />
       <window_info anchor="bottom" id="Cacher" order="9" sideWeight="0.6098081" weight="0.21885157" />
       <window_info anchor="bottom" id="File Transfer" order="10" sideWeight="0.5501066" weight="0.18309858" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
       <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.72121537" weight="0.46912244" />
       <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.49946696" weight="0.32936078" />
       <window_info anchor="bottom" id="Inspection Results" order="14" sideWeight="0.49946696" weight="0.32936078" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="15" sideWeight="0.3251599" side_tool="true" visible="true" weight="0.14301191" />
+      <window_info anchor="bottom" id="Event Log" order="15" sideWeight="0.3251599" side_tool="true" weight="0.26977247" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -900,7 +897,7 @@
       <window_info anchor="right" x="0" y="0" width="434" height="856" id="Documentation" order="6" sideWeight="0.58609796" side_tool="true" weight="0.14232409" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.2665222" visible="true" weight="0.2196162" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.2665222" weight="0.2196162" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49946696" weight="0.31419286" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49840087" weight="0.20260021" />
@@ -909,19 +906,19 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.67537314" weight="0.14301191" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.6748401" visible="true" weight="0.26868907" />
       <window_info anchor="bottom" id="Cacher" order="9" sideWeight="0.6098081" weight="0.21885157" />
       <window_info anchor="bottom" id="File Transfer" order="10" sideWeight="0.5501066" weight="0.18309858" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
       <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.72121537" weight="0.46912244" />
       <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.49946696" weight="0.32936078" />
       <window_info anchor="bottom" id="Inspection Results" order="14" sideWeight="0.49946696" weight="0.32936078" />
-      <window_info anchor="bottom" id="Event Log" order="15" sideWeight="0.32462686" side_tool="true" weight="0.2426869" />
+      <window_info anchor="bottom" id="Event Log" order="15" sideWeight="0.3251599" side_tool="true" weight="0.26977247" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" weight="0.32995737" />
-      <window_info anchor="right" id="Favorites" order="4" sideWeight="0.41390204" weight="0.1098081" />
+      <window_info active="true" anchor="right" id="Favorites" order="4" sideWeight="0.41390204" visible="true" weight="0.1098081" />
       <window_info anchor="right" id="Structure" order="5" sideWeight="0.7334778" weight="0.15671642" />
       <window_info anchor="right" x="0" y="0" width="434" height="856" id="Documentation" order="6" sideWeight="0.58609796" side_tool="true" weight="0.14232409" />
     </layout-to-restore>
@@ -996,7 +993,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implemented end score animation for Senate chambers.&#10;Made skip button smaller" />
     <MESSAGE value="Made chamber victory points more readable" />
     <MESSAGE value="Support a 5th Wonder (Conspiracy Extortion)" />
     <MESSAGE value="Tweaked board_column with in square mode as it couldn't hold senate + board next to each other when scaled down" />
@@ -1021,7 +1017,8 @@
     <MESSAGE value="Debugged: After constructing Curia Julia and trigger a Conspiracy, the player is returned to playerTurn, and after that gets the extra turn from Curia Julia" />
     <MESSAGE value="Added workspace.xml so bookmarks are safe, not sure if it's workable yet" />
     <MESSAGE value="Implemented Conspiracy Foreclosure (aka TakeBuilding)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented Conspiracy Foreclosure (aka TakeBuilding)" />
+    <MESSAGE value="WIP Swap Building action" />
+    <option name="LAST_COMMIT_MESSAGE" value="WIP Swap Building action" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/dbmodel.sql">
@@ -1382,7 +1379,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/php/States/SwapBuildingTrait.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
+        <state relative-caret-position="140">
           <caret line="64" column="17" selection-start-line="64" selection-start-column="17" selection-end-line="64" selection-end-column="17" />
           <folding>
             <element signature="e#30#56#0#PHP" expanded="true" />
@@ -1399,8 +1396,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="4326" column="67" lean-forward="true" selection-start-line="4326" selection-start-column="67" selection-end-line="4326" selection-end-column="67" />
+        <state relative-caret-position="281">
+          <caret line="80" column="52" lean-forward="true" selection-start-line="80" selection-start-column="52" selection-end-line="80" selection-end-column="52" />
         </state>
       </provider>
     </entry>

@@ -4314,39 +4314,26 @@ define([
                 var buildingOpponentNodeContainer = $('player_building_container_' + buildingOpponentId);
                 var buildingOpponentNode = dojo.query('.building' , buildingOpponentNodeContainer)[0];
 
-                // Copy buildingNodeContainer so we have an easy source and target.
-                var buildingOpponentNodeContainerCopy = dojo.clone(buildingOpponentNodeContainer);
-                var buildingPlayerNodeContainerCopy = dojo.clone(buildingPlayerNodeContainer);
-
-                let buildingPlayerColumn = dojo.query('.player_buildings.player' + this.me_id + ' .player_building_column.' + notif.args.buildingColumn)[0];
-                let buildingOpponentColumn = dojo.query('.player_buildings.player' + this.opponent_id + ' .player_building_column.' + notif.args.buildingColumn)[0];
-                dojo.place(buildingPlayerNodeContainerCopy, buildingOpponentNodeContainer, "after");
-                dojo.place(buildingOpponentNodeContainerCopy, buildingPlayerNodeContainer, "after");
-
-                var buildingPlayerNodeCopy = dojo.query('.building' , buildingPlayerNodeContainerCopy)[0];
-                dojo.style(buildingPlayerNodeCopy, 'z-index', 100);
-                var buildingOpponentNodeCopy = dojo.query('.building' , buildingOpponentNodeContainerCopy)[0];
-                dojo.style(buildingOpponentNodeCopy, 'z-index', 100);
-
-                // Place building at start and then slide to copies' container position.
-                this.placeOnObject(buildingPlayerNodeCopy, buildingPlayerNode);
-                this.placeOnObject(buildingOpponentNodeCopy, buildingOpponentNode);
-
-                // dojo.style(buildingPlayerNodeContainer, 'display', 'none'); // Hide original buildingNodeContainer (destroy at the end of the animation.
-                // dojo.style(buildingOpponentNodeContainer, 'display', 'none'); // Hide original buildingNodeContainer (destroy at the end of the animation.
-                dojo.destroy(buildingPlayerNodeContainer);
-                dojo.destroy(buildingOpponentNodeContainer);
-
                 let anims = [];
-                anims.push(this.slideToObjectPos(buildingPlayerNodeCopy, buildingPlayerNodeContainerCopy, 0, 0, this.constructBuildingAnimationDuration * 0.6));
-                anims.push(this.slideToObjectPos(buildingOpponentNodeCopy, buildingOpponentNodeContainerCopy, 0, 0, this.constructBuildingAnimationDuration * 0.6));
+                anims.push(this.slideToObjectPos(buildingPlayerNode, buildingOpponentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6));
+                anims.push(this.slideToObjectPos(buildingOpponentNode, buildingPlayerNode, 0, 0, this.constructBuildingAnimationDuration * 0.6));
 
                 let anim = dojo.fx.combine(anims);
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    var buildingOpponentNodeContainerCopy = dojo.clone(buildingOpponentNodeContainer);
+                    var buildingPlayerNodeContainerCopy = dojo.clone(buildingPlayerNodeContainer);
+
+                    dojo.place(buildingPlayerNodeContainerCopy, buildingOpponentNodeContainer, "replace");
+                    dojo.place(buildingOpponentNodeContainerCopy, buildingPlayerNodeContainer, "replace");
+
+                    var buildingPlayerNodeCopy = dojo.query('.building' , buildingPlayerNodeContainerCopy)[0];
+                    var buildingOpponentNodeCopy = dojo.query('.building' , buildingOpponentNodeContainerCopy)[0];
+
+                    dojo.style(buildingPlayerNodeCopy, 'top', '0px');
+                    dojo.style(buildingOpponentNodeCopy, 'top', '0px');
+
                     this.clearRedBorder();
-                    dojo.style(buildingPlayerNodeCopy, 'z-index', 5);
-                    dojo.style(buildingOpponentNodeCopy, 'z-index', 5);
                 }));
 
                 // Wait for animation before handling the next notification (= state change).
