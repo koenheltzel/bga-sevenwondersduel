@@ -286,9 +286,9 @@ class action_sevenwondersduelagora extends APP_GameAction
     public function actionMoveDecree() {
         self::setAjaxMode();
 
-        $decreeId = self::getArg("decreeId", AT_posint, true);
-        $chamber = self::getArg("chamber", AT_posint, true);
-        SevenWondersDuelAgora::get()->actionMoveDecree($decreeId, $chamber);
+        $chamberFrom = self::getArg("chamberFrom", AT_posint, true);
+        $chamberTo = self::getArg("chamberTo", AT_posint, true);
+        SevenWondersDuelAgora::get()->actionMoveDecree($chamberFrom, $chamberTo);
 
         self::ajaxResponse();
     }

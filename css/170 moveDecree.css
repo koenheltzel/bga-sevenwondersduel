@@ -1,0 +1,8 @@
+
+.current_player_is_active .decree_containers .decree_small.red_border {
+    cursor: pointer;
+}
+
+.current_player_is_active .decree_containers .decree_small.gray_border {
+    cursor: pointer;
+}

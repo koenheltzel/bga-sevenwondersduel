@@ -3,6 +3,7 @@
 namespace SWD\States;
 
 use SWD\Player;
+use SWD\Senate;
 
 trait MoveDecreeTrait {
 
@@ -21,20 +22,22 @@ trait MoveDecreeTrait {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-//    public function actionMoveDecree($decreeId, $chamber) {
-//        $this->checkAction("actionMoveDecree");
-//
-//        $this->notifyAllPlayers(
-//            'message',
-//            clienttranslate('${player_name} chose to Place Influence'),
-//            [
-//                'player_name' => Player::getActive()->name
-//            ]
-//        );
-//
-//        $this->setStateStack([self::STATE_PLACE_INFLUENCE_NAME, self::STATE_NEXT_PLAYER_TURN_NAME]);
-//        $this->stateStackNextState();
-//    }
+    public function actionMoveDecree($chamberFrom, $chamberTo) {
+        $this->checkAction("actionMoveDecree");
+
+        $chamberFrom = (int)$chamberFrom;
+        $chamberTo = (int)$chamberTo;
+        if ($chamberFrom >= 1 && $chamberFrom <= 6 && $chamberTo >= 1 && $chamberTo >= 6) {
+            throw new \BgaUserException( clienttranslate("Something went wrong with the Decree/Chamber selection.") );
+        }
+        if ($chamberFrom == $chamberTo) {
+            throw new \BgaUserException( clienttranslate("You can't select the same Chamber twice.") );
+        }
+
+        Senate::moveDecree($chamberFrom, $chamberTo);
+
+        $this->stateStackNextState();
+    }
 
 //    public function shouldSkipMoveDecree() {
 //        return false;

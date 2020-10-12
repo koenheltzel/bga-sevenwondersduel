@@ -167,33 +167,27 @@
                                 <!-- END influence_container -->
                             </div>
                             <div class="decree_containers">
-                                <div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                                <div>
-                                    <div></div>
+                                <div class="chamber_decrees_container" data-chamber="1">
                                     <div></div>
                                     <div></div>
                                 </div>
-                                <div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                                <div>
-                                    <div></div>
+                                <div class="chamber_decrees_container" data-chamber="2">
                                     <div></div>
                                     <div></div>
                                 </div>
-                                <div>
-                                    <div></div>
+                                <div class="chamber_decrees_container" data-chamber="3">
                                     <div></div>
                                     <div></div>
                                 </div>
-                                <div>
+                                <div class="chamber_decrees_container" data-chamber="4">
                                     <div></div>
+                                    <div></div>
+                                </div>
+                                <div class="chamber_decrees_container" data-chamber="5">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                                <div class="chamber_decrees_container" data-chamber="6">
                                     <div></div>
                                     <div></div>
                                 </div>

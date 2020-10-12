@@ -216,10 +216,27 @@
     }
 }
 
+.gray_border {
+    animation: gray_border 0.5s infinite alternate;
+    z-index: 20;
+    outline-width: calc(var(--scale) * 5px);
+    outline-style: dashed;
+    outline-offset: 1px;
+}
+
+@keyframes gray_border {
+    from {
+        outline-color: #bb555533;
+    }
+    to {
+        outline-color: #565656ff;
+    }
+}
+
 .red_stroke {
     animation: red_stroke 0.5s infinite alternate;
     z-index: 20;
-    stroke-width: calc(var(--senate-scale) * 7px);
+    stroke-width: calc(var(--senate-scale) * 10px);
     stroke-dasharray: 10,4;
 }
 
@@ -235,7 +252,7 @@
 .gray_stroke {
     animation: gray_stroke 0.5s infinite alternate;
     z-index: 20;
-    stroke-width: calc(var(--senate-scale) * 7px);
+    stroke-width: calc(var(--senate-scale) * 10px);
     stroke-dasharray: 10,4;
 }
 

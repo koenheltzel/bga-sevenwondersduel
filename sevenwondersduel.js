@@ -67,6 +67,7 @@ define([
             // Agora
             senateActionsSection: 0,
             moveInfluenceFrom: 0,
+            moveDecreeFrom: 0,
 
             // General properties
             customTooltips: [],
@@ -385,6 +386,18 @@ define([
                     dojo.query('body')
                         .on("#swd[data-state=discardAvailableCard] #buttonSimpleSkip:click",
                             dojo.hitch(this, "onDiscardAvailableCardSkipButtonClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-client-state=client_moveDecreeFrom] .decree_containers .red_border:click",
+                            dojo.hitch(this, "onMoveDecreeFromClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-client-state=client_moveDecreeTo] #senate_chambers .red_stroke:click",
+                            dojo.hitch(this, "onMoveDecreeToClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-client-state=client_moveDecreeTo] .decree_containers .gray_border:click",
+                            dojo.hitch(this, "onMoveDecreeCancelClick")
                         );
 
 
@@ -1342,6 +1355,24 @@ define([
                         selector: '#swd[data-client-state=client_moveInfluenceTo] #senate_chambers .red_stroke',
                         showDelay: this.toolTipDelay,
                         label: _('To this Chamber')
+                    })
+                );
+
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '#swd[data-client-state=client_moveDecreeTo] .decree_containers .gray_border',
+                        showDelay: this.toolTipDelay,
+                        label: _('Cancel selection')
+                    })
+                );
+
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '#swd[data-client-state=client_moveDecreeTo] #senate_chambers .gray_border',
+                        showDelay: this.toolTipDelay,
+                        label: _('Move Decree token to this Chamber')
                     })
                 );
 
@@ -4080,14 +4111,32 @@ define([
             // |_|  |_|\___/ \_/ \___| |____/ \___|\___|_|  \___|\___|
 
             onEnterMoveDecree: function (args) {
+                if (this.debug) console.log('onEnterMoveDecree', args);
 
+                if (this.isCurrentPlayerActive()) {
+                    this.selectMoveDecreeFromMode();
+                }
+                else {
+                    dojo.query('.decree_containers .decree_small').addClass('red_border');
+                }
             },
 
-            onMoveDecreeClick: function (e) {
+            selectMoveDecreeFromMode: function() {
+                this.setClientState("client_moveDecreeFrom", {
+                    descriptionmyturn: "${you} must choose a Decree token to move to a Chamber of your choice, under the existing Decree",
+                });
+
+                this.markChambers([]);
+                dojo.query('.decree_containers .decree_small').removeClass('gray_border'); // For both players
+                dojo.query('.decree_containers .decree_small').addClass('red_border'); // For both players
+            },
+
+            onMoveDecreeFromClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
+                e.stopImmediatePropagation();
 
-                if (this.debug) console.log('onMoveDecreeClick', e);
+                if (this.debug) console.log('onMoveDecreeFromClick');
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
@@ -4095,11 +4144,60 @@ define([
                         return;
                     }
 
-                    var buildingId = dojo.attr(e.target, "data-building-id");
+                    this.clearRedBorder();
+
+                    this.setClientState("client_moveDecreeTo", {
+                        descriptionmyturn: "${you} must choose a Senate Chamber to move the Decree token to, under the existing Decree",
+                    });
+
+                    let chamber = parseInt($(e.target).closest(".chamber_decrees_container").dataset.chamber);
+                    let toChambers = [];
+                    for (let i = Math.max(1, chamber-1); i <= Math.min(6, chamber + 1); i++) {
+                        if (i != chamber) {
+                            toChambers.push(i);
+                        }
+                    }
+                    // Current chamber = green/gray
+                    dojo.query('.decree_containers .decree_small').removeClass('red_border'); // For both players
+                    dojo.addClass($(e.target), 'gray_border');
+                    this.markChambers(toChambers);
+
+                    this.moveDecreeFrom = chamber;
+                }
+            },
+
+            onMoveDecreeCancelClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+                e.stopImmediatePropagation();
+
+                this.moveDecreeFrom = 0;
+
+                if (this.debug) console.log('onMoveDecreeCancelClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    this.selectMoveDecreeFromMode();
+                }
+            },
+
+            onMoveDecreeToClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onMoveDecreeToClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionMoveDecree')) {
+                        return;
+                    }
+
+                    var chamber = dojo.attr(e.target, "data-chamber");
 
                     this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionMoveDecree.html", {
                             lock: true,
-                            buildingId: buildingId
+                            chamberFrom: this.moveDecreeFrom,
+                            chamberTo: chamber,
                         },
                         this, function (result) {
                             // What to do after the server call if it succeeded
