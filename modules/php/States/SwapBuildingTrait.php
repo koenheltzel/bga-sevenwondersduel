@@ -78,7 +78,7 @@ trait SwapBuildingTrait {
 
         $playerPoints = $buildingOpponent->victoryPoints - $buildingPlayer->victoryPoints;
         $opponentPoints = $buildingPlayer->victoryPoints - $buildingOpponent->victoryPoints;
-        foreach([[$player, $buildingPlayer, $playerPoints], [$opponent, $buildingOpponent, $opponentPoints]] as $row) {
+        foreach([[$player, $buildingOpponent, $playerPoints], [$opponent, $buildingPlayer, $opponentPoints]] as $row) {
             /** @var Player $tmpPlayer */
             $tmpPlayer = $row[0];
             /** @var Building $tmpBuilding */
@@ -104,6 +104,14 @@ trait SwapBuildingTrait {
                         'points' => abs($tmpPoints),
                     ]
                 );
+            }
+
+            $buildings = $tmpPlayer->getBuildings()->filterByScientificSymbol($tmpBuilding->scientificSymbol);
+            if (count($buildings->array) == 2 && $tmpBuilding->gatheredSciencePairNotification($tmpPlayer)) {
+                // TODO: if opponent gets science pair, what happens?
+                if ($tmpPlayer == Player::me()) {
+                    $this->prependStateStack([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
+                }
             }
         }
 

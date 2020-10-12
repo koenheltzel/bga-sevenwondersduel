@@ -199,6 +199,29 @@ class Building extends Item {
         return $payment;
     }
 
+    public function gatheredSciencePairNotification($player) {
+        if (count(SevenWondersDuelAgora::get()->progressTokenDeck->getCardsInLocation('board')) > 0) {
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} gathered a pair of identical scientific symbols, and may now choose a Progress token'),
+                [
+                    'player_name' => $player->name,
+                ]
+            );
+            return true;
+        }
+        else {
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} gathered a pair of identical scientific symbols, but there are no Progress tokens left'),
+                [
+                    'player_name' => $player->name,
+                ]
+            );
+            return false;
+        }
+    }
+
     /**
      * Handle any effects the item has (victory points, gain coins, military) and send notifications about them.
      * @param Player $player
@@ -212,24 +235,8 @@ class Building extends Item {
         if ($this->scientificSymbol) {
             $buildings = $player->getBuildings()->filterByScientificSymbol($this->scientificSymbol);
             if (count($buildings->array) == 2) {
-                if (count(SevenWondersDuelAgora::get()->progressTokenDeck->getCardsInLocation('board')) > 0) {
+                if ($this->gatheredSciencePairNotification($player)) {
                     $payment->selectProgressToken = true;
-                    SevenWondersDuelAgora::get()->notifyAllPlayers(
-                        'message',
-                        clienttranslate('${player_name} gathered a pair of identical scientific symbols, and may now choose a Progress token'),
-                        [
-                            'player_name' => $player->name,
-                        ]
-                    );
-                }
-                else {
-                    SevenWondersDuelAgora::get()->notifyAllPlayers(
-                        'message',
-                        clienttranslate('${player_name} gathered a pair of identical scientific symbols, but there are no Progress tokens left'),
-                        [
-                            'player_name' => $player->name,
-                        ]
-                    );
                 }
             }
         }

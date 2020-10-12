@@ -343,6 +343,8 @@ $machinestates = [
             "actionChooseProgressToken",
         ],
         "transitions" => [
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
         ]
@@ -527,6 +529,7 @@ $machinestates = [
             "actionSwapBuilding",
         ],
         "transitions" => [
+            SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_ID,
             SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
