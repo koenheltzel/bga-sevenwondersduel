@@ -166,6 +166,7 @@ class Senate extends Base
         $controllerFrom = self::getControllingPlayer($chamberFrom, $senateAction);
         $controllerTo = self::getControllingPlayer($chamberTo, $senateAction);
 
+        // This notification updates the decrees position through decreesSituation
         SevenWondersDuelAgora::get()->notifyAllPlayers(
             'moveDecree',
             clienttranslate('${player_name} moved the Decree in Chamber ${chamberFrom} to Chamber ${chamberTo}'),
@@ -176,17 +177,56 @@ class Senate extends Base
                 'playerId' => $player->id,
                 'player_name' => $player->name,
                 'senateAction' => $senateAction, // Reference, so will be updated after this.
-                'decreesSituation' => Decrees::getSituation(), // Reference, so will be updated after this.
+                'decreesSituation' => Decrees::getSituation(),
             ]
         );
+
+        // The start and end controller is not the same
+        if ($controllerFrom <> $controllerTo) {
+            if ($controllerFrom) {
+                // Force loss of military position by setting the opposite player as new controller, even if there is no player a new controller (aka $controllerTo == null).
+                $fakeControllerTo = $controllerFrom == $player ? $player->getOpponent() : $player;
+
+                // Controller "from" lost control of Decree 9 and has to take a step back.
+                $payment = self::handleDecreeControlChange($decreeId, $fakeControllerTo, $chamberFrom, $senateAction);
+
+                // This notification handles military pawn movement of the losing controller
+                SevenWondersDuelAgora::get()->notifyAllPlayers(
+                    'decreeControlChanged',
+                    clienttranslate(''),
+                    [
+                        'chamber' => $chamberFrom,
+                        'player_name' => $controllerFrom->name,
+                        'playerId' => $controllerFrom->id,
+                        'payment' => $payment,
+                    ]
+                );
+            }
+            if ($controllerTo) {
+                // Controller "to" gained control of Decree 9 and has to take a step forward.
+                $payment = self::handleDecreeControlChange($decreeId, $controllerTo, $chamberTo, $senateAction);
+
+                // This notification handles the decree reveal if neccesary, along with the military pawn movement of the winning controller
+                SevenWondersDuelAgora::get()->notifyAllPlayers(
+                    'decreeControlChanged',
+                    clienttranslate(''),
+                    [
+                        'chamber' => $chamberTo,
+                        'player_name' => $controllerTo->name,
+                        'playerId' => $controllerTo->id,
+                        'payment' => $payment,
+                    ]
+                );
+            }
+        }
     }
 
     public static function handleDecreeControlChange($decreeId, ?Player $newController, $chamber, SenateAction &$senateAction) {
         $card = SevenWondersDuelAgora::get()->decreeDeck->getCard($decreeId);
-        if ($card['card_type_arg'] == 0) {
+        if ($card['type_arg'] == 0) {
             self::DbQuery( "UPDATE decree SET card_type_arg = 1 WHERE card_id = {$decreeId}" );
 
-            $senateAction->addDecreeReveal($chamber, $card['card_location_arg'], $decreeId);
+            $senateAction->addDecreeReveal($chamber, $card['location_arg'], $decreeId);
 
             SevenWondersDuelAgora::get()->notifyAllPlayers(
                 'message',

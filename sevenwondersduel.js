@@ -4155,7 +4155,7 @@ define([
 
                     let chamber = parseInt($(e.target).closest(".chamber_decrees_container").dataset.chamber);
                     let toChambers = [];
-                    for (let i = Math.max(1, chamber-1); i <= Math.min(6, chamber + 1); i++) {
+                    for (let i = 1; i <= 6; i++) {
                         if (i != chamber) {
                             toChambers.push(i);
                         }

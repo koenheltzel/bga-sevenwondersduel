@@ -27,7 +27,7 @@ trait MoveDecreeTrait {
 
         $chamberFrom = (int)$chamberFrom;
         $chamberTo = (int)$chamberTo;
-        if ($chamberFrom >= 1 && $chamberFrom <= 6 && $chamberTo >= 1 && $chamberTo >= 6) {
+        if ($chamberFrom < 1 || $chamberFrom > 6 || $chamberTo < 1 || $chamberTo > 6) {
             throw new \BgaUserException( clienttranslate("Something went wrong with the Decree/Chamber selection.") );
         }
         if ($chamberFrom == $chamberTo) {
