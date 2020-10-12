@@ -537,8 +537,8 @@ $machinestates = [
 
     SevenWondersDuelAgora::STATE_TAKE_BUILDING_ID => [
         "name" => SevenWondersDuelAgora::STATE_TAKE_BUILDING_NAME,
-        "description" => clienttranslate('${actplayer} description todo TakeBuilding'),
-        "descriptionmyturn" => clienttranslate('${you} description todo TakeBuilding'),
+        "description" => clienttranslate('${actplayer} must choose 1 Brown or Grey card from his opponent and add it to his city'),
+        "descriptionmyturn" => clienttranslate('${you} must choose 1 Brown or Grey card from your opponent and add it to your city'),
         "type" => "activeplayer",
         "action" => "enterStateTakeBuilding",
         "args" => "argTakeBuilding",

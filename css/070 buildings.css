@@ -51,6 +51,10 @@ Because of reversing the flexbox order for the opponent there are 2 different ru
     cursor: pointer;
 }
 
+.current_player_is_active #swd[data-state=takeBuilding] .player_building_column.red_border .building_header_small {
+    cursor: pointer;
+}
+
 .building_small {
     width: var(--building-small-width);
     height: var(--building-small-height);

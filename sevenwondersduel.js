@@ -399,8 +399,10 @@ define([
                         .on("#swd[data-client-state=client_moveDecreeTo] .decree_containers .gray_border:click",
                             dojo.hitch(this, "onMoveDecreeCancelClick")
                         );
-
-
+                    dojo.query('body')
+                        .on("#swd[data-state=takeBuilding] .player_building_column.red_border .building_header_small:click",
+                            dojo.hitch(this, "onTakeBuildingClick")
+                        );
 
                     // Agora click handlers without event delegation:
                     dojo.query("#buttonPrepareConspiracy").on("click", dojo.hitch(this, "onPlayerTurnPrepareConspiracyClick"));
@@ -4318,7 +4320,12 @@ define([
             //                                                     |___/
 
             onEnterTakeBuilding: function (args) {
-
+                var opponentId = this.getOppositePlayerId(this.getActivePlayerId());
+                var columns = ["Brown", "Grey"];
+                columns.forEach(function(columnName) {
+                    var buildingColumn = dojo.query('.player' + opponentId + ' .player_building_column.' + columnName)[0];
+                    dojo.addClass(buildingColumn, 'red_border');
+                });
             },
 
             onTakeBuildingClick: function (e) {
@@ -4355,31 +4362,30 @@ define([
             notif_takeBuilding: function (notif) {
                 if (this.debug) console.log('notif_takeBuilding', notif);
 
-                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
-                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
-                //
-                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
-                // dojo.style(buildingNode, 'opacity', 0);
-                // dojo.style(buildingNode, 'z-index', 100);
-                //
-                // var anim = dojo.fx.chain([
-                //     // Cross-fade building into player-building (small header only building)
-                //     dojo.fx.combine([
-                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
-                //         dojo.fadeOut({
-                //             node: playerBuildingNode,
-                //             duration: this.constructBuildingAnimationDuration * 0.4
-                //         }),
-                //     ]),
-                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
-                // ]);
-                //
-                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                //     dojo.style(buildingNode, 'z-index', 5);
-                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
-                //     dojo.removeClass(buildingColumn, 'red_border');
-                //     dojo.destroy(playerBuildingNode.parentNode);
-                // }));
+                this.clearRedBorder();
+
+                var buildingNodeContainer = $('player_building_container_' + notif.args.buildingId);
+                var buildingNode = dojo.query('.building' , buildingNodeContainer)[0];
+
+                // Copy buildingNodeContainer so we have an easy source and target.
+                var buildingNodeContainerCopy = dojo.clone(buildingNodeContainer);
+
+                let buildingColumn = dojo.query('.player_buildings.player' + notif.args.playerId + ' .player_building_column.' + notif.args.buildingColumn)[0];
+                dojo.place(buildingNodeContainerCopy, buildingColumn);
+
+                var buildingNodeCopy = dojo.query('.building' , buildingNodeContainerCopy)[0];
+                dojo.style(buildingNodeCopy, 'z-index', 100);
+
+                dojo.style(buildingNodeContainer, 'opacity', 0); // Hide original buildingNodeContainer (destroy at the end of the animation.
+
+                // Place building at start and then slide to copies' container position.
+                this.placeOnObject(buildingNodeCopy, buildingNode);
+                var anim = this.slideToObjectPos(buildingNodeCopy, buildingNodeContainerCopy, 0, 0, this.constructBuildingAnimationDuration * 0.6);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    dojo.style(buildingNodeCopy, 'z-index', 5);
+                    dojo.destroy(buildingNodeContainer);
+                }));
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(anim.duration);
