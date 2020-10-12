@@ -3,7 +3,6 @@
 namespace SWD\States;
 
 use SWD\Player;
-use SWD\Senate;
 
 trait MoveDecreeTrait {
 
@@ -34,7 +33,20 @@ trait MoveDecreeTrait {
             throw new \BgaUserException( clienttranslate("You can't select the same Chamber twice.") );
         }
 
-        Senate::moveDecree($chamberFrom, $chamberTo);
+        $cards = $this->decreeDeck->getCardsInLocation('board', "{$chamberFrom}1");
+        $card = array_shift($cards);
+
+        $this->decreeDeck->moveCard($card['id'], 'board', "{$chamberTo}2");
+
+        $this->notifyAllPlayers(
+            'moveDecree',
+            clienttranslate('${player_name} moves the Decree in Chamber ${chamberFrom} to Chamber ${chamberTo}'),
+            [
+                'player_name' => Player::getActive()->name,
+                'chamberFrom' => $chamberFrom,
+                'chamberTo' => $chamberTo,
+            ]
+        );
 
         $this->stateStackNextState();
     }

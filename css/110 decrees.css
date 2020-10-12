@@ -30,12 +30,14 @@
 .decree_containers > div > div:not(:first-of-type) {
     margin-top: calc(var(--senate-scale) * -13px);
 }
+.decree_containers > div > div {
+    width: calc(var(--decree-width) * var(--decree-small-scale) * var(--element-scale));
+    height: calc(var(--decree-height) * var(--decree-small-scale) * var(--element-scale));
+}
 .decree_containers > div {
     position: absolute;
     transform-origin: 50% 0%;
     z-index:20; /* Don't know why but this div level specifically needs the z-index set. (Goal is to have the decrees over the age cards if they are stacked 3 deep) */
-    width: calc(var(--decree-width) * var(--decree-small-scale) * var(--element-scale));
-    height: calc(var(--decree-height) * var(--decree-small-scale) * var(--element-scale));
 }
 .decree_containers > div:nth-of-type(1) {
     transform: rotate(135deg);

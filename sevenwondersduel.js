@@ -1334,7 +1334,7 @@ define([
                 this.customTooltips.push(
                     new dijit.Tooltip({
                         connectId: "game_play_area",
-                        selector: '#swd[data-client-state=client_moveInfluenceTo] #senate_chambers .gray_stroke',
+                        selector: '#swd[data-client-state="client_moveInfluenceTo"] #senate_chambers .gray_stroke',
                         showDelay: this.toolTipDelay,
                         label: _('Cancel selection')
                     })
@@ -1343,7 +1343,7 @@ define([
                 this.customTooltips.push(
                     new dijit.Tooltip({
                         connectId: "game_play_area",
-                        selector: '#swd[data-client-state=client_moveInfluenceFrom] #senate_chambers .red_stroke',
+                        selector: '#swd[data-client-state="client_moveInfluenceFrom"] #senate_chambers .red_stroke',
                         showDelay: this.toolTipDelay,
                         label: _('From this Chamber')
                     })
@@ -1352,7 +1352,7 @@ define([
                 this.customTooltips.push(
                     new dijit.Tooltip({
                         connectId: "game_play_area",
-                        selector: '#swd[data-client-state=client_moveInfluenceTo] #senate_chambers .red_stroke',
+                        selector: '#swd[data-client-state="client_moveInfluenceTo"] #senate_chambers .red_stroke',
                         showDelay: this.toolTipDelay,
                         label: _('To this Chamber')
                     })
@@ -1361,7 +1361,7 @@ define([
                 this.customTooltips.push(
                     new dijit.Tooltip({
                         connectId: "game_play_area",
-                        selector: '#swd[data-client-state=client_moveDecreeTo] .decree_containers .gray_border',
+                        selector: '#swd[data-client-state="client_moveDecreeTo"] .decree_containers .gray_border',
                         showDelay: this.toolTipDelay,
                         label: _('Cancel selection')
                     })
@@ -1370,7 +1370,7 @@ define([
                 this.customTooltips.push(
                     new dijit.Tooltip({
                         connectId: "game_play_area",
-                        selector: '#swd[data-client-state=client_moveDecreeTo] #senate_chambers .gray_border',
+                        selector: '#swd[data-client-state="client_moveDecreeTo"] #senate_chambers .red_stroke',
                         showDelay: this.toolTipDelay,
                         label: _('Move Decree token to this Chamber')
                     })
