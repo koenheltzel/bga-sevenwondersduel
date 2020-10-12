@@ -497,8 +497,8 @@ $machinestates = [
 
     SevenWondersDuelAgora::STATE_MOVE_DECREE_ID => [
         "name" => SevenWondersDuelAgora::STATE_MOVE_DECREE_NAME,
-        "description" => clienttranslate('${actplayer} description todo MoveDecree'),
-        "descriptionmyturn" => clienttranslate('${you} description todo MoveDecree'),
+        "description" => clienttranslate('${actplayer} must choose a Decree token to move to a Chamber of his choice, under the existing Decree'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Decree token to move to a Chamber of your choice, under the existing Decree'),
         "type" => "activeplayer",
         "action" => "enterStateMoveDecree",
         "args" => "argMoveDecree",
