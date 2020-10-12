@@ -68,6 +68,8 @@ define([
             senateActionsSection: 0,
             moveInfluenceFrom: 0,
             moveDecreeFrom: 0,
+            swapMeBuildingId: 0,
+            swapOpponentBuildingId: 0,
 
             // General properties
             customTooltips: [],
@@ -402,6 +404,10 @@ define([
                     dojo.query('body')
                         .on("#swd[data-state=takeBuilding] .player_building_column.red_border .building_header_small:click",
                             dojo.hitch(this, "onTakeBuildingClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=swapBuilding] .player_building_column.red_border .building_header_small:click",
+                            dojo.hitch(this, "onSwapBuildingClick")
                         );
 
                     // Agora click handlers without event delegation:
@@ -2022,8 +2028,8 @@ define([
                 }
             },
 
-            clearGreenBorder: function () {
-                dojo.query('.green_border').removeClass("green_border");
+            clearGreenBorder: function (container=null) {
+                dojo.query('.green_border', container).removeClass("green_border");
             },
             clearRedBorder: function () {
                 dojo.query('.red_border').removeClass("red_border");
@@ -4243,7 +4249,10 @@ define([
             //                    |_|                                    |___/
 
             onEnterSwapBuilding: function (args) {
-
+                var opponentId = this.getOppositePlayerId(this.getActivePlayerId());
+                args.columns.forEach(function(columnName) {
+                    dojo.query('.player_building_column.' + columnName).addClass('red_border');
+                });
             },
 
             onSwapBuildingClick: function (e) {
@@ -4258,53 +4267,87 @@ define([
                         return;
                     }
 
+                    var playerBuildings = dojo.query(e.target).closest(".player_buildings")[0];
                     var buildingId = dojo.attr(e.target, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSwapBuilding.html", {
-                            lock: true,
-                            buildingId: buildingId
-                        },
-                        this, function (result) {
-                            // What to do after the server call if it succeeded
-                            // (most of the time: nothing)
+                    this.clearGreenBorder(playerBuildings);
+                    dojo.addClass(e.target, 'green_border');
 
-                        }, function (is_error) {
-                            // What to do after the server call in anyway (success or failure)
-                            // (most of the time: nothing)
+                    let playerId = dojo.hasClass(playerBuildings, 'opponent') ? this.opponent_id : this.me_id;
+                    if (playerId == this.opponent_id) {
+                        this.swapOpponentBuildingId = buildingId;
+                    }
+                    else {
+                        this.swapMeBuildingId = buildingId;
+                    }
 
-                        }
-                    );
+                    if (this.swapOpponentBuildingId > 0 && this.swapMeBuildingId > 0) {
+                        this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionSwapBuilding.html", {
+                                lock: true,
+                                opponentBuildingId: this.swapOpponentBuildingId,
+                                meBuildingId: this.swapMeBuildingId
+                            },
+                            this, function (result) {
+                                // What to do after the server call if it succeeded
+                                // (most of the time: nothing)
+
+                            }, function (is_error) {
+                                // What to do after the server call in anyway (success or failure)
+                                // (most of the time: nothing)
+
+                            }
+                        );
+                    }
                 }
             },
 
             notif_swapBuilding: function (notif) {
                 if (this.debug) console.log('notif_swapBuilding', notif);
 
-                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
-                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
-                //
-                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
-                // dojo.style(buildingNode, 'opacity', 0);
-                // dojo.style(buildingNode, 'z-index', 100);
-                //
-                // var anim = dojo.fx.chain([
-                //     // Cross-fade building into player-building (small header only building)
-                //     dojo.fx.combine([
-                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
-                //         dojo.fadeOut({
-                //             node: playerBuildingNode,
-                //             duration: this.constructBuildingAnimationDuration * 0.4
-                //         }),
-                //     ]),
-                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
-                // ]);
-                //
-                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                //     dojo.style(buildingNode, 'z-index', 5);
-                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
-                //     dojo.removeClass(buildingColumn, 'red_border');
-                //     dojo.destroy(playerBuildingNode.parentNode);
-                // }));
+                this.clearGreenBorder();
+
+                let buildingOpponentId = notif.args.buildingOpponentId;
+                let buildingPlayerId = notif.args.buildingPlayerId;
+
+                var buildingPlayerNodeContainer = $('player_building_container_' + buildingPlayerId);
+                var buildingPlayerNode = dojo.query('.building' , buildingPlayerNodeContainer)[0];
+                var buildingOpponentNodeContainer = $('player_building_container_' + buildingOpponentId);
+                var buildingOpponentNode = dojo.query('.building' , buildingOpponentNodeContainer)[0];
+
+                // Copy buildingNodeContainer so we have an easy source and target.
+                var buildingOpponentNodeContainerCopy = dojo.clone(buildingOpponentNodeContainer);
+                var buildingPlayerNodeContainerCopy = dojo.clone(buildingPlayerNodeContainer);
+
+                let buildingPlayerColumn = dojo.query('.player_buildings.player' + this.me_id + ' .player_building_column.' + notif.args.buildingColumn)[0];
+                let buildingOpponentColumn = dojo.query('.player_buildings.player' + this.opponent_id + ' .player_building_column.' + notif.args.buildingColumn)[0];
+                dojo.place(buildingPlayerNodeContainerCopy, buildingOpponentNodeContainer, "after");
+                dojo.place(buildingOpponentNodeContainerCopy, buildingPlayerNodeContainer, "after");
+
+                var buildingPlayerNodeCopy = dojo.query('.building' , buildingPlayerNodeContainerCopy)[0];
+                dojo.style(buildingPlayerNodeCopy, 'z-index', 100);
+                var buildingOpponentNodeCopy = dojo.query('.building' , buildingOpponentNodeContainerCopy)[0];
+                dojo.style(buildingOpponentNodeCopy, 'z-index', 100);
+
+                // Place building at start and then slide to copies' container position.
+                this.placeOnObject(buildingPlayerNodeCopy, buildingPlayerNode);
+                this.placeOnObject(buildingOpponentNodeCopy, buildingOpponentNode);
+
+                // dojo.style(buildingPlayerNodeContainer, 'display', 'none'); // Hide original buildingNodeContainer (destroy at the end of the animation.
+                // dojo.style(buildingOpponentNodeContainer, 'display', 'none'); // Hide original buildingNodeContainer (destroy at the end of the animation.
+                dojo.destroy(buildingPlayerNodeContainer);
+                dojo.destroy(buildingOpponentNodeContainer);
+
+                let anims = [];
+                anims.push(this.slideToObjectPos(buildingPlayerNodeCopy, buildingPlayerNodeContainerCopy, 0, 0, this.constructBuildingAnimationDuration * 0.6));
+                anims.push(this.slideToObjectPos(buildingOpponentNodeCopy, buildingOpponentNodeContainerCopy, 0, 0, this.constructBuildingAnimationDuration * 0.6));
+
+                let anim = dojo.fx.combine(anims);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    this.clearRedBorder();
+                    dojo.style(buildingPlayerNodeCopy, 'z-index', 5);
+                    dojo.style(buildingOpponentNodeCopy, 'z-index', 5);
+                }));
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(anim.duration);

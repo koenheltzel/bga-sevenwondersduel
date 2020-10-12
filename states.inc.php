@@ -518,8 +518,8 @@ $machinestates = [
 
     SevenWondersDuelAgora::STATE_SWAP_BUILDING_ID => [
         "name" => SevenWondersDuelAgora::STATE_SWAP_BUILDING_NAME,
-        "description" => clienttranslate('${actplayer} description todo SwapBuilding'),
-        "descriptionmyturn" => clienttranslate('${you} description todo SwapBuilding'),
+        "description" => clienttranslate('${actplayer} must choose 1 Blue or Green card of his opponent and in exchange give them 1 of his cards of the same color'),
+        "descriptionmyturn" => clienttranslate('${you} must choose 1 Blue or Green card of your opponent and in exchange give them 1 of your cards of the same color'),
         "type" => "activeplayer",
         "action" => "enterStateSwapBuilding",
         "args" => "argSwapBuilding",
@@ -546,6 +546,7 @@ $machinestates = [
             "actionTakeBuilding",
         ],
         "transitions" => [
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
