@@ -153,6 +153,60 @@ class Senate extends Base
         self::handlePossibleControlChange($oldControllerTo, $newControllerTo, $chamberTo, $senateAction);
     }
 
+    public static function moveDecree($chamberFrom, $chamberTo) {
+        $player = Player::getActive();
+
+        $cards = SevenWondersDuelAgora::get()->decreeDeck->getCardsInLocation('board', "{$chamberFrom}1");
+        $card = array_shift($cards);
+        $decreeId = $card['id'];
+
+        SevenWondersDuelAgora::get()->decreeDeck->moveCard($decreeId, 'board', "{$chamberTo}2");
+
+        $senateAction = new SenateAction(SenateAction::ACTION_MOVE_DECREE);
+        $controllerFrom = self::getControllingPlayer($chamberFrom, $senateAction);
+        $controllerTo = self::getControllingPlayer($chamberTo, $senateAction);
+
+        SevenWondersDuelAgora::get()->notifyAllPlayers(
+            'moveDecree',
+            clienttranslate('${player_name} moved the Decree in Chamber ${chamberFrom} to Chamber ${chamberTo}'),
+            [
+                'chamberFrom' => $chamberFrom,
+                'chamberTo' => $chamberTo,
+                'chamber' => $chamberTo,
+                'playerId' => $player->id,
+                'player_name' => $player->name,
+                'senateAction' => $senateAction, // Reference, so will be updated after this.
+                'decreesSituation' => Decrees::getSituation(), // Reference, so will be updated after this.
+            ]
+        );
+    }
+
+    public static function handleDecreeControlChange($decreeId, ?Player $newController, $chamber, SenateAction &$senateAction) {
+        $card = SevenWondersDuelAgora::get()->decreeDeck->getCard($decreeId);
+        if ($card['card_type_arg'] == 0) {
+            self::DbQuery( "UPDATE decree SET card_type_arg = 1 WHERE card_id = {$decreeId}" );
+
+            $senateAction->addDecreeReveal($chamber, $card['card_location_arg'], $decreeId);
+
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
+                'message',
+                clienttranslate('A Decree is revealed in Senate chamber ${chamber}'),
+                [
+                    'chamber' => $chamber,
+                ]
+            );
+        }
+
+        // Decree 9 is the only one with a direct action (conflict pawn movement)
+        $payment = null;
+        if ($decreeId == 9) {
+            $decree = Decree::get(9);
+            $decree->setMilitary(1);
+            $payment = $decree->controlChanged($newController == Player::getActive());
+        }
+        return $payment;
+    }
+
     public static function handlePossibleControlChange(?Player $oldController, ?Player $newController, $chamber, SenateAction &$senateAction) {
         if ($oldController == $newController) {
             // Nothing changed, skip chamber
@@ -164,26 +218,7 @@ class Senate extends Base
             $payment = null;
             $decrees = Decrees::getChamberDecrees($chamber);
             foreach ($decrees as $id => $card) {
-                if ($card['card_type_arg'] == 0) {
-                    self::DbQuery( "UPDATE decree SET card_type_arg = 1 WHERE card_id = {$id}" ); // Reveal 3 out of 6 decrees.
-
-                    $senateAction->addDecreeReveal($chamber, $card['card_location_arg'], $id);
-
-                    SevenWondersDuelAgora::get()->notifyAllPlayers(
-                        'message',
-                        clienttranslate('A Decree is revealed in Senate chamber ${chamber}'),
-                        [
-                            'chamber' => $chamber,
-                        ]
-                    );
-                }
-
-                // Decree is the only one with a direct action (conflict pawn movement)
-                if ($id == 9) {
-                    $decree = Decree::get(9);
-                    $decree->setMilitary(1);
-                    $payment = $decree->controlChanged($newController == Player::getActive());
-                }
+                $tmpPayment = self::handleDecreeControlChange($id);
             }
 
             SevenWondersDuelAgora::get()->notifyAllPlayers(

@@ -10,6 +10,7 @@ class SenateAction extends Base
     const ACTION_PLACE = "place";
     const ACTION_MOVE = "move";
     const ACTION_REMOVE = "remove";
+    const ACTION_MOVE_DECREE = "move_decree";
 
     public $action = "";
     public $moveFrom = 0;

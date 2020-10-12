@@ -1110,7 +1110,7 @@ define([
                 if (this.debug) console.log('updateDecreesSituation: ', decreesSituation);
                 this.decreesSituation = decreesSituation;
 
-                dojo.query("#board_decrees>div").forEach(dojo.empty);
+                dojo.query(".decree_containers>div>div").forEach(dojo.empty);
 
                 for (var i = 0; i < decreesSituation.length; i++) {
                     var location = decreesSituation[i];
@@ -2025,6 +2025,9 @@ define([
             },
             clearRedBorder: function () {
                 dojo.query('.red_border').removeClass("red_border");
+            },
+            clearGrayBorder: function () {
+                dojo.query('.gray_border').removeClass("gray_border");
             },
 
             //     _        _   _               _____     _                          ____                      _
@@ -4215,36 +4218,19 @@ define([
             notif_moveDecree: function (notif) {
                 if (this.debug) console.log('notif_moveDecree', notif);
 
-                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
-                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
-                //
-                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
-                // dojo.style(buildingNode, 'opacity', 0);
-                // dojo.style(buildingNode, 'z-index', 100);
-                //
-                // var anim = dojo.fx.chain([
-                //     // Cross-fade building into player-building (small header only building)
-                //     dojo.fx.combine([
-                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
-                //         dojo.fadeOut({
-                //             node: playerBuildingNode,
-                //             duration: this.constructBuildingAnimationDuration * 0.4
-                //         }),
-                //     ]),
-                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
-                // ]);
-                //
-                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                //     dojo.style(buildingNode, 'z-index', 5);
-                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
-                //     dojo.removeClass(buildingColumn, 'red_border');
-                //     dojo.destroy(playerBuildingNode.parentNode);
-                // }));
+                this.updateDecreesSituation(notif.args.decreesSituation);
+
+                this.markChambers([]);
+                this.clearGrayBorder();
+
+                // Update senate chambers
+                Object.keys(notif.args.senateAction.chambers).forEach(dojo.hitch(this, function (chamber) {
+                    var chamberData = notif.args.senateAction.chambers[chamber];
+                    this.updateSenateChamber(chamber, chamberData);
+                }));
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
-
-                anim.play();
+                this.notifqueue.setSynchronousDuration(this.twistCoinDuration + this.notification_safe_margin);
             },
 
             //  ____                       ____        _ _     _ _
