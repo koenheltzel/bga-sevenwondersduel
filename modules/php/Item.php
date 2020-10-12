@@ -163,7 +163,7 @@ class Item extends Base
                             'message',
                             clienttranslate('A small military token is removed, ${player_name} must place an Influence cube'),
                             [
-                                'player_name' => $opponent->name,
+                                'player_name' => $player->name,
                             ]
                         );
                     }
@@ -174,7 +174,7 @@ class Item extends Base
                             'message',
                             clienttranslate('A large military token is removed, ${player_name} must remove an Influence cube and may move an Influence cube'),
                             [
-                                'player_name' => $opponent->name,
+                                'player_name' => $player->name,
                             ]
                         );
                     }

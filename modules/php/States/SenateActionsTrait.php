@@ -131,6 +131,13 @@ trait SenateActionsTrait {
         }
     }
 
+    public function prependStateStack(Array $states) {
+        $stack = json_decode($this->getGameStateValue(self::VALUE_STATE_STACK));
+        $stack = array_merge($states, $stack);
+        $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
+    }
+
+
     public function setStateStack($stack) {
         $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
     }

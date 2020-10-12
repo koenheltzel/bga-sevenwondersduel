@@ -181,6 +181,7 @@ class Senate extends Base
             ]
         );
 
+        $militarySenateActions = [];
         // The start and end controller is not the same
         if ($controllerFrom <> $controllerTo) {
             if ($controllerFrom) {
@@ -189,6 +190,9 @@ class Senate extends Base
 
                 // Controller "from" lost control of Decree 9 and has to take a step back.
                 $payment = self::handleDecreeControlChange($decreeId, $fakeControllerTo, $chamberFrom, $senateAction);
+                if (count($payment->militarySenateActions) > 0) {
+                    $militarySenateActions = array_merge($militarySenateActions, $payment->militarySenateActions);
+                }
 
                 // This notification handles military pawn movement of the losing controller
                 SevenWondersDuelAgora::get()->notifyAllPlayers(
@@ -205,6 +209,9 @@ class Senate extends Base
             if ($controllerTo) {
                 // Controller "to" gained control of Decree 9 and has to take a step forward.
                 $payment = self::handleDecreeControlChange($decreeId, $controllerTo, $chamberTo, $senateAction);
+                if (count($payment->militarySenateActions) > 0) {
+                    $militarySenateActions = array_merge($militarySenateActions, $payment->militarySenateActions);
+                }
 
                 // This notification handles the decree reveal if neccesary, along with the military pawn movement of the winning controller
                 SevenWondersDuelAgora::get()->notifyAllPlayers(
@@ -219,6 +226,7 @@ class Senate extends Base
                 );
             }
         }
+        return $militarySenateActions;
     }
 
     public static function handleDecreeControlChange($decreeId, ?Player $newController, $chamber, SenateAction &$senateAction) {
@@ -258,7 +266,7 @@ class Senate extends Base
             $payment = null;
             $decrees = Decrees::getChamberDecrees($chamber);
             foreach ($decrees as $id => $card) {
-                $tmpPayment = self::handleDecreeControlChange($id);
+                $tmpPayment = self::handleDecreeControlChange($id, $newController, $chamber, $senateAction);
             }
 
             SevenWondersDuelAgora::get()->notifyAllPlayers(

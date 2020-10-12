@@ -34,8 +34,12 @@ trait MoveDecreeTrait {
             throw new \BgaUserException( clienttranslate("You can't select the same Chamber twice.") );
         }
 
-        Senate::moveDecree($chamberFrom, $chamberTo);
+        $militarySenateActions = Senate::moveDecree($chamberFrom, $chamberTo);
 
+        // If we have activated a Military Token, prepend those senate action(s) to the state stack, so after them we will continue with the move action from the Conspiracy.
+        if (count($militarySenateActions) > 0) {
+            $this->prependStateStack($militarySenateActions);
+        }
         $this->stateStackNextState();
     }
 
