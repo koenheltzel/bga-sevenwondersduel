@@ -1320,10 +1320,28 @@ define([
 
                 this.customTooltips.push(
                     new dijit.Tooltip({
-                        connectId: "swd",
-                        selector: '#senate_chambers .gray_stroke',
+                        connectId: "game_play_area",
+                        selector: '#swd[data-client-state=client_moveInfluenceTo] #senate_chambers .gray_stroke',
                         showDelay: this.toolTipDelay,
                         label: _('Cancel selection')
+                    })
+                );
+
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '#swd[data-client-state=client_moveInfluenceFrom] #senate_chambers .red_stroke',
+                        showDelay: this.toolTipDelay,
+                        label: _('From this Chamber')
+                    })
+                );
+
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '#swd[data-client-state=client_moveInfluenceTo] #senate_chambers .red_stroke',
+                        showDelay: this.toolTipDelay,
+                        label: _('To this Chamber')
                     })
                 );
 
@@ -3449,17 +3467,6 @@ define([
                 this.markChambers(this.getChambersWithPlayerInfluenceCubes(this.me_id));
             },
 
-            onMoveInfluenceCancelClick: function (e) {
-                // Preventing default browser reaction
-                dojo.stopEvent(e);
-
-                if (this.debug) console.log('onMoveInfluenceCancelClick');
-
-                if (this.isCurrentPlayerActive()) {
-                    this.selectMoveInfluenceMode();
-                }
-            },
-
             onMoveInfluenceFromClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
@@ -3486,6 +3493,17 @@ define([
                     this.markChambers(toChambers, [chamber]);
                     this.moveInfluenceFrom = chamber;
 
+                }
+            },
+
+            onMoveInfluenceCancelClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onMoveInfluenceCancelClick');
+
+                if (this.isCurrentPlayerActive()) {
+                    this.selectMoveInfluenceMode();
                 }
             },
 

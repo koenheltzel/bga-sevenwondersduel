@@ -228,7 +228,7 @@
         stroke:#ff000022;
     }
     to {
-        stroke:#FF0000;
+        stroke:#ff0000;
     }
 }
 
@@ -241,10 +241,10 @@
 
 @keyframes gray_stroke {
     from {
-        stroke: #aaaaaa22;
+        stroke:#bb555533;
     }
     to {
-        stroke: #6f6f6f;
+        stroke:#565656ff;
     }
 }
 

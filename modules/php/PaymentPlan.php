@@ -316,8 +316,8 @@ class PaymentPlan extends Base
 
             // Sort the steps so they match the card.
             $this->sortSteps($this->item->cost);
-            $this->cost = $this->totalCost();
         }
+        $this->cost = $this->totalCost();
 
         if($print) {
             foreach($this->steps as $step) {
