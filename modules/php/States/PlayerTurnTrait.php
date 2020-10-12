@@ -278,7 +278,7 @@ trait PlayerTurnTrait {
 
         $player = Player::getActive();
 
-        if (!$this->getGameStateValue(self::VALUE_MAY_TRIGGER_CONSPIRACY)) {
+        if (!$this->getGameStateValue(self::VALUE_MAY_TRIGGER_CONSPIRACY) && $this->gamestate->state()['name'] != self::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME) {
             throw new \BgaUserException( clienttranslate("You already triggered a Conspiracy this turn.") );
         }
         if (!in_array($conspiracyId, $player->getConspiracyIds())) {
@@ -293,6 +293,11 @@ trait PlayerTurnTrait {
             throw new \BgaUserException( clienttranslate("The Conspiracy you selected has already been triggered.") );
         }
 
+        $preparedConspiracy = $conspiracy->isPrepared();
+        // In the case of prepared conspiracy, this action is done at the start of the player's turn, and we continue to STATE_PLAYER_TURN_NAME.
+        // In the case of an unprepared conspiracy, this action is done after constructing Wonder Curia Julia, and we continue to STATE_NEXT_PLAYER_TURN_NAME.
+        $finishState = $preparedConspiracy ? self::STATE_PLAYER_TURN_NAME : self::STATE_NEXT_PLAYER_TURN_NAME;
+
         $payment = $conspiracy->trigger($player);
 
         SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_MAY_TRIGGER_CONSPIRACY, 0);
@@ -305,7 +310,7 @@ trait PlayerTurnTrait {
                 if (count(Player::opponent()->getBuildings()->filterByTypes([$conspiracyId == 3 ? Building::TYPE_BLUE : Building::TYPE_YELLOW])->array) > 0) {
                     $this->setGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY, $conspiracy->id);
 
-                    $this->setStateStack(array_merge($conspiracy->actionStates, [self::STATE_PLAYER_TURN_NAME]));
+                    $this->setStateStack(array_merge($conspiracy->actionStates, [$finishState]));
                     $this->stateStackNextState();
                 }
                 else {
@@ -320,12 +325,12 @@ trait PlayerTurnTrait {
                         ]
                     );
                     array_shift($conspiracy->actionStates); // Remove discard opponent state from stack.
-                    $this->setStateStack(array_merge($conspiracy->actionStates, [self::STATE_PLAYER_TURN_NAME]));
+                    $this->setStateStack(array_merge($conspiracy->actionStates, [$finishState]));
                     $this->stateStackNextState();
                 }
                 break;
             default:
-                $this->setStateStack(array_merge($payment->militarySenateActions, $conspiracy->actionStates, [self::STATE_PLAYER_TURN_NAME]));
+                $this->setStateStack(array_merge($payment->militarySenateActions, $conspiracy->actionStates, [$finishState]));
                 $this->stateStackNextState();
                 break;
         }
