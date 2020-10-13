@@ -53,7 +53,7 @@
     --decree-spritesheet-rows: 3;
     --decree-width: calc(var(--decree-spritesheet-width) / var(--decree-spritesheet-columns));
     --decree-height: calc(var(--decree-spritesheet-height) / var(--decree-spritesheet-rows));
-    --decree-small-scale: calc(0.4 * var(--senate-scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
+    --decree-small-scale: calc(0.45 * var(--senate-scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
 
     --linked-building-icon-spritesheet-width: 288px;
     --linked-building-icon-spritesheet-height: 64px;

@@ -41,31 +41,31 @@
 }
 .decree_containers > div:nth-of-type(1) {
     transform: rotate(135deg);
-    left: calc(var(--senate-scale) * 130px);
-    top: calc(var(--senate-scale) * 118px);
+    left: calc(var(--senate-scale) * 126px);
+    top: calc(var(--senate-scale) * 116px);
 }
 .decree_containers > div:nth-of-type(2) {
     transform: rotate(116deg);
-    left: calc(var(--senate-scale) * 43px);
-    top: calc(var(--senate-scale) * 247px);
+    left: calc(var(--senate-scale) * 40px);
+    top: calc(var(--senate-scale) * 245px);
 }
 .decree_containers > div:nth-of-type(3) {
     transform: rotate(99deg);
-    left: calc(var(--senate-scale) * -2px);
-    top: calc(var(--senate-scale) * 397px);
+    left: calc(var(--senate-scale) * -6px);
+    top: calc(var(--senate-scale) * 396px);
 }
 .decree_containers > div:nth-of-type(4) {
     transform: rotate(81deg);
-    left: calc(var(--senate-scale) * -2px);
+    left: calc(var(--senate-scale) * -5px);
     top: calc(var(--senate-scale) * 557px);
 }
 .decree_containers > div:nth-of-type(5) {
     transform: rotate(64deg);
-    left: calc(var(--senate-scale) * 43px);
-    top: calc(var(--senate-scale) * 708px);
+    left: calc(var(--senate-scale) * 39px);
+    top: calc(var(--senate-scale) * 707px);
 }
 .decree_containers > div:nth-of-type(6) {
     transform: rotate(45deg);
-    left: calc(var(--senate-scale) * 130px);
+    left: calc(var(--senate-scale) * 125px);
     top: calc(var(--senate-scale) * 837px);
 }
