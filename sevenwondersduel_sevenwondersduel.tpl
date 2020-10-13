@@ -102,6 +102,23 @@
                             <div id="simple_skip" class="whiteblock">
                                 <a href="#" id="buttonSimpleSkip" class="action_button bgabutton bgabutton_blue action_button_skip"><span>{SKIP}</span></a>
                             </div>
+                            <div id="construct_building_from_box" class="whiteblock">
+                                <h3>{CONSTRUCT_BUILDING_FROM_BOX}:</h3>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td class="age1"><h3>{AGE} I</h3></td>
+                                            <td class="age2"><h3>{AGE} II</h3></td>
+                                            <td class="age3"><h3>{AGE} III</h3></td>
+                                        </tr>
+                                        <tr>
+                                            <td data-construct-building-from-box-age="1" class="age1"></td>
+                                            <td data-construct-building-from-box-age="2" class="age2"></td>
+                                            <td data-construct-building-from-box-age="3" class="age3"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- END draftpool -->

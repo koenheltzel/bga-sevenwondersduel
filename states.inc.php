@@ -406,8 +406,8 @@ $machinestates = [
 
     SevenWondersDuelAgora::STATE_CONSTRUCT_BUILDING_FROM_BOX_ID => [
         "name" => SevenWondersDuelAgora::STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME,
-        "description" => clienttranslate('${actplayer} description todo ConstructBuildingFromBox'),
-        "descriptionmyturn" => clienttranslate('${you} description todo ConstructBuildingFromBox'),
+        "description" => clienttranslate('${actplayer} must choose a Building removed from the game up to the current Age to play for free'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Building removed from the game up to the current Age to play for free'),
         "type" => "activeplayer",
         "action" => "enterStateConstructBuildingFromBox",
         "args" => "argConstructBuildingFromBox",
@@ -415,6 +415,7 @@ $machinestates = [
             "actionConstructBuildingFromBox",
         ],
         "transitions" => [
+            SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_ID,
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy

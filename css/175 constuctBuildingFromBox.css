@@ -1,0 +1,30 @@
+
+
+#construct_building_from_box {
+    display: none;
+}
+
+.current_player_is_active #swd[data-state=constructBuildingFromBox] #construct_building_from_box {
+    display: block;
+}
+
+.current_player_is_active #swd[data-state=constructBuildingFromBox] {
+    --draftpool-row-height-multiplier: 0.4;
+    --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
+}
+
+#construct_building_from_box table tr td.td_margin_right {
+    padding-right: calc(3 * var(--gutter));
+}
+
+#construct_building_from_box td > div {
+    position: relative !important;
+    display: inline-block;
+    width: var(--building-small-width);
+    height: var(--building-small-height);
+    margin: 0 var(--gutter) var(--gutter) 0;
+}
+
+.current_player_is_active #swd[data-state=constructBuildingFromBox] #construct_building_from_box .building_small {
+    cursor: pointer;
+}

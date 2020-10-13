@@ -76,6 +76,7 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
         $this->tpl['BOTTOM'] = self::_("Bottom");
         $this->tpl['TOP'] = self::_("Top");
         $this->tpl['CHOOSE_CONSPIRE_REMNANT_POSITION'] = self::_("Put the remaining Conspiracy on the top or the bottom of the deck?");
+        $this->tpl['CONSTRUCT_BUILDING_FROM_BOX'] = self::_("Choose a Building removed from the game up to the current Age to play for free");
 
         /*********** Place your code below:  ************/
 

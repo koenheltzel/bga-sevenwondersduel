@@ -2,6 +2,8 @@
 
 namespace SWD\States;
 
+use SWD\Building;
+use SWD\Buildings;
 use SWD\Player;
 
 trait ConstructBuildingFromBoxTrait {
@@ -12,7 +14,9 @@ trait ConstructBuildingFromBoxTrait {
      * @return array
      */
     public function argConstructBuildingFromBox() {
-        $data = [];
+        $data = [
+            'buildingsFromBox' => Buildings::getAgeCardsFromBoxByAge((int)$this->getGameStateValue(self::VALUE_CURRENT_AGE))
+        ];
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         return $data;
     }
@@ -21,23 +25,30 @@ trait ConstructBuildingFromBoxTrait {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-//    public function actionConstructBuildingFromBox($buildingId) {
-//        $this->checkAction("actionConstructBuildingFromBox");
-//
-//        $this->notifyAllPlayers(
-//            'message',
-//            clienttranslate('${player_name} chose to Place Influence'),
-//            [
-//                'player_name' => Player::getActive()->name
-//            ]
-//        );
-//
-//        $this->setStateStack([self::STATE_PLACE_INFLUENCE_NAME, self::STATE_NEXT_PLAYER_TURN_NAME]);
-//        $this->stateStackNextState();
-//    }
+    public function actionConstructBuildingFromBox($buildingId) {
+        $this->checkAction("actionConstructBuildingFromBox");
 
-//    public function shouldSkipConstructBuildingFromBox() {
-//        return false;
-//    }
+        $building = Building::get($buildingId);
+
+        $cardInfo = $this->buildingDeck->getCard($buildingId);
+        if ($cardInfo['location'] != 'box') {
+            throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
+        }
+        if ($building->age > 3) {
+            throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
+        }
+
+        $payment = $building->construct(Player::getActive(), null, true);
+
+        if ($payment->selectProgressToken) {
+            $this->prependStateStack([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
+        }
+        $this->stateStackNextState();
+    }
+
+    public function shouldSkipConstructBuildingFromBox() {
+        // This action is always possible.
+        return false;
+    }
 
 }
