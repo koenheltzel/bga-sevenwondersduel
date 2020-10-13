@@ -22,7 +22,7 @@ trait ConstructLastRowBuildingTrait {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-    public function shouldSkipDiscardAvailableCard() {
+    public function shouldSkipConstructLastRowBuilding() {
         if (Draftpool::countCardsInCurrentAge() == 0) {
             $this->notifyAllPlayers(
                 'message',
