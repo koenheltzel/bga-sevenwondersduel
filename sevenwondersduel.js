@@ -319,7 +319,7 @@ define([
                 if (this.agora) {
                     // Agora click handlers using event delegation:
                     dojo.query('body')
-                        .on("#swd[data-state=chooseConspiratorAction] #choose_conspirator_action .action_button :click",
+                        .on("#swd[data-state=chooseConspiratorAction] #choose_conspirator_action .bgabutton_blue :click",
                             dojo.hitch(this, "onChooseConspiratorActionClick")
                         );
                     dojo.query('body')
@@ -420,8 +420,14 @@ define([
 
                     // Agora click handlers without event delegation:
                     dojo.query("#buttonPrepareConspiracy").on("click", dojo.hitch(this, "onPlayerTurnPrepareConspiracyClick"));
-                    dojo.query("#buttonSenateActionsPlaceInfluence").on("click", dojo.hitch(this, "onSenateActionsPlaceInfluenceButtonClick"));
-                    dojo.query("#buttonSenateActionsMoveInfluence").on("click", dojo.hitch(this, "onSenateActionsMoveInfluenceButtonClick"));
+                    dojo.query('body')
+                        .on("#swd #senate_actions #buttonSenateActionsPlaceInfluence.bgabutton_blue :click",
+                            dojo.hitch(this, "onSenateActionsPlaceInfluenceButtonClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd #senate_actions #buttonSenateActionsMoveInfluence.bgabutton_blue :click",
+                            dojo.hitch(this, "onSenateActionsMoveInfluenceButtonClick")
+                        );
                     dojo.query("#buttonSenateActionsSkip").on("click", dojo.hitch(this, "onSenateActionsSkipButtonClick"));
                 }
 
@@ -1711,7 +1717,7 @@ define([
                 var spritesheetColumns = 6;
 
                 var data = {};
-                data.translateConspiracy = node.dataset.conspiracyTriggered == "1" ? _("Conspiracy") : _("Face down Conspiracy");
+                data.translateConspiracy = node.dataset.conspiracyTriggered == "0" ? _("Face down Conspiracy") : _("Conspiracy");
                 data.jsName = hidden ? '' : '“' + _(conspiracy.name) + '”';
                 data.jsNameOnCard = hidden ? '' : _(conspiracy.name);
 
@@ -3123,6 +3129,15 @@ define([
             //  \____|_| |_|\___/ \___/|___/\___|  \____\___/|_| |_|___/ .__/|_|_|  \__,_|\__\___/|_|     \__,_|\___|\__|_|\___/|_| |_|
             //                                                         |_|
 
+            onEnterChooseConspiratorAction: function (args) {
+                if (this.debug) console.log('onEnterChooseConspiratorAction', args);
+                if (this.isCurrentPlayerActive()) {
+                    let canPlace = parseInt(args.playersSituation[this.me_id].cubes) > 0;
+                    dojo.query('#buttonPlaceInfluence').toggleClass('bgabutton_blue', canPlace);
+                    dojo.query('#buttonPlaceInfluence').toggleClass('bgabutton_darkgray', !canPlace);
+                }
+            },
+
             onChooseConspiratorActionClick: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
@@ -3334,6 +3349,13 @@ define([
                 if (this.debug) console.log('onEnterSenateActions', args);
                 if (this.isCurrentPlayerActive()) {
                     this.senateActionsSection = parseInt(args.senateActionsSection);
+
+                    let canPlace = parseInt(args.playersSituation[this.me_id].cubes) > 0;
+                    dojo.query('#buttonSenateActionsPlaceInfluence').toggleClass('bgabutton_blue', canPlace);
+                    dojo.query('#buttonSenateActionsPlaceInfluence').toggleClass('bgabutton_darkgray', !canPlace);
+                    let canMove = parseInt(args.playersSituation[this.me_id].cubes) < 12;
+                    dojo.query('#buttonSenateActionsMoveInfluence').toggleClass('bgabutton_blue', canMove);
+                    dojo.query('#buttonSenateActionsMoveInfluence').toggleClass('bgabutton_darkgray', !canMove);
                 }
             },
 
