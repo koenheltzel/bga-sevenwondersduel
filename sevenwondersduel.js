@@ -1323,8 +1323,14 @@ define([
                 this.addTooltip('buttonPrepareConspiracy',
                     _('After preparing a Conspiracy with an Age card, it can be triggered at the start of a following turn, before playing an Age card.'), ''
                 );
-                this.addTooltip('senate_actions_tooltip',
-                    this.getTextHtml(this.gamedatas.buildings[75].text), ''
+
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "swd",
+                        selector: '#senate_actions_tooltip',
+                        showDelay: this.toolTipDelay,
+                        label: this.getTextHtml(this.gamedatas.buildings[75].text)
+                    })
                 );
 
                 // this.addTooltipToClass( 'draftpool_building_cost.me', _('Current cost for you to construct the building'), '', this.toolTipDelay );
@@ -1536,8 +1542,8 @@ define([
                 // Add tooltips to Senate Chambers
                 this.customTooltips.push(
                     new dijit.Tooltip({
-                        connectId: "senate_chambers",
-                        selector: 'path',
+                        connectId: "game_play_area",
+                        selector: '#senate_chambers>path[data-stroke=""]',
                         position: ['before'],
                         showDelay: this.toolTipDelay,
                         getContent: dojo.hitch(this, function (node) {
@@ -3488,11 +3494,14 @@ define([
                     let node = $('chamber' + chamber);
                     // dojo.addClass doesn't work for path/svg, so we use setAttribute
                     node.setAttribute("class", "");
+                    node.setAttribute("data-stroke", "");
                     if (redChambers.indexOf(chamber) > -1) {
                         node.setAttribute("class",  "red_stroke");
+                        node.setAttribute("data-stroke", "red");
                     }
                     else if (greenChambers.indexOf(chamber) > -1) {
                         node.setAttribute("class",  "gray_stroke");
+                        node.setAttribute("data-stroke", "gray");
                     }
 
                     // Re-add element to DOM, this way the animations are all in sync (else if an element previously had red_stroke it will be out of sync).
