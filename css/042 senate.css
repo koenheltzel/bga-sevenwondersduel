@@ -117,6 +117,13 @@
     height: calc(var(--senate-scale) * 24px);
 }
 
+.agora_cube_me > span {
+    color: #441c0e;
+}
+.agora_cube_opponent > span {
+    color: #2d2b2b;
+}
+
 .agora_cube_me {
     background-image: url('img/agora_sprites.png');
     display: inline-block;
@@ -147,4 +154,8 @@
 .agora_control {
     left: 0 !important;
     top: 0 !important;
+}
+
+#senate_actions_tooltip {
+    opacity: 0;
 }

@@ -72,6 +72,13 @@
     --senate-height: 949px;
     --senate-scale: calc(0.75 * var(--scale));
 
+    --senate-tooltip-spritesheet-width: 1980px;
+    --senate-tooltip-spritesheet-height: 315px;
+    --senate-tooltip-spritesheet-columns: 6;
+    --senate-tooltip-spritesheet-rows: 1;
+    --senate-tooltip-width: calc(var(--senate-tooltip-spritesheet-width) / var(--senate-tooltip-spritesheet-columns));
+    --senate-tooltip-height: calc(var(--senate-tooltip-spritesheet-height) / var(--senate-tooltip-spritesheet-rows));
+
     --small-border-radius: calc(7px * var(--scale));
 
     --draftpool-row-height-multiplier: 0.536;

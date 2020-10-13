@@ -1323,7 +1323,9 @@ define([
                 this.addTooltip('buttonPrepareConspiracy',
                     _('After preparing a Conspiracy with an Age card, it can be triggered at the start of a following turn, before playing an Age card.'), ''
                 );
-
+                this.addTooltip('senate_actions_tooltip',
+                    this.getTextHtml(this.gamedatas.buildings[75].text), ''
+                );
 
                 // this.addTooltipToClass( 'draftpool_building_cost.me', _('Current cost for you to construct the building'), '', this.toolTipDelay );
                 // this.addTooltipToClass( 'draftpool_building_cost.opponent', _('Current cost for your opponent to construct the building'), '', this.toolTipDelay );
@@ -1531,6 +1533,22 @@ define([
                     })
                 );
 
+                // Add tooltips to Senate Chambers
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "senate_chambers",
+                        selector: 'path',
+                        position: ['before'],
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            var chamber = parseInt(dojo.attr(node, "data-chamber"));
+                            return this.getSenateChamberTooltip(chamber);
+                        })
+                    })
+                );
+
+
+
                 // Mimick BGA's default behavior of closing the tooltip over mouseover and click.
                 dojo.query('body').on("#dijit__MasterTooltip_0:mouseover", dojo.hitch(this, "closeTooltips"));
                 dojo.query('body').on("#dijit__MasterTooltip_0:click", dojo.hitch(this, "closeTooltips"));
@@ -1737,6 +1755,54 @@ define([
                 data.jsBackX = ((id - 1) % spritesheetColumns);
                 data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
                 return this.format_block('jstpl_conspiracy_tooltip', data);
+            },
+
+            getSenateChamberTooltip: function (chamber) {
+                var spritesheetColumns = 6;
+
+                var data = {};
+                let section = '';
+                let points = 0;
+                switch(chamber) {
+                    case 1:
+                    case 2:
+                        section = _('Left section')
+                        break;
+                    case 3:
+                    case 4:
+                        section = _('Middle section')
+                        break;
+                    case 5:
+                    case 6:
+                        section = _('Right section')
+                        break;
+                }
+                switch(chamber) {
+                    case 1:
+                    case 6:
+                        points = 1;
+                        break;
+                    case 2:
+                    case 5:
+                        points = 2;
+                        break;
+                    case 3:
+                    case 4:
+                        points = 3;
+                        break;
+                }
+                let text = [];
+                text.push([_('This Chamber is worth ${points} victory point(s) if you control it at the end of the game').replace('${points}', points), true]);
+                if (chamber %2 == 0) {
+                    text.push([_('The Decree token in this Chamber is face down until the first Influence cube is placed in the Chamber'), true]);
+                }
+                else {
+                    text.push([_('The Decree token in this Chamber is visible from the start of the game'), true]);
+                }
+                data.jsName = _("Senate Chamber " + chamber) + ' - ' + section;
+                data.jsText = this.getTextHtml(text);
+                data.jsBackX = ((chamber - 1) % spritesheetColumns);
+                return this.format_block('jstpl_senate_chamber_tooltip', data);
             },
 
             //   ____  _                             ___        __

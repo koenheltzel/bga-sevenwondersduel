@@ -55,3 +55,13 @@
 .payment_plan > div {
     vertical-align: middle;
 }
+
+.senate_tooltip {
+    width: calc(var(--senate-tooltip-width) * var(--scale));
+    height: calc(var(--senate-tooltip-height) * var(--scale));
+    background-size: calc(var(--senate-tooltip-width) * var(--senate-tooltip-spritesheet-columns) * var(--scale)) calc(var(--senate-tooltip-height) * var(--senate-tooltip-spritesheet-rows) * var(--scale));
+    background-image: url('img/agora_senate_tooltips.png');
+    display: inline-block;
+    position: relative;
+    filter: drop-shadow(calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) rgba(0, 0, 0, 0.4));
+}
