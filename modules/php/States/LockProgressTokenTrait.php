@@ -2,7 +2,10 @@
 
 namespace SWD\States;
 
+use SWD\Conspiracy;
 use SWD\Player;
+use SWD\Players;
+use SWD\ProgressToken;
 
 trait LockProgressTokenTrait {
 
@@ -12,8 +15,16 @@ trait LockProgressTokenTrait {
      * @return array
      */
     public function argLockProgressToken() {
-        $data = [];
-        $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        $data = [
+            '_private' => [ // Using "_private" keyword, all data inside this array will be made private
+                Player::getActive()->id => [ // Using "active" keyword inside "_private", you select active player(s)
+                    'progressTokensFromBox' => $this->progressTokenDeck->getCardsInLocation('selection') // will be send only to active player(s)
+                ]
+            ],
+        ];
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        }
         return $data;
     }
 
@@ -21,23 +32,74 @@ trait LockProgressTokenTrait {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-//    public function actionLockProgressToken($progressTokenId) {
-//        $this->checkAction("actionLockProgressToken");
-//
-//        $this->notifyAllPlayers(
-//            'message',
-//            clienttranslate('${player_name} chose to Place Influence'),
-//            [
-//                'player_name' => Player::getActive()->name
-//            ]
-//        );
-//
-//        $this->setStateStack([self::STATE_PLACE_INFLUENCE_NAME, self::STATE_NEXT_PLAYER_TURN_NAME]);
-//        $this->stateStackNextState();
-//    }
+    public function actionLockProgressToken($progressTokenId) {
+        $this->checkAction("actionLockProgressToken");
 
-//    public function shouldSkipLockProgressToken() {
-//        return false;
-//    }
+        $player = Player::getActive();
+
+        $progressToken = ProgressToken::get($progressTokenId);
+        $card = $this->progressTokenDeck->getCard($progressTokenId);
+        $this->progressTokenDeck->moveCard($progressTokenId, 'conspiracy5');
+
+        if ($card['location'] == "selection") {
+            foreach (Players::get() as $tmpPlayer) {
+                $this->notifyPlayer(
+                    $tmpPlayer->id,
+                    'lockProgressToken',
+                    '',
+                    [
+                        'progressTokenId' => $tmpPlayer == $player ? $progressToken->id : 16,
+                    ]
+                );
+            }
+            // Secret
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} locks away a Progress Token from the box, it can\'t be used during this game (Conspiracy “${conspiracyName}”)'),
+                [
+                    'i18n' => ['conspiracyName'],
+                    'conspiracyName' => Conspiracy::get(5)->name,
+                    'player_name' => $player->name
+                ]
+            );
+        }
+        elseif ($card['location'] == "board") {
+            $this->notifyAllPlayers(
+                'lockProgressToken',
+                clienttranslate('${player_name} locks away Progress Token “${progressTokenName}” from the board, it can\'t be used during this game (Conspiracy “${conspiracyName}”)'),
+                [
+                    'i18n' => ['conspiracyName', 'progressTokenName'],
+                    'conspiracyName' => Conspiracy::get(5)->name,
+                    'progressTokenName' => $progressToken->name,
+                    'progressTokenId' => $progressToken->id,
+                    'player_name' => $player->name
+                ]
+            );
+        }
+        else {
+            $this->notifyAllPlayers(
+                'lockProgressToken',
+                clienttranslate('${player_name} locks away Progress Token “${progressTokenName}” from ${opponent_name}, it can\'t be used during this game (Conspiracy “${conspiracyName}”)'),
+                [
+                    'i18n' => ['conspiracyName', 'progressTokenName'],
+                    'conspiracyName' => Conspiracy::get(5)->name,
+                    'progressTokenName' => $progressToken->name,
+                    'progressTokenId' => $progressToken->id,
+                    'player_name' => $player->name,
+                    'opponent_name' => $player->getOpponent()->name,
+                ]
+            );
+        }
+
+        // Return any remaining progress tokens in the active selection back to the box.
+        $this->progressTokenDeck->moveAllCardsInLocation('selection', 'box');
+
+        $this->stateStackNextState();
+    }
+
+    public function shouldSkipLockProgressToken() {
+        // Always possible
+        return false;
+    }
 
 }

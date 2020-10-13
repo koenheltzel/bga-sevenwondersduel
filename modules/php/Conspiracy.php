@@ -134,16 +134,20 @@ class Conspiracy extends Item {
                     );
                 }
                 break;
+            case 5:
+                SevenWondersDuelAgora::get()->progressTokenDeck->moveAllCardsInLocation('box', 'selection');
+                SevenWondersDuelAgora::get()->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg
+                break;
             case 10:
-                SevenWondersDuelAgora::get()->notifyAllPlayers(
-                    'message',
-                    clienttranslate('${player_name} must choose a Progress token from the box (Conspiracy “${conspiracyName}”)'),
-                    [
-                        'i18n' => ['conspiracyName'],
-                        'player_name' => $player->name,
-                        'conspiracyName' => $this->name,
-                    ]
-                );
+//                SevenWondersDuelAgora::get()->notifyAllPlayers(
+//                    'message',
+//                    clienttranslate('${player_name} must choose a Progress token from the box (Conspiracy “${conspiracyName}”)'),
+//                    [
+//                        'i18n' => ['conspiracyName'],
+//                        'player_name' => $player->name,
+//                        'conspiracyName' => $this->name,
+//                    ]
+//                );
 
                 SevenWondersDuelAgora::get()->progressTokenDeck->moveAllCardsInLocation('box', 'selection');
                 SevenWondersDuelAgora::get()->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg

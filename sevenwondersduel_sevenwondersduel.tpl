@@ -76,7 +76,7 @@
                                 <a href="#" id="buttonPlayerRight" class="action_button bgabutton bgabutton_blue"><img class="emblem" /><span>Name 2</span></a>
                             </div>
                             <div id="progress_token_from_box" class="whiteblock">
-                                <h3>{CHOOSE_PROGRESS_TOKEN_FROM_BOX}:</h3>
+                                <h3></h3>
                                 <div id="progress_token_from_box_container">
                                     <div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div>
                                 </div>
@@ -521,9 +521,11 @@ var jstpl_conspiracy = '\
             data-conspiracy-position="${jsPosition}"\
             data-conspiracy-prepared="${jsPrepared}"\
             data-conspiracy-triggered="${jsTriggered}"\
+            data-conspiracy-progress-token="${jsProgressToken}"\
             class="conspiracy conspiracy_small conspiracy_compact"\
             style="background-position: -${jsX}00% calc(-${jsY}.62 * var(--conspiracy-height) * var(--conspiracy-small-scale));"\
         >\
+            <div class="progress_token progress_token_small lock_progress_token" style="background-position: -300% -300%;"></div>\
             <span class="swd_title">${jsName}</span>\
             <span class="trigger">${jsTrigger}</span>\
             <span class="prepare">${jsPrepare}</span>\

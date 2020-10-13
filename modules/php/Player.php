@@ -307,11 +307,16 @@ class Player extends Base{
         $rows = [];
         foreach($cards as $card) {
             $conspiracy = Conspiracy::get($card['id']);
+            $progressToken = 0;
+            if ($conspiracy->id == 5) {
+                $progressToken = count(SevenWondersDuelAgora::get()->progressTokenDeck->getCardsInLocation('conspiracy5'));
+            }
             $row = [];
             $row['conspiracy'] = $conspiracy->isTriggered() ? $conspiracy->id : 18;
             $row['position'] = (int)$card['location_arg'];
             $row['prepared'] = $conspiracy->isPrepared(); // Returns 0 or the age of the card used to prepare.
             $row['triggered'] = (int)$conspiracy->isTriggered();
+            $row['progressToken'] = $progressToken;
             $row['ageCardSpriteXY'] = $row['prepared'] ? Building::getBackSpriteXY($row['prepared']) : null;
             $rows[] = $row;
         }

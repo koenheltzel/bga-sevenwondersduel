@@ -482,8 +482,8 @@ $machinestates = [
 
     SevenWondersDuelAgora::STATE_LOCK_PROGRESS_TOKEN_ID => [
         "name" => SevenWondersDuelAgora::STATE_LOCK_PROGRESS_TOKEN_NAME,
-        "description" => clienttranslate('${actplayer} description todo LockProgressToken'),
-        "descriptionmyturn" => clienttranslate('${you} description todo LockProgressToken'),
+        "description" => clienttranslate('${actplayer} must choose a Progress token from the board, his opponent or the box and lock it away for the rest of the game'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Progress token from the board, your opponent or the box and lock it away for the rest of the game'),
         "type" => "activeplayer",
         "action" => "enterStateLockProgressToken",
         "args" => "argLockProgressToken",

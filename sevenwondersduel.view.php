@@ -48,7 +48,6 @@ class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
         $this->tpl['CONSTRUCT_WONDER'] = self::_("Construct a Wonder");
         $this->tpl['CONSTRUCT_BUILDING'] = self::_("Construct Building");
         $this->tpl['DISCARD_BUILDING'] = self::_("Discard for coins");
-        $this->tpl['CHOOSE_PROGRESS_TOKEN_FROM_BOX'] = self::_("Choose a Progress token from the box");
         $this->tpl['DISCARDED_BUILDINGS'] = self::_("Discarded Buildings");
         $this->tpl['SETTINGS'] = self::_("Settings");
         $this->tpl['AUTOMATIC_LAYOUT_DESCRIPTION'] = self::_("Choose game layout automatically based on browser window ratio (recommended)");

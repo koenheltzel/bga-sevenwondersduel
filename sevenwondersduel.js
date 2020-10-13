@@ -413,6 +413,10 @@ define([
                         .on("#swd[data-state=constructBuildingFromBox] #construct_building_from_box .building_small:click",
                             dojo.hitch(this, "onConstructBuildingFromBoxClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=lockProgressToken] .progress_token_small :click",
+                            dojo.hitch(this, "onLockProgressTokenClick")
+                        );
 
                     // Agora click handlers without event delegation:
                     dojo.query("#buttonPrepareConspiracy").on("click", dojo.hitch(this, "onPlayerTurnPrepareConspiracyClick"));
@@ -1181,7 +1185,7 @@ define([
             //  \____\___/|_| |_|___/ .__/|_|_|  \__,_|\___|_|\___||___/
             //                      |_|
 
-            getConspiracyDivHtml: function (conspiracyId, spriteId, full=false, position=-1, prepared=0, triggered=0) {
+            getConspiracyDivHtml: function (conspiracyId, spriteId, full=false, position=-1, prepared=0, triggered=0, progressToken=0) {
                 var conspiracy = this.gamedatas.conspiracies[conspiracyId];
                 var data = {
                     jsId: conspiracyId,
@@ -1198,6 +1202,7 @@ define([
                 data.jsPeekDisplay = conspiracyId <= 16 && spriteId > 16 ? 'inline-block' : 'none';
                 data.jsTrigger = _('Trigger');
                 data.jsPrepare = _('Prepare');
+                data.jsProgressToken = progressToken;
                 return this.format_block(full ? 'jstpl_conspiracy_full' : 'jstpl_conspiracy', data);
             },
 
@@ -1224,7 +1229,7 @@ define([
                     if (!row.triggered && playerId == this.me_id && this.myConspiracies[row.position]) {
                         id = this.myConspiracies[row.position].id;
                     }
-                    let newNode = dojo.place(this.getConspiracyDivHtml(id, row.triggered ? row.conspiracy : 18, false, row.position, row.prepared, row.triggered), container);
+                    let newNode = dojo.place(this.getConspiracyDivHtml(id, row.triggered ? row.conspiracy : 18, false, row.position, row.prepared, row.triggered, row.progressToken), container);
 
                     if (row.prepared > 0) {
                         var data = {
@@ -3064,9 +3069,12 @@ define([
             //                                    |_|              |___/
 
             onEnterChooseProgressTokenFromBox: function (args) {
+                dojo.query('#progress_token_from_box h3')[0].innerHTML = _("Choose a Progress token from the box");
+
                 if (this.debug) console.log('onEnterChooseProgressTokenFromBox', args);
                 if (this.isCurrentPlayerActive()) {
                     dojo.query('#progress_token_from_box_container>div').style('display', 'none');
+                    dojo.query('#progress_token_from_box_container>div').empty();
                     Object.keys(args._private.progressTokensFromBox).forEach(dojo.hitch(this, function (progressTokenId) {
                         var card = args._private.progressTokensFromBox[progressTokenId];
                         var container = dojo.query('#progress_token_from_box_container>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
@@ -4077,7 +4085,22 @@ define([
             //                                         |___/
 
             onEnterLockProgressToken: function (args) {
+                dojo.query('#progress_token_from_box h3')[0].innerHTML = _("Choose a Progress token from the board, your opponent or the box and lock it away for the rest of the game");
 
+                if (this.debug) console.log('onEnterLockProgressToken', args);
+                if (this.isCurrentPlayerActive()) {
+                    dojo.query('#progress_token_from_box_container>div').style('display', 'none');
+                    dojo.query('#progress_token_from_box_container>div').empty();
+                    Object.keys(args._private.progressTokensFromBox).forEach(dojo.hitch(this, function (progressTokenId) {
+                        var card = args._private.progressTokensFromBox[progressTokenId];
+                        var container = dojo.query('#progress_token_from_box_container>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
+                        dojo.style(container, 'display', 'inline-block');
+                        dojo.place(this.getProgressTokenDivHtml(card.id), container);
+                    }));
+                }
+
+                dojo.addClass($('board_progress_tokens'), 'red_border');
+                dojo.query('.player' + this.getOppositePlayerId(this.getActivePlayerId()) + ' .player_area_progress_tokens').addClass('red_border');
             },
 
             onLockProgressTokenClick: function (e) {
@@ -4092,11 +4115,14 @@ define([
                         return;
                     }
 
-                    var buildingId = dojo.attr(e.target, "data-building-id");
+                    var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
+                    console.log('progressToken', progressToken[0]);
+                    var progressTokenId = dojo.attr(progressToken[0], "data-progress-token-id");
+                    console.log('progressTokenId', progressTokenId);
 
                     this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionLockProgressToken.html", {
                             lock: true,
-                            buildingId: buildingId
+                            progressTokenId: progressTokenId
                         },
                         this, function (result) {
                             // What to do after the server call if it succeeded
@@ -4114,36 +4140,30 @@ define([
             notif_lockProgressToken: function (notif) {
                 if (this.debug) console.log('notif_lockProgressToken', notif);
 
-                // var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
-                // var playerBuildingNode = $('player_building_' + notif.args.buildingId);
-                //
-                // this.placeOnObjectPos(buildingNode, playerBuildingNode, -0.5 * this.getCssVariable('--scale'), 59.5 * this.getCssVariable('--scale'));
-                // dojo.style(buildingNode, 'opacity', 0);
-                // dojo.style(buildingNode, 'z-index', 100);
-                //
-                // var anim = dojo.fx.chain([
-                //     // Cross-fade building into player-building (small header only building)
-                //     dojo.fx.combine([
-                //         dojo.fadeIn({node: buildingNode, duration: this.constructBuildingAnimationDuration * 0.4}),
-                //         dojo.fadeOut({
-                //             node: playerBuildingNode,
-                //             duration: this.constructBuildingAnimationDuration * 0.4
-                //         }),
-                //     ]),
-                //     this.slideToObjectPos(buildingNode, buildingNode.parentNode, 0, 0, this.constructBuildingAnimationDuration * 0.6),
-                // ]);
-                //
-                // dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                //     dojo.style(buildingNode, 'z-index', 5);
-                //     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
-                //     dojo.removeClass(buildingColumn, 'red_border');
-                //     dojo.destroy(playerBuildingNode.parentNode);
-                // }));
+                this.clearRedBorder();
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                var conspiracyNode = dojo.query('.conspiracy_compact[data-conspiracy-id="5"]')[0];
+                if (notif.args.progressTokenId < 16) {
+                    let progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
+                    dojo.style(progressTokenNode, 'z-index', 100);
+                    var anim = this.slideToObject(progressTokenNode, conspiracyNode, this.progressTokenDuration);
 
-                anim.play();
+                    dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                        // this.maybeShowSecondRowProgressTokens(notif.args.playerId);
+                        dojo.destroy(progressTokenNode);
+                        conspiracyNode.dataset.conspiracyProgressToken = 1;
+                    }));
+
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+
+                    anim.play();
+                }
+                else {
+                    conspiracyNode.dataset.conspiracyProgressToken = 1;
+                    this.notifqueue.setSynchronousDuration(0);
+                }
+
             },
 
             //  __  __                  ____

@@ -27,3 +27,15 @@
     box-shadow: 0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0, 0, 0, 0.4),
     inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
 }
+
+.lock_progress_token {
+    display: none;
+    --element-scale: 0.8;
+    pointer-events: none;
+    position: absolute;
+    left: calc(var(--conspiracy-width) * var(--conspiracy-small-scale) * 0.6);
+    top: calc(var(--conspiracy-compact-height) * var(--conspiracy-small-scale) * var(--conspiracy-plus-age-card-scale) * 0.25);
+}
+.conspiracy_small[data-conspiracy-id="5"][data-conspiracy-progress-token="1"] .lock_progress_token {
+    display: block;
+}
