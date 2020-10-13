@@ -2407,6 +2407,10 @@ define([
                     moveAnim
                 ]);
 
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    this.updateDraftpool(notif.args.draftpool);
+                }));
+
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
 

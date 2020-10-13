@@ -5,67 +5,60 @@
     <option name="CUSTOM_SCOPE_NAME" value="Current File" />
   </component>
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Wonder Selection" line="1797" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Discard Building" line="2340" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Construct a Wonder" line="2415" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Helper Functions" line="5088" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Wonders" line="647" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Buildings / Draftpool" line="785" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Players Info" line="1742" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Progress Tokens" line="1042" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Setup Notifications" line="457" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Player Turn" line="1947" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Wonder Selection" line="1803" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Discard Building" line="2346" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Construct a Wonder" line="2425" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Helper Functions" line="5114" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Wonders" line="653" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Buildings / Draftpool" line="791" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Players Info" line="1748" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Progress Tokens" line="1048" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Setup Notifications" line="463" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Player Turn" line="1953" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Setup" line="114" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Decrees" line="1125" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Select Start Player" line="3025" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Progress Token From Box" line="3070" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Settings" line="4983" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Decrees" line="1131" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Select Start Player" line="3035" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Progress Token From Box" line="3080" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Settings" line="5009" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Click handlers" line="268" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Agora click handlers" line="319" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Prepare a Conspiracy" line="2634" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Trigger Conspiracy" line="2057" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Military Track" line="1250" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Display functions" line="4776" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Next Age" line="3015" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Conspire" line="3185" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Construct Building" line="2197" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Choose Opponent building to discard" line="2783" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Progress Token" line="2913" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Conspirator Action" line="3125" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Senate" line="1062" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State MoveDecree (Conspiracy 15)" line="4174" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Discard Available Card (Conspiracy 11)" line="3998" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Take Unconstructed Wonder (Conspiracy 1)" line="4482" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Construct Last Row Building (Conspiracy 7)" line="3895" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Construct Building From Box (Conspiracy 8)" line="3792" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Swap Building (Conspiracy 14)" line="4301" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Trigger Unprepared Conspiracy" line="3745" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Discarded Building" line="2862" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Remove Influence" line="3665" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Conspire Remnant Position" line="3284" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Place Influence" line="3428" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State TakeBuilding (Conspiracy 13)" line="4402" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Destroy Constructed Wonder (Conspiracy 16)" line="3938" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Conspiracies" line="1187" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Senate Actions" line="3332" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Next Player Turn / End game animation" line="4555" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Lock Progress Token (Conspiracy 5)" line="4086" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Tooltips" line="1276" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Move Influence" line="3507" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Prepare a Conspiracy" line="2644" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Trigger Conspiracy" line="2063" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Military Track" line="1256" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Display functions" line="4802" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Next Age" line="3025" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Conspire" line="3204" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Construct Building" line="2203" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Choose Opponent building to discard" line="2793" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Progress Token" line="2923" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Conspirator Action" line="3144" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Senate" line="1068" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State MoveDecree (Conspiracy 15)" line="4200" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Discard Available Card (Conspiracy 11)" line="4024" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Take Unconstructed Wonder (Conspiracy 1)" line="4508" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Construct Last Row Building (Conspiracy 7)" line="3921" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Construct Building From Box (Conspiracy 8)" line="3818" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Swap Building (Conspiracy 14)" line="4327" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Trigger Unprepared Conspiracy" line="3771" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Discarded Building" line="2872" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Remove Influence" line="3691" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Conspire Remnant Position" line="3303" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Place Influence" line="3454" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State TakeBuilding (Conspiracy 13)" line="4428" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Destroy Constructed Wonder (Conspiracy 16)" line="3964" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Conspiracies" line="1193" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Senate Actions" line="3351" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Next Player Turn / End game animation" line="4581" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Lock Progress Token (Conspiracy 5)" line="4112" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Tooltips" line="1282" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Move Influence" line="3533" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="Implemented Conspiracy Obscurantism (aka LockProgressToken)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/090 progressTokens.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/090 progressTokens.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/320 chooseProgressTokenFromBox.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/320 chooseProgressTokenFromBox.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/Conspiracy.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/Conspiracy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/Player.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/Player.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/php/States/DiscardAvailableCardTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/DiscardAvailableCardTrait.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/php/States/GameEndDebugTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/GameEndDebugTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/States/LockProgressTokenTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/LockProgressTokenTrait.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sevenwondersduel.js" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sevenwondersduel.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/states.inc.php" beforeDir="false" afterPath="$PROJECT_DIR$/states.inc.php" afterDir="false" />
     </list>
     <ignored path="D:\wamp64\www\bga\sevenwondersduel\.idea\shelf/" />
     <ignored path="D:\wamp64\www\bga\agora\.idea\shelf/" />
@@ -103,101 +96,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="4091" column="98" selection-start-line="4091" selection-start-column="20" selection-end-line="4091" selection-end-column="98" />
-              <folding>
-                <element signature="n#style#0;n#li#1;n#ul#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="409">
+              <caret line="2410" column="63" lean-forward="true" selection-start-line="2410" selection-start-column="63" selection-end-line="2410" selection-end-column="63" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/php/States/ChooseProgressTokenFromBoxTrait.php">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/modules/php/States/DiscardAvailableCardTrait.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="643">
-              <caret line="42" column="38" lean-forward="true" selection-start-line="42" selection-start-column="38" selection-end-line="42" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/php/ProgressToken.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/php/Conspiracies.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="26" column="59" selection-start-line="26" selection-start-column="59" selection-end-line="26" selection-end-column="59" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/php/Player.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="537">
-              <caret line="318" column="50" selection-start-line="318" selection-start-column="50" selection-end-line="318" selection-end-column="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/php/States/LockProgressTokenTrait.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="47" column="38" selection-start-line="47" selection-start-column="21" selection-end-line="47" selection-end-column="38" />
-              <folding>
-                <element signature="e#30#49#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/states.inc.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="493" column="105" lean-forward="true" selection-start-line="493" selection-start-column="105" selection-end-line="493" selection-end-column="105" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="510" column="12" lean-forward="true" selection-start-line="510" selection-start-column="12" selection-end-line="510" selection-end-column="12" />
-              <folding>
-                <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#div#1;n#div#2;n#div#1;n#div#0;n#div#1;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/090 progressTokens.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="38" column="72" selection-start-line="38" selection-start-column="72" selection-end-line="38" selection-end-column="72" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/320 chooseProgressTokenFromBox.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" selection-start-line="1" selection-start-column="1" selection-end-line="1" selection-end-column="24" />
+            <state relative-caret-position="272">
+              <caret line="18" column="97" selection-start-line="18" selection-start-column="97" selection-end-line="18" selection-end-column="97" />
             </state>
           </provider>
         </entry>
@@ -214,27 +126,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>building</find>
-      <find>updatedisc</find>
-      <find>gamedatas.buildings[</find>
-      <find>div[</find>
-      <find>#discarded_cards_container</find>
-      <find>td_visible</find>
-      <find>actionConstructBuildingFromBox</find>
-      <find>CHOOSE_PROGRESS_TOKEN_FROM_BOX</find>
-      <find>choose_progre</find>
-      <find>-&gt;getCard(</find>
-      <find>or trig</find>
-      <find>'selection'</find>
-      <find>active</find>
-      <find>.closes</find>
-      <find>actionLockProgressToken</find>
       <find>discarded</find>
-      <find>lock</find>
-      <find>.lock_progress_token_container</find>
       <find>jstpl_conspiracy</find>
       <find>player_conspiracies_</find>
-      <find>progress_token_from_box</find>
       <find>getConspiracyDivHtml</find>
       <find>actionChooseProgressTokenFromBox</find>
       <find>updateConspiracies</find>
@@ -242,8 +136,26 @@
       <find>lockProgressToken</find>
       <find>notifyPlayer</find>
       <find>z-ind</find>
-      <find>Player::getActive()</find>
       <find>empty(</find>
+      <find>dojo.query('#progress_token_from_box_container&gt;div').style('display', 'none');</find>
+      <find>.lock_progress_token_container</find>
+      <find>Player::getActive()</find>
+      <find>progress_token_from_box</find>
+      <find>lock</find>
+      <find>notif.args</find>
+      <find>remove_inf</find>
+      <find>militarySenateActions</find>
+      <find>bgabutton_darkgray</find>
+      <find>buttonPlaceInfluence</find>
+      <find>onChooseConspiratorActionClick</find>
+      <find>face down</find>
+      <find>buttonSenateActionsMoveInfluence</find>
+      <find>buttonSenateActionsPlaceInfluence</find>
+      <find>$data['buildin</find>
+      <find>Draftpool::get</find>
+      <find>=&gt; Draftpool::get</find>
+      <find>this.updateDraftpool(notif.args.draftpool)</find>
+      <find>notif_discardBuilding</find>
     </findStrings>
     <replaceStrings>
       <replace>cube</replace>
@@ -287,9 +199,9 @@
       <dir>D:\wamp64\www\bga\sevenwondersduel</dir>
       <dir>D:\wamp64\www\bga\agora\</dir>
       <dir>D:\wamp64\www\bga\agora</dir>
-      <dir>D:\wamp64\www\bga\agora\modules\php</dir>
       <dir>D:\wamp64\www\bga\agora\modules\php\States</dir>
       <dir>D:\wamp64\www\bga\agora\css</dir>
+      <dir>D:\wamp64\www\bga\agora\modules\php</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -326,7 +238,6 @@
         <option value="$PROJECT_DIR$/modules/php/Material.php" />
         <option value="$PROJECT_DIR$/css/310 playerTurn.css" />
         <option value="$PROJECT_DIR$/css/165 discardAvailableCard.css" />
-        <option value="$PROJECT_DIR$/modules/php/States/DiscardAvailableCardTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/States/GameSetupTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/PaymentPlan.php" />
         <option value="$PROJECT_DIR$/css/020 general.css" />
@@ -358,6 +269,7 @@
         <option value="$PROJECT_DIR$/modules/php/Player.php" />
         <option value="$PROJECT_DIR$/modules/php/States/LockProgressTokenTrait.php" />
         <option value="$PROJECT_DIR$/sevenwondersduel.js" />
+        <option value="$PROJECT_DIR$/modules/php/States/DiscardAvailableCardTrait.php" />
       </list>
     </option>
   </component>
@@ -514,21 +426,7 @@
       <workItem from="1601651785222" duration="68790000" />
       <workItem from="1602058359732" duration="68318000" />
       <workItem from="1602237693483" duration="71192000" />
-      <workItem from="1602512275573" duration="33436000" />
-    </task>
-    <task id="LOCAL-00791" summary="Implemented Decree 15">
-      <created>1601998281103</created>
-      <option name="number" value="00791" />
-      <option name="presentableId" value="LOCAL-00791" />
-      <option name="project" value="LOCAL" />
-      <updated>1601998281103</updated>
-    </task>
-    <task id="LOCAL-00792" summary="Implemented Conspiracy Espionage by re-using ChooseProgressTokenFromBoxTrait.&#10;Bugfix show conspire div while in wonder selection.">
-      <created>1602067514004</created>
-      <option name="number" value="00792" />
-      <option name="presentableId" value="LOCAL-00792" />
-      <option name="project" value="LOCAL" />
-      <updated>1602067514005</updated>
+      <workItem from="1602512275573" duration="38519000" />
     </task>
     <task id="LOCAL-00793" summary="Tweaked gameoptions.inc.php&#10;GameSetupTrait.php setup static conspiracy setup for next couple of conspiracies to implement">
       <created>1602068934463</created>
@@ -859,11 +757,25 @@
       <option name="project" value="LOCAL" />
       <updated>1602579663958</updated>
     </task>
-    <option name="localTasksCounter" value="840" />
+    <task id="LOCAL-00840" summary="Implemented Conspiracy Obscurantism (aka LockProgressToken)">
+      <created>1602587930739</created>
+      <option name="number" value="00840" />
+      <option name="presentableId" value="LOCAL-00840" />
+      <option name="project" value="LOCAL" />
+      <updated>1602587930739</updated>
+    </task>
+    <task id="LOCAL-00841" summary="Disabled Place/Move buttons if applicable">
+      <created>1602592237956</created>
+      <option name="number" value="00841" />
+      <option name="presentableId" value="LOCAL-00841" />
+      <option name="project" value="LOCAL" />
+      <updated>1602592237956</updated>
+    </task>
+    <option name="localTasksCounter" value="842" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2000815000" />
+    <option name="totallyTimeSpent" value="2005898000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -876,8 +788,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.2665222" visible="true" weight="0.09914712" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.2665222" visible="true" weight="0.18656716" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49946696" weight="0.31419286" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49840087" weight="0.20260021" />
@@ -886,7 +799,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="8" sideWeight="0.6748401" visible="true" weight="0.34236187" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.6748401" visible="true" weight="0.25027084" />
       <window_info anchor="bottom" id="Cacher" order="9" sideWeight="0.6098081" weight="0.21885157" />
       <window_info anchor="bottom" id="File Transfer" order="10" sideWeight="0.5501066" weight="0.18309858" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
@@ -898,7 +811,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" weight="0.32995737" />
-      <window_info anchor="right" id="Favorites" order="4" sideWeight="0.41390204" visible="true" weight="0.19189766" />
+      <window_info anchor="right" id="Favorites" order="4" sideWeight="0.41390204" visible="true" weight="0.22547974" />
       <window_info anchor="right" id="Structure" order="5" sideWeight="0.7334778" weight="0.15671642" />
       <window_info anchor="right" x="0" y="0" width="434" height="856" id="Documentation" order="6" sideWeight="0.58609796" side_tool="true" weight="0.14232409" />
     </layout>
@@ -999,8 +912,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed sql syntax error" />
-    <MESSAGE value="Tweaked appearance of influence cubes (updated sprites to make them stand out more and match real life materials more, made them bigger, made font bigger" />
     <MESSAGE value="Implemented Conspiracy Extortion aka TakeUnconstructedWonder" />
     <MESSAGE value="Implemented shouldSkipTakeUnconstructedWonder" />
     <MESSAGE value="Implemented Conspiracy Sabotage aka DestroyConstructedWonder" />
@@ -1024,22 +935,11 @@
     <MESSAGE value="Swap Building action: added possibility for the active player to select a progress token" />
     <MESSAGE value="Implemented Conspiracy Treason (aka ConstructBuildingFromBox)" />
     <MESSAGE value="Tweaked --draftpool-row-height-multiplier" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tweaked --draftpool-row-height-multiplier" />
+    <MESSAGE value="Implemented Conspiracy Obscurantism (aka LockProgressToken)" />
+    <MESSAGE value="Disabled Place/Move buttons if applicable" />
+    <option name="LAST_COMMIT_MESSAGE" value="Disabled Place/Move buttons if applicable" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/css/165 discardAvailableCard.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/160 triggerUnpreparedConspiracy.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/155 senateActions.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/020 general.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="366">
@@ -1204,16 +1104,6 @@
           <caret line="239" column="17" lean-forward="true" selection-start-line="237" selection-start-column="16" selection-end-line="239" selection-end-column="17" />
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/States/SenateActionsTrait.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="106" column="53" selection-start-line="106" selection-start-column="40" selection-end-line="106" selection-end-column="53" />
-          <folding>
-            <element signature="e#30#48#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1404,13 +1294,41 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/MilitaryTrack.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-629">
+          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/States/PlaceInfluenceTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-152">
+          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/States/SenateActionsTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1677">
+          <caret line="106" column="53" selection-start-line="106" selection-start-column="40" selection-end-line="106" selection-end-column="53" />
+          <folding>
+            <element signature="e#30#48#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="4091" column="98" selection-start-line="4091" selection-start-column="20" selection-end-line="4091" selection-end-column="98" />
-          <folding>
-            <element signature="n#style#0;n#li#1;n#ul#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="409">
+          <caret line="2410" column="63" lean-forward="true" selection-start-line="2410" selection-start-column="63" selection-end-line="2410" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/States/DiscardAvailableCardTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="18" column="97" selection-start-line="18" selection-start-column="97" selection-end-line="18" selection-end-column="97" />
         </state>
       </provider>
     </entry>

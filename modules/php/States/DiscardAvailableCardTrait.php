@@ -60,6 +60,7 @@ trait DiscardAvailableCardTrait {
                 'gain' => 0,
                 'playerId' => $player->id,
                 'buildingId' => $buildingId,
+                'draftpool' => Draftpool::get(),
             ]
         );
 
