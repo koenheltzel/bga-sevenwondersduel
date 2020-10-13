@@ -9,7 +9,7 @@
 }
 
 .current_player_is_active #swd[data-state=constructBuildingFromBox] {
-    --draftpool-row-height-multiplier: 0.4;
+    --draftpool-row-height-multiplier: 0.34;
     --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
 }
 
