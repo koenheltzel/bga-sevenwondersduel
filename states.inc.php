@@ -64,6 +64,7 @@ $conspiracyStateTransitions = [
     SevenWondersDuelAgora::STATE_SWAP_BUILDING_NAME => SevenWondersDuelAgora::STATE_SWAP_BUILDING_ID,
     SevenWondersDuelAgora::STATE_TAKE_BUILDING_NAME => SevenWondersDuelAgora::STATE_TAKE_BUILDING_ID,
     SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME => SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_ID,
+    SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
 ];
 
 $machinestates = [
@@ -416,6 +417,9 @@ $machinestates = [
         ],
         "transitions" => [
             SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_ID,
+            SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID, // Military token
+            SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_ID, // Military token
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID, // Military token
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy

@@ -47,7 +47,7 @@
     transform: rotate(0deg);
 }
 .influence_containers > div:nth-of-type(2) {
-    left: calc(var(--senate-scale) * 51px);
+    left: calc(var(--senate-scale) * 50px);
     top: calc(var(--senate-scale) * 238px);
     transform: rotate(-19deg);
 }
@@ -71,7 +71,7 @@
     transform: rotate(54deg);
 }
 .influence_containers > div:nth-of-type(5) {
-    left: calc(var(--senate-scale) * 51px);
+    left: calc(var(--senate-scale) * 49px);
     top: calc(var(--senate-scale) * 715px);
     transform: rotate(-71deg);
 }
@@ -79,8 +79,8 @@
     transform: rotate(71deg);
 }
 .influence_containers > div:nth-of-type(6) {
-    left: calc(var(--senate-scale) * 141px);
-    top: calc(var(--senate-scale) * 849px);
+    left: calc(var(--senate-scale) * 140px);
+    top: calc(var(--senate-scale) * 848px);
     transform: rotate(-90deg);
 }
 
@@ -108,7 +108,7 @@
     font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
     font-size: calc(var(--scale) * var(--element-scale) * 20px);
     line-height: calc(var(--senate-scale) * 25px) !important;
-    text-shadow: 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white, 0 0 calc(var(--scale) * 2px) white;
+    text-shadow: 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white;
     color: black;
     cursor: default;
     position: relative;

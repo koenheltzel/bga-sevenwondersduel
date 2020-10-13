@@ -41,13 +41,13 @@
 }
 .decree_containers > div:nth-of-type(1) {
     transform: rotate(135deg);
-    left: calc(var(--senate-scale) * 126px);
-    top: calc(var(--senate-scale) * 116px);
+    left: calc(var(--senate-scale) * 127px);
+    top: calc(var(--senate-scale) * 117px);
 }
 .decree_containers > div:nth-of-type(2) {
     transform: rotate(116deg);
-    left: calc(var(--senate-scale) * 40px);
-    top: calc(var(--senate-scale) * 245px);
+    left: calc(var(--senate-scale) * 39.5px);
+    top: calc(var(--senate-scale) * 246.5px);
 }
 .decree_containers > div:nth-of-type(3) {
     transform: rotate(99deg);
@@ -66,6 +66,6 @@
 }
 .decree_containers > div:nth-of-type(6) {
     transform: rotate(45deg);
-    left: calc(var(--senate-scale) * 125px);
-    top: calc(var(--senate-scale) * 837px);
+    left: calc(var(--senate-scale) * 126px);
+    top: calc(var(--senate-scale) * 836px);
 }

@@ -43,6 +43,9 @@ trait ConstructBuildingFromBoxTrait {
         if ($payment->selectProgressToken) {
             $this->prependStateStack([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
         }
+        if (count($payment->militarySenateActions) > 0) {
+            $this->prependStateStack($payment->militarySenateActions);
+        }
         $this->stateStackNextState();
     }
 
