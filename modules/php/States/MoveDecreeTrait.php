@@ -43,8 +43,9 @@ trait MoveDecreeTrait {
         $this->stateStackNextState();
     }
 
-//    public function shouldSkipMoveDecree() {
-//        return false;
-//    }
+    public function shouldSkipMoveDecree() {
+        // Always possible
+        return false;
+    }
 
 }

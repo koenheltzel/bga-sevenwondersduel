@@ -2,6 +2,7 @@
 
 namespace SWD\States;
 
+use SWD\Draftpool;
 use SWD\Player;
 
 trait ConstructLastRowBuildingTrait {
@@ -21,8 +22,18 @@ trait ConstructLastRowBuildingTrait {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-//    public function shouldSkipConstructLastRowBuilding() {
-//        return false;
-//    }
+    public function shouldSkipDiscardAvailableCard() {
+        if (Draftpool::countCardsInCurrentAge() == 0) {
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('There are no more cards available for ${player_name} to construct for free'),
+                [
+                    'player_name' => Player::getActive()->name,
+                ]
+            );
+            return true;
+        }
+        return false;
+    }
 
 }
