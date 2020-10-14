@@ -169,6 +169,9 @@ define([
                     this.dontPreloadImage('wonders.jpg');
                     console.log('dontPreloadImage block A');
                 }
+                if (!this.agora) {
+                    this.dontPreloadImage('agora_senate_tooltips.png');
+                }
                 if (this.quality == '2x' || !this.agora) {
                     this.dontPreloadImage('agora_conspiracies.jpg');
                     this.dontPreloadImage('agora_decrees.png');
@@ -1809,6 +1812,7 @@ define([
                 data.jsName = _("Senate Chamber " + chamber) + ' - ' + section;
                 data.jsText = this.getTextHtml(text);
                 data.jsBackX = ((chamber - 1) % spritesheetColumns);
+                data.jsSection = chamber <= 2 ? 'left' : (chamber <= 4 ? 'center' : 'right');
                 return this.format_block('jstpl_senate_chamber_tooltip', data);
             },
 

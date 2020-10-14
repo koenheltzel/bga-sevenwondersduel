@@ -61,6 +61,7 @@
 #swd[data-quality="2x"] .action_move_influence,
 #swd[data-quality="2x"] .action_remove_influence,
 #swd[data-quality="2x"] .action_skip,
-#swd[data-quality="2x"] .agora_icon {
+#swd[data-quality="2x"] .agora_icon,
+#swd[data-quality="2x"] .senate_section  {
     background-image: url('img/agora_sprites@2X.png') !important;
 }

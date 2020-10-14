@@ -673,7 +673,7 @@ var jstpl_conspiracy_tooltip = '\
 var jstpl_senate_chamber_tooltip = '\
     <div class="swd_tooltip senate_chamber_tooltip">\
         <div class="cardinfos">\
-            <strong>${jsName}</strong>\
+            <strong>${jsName}</strong><div class="senate_section senate_section_${jsSection}"></div>\
             <hr\>\
             <p>${jsText}</p>\
         </div>\
