@@ -60,7 +60,8 @@ $game_options = [
                 'beta' => true,
                 'nobeginner' => true
             ]
-        ]
+        ],
+        'default' => 1
     ],
     111 => [
         'name' => totranslate('Guarantee Agora Wonders (testing option)'),
@@ -72,7 +73,7 @@ $game_options = [
                 'beta' => true,
             ]
         ],
-        'default' => 1,
+        'default' => 0,
         'displaycondition' => [ // Note: do not display this option unless these conditions are met
             [
                 'type' => 'otheroption',
@@ -91,7 +92,7 @@ $game_options = [
                 'beta' => true,
             ]
         ],
-        'default' => 1,
+        'default' => 0,
         'displaycondition' => [ // Note: do not display this option unless these conditions are met
             [
                 'type' => 'otheroption',
