@@ -416,6 +416,17 @@ class Player extends Base{
         }
     }
 
+    public function countChambersInControl() {
+        $situation = Senate::getSituation();
+        $playerChambers = 0;
+        foreach($situation['chambers'] as $chamber) {
+            if ($chamber['controller'] == $this->id) {
+                $playerChambers++;
+            }
+        }
+        return $playerChambers;
+    }
+
     public function getSenateActionsCount() {
         $blueBuildings = count($this->getBuildings()->filterByTypes([Building::TYPE_BLUE])->array);
         if ($this->hasDecree(12)) {

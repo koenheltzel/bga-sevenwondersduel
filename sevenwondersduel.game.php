@@ -272,6 +272,10 @@ class SevenWondersDuelAgora extends Table
     const STAT_CONSPIRACIES_PREPARED = "conspiracies_prepared";
     const STAT_CONSPIRACIES_TRIGGERED = "conspiracies_triggered";
     const STAT_VP_SENATE = "vp_senate";
+    const STAT_INFLUENCE_CUBES_USED = "influence_cubes_used";
+    const STAT_CHAMBERS_IN_CONTROL = "chambers_in_control";
+    const STAT_POLITICIAN_CARDS = "politician_cards";
+    const STAT_CONSPIRATOR_CARDS = "conspirator_cards";
 
     /**
      * @var Deck
@@ -508,6 +512,10 @@ class SevenWondersDuelAgora extends Table
             self::initStat('player', self::STAT_CONSPIRACIES_PREPARED, 0);
             self::initStat('player', self::STAT_CONSPIRACIES_TRIGGERED, 0);
             self::initStat('player', self::STAT_VP_SENATE, 0);
+            self::initStat('player', self::STAT_INFLUENCE_CUBES_USED, 0);
+            self::initStat('player', self::STAT_CHAMBERS_IN_CONTROL, 0);
+            self::initStat('player', self::STAT_POLITICIAN_CARDS, 0);
+            self::initStat('player', self::STAT_CONSPIRATOR_CARDS, 0);
         }
         // TODO: setup the initial game situation here
 
@@ -546,7 +554,6 @@ class SevenWondersDuelAgora extends Table
 
         // Wonder selection stuff
         $result['wondersSituation'] = Wonders::getSituation();
-        $result['conspiraciesSituation'] = Conspiracies::getSituation();
 
         $me = Player::me();
         $opponent = Player::opponent();
@@ -574,6 +581,7 @@ class SevenWondersDuelAgora extends Table
         ];
         $result['agora'] = (int)$this->getGameStateValue(self::OPTION_AGORA);
         if ($result['agora']) {
+            $result['conspiraciesSituation'] = Conspiracies::getSituation();
             $result['conspiracies'] = Material::get()->conspiracies->array;
             $result['conspiracies'][17] = new Conspiracy(17, ''); // To pass the generic explanation text to the tooltip.
             $result['decrees'] = Material::get()->decrees->array;

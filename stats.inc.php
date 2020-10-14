@@ -265,6 +265,26 @@ $stats_type = [
             "name" => totranslate("Conspiracies triggered"),
             "type" => "int"
         ],
+        "influence_cubes_used" => [
+            "id" => 415,
+            "name" => totranslate("Influence cubes in Senate"),
+            "type" => "int"
+        ],
+        "chambers_in_control" => [
+            "id" => 420,
+            "name" => totranslate("Senate chambers in control"),
+            "type" => "int"
+        ],
+        "politician_cards" => [
+            "id" => 201,
+            "name" => totranslate("Politician cards (Senator)"),
+            "type" => "int"
+        ],
+        "conspirator_cards" => [
+            "id" => 202,
+            "name" => totranslate("Conspirator cards (Senator)"),
+            "type" => "int"
+        ],
 
         /*
                 Examples:

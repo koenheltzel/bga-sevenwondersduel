@@ -194,6 +194,14 @@ class Building extends Item {
             case self::TYPE_PURPLE:
                 SevenWondersDuelAgora::get()->incStat(1, SevenWondersDuelAgora::STAT_PURPLE_CARDS, $player->id);
                 break;
+            case self::TYPE_SENATOR:
+                if ($this->subType == self::SUBTYPE_POLITICIAN) {
+                    SevenWondersDuelAgora::get()->incStat(1, SevenWondersDuelAgora::STAT_POLITICIAN_CARDS, $player->id);
+                }
+                else {
+                    SevenWondersDuelAgora::get()->incStat(1, SevenWondersDuelAgora::STAT_CONSPIRATOR_CARDS, $player->id);
+                }
+                break;
         }
 
         return $payment;
