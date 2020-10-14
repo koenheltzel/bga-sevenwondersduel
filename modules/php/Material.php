@@ -705,40 +705,40 @@ class Material extends Base
         $this->conspiracies = new Conspiracies();
 
         $this->conspiracies[1] = (new Conspiracy(1, clienttranslate("Extortion")))
-            ->addText("Take 1 unconstructed Wonder card of your choice from your opponent and add it to your City.")
+            ->addText(clienttranslate("Take 1 unconstructed Wonder card of your choice from your opponent and add it to your City."))
             ->addActionState(SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME)
             ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[2] = (new Conspiracy(2, clienttranslate("Blackmail")))
-            ->addText("Take half of your opponent’s Coins (rounded up) and add them to your Treasure.")
+            ->addText(clienttranslate("Take half of your opponent’s Coins (rounded up) and add them to your Treasure."))
             ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[3] = (new Conspiracy(3, clienttranslate("Expropriation")))
-            ->addText("Place 1 Blue card of your choice constructed by your opponent in the discard.")
+            ->addText(clienttranslate("Place 1 Blue card of your choice constructed by your opponent in the discard."))
             ->addActionState(SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_NAME)
             ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[4] = (new Conspiracy(4, clienttranslate("Swindle")))
-            ->addText("Place 1 Yellow card of your choice constructed by your opponent in the discard.")
+            ->addText(clienttranslate("Place 1 Yellow card of your choice constructed by your opponent in the discard."))
             ->addActionState(SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_NAME)
             ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[5] = (new Conspiracy(5, clienttranslate("Obscurantism")))
-            ->addText("Choose 1 Progress on the board or that your opponent has or out of game and place it face down on this Conspiracy. No one can use it during this game.")
+            ->addText(clienttranslate("Choose 1 Progress on the board or that your opponent has or out of game and place it face down on this Conspiracy. No one can use it during this game."))
             ->addActionState(SevenWondersDuelAgora::STATE_LOCK_PROGRESS_TOKEN_NAME);
 
         $this->conspiracies[6] = (new Conspiracy(6, clienttranslate("Coup")))
             ->setMilitary(2);
 
         $this->conspiracies[7] = (new Conspiracy(7, clienttranslate("Property Fraud")))
-            ->addText("Take 1 Building card placed at the end of the structure and build it for free. Senator cards cannot be chosen.")
+            ->addText(clienttranslate("Take 1 Building card placed at the end of the structure and build it for free. Senator cards cannot be chosen."))
             ->addActionState(SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME);
 
         $this->conspiracies[8] = (new Conspiracy(8, clienttranslate("Treason")))
-            ->addText("In Age I, take the 3 cards removed from Age I.")
-            ->addText("In Age II, take the 6 cards removed from Ages I and II (3 per Age).")
-            ->addText("In Age III, take the 9 cards removed from Ages I, II and III (3 per Age).")
-            ->addText("From these cards, choose 1 to play for free.", false)
+            ->addText(clienttranslate("In Age I, take the 3 cards removed from Age I."))
+            ->addText(clienttranslate("In Age II, take the 6 cards removed from Ages I and II (3 per Age)."))
+            ->addText(clienttranslate("In Age III, take the 9 cards removed from Ages I, II and III (3 per Age)."))
+            ->addText(clienttranslate("From these cards, choose 1 to play for free."), false)
             ->addActionState(SevenWondersDuelAgora::STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME);
 
         $this->conspiracies[9] = (new Conspiracy(9, clienttranslate("Political Maneuver")))
@@ -747,37 +747,37 @@ class Material extends Base
             ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[10] = (new Conspiracy(10, clienttranslate("Espionage")))
-            ->addText("Take all the Progress tokens removed at the beginning of the game and choose 1 to play.")
+            ->addText(clienttranslate("Take all the Progress tokens removed at the beginning of the game and choose 1 to play."))
             ->addActionState(SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
 
         $this->conspiracies[11] = (new Conspiracy(11, clienttranslate("Turn Of Events")))
-            ->addText("Place 1 available card in the structure in the discard. You can immediately repeat this action a second time.")
+            ->addText(clienttranslate("Place 1 available card in the structure in the discard. You can immediately repeat this action a second time."))
             ->addActionState(SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_NAME)
             ->addActionState(SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_NAME)
             ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[12] = (new Conspiracy(12, clienttranslate("Embezzlement")))
-            ->addText("Gain as many Coins as Influence cubes you have in the Senate.")
-            ->addText("Your opponent loses as many Coins as Influence cubes they have in the Senate.")
+            ->addText(clienttranslate("Gain as many Coins as Influence cubes you have in the Senate."))
+            ->addText(clienttranslate("Your opponent loses as many Coins as Influence cubes they have in the Senate."))
             ->setVisualCoinPosition([-0.176, 0.111])
             ->setVisualOpponentCoinLossPosition([0.671, 0.611]);
 
         $this->conspiracies[13] = (new Conspiracy(13, clienttranslate("Foreclosure")))
-            ->addText("Take 1 Brown or Grey card of your choice from your opponent and add it to your City.")
+            ->addText(clienttranslate("Take 1 Brown or Grey card of your choice from your opponent and add it to your City."))
             ->addActionState(SevenWondersDuelAgora::STATE_TAKE_BUILDING_NAME);
 
         $this->conspiracies[14] = (new Conspiracy(14, clienttranslate("Coercion")))
-            ->addText("Take 1 Blue or Green card of your choice from your opponent and add it to your City. In exchange, give them 1 of your cards of the same color.")
+            ->addText(clienttranslate("Take 1 Blue or Green card of your choice from your opponent and add it to your City. In exchange, give them 1 of your cards of the same color."))
             ->addActionState(SevenWondersDuelAgora::STATE_SWAP_BUILDING_NAME)
             ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[15] = (new Conspiracy(15, clienttranslate("Insider Influence")))
-            ->addText("Choose 1 Decree in the Senate and place it in a Chamber of your choice, under the existing Decree.")
+            ->addText(clienttranslate("Choose 1 Decree in the Senate and place it in a Chamber of your choice, under the existing Decree."))
             ->addActionState(SevenWondersDuelAgora::STATE_MOVE_DECREE_NAME)
             ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[16] = (new Conspiracy(16, clienttranslate("Sabotage")))
-            ->addText("Choose 1 Wonder constructed by your opponent and return it to the box. It will no longer be used for this game and the effects of this Wonder are lost.")
+            ->addText(clienttranslate("Choose 1 Wonder constructed by your opponent and return it to the box. It will no longer be used for this game and the effects of this Wonder are lost."))
             ->addActionState(SevenWondersDuelAgora::STATE_DESTROY_CONSTRUCTED_WONDER_NAME);
 
         //  ____
@@ -790,41 +790,44 @@ class Material extends Base
 
         for ($i = 1; $i <= 4; $i++) {
             $this->decrees[$i] = (new Decree($i, ""))
-                ->addText("Each time you or your opponent constructs a card of this color, take as many Coins from the bank as the current Age (1, 2, or 3 Coins).");
+                ->addText(clienttranslate("Each time you or your opponent constructs a card of this color, take as many Coins from the bank as the current Age (1, 2, or 3 Coins)."));
         }
         for ($i = 5; $i <= 7; $i++) {
             $this->decrees[$i] = (new Decree($i, ""))
-                ->addText("Ignore 1 cost symbol (choose either a resource or Coins) when constructing cards of this color.");
+                ->addText(clienttranslate("Ignore 1 cost symbol (choose either a resource or Coins) when constructing cards of this color."));
         }
 
         $this->decrees[8] = (new Decree(8, ""))
-            ->addText("Pay 1 resource less (of your choice) when constructing Wonders.");
+            ->addText(clienttranslate("Pay 1 resource less (of your choice) when constructing Wonders."));
 
         $this->decrees[9] = (new Decree(9, ""))
-            ->addText("Gain 1 shield and immediately move the Conflict pawn one space towards your opponent's capital.", false)
-            ->addText("When you lose control of this Decree, you lose this shield and move the Conflict pawn one space towards your capital.", false)
-            ->addText("If your opponent steals control of this Decree from you, the Conflict pawn moves 2 spaces towards your capital.", false);
+            ->addText(clienttranslate("Gain 1 shield and immediately move the Conflict pawn one space towards your opponent's capital."), false)
+            ->addText(clienttranslate("When you lose control of this Decree, you lose this shield and move the Conflict pawn one space towards your capital."), false)
+            ->addText(clienttranslate("If your opponent steals control of this Decree from you, the Conflict pawn moves 2 spaces towards your capital."), false);
 
         for ($i = 10; $i <= 11; $i++) {
             $this->decrees[$i] = (new Decree($i, ""))
-                ->addText("Pay 1 Coin less for each resource of this color that you buy from the bank.", false)
-                ->addText("You cannot obtain resources for free from this effect; the minimum cost you pay is always 1 Coin.", false);
+                ->addText(
+                    $i == 10 ? clienttranslate("Pay 1 Coin less for each Raw material (Brown) resource that you buy from the bank.")
+                        : clienttranslate("Pay 1 Coin less for each Manufactured good (Grey) resource that you buy from the bank.")
+                    , false)
+                ->addText(clienttranslate("You cannot obtain resources for free from this effect; the minimum cost you pay is always 1 Coin."), false);
         }
 
         $this->decrees[12] = (new Decree(12, ""))
-            ->addText("When determining the number of Senate actions you have, add 2 to the total number of Blue cards you have.");
+            ->addText(clienttranslate("When determining the number of Senate actions you have, add 2 to the total number of Blue cards you have."));
 
         $this->decrees[13] = (new Decree(13, ""))
-            ->addText("When discarding a card to take Coins from the bank, gain 2 extra Coins.");
+            ->addText(clienttranslate("When discarding a card to take Coins from the bank, gain 2 extra Coins."));
 
         $this->decrees[14] = (new Decree(14, ""))
-            ->addText("Each time you or your opponent constructs a Wonder take as many Coins from the bank as the current Age (1, 2, or 3 Coins).");
+            ->addText(clienttranslate("Each time you or your opponent constructs a Wonder take as many Coins from the bank as the current Age (1, 2, or 3 Coins)."));
 
         $this->decrees[15] = (new Decree(15, ""))
-            ->addText("When constructing a Building, benefit from chains on cards constructed by your opponent as if you constructed them yourself.");
+            ->addText(clienttranslate("When constructing a Building, benefit from chains on cards constructed by your opponent as if you constructed them yourself."));
 
         $this->decrees[16] = (new Decree(16, ""))
-            ->addText("When recruiting a Conspirator, immediately play another turn.");
+            ->addText(clienttranslate("When recruiting a Conspirator, immediately play another turn."));
     }
 
 }
