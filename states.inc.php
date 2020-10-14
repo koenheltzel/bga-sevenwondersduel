@@ -65,6 +65,7 @@ $conspiracyStateTransitions = [
     SevenWondersDuelAgora::STATE_TAKE_BUILDING_NAME => SevenWondersDuelAgora::STATE_TAKE_BUILDING_ID,
     SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME => SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_ID,
     SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
+    SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_ID,
 ];
 
 $machinestates = [
