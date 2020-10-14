@@ -41,7 +41,7 @@
 
     justify-content: center; /* For portrait layout, but doesn't affect other layouts afaik */
 }
-.player_conspiracies .conspiracy {
+.player_conspiracies .conspiracy:not(.conspiracy_peek) {
     z-index: 2;
 }
 

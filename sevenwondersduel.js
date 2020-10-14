@@ -2793,6 +2793,8 @@ define([
                     var ageCardContainer = dojo.query('.age_card_container', conspiracyContainer)[0];
                     var ageCardNode = dojo.query('.building_small', ageCardContainer)[0];
 
+                    var peekNode = dojo.query('.conspiracy_peek', conspiracyContainer)[0];
+
                     // Move age card to start position and set starting properties.
                     this.placeOnObjectPos(ageCardNode, buildingNode, 0, 0);
                     dojo.style(ageCardNode, 'z-index', 15);
@@ -2836,6 +2838,7 @@ define([
                     dojo.connect(anim, 'beforeBegin', dojo.hitch(this, function () {
                         dojo.style(conspiracyContainer, 'z-index', 11);
                         dojo.style(conspiracyNode, 'z-index', 20);
+                        dojo.style(peekNode, 'z-index', 21);
                         dojo.style(ageCardNode, 'transform', 'rotate(0deg) perspective(40em) rotateY(-90deg)'); // The rotateY(-90deg) affects the position the element will end up after the slide. Here's the place to apply it therefor, not before the animation instantiation.
                     }));
                     dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
@@ -2846,6 +2849,7 @@ define([
 
                         dojo.style(ageCardNode, 'z-index', 1);
                         dojo.style(conspiracyNode, 'z-index', 2);
+                        dojo.style(peekNode, 'z-index', null);
                         dojo.style(conspiracyContainer, 'z-index', 10);
                         dojo.removeClass(conspiracyContainer, 'animating');
                     }));

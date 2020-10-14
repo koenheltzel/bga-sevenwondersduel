@@ -35,14 +35,14 @@
 
     background-size: calc(var(--conspiracy-spritesheet-width) * var(--conspiracy-peek-scale)) calc(var(--conspiracy-spritesheet-height) * var(--conspiracy-peek-scale));
     border-radius: calc(var(--conspiracy-border-radius) * var(--conspiracy-peek-scale));
-    z-index: 4 !important;
+    z-index: 4;
     left: calc(9px * var(--scale));
-    top: calc(49.5px * var(--scale)) !important;
+    top: calc(49.5px * var(--scale));
     pointer-events: none;
     box-shadow: 0 0 0px 1px #505050;
 }
 
-.conspiracy_container > .conspiracy {
+.conspiracy_container > .conspiracy:not(.conspiracy_peek) {
     top: calc(21px * var(--scale));
 }
 .conspiracy_container {
