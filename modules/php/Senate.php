@@ -266,7 +266,7 @@ class Senate extends Base
             $payment = null;
             $decrees = Decrees::getChamberDecrees($chamber);
             foreach ($decrees as $id => $card) {
-                $tmpPayment = self::handleDecreeControlChange($id, $newController, $chamber, $senateAction);
+                $payment = self::handleDecreeControlChange($id, $newController, $chamber, $senateAction);
             }
 
             SevenWondersDuelAgora::get()->notifyAllPlayers(
