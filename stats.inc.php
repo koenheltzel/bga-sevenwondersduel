@@ -318,6 +318,10 @@ $stats_type = [
             0 => totranslate("No"),
             1 => totranslate("Yes"),
         ],
+        42 => [ // Political Supremacy
+            0 => totranslate("No"),
+            1 => totranslate("Yes"),
+        ],
     ],
 
 ];
