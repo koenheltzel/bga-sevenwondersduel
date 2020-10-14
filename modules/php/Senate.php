@@ -190,7 +190,7 @@ class Senate extends Base
 
                 // Controller "from" lost control of Decree 9 and has to take a step back.
                 $payment = self::handleDecreeControlChange($decreeId, $fakeControllerTo, $chamberFrom, $senateAction);
-                if (count($payment->militarySenateActions) > 0) {
+                if ($payment && count($payment->militarySenateActions) > 0) {
                     $militarySenateActions = array_merge($militarySenateActions, $payment->militarySenateActions);
                 }
 
@@ -209,7 +209,7 @@ class Senate extends Base
             if ($controllerTo) {
                 // Controller "to" gained control of Decree 9 and has to take a step forward.
                 $payment = self::handleDecreeControlChange($decreeId, $controllerTo, $chamberTo, $senateAction);
-                if (count($payment->militarySenateActions) > 0) {
+                if ($payment && count($payment->militarySenateActions) > 0) {
                     $militarySenateActions = array_merge($militarySenateActions, $payment->militarySenateActions);
                 }
 
