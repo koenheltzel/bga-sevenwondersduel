@@ -327,6 +327,9 @@ class Item extends Base
             case SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME:
                 $this->addText(clienttranslate('You can move 1 of your Influence cubes to an adjacent Chamber.'));
                 break;
+            case SevenWondersDuelAgora::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME:
+                $this->addText(clienttranslate('Trigger an unprepared Conspiracy in your possession (optional).'));
+                break;
             case SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME:
                 $this->addText(clienttranslate('Remove 1 of your opponent\'s Influence cubes of your choice from the Senate.'));
                 break;

@@ -588,8 +588,8 @@ class Material extends Base
             $building = $this->buildings[$id];
             $building->addText(clienttranslate('Take a number of Senate actions according to the number of Blue cards in your city.'), false)
                 ->addText(clienttranslate('0-1 Blue cards: 1 Senate action'))
-                ->addText(clienttranslate('2-3 Blue cards: 2 Senate action'))
-                ->addText(clienttranslate('4+ Blue cards: 3 Senate action'))
+                ->addText(clienttranslate('2-3 Blue cards: 2 Senate actions'))
+                ->addText(clienttranslate('4+ Blue cards: 3 Senate actions'))
                 ->addText(clienttranslate('The 2 different Senate actions are:'), false)
                 ->addText(clienttranslate('Place Influence'))
                 ->addText(clienttranslate('Move Influence'));

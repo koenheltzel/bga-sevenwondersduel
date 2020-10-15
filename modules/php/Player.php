@@ -427,25 +427,24 @@ class Player extends Base{
         return $playerChambers;
     }
 
-    public function getSenateActionsCount() {
+    public function getSenateActionsCount($considerDecree=true) {
         $blueBuildings = count($this->getBuildings()->filterByTypes([Building::TYPE_BLUE])->array);
-        if ($this->hasDecree(12)) {
-            return 2 + $blueBuildings;
+        if ($considerDecree && $this->hasDecree(12)) {
+            $blueBuildings += 2;
         }
-        else {
-            switch($blueBuildings) {
-                case 0:
-                case 1:
-                    return 1;
-                    break;
-                case 2:
-                case 3:
-                    return 2;
-                    break;
-                default:
-                    return 3;
-                    break;
-            }
+
+        switch($blueBuildings) {
+            case 0:
+            case 1:
+                return 1;
+                break;
+            case 2:
+            case 3:
+                return 2;
+                break;
+            default:
+                return 3;
+                break;
         }
     }
 
