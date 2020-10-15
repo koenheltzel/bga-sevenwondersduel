@@ -105,7 +105,7 @@ trait PlayerTurnTrait {
             $this->stateStackNextState();
         }
         else {
-            $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+            $this->stateStackNextState(self::STATE_NEXT_PLAYER_TURN_NAME);
         }
     }
 
