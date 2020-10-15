@@ -233,8 +233,8 @@ class Item extends Base
      * @param string $text
      * @return static
      */
-    public function addText(string $text, $bulletPoint=true) {
-        $this->text[] = [$text, $bulletPoint];
+    public function addText(string $text, $bulletPoint=true, $args=[]) {
+        $this->text[] = [$text, $bulletPoint, $args];
         return $this;
     }
 

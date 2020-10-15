@@ -790,11 +790,15 @@ class Material extends Base
 
         for ($i = 1; $i <= 4; $i++) {
             $this->decrees[$i] = (new Decree($i, ""))
-                ->addText(clienttranslate("Each time you or your opponent constructs a card of this color, take as many Coins from the bank as the current Age (1, 2, or 3 Coins)."));
+                ->addText(clienttranslate('Each time you or your opponent constructs a ${color} card, take as many Coins from the bank as the current Age (1, 2, or 3 Coins).'), true, [
+                    'color' => $i == 1 ? clienttranslate('Blue') : ($i == 2 ? clienttranslate('Green') : ($i == 3 ? clienttranslate('Yellow') : clienttranslate('Red')))
+                ]);
         }
         for ($i = 5; $i <= 7; $i++) {
             $this->decrees[$i] = (new Decree($i, ""))
-                ->addText(clienttranslate("Ignore 1 cost symbol (choose either a resource or Coins) when constructing cards of this color."));
+                ->addText(clienttranslate('Ignore 1 cost symbol (choose either a resource or Coins) when constructing a ${color} card.'), true, [
+                    'color' => $i == 5 ? clienttranslate('Yellow') : ($i == 6 ? clienttranslate('Red') : clienttranslate('Green'))
+                ]);
         }
 
         $this->decrees[8] = (new Decree(8, ""))

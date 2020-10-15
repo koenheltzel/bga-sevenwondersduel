@@ -1662,8 +1662,16 @@ define([
                     else if (text.length == 1) return _(text[0][0]);
                     else {
                         var string = '';
+
                         for (let i = 0; i < text.length; i++) {
-                            string += "<li " + (text[i][1] ? '' : 'class="no_li"') + ">" + _(text[i][0]) + "</li>";
+                            // Replace/translate arguments in text.
+                            let args = text[i][2] ? text[i][2] : {};
+                            Object.keys(args).forEach(dojo.hitch(this, function (key) {
+                                args[key] = _(args[key]);
+                            }));
+                            let output = dojo.string.substitute(_(text[i][0]), args);
+
+                            string += "<li " + (text[i][1] ? '' : 'class="no_li"') + ">" + output + "</li>";
                         }
                         return "<ul>" + string + "</ul>";
                     }
