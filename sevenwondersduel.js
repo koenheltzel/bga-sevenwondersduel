@@ -1334,7 +1334,10 @@ define([
                         connectId: "swd",
                         selector: '#senate_actions_tooltip',
                         showDelay: this.toolTipDelay,
-                        label: this.getTextHtml(this.gamedatas.buildings[75].text)
+                        label: this.getTextHtml([
+                                [_('When you recruit a Politician (white cards):'), false],
+                            ].concat(this.gamedatas.buildings[75].text)
+                        )
                     })
                 );
 
