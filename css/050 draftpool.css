@@ -47,8 +47,11 @@
 #draftpool_actions {
     text-align: center;
     display: none;
-    justify-content: space-between;
     width: calc(var(--building-columns-count) * var(--building-small-width) + (var(--building-columns-count) - 1) * 2px - 2 * var(--gutter));
+    flex-wrap: wrap;
+    gap: var(--gutter);
+    flex-direction: row-reverse;
+    justify-content: center;
 }
 
 #action_container a {
@@ -59,7 +62,7 @@
 }
 
 #action_container a > div {
-    margin-right: var(--gutter);
+    margin-right: calc(0.75 * var(--gutter));
 }
 
 #buttonConstructWonder {
