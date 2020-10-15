@@ -353,7 +353,7 @@ class Building extends Item {
             );
         }
 
-        if ($this->type == Building::TYPE_SENATOR && $player->hasDecree(16)) {
+        if ($this->type == Building::TYPE_SENATOR && $this->subType == Building::SUBTYPE_CONSPIRATOR && $player->hasDecree(16)) {
             SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_DECREE, 1);
 
             SevenWondersDuelAgora::get()->notifyAllPlayers(
