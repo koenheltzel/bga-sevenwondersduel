@@ -39,7 +39,7 @@ define([
             LAYOUT_PORTRAIT: 'portrait',
 
             // Show console.log messages
-            debug: 0,
+            debug: 1,
             agora: 0,
 
             // Settings
@@ -91,6 +91,7 @@ define([
             coin_slide_delay: 100,
             notification_safe_margin: 100,
             victorypoints_slide_duration: 1000,
+            conspire_duration: 1000,
 
             constructor: function () {
                 bgagame.sevenwondersduelagora.instance = this;
@@ -3297,17 +3298,51 @@ define([
 
             onEnterConspire: function (args) {
                 if (this.debug) console.log('onEnterConspire', args);
+
+                let anims = [];
                 if (this.isCurrentPlayerActive()) {
                     let i = 1;
                     Object.keys(args._private.conspiracies).forEach(dojo.hitch(this, function (conspiracyId) {
                         var card = args._private.conspiracies[conspiracyId];
                         var container = dojo.query('#conspire>div:nth-of-type(' + i + ')')[0];
                         dojo.empty(container);
-                        dojo.place(this.getConspiracyDivHtml(conspiracyId, conspiracyId,true), container);
+                        let node = dojo.place(this.getConspiracyDivHtml(conspiracyId, conspiracyId,true), container);
+                        this.placeOnObject(node, $('conspiracy_deck'));
+                        anims.push(this.slideToObject( node, container, this.conspire_duration, i * this.conspire_duration / 3));
                         i++;
                     }));
                     this.updateLayout();
                 }
+                else {
+                    for (let i = 0; i <= 1; i++) {
+                        var container = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                        let node = dojo.place(this.getConspiracyDivHtml(18, 18, true), container);
+                        this.placeOnObject(node, $('conspiracy_deck'));
+                        let startDelay = i * this.conspire_duration / 3;
+
+                        anims.push(
+                            dojo.fx.combine([
+                                this.slideToObject( node, container, this.conspire_duration, i * this.conspire_duration / 3),
+                                dojo.fadeIn({
+                                    node: node,
+                                    duration: this.conspire_duration / 3
+                                }),
+                                dojo.fadeOut({
+                                    node: node,
+                                    delay: startDelay + this.conspire_duration / 3 * 2,
+                                    duration: this.conspire_duration / 3,
+                                    onEnd: dojo.hitch(this, function (node) {
+                                        dojo.destroy(node);
+                                    })
+                                }),
+                            ])
+                        );
+                    }
+                }
+                let anim = dojo.fx.combine(
+                    anims
+                );
+                anim.play();
             },
 
             onChooseConspiracyClick: function (e) {
