@@ -591,16 +591,16 @@ class Material extends Base
                 ->addText(clienttranslate('2-3 Blue cards: 2 Senate actions'))
                 ->addText(clienttranslate('4+ Blue cards: 3 Senate actions'))
                 ->addText(clienttranslate('The 2 different Senate actions are:'), false)
-                ->addText(clienttranslate('Place Influence'))
-                ->addText(clienttranslate('Move Influence'));
+                ->addText(clienttranslate('Place Influence (in the section of the Politician)'))
+                ->addText(clienttranslate('Move Influence (from any Chamber to an adjacent Chamber)'));
         }
         for($id = 81; $id <= 86; $id++) {
             $this->buildings[$id] = (new Building($id, 5, clienttranslate("Conspirator"), Building::TYPE_SENATOR))
                 ->setSubType(Building::SUBTYPE_CONSPIRATOR)
                 ->setListPage(-1)
                 ->addText(clienttranslate('Take only one of the following actions:'), false)
-                ->addText(clienttranslate('Place Influence'))
-                ->addText(clienttranslate('Conspire'));
+                ->addText(clienttranslate('Place Influence (1 Influence cube in the chamber of your choice)'))
+                ->addText(clienttranslate('Conspire (draw 2 Conspiracies and choose 1 to keep)'));
         }
 
         // Set the link relationship in the other way, to add text to the tooltip about it.
