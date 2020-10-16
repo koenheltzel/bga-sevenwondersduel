@@ -151,8 +151,9 @@ class Senate extends Base
 
         $payment1 = self::handlePossibleControlChange($oldControllerFrom, $newControllerFrom, $chamberFrom, $senateAction);
         $payment2 = self::handlePossibleControlChange($oldControllerTo, $newControllerTo, $chamberTo, $senateAction);
-        if (count($payment1->militarySenateActions) > 0) return $payment1;
-        if (count($payment2->militarySenateActions) > 0) return $payment2;
+        if ($payment1 && count($payment1->militarySenateActions) > 0) return $payment1;
+        if ($payment2 && count($payment2->militarySenateActions) > 0) return $payment2;
+        return null;
     }
 
     public static function moveDecree($chamberFrom, $chamberTo) {
