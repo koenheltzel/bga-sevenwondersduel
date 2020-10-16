@@ -49,19 +49,22 @@
 
 //    !! It is not a good idea to modify this file when a game is running !!
 
-$constructBuildingTransitions = [
-    // Science symbol pair
-    SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_ID,
-    // Conspirator
-    SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_ID,
-    // Politician
-    SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID,
+$militaryTokenTransitions = [
     // From military building / track
     SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID,
     SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_ID,
     SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID, // If remove influence is skipp
     SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // In case of instant victory
 ];
+
+$constructBuildingTransitions = array_merge($militaryTokenTransitions, [
+    // Science symbol pair
+    SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_ID,
+    // Conspirator
+    SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_ID,
+    // Politician
+    SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID,
+]);
 
 $conspiracyStateTransitions = [
     // Military conspiracy --> Military track tokens
@@ -375,12 +378,12 @@ $machinestates = [
             "actionChooseOpponentBuilding",
             // If there are no building to discard, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
         ],
-        "transitions" => [
+        "transitions" => array_merge($militaryTokenTransitions, [
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID, // Conspiracies, when skipping the discard action
             SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
-        ]
+        ])
     ],
 
     SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID => [
