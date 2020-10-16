@@ -288,8 +288,8 @@ $machinestates = [
 
     SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID => [
         "name" => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME,
-        "description" => clienttranslate('${actplayer} must choose a Senate chamber to move an Influence cube from'),
-        "descriptionmyturn" => clienttranslate('${you} must choose a Senate chamber to move an Influence cube from'),
+        "description" => clienttranslate('${actplayer} may choose a Senate chamber to move an Influence cube from'),
+        "descriptionmyturn" => clienttranslate('${you} may choose a Senate chamber to move an Influence cube from'),
         "type" => "activeplayer",
         "action" => "enterStateMoveInfluence",
         "args" => "argMoveInfluence",
