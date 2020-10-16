@@ -87,7 +87,7 @@ trait PlayerTurnTrait {
                 $decreeAdvantage = $player->getSenateActionsCount() - $player->getSenateActionsCount(false);
                 $this->notifyAllPlayers(
                     'message',
-                    clienttranslate('${player_name} may perform ${actionsCount} Senate actions (+${advantage} because he controls the Decree in Chamber ${chamber})'),
+                    clienttranslate('${player_name} may perform ${actionsCount} Senate action(s) (+${advantage} because he controls the Decree in Chamber ${chamber})'),
                     [
                         'advantage' => $decreeAdvantage,
                         'player_name' => $player->name,
@@ -99,7 +99,7 @@ trait PlayerTurnTrait {
             else {
                 $this->notifyAllPlayers(
                     'message',
-                    clienttranslate('${player_name} may perform ${actionsCount} Senate actions'),
+                    clienttranslate('${player_name} may perform ${actionsCount} Senate action(s)'),
                     [
                         'player_name' => $player->name,
                         'actionsCount' => $this->getGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT),
