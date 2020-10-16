@@ -3387,6 +3387,12 @@ define([
 
                 let conspiracyId = notif.args.conspiracyId ? notif.args.conspiracyId : 18;
 
+                // Skip for the active player, who will get their own notification of the same type but with a real conspiracyId.
+                if (this.isCurrentPlayerActive() == this.player_id && conspiracyId == 18) {
+                    this.notifqueue.setSynchronousDuration(0);
+                    return;
+                }
+
                 var newConspiracyContainerNode = dojo.place(this.getConspiracyDivHtml(conspiracyId, 18, false, notif.args.conspiracyPosition), 'player_conspiracies_' + notif.args.playerId);
                 var newConspiracyNode = dojo.query('.conspiracy_compact', newConspiracyContainerNode)[0];
                 dojo.style(newConspiracyContainerNode, 'opacity', 0);
@@ -4422,6 +4428,12 @@ define([
 
             notif_lockProgressToken: function (notif) {
                 if (this.debug) console.log('notif_lockProgressToken', notif);
+
+                // Skip for the active player, who will get their own notification of the same type but with a real progressTokenId.
+                if (this.getActivePlayerId() == this.player_id && notif.args.progressTokenId == 16) {
+                    this.notifqueue.setSynchronousDuration(0);
+                    return;
+                }
 
                 this.clearRedBorder();
 

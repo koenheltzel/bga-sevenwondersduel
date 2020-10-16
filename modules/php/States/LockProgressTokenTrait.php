@@ -42,17 +42,7 @@ trait LockProgressTokenTrait {
         $this->progressTokenDeck->moveCard($progressTokenId, 'conspiracy5');
 
         if ($card['location'] == "selection") {
-            foreach (Players::get() as $tmpPlayer) {
-                $this->notifyPlayer(
-                    $tmpPlayer->id,
-                    'lockProgressToken',
-                    '',
-                    [
-                        'progressTokenId' => $tmpPlayer == $player ? $progressToken->id : 16,
-                    ]
-                );
-            }
-            // Secret
+            // Message to all
             $this->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} locks away a Progress Token from the box, it can\'t be used during this game (Conspiracy “${conspiracyName}”)'),
@@ -60,6 +50,25 @@ trait LockProgressTokenTrait {
                     'i18n' => ['conspiracyName'],
                     'conspiracyName' => Conspiracy::get(5)->name,
                     'player_name' => $player->name
+                ]
+            );
+
+            // To active player (secret id)
+            $this->notifyPlayer(
+                $player->id,
+                'lockProgressToken',
+                '',
+                [
+                    'progressTokenId' => $progressToken->id,
+                ]
+            );
+
+            // To other player & spectators
+            $this->notifyAllPlayers(
+                'lockProgressToken',
+                '',
+                [
+                    'progressTokenId' => 16,
                 ]
             );
         }

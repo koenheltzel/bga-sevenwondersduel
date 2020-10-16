@@ -53,7 +53,7 @@ class Conspiracy extends Item {
         );
 
         // Don't send conspiracy id to the other player / spectators, only the picked conspiracy's position in the deck's player location
-        SevenWondersDuelAgora::get()->notifyPlayer($player->getOpponent()->id,
+        SevenWondersDuelAgora::get()->notifyAllPlayers(
             'constructConspiracy',
             '',
             [
