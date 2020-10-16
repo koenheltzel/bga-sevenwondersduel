@@ -2054,7 +2054,7 @@ define([
                     Object.keys(this.gamedatas.conspiraciesSituation[this.getActivePlayerId()]).forEach(dojo.hitch(this, function (index) {
                         var conspiracyData = this.gamedatas.conspiraciesSituation[this.getActivePlayerId()][index];
                         if (args.mayTriggerConspiracy && conspiracyData.prepared && !conspiracyData.triggered) {
-                            if (this.getActivePlayerId() == this.player_id) {
+                            if (this.isCurrentPlayerActive()) {
                                 let conspiracyNode = dojo.query('#player_conspiracies_' + this.getActivePlayerId() + ' div[data-conspiracy-position="' + conspiracyData.position + '"]')[0];
                                 dojo.addClass(conspiracyNode, 'green_border');
                             }
@@ -3388,7 +3388,7 @@ define([
                 let conspiracyId = notif.args.conspiracyId ? notif.args.conspiracyId : 18;
 
                 // Skip for the active player, who will get their own notification of the same type but with a real conspiracyId.
-                if (this.isCurrentPlayerActive() == this.player_id && conspiracyId == 18) {
+                if (this.isCurrentPlayerActive() && conspiracyId == 18) {
                     this.notifqueue.setSynchronousDuration(0);
                     return;
                 }
@@ -4059,7 +4059,7 @@ define([
             //              |___/ |___/                        |_|            |_|                                               |_|                     |___/
 
             onEnterTriggerUnpreparedConspiracy: function() {
-                if (this.getActivePlayerId() == this.player_id) {
+                if (this.isCurrentPlayerActive()) {
                     Object.keys(this.gamedatas.conspiraciesSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
                         var conspiracyData = this.gamedatas.conspiraciesSituation[this.player_id][index];
                         if (!conspiracyData.prepared && !conspiracyData.triggered) {
@@ -4430,7 +4430,7 @@ define([
                 if (this.debug) console.log('notif_lockProgressToken', notif);
 
                 // Skip for the active player, who will get their own notification of the same type but with a real progressTokenId.
-                if (this.getActivePlayerId() == this.player_id && notif.args.progressTokenId == 16) {
+                if (this.isCurrentPlayerActive() && notif.args.progressTokenId == 16) {
                     this.notifqueue.setSynchronousDuration(0);
                     return;
                 }
