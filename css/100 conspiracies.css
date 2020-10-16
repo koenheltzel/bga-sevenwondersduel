@@ -82,7 +82,7 @@
     top: 9%;
 }
 
-.conspiracy_compact .trigger, .conspiracy_compact .prepare {
+.conspiracy_compact .trigger, .conspiracy_compact .prepare, .conspiracy_small .deck_position {
     font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
     font-size: calc(var(--scale) * 22px);
     line-height: calc(var(--scale) * 22px);
@@ -98,6 +98,13 @@
 .conspiracy_compact .trigger {
     color: #078a00;
 }
+.conspiracy_small .deck_position {
+    color: white;
+    animation: none;
+    font-size: calc(var(--scale) * 18px);
+    top: calc(var(--scale) * 6px);
+}
+
 .conspiracy_compact.green_border .trigger, .conspiracy_compact.red_border .prepare {
     display: inline-block;
 }

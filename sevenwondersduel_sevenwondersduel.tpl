@@ -542,6 +542,7 @@ var jstpl_conspiracy_full = '\
         style="background-position: -${jsX}00% -${jsY}00%;"\
     >\
         <span class="swd_title">${jsName}</span>\
+        <span class="deck_position"></span>\
     </div>';
 
 var jstpl_progress_token = '\

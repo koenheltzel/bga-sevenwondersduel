@@ -93,6 +93,7 @@ define([
             victorypoints_slide_duration: 1000,
             conspire_duration: 1000,
             construct_conspiracy_duration: 1600,
+            choose_conspire_remnant_position_duration: 1600,
 
             constructor: function () {
                 bgagame.sevenwondersduelagora.instance = this;
@@ -521,6 +522,9 @@ define([
 
                 dojo.subscribe('constructConspiracy', this, "notif_constructConspiracy");
                 this.notifqueue.setSynchronous('constructConspiracy');
+
+                dojo.subscribe('chooseConspireRemnantPosition', this, "notif_chooseConspireRemnantPosition");
+                this.notifqueue.setSynchronous('chooseConspireRemnantPosition');
 
                 dojo.subscribe('prepareConspiracy', this, "notif_prepareConspiracy");
                 this.notifqueue.setSynchronous('prepareConspiracy');
@@ -3524,6 +3528,99 @@ define([
                         }
                     );
                 }
+            },
+
+            notif_chooseConspireRemnantPosition: function (notif) {
+                if (this.debug) console.log('notif_constructConspiracy', notif);
+
+                let conspiracyId = notif.args.conspiracyId ? notif.args.conspiracyId : 18;
+
+                let flipAnims = [];
+                let slideAnims = [];
+                var backSideConspiracyNode = null;
+                if (this.isCurrentPlayerActive()) {
+                    // For the active player, turn the card first so the backside is visible.
+                    var oldConspiracyNode = dojo.query('#conspire .conspiracy_small')[0];
+
+                    backSideConspiracyNode = dojo.place(this.getConspiracyDivHtml(17, 17, true), oldConspiracyNode.parentElement);
+
+                    dojo.style(backSideConspiracyNode, 'transform', 'perspective(40em) rotateY(-180deg)'); // When delay > 0 this is necesarry to hide the new node.
+                    dojo.style(backSideConspiracyNode, 'z-index', '50');
+
+                    flipAnims.push(
+                        dojo.fx.combine([
+                            dojo.animateProperty({
+                                node: oldConspiracyNode,
+                                delay: 100,
+                                duration: this.turnAroundCardDuration,
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    propertyTransform: {start: 0, end: 180}
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                },
+                                onEnd: dojo.hitch(this, function (node) {
+                                    dojo.destroy(node);
+                                })
+                            }),
+                            dojo.animateProperty({
+                                node: backSideConspiracyNode,
+                                delay: 100,
+                                duration: this.turnAroundCardDuration,
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    propertyTransform: {start: -180, end: 0}
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                }
+                            }),
+                        ])
+                    );
+
+                    slideAnims.push(this.slideToObject( backSideConspiracyNode, 'conspiracy_deck', this.choose_conspire_remnant_position_duration));
+                }
+                else {
+                    // For the inactive player / spectator, fadein the backside of the conspiracy and slide towards the final place
+                    var playerBuildingsContainer = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                    backSideConspiracyNode = dojo.place(this.getConspiracyDivHtml(17, 17, true), playerBuildingsContainer);
+
+                    let deckPositionNode = dojo.query('.deck_position', backSideConspiracyNode)[0];
+                    deckPositionNode.innerHTML = notif.args.onTop ? _('To the top') : _('To the bottom');
+                    dojo.style(deckPositionNode, 'display', 'inline-block');
+
+                    this.placeOnObject( backSideConspiracyNode, playerBuildingsContainer ); // Center the card in the player buildingsContainer
+                    dojo.style(backSideConspiracyNode, 'opacity', 0);
+                    dojo.style(backSideConspiracyNode, 'z-index', '50');
+
+                    slideAnims.push(
+                        dojo.fx.chain([
+                            dojo.fadeIn({
+                                node: backSideConspiracyNode,
+                                duration: this.choose_conspire_remnant_position_duration / 4
+                            }),
+                            this.slideToObject( backSideConspiracyNode, 'conspiracy_deck', this.choose_conspire_remnant_position_duration / 4 * 3, this.choose_conspire_remnant_position_duration / 4),
+                        ])
+                    );
+                }
+
+                let anim = dojo.fx.chain([
+                    dojo.fx.combine(
+                        flipAnims
+                    ),
+                    dojo.fx.combine(
+                        slideAnims
+                    )
+                ]);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    dojo.destroy(backSideConspiracyNode);
+                }));
+
+                anim.play();
+
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
             },
 
             //  ____                   _            _        _   _

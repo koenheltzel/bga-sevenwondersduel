@@ -44,6 +44,7 @@ trait ChooseConspireRemnantPositionTrait {
             clienttranslate('${player_name} put the remaining Conspiracy card on ${topOrBottom} of the deck'),
             [
                 'topOrBottom' => $top ? clienttranslate('top') : clienttranslate('bottom'),
+                'onTop' => (int)$top, // Used by animation
                 'player_name' => Player::getActive()->name,
             ]
         );
