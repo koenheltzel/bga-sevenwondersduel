@@ -94,11 +94,11 @@
 
 .agora_cube {
     text-align: center;
-    filter: drop-shadow(0px 0px calc(var(--scale) * 2.5px) #000000);
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1px) black) drop-shadow(0px 0px calc(var(--scale) * 3px) white) drop-shadow(0px 0px calc(var(--scale) * 4px) white);
     backface-visibility: hidden;
 
-    width: calc(var(--senate-scale) * 25px);
-    height: calc(var(--senate-scale) * 25px);
+    width: calc(var(--senate-scale) * var(--cube-size));
+    height: calc(var(--senate-scale) * var(--cube-size));
     display: inline-block;
     position: absolute;
     pointer-events: none;
@@ -106,19 +106,19 @@
 
 .agora_cube > span {
     font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
-    font-size: calc(var(--scale) * var(--element-scale) * 20px);
-    line-height: calc(var(--senate-scale) * 25px) !important;
+    font-size: calc(var(--scale) * var(--element-scale) * var(--cube-size) * 0.8);
+    line-height: calc(var(--senate-scale) * var(--cube-size)) !important;
     text-shadow: 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white;
     color: black;
     cursor: default;
     position: relative;
     display: inline-block;
-    width: calc(var(--senate-scale) * 25px);
-    height: calc(var(--senate-scale) * 25px);
+    width: calc(var(--senate-scale) * var(--cube-size));
+    height: calc(var(--senate-scale) * var(--cube-size));
 }
 
 .agora_cube_me > span {
-    color: #2d160d;
+    color: #481e0a;
 }
 .agora_cube_opponent > span {
     color: #1f1d1d;
@@ -143,11 +143,11 @@
 }
 
 .influence_containers .agora_cube_me {
-    top: calc(var(--senate-scale) * 40px);
+    top: calc(var(--senate-scale) * 45px);
     left: 0;
 }
 .influence_containers .agora_cube_opponent {
-    left: calc(var(--senate-scale) * 40px);
+    left: calc(var(--senate-scale) * 45px);
     top: 0;
 }
 

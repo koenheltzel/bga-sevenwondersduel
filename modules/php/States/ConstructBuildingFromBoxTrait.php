@@ -40,13 +40,8 @@ trait ConstructBuildingFromBoxTrait {
 
         $payment = $building->construct(Player::getActive(), null, true);
 
-        if ($payment->selectProgressToken) {
-            $this->prependStateStack([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
-        }
-        if (count($payment->militarySenateActions) > 0) {
-            $this->prependStateStack($payment->militarySenateActions);
-        }
-        $this->stateStackNextState();
+
+        $this->transitionAfterConstructBuilding($building, $payment);
     }
 
     public function shouldSkipConstructBuildingFromBox() {

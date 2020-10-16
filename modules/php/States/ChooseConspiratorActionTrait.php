@@ -68,7 +68,7 @@ trait ChooseConspiratorActionTrait {
                     'progressTokenName' => ProgressToken::get(12)->name,
                 ]
             );
-            $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+            $this->stateStackNextState();
         }
         else {
             // Normal Conspire

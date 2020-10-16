@@ -459,6 +459,7 @@ class SevenWondersDuelAgora extends Table
         self::setGameStateInitialValue( self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
         self::setGameStateInitialValue( self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, 0);
         self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, 0);
+        self::setGameStateInitialValue( self::VALUE_STATE_STACK, json_encode([]));
         // Agora
         self::setGameStateInitialValue( self::VALUE_CONSPIRE_RETURN_STATE, 0);
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_SECTION, 0);
