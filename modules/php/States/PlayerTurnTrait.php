@@ -8,6 +8,7 @@ use SWD\Conspiracies;
 use SWD\Conspiracy;
 use SWD\Decree;
 use SWD\Draftpool;
+use SWD\Payment;
 use SWD\Player;
 use SWD\Players;
 use SWD\Senate;
@@ -63,15 +64,20 @@ trait PlayerTurnTrait {
             $this->incStat(1, self::STAT_CHAINED_CONSTRUCTIONS, $player->id);
         }
 
+        $this->transitionAfterConstructBuilding($building, $payment);
+    }
+
+    public function transitionAfterConstructBuilding(Building $building, Payment $payment) {
+        $player = Player::getActive();
+
         if (count($payment->militarySenateActions) > 0) {
-            $this->setStateStack(array_merge($payment->militarySenateActions, [self::STATE_NEXT_PLAYER_TURN_NAME]));
-            $this->stateStackNextState();
+            $this->prependStateStackAndContinue($payment->militarySenateActions);
         }
         elseif ($payment->selectProgressToken) {
-            $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_NAME);
+            $this->prependStateStackAndContinue([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
         }
         elseif ($building->subType == Building::SUBTYPE_CONSPIRATOR) {
-            $this->gamestate->nextState( self::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME);
+            $this->prependStateStackAndContinue([self::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME]);
         }
         elseif ($building->subType == Building::SUBTYPE_POLITICIAN) {
             $this->setGameStateValue(self::VALUE_SENATE_ACTIONS_SECTION, $building->senateSection);
@@ -101,11 +107,10 @@ trait PlayerTurnTrait {
                 );
             }
 
-            $this->setStateStack([self::STATE_SENATE_ACTIONS_NAME, self::STATE_NEXT_PLAYER_TURN_NAME]);
-            $this->stateStackNextState();
+            $this->prependStateStackAndContinue([self::STATE_SENATE_ACTIONS_NAME]);
         }
         else {
-            $this->stateStackNextState(self::STATE_NEXT_PLAYER_TURN_NAME);
+            $this->stateStackNextState();
         }
     }
 
@@ -147,9 +152,7 @@ trait PlayerTurnTrait {
             );
         }
 
-
-        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
-
+        $this->stateStackNextState();
     }
 
     public function actionConstructWonder($buildingId, $wonderId) {
@@ -179,19 +182,17 @@ trait PlayerTurnTrait {
             $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
         }
         elseif (count($payment->militarySenateActions) > 0) {
-            $this->setStateStack(array_merge($payment->militarySenateActions, [self::STATE_NEXT_PLAYER_TURN_NAME]));
-            $this->stateStackNextState();
+            $this->prependStateStackAndContinue($payment->militarySenateActions);
         }
         elseif (count($wonder->actionStates) > 0) {
-            $this->setStateStack(array_merge($wonder->actionStates, [self::STATE_NEXT_PLAYER_TURN_NAME]));
-            $this->stateStackNextState();
+            $this->prependStateStackAndContinue($wonder->actionStates);
         }
         else {
             // Handle some special rewards that possibly require going to a separate state. If not move on to the Next Player Turn.
             switch ($wonder->id) {
                 case 5: // Wonder The Mausoleum - Choose a discarded building and construct it for free.
                     if (count(SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation('discard')) > 0) {
-                        $this->gamestate->nextState( self::STATE_CHOOSE_DISCARDED_BUILDING_NAME);
+                        $this->prependStateStackAndContinue([self::STATE_CHOOSE_DISCARDED_BUILDING_NAME]);
                     }
                     else {
                         $this->notifyAllPlayers(
@@ -203,7 +204,7 @@ trait PlayerTurnTrait {
                                 'wonderName' => $wonder->name
                             ]
                         );
-                        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+                        $this->stateStackNextState();
                     }
                     break;
                 case 6: // Wonder The Great Library - Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box.
@@ -220,13 +221,13 @@ trait PlayerTurnTrait {
                     // Would like to this in enterStateChooseProgressTokenFromBox, but aparently argChooseProgressTokenFromBox can be called before, so we need to do it now.
                     $this->progressTokenDeck->pickCardsForLocation(3, 'box', 'selection'); // Select 3 progress tokens for Wonder The Great Library.
                     $this->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg
-                    $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
+                    $this->prependStateStackAndContinue([self::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME]);
                     break;
                 case 9: // Wonder The Statue of Zeus - Discard a brown building of your choice constructed by your opponent.
                 case 12: // Wonder Circus Maximus - Discard a grey building of your choice constructed by your opponent.
                     if (count(Player::opponent()->getBuildings()->filterByTypes([$wonderId == 9 ? Building::TYPE_BROWN : Building::TYPE_GREY])->array) > 0) {
                         $this->setGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, $wonderId);
-                        $this->gamestate->nextState( self::STATE_CHOOSE_OPPONENT_BUILDING_NAME);
+                        $this->prependStateStackAndContinue([self::STATE_CHOOSE_OPPONENT_BUILDING_NAME]);
                     }
                     else {
                         $this->notifyAllPlayers(
@@ -239,11 +240,11 @@ trait PlayerTurnTrait {
                                 'wonderName' => $wonder->name
                             ]
                         );
-                        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+                        $this->stateStackNextState();
                     }
                     break;
                 default:
-                    $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+                    $this->stateStackNextState();
                     break;
             }
         }
@@ -272,7 +273,7 @@ trait PlayerTurnTrait {
 
         $this->incStat(1, self::STAT_CONSPIRACIES_PREPARED, $player->id);
 
-        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        $this->stateStackNextState();
     }
 
     public function actionTriggerConspiracy($conspiracyId) {

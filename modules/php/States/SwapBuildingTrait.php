@@ -131,7 +131,8 @@ trait SwapBuildingTrait {
                 clienttranslate('${player_name} and ${opponent_name} can\'t swap a Green or Blue card of the same color (Conspiracy “${conspiracyName}”)'),
                 [
                     'i18n' => ['conspiracyName'],
-                    'player_name' => $opponent->name,
+                    'player_name' => $player->name,
+                    'opponent_name' => $opponent->name,
                     'conspiracyName' => Conspiracy::get(14)->name,
                 ]
             );

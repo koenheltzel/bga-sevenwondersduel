@@ -104,7 +104,7 @@ trait SenateActionsTrait {
         }
     }
 
-    public function stateStackNextState($stateIfEmpty = null) {
+    public function stateStackNextState($stateIfEmpty = self::STATE_NEXT_PLAYER_TURN_NAME) {
         if ($this->checkImmediateVictory()) {
             $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
         }
@@ -129,6 +129,11 @@ trait SenateActionsTrait {
 
             $this->gamestate->nextState( $stateIfEmpty );
         }
+    }
+
+    public function prependStateStackAndContinue(Array $states) {
+        $this->prependStateStack($states);
+        $this->stateStackNextState();
     }
 
     public function prependStateStack(Array $states) {
