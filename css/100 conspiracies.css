@@ -7,6 +7,7 @@
     border-radius: calc(var(--conspiracy-border-radius) * var(--scale));
     box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
     inset 0 0 0 1px #00000060;
+    backface-visibility: hidden;
 
     /* Temporary: */
     display: inline-block;
