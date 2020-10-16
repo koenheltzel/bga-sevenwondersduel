@@ -2,6 +2,7 @@
 
 namespace SWD\States;
 
+use SWD\Draftpool;
 use SWD\Player;
 use SWD\Senate;
 
@@ -14,6 +15,7 @@ trait PlaceInfluenceTrait {
      */
     public function argPlaceInfluence() {
         $data = [];
+        $data['draftpool'] = Draftpool::get();
         $data['senateSituation'] = Senate::getSituation();
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         return $data;
