@@ -261,12 +261,12 @@ $machinestates = [
             "actionMoveInfluence",
             "actionSkipMoveInfluence",
         ],
-        "transitions" => [
+        "transitions" => array_merge($militaryTokenTransitions, [ // For when the military Decree triggers a Military Token.
             SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political supremacy
             SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
-        ]
+        ])
     ],
 
     SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID => [
@@ -279,15 +279,14 @@ $machinestates = [
         "possibleactions" => [
             "actionPlaceInfluence",
         ],
-        "transitions" => [
+        "transitions" => array_merge($militaryTokenTransitions, [ // Remove and Move maybe are obvious, but Place after Place can happen too (Conspirator Place Influence on Military Decree, which triggers Military Token with Place Influence action).
+            SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID, // Going back to Senate Actions after a Senate Action triggered the Military Decree which collected a Military Token.
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID, // After Conspiracy Coup, after military token action.
             SevenWondersDuelAgora::STATE_WONDER_SELECTED_NAME => SevenWondersDuelAgora::STATE_WONDER_SELECTED_ID,
-            SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_ID,
-            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political supremacy
             SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
-        ]
+        ])
     ],
 
     SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID => [
@@ -302,6 +301,7 @@ $machinestates = [
             "actionSkipMoveInfluence",
         ],
         "transitions" => [
+            SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID, // Going back to Senate Actions after a Senate Action triggered the Military Decree which collected a Military Token.
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political supremacy
@@ -320,6 +320,7 @@ $machinestates = [
             "actionRemoveInfluence",
         ],
         "transitions" => [
+            SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID, // Going back to Senate Actions after a Senate Action triggered the Military Decree which collected a Military Token.
             SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
             SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,

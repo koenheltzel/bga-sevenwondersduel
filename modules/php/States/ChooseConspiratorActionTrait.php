@@ -43,8 +43,7 @@ trait ChooseConspiratorActionTrait {
             ]
         );
 
-        $this->setStateStack([self::STATE_PLACE_INFLUENCE_NAME, self::STATE_NEXT_PLAYER_TURN_NAME]);
-        $this->stateStackNextState();
+        $this->prependStateStackAndContinue([self::STATE_PLACE_INFLUENCE_NAME]);
     }
 
     public function actionConspire() {

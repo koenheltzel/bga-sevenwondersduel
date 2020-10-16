@@ -37,17 +37,17 @@ trait SenateActionsTrait {
     public function actionPlaceInfluence($chamber) {
         $this->checkAction("actionPlaceInfluence");
 
-        Senate::placeInfluence($chamber);
+        $payment = Senate::placeInfluence($chamber);
 
-        $this->senateActionNextState();
+        $this->senateActionNextState($payment ? $payment->militarySenateActions : []);
     }
 
     public function actionMoveInfluence($chamberFrom, $chamberTo) {
         $this->checkAction("actionMoveInfluence");
 
-        Senate::moveInfluence($chamberFrom, $chamberTo);
+        $payment = Senate::moveInfluence($chamberFrom, $chamberTo);
 
-        $this->senateActionNextState();
+        $this->senateActionNextState($payment ? $payment->militarySenateActions : []);
     }
 
     public function actionSkipMoveInfluence() {
@@ -80,27 +80,33 @@ trait SenateActionsTrait {
     public function actionRemoveInfluence($chamber) {
         $this->checkAction("actionRemoveInfluence");
 
-        Senate::removeInfluence($chamber);
+        $payment = Senate::removeInfluence($chamber);
 
-        $this->senateActionNextState();
+        $this->senateActionNextState($payment ? $payment->militarySenateActions : []);
     }
 
-    public function senateActionNextState() {
+    public function senateActionNextState($militarySenateActions=[]) {
         if ($this->gamestate->state()['name'] == self::STATE_SENATE_ACTIONS_NAME) {
             if ((int)($this->incGameStateValue(self::VALUE_SENATE_ACTIONS_LEFT, -1)) > 0) {
                 if ($this->checkImmediateVictory()) {
                     $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
                 }
                 else {
-                    $this->gamestate->nextState( self::STATE_SENATE_ACTIONS_NAME);
+                    if (count($militarySenateActions) > 0) {
+                        $this->prependStateStack([self::STATE_SENATE_ACTIONS_NAME]); // Continue with senate actions after..
+                        $this->prependStateStackAndContinue($militarySenateActions); // First handle military token senate action(s)
+                    }
+                    else {
+                        $this->gamestate->nextState( self::STATE_SENATE_ACTIONS_NAME);
+                    }
                 }
             }
             else {
-                $this->stateStackNextState();
+                $this->prependStateStackAndContinue($militarySenateActions);
             }
         }
         else {
-            $this->stateStackNextState();
+            $this->prependStateStackAndContinue($militarySenateActions);
         }
     }
 

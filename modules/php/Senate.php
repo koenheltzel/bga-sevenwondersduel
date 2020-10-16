@@ -73,7 +73,7 @@ class Senate extends Base
         );
 
         $newController = self::getControllingPlayer($chamber, $senateAction);
-        self::handlePossibleControlChange($oldController, $newController, $chamber, $senateAction);
+        return self::handlePossibleControlChange($oldController, $newController, $chamber, $senateAction);
     }
 
     public static function removeInfluence($chamber) {
@@ -107,7 +107,7 @@ class Senate extends Base
         );
 
         $newController = self::getControllingPlayer($chamber, $senateAction);
-        self::handlePossibleControlChange($oldController, $newController, $chamber, $senateAction);
+        return self::handlePossibleControlChange($oldController, $newController, $chamber, $senateAction);
     }
 
     public static function moveInfluence($chamberFrom, $chamberTo) {
@@ -149,8 +149,10 @@ class Senate extends Base
         $newControllerFrom = self::getControllingPlayer($chamberFrom, $senateAction);
         $newControllerTo = self::getControllingPlayer($chamberTo, $senateAction);
 
-        self::handlePossibleControlChange($oldControllerFrom, $newControllerFrom, $chamberFrom, $senateAction);
-        self::handlePossibleControlChange($oldControllerTo, $newControllerTo, $chamberTo, $senateAction);
+        $payment1 = self::handlePossibleControlChange($oldControllerFrom, $newControllerFrom, $chamberFrom, $senateAction);
+        $payment2 = self::handlePossibleControlChange($oldControllerTo, $newControllerTo, $chamberTo, $senateAction);
+        if (count($payment1->militarySenateActions) > 0) return $payment1;
+        if (count($payment2->militarySenateActions) > 0) return $payment2;
     }
 
     public static function moveDecree($chamberFrom, $chamberTo) {
@@ -279,6 +281,7 @@ class Senate extends Base
                     'payment' => $payment,
                 ]
             );
+            return $payment;
         }
         elseif(is_null($newController)) {
             // Someone lost control
@@ -304,6 +307,7 @@ class Senate extends Base
                     'payment' => $payment,
                 ]
             );
+            return $payment;
         }
         else {
             throw new BgaVisibleSystemException ( "A Senate chamber control changed hands within 1 Influence cube move, which should be impossible.");
