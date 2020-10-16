@@ -526,6 +526,9 @@ define([
                 dojo.subscribe('chooseConspireRemnantPosition', this, "notif_chooseConspireRemnantPosition");
                 this.notifqueue.setSynchronous('chooseConspireRemnantPosition');
 
+                dojo.subscribe('conspireKeepBoth', this, "notif_conspireKeepBoth");
+                this.notifqueue.setSynchronous('conspireKeepBoth');
+
                 dojo.subscribe('prepareConspiracy', this, "notif_prepareConspiracy");
                 this.notifqueue.setSynchronous('prepareConspiracy');
 
@@ -3380,6 +3383,71 @@ define([
                         }
                     );
                 }
+            },
+
+            notif_conspireKeepBoth: function (notif) {
+                if (this.debug) console.log('notif_conspireKeepBoth', notif);
+
+                let conspiracyIds = notif.args.conspiracyIds;
+
+                // Skip for the active player, who will get their own notification of the same type but with a real progressTokenId.
+                if (this.isCurrentPlayerActive() && conspiracyIds[0] == 17) {
+                    this.notifqueue.setSynchronousDuration(0);
+                    return;
+                }
+
+                // First create the new conspiracies and update the scale, if we don't do this the animations won't have their target position correct.
+                let newContainerNodes = [];
+                for (let index = 0; index <= 1; index++) {
+                    newContainerNodes[index] = dojo.place(this.getConspiracyDivHtml(conspiracyIds[index], 18, false), 'player_conspiracies_' + this.getActivePlayerId());
+                }
+                this.autoUpdateScale();
+
+                let conspiracyAnims = [];
+                for (let index = 0; index <= 1; index++) {
+                    let delay = 100 + index * 500;
+                    let conspiracyId = conspiracyIds[index];
+
+                    let newConspiracyContainerNode = newContainerNodes[index];
+                    let newConspiracyNode = dojo.query('.conspiracy_compact', newConspiracyContainerNode)[0];
+                    dojo.style(newConspiracyContainerNode, 'opacity', 0);
+
+                    let playerBuildingsContainer = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                    let backSideConspiracyNode = dojo.place(this.getConspiracyDivHtml(17, 17, true), playerBuildingsContainer);
+                    dojo.style(backSideConspiracyNode, 'z-index', 50);
+                    this.placeOnObject( backSideConspiracyNode, $('conspiracy_deck') ); // Center the card in the player buildingsContainer
+
+                    let slideAnim = this.slideToObjectPos( backSideConspiracyNode, newConspiracyNode, 0, 0, this.construct_conspiracy_duration, delay);
+
+                    conspiracyAnims.push(
+                        dojo.fx.chain([
+                            slideAnim,
+                            dojo.fx.combine([
+                                dojo.fadeOut({
+                                    node: backSideConspiracyNode,
+                                    duration: this.construct_conspiracy_duration / 4,
+                                    onPlay: dojo.hitch(this, function (node) {
+                                        // Show newConspiracyContainerNode fully, since it's behind the backSideConspiracyNode we don't have to fade it.
+                                        dojo.style(newConspiracyContainerNode, 'opacity', 1);
+                                    }),
+                                    onEnd: dojo.hitch(this, function (node) {
+                                        dojo.destroy(node);
+                                    })
+                                })
+                            ])
+                        ])
+                    );
+                }
+
+                let anim = dojo.fx.chain([
+                    dojo.fx.combine(
+                        conspiracyAnims
+                    )
+                ]);
+
+                anim.play();
+
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
             },
 
             notif_constructConspiracy: function (notif) {

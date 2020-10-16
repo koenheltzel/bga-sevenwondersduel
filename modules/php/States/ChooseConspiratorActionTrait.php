@@ -52,13 +52,18 @@ trait ChooseConspiratorActionTrait {
 
         // The maximum conspiracies used in 1 game is 13 (6 * 2 using progress token + 1x Curia Julia), so we can always draw 2.
 
-        if (Player::me()->hasProgressToken(12)) {
+        $player = Player::getActive();
+
+        if ($player->hasProgressToken(12)) {
             $cards = Conspiracies::getDeckCardsSorted('deck');
+            $cardIds = [];
             for ($i = 0; $i < 2; $i++) {
                 $card = array_pop($cards);
                 SevenWondersDuelAgora::get()->conspiracyDeck->insertCardOnExtremePosition($card['id'], Player::getActive()->id, true);
+                $cardIds[] = $card['id'];
             }
 
+            // Message to both players
             $this->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} chose to Conspire, keeps both Conspiracies (Progress token “${progressTokenName}”)'),
@@ -68,6 +73,26 @@ trait ChooseConspiratorActionTrait {
                     'progressTokenName' => ProgressToken::get(12)->name,
                 ]
             );
+
+            // To active player (secret ids)
+            $this->notifyPlayer(
+                $player->id,
+                'conspireKeepBoth',
+                '',
+                [
+                    'conspiracyIds' => $cardIds,
+                ]
+            );
+
+            // To other player & spectators
+            $this->notifyAllPlayers(
+                'conspireKeepBoth',
+                '',
+                [
+                    'conspiracyIds' => [17, 17],
+                ]
+            );
+
             $this->stateStackNextState();
         }
         else {
