@@ -39,7 +39,7 @@ define([
             LAYOUT_PORTRAIT: 'portrait',
 
             // Show console.log messages
-            debug: 0,
+            debug: 1,
             agora: 0,
 
             // Settings
@@ -91,6 +91,8 @@ define([
             coin_slide_delay: 100,
             notification_safe_margin: 100,
             victorypoints_slide_duration: 1000,
+            conspire_duration: 1000,
+            construct_conspiracy_duration: 1600,
 
             constructor: function () {
                 bgagame.sevenwondersduelagora.instance = this;
@@ -3297,17 +3299,51 @@ define([
 
             onEnterConspire: function (args) {
                 if (this.debug) console.log('onEnterConspire', args);
+
+                let anims = [];
                 if (this.isCurrentPlayerActive()) {
                     let i = 1;
                     Object.keys(args._private.conspiracies).forEach(dojo.hitch(this, function (conspiracyId) {
                         var card = args._private.conspiracies[conspiracyId];
                         var container = dojo.query('#conspire>div:nth-of-type(' + i + ')')[0];
                         dojo.empty(container);
-                        dojo.place(this.getConspiracyDivHtml(conspiracyId, conspiracyId,true), container);
+                        let node = dojo.place(this.getConspiracyDivHtml(conspiracyId, conspiracyId,true), container);
+                        this.placeOnObject(node, $('conspiracy_deck'));
+                        anims.push(this.slideToObject( node, container, this.conspire_duration, i * this.conspire_duration / 3));
                         i++;
                     }));
                     this.updateLayout();
                 }
+                else {
+                    for (let i = 0; i <= 1; i++) {
+                        var container = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                        let node = dojo.place(this.getConspiracyDivHtml(18, 18, true), container);
+                        this.placeOnObject(node, $('conspiracy_deck'));
+                        let startDelay = i * this.conspire_duration / 3;
+
+                        anims.push(
+                            dojo.fx.combine([
+                                this.slideToObject( node, container, this.conspire_duration, i * this.conspire_duration / 3),
+                                dojo.fadeIn({
+                                    node: node,
+                                    duration: this.conspire_duration / 3
+                                }),
+                                dojo.fadeOut({
+                                    node: node,
+                                    delay: startDelay + this.conspire_duration / 3 * 2,
+                                    duration: this.conspire_duration / 3,
+                                    onEnd: dojo.hitch(this, function (node) {
+                                        dojo.destroy(node);
+                                    })
+                                }),
+                            ])
+                        );
+                    }
+                }
+                let anim = dojo.fx.combine(
+                    anims
+                );
+                anim.play();
             },
 
             onChooseConspiracyClick: function (e) {
@@ -3347,44 +3383,98 @@ define([
 
                 let conspiracyId = notif.args.conspiracyId ? notif.args.conspiracyId : 18;
 
-                var conspiracyContainerNode = dojo.place(this.getConspiracyDivHtml(conspiracyId, 18, false, notif.args.conspiracyPosition), 'player_conspiracies_' + notif.args.playerId);
+                var newConspiracyContainerNode = dojo.place(this.getConspiracyDivHtml(conspiracyId, 18, false, notif.args.conspiracyPosition), 'player_conspiracies_' + notif.args.playerId);
+                var newConspiracyNode = dojo.query('.conspiracy_compact', newConspiracyContainerNode)[0];
+                dojo.style(newConspiracyContainerNode, 'opacity', 0);
+                this.autoUpdateScale();
 
-                this.updateLayout();
-                // var conspiracyContainerNode = $('conspiracy_' + notif.args.conspiracyId + '_container');
-                //
-                // var selectionContainer = conspiracyContainerNode.parentElement;
-                // var conspiracyNode = $('conspiracy_' + notif.args.conspiracyId);
-                // var targetNode = dojo.query('.player_conspiracies.player' + notif.args.playerId + '>div:nth-of-type(' + notif.args.playerconspiracyCount + ')')[0];
-                // dojo.place(conspiracyContainerNode, targetNode);
-                //
-                // // Next we slide (while adjusting the scale during the animation) the conspiracy.
-                // var startScale = 0.8 * this.getCssVariable('--scale');
-                // var endScale = 0.58 * this.getCssVariable('--scale');
-                //
-                // conspiracyNode.style.setProperty('--conspiracy-small-scale', startScale);
-                // this.placeOnObject(conspiracyNode, selectionContainer);
-                //
-                // var anim = dojo.fx.combine([
-                //     dojo.animateProperty({
-                //         node: conspiracyNode,
-                //         duration: this.selectconspiracyAnimationDuration,
-                //         properties: {
-                //             propertyScale: {start: startScale, end: endScale}
-                //         },
-                //         onEnd: function () {
-                //             conspiracyNode.style.removeProperty('--conspiracy-small-scale');
-                //         },
-                //         onAnimate: function (values) {
-                //             conspiracyNode.style.setProperty('--conspiracy-small-scale', parseFloat(values.propertyScale.replace("px", "")));
-                //         }
-                //     }),
-                //     this.slideToObjectPos(conspiracyNode, targetNode, 0, 0, this.selectconspiracyAnimationDuration),
-                // ]);
-                // anim.play();
-                //
-                // // Wait for animation before handling the next notification (= state change).
-                // this.notifqueue.setSynchronousDuration(anim.duration);
-                this.notifqueue.setSynchronousDuration(100);
+                let flipAnims = [];
+                let slideAnims = [];
+                var backSideConspiracyNode = null;
+                if (this.isCurrentPlayerActive()) {
+                    // For the active player, turn the card first so the backside is visible.
+                    var oldConspiracyNode = dojo.query('#conspire #conspiracy_' + conspiracyId)[0];
+
+                    backSideConspiracyNode = dojo.place(this.getConspiracyDivHtml(17, 17, true), oldConspiracyNode.parentElement);
+
+                    dojo.style(backSideConspiracyNode, 'transform', 'perspective(40em) rotateY(-180deg)'); // When delay > 0 this is necesarry to hide the new node.
+
+                    flipAnims.push(
+                        dojo.fx.combine([
+                            dojo.animateProperty({
+                                node: oldConspiracyNode,
+                                delay: 100,
+                                duration: this.turnAroundCardDuration,
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    propertyTransform: {start: 0, end: 180}
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                },
+                                onEnd: dojo.hitch(this, function (node) {
+                                    dojo.destroy(node);
+                                })
+                            }),
+                            dojo.animateProperty({
+                                node: backSideConspiracyNode,
+                                delay: 100,
+                                duration: this.turnAroundCardDuration,
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    propertyTransform: {start: -180, end: 0}
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                }
+                            }),
+                        ])
+                    );
+
+                    slideAnims.push(this.slideToObjectPos( backSideConspiracyNode, newConspiracyNode, 0, 0, this.construct_conspiracy_duration));
+                }
+                else {
+                    // For the inactive player / spectator, fadein the backside of the conspiracy and slide towards the final place
+                    var playerBuildingsContainer = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                    backSideConspiracyNode = dojo.place(this.getConspiracyDivHtml(17, 17, true), playerBuildingsContainer);
+                    this.placeOnObject( backSideConspiracyNode, playerBuildingsContainer ); // Center the card in the player buildingsContainer
+                    dojo.style(backSideConspiracyNode, 'opacity', 0);
+
+                    slideAnims.push(
+                        dojo.fx.combine([
+                            this.slideToObjectPos( backSideConspiracyNode, newConspiracyNode, 0, 0, this.construct_conspiracy_duration),
+                            dojo.fadeIn({
+                                node: backSideConspiracyNode,
+                                duration: this.construct_conspiracy_duration / 4
+                            }),
+                        ])
+                    );
+                }
+
+                let anim = dojo.fx.chain([
+                    dojo.fx.combine(
+                        flipAnims
+                    ),
+                    dojo.fx.combine(
+                        slideAnims
+                    ),
+                    dojo.fx.combine([
+                        dojo.fadeOut({
+                            node: backSideConspiracyNode,
+                            duration: this.construct_conspiracy_duration / 4,
+                            onPlay: dojo.hitch(this, function (node) {
+                                // Show newConspiracyContainerNode fully, since it's behind the backSideConspiracyNode we don't have to fade it.
+                                dojo.style(newConspiracyContainerNode, 'opacity', 1);
+                            }),
+                            onEnd: dojo.hitch(this, function (node) {
+                                dojo.destroy(node);
+                            })
+                        })
+                    ])
+                ]);
+                anim.play();
+
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
             },
 
             //   ____ _                             ____                      _            ____                                  _     ____           _ _   _
