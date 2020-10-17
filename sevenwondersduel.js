@@ -765,7 +765,7 @@ define([
             updatePlayerWonders: function (playerId, rows) {
                 if (this.debug) console.log('updatePlayerWonders', playerId, rows);
 
-                this.updatePlayerNumberOfWondersStyling(playerId, Math.max(4, parseInt(rows[rows.length - 1].position)));
+                this.updatePlayerNumberOfWondersStyling(playerId, Math.max(4, rows.length > 0 ? parseInt(rows[rows.length - 1].position) : 0));
 
                 var i = 1;
                 Object.keys(rows).forEach(dojo.hitch(this, function (index) {
