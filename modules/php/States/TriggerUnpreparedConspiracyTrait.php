@@ -27,7 +27,7 @@ trait TriggerUnpreparedConspiracyTrait {
             // Player has no unprepared conspiracies, so skip this state
             $this->notifyAllPlayers(
                 'message',
-                clienttranslate('${player_name} has no unprepared Conspiracies to trigger (Wonder ${wonderName}“”)'),
+                clienttranslate('${player_name} has no unprepared Conspiracies to trigger (Wonder “${wonderName}”)'),
                 [
                     'i18n' => ['wonderName'],
                     'player_name' => Player::getActive()->name,

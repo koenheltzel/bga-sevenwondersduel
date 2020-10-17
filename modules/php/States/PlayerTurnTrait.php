@@ -337,4 +337,19 @@ trait PlayerTurnTrait {
                 break;
         }
     }
+
+    public function shouldSkipPlayerTurn() {
+        if (Draftpool::countCardsInCurrentAge() == 0) {
+            // This only occurs after Conspiracies 7 or 11 using the last Age card of the Age.
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('There is no Age card left to use for ${player_name}, resulting in his turn ending'),
+                [
+                    'player_name' => Player::getActive()->name,
+                ]
+            );
+            return true;
+        }
+        return false;
+    }
 }
