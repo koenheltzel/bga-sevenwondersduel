@@ -133,6 +133,8 @@ trait SenateActionsTrait {
                 }
             }
 
+            // Stack is empty, store that in the database
+            $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
             $this->gamestate->nextState( $stateIfEmpty );
         }
     }

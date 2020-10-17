@@ -51,12 +51,9 @@
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Move Influence" line="3700" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="Place/Move/Remove influence did not return militarySenateActions and did not add them to the stack.">
+    <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/Senate.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/Senate.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/States/ChooseConspiratorActionTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/ChooseConspiratorActionTrait.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/php/States/SenateActionsTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/SenateActionsTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/states.inc.php" beforeDir="false" afterPath="$PROJECT_DIR$/states.inc.php" afterDir="false" />
     </list>
     <ignored path="D:\wamp64\www\bga\sevenwondersduel\.idea\shelf/" />
     <ignored path="D:\wamp64\www\bga\agora\.idea\shelf/" />
@@ -94,98 +91,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="3450" column="14" lean-forward="true" selection-start-line="3450" selection-start-column="14" selection-end-line="3450" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/php/States/PlaceInfluenceTrait.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="14">
-              <caret line="17" column="46" lean-forward="true" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
-              <folding>
-                <element signature="e#30#48#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/php/States/ChooseConspiratorActionTrait.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="45" column="80" selection-start-line="45" selection-start-column="80" selection-end-line="45" selection-end-column="80" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/php/SenateAction.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="28">
-              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/php/Wonder.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/states.inc.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="281" selection-start-line="281" selection-end-line="281" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/php/States/SenateActionsTrait.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
-              <caret line="41" column="24" lean-forward="true" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
+            <state relative-caret-position="446">
+              <caret line="135" column="57" selection-start-line="135" selection-start-column="57" selection-end-line="135" selection-end-column="57" />
               <folding>
                 <element signature="e#30#48#0#PHP" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/php/Senate.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="78" column="27" selection-start-line="78" selection-start-column="27" selection-end-line="78" selection-end-column="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sevenwondersduel.game.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="131" column="34" selection-start-line="131" selection-start-column="10" selection-end-line="131" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/php/Material.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="780" column="23" selection-start-line="780" selection-start-column="23" selection-end-line="780" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -202,11 +115,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>may perform $</find>
-      <find>notif_lockProgressToken</find>
-      <find>this.getActivePlayerId() == this.player_id</find>
-      <find>constructConspiracy</find>
-      <find>notif_conspireKeepBoth</find>
       <find>this.isCurrentPlayerActive() == this.player_id</find>
       <find>flipAnim</find>
       <find>getConspiracyDivHtml</find>
@@ -219,7 +127,6 @@
       <find>conflict_pawn_position</find>
       <find>STATE_CHOOSE_OPPONENT_BUILDING_NAME</find>
       <find>discard</find>
-      <find>self::handlePossibleControlChange</find>
       <find>Senate::removeInfluence</find>
       <find>Senate::moveInfluence</find>
       <find>Senate::placeInfluence</find>
@@ -231,7 +138,13 @@
       <find>actionPlaceInfluence.html</find>
       <find>onPlaceInfluenceClick</find>
       <find>STATE_SENATE_ACTIONS_NAME</find>
+      <find>::placeInfluence</find>
       <find>STATE_PLACE_INFLUENCE_ID</find>
+      <find>::moveInfluence</find>
+      <find>count($payment</find>
+      <find>unprepared conspirac</find>
+      <find>self::handlePossibleControlChange</find>
+      <find>shouldSkip</find>
     </findStrings>
     <replaceStrings>
       <replace>DiscardAvailableCard</replace>
@@ -274,10 +187,10 @@
       <dir>D:\wamp64\www\bga\sevenwondersduel\modules\php</dir>
       <dir>D:\wamp64\www\bga\sevenwondersduel</dir>
       <dir>D:\wamp64\www\bga\agora\</dir>
-      <dir>D:\wamp64\www\bga\agora</dir>
       <dir>D:\wamp64\www\bga\agora\css</dir>
       <dir>D:\wamp64\www\bga\agora\modules\php</dir>
       <dir>D:\wamp64\www\bga\agora\modules\php\States</dir>
+      <dir>D:\wamp64\www\bga\agora</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -316,7 +229,6 @@
         <option value="$PROJECT_DIR$/modules/php/States/ChooseProgressTokenTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/States/ConspireTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/States/SelectStartPlayerTrait.php" />
-        <option value="$PROJECT_DIR$/modules/php/States/ConstructBuildingFromBoxTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/States/ConstructLastRowBuildingTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/States/DestroyConstructedWonderTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/States/DiscardAvailableCardTrait.php" />
@@ -342,10 +254,11 @@
         <option value="$PROJECT_DIR$/modules/php/Conspiracy.php" />
         <option value="$PROJECT_DIR$/sevenwondersduel.js" />
         <option value="$PROJECT_DIR$/modules/php/States/PlayerTurnTrait.php" />
-        <option value="$PROJECT_DIR$/modules/php/Senate.php" />
-        <option value="$PROJECT_DIR$/modules/php/States/SenateActionsTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/States/ChooseConspiratorActionTrait.php" />
         <option value="$PROJECT_DIR$/states.inc.php" />
+        <option value="$PROJECT_DIR$/modules/php/States/ConstructBuildingFromBoxTrait.php" />
+        <option value="$PROJECT_DIR$/modules/php/Senate.php" />
+        <option value="$PROJECT_DIR$/modules/php/States/SenateActionsTrait.php" />
       </list>
     </option>
   </component>
@@ -362,8 +275,8 @@
     <servers />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-20" />
-    <option name="y" value="-22" />
+    <option name="x" value="-60" />
+    <option name="y" value="-15" />
     <option name="width" value="1936" />
     <option name="height" value="1055" />
   </component>
@@ -507,20 +420,6 @@
       <workItem from="1602058359732" duration="68318000" />
       <workItem from="1602237693483" duration="71192000" />
       <workItem from="1602512275573" duration="43005000" />
-    </task>
-    <task id="LOCAL-00834" summary="Implemented Conspiracy Foreclosure (aka TakeBuilding)">
-      <created>1602531027388</created>
-      <option name="number" value="00834" />
-      <option name="presentableId" value="LOCAL-00834" />
-      <option name="project" value="LOCAL" />
-      <updated>1602531027388</updated>
-    </task>
-    <task id="LOCAL-00835" summary="WIP Swap Building action">
-      <created>1602540327583</created>
-      <option name="number" value="00835" />
-      <option name="presentableId" value="LOCAL-00835" />
-      <option name="project" value="LOCAL" />
-      <updated>1602540327583</updated>
     </task>
     <task id="LOCAL-00836" summary="WIP Swap Building action">
       <created>1602540997873</created>
@@ -851,11 +750,25 @@
       <option name="project" value="LOCAL" />
       <updated>1602887681098</updated>
     </task>
-    <option name="localTasksCounter" value="883" />
+    <task id="LOCAL-00883" summary="Place/Move/Remove influence did not return militarySenateActions and did not add them to the stack (and did not interrupt Senate Actions, now it does).">
+      <created>1602889867273</created>
+      <option name="number" value="00883" />
+      <option name="presentableId" value="LOCAL-00883" />
+      <option name="project" value="LOCAL" />
+      <updated>1602889867273</updated>
+    </task>
+    <task id="LOCAL-00884" summary="Bugfix previous commit">
+      <created>1602891184728</created>
+      <option name="number" value="00884" />
+      <option name="presentableId" value="LOCAL-00884" />
+      <option name="project" value="LOCAL" />
+      <updated>1602891184728</updated>
+    </task>
+    <option name="localTasksCounter" value="885" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2086897000" />
+    <option name="totallyTimeSpent" value="2089855000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -870,7 +783,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.2665222" visible="true" weight="0.13432837" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.2665222" visible="true" weight="0.22014925" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49946696" weight="0.31419286" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49840087" weight="0.20260021" />
@@ -879,7 +792,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.6748401" visible="true" weight="0.30985916" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="8" sideWeight="0.6748401" visible="true" weight="0.29577464" />
       <window_info anchor="bottom" id="Cacher" order="9" sideWeight="0.6098081" weight="0.21885157" />
       <window_info anchor="bottom" id="File Transfer" order="10" sideWeight="0.5501066" weight="0.18309858" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
@@ -992,8 +905,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added senate section icons in tooltips." />
-    <MESSAGE value="Updated game_display1.jpg, removed red hue" />
     <MESSAGE value="Bugfixes:&#10;- Clear Insider Influence borders if the second step is skipped.&#10;- Fixed Skip button not becoming visible to opponent after you use Insider Influence Conspiracy" />
     <MESSAGE value="Added Political Supremacy stat Yes/No labels" />
     <MESSAGE value="Added remove influence transition" />
@@ -1017,7 +928,9 @@
     <MESSAGE value="Replaced &quot;this.getActivePlayerId() == this.player_id&quot; with &quot;this.isCurrentPlayerActive()&quot;" />
     <MESSAGE value="Added animation for keeping both Conspiracies when having Progress Token 12" />
     <MESSAGE value="Fixed STATE_CHOOSE_OPPONENT_BUILDING not working if the military shield of the same wonder (9/12) would trigger a military token." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed STATE_CHOOSE_OPPONENT_BUILDING not working if the military shield of the same wonder (9/12) would trigger a military token." />
+    <MESSAGE value="Place/Move/Remove influence did not return militarySenateActions and did not add them to the stack (and did not interrupt Senate Actions, now it does)." />
+    <MESSAGE value="Bugfix previous commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bugfix previous commit" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/stats.inc.php">
@@ -1041,16 +954,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="222">
           <caret line="104" column="105" lean-forward="true" selection-start-line="104" selection-start-column="15" selection-end-line="104" selection-end-column="105" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/States/ConstructBuildingFromBoxTrait.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="19" column="35" lean-forward="true" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
-          <folding>
-            <element signature="e#30#47#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1352,13 +1255,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/Senate.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="78" column="27" selection-start-line="78" selection-start-column="27" selection-end-line="78" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/php/States/ChooseConspiratorActionTrait.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="349">
@@ -1370,16 +1266,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="14">
           <caret line="17" column="46" lean-forward="true" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
-          <folding>
-            <element signature="e#30#48#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/States/SenateActionsTrait.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="41" column="24" lean-forward="true" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
           <folding>
             <element signature="e#30#48#0#PHP" expanded="true" />
           </folding>
@@ -1404,6 +1290,33 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="356">
           <caret line="281" selection-start-line="281" selection-end-line="281" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/States/ConstructBuildingFromBoxTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="17" column="69" lean-forward="true" selection-start-line="17" selection-start-column="69" selection-end-line="17" selection-end-column="69" />
+          <folding>
+            <element signature="e#30#47#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/Senate.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="155" column="20" selection-start-line="155" selection-start-column="20" selection-end-line="155" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/States/SenateActionsTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="135" column="57" selection-start-line="135" selection-start-column="57" selection-end-line="135" selection-end-column="57" />
+          <folding>
+            <element signature="e#30#48#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
