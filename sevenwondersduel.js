@@ -39,7 +39,7 @@ define([
             LAYOUT_PORTRAIT: 'portrait',
 
             // Show console.log messages
-            debug: 1,
+            debug: 0,
             agora: 0,
 
             // Settings
@@ -852,11 +852,16 @@ define([
                     this.currentAge = draftpool.age; // This currentAge business is a bit of dirty check to prevent older notifications (due to animations finishing) arriving after newer notifications. Especially when a new age has arrived.
                     this.gamedatas.draftpool = draftpool;
 
-                    var animationDelay = 200; // Have some initial delay, so this function can finish updating the DOM.
+                    var animationDelay = 100; // Have some initial delay, so this function can finish updating the DOM.
                     for (var i = 0; i < draftpool.cards.length; i++) {
                         var position = draftpool.cards[i];
 
-                        var oldNode = $(position.row + '_' + position.column);
+                        var oldNodes = dojo.query('#draftpool .row' + position.row + '.column' + position.column);
+                        if (oldNodes.length > 1) {
+                            // This card is already being updated, probably by a previous updateDraftpool. We skip it.
+                            continue;
+                        }
+                        var oldNode = oldNodes.length == 1 ? oldNodes[0] : null;
 
                         var linkedBuildingId = 0;
                         var data = {
@@ -2506,7 +2511,7 @@ define([
                 ]);
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                    this.updateDraftpool(notif.args.draftpool);
+                    if (notif.args.draftpool) this.updateDraftpool(notif.args.draftpool);
                 }));
 
                 // Wait for animation before handling the next notification (= state change).
