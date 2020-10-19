@@ -777,7 +777,7 @@ class Material extends Base
             ->addActionState(SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[16] = (new Conspiracy(16, clienttranslate("Sabotage")))
-            ->addText(clienttranslate("Choose 1 Wonder constructed by your opponent and return it to the box. It will no longer be used for this game and the effects of this Wonder are lost."))
+            ->addText(clienttranslate("Choose 1 Wonder constructed by your opponent and return it to the box. It will no longer be used for this game and the lasting effects of this Wonder are lost (lasting effects are Victory Points and Resource Choices)."))
             ->addActionState(SevenWondersDuelAgora::STATE_DESTROY_CONSTRUCTED_WONDER_NAME);
 
         //  ____
