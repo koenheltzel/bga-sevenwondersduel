@@ -353,9 +353,6 @@
 }
 
 .player_area_progress_tokens > div:nth-of-type(4), .player_area_progress_tokens > div:nth-of-type(5), .player_area_progress_tokens > div:nth-of-type(6) {
-    position: relative;
-    top: calc(-8px * var(--scale));
-    margin-bottom: calc(-12px * var(--scale));
     display: none;
 }
 
