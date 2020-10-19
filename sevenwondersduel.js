@@ -4931,17 +4931,20 @@ define([
             },
 
             scientificSupremacyAnimation: function (playersSituation) {
-                if (this.debug) console.log('scientificSupremacyAnimation', playersSituation);
-                dojo.addClass(dojo.query('.player' + playersSituation.winner + ' .player_building_column.Green')[0], 'endgame_highlight');
-                var progressTokenNode = dojo.query('.player_info.player' + playersSituation.winner + ' #progress_token_4')[0];
-                if (progressTokenNode) {
-                    dojo.addClass(progressTokenNode, 'endgame_highlight');
-                }
+                if (playersSituation.winner) { // if statement for: Bit of a hacky way to achieve both players' green cards getting highlighted part 3
+                    if (this.debug) console.log('scientificSupremacyAnimation', playersSituation);
+                    dojo.addClass(dojo.query('.player' + playersSituation.winner + ' .player_building_column.Green')[0], 'endgame_highlight');
+                    var progressTokenNode = dojo.query('.player_info.player' + playersSituation.winner + ' #progress_token_4')[0];
+                    if (progressTokenNode) {
+                        dojo.addClass(progressTokenNode, 'endgame_highlight');
+                    }
 
-                // Unset endGameCondition to prevent an infinite loop.
-                playersSituation.endGameCondition = undefined;
-                this.updatePlayersSituation(playersSituation);
-                return 500;
+                    // Unset endGameCondition to prevent an infinite loop.
+                    playersSituation.endGameCondition = undefined;
+                    this.updatePlayersSituation(playersSituation);
+                    return 500;
+                }
+                return 0;
             },
 
             notif_nextPlayerTurnMilitarySupremacy: function (notif) {

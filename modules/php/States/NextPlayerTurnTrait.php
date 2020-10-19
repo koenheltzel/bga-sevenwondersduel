@@ -290,8 +290,11 @@ trait NextPlayerTurnTrait {
 
     public function checkImmediateVictory() {
         $player = Player::getActive();
+        $opponent = $player->getOpponent();
         $scienceSymbolCount = $player->getScientificSymbolCount();
+        $scienceSymbolCountOpponent = $opponent->getScientificSymbolCount();
         SevenWondersDuelAgora::get()->setStat($scienceSymbolCount, SevenWondersDuelAgora::STAT_SCIENCE_SYMBOLS, $player->id);
+        SevenWondersDuelAgora::get()->setStat($scienceSymbolCountOpponent, SevenWondersDuelAgora::STAT_SCIENCE_SYMBOLS, $opponent->id);
 
         $politicalSupremacyPlayer = null;
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
@@ -311,22 +314,58 @@ trait NextPlayerTurnTrait {
         }
 
         $conflictPawnPosition = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CONFLICT_PAWN_POSITION);
-        if ($scienceSymbolCount >= 6) {
-            $player->setWinner();
-            self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_SCIENTIFIC);
-            $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY);
-            $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY, $player->id);
+        if ($scienceSymbolCount >= 6 && $scienceSymbolCountOpponent >= 6) {
+            $this->setGameStateValue(self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_SCIENTIFIC); // Bit of a hacky way to achieve both players' green cards getting highlighted part 1
+            $this->setStat(1, self::STAT_DRAW, $player->id);
+            $this->setStat(1, self::STAT_DRAW, $opponent->id);
+            $this->setStat(1, self::STAT_DRAW);
 
+            $this->notifyAllPlayers(
+                'message',
+                'Game ends in a draw (both players achieved Scientific Supremacy)',
+                []
+            );
+
+            // Bit of a hacky way to achieve both players' green cards getting highlighted part 2
+            $playersSituation = Players::getSituation(true);
+            $playersSituation['winner'] = $player->id;
             SevenWondersDuelAgora::get()->notifyAllPlayers(
                 'nextPlayerTurnScientificSupremacy',
-                clienttranslate('${player_name} wins the game through Scientific Supremacy (gathered 6 different scientific symbols)'),
+                '',
                 [
-                    'player_name' => $player->name,
-                    'playerId' => $player->id,
-                    'playersSituation' => Players::getSituation(true),
+                    'playersSituation' => $playersSituation,
+                ]
+            );
+            $playersSituation['winner'] = $opponent->id;
+            SevenWondersDuelAgora::get()->notifyAllPlayers(
+                'nextPlayerTurnScientificSupremacy',
+                '',
+                [
+                    'playersSituation' => $playersSituation,
                 ]
             );
             return true;
+        }
+        elseif ($scienceSymbolCount >= 6 || $scienceSymbolCountOpponent >= 6) {
+            foreach(Players::get() as $tmpPlayer) {
+                if ($tmpPlayer->getScientificSymbolCount() >= 6) {
+                    $tmpPlayer->setWinner();
+                    self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_SCIENTIFIC);
+                    $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY);
+                    $this->setStat(1, self::STAT_SCIENTIFIC_SUPREMACY, $tmpPlayer->id);
+
+                    SevenWondersDuelAgora::get()->notifyAllPlayers(
+                        'nextPlayerTurnScientificSupremacy',
+                        clienttranslate('${player_name} wins the game through Scientific Supremacy (gathered 6 different scientific symbols)'),
+                        [
+                            'player_name' => $tmpPlayer->name,
+                            'playerId' => $tmpPlayer->id,
+                            'playersSituation' => Players::getSituation(true),
+                        ]
+                    );
+                    return true;
+                }
+            }
         }
         elseif ($conflictPawnPosition <= -9 || $conflictPawnPosition >= 9) {
             $player->setWinner();

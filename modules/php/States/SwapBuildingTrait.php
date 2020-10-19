@@ -76,6 +76,8 @@ trait SwapBuildingTrait {
             ]
         );
 
+        $prependStates = [];
+
         $playerPoints = $buildingOpponent->victoryPoints - $buildingPlayer->victoryPoints;
         $opponentPoints = $buildingPlayer->victoryPoints - $buildingOpponent->victoryPoints;
         foreach([[$player, $buildingOpponent, $playerPoints], [$opponent, $buildingPlayer, $opponentPoints]] as $row) {
@@ -106,14 +108,19 @@ trait SwapBuildingTrait {
                 );
             }
 
+            // Active player and or opponent can have completed a science symbol pair. Let active player go first, but both get to do the action before determining immediate win.
             $buildings = $tmpPlayer->getBuildings()->filterByScientificSymbol($tmpBuilding->scientificSymbol);
             if (count($buildings->array) == 2 && $tmpBuilding->gatheredSciencePairNotification($tmpPlayer)) {
-                // TODO: if opponent gets science pair, what happens?
                 if ($tmpPlayer == Player::me()) {
-                    $this->prependStateStack([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
+                    $prependStates = array_merge([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME], $prependStates);
+                }
+                else {
+                    $prependStates = array_merge($prependStates, [self::STATE_PLAYER_SWITCH_NAME, self::STATE_CHOOSE_PROGRESS_TOKEN_NAME, self::STATE_PLAYER_SWITCH_NAME]);
                 }
             }
         }
+
+        $this->prependStateStack($prependStates);
 
         $this->stateStackNextState();
     }

@@ -87,6 +87,7 @@ class SevenWondersDuelAgora extends Table
     use SWD\States\SwapBuildingTrait;
     use SWD\States\TakeBuildingTrait;
     use SWD\States\TakeUnconstructedWonderTrait;
+    use SWD\States\PlayerSwitchTrait;
 
     /**
      * @var SevenWondersDuelAgora
@@ -167,6 +168,9 @@ class SevenWondersDuelAgora extends Table
 
     const STATE_TAKE_UNCONSTRUCTED_WONDER_ID = 48;
     const STATE_TAKE_UNCONSTRUCTED_WONDER_NAME = "takeUnconstructedWonder";
+
+    const STATE_PLAYER_SWITCH_ID = 49;
+    const STATE_PLAYER_SWITCH_NAME = "playerSwitch";
 
     // End Agora
 
