@@ -170,7 +170,6 @@ define([
                     this.dontPreloadImage('progress_tokens.jpg');
                     this.dontPreloadImage('sprites.png');
                     this.dontPreloadImage('wonders.jpg');
-                    console.log('dontPreloadImage block A');
                 }
                 if (!this.agora) {
                     this.dontPreloadImage('agora_senate_tooltips.png');
@@ -180,7 +179,6 @@ define([
                     this.dontPreloadImage('agora_decrees.png');
                     this.dontPreloadImage('agora_senate.png');
                     this.dontPreloadImage('agora_sprites.png');
-                    console.log('dontPreloadImage block B');
                 }
 
                 if (this.quality == '1x') {
@@ -190,14 +188,12 @@ define([
                     this.dontPreloadImage('progress_tokens@2X.jpg');
                     this.dontPreloadImage('sprites@2X.png');
                     this.dontPreloadImage('wonders@2X.jpg');
-                    console.log('dontPreloadImage block C');
                 }
                 if (this.quality == '1x' || !this.agora) {
                     this.dontPreloadImage('agora_conspiracies@2X.jpg');
                     this.dontPreloadImage('agora_decrees@2X.png');
                     this.dontPreloadImage('agora_senate@2X.png');
                     this.dontPreloadImage('agora_sprites@2X.png');
-                    console.log('dontPreloadImage block D');
                 }
 
                 // Setup game situation.
@@ -1844,7 +1840,7 @@ define([
 
             increasePlayerCubes: function (playerId, cubes) {
                 $('player_area_' + playerId + '_cubes').innerHTML = parseInt($('player_area_' + playerId + '_cubes').innerHTML) + cubes;
-                console.log('increasePlayerCubes', $('player_area_' + playerId + '_cubes'), cubes);
+                if (this.debug) console.log('increasePlayerCubes', $('player_area_' + playerId + '_cubes'), cubes);
             },
 
             updatePlayersSituation: function (situation) {
@@ -3568,8 +3564,6 @@ define([
                 if (this.debug) console.log('onChooseConspireRemnantPositionClick', e);
 
                 var top = (e.target.id == 'buttonConspiracyRemnantTop') ? 1 : 0;
-                console.log(e.target.id, e.target.id == 'buttonConspiracyRemnantTop');
-                console.log('top', top);
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
@@ -4463,9 +4457,7 @@ define([
                     }
 
                     var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
-                    console.log('progressToken', progressToken[0]);
                     var progressTokenId = dojo.attr(progressToken[0], "data-progress-token-id");
-                    console.log('progressTokenId', progressTokenId);
 
                     this.ajaxcall("/sevenwondersduelagora/sevenwondersduelagora/actionLockProgressToken.html", {
                             lock: true,
