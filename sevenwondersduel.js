@@ -4159,32 +4159,33 @@ define([
 
             onEnterConstructBuildingFromBox: function (args) {
                 dojo.query('#construct_building_from_box td.td_margin_right').removeClass("td_margin_right");
-                for (let age = 1; age <= 3; age++) {
-                    if (args.buildingsFromBox[age]) {
-                        Object.keys(args.buildingsFromBox[age]).forEach(dojo.hitch(this, function (index) {
-                            var building = this.gamedatas.buildings[args.buildingsFromBox[age][index]];
+                if (args._private && args._private.buildingsFromBox) {
+                    for (let age = 1; age <= 3; age++) {
+                        if (args._private.buildingsFromBox[age]) {
+                            Object.keys(args._private.buildingsFromBox[age]).forEach(dojo.hitch(this, function (index) {
+                                var building = this.gamedatas.buildings[args._private.buildingsFromBox[age][index]];
 
-                            // Set up a wrapper div so we can move the building to pos 0,0 of that wrapper
-                            let container = dojo.query('#construct_building_from_box td[data-construct-building-from-box-age="' + age + '"]')[0];
-                            if (args.buildingsFromBox[age + 1]) {
-                                dojo.addClass(container, 'td_margin_right');
-                            }
+                                // Set up a wrapper div so we can move the building to pos 0,0 of that wrapper
+                                let container = dojo.query('#construct_building_from_box td[data-construct-building-from-box-age="' + age + '"]')[0];
+                                if (args._private.buildingsFromBox[age + 1]) {
+                                    dojo.addClass(container, 'td_margin_right');
+                                }
 
-                            var wrapperDiv = dojo.clone(dojo.query('.discarded_cards_cursor')[0]);
-                            dojo.removeClass(wrapperDiv, 'discarded_cards_cursor');
-                            dojo.place(wrapperDiv, container);
+                                var wrapperDiv = dojo.clone(dojo.query('.discarded_cards_cursor')[0]);
+                                dojo.removeClass(wrapperDiv, 'discarded_cards_cursor');
+                                dojo.place(wrapperDiv, container);
 
-                            let newNode = this.getDiscardedBuildingNode(building.id);
-                            newNode.style.top = '0px';
-                            newNode.style.left = '0px';
-                            dojo.place(newNode, wrapperDiv);
-                        }));
-                    }
-                    else {
-                        dojo.query('#construct_building_from_box .age' + age).style('display', 'none');
+                                let newNode = this.getDiscardedBuildingNode(building.id);
+                                newNode.style.top = '0px';
+                                newNode.style.left = '0px';
+                                dojo.place(newNode, wrapperDiv);
+                            }));
+                        }
+                        else {
+                            dojo.query('#construct_building_from_box .age' + age).style('display', 'none');
+                        }
                     }
                 }
-
             },
 
             onConstructBuildingFromBoxClick: function (e) {

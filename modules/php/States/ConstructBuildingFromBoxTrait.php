@@ -14,9 +14,8 @@ trait ConstructBuildingFromBoxTrait {
      * @return array
      */
     public function argConstructBuildingFromBox() {
-        $data = [
-            'buildingsFromBox' => Buildings::getAgeCardsFromBoxByAge((int)$this->getGameStateValue(self::VALUE_CURRENT_AGE))
-        ];
+        $data = [];
+        $data['_private'][Player::getActive()->id]['buildingsFromBox'] = Buildings::getAgeCardsFromBoxByAge((int)$this->getGameStateValue(self::VALUE_CURRENT_AGE));
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         return $data;
     }
