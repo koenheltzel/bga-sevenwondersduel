@@ -1,0 +1,8 @@
+
+#choose_conspirator_action {
+    display: none;
+}
+
+.current_player_is_active #swd[data-state=chooseConspiratorAction] #choose_conspirator_action {
+    display: block;
+}

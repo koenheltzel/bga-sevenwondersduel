@@ -17,6 +17,56 @@
     height: calc(34px * var(--scale));
 }
 
+.action_conspiracy {
+    background-image: url('img/agora_sprites.png');
+    background-position: 61.211% 57.432%;
+    background-size: 775.758%;
+
+    width: calc(33px * var(--scale));
+    height: calc(34px * var(--scale));
+}
+
+.action_place_influence {
+    background-image: url('img/agora_sprites.png');
+    background-position: 36.077% 64.414%;
+    background-size: 512%;
+
+    width: calc(50px * var(--scale));
+    height: calc(34px * var(--scale));
+}
+
+.action_move_influence {
+    background-image: url('img/agora_sprites.png');
+    background-position: 37.913% 80.18%;
+    background-size: 426.667%;
+
+    width: calc(60px * var(--scale));
+    height: calc(34px * var(--scale));
+}
+
+.action_remove_influence {
+    background-image: url('img/agora_sprites.png');
+    background-position: 33.86% 95.946%;
+    background-size: 731.429%;
+
+    width: calc(35px * var(--scale));
+    height: calc(34px * var(--scale));
+}
+
+#action_container a.action_button.action_button_skip {
+    height: calc(12px * var(--scale));
+    line-height: calc(12px * var(--scale));
+}
+
+.action_skip {
+    background-image: url('img/agora_sprites.png');
+    background-position: 47.722% 95.946%;
+    background-size: 1003.922%;
+
+    width: calc(26px * var(--scale));
+    height: calc(34px * var(--scale));
+}
+
 .action_button * {
     display: inline-block;
     vertical-align: middle;
@@ -27,4 +77,10 @@
 .action_button .emblem {
     width: calc(34px * var(--scale));
     height: calc(34px * var(--scale));
+}
+
+.current_player_is_active #swd[data-client-state=client_useAgeCard] .player_conspiracies .conspiracy_small[data-conspiracy-prepared="0"][data-conspiracy-triggered="0"].red_border,
+.current_player_is_active #swd[data-state=playerTurn] .player_conspiracies .conspiracy_small[data-conspiracy-prepared="1"][data-conspiracy-triggered="0"].green_border,
+.current_player_is_active #swd[data-state=triggerUnpreparedConspiracy] .player_conspiracies .conspiracy_small[data-conspiracy-prepared="0"][data-conspiracy-triggered="0"].green_border{
+    cursor: pointer;
 }

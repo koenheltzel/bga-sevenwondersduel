@@ -112,7 +112,7 @@
 
 .military_token {
     filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
-    position: relative;
+    position: absolute;
     /*display: inline-block;*/
 }
 
@@ -132,6 +132,23 @@
 
     width: calc(var(--military-token-scale) * 73px);
     height: calc(var(--military-token-scale) * 167px);
+}
+
+#swd[data-agora="1"] .military_token_2, #swd[data-agora="1"] .military_token_5 {
+}
+
+#swd[data-agora="1"] .military_token_2 {
+    background-image: url('img/agora_sprites.png');
+    display: inline-block;
+    background-position: 38.4615% 0.869565%;
+    background-size: 419.672%;
+}
+
+#swd[data-agora="1"] .military_token_5 {
+    background-image: url('img/agora_sprites.png');
+    display: inline-block;
+    background-position: 0.546448% 1.12360%;
+    background-size: 350.685%;
 }
 
 .board_player_left, .board_player_right {

@@ -43,6 +43,9 @@
     margin-right: auto;
     width: calc(var(--building-width) * var(--scale));
 }
+.building[data-building-type=Senator] .swd_title {
+    display: none;
+}
 
 .building_small .swd_title {
     top: 89.5%;

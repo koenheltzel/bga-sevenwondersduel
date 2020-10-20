@@ -2,7 +2,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
+ * SevenWondersDuelAgora implementation : © Koen Heltzel <koenheltzel@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -10,7 +10,7 @@
  *
  * states.inc.php
  *
- * SevenWondersDuel game states description
+ * SevenWondersDuelAgora game states description
  *
  */
 
@@ -49,20 +49,54 @@
 
 //    !! It is not a good idea to modify this file when a game is running !!
 
+$militaryTokenTransitions = [
+    // From military building / track
+    SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID,
+    SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_ID,
+    SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID, // If remove influence is skipp
+    SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // In case of instant victory
+];
+
+$constructBuildingTransitions = array_merge($militaryTokenTransitions, [
+    // Science symbol pair
+    SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_ID,
+    // Conspirator
+    SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_ID,
+    // Politician
+    SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID,
+]);
+
+$conspiracyStateTransitions = [
+    // Military conspiracy --> Military track tokens
+    SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID, // Conspiracies 2nd/3rd action
+    SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID,
+    SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_ID,
+    SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_ID,
+    SevenWondersDuelAgora::STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME => SevenWondersDuelAgora::STATE_CONSTRUCT_BUILDING_FROM_BOX_ID,
+    SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME => SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_ID,
+    SevenWondersDuelAgora::STATE_DESTROY_CONSTRUCTED_WONDER_NAME => SevenWondersDuelAgora::STATE_DESTROY_CONSTRUCTED_WONDER_ID,
+    SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_NAME => SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_ID,
+    SevenWondersDuelAgora::STATE_LOCK_PROGRESS_TOKEN_NAME => SevenWondersDuelAgora::STATE_LOCK_PROGRESS_TOKEN_ID,
+    SevenWondersDuelAgora::STATE_MOVE_DECREE_NAME => SevenWondersDuelAgora::STATE_MOVE_DECREE_ID,
+    SevenWondersDuelAgora::STATE_SWAP_BUILDING_NAME => SevenWondersDuelAgora::STATE_SWAP_BUILDING_ID,
+    SevenWondersDuelAgora::STATE_TAKE_BUILDING_NAME => SevenWondersDuelAgora::STATE_TAKE_BUILDING_ID,
+    SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME => SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_ID,
+    SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
+];
 
 $machinestates = [
 
     // The initial state. Please do not modify.
-    SevenWondersDuel::STATE_GAME_SETUP_ID => [
-        "name" => SevenWondersDuel::STATE_GAME_SETUP_NAME,
+    SevenWondersDuelAgora::STATE_GAME_SETUP_ID => [
+        "name" => SevenWondersDuelAgora::STATE_GAME_SETUP_NAME,
         "description" => "",
         "type" => "manager",
         "action" => "enterStateGameSetup",
-        "transitions" => ["" => SevenWondersDuel::STATE_SELECT_WONDER_ID]
+        "transitions" => ["" => SevenWondersDuelAgora::STATE_SELECT_WONDER_ID]
     ],
 
-    SevenWondersDuel::STATE_SELECT_WONDER_ID => [
-        "name" => SevenWondersDuel::STATE_SELECT_WONDER_NAME,
+    SevenWondersDuelAgora::STATE_SELECT_WONDER_ID => [
+        "name" => SevenWondersDuelAgora::STATE_SELECT_WONDER_NAME,
         "description" => clienttranslate('${actplayer} must choose a wonder'),
         "descriptionmyturn" => clienttranslate('${you} must choose a wonder'),
         "type" => "activeplayer",
@@ -71,37 +105,41 @@ $machinestates = [
         "possibleactions" => [
             "actionSelectWonder",
         ],
-        "transitions" => [SevenWondersDuel::STATE_WONDER_SELECTED_NAME => SevenWondersDuel::STATE_WONDER_SELECTED_ID]
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_WONDER_SELECTED_NAME => SevenWondersDuelAgora::STATE_WONDER_SELECTED_ID,
+            SevenWondersDuelAgora::STATE_CONSPIRE_NAME => SevenWondersDuelAgora::STATE_CONSPIRE_ID,
+            SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID,
+        ]
     ],
 
-    SevenWondersDuel::STATE_WONDER_SELECTED_ID => [
-        "name" => SevenWondersDuel::STATE_WONDER_SELECTED_NAME,
+    SevenWondersDuelAgora::STATE_WONDER_SELECTED_ID => [
+        "name" => SevenWondersDuelAgora::STATE_WONDER_SELECTED_NAME,
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
         "action" => "enterStateWonderSelected",
         "updateGameProgression" => true,
         "transitions" => [
-            SevenWondersDuel::STATE_SELECT_WONDER_NAME => SevenWondersDuel::STATE_SELECT_WONDER_ID,
-            SevenWondersDuel::STATE_NEXT_AGE_NAME => SevenWondersDuel::STATE_NEXT_AGE_ID
+            SevenWondersDuelAgora::STATE_SELECT_WONDER_NAME => SevenWondersDuelAgora::STATE_SELECT_WONDER_ID,
+            SevenWondersDuelAgora::STATE_NEXT_AGE_NAME => SevenWondersDuelAgora::STATE_NEXT_AGE_ID
         ]
     ],
 
-    SevenWondersDuel::STATE_NEXT_AGE_ID => [
-        "name" => SevenWondersDuel::STATE_NEXT_AGE_NAME,
+    SevenWondersDuelAgora::STATE_NEXT_AGE_ID => [
+        "name" => SevenWondersDuelAgora::STATE_NEXT_AGE_NAME,
         "description" => clienttranslate('Preparing Age ${ageRoman}...'),
         "descriptionmyturn" => clienttranslate('Preparing Age ${ageRoman}...'),
         "type" => "game",
         "action" => "enterStateNextAge",
         "args" => "argNextAge",
         "transitions" => [
-            SevenWondersDuel::STATE_SELECT_START_PLAYER_NAME => SevenWondersDuel::STATE_SELECT_START_PLAYER_ID,
-            SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID
+            SevenWondersDuelAgora::STATE_SELECT_START_PLAYER_NAME => SevenWondersDuelAgora::STATE_SELECT_START_PLAYER_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID
         ]
     ],
 
-    SevenWondersDuel::STATE_SELECT_START_PLAYER_ID => [
-        "name" => SevenWondersDuel::STATE_SELECT_START_PLAYER_NAME,
+    SevenWondersDuelAgora::STATE_SELECT_START_PLAYER_ID => [
+        "name" => SevenWondersDuelAgora::STATE_SELECT_START_PLAYER_NAME,
         "description" => clienttranslate('${actplayer} must choose who begins Age ${ageRoman}'),
         "descriptionmyturn" => clienttranslate('${you} must choose who begins Age ${ageRoman}'),
         "type" => "activeplayer",
@@ -111,46 +149,210 @@ $machinestates = [
             "actionSelectStartPlayer",
         ],
         "transitions" => [
-            SevenWondersDuel::STATE_START_PLAYER_SELECTED_NAME => SevenWondersDuel::STATE_START_PLAYER_SELECTED_ID
+            SevenWondersDuelAgora::STATE_START_PLAYER_SELECTED_NAME => SevenWondersDuelAgora::STATE_START_PLAYER_SELECTED_ID
         ]
     ],
 
-    SevenWondersDuel::STATE_START_PLAYER_SELECTED_ID => [
-        "name" => SevenWondersDuel::STATE_START_PLAYER_SELECTED_NAME,
+    SevenWondersDuelAgora::STATE_START_PLAYER_SELECTED_ID => [
+        "name" => SevenWondersDuelAgora::STATE_START_PLAYER_SELECTED_NAME,
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
         "action" => "enterStateStartPlayerSelected",
         "transitions" => [
-            SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
         ]
     ],
-
-    SevenWondersDuel::STATE_PLAYER_TURN_ID => [
-        "name" => SevenWondersDuel::STATE_PLAYER_TURN_NAME,
-        "description" => clienttranslate('Age ${ageRoman}: ${actplayer} must choose and use an age card'),
-        "descriptionmyturn" => clienttranslate('Age ${ageRoman}: ${you} must choose an age card'),
+    SevenWondersDuelAgora::STATE_PLAYER_TURN_ID => [
+        "name" => SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME,
+        "description" => '', // Set in onEnterPlayerTurn
+        "descriptionmyturn" => '', // Set in onEnterPlayerTurn
         "type" => "activeplayer",
         "action" => "enterStatePlayerTurn",
         "args" => "argPlayerTurn",
         "possibleactions" => [
+            "actionTriggerConspiracy",
             "actionConstructBuilding",
             "actionDiscardBuilding",
             "actionConstructWonder",
+            "actionPrepareConspiracy",
+        ],
+        "transitions" => array_merge(
+            $conspiracyStateTransitions, // Support all conspiracy actions
+            $constructBuildingTransitions, // Support all construct building actions
+            [
+                SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME=> SevenWondersDuelAgora::STATE_PLAYER_TURN_ID, // After triggering conspiracy
+                SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME=> SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_ID,
+                SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
+                SevenWondersDuelAgora::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuelAgora::STATE_CHOOSE_DISCARDED_BUILDING_ID,
+                SevenWondersDuelAgora::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME => SevenWondersDuelAgora::STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID,
+                SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID,
+                SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_ID,
+                SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID, // If remove influence is skipped
+                SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // For immediate victories, skipping special wonder action states.
+                SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME,
+        "description" => clienttranslate('${actplayer} must choose to place an Influence cube or to Conspire'),
+        "descriptionmyturn" => clienttranslate('${you} must choose to place an Influence cube or to Conspire'),
+        "type" => "activeplayer",
+        "action" => "enterStateChooseConspiratorAction",
+        "args" => "argChooseConspiratorAction",
+        "possibleactions" => [
+            "actionChooseConspiratorActionPlaceInfluence",
+            "actionConspire",
         ],
         "transitions" => [
-            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME=> SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
-            SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID,
-            SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_ID,
-            SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
-            SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_ID,
-            SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID, // For immediate victories, skipping special wonder action states.
-            SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_CONSPIRE_NAME => SevenWondersDuelAgora::STATE_CONSPIRE_ID,
+            SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
         ]
     ],
 
-    SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID => [
-        "name" => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME,
+    SevenWondersDuelAgora::STATE_CONSPIRE_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CONSPIRE_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Conspiracy'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Conspiracy'),
+        "type" => "activeplayer",
+        "action" => "enterStateConspire",
+        "args" => "argConspire",
+        "possibleactions" => [
+            "actionChooseConspiracy",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME,
+        "description" => clienttranslate('${actplayer} must choose to place the other Conspiracy card on the top or the bottom of the deck'),
+        "descriptionmyturn" => clienttranslate('${you} must choose to place the other Conspiracy card on the top or the bottom of the deck'),
+        "type" => "activeplayer",
+        "action" => "enterStateChooseConspireRemnantPosition",
+        "args" => "argChooseConspireRemnantPosition",
+        "possibleactions" => [
+            "actionChooseConspireRemnantPosition",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_WONDER_SELECTED_NAME => SevenWondersDuelAgora::STATE_WONDER_SELECTED_ID,
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID => [
+        "name" => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Senate action (${senateActionsLeft} left)'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Senate action (${senateActionsLeft} left)'),
+        "type" => "activeplayer",
+        "action" => "enterStateSenateActions",
+        "args" => "argSenateActions",
+        "possibleactions" => [
+            "actionPlaceInfluence",
+            "actionMoveInfluence",
+            "actionSkipMoveInfluence",
+        ],
+        "transitions" => array_merge($militaryTokenTransitions, [ // For when the military Decree triggers a Military Token.
+            SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ])
+    ],
+
+    SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID => [
+        "name" => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Senate chamber to add an Influence cube to'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Senate chamber to add an Influence cube to'),
+        "type" => "activeplayer",
+        "action" => "enterStatePlaceInfluence",
+        "args" => "argPlaceInfluence",
+        "possibleactions" => [
+            "actionPlaceInfluence",
+        ],
+        "transitions" => array_merge($militaryTokenTransitions, [ // Remove and Move maybe are obvious, but Place after Place can happen too (Conspirator Place Influence on Military Decree, which triggers Military Token with Place Influence action).
+            SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID, // Going back to Senate Actions after a Senate Action triggered the Military Decree which collected a Military Token.
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID, // After Conspiracy Coup, after military token action.
+            SevenWondersDuelAgora::STATE_WONDER_SELECTED_NAME => SevenWondersDuelAgora::STATE_WONDER_SELECTED_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ])
+    ],
+
+    SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID => [
+        "name" => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME,
+        "description" => clienttranslate('${actplayer} may choose a Senate chamber to move an Influence cube from'),
+        "descriptionmyturn" => clienttranslate('${you} may choose a Senate chamber to move an Influence cube from'),
+        "type" => "activeplayer",
+        "action" => "enterStateMoveInfluence",
+        "args" => "argMoveInfluence",
+        "possibleactions" => [
+            "actionMoveInfluence",
+            "actionSkipMoveInfluence",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID, // Going back to Senate Actions after a Senate Action triggered the Military Decree which collected a Military Token.
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_ID => [
+        "name" => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME,
+        "description" => clienttranslate('${actplayer} must choose one of the opponent\'s Influence cubes to remove'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Senate chamber to remove one of your opponent\'s Influence cubes from'),
+        "type" => "activeplayer",
+        "action" => "enterStateRemoveInfluence",
+        "args" => "argRemoveInfluence",
+        "possibleactions" => [
+            "actionRemoveInfluence",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelAgora::STATE_SENATE_ACTIONS_ID, // Going back to Senate Actions after a Senate Action triggered the Military Decree which collected a Military Token.
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID => [
+        "name" => SevenWondersDuelAgora::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME,
+        "description" => clienttranslate('${actplayer} may choose to trigger an unprepared Conspiracy'),
+        "descriptionmyturn" => clienttranslate('${you} may choose to trigger an unprepared Conspiracy'),
+        "type" => "activeplayer",
+        "action" => "enterStateTriggerUnpreparedConspiracy",
+        "args" => "argTriggerUnpreparedConspiracy",
+        "possibleactions" => [
+            "actionTriggerConspiracy",
+            "actionSkipTriggerUnpreparedConspiracy",
+        ],
+        "transitions" => array_merge(
+            $conspiracyStateTransitions, // Support all conspiracy actions
+            [
+                SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+                SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // For immediate victories
+                SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_NAME,
         "description" => clienttranslate('${actplayer} must choose a progress token'),
         "descriptionmyturn" => clienttranslate('${you} must choose a progress token'),
         "type" => "activeplayer",
@@ -160,13 +362,16 @@ $machinestates = [
             "actionChooseProgressToken",
         ],
         "transitions" => [
-            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
-            SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelAgora::STATE_PLAYER_SWITCH_ID,
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
         ]
     ],
 
-    SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_ID => [
-        "name" => SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_NAME,
+    SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CHOOSE_OPPONENT_BUILDING_NAME,
         "description" => clienttranslate('${actplayer} must choose one of the opponent\'s ${buildingType} cards to discard'),
         "descriptionmyturn" => clienttranslate('${you} must choose one of the opponent\'s ${buildingType} cards to discard'),
         "type" => "activeplayer",
@@ -176,14 +381,16 @@ $machinestates = [
             "actionChooseOpponentBuilding",
             // If there are no building to discard, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
         ],
-        "transitions" => [
-            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
-            SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
-        ]
+        "transitions" => array_merge($militaryTokenTransitions, [
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID, // Conspiracies, when skipping the discard action
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ])
     ],
 
-    SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID => [
-        "name" => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME,
+    SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME,
         "description" => clienttranslate('${actplayer} must choose a progress token from the box'),
         "descriptionmyturn" => clienttranslate('${you} must choose a progress token from the box'),
         "type" => "activeplayer",
@@ -193,13 +400,14 @@ $machinestates = [
             "actionChooseProgressTokenFromBox",
         ],
         "transitions" => [
-            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
-            SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID, // Conspiracy Espionage
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
         ]
     ],
 
-    SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_ID => [
-        "name" => SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_NAME,
+    SevenWondersDuelAgora::STATE_CHOOSE_DISCARDED_BUILDING_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CHOOSE_DISCARDED_BUILDING_NAME,
         "description" => clienttranslate('${actplayer} must choose a discarded building to construct'),
         "descriptionmyturn" => clienttranslate('${you} must choose a discarded building to construct'),
         "type" => "activeplayer",
@@ -209,30 +417,227 @@ $machinestates = [
             "actionChooseDiscardedBuilding",
             // If there is no discarded building to construct, this state will be skipped automatically, so no need to have NEXT_PLAYER_TURN as a possible action.
         ],
+        "transitions" => array_merge(
+            $constructBuildingTransitions, // Support all construct building actions
+            [
+                SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelAgora::STATE_CONSTRUCT_BUILDING_FROM_BOX_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Building removed from the game up to the current Age to play for free'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Building removed from the game up to the current Age to play for free'),
+        "type" => "activeplayer",
+        "action" => "enterStateConstructBuildingFromBox",
+        "args" => "argConstructBuildingFromBox",
+        "possibleactions" => [
+            "actionConstructBuildingFromBox",
+        ],
+        "transitions" => array_merge(
+            $constructBuildingTransitions, // Support all construct building actions
+            [
+                SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+                SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+                SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_ID => [
+        "name" => SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Building from the last row of the Age structure (excluding Senators) and construct it for free'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Building from the last row of the Age structure (excluding Senators) and construct it for free'),
+        "type" => "activeplayer",
+        "action" => "enterStateConstructLastRowBuilding",
+        "args" => "argConstructLastRowBuilding",
+        "possibleactions" => [
+            "actionConstructBuilding",
+        ],
+        "transitions" => array_merge(
+            $constructBuildingTransitions, // Support all construct building actions
+            [
+                SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+                SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+                SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelAgora::STATE_DESTROY_CONSTRUCTED_WONDER_ID => [
+        "name" => SevenWondersDuelAgora::STATE_DESTROY_CONSTRUCTED_WONDER_NAME,
+        "description" => clienttranslate('${actplayer} must choose one of the opponent\'s constructed Wonders and return it to the box'),
+        "descriptionmyturn" => clienttranslate('${you} must choose one of the opponent\'s constructed Wonders and return it to the box'),
+        "type" => "activeplayer",
+        "action" => "enterStateDestroyConstructedWonder",
+        "args" => "argDestroyConstructedWonder",
+        "possibleactions" => [
+            "actionDestroyConstructedWonder",
+        ],
         "transitions" => [
-            SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
-            SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID,
-            SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
         ]
     ],
 
-    SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID => [
-        "name" => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME,
+    SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_ID => [
+        "name" => SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_NAME,
+        "description" => '', // Set in onEnterDiscardAvailableCard
+        "descriptionmyturn" => '', // Set in onEnterDiscardAvailableCard
+        "type" => "activeplayer",
+        "action" => "enterStateDiscardAvailableCard",
+        "args" => "argDiscardAvailableCard",
+        "possibleactions" => [
+            "actionDiscardAvailableCard",
+            "actionSkipDiscardAvailableCard",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_NAME => SevenWondersDuelAgora::STATE_DISCARD_AVAILABLE_CARD_ID,
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_LOCK_PROGRESS_TOKEN_ID => [
+        "name" => SevenWondersDuelAgora::STATE_LOCK_PROGRESS_TOKEN_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Progress token from the board, his opponent or the box and lock it away for the rest of the game'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Progress token from the board, your opponent or the box and lock it away for the rest of the game'),
+        "type" => "activeplayer",
+        "action" => "enterStateLockProgressToken",
+        "args" => "argLockProgressToken",
+        "possibleactions" => [
+            "actionLockProgressToken",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_MOVE_DECREE_ID => [
+        "name" => SevenWondersDuelAgora::STATE_MOVE_DECREE_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Decree token to move to a Chamber of his choice, under the existing Decree'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Decree token to move to a Chamber of your choice, under the existing Decree'),
+        "type" => "activeplayer",
+        "action" => "enterStateMoveDecree",
+        "args" => "argMoveDecree",
+        "possibleactions" => [
+            "actionMoveDecree",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_ID, // Military token 2 if Decree 9 control is lost/gained
+            SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_ID, // Military token 5 if Decree 9 control is lost/gained
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_SWAP_BUILDING_ID => [
+        "name" => SevenWondersDuelAgora::STATE_SWAP_BUILDING_NAME,
+        "description" => clienttranslate('${actplayer} must choose 1 Blue or Green card of his opponent and in exchange give them 1 of his cards of the same color'),
+        "descriptionmyturn" => clienttranslate('${you} must choose 1 Blue or Green card of your opponent and in exchange give them 1 of your cards of the same color'),
+        "type" => "activeplayer",
+        "action" => "enterStateSwapBuilding",
+        "args" => "argSwapBuilding",
+        "possibleactions" => [
+            "actionSwapBuilding",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelAgora::STATE_PLAYER_SWITCH_ID,
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_TAKE_BUILDING_ID => [
+        "name" => SevenWondersDuelAgora::STATE_TAKE_BUILDING_NAME,
+        "description" => clienttranslate('${actplayer} must choose 1 Brown or Grey card from his opponent and add it to his city'),
+        "descriptionmyturn" => clienttranslate('${you} must choose 1 Brown or Grey card from your opponent and add it to your city'),
+        "type" => "activeplayer",
+        "action" => "enterStateTakeBuilding",
+        "args" => "argTakeBuilding",
+        "possibleactions" => [
+            "actionTakeBuilding",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_ID => [
+        "name" => SevenWondersDuelAgora::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME,
+        "description" => clienttranslate('${actplayer} must take one of the opponent\'s unconstructed Wonders and add it to his city'),
+        "descriptionmyturn" => clienttranslate('${you} must take one of the opponent\'s unconstructed Wonders and add it to your city'),
+        "type" => "activeplayer",
+        "action" => "enterStateTakeUnconstructedWonder",
+        "args" => "argTakeUnconstructedWonder",
+        "possibleactions" => [
+            "actionTakeUnconstructedWonder",
+        ],
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_PLAYER_SWITCH_ID => [
+        "name" => SevenWondersDuelAgora::STATE_PLAYER_SWITCH_NAME,
+        "description" => '',
+        "descriptionmyturn" => '',
+        "type" => "game",
+        "action" => "enterStatePlayerSwitch",
+        "transitions" => [
+            SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelAgora::STATE_CHOOSE_PROGRESS_TOKEN_ID,
+            SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
+            SevenWondersDuelAgora::ZOMBIE_PASS => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID,
+        ]
+    ],
+
+    SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_ID => [
+        "name" => SevenWondersDuelAgora::STATE_NEXT_PLAYER_TURN_NAME,
         "description" => clienttranslate('End of game victory points count...'),
         "descriptionmyturn" => clienttranslate('End of game victory points count...'),
         "type" => "game",
         "action" => "enterStateNextPlayerTurn",
         "updateGameProgression" => true,
         "transitions" => [
-            SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
-            SevenWondersDuel::STATE_NEXT_AGE_NAME => SevenWondersDuel::STATE_NEXT_AGE_ID,
-            SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID,
-            SevenWondersDuel::STATE_GAME_END_NAME => SevenWondersDuel::STATE_GAME_END_ID
+            SevenWondersDuelAgora::STATE_PLAYER_TURN_NAME => SevenWondersDuelAgora::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelAgora::STATE_NEXT_AGE_NAME => SevenWondersDuelAgora::STATE_NEXT_AGE_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID,
+            SevenWondersDuelAgora::STATE_GAME_END_NAME => SevenWondersDuelAgora::STATE_GAME_END_ID
         ]
     ],
 
-    SevenWondersDuel::STATE_GAME_END_DEBUG_ID => [
-        "name" => SevenWondersDuel::STATE_GAME_END_DEBUG_NAME,
+    SevenWondersDuelAgora::STATE_GAME_END_DEBUG_ID => [
+        "name" => SevenWondersDuelAgora::STATE_GAME_END_DEBUG_NAME,
         "description" => clienttranslate("Debug End of game"),
         "descriptionmyturn" => clienttranslate('Debug End of game'),
         "type" => "activeplayer",
@@ -242,41 +647,41 @@ $machinestates = [
             "dummyAction"
         ],
         "transitions" => [
-            SevenWondersDuel::STATE_GAME_END_NAME => SevenWondersDuel::STATE_GAME_END_ID
+            SevenWondersDuelAgora::STATE_GAME_END_NAME => SevenWondersDuelAgora::STATE_GAME_END_ID
         ]
     ],
 
     // Dummy Active player state
-//    SevenWondersDuel::STATE_ID_ => [
-//        "name" => SevenWondersDuel::STATE_NAME_,
+//    SevenWondersDuelAgora::STATE_ID_ => [
+//        "name" => SevenWondersDuelAgora::STATE_NAME_,
 //        "description" => clienttranslate('${actplayer} must play a card or pass'),
 //        "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
 //        "type" => "activeplayer",
 //        "action" => "enterState",
 //        "possibleactions" => [
-//            SevenWondersDuel::STATE_NAME_,
+//            SevenWondersDuelAgora::STATE_NAME_,
 //        ],
 //        "transitions" => [
-//            SevenWondersDuel::STATE_NAME_ => SevenWondersDuel::STATE_ID_,
+//            SevenWondersDuelAgora::STATE_NAME_ => SevenWondersDuelAgora::STATE_ID_,
 //        ]
 //    ],
 
     // Dummy Game state
-//    SevenWondersDuel::STATE_ID_ => [
-//        "name" => SevenWondersDuel::STATE_NAME_,
+//    SevenWondersDuelAgora::STATE_ID_ => [
+//        "name" => SevenWondersDuelAgora::STATE_NAME_,
 //        "description" => '',
 //        "descriptionmyturn" => '',
 //        "type" => "game",
 //        "action" => "enterState",
 //        "transitions" => [
-//            SevenWondersDuel::STATE_NAME_ => SevenWondersDuel::STATE_ID_,
+//            SevenWondersDuelAgora::STATE_NAME_ => SevenWondersDuelAgora::STATE_ID_,
 //        ]
 //    ],
 
     // Final state.
     // Please do not modify (and do not overload action/args methods).
-    SevenWondersDuel::STATE_GAME_END_ID => [
-        "name" => SevenWondersDuel::STATE_GAME_END_NAME,
+    SevenWondersDuelAgora::STATE_GAME_END_ID => [
+        "name" => SevenWondersDuelAgora::STATE_GAME_END_NAME,
         "description" => clienttranslate("End of game"),
         "type" => "manager",
         "action" => "stGameEnd",

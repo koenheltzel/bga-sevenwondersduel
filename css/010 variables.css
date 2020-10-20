@@ -4,10 +4,10 @@
     --element-scale: 1.0;
     --gutter: calc(7.5px * var(--scale));
 
-    --building-spritesheet-width: 1660px;
-    --building-spritesheet-height: 2080px;
-    --building-spritesheet-columns: 10;
-    --building-spritesheet-rows: 8;
+    --building-spritesheet-width: 1992px;
+    --building-spritesheet-height: 1792px;
+    --building-spritesheet-columns: 12;
+    --building-spritesheet-rows: 7;
     --building-spritesheet-scale: 1.253; /* Had to make the spritesheet smaller to support the @2X version at 4096 pixels high. */
     --building-width: calc(var(--building-spritesheet-width) / var(--building-spritesheet-columns) * var(--building-spritesheet-scale));
     --building-height: calc(var(--building-spritesheet-height) / var(--building-spritesheet-rows) * var(--building-spritesheet-scale));
@@ -15,6 +15,7 @@
     --building-small-width: calc(var(--building-width) * var(--building-small-scale));
     --building-small-height: calc(var(--building-height) * var(--building-small-scale));
     --building-header-small-height: calc(62px * var(--building-small-scale));
+    --building-columns-count: 7;
 
     --wonder-spritesheet-width: 1845px;
     --wonder-spritesheet-height: 720px;
@@ -26,13 +27,33 @@
     --wonder-small-scale: calc(0.58 * var(--scale));
     --wonder-plus-age-card-scale: 1.1;
 
+    --conspiracy-spritesheet-width: 1440px;
+    --conspiracy-spritesheet-height: 1107px;
+    --conspiracy-spritesheet-columns: 6;
+    --conspiracy-spritesheet-rows: 3;
+    --conspiracy-width: calc(var(--conspiracy-spritesheet-width) / var(--conspiracy-spritesheet-columns));
+    --conspiracy-height: calc(var(--conspiracy-spritesheet-height) / var(--conspiracy-spritesheet-rows));
+    --conspiracy-compact-height: calc(var(--conspiracy-spritesheet-height) / var(--conspiracy-spritesheet-rows) * (140/369));
+    --conspiracy-border-radius: 15px;
+    --conspiracy-small-scale: calc(0.58 * var(--scale));
+    --conspiracy-peek-scale: calc(0.865 * var(--conspiracy-small-scale));
+    --conspiracy-plus-age-card-scale: 1.25;
+
     --progress-token-spritesheet-width: 800px;
-    --progress-token-spritesheet-height: 600px;
+    --progress-token-spritesheet-height: 800px;
     --progress-token-spritesheet-columns: 4;
-    --progress-token-spritesheet-rows: 3;
+    --progress-token-spritesheet-rows: 4;
     --progress-token-width: calc(var(--progress-token-spritesheet-width) / var(--progress-token-spritesheet-columns));
     --progress-token-height: calc(var(--progress-token-spritesheet-height) / var(--progress-token-spritesheet-rows));
     --progress-token-small-scale: calc(0.4 * (0.5 / 0.63) * var(--scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
+
+    --decree-spritesheet-width: 696px;
+    --decree-spritesheet-height: 537px;
+    --decree-spritesheet-columns: 6;
+    --decree-spritesheet-rows: 3;
+    --decree-width: calc(var(--decree-spritesheet-width) / var(--decree-spritesheet-columns));
+    --decree-height: calc(var(--decree-spritesheet-height) / var(--decree-spritesheet-rows));
+    --decree-small-scale: calc(0.45 * var(--senate-scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
 
     --linked-building-icon-spritesheet-width: 288px;
     --linked-building-icon-spritesheet-height: 64px;
@@ -47,15 +68,38 @@
     --board-scale: calc(0.75 * var(--scale));
     --military-token-scale: calc(0.5 * var(--scale));
 
+    --senate-width: 220px;
+    --senate-height: 949px;
+    --senate-scale: calc(0.75 * var(--scale));
+    --cube-size: 30px;
+
+    --senate-tooltip-spritesheet-width: 1980px;
+    --senate-tooltip-spritesheet-height: 315px;
+    --senate-tooltip-spritesheet-columns: 6;
+    --senate-tooltip-spritesheet-rows: 1;
+    --senate-tooltip-width: calc(var(--senate-tooltip-spritesheet-width) / var(--senate-tooltip-spritesheet-columns));
+    --senate-tooltip-height: calc(var(--senate-tooltip-spritesheet-height) / var(--senate-tooltip-spritesheet-rows));
+
     --small-border-radius: calc(7px * var(--scale));
 
     --draftpool-row-height-multiplier: 0.536;
-    --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.6);
+    --draftpool-column-width: calc(var(--building-width) * var(--building-small-scale) * 0.58);
+    --last-row-reveal-movement: 0px;
     --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
+    --draftpool-column-count: 11;
 
     --military-track-header: 0.0434;
     --military-track-body: 0.87;
     --conflict-pawn-position: 0; /* -9 to 9 */
 
     --list-of-cards-scale: calc(var(--scale) * 0.75);
+}
+
+#swd[data-agora="1"] {
+    --building-columns-count: 8;
+    --draftpool-column-count: 13;
+}
+
+#swd[data-agora="0"] .agora {
+    display: none;
 }

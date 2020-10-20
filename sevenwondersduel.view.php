@@ -25,6 +25,7 @@
  */
 
 use SWD\Building;
+use SWD\Conspiracy;
 use SWD\Material;
 use SWD\Player;
 use SWD\ProgressToken;
@@ -32,10 +33,10 @@ use SWD\Wonder;
 
 require_once(APP_BASE_PATH . "view/common/game.view.php");
 
-class view_sevenwondersduel_sevenwondersduel extends game_view
+class view_sevenwondersduelagora_sevenwondersduelagora extends game_view
 {
     function getGameName() {
-        return "sevenwondersduel";
+        return "sevenwondersduelagora";
     }
 
     function build_page($viewArgs) {
@@ -47,7 +48,6 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->tpl['CONSTRUCT_WONDER'] = self::_("Construct a Wonder");
         $this->tpl['CONSTRUCT_BUILDING'] = self::_("Construct Building");
         $this->tpl['DISCARD_BUILDING'] = self::_("Discard for coins");
-        $this->tpl['CHOOSE_PROGRESS_TOKEN_FROM_BOX'] = self::_("Choose a Progress token from the box");
         $this->tpl['DISCARDED_BUILDINGS'] = self::_("Discarded Buildings");
         $this->tpl['SETTINGS'] = self::_("Settings");
         $this->tpl['AUTOMATIC_LAYOUT_DESCRIPTION'] = self::_("Choose game layout automatically based on browser window ratio (recommended)");
@@ -65,26 +65,39 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->tpl['SETTING_SCALE_DESCRIPTION'] = self::_("(value between 50 and 200)");
         $this->tpl['OPPONENT_COST'] = self::_("Opponent cost visible");
         $this->tpl['OPPONENT_COST_DESCRIPTION'] = self::_("Show opponent cost for Age cards and Wonders (if disabled, this information is still available in tooltips)");
+        // Agora
+        $this->tpl['PREPARE_CONSPIRACY'] = self::_("Prepare a Conspiracy");
+        $this->tpl['PLACE_INFLUENCE'] = self::_("Place Influence");
+        $this->tpl['MOVE_INFLUENCE'] = self::_("Move Influence");
+        $this->tpl['SKIP_REMAINING_ACTIONS'] = self::_("Skip remaining actions");
+        $this->tpl['SKIP'] = self::_("Skip");
+        $this->tpl['CONSPIRE'] = self::_("Conspire");
+        $this->tpl['BOTTOM'] = self::_("Bottom");
+        $this->tpl['TOP'] = self::_("Top");
+        $this->tpl['CHOOSE_CONSPIRE_REMNANT_POSITION'] = self::_("Put the remaining Conspiracy on the top or the bottom of the deck?");
+        $this->tpl['CONSTRUCT_BUILDING_FROM_BOX'] = self::_("Choose a Building removed from the game up to the current Age to play for free");
 
         /*********** Place your code below:  ************/
 
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row_info");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row_progress_tokens");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_column_block");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "list_of_cards_page1");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "list_of_cards_page2");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_player_row_info");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_player_row_progress_tokens");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_player_row");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_player");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "influence_cube");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "influence_container");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "board_column_block");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "list_of_cards_page1");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "list_of_cards_page2");
 
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", 'player_buildings');
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "draftpool");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_category_header");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_category_player");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_player");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "middle_column_block");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_wonders");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", 'player_buildings');
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "draftpool");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "end_game_category_header");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "end_game_category_player");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "end_game_player");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "end_game");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "middle_column_block");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "player_wonders");
 
         $boardPlayerClasses = ["board_player_left", "board_player_right"];
         $index = 0;
@@ -95,8 +108,21 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
             $this->page->reset_subblocks('board');
             $this->page->reset_subblocks('board_player');
             $this->page->reset_subblocks('board_player_row');
+            $this->page->reset_subblocks('influence_container');
+            $this->page->reset_subblocks('influence_cube');
 
             if ($playerId == Player::me()->id) {
+                for ($chamber = 1; $chamber <= 6; $chamber++) {
+                    $this->page->reset_subblocks('influence_cube');
+
+                    foreach ([Player::opponent()->id, Player::me()->id] as $playerId) {
+                        $this->page->insert_block("influence_cube", array(
+                            "PLAYER_ID" => $playerId,
+                            "PLAYER_ALIAS" => Player::get($playerId)->getAlias()
+                        ));
+                    }
+                    $this->page->insert_block("influence_container");
+                }
                 $this->page->insert_block("board");
             }
 
@@ -110,7 +136,8 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                 $this->page->insert_block($block, array(
                     "PLAYER_ID" => $playerId,
                     "PLAYER_NAME" => $player['player_name'],
-                    "PLAYER_COLOR" => $player['player_color']
+                    "PLAYER_COLOR" => $player['player_color'],
+                    "PLAYER_ALIAS" => Player::get($playerId)->getAlias()
                 ));
                 $this->page->insert_block("board_player_row");
             }
@@ -138,7 +165,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
                 // END GAME TABLE
                 if (1) {
-                    $categories = ['blue', 'green', 'yellow', 'purple', 'wonders', 'progresstokens', 'coins', 'military'];
+                    $categories = ['blue', 'green', 'yellow', 'purple', 'wonders', 'progresstokens', 'coins', 'military', 'senate agora'];
                     foreach ($categories as $category) {
                         $this->page->insert_block('end_game_category_header', array(
                             "CATEGORY" => $category,
@@ -215,14 +242,16 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
 
         // The "catalog". For testing spritesheets / tooltips.
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_wonder");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_building");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_progress_token");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog_wonder");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog_conspiracy");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog_conspiracy_compact");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog_building");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog_progress_token");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "block_catalog");
         if (0) {
             $this->page->reset_subblocks('block_catalog_building');
-            for ($id = 1; $id <= 77; $id++) {
-                $spritesheetColumns = 10;
+            for ($id = 1; $id <= 82; $id++) {
+                $spritesheetColumns = 12;
                 $x = (($id - 1) % $spritesheetColumns);
                 $y = floor(($id - 1) / $spritesheetColumns);
                 $building = Building::get($id);
@@ -233,6 +262,24 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
                     'x' => $x,
                     'y' => $y,
                 ]);
+            }
+
+            $this->page->reset_subblocks('block_catalog_conspiracy');
+            $this->page->reset_subblocks('block_catalog_conspiracy_compact');
+            for ($id = 1; $id <= 18; $id++) {
+                $spritesheetColumns = 6;
+                $x = (($id - 1) % $spritesheetColumns);
+                $y = floor(($id - 1) / $spritesheetColumns);
+                $conspiracy = Conspiracy::get($id);
+
+                $data = [
+                    'id' => $id,
+                    'title' => $conspiracy ? $conspiracy->name : '.',
+                    'x' => $x,
+                    'y' => $y,
+                ];
+                if ($id <> 18) $this->page->insert_block("block_catalog_conspiracy", $data);
+                if ($id <> 17) $this->page->insert_block("block_catalog_conspiracy_compact", $data);
             }
 
             $this->page->reset_subblocks('block_catalog_wonder');
@@ -267,8 +314,9 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
             $this->page->insert_block("block_catalog");
         }
 
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "swd");
+        $this->page->begin_block("sevenwondersduelagora_sevenwondersduelagora", "swd");
         $this->page->insert_block("swd", [
+            "AGORA" => (int)SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::OPTION_AGORA),
             "PLAYER_ME_ID" => Player::me()->id,
             "PLAYER_OPPONENT_ID" => Player::opponent()->id,
         ]);
@@ -297,7 +345,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         //      <!-- END myblock --> 
         
 
-        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "myblock" );
+        $this->page->begin_block( "sevenwondersduelagora_sevenwondersduelagora", "myblock" );
         foreach( $players as $player )
         {
             $this->page->insert_block( "myblock", array( 

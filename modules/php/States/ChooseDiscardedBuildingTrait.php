@@ -18,11 +18,15 @@ trait ChooseDiscardedBuildingTrait
      * @return array
      */
     public function argChooseDiscardedBuilding() {
-        return [
+        $data = [
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
         ];
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        }
+        return $data;
     }
 
     public function enterStateChooseDiscardedBuilding() {
@@ -40,11 +44,7 @@ trait ChooseDiscardedBuildingTrait
         $building = Building::get($buildingId);
         $payment = $building->construct(Player::getActive(), null, true);
 
-        if ($payment->selectProgressToken) {
-            $this->gamestate->nextState( self::STATE_CHOOSE_PROGRESS_TOKEN_NAME);
-        }
-        else {
-            $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
-        }
+
+        $this->transitionAfterConstructBuilding($building, $payment);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace SWD\States;
 
+use SWD\Conspiracies;
+use SWD\Material;
 use SWD\Player;
 use SWD\Wonder;
 use SWD\Wonders;
@@ -11,11 +13,16 @@ trait SelectWonderTrait {
     public function argSelectWonder() {
         $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
         $cards = Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}");
-        return [
+        $data = [
             'round' => $wonderSelectionRound,
             'updateWonderSelection' => count($cards) == 4, // Update the wonder selection at the end of the first and second selection rounds (second to hide the block).
             'wonderSelection' => count($cards) == 4 ? Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}") : null,
         ];
+
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        }
+        return $data;
     }
     public function enterStateSelectWonder() {
         $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
@@ -73,6 +80,30 @@ trait SelectWonderTrait {
             ]
         );
 
-        $this->gamestate->nextState( self::STATE_WONDER_SELECTED_NAME );
+        // Curia Julia: Conspire
+        if ($wonderId == 13) {
+            Material::get()->conspiracies->conspire();
+
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} must Conspire (“${wonderName}”)'),
+                [
+                    'i18n' => ['wonderName'],
+                    'wonderName' => $wonder->name,
+                    'player_name' => $player->name,
+                ]
+            );
+
+            $this->setGameStateValue(self::VALUE_CONSPIRE_RETURN_STATE, self::STATE_WONDER_SELECTED_ID);
+            $this->gamestate->nextState( self::STATE_CONSPIRE_NAME );
+        }
+        // Knossos: Place Influence
+        elseif ($wonderId == 14) {
+            $this->setStateStack([self::STATE_PLACE_INFLUENCE_NAME, self::STATE_WONDER_SELECTED_NAME]);
+            $this->stateStackNextState();
+        }
+        else {
+            $this->gamestate->nextState( self::STATE_WONDER_SELECTED_NAME );
+        }
     }
 }

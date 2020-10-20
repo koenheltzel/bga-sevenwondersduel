@@ -4,7 +4,7 @@
 namespace SWD;
 
 
-use SevenWondersDuel;
+use SevenWondersDuelAgora;
 
 class Base extends \APP_DbObject
 {
@@ -15,11 +15,11 @@ class Base extends \APP_DbObject
      * @return mixed
      */
     function _($string) {
-        if (!strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
+        if (isDevEnvironment()) {
             return $string;
         }
         else {
-            return SevenWondersDuel::get()->_($string);
+            return SevenWondersDuelAgora::get()->_($string);
         }
     }
 }

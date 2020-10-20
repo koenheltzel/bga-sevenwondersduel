@@ -21,3 +21,7 @@ function arrayWithPropertyAsKeys($array, $property, $subArray = false, $unsetPro
 function ageRoman($age) {
     return str_repeat("I", $age);
 }
+
+function isDevEnvironment() {
+    return !strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com');
+}

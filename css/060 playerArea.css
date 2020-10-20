@@ -47,7 +47,7 @@
 .player_buildings {
     min-height: calc(150px * var(--scale));
 
-    width: calc(7 * var(--building-small-width) + 6 * 2px);
+    width: calc(var(--building-columns-count) * var(--building-small-width) + (var(--building-columns-count) - 1) * 2px);
     /* Flexbox setup */
     display: flex;
     flex-direction: row;
@@ -81,6 +81,7 @@
     background-repeat: no-repeat !important;
     background-position: bottom !important;
     margin: 0 1px 0 1px;
+    align-items: center; /* To center expansion icons */
 }
 
 .player_buildings.opponent .player_building_column {
@@ -90,6 +91,16 @@
 
 .player_buildings.me .player_building_column {
     background-position: top !important;
+}
+
+.expansion_icon_container {
+    display:none !important;
+}
+.player_building_column .expansion_icon_container:only-child {
+    /* Only show expansion_icon_container if there are no buildings in this column. */
+    display:flex !important;
+    justify-content:center;
+    align-items:center;
 }
 
 /* Gradients for opponent */
@@ -128,6 +139,11 @@
     background: linear-gradient(to bottom, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
+.player_buildings.opponent .player_building_column.Senator {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
 /* Gradients for me */
 .player_buildings.me .player_building_column.Brown {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#702c12+0,702c12+100&0+0,0.4+100 */
@@ -164,6 +180,11 @@
     background: linear-gradient(to top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
+.player_buildings.me .player_building_column.Senator {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
 .science_progress {
     order: 99;
     height: calc(var(--building-header-small-height) * 0.75) !important;
@@ -184,20 +205,32 @@
     pointer-events: none;
 }
 
-#swd_wrap.portrait .player_wonders.opponent {
+#swd_wrap.portrait .player_wonders_mobile.opponent {
     border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
 }
 
-#swd_wrap.portrait .player_wonders.me {
+#swd_wrap.portrait .player_wonders_mobile.me {
     border-radius: 0 0 var(--small-border-radius) var(--small-border-radius);
 }
 
-#swd_wrap.square .player_wonders.opponent, #swd_wrap.landscape .player_wonders.opponent {
+#swd_wrap.square .player_wonders_container.opponent, #swd_wrap.landscape .player_wonders_container.opponent {
     border-radius: var(--small-border-radius) 0 var(--small-border-radius) var(--small-border-radius);
 }
 
-#swd_wrap.square .player_wonders.me, #swd_wrap.landscape .player_wonders.me {
+#swd_wrap.square .player_wonders_container.me, #swd_wrap.landscape .player_wonders_container.me {
     border-radius: var(--small-border-radius) var(--small-border-radius) 0 var(--small-border-radius);
+}
+
+.player_wonders_container {
+    display: flex;
+    flex-direction: column;
+}
+/*#swd_wrap.portrait .player_wonders_container {*/
+/*    border-radius: 0 0 var(--small-border-radius) var(--small-border-radius);*/
+/*}*/
+
+#swd_wrap.square .player_wonders_container {
+    flex-direction: row;
 }
 
 .player_wonders .wonder_small {
@@ -226,7 +259,11 @@
     height: var(--building-small-width);
 }
 
-.player_wonders .red_border {
+.current_player_is_active .player_wonders .red_border {
+    cursor: pointer;
+}
+
+.current_player_is_active .player_conspiracies .red_border {
     cursor: pointer;
 }
 
@@ -248,17 +285,19 @@
 
 #swd_wrap.square .player_wonders {
     width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
-    height: calc(4 * var(--wonder-small-scale) * var(--wonder-height) + 3 * var(--gutter));
+    height: calc(var(--number-of-wonders) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonders) - 1) * var(--gutter));
 }
 
 #swd_wrap.landscape .player_wonders {
     width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
-    height: calc(2 * var(--wonder-small-scale) * var(--wonder-height) + 1 * var(--gutter));
+    height: calc(var(--number-of-wonder-rows-landscape) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonder-rows-landscape) - 1) * var(--gutter));
 }
 
 #swd_wrap.portrait .player_wonders {
     min-width: calc(4 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 3 * var(--gutter));
     height: calc(var(--wonder-small-scale) * var(--wonder-height));
+
+    align-content: center;
 }
 
 .player_wonders {
@@ -269,9 +308,17 @@
     flex-wrap: wrap;
     justify-content: space-between;
 }
+#swd_wrap.landscape .player_wonders {
+    flex-direction: row;
+    align-content: space-between;
+}
 
-.player_wonders > div:not(:last-child) {
+#swd_wrap.portrait .player_wonders > div:not(:last-child) {
     margin-right: var(--gutter);
+}
+
+.player_wonders > div:nth-of-type(5) {
+    display: none;
 }
 
 .player_wonders > div {
@@ -306,9 +353,6 @@
 }
 
 .player_area_progress_tokens > div:nth-of-type(4), .player_area_progress_tokens > div:nth-of-type(5), .player_area_progress_tokens > div:nth-of-type(6) {
-    position: relative;
-    top: calc(-8px * var(--scale));
-    margin-bottom: calc(-12px * var(--scale));
     display: none;
 }
 
@@ -328,6 +372,14 @@
 .player_area_points {
     /* Define width/height to keep the same position when the points icon moves to the end game table. */
     width: calc(var(--scale) * 30px);
+    height: calc(var(--scale) * 30px);
+    position: relative;
+    margin-left: var(--gutter);
+}
+
+.player_area_cubes {
+    /* Define width/height to keep the same position when the points icon moves to the end game table. */
+    width: calc(var(--scale) * 28.4px);
     height: calc(var(--scale) * 30px);
     position: relative;
     margin-left: var(--gutter);

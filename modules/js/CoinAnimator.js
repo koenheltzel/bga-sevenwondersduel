@@ -39,7 +39,7 @@ define([
             },
 
             constructor: function () {
-                this.game = bgagame.sevenwondersduel.instance;
+                this.game = bgagame.sevenwondersduelagora.instance;
             },
 
             /**
@@ -108,7 +108,10 @@ define([
                         }
                     }
                 }
-                return dojo.fx.combine(anims);
+                return dojo.fx.chain([
+                    dojo.fx.combine(anims),
+                    this.game.getDummyAnimation(100) // End with a dummy animation to make sure the onEnd of the last coin is also executed.
+                ]);
             },
         });
 

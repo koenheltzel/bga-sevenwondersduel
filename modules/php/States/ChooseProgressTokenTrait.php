@@ -16,11 +16,15 @@ trait ChooseProgressTokenTrait {
      * @return array
      */
     public function argChooseProgressToken() {
-        return [
+        $data = [
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
         ];
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        }
+        return $data;
     }
 
     public function enterStateChooseProgressToken() {
@@ -33,6 +37,6 @@ trait ChooseProgressTokenTrait {
         $progressToken = ProgressToken::get($progressTokenId);
         $payment = $progressToken->construct(Player::getActive());
 
-        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        $this->stateStackNextState(self::STATE_NEXT_PLAYER_TURN_NAME);
     }
 }

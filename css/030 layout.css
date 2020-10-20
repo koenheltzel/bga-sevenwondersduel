@@ -21,10 +21,78 @@
     flex-wrap: wrap;
 }
 
-#wonder_column > div:first-child .player_wonders {
+#wonder_column > div:first-child {
     /* Space between the two player areas with wonders, relevant in square mode where they would otherwise touch. */
     margin-bottom: var(--gutter);
 }
+
+#swd_wrap.landscape .player_wonders_container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+}
+#swd_wrap.landscape .player_wonders_container:first-child {
+    flex-direction: column;
+}
+
+.player_conspiracies {
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: center; /* For portrait layout, but doesn't affect other layouts afaik */
+}
+.player_conspiracies .conspiracy:not(.conspiracy_peek) {
+    z-index: 2;
+}
+
+.player_conspiracies > div {
+    width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
+    height: calc(var(--conspiracy-compact-height) * var(--conspiracy-small-scale) * var(--conspiracy-plus-age-card-scale));
+}
+
+#swd_wrap.landscape .player_conspiracies {
+    width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
+    justify-content: flex-end;
+}
+#swd_wrap.landscape .player_conspiracies.me > div {
+    margin-top: var(--gutter);
+    margin-left: var(--gutter);
+}
+#swd_wrap.landscape .player_conspiracies.opponent {
+    flex-wrap: wrap-reverse;
+}
+#swd_wrap.landscape .player_conspiracies.opponent > div {
+    margin-bottom: var(--gutter);
+    margin-left: var(--gutter);
+}
+
+#swd_wrap.square .player_conspiracies {
+    flex-direction: column;
+    justify-content: flex-start;
+}
+#swd_wrap.square .player_conspiracies.me > div {
+    margin-bottom: var(--gutter);
+    margin-right: var(--gutter);
+}
+#swd_wrap.square .player_conspiracies.opponent {
+    justify-content: flex-end;
+}
+#swd_wrap.square .player_conspiracies.opponent > div {
+    margin-top: var(--gutter);
+    margin-right: var(--gutter);
+}
+
+#swd_wrap.portrait .player_conspiracies.me > div {
+    margin-top: var(--gutter);
+    margin-right: var(--gutter);
+}
+#swd_wrap.portrait .player_conspiracies.opponent > div {
+    margin-bottom: var(--gutter);
+    margin-right: var(--gutter);
+}
+
+
+
 
 #middle_column {
     text-align: center;
@@ -36,7 +104,7 @@
     flex-wrap: wrap;
     gap: var(--gutter);
 
-    width: calc(7 * var(--building-small-width) + 6 * 2px + 2 * var(--gutter)); /* This keeps content in the middle_column, especially something like select_start_player within the allowed size. */
+    width: calc(var(--building-columns-count) * var(--building-small-width) + (var(--building-columns-count) - 1) * 2px + 2 * var(--gutter)); /* This keeps content in the middle_column, especially something like select_start_player within the allowed size. */
 }
 
 #board_column {
@@ -51,7 +119,22 @@
     width: calc(220px * var(--scale));
 }
 
+#swd_wrap.square #wonder_column {
+    /* If one player has conspiracies and the other doesn't, make sure the narrower wonder div is aligned to the right.*/
+    align-items: flex-end;
+}
+
 #swd_wrap.square #board_column, #swd_wrap.landscape #board_column {
     /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
     width: calc(225px * var(--scale));
+}
+
+#swd[data-agora="1"] #swd_wrap.portrait #board_column {
+    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
+    width: calc(395px * var(--scale));
+}
+
+#swd[data-agora="1"] #swd_wrap.square #board_column, #swd[data-agora="1"] #swd_wrap.landscape #board_column {
+    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
+    width: calc(395px * var(--scale));
 }

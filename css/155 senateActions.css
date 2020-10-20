@@ -1,0 +1,16 @@
+
+
+#senate_actions {
+    display: none;
+}
+
+.current_player_is_active #swd[data-state=senateActions] #senate_actions {
+    display: block;
+}
+
+#simple_skip {
+    display: none;
+}
+.current_player_is_active #swd[data-state=moveInfluence] #simple_skip {
+    display: block;
+}

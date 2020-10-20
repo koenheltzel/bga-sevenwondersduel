@@ -10,14 +10,16 @@ class Collection extends Base implements \ArrayAccess, \Iterator {
      */
     public $array = array();
 
-    public function getDeckCards() {
+    public function getDeckCards($idMin = 0, $idMax = 999) {
         $cards = [];
         foreach ($this->array as $item) {
-            $cards[] = [
-                'type' => $item->name,
-                'type_arg' => $item->id,
-                'nbr' => 1
-            ];
+            if ($item->id >= $idMin && $item->id <= $idMax) {
+                $cards[] = [
+                    'type' => $item->name,
+                    'type_arg' => $item->id,
+                    'nbr' => 1
+                ];
+            }
         }
         return $cards;
     }

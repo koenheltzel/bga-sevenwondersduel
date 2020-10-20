@@ -1,0 +1,4 @@
+
+.current_player_is_active #swd[data-state=discardAvailableCard] #draftpool .red_border {
+    cursor: pointer;
+}

@@ -16,16 +16,20 @@ trait ChooseProgressTokenFromBoxTrait {
      * @return array
      */
     public function argChooseProgressTokenFromBox() {
-        return [
+        $data = [
             '_private' => [ // Using "_private" keyword, all data inside this array will be made private
-                'active' => [ // Using "active" keyword inside "_private", you select active player(s)
-                    'progressTokensFromBox' => $this->progressTokenDeck->getCardsInLocation('wonder6') // will be send only to active player(s)
+                Player::getActive()->id => [ // Using "active" keyword inside "_private", you select active player(s)
+                    'progressTokensFromBox' => $this->progressTokenDeck->getCardsInLocation('selection') // will be send only to active player(s)
                 ]
             ],
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
         ];
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        }
+        return $data;
     }
 
     public function enterStateChooseProgressTokenFromBox() {
@@ -38,7 +42,11 @@ trait ChooseProgressTokenFromBoxTrait {
         $progressToken = ProgressToken::get($progressTokenId);
         $payment = $progressToken->construct(Player::getActive());
 
-        $this->gamestate->nextState( self::STATE_NEXT_PLAYER_TURN_NAME);
+        // Return any remaining progress tokens in the active selection back to the box.
+        $this->progressTokenDeck->moveAllCardsInLocation('selection', 'box');
+
+        // From Wonder 6 we go to next player turn, from Conspiracy 10 we go to player turn
+        $this->stateStackNextState(self::STATE_NEXT_PLAYER_TURN_NAME);
 
     }
 }

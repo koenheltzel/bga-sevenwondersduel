@@ -43,9 +43,38 @@ Because of reversing the flexbox order for the opponent there are 2 different ru
     cursor: pointer;
 }
 
-.current_player_is_active #swd[data-state=playerTurn] #draftpool .building_small.available,
-.current_player_is_active #swd[data-state=client_useAgeCard] #draftpool .building_small.available {
+.current_player_is_active #swd[data-state=playerTurn] #draftpool .building_small.available {
     cursor: pointer;
+}
+
+.current_player_is_active #swd[data-state=constructLastRowBuilding] #draftpool .row1.red_border {
+    cursor: pointer;
+}
+
+.current_player_is_active #swd[data-state=takeBuilding] .player_building_column.red_border .building_header_small {
+    cursor: pointer;
+}
+
+#swd[data-state=takeBuilding] .player_building_column.Brown {
+    position: relative;
+    left: -5px;
+}
+#swd[data-state=takeBuilding] .player_building_column.Grey {
+    position: relative;
+    left: 5px;
+}
+
+.current_player_is_active #swd[data-state=swapBuilding] .player_building_column.red_border .building_header_small {
+    cursor: pointer;
+}
+
+#swd[data-state=swapBuilding] .player_building_column.Blue {
+    position: relative;
+    left: -5px;
+}
+#swd[data-state=swapBuilding] .player_building_column.Green {
+    position: relative;
+    left: 5px;
 }
 
 .building_small {

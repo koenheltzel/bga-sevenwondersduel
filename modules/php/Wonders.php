@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuel;
+use SevenWondersDuelAgora;
 
 /**
  * @property Wonder[] $array
@@ -22,7 +22,7 @@ class Wonders extends Collection {
     }
 
     public static function getSituation() {
-        $selectionRound = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_WONDER_SELECTION_ROUND);
+        $selectionRound = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CURRENT_WONDER_SELECTION_ROUND);
         return [
             'selection' => self::getDeckCardsSorted("selection{$selectionRound}"),
             Player::me()->id => Player::me()->getWondersData(),
@@ -31,18 +31,18 @@ class Wonders extends Collection {
     }
 
     public static function getDeckCardsSorted($location): array {
-        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation($location);
-        usort($cards, function($a, $b) {return strcmp($a['location_arg'], $b['location_arg']);});
+        $cards = SevenWondersDuelAgora::get()->wonderDeck->getCardsInLocation($location);
+        usort($cards, function($a, $b) {return (int)$a['location_arg'] > (int)$b['location_arg'];});
         return $cards;
     }
 
     /**
      * @return Wonders
      */
-    public function filterByConstructed() {
+    public function filterByConstructed($constructed = true) {
         $wonders = new Wonders();
         foreach ($this->array as $wonder) {
-            if ($wonder->isConstructed()) {
+            if ($wonder->isConstructed() == $constructed) {
                 $wonders[] = $wonder;
             }
         }

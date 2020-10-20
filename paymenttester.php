@@ -1,24 +1,12 @@
 <?php
-require_once '_bga_ide_helper.php';
-require_once('modules/php/functions.php');
+require_once 'sevenwondersduel.game.php';
 
 // SWD namespace autoloader from /modules/php/ folder.
 use SWD\Building;
+use SWD\Decree;
 use SWD\Player;
 use SWD\ProgressToken;
 use SWD\Wonder;
-
-$swdNamespaceAutoload = function ($class) {
-    $classParts = explode('\\', $class);
-    if ($classParts[0] == 'SWD') {
-        array_shift($classParts);
-        $file = dirname(__FILE__) . "/modules/php/" . implode(DIRECTORY_SEPARATOR, $classParts) . ".php";
-        if (file_exists($file)) {
-            require_once($file);
-        }
-    }
-};
-spl_autoload_register($swdNamespaceAutoload, true, true);
 
 require_once 'material.inc.php';
 
@@ -35,6 +23,9 @@ if (isset($_POST['name'])) {
     header("Location: " . $url . '&name=' . urlencode($_POST['name']));
     exit;
 }
+
+if (!isset($_GET['me_decrees'])) $_GET['me_decrees'] = "";
+if (!isset($_GET['opponent_decrees'])) $_GET['opponent_decrees'] = "";
 
 ?><!DOCTYPE html>
 <html>
@@ -142,13 +133,17 @@ if (isset($_POST['name'])) {
             <h3>Buildings:</h3>
             <div id="buildings">
                 <?php foreach(\SWD\Material::get()->buildings->array as $building):
-                    $spritesheetColumns = 10;
-                    $x = ($building->id - 1) % $spritesheetColumns;
-                    $y = floor(($building->id - 1) / $spritesheetColumns);
-                    ?><div id="<?= $building->id ?>" data-id="<?= $building->id ?>"
-                         class="item building building_small"
-                         style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
-                    ></div><?php endforeach ?>
+                    if (count($building->resources) > 0 || count($building->resourceChoice) > 0 || count($building->fixedPriceResources) > 0 || count($building->cost) > 0):
+                        $spritesheetColumns = 12;
+                        $x = ($building->id - 1) % $spritesheetColumns;
+                        $y = floor(($building->id - 1) / $spritesheetColumns);
+                        ?><div id="<?= $building->id ?>" data-id="<?= $building->id ?>"
+                             class="item building building_small"
+                             style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
+                               title="<?= $building->name ?>"
+                        ></div>
+                    <?php endif ?>
+                <?php endforeach ?>
             </div>
             <h3>Wonders (as if constructed):</h3>
             <div id="wonders">
@@ -159,7 +154,9 @@ if (isset($_POST['name'])) {
                     ?><div id="<?= $wonder->id ?>" data-id="<?= $wonder->id ?>"
                          class="item wonder wonder_small"
                          style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
-                    ></div><?php endforeach ?>
+                        title="<?= $wonder->name ?>"
+                    ></div>
+                <?php endforeach ?>
             </div>
             <h3>Progress tokens:</h3>
             <div id="progress_tokens">
@@ -168,8 +165,20 @@ if (isset($_POST['name'])) {
                     $x = ($progressToken->id - 1) % $spritesheetColumns;
                     $y = floor(($progressToken->id - 1) / $spritesheetColumns);
                     ?><div id="<?= $progressToken->id ?>" data-id="<?= $progressToken->id ?>"
-                         class="item progress_token progress_token_small"
-                         style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
+                           class="item progress_token progress_token_small"
+                           style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
+                           title="<?= $progressToken->name ?>"
+                    ></div><?php endforeach ?>
+            </div>
+            <h3>Decrees (as if controlled):</h3>
+            <div id="decrees">
+                <?php foreach([Decree::get(5), Decree::get(6), Decree::get(7), Decree::get(8), Decree::get(10), Decree::get(11)] as $decree):
+                    $spritesheetColumns = 6;
+                    $x = ($decree->id - 1) % $spritesheetColumns;
+                    $y = floor(($decree->id - 1) / $spritesheetColumns);
+                    ?><div id="<?= $decree->id ?>" data-id="<?= $decree->id ?>"
+                           class="item decree decree_small"
+                           style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
                     ></div><?php endforeach ?>
             </div>
         </td>
@@ -253,6 +262,9 @@ if (isset($_POST['name'])) {
             if (dojo.hasClass(node, 'progress_token')) {
                 container = 'progress_tokens';
             }
+            if (dojo.hasClass(node, 'decree')) {
+                container = 'decrees';
+            }
             dojo.place( node, container);
 
             // Sort material
@@ -318,7 +330,7 @@ if (isset($_POST['name'])) {
     }
     function getTypeStrings(container) {
         var strings = {};
-        ['building', 'wonder', 'progress_token'].forEach(function (type) {
+        ['building', 'wonder', 'progress_token', 'decree'].forEach(function (type) {
             strings[container + '_' + type + 's'] = this.getIdsString(container, type);
         });
         return strings;
@@ -330,14 +342,15 @@ if (isset($_POST['name'])) {
             dojo.place( node, targetcontainer );
         }
     }
-
     <?php if(isset($_GET['name'])): ?>
         moveIdsToContainer([<?= $_GET['me_buildings'] ?>], 'buildings', 'me');
         moveIdsToContainer([<?= $_GET['me_wonders'] ?>], 'wonders', 'me');
         moveIdsToContainer([<?= $_GET['me_progress_tokens'] ?>], 'progress_tokens', 'me');
+        moveIdsToContainer([<?= $_GET['me_decrees'] ?>], 'decrees', 'me');
         moveIdsToContainer([<?= $_GET['opponent_buildings'] ?>], 'buildings', 'opponent');
         moveIdsToContainer([<?= $_GET['opponent_wonders'] ?>], 'wonders', 'opponent');
         moveIdsToContainer([<?= $_GET['opponent_progress_tokens'] ?>], 'progress_tokens', 'opponent');
+        moveIdsToContainer([<?= $_GET['opponent_decrees'] ?>], 'decrees', 'opponent');
         moveIdsToContainer([<?= $_GET['subject_buildings'] ?>], 'buildings', 'subject');
         moveIdsToContainer([<?= $_GET['subject_wonders'] ?>], 'wonders', 'subject');
         updatePaymentPlan();

@@ -163,6 +163,20 @@
     height: calc(var(--scale) * 44px);
 }
 
+.end_game_senate {
+    color: #000000aa;
+    background-color: #00000030;
+    text-shadow: 0 0 0 #000000bb;
+}
+
+.end_game_senate .end_game_card {
+    background-image: url('img/agora_sprites.png');
+    background-position: 98.1132% 0.428266%;
+    background-size: 581.818%;
+    width: calc(var(--scale) * 44px);
+    height: calc(var(--scale) * 23px);
+}
+
 .end_game_total {
     --element-scale: 1.4;
     width: calc(var(--scale) * var(--element-scale) * 30px);

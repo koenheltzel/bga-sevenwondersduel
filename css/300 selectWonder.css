@@ -3,7 +3,7 @@
     display: none;
 }
 
-#swd[data-state=selectWonder] #wonder_selection_block {
+#swd[data-age="0"] #wonder_selection_block {
     display: block;
 }
 

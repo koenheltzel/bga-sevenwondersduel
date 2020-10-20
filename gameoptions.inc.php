@@ -12,9 +12,9 @@
  * gameoptions.inc.php
  *
  * SevenWondersDuel game options description
- * 
+ *
  * In this file, you can define your game options (= game variants).
- *   
+ *
  * Note: If your game has no variant, you don't have to modify this file.
  *
  * Note²: All options defined in this file should have a corresponding "game state labels"
@@ -24,7 +24,7 @@
  *
  */
 
-$game_options = array(
+$game_options = [
 
     /*
     
@@ -50,6 +50,58 @@ $game_options = array(
 
     */
 
-);
+    110 => [
+        'name' => totranslate('Expansion: Agora'),
+        'values' => [
+            0 => ['name' => totranslate('No')],
+            1 => [
+                'name' => totranslate('Yes'),
+                'description' => totranslate('Agora adds Senators and their influence on the Senate. Try to control these Chambers to benefit from Decrees or call on Conspirators who could very well overthrow the situation.'),
+                'beta' => true,
+                'nobeginner' => true
+            ]
+        ],
+        'default' => 1
+    ],
+    111 => [
+        'name' => totranslate('Guarantee Agora Wonders (testing option)'),
+        'values' => [
+            0 => ['name' => totranslate('No')],
+            1 => [
+                'name' => totranslate('Yes'),
+                'description' => totranslate('Guarantees the inclusion of the 2 Agora Wonders for testing purposes.'),
+                'beta' => true,
+            ]
+        ],
+        'default' => 0,
+        'displaycondition' => [ // Note: do not display this option unless these conditions are met
+            [
+                'type' => 'otheroption',
+                'id' => 110,
+                'value' => 1
+            ]
+        ],
+    ],
+    112 => [
+        'name' => totranslate('Guarantee Agora Progress Tokens (testing option)'),
+        'values' => [
+            0 => ['name' => totranslate('No')],
+            1 => [
+                'name' => totranslate('Yes'),
+                'description' => totranslate('Guarantees the inclusion of the 2 Agora Progress Tokens for testing purposes.'),
+                'beta' => true,
+            ]
+        ],
+        'default' => 0,
+        'displaycondition' => [ // Note: do not display this option unless these conditions are met
+            [
+                'type' => 'otheroption',
+                'id' => 110,
+                'value' => 1
+            ]
+        ],
+    ]
+
+];
 
 

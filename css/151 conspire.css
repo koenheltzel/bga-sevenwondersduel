@@ -1,0 +1,69 @@
+
+#conspire {
+    display: none;
+}
+
+.current_player_is_active #swd[data-state=conspire],
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] {
+    --draftpool-row-height-multiplier: 0.35 !important;
+    --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
+}
+
+.current_player_is_active #swd[data-state=conspire] #conspire,
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #conspire {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+/* During Wonder Selection, for the Curia Julia ability, we need to show draftpool_container, else #conspire isn't visible either. */
+.current_player_is_active #swd[data-state=conspire] #draftpool_container,
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #draftpool_container {
+    display: flex !important; /* Override inline style set by javascript */
+}
+
+.current_player_is_active #swd[data-state=conspire] #conspire > div:nth-of-type(1) {
+    margin-right: var(--gutter);
+}
+
+/* Hide/show second div */
+.current_player_is_active #swd[data-state=conspire] #conspire > div:nth-of-type(2) {
+    display: block;
+}
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #conspire > div:nth-of-type(2) {
+    display: none;
+}
+
+.current_player_is_active #swd[data-state=conspire] #conspire .conspiracy_small {
+    cursor: pointer;
+}
+
+#conspire > div {
+    width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
+    height: calc(var(--conspiracy-height) * var(--conspiracy-small-scale));
+    position: relative;
+}
+
+
+#choose_conspire_remnant_position {
+    display: none;
+}
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position {
+    display: block;
+}
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position {
+    width: calc(2 * var(--conspiracy-width) * var(--conspiracy-small-scale));
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gutter);
+}
+
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position a {
+    width: calc(1 * var(--conspiracy-width) * var(--conspiracy-small-scale));
+    /*height: calc(0.2 * var(--conspiracy-width) * var(--conspiracy-small-scale));*/
+    display: block;
+}
+.current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #choose_conspire_remnant_position a span {
+    font-size: calc(18px * var(--scale));
+}

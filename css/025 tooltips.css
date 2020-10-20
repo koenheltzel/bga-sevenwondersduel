@@ -13,11 +13,12 @@
     flex-grow: 1;
 }
 
-.swd_tooltip li {
+.dijitTooltipContents li {
     list-style: outside;
     margin-left: calc(25px * var(--scale));
 }
-.swd_tooltip li.no_li {
+
+li.no_li {
     list-style: none;
     margin-left: 0;
 }
@@ -54,4 +55,47 @@
 
 .payment_plan > div {
     vertical-align: middle;
+}
+
+.senate_tooltip {
+    width: calc(var(--senate-tooltip-width) * var(--scale));
+    height: calc(var(--senate-tooltip-height) * var(--scale));
+    background-size: calc(var(--senate-tooltip-width) * var(--senate-tooltip-spritesheet-columns) * var(--scale)) calc(var(--senate-tooltip-height) * var(--senate-tooltip-spritesheet-rows) * var(--scale));
+    background-image: url('img/agora_senate_tooltips.png');
+    display: inline-block;
+    position: relative;
+    filter: drop-shadow(calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) rgba(0, 0, 0, 0.4));
+}
+
+
+.senate_section {
+    background-image: url('img/agora_sprites.png');
+    --element-scale: 1.2;
+    display: inline-block;
+    position: relative;
+    top: var(--gutter);
+    left: var(--gutter);
+}
+
+.senate_section_left {
+    background-position: 63.318% 69.149%;
+    background-size: 609.524%;
+    width: calc(var(--scale) * var(--element-scale) * 42px);
+    height: calc(var(--scale) * var(--element-scale) * 21px);
+}
+
+.senate_section_center {
+    background-position: 63.194% 79.741%;
+    background-size: 640%;
+    --element-scale: 1.2;
+    width: calc(var(--scale) * var(--element-scale) * 40px);
+    height: calc(var(--scale) * var(--element-scale) * 24px);
+}
+
+.senate_section_right {
+    background-position: 63.318% 89.574%;
+    background-size: 609.524%;
+    --element-scale: 1.2;
+    width: calc(var(--scale) * var(--element-scale) * 42px);
+    height: calc(var(--scale) * var(--element-scale) * 21px);
 }

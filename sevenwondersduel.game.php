@@ -16,12 +16,17 @@
   *
   */
 
+use SWD\Conspiracies;
+use SWD\Conspiracy;
+use SWD\Decree;
+use SWD\Decrees;
 use SWD\Draftpool;
 use SWD\Material;
 use SWD\MilitaryTrack;
 use SWD\Player;
 use SWD\Players;
 use SWD\ProgressTokens;
+use SWD\Senate;
 use SWD\Wonder;
 use SWD\Wonders;
 
@@ -38,12 +43,17 @@ $swdNamespaceAutoload = function ($class) {
 };
 spl_autoload_register($swdNamespaceAutoload, true, true);
 
-require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
+
 require_once('modules/php/functions.php');
-if (0) require_once '_bga_ide_helper.php';
+if (isDevEnvironment()) {
+    require_once '_bga_ide_helper.php';
+}
+else {
+    require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
+}
 
 
-class SevenWondersDuel extends Table
+class SevenWondersDuelAgora extends Table
 {
 
     use SWD\States\ChooseDiscardedBuildingTrait;
@@ -59,9 +69,28 @@ class SevenWondersDuel extends Table
     use SWD\States\SelectWonderTrait;
     use SWD\States\StartPlayerSelectedTrait;
     use SWD\States\WonderSelectedTrait;
+    // Agora
+    use SWD\States\ChooseConspiratorActionTrait;
+    use SWD\States\ConspireTrait;
+    use SWD\States\ChooseConspireRemnantPositionTrait;
+    use SWD\States\SenateActionsTrait;
+    use SWD\States\PlaceInfluenceTrait;
+    use SWD\States\MoveInfluenceTrait;
+    use SWD\States\RemoveInfluenceTrait;
+    use SWD\States\TriggerUnpreparedConspiracyTrait;
+    use SWD\States\ConstructBuildingFromBoxTrait;
+    use SWD\States\ConstructLastRowBuildingTrait;
+    use SWD\States\DestroyConstructedWonderTrait;
+    use SWD\States\DiscardAvailableCardTrait;
+    use SWD\States\LockProgressTokenTrait;
+    use SWD\States\MoveDecreeTrait;
+    use SWD\States\SwapBuildingTrait;
+    use SWD\States\TakeBuildingTrait;
+    use SWD\States\TakeUnconstructedWonderTrait;
+    use SWD\States\PlayerSwitchTrait;
 
     /**
-     * @var SevenWondersDuel
+     * @var SevenWondersDuelAgora
      */
     public static $instance;
 
@@ -87,6 +116,64 @@ class SevenWondersDuel extends Table
     const STATE_PLAYER_TURN_ID = 30;
     const STATE_PLAYER_TURN_NAME = "playerTurn";
 
+    // Start Agora
+
+    const STATE_CHOOSE_CONSPIRATOR_ACTION_ID = 31;
+    const STATE_CHOOSE_CONSPIRATOR_ACTION_NAME = "chooseConspiratorAction";
+
+    const STATE_CONSPIRE_ID = 32;
+    const STATE_CONSPIRE_NAME = "conspire";
+
+    const STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_ID = 33;
+    const STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME = "chooseConspireRemnantPosition";
+
+    const STATE_SENATE_ACTIONS_ID = 34;
+    const STATE_SENATE_ACTIONS_NAME = "senateActions";
+
+    const STATE_PLACE_INFLUENCE_ID = 35;
+    const STATE_PLACE_INFLUENCE_NAME = "placeInfluence";
+
+    const STATE_MOVE_INFLUENCE_ID = 36;
+    const STATE_MOVE_INFLUENCE_NAME = "moveInfluence";
+
+    const STATE_REMOVE_INFLUENCE_ID = 37;
+    const STATE_REMOVE_INFLUENCE_NAME = "removeInfluence";
+
+    const STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID = 38;
+    const STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME = "triggerUnpreparedConspiracy";
+
+    const STATE_CONSTRUCT_BUILDING_FROM_BOX_ID = 39;
+    const STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME = "constructBuildingFromBox";
+
+    const STATE_CONSTRUCT_LAST_ROW_BUILDING_ID = 40;
+    const STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME = "constructLastRowBuilding";
+
+    const STATE_DESTROY_CONSTRUCTED_WONDER_ID = 41;
+    const STATE_DESTROY_CONSTRUCTED_WONDER_NAME = "destroyConstructedWonder";
+
+    const STATE_DISCARD_AVAILABLE_CARD_ID = 42;
+    const STATE_DISCARD_AVAILABLE_CARD_NAME = "discardAvailableCard";
+
+    const STATE_LOCK_PROGRESS_TOKEN_ID = 43;
+    const STATE_LOCK_PROGRESS_TOKEN_NAME = "lockProgressToken";
+
+    const STATE_MOVE_DECREE_ID = 44;
+    const STATE_MOVE_DECREE_NAME = "moveDecree";
+
+    const STATE_SWAP_BUILDING_ID = 46;
+    const STATE_SWAP_BUILDING_NAME = "swapBuilding";
+
+    const STATE_TAKE_BUILDING_ID = 47;
+    const STATE_TAKE_BUILDING_NAME = "takeBuilding";
+
+    const STATE_TAKE_UNCONSTRUCTED_WONDER_ID = 48;
+    const STATE_TAKE_UNCONSTRUCTED_WONDER_NAME = "takeUnconstructedWonder";
+
+    const STATE_PLAYER_SWITCH_ID = 49;
+    const STATE_PLAYER_SWITCH_NAME = "playerSwitch";
+
+    // End Agora
+
     const STATE_CHOOSE_PROGRESS_TOKEN_ID = 45;
     const STATE_CHOOSE_PROGRESS_TOKEN_NAME = "chooseProgressToken";
 
@@ -108,6 +195,7 @@ class SevenWondersDuel extends Table
     const STATE_GAME_END_ID = 99;
     const STATE_GAME_END_NAME = "gameEnd";
 
+
     const ZOMBIE_PASS = "zombiePass";
 
     // Global value labels
@@ -120,15 +208,30 @@ class SevenWondersDuel extends Table
     const VALUE_MILITARY_TOKEN4 = "military_token4";
     const VALUE_EXTRA_TURN_NORMAL = "extra_turn";
     const VALUE_EXTRA_TURN_THROUGH_THEOLOGY = "extra_turn_through_theology";
+    const VALUE_EXTRA_TURN_THROUGH_DECREE = "extra_turn_through_decree";
     const VALUE_AGE_START_PLAYER = "age_start_player";
-    const VALUE_DISCARD_OPPONENT_BUILDING_WONDER = "discard_opponent_building_type";
+    const VALUE_DISCARD_OPPONENT_BUILDING_WONDER = "discard_opponent_building_wonder";
     const VALUE_END_GAME_CONDITION = "end_game_condition";
+    const VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY = "discard_opponent_building_conspiracy";
+    // Global value labels Agora
+    const VALUE_CONSPIRE_RETURN_STATE = "conspire_return_state";
+    const VALUE_SENATE_ACTIONS_SECTION = "senate_actions_section";
+    const VALUE_SENATE_ACTIONS_LEFT = "senate_actions_left";
+    const VALUE_STATE_STACK = "state_stack";
+    const VALUE_MAY_TRIGGER_CONSPIRACY = "may_trigger_conspiracy";
+    const VALUE_DISCARD_AVAILABLE_CARD_ROUND = "discard_available_card_round";
+
+    // Game options (variants)
+    const OPTION_AGORA = "option_agora";
+    const OPTION_AGORA_WONDERS = "option_agora_wonders";
+    const OPTION_AGORA_PROGRESS_TOKENS = "option_agora_progress_tokens";
 
     // End game scoring categories
     const SCORE_WONDERS = "wonders";
     const SCORE_PROGRESSTOKENS = "progresstokens";
     const SCORE_COINS = "coins";
     const SCORE_MILITARY = "military";
+    const SCORE_SENATE = "senate";
 
     // End game conditions
     const END_GAME_CONDITION_SCIENTIFIC = 1;
@@ -136,12 +239,14 @@ class SevenWondersDuel extends Table
     const END_GAME_CONDITION_NORMAL = 3;
     const END_GAME_CONDITION_NORMAL_AUX = 4;
     const END_GAME_CONDITION_DRAW = 5;
+    const END_GAME_CONDITION_POLITICAL = 6;
 
     // Statistics
     const STAT_TURNS_NUMBER = "turns_number";
     const STAT_CIVILIAN_VICTORY = "civilian_victory";
     const STAT_SCIENTIFIC_SUPREMACY = "scientific_supremacy";
     const STAT_MILITARY_SUPREMACY = "military_supremacy";
+    const STAT_POLITICAL_SUPREMACY = "political_supremacy";
     const STAT_DRAW = "draw";
     const STAT_VICTORY_POINTS = "victory_points";
     const STAT_VP_BLUE = "vp_blue";
@@ -167,6 +272,14 @@ class SevenWondersDuel extends Table
     const STAT_EXTRA_TURNS = "extra_turns";
     const STAT_DISCARDED_CARDS = "discarded_cards";
     const STAT_CHAINED_CONSTRUCTIONS = "chained_constructions";
+    // Agora Statistics
+    const STAT_CONSPIRACIES_PREPARED = "conspiracies_prepared";
+    const STAT_CONSPIRACIES_TRIGGERED = "conspiracies_triggered";
+    const STAT_VP_SENATE = "vp_senate";
+    const STAT_INFLUENCE_CUBES_USED = "influence_cubes_used";
+    const STAT_CHAMBERS_IN_CONTROL = "chambers_in_control";
+    const STAT_POLITICIAN_CARDS = "politician_cards";
+    const STAT_CONSPIRATOR_CARDS = "conspirator_cards";
 
     /**
      * @var Deck
@@ -183,8 +296,23 @@ class SevenWondersDuel extends Table
      */
     public $progressTokenDeck;
 
+    /**
+     * @var Deck
+     */
+    public $decreeDeck;
+
+    /**
+     * @var Deck
+     */
+    public $conspiracyDeck;
+
+    /**
+     * @var Deck
+     */
+    public $influenceCubeDeck;
+
     public static function get() {
-        // We can assume self::$instance exists since SevenWondersDuel's constructor is the entry point for SWD code.
+        // We can assume self::$instance exists since SevenWondersDuelAgora's constructor is the entry point for SWD code.
         return self::$instance;
     }
 
@@ -201,6 +329,7 @@ class SevenWondersDuel extends Table
         parent::__construct();
 
         self::initGameStateLabels( array(
+                // Global variables
                 self::VALUE_CURRENT_WONDER_SELECTION_ROUND => 10,
                 self::VALUE_CURRENT_AGE => 11,
                 self::VALUE_CONFLICT_PAWN_POSITION => 12,
@@ -213,11 +342,19 @@ class SevenWondersDuel extends Table
                 self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY => 19,
                 self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER => 20,
                 self::VALUE_END_GAME_CONDITION => 21,
-            //    "my_second_global_variable" => 11,
-            //      ...
-            //    "my_first_game_variant" => 100,
-            //    "my_second_game_variant" => 101,
-            //      ...
+                // Global variables Agora
+                self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY => 22,
+                self::VALUE_CONSPIRE_RETURN_STATE => 33,
+                self::VALUE_SENATE_ACTIONS_SECTION => 34,
+                self::VALUE_SENATE_ACTIONS_LEFT => 35,
+                self::VALUE_STATE_STACK => 36,
+                self::VALUE_EXTRA_TURN_THROUGH_DECREE => 37,
+                self::VALUE_MAY_TRIGGER_CONSPIRACY => 38,
+                self::VALUE_DISCARD_AVAILABLE_CARD_ROUND => 39,
+                // Game variants
+                self::OPTION_AGORA => 110,
+                self::OPTION_AGORA_WONDERS => 111,
+                self::OPTION_AGORA_PROGRESS_TOKENS => 112,
         ) );
 
         $this->buildingDeck = self::getNew( "module.common.deck" );
@@ -228,6 +365,18 @@ class SevenWondersDuel extends Table
 
         $this->progressTokenDeck = self::getNew( "module.common.deck" );
         $this->progressTokenDeck->init( "progress_token" );
+
+        // Start Agora
+        // Checking wether Agora is active isn't possible here. So create the deck objects anyway.
+        $this->decreeDeck = self::getNew( "module.common.deck" );
+        $this->decreeDeck->init( "decree" );
+
+        $this->conspiracyDeck = self::getNew( "module.common.deck" );
+        $this->conspiracyDeck->init( "conspiracy" );
+
+        $this->influenceCubeDeck = self::getNew( "module.common.deck" );
+        $this->influenceCubeDeck->init( "influence_cube" );
+        // End Agora
 	}
 
     /**
@@ -267,7 +416,7 @@ class SevenWondersDuel extends Table
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
-        return "sevenwondersduel";
+        return "sevenwondersduelagora";
     }
 
     /*
@@ -314,6 +463,15 @@ class SevenWondersDuel extends Table
         self::setGameStateInitialValue( self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
         self::setGameStateInitialValue( self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, 0);
         self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, 0);
+        self::setGameStateInitialValue( self::VALUE_STATE_STACK, json_encode([]));
+        // Agora
+        self::setGameStateInitialValue( self::VALUE_CONSPIRE_RETURN_STATE, 0);
+        self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_SECTION, 0);
+        self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_LEFT, 0);
+        self::setGameStateInitialValue( self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY, 0);
+        self::setGameStateInitialValue( self::VALUE_EXTRA_TURN_THROUGH_DECREE, 0);
+        self::setGameStateInitialValue( self::VALUE_MAY_TRIGGER_CONSPIRACY, 1);
+        self::setGameStateInitialValue( self::VALUE_DISCARD_AVAILABLE_CARD_ROUND, 1);
 
         // Init game statistics
         // (note: statistics used in this file must be defined in your stats.inc.php file)
@@ -322,12 +480,14 @@ class SevenWondersDuel extends Table
         self::initStat('table', self::STAT_CIVILIAN_VICTORY, 0);
         self::initStat('table', self::STAT_SCIENTIFIC_SUPREMACY, 0);
         self::initStat('table', self::STAT_MILITARY_SUPREMACY, 0);
+        self::initStat('table', self::STAT_POLITICAL_SUPREMACY, 0);
         self::initStat('table', self::STAT_DRAW, 0);
         // Player statistics (for all players)
         self::initStat('player', self::STAT_TURNS_NUMBER, 0);
         self::initStat('player', self::STAT_CIVILIAN_VICTORY, 0);
         self::initStat('player', self::STAT_SCIENTIFIC_SUPREMACY, 0);
         self::initStat('player', self::STAT_MILITARY_SUPREMACY, 0);
+        self::initStat('player', self::STAT_POLITICAL_SUPREMACY, 0);
         self::initStat('player', self::STAT_DRAW, 0);
         self::initStat('player', self::STAT_VICTORY_POINTS, 0);
         self::initStat('player', self::STAT_VP_BLUE, 0);
@@ -352,7 +512,16 @@ class SevenWondersDuel extends Table
         self::initStat('player', self::STAT_EXTRA_TURNS, 0);
         self::initStat('player', self::STAT_DISCARDED_CARDS, 0);
         self::initStat('player', self::STAT_CHAINED_CONSTRUCTIONS, 0);
-
+        // Agora
+        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            self::initStat('player', self::STAT_CONSPIRACIES_PREPARED, 0);
+            self::initStat('player', self::STAT_CONSPIRACIES_TRIGGERED, 0);
+            self::initStat('player', self::STAT_VP_SENATE, 0);
+            self::initStat('player', self::STAT_INFLUENCE_CUBES_USED, 0);
+            self::initStat('player', self::STAT_CHAMBERS_IN_CONTROL, 0);
+            self::initStat('player', self::STAT_POLITICIAN_CARDS, 0);
+            self::initStat('player', self::STAT_CONSPIRATOR_CARDS, 0);
+        }
         // TODO: setup the initial game situation here
 
         $this->enterStateGameSetup(); // This state function isn't called automatically apparently.
@@ -393,10 +562,10 @@ class SevenWondersDuel extends Table
 
         $me = Player::me();
         $opponent = Player::opponent();
-        $result['discardedBuildings'] = SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
+        $result['discardedBuildings'] = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
         $result['playerBuildings'] = [
-            $me->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($me->id, null, 'card_location_arg'),
-            $opponent->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($opponent->id, null, 'card_location_arg'),
+            $me->id => SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation($me->id, null, 'card_location_arg'),
+            $opponent->id => SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation($opponent->id, null, 'card_location_arg'),
         ];
         $result['playersSituation'] = Players::getSituation((int)$this->getGameStateValue(self::VALUE_END_GAME_CONDITION) != 0);
         $result['buildings'] = Material::get()->buildings->array;
@@ -415,8 +584,34 @@ class SevenWondersDuel extends Table
             $me->id => json_decode(json_encode($me), true),
             $opponent->id => json_decode(json_encode($opponent), true),
         ];
+        $result['agora'] = (int)$this->getGameStateValue(self::OPTION_AGORA);
+        if ($result['agora']) {
+            $result['conspiraciesSituation'] = Conspiracies::getSituation();
+            $result['conspiracies'] = Material::get()->conspiracies->array;
+            $result['conspiracies'][17] = new Conspiracy(17, ''); // To pass the generic explanation text to the tooltip.
+            $result['decrees'] = Material::get()->decrees->array;
+            $result['decrees'][17] = new Decree(17, ''); // To pass the generic explanation text to the tooltip.
+            $result['decreesSituation'] = Decrees::getSituation();
+            $result['senateSituation'] = Senate::getSituation();
+            $result['myConspiracies'] = Conspiracies::getDeckCardsSorted($current_player_id);
+        }
 
         return $result;
+    }
+
+    function addConspiraciesSituation(&$data, $includePrivateData=true) {
+        $data['conspiraciesSituation'] = Conspiracies::getSituation();
+
+        if ($includePrivateData) {
+            $meId = Player::me()->id;
+            $opponentId = Player::opponent()->id;
+            if (!isset($data['_private'])) $data['_private'] = [];
+            if (!isset($data['_private'][$meId])) $data['_private'][$meId] = [];
+            if (!isset($data['_private'][$opponentId])) $data['_private'][$opponentId] = [];
+
+            $data['_private'][$meId]['myConspiracies'] = Conspiracies::getDeckCardsLocationArgAsKeys($meId);
+            $data['_private'][$opponentId]['myConspiracies'] = Conspiracies::getDeckCardsLocationArgAsKeys($opponentId);
+        }
     }
 
     /*
@@ -626,6 +821,10 @@ class SevenWondersDuel extends Table
 //
 
 
+    }
+
+    public function getState($id) {
+        return $this->gamestate->states[$id];
     }
 
     /* Below we make some protected functions public, so the other SWD classes can use them. */

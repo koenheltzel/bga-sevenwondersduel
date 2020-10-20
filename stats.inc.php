@@ -72,6 +72,11 @@ $stats_type = [
             "name" => totranslate("Military Supremacy"),
             "type" => "int"
         ],
+        "political_supremacy" => [
+            "id" => 42,
+            "name" => totranslate("Political Supremacy"),
+            "type" => "int"
+        ],
         "draw" => [
             "id" => 41,
             "name" => totranslate("Draw"),
@@ -113,6 +118,11 @@ $stats_type = [
         "military_supremacy" => [
             "id" => 40,
             "name" => totranslate("Military Supremacy"),
+            "type" => "int"
+        ],
+        "political_supremacy" => [
+            "id" => 42,
+            "name" => totranslate("Political Supremacy"),
             "type" => "int"
         ],
         "draw" => [
@@ -163,6 +173,11 @@ $stats_type = [
         "vp_military" => [
             "id" => 130,
             "name" => totranslate("VP from Conflict Pawn position"),
+            "type" => "int"
+        ],
+        "vp_senate" => [
+            "id" => 135,
+            "name" => totranslate("VP from Senate Chambers"),
             "type" => "int"
         ],
         "brown_cards" => [
@@ -240,6 +255,36 @@ $stats_type = [
             "name" => totranslate("Chained constructions"),
             "type" => "int"
         ],
+        "conspiracies_prepared" => [
+            "id" => 400,
+            "name" => totranslate("Conspiracies prepared"),
+            "type" => "int"
+        ],
+        "conspiracies_triggered" => [
+            "id" => 410,
+            "name" => totranslate("Conspiracies triggered"),
+            "type" => "int"
+        ],
+        "influence_cubes_used" => [
+            "id" => 415,
+            "name" => totranslate("Influence cubes in Senate"),
+            "type" => "int"
+        ],
+        "chambers_in_control" => [
+            "id" => 420,
+            "name" => totranslate("Senate chambers in control"),
+            "type" => "int"
+        ],
+        "politician_cards" => [
+            "id" => 201,
+            "name" => totranslate("Politician cards (Senator)"),
+            "type" => "int"
+        ],
+        "conspirator_cards" => [
+            "id" => 202,
+            "name" => totranslate("Conspirator cards (Senator)"),
+            "type" => "int"
+        ],
 
         /*
                 Examples:
@@ -270,6 +315,10 @@ $stats_type = [
             1 => totranslate("Yes"),
         ],
         41 => [ // Draw
+            0 => totranslate("No"),
+            1 => totranslate("Yes"),
+        ],
+        42 => [ // Political Supremacy
             0 => totranslate("No"),
             1 => totranslate("Yes"),
         ],

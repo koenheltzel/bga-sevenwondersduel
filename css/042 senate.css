@@ -1,0 +1,161 @@
+
+#senate_container {
+    position: relative;
+    display: inline-block;
+    align-self: flex-end;
+    margin-right: calc(-19px * var(--scale));
+    margin-left: calc(var(--scale) * 35px); /* To clear the decrees (with possible double stack) */
+}
+
+.senate, #senate_container {
+    width: calc(var(--senate-width) * var(--senate-scale));
+    height: calc(var(--senate-height) * var(--senate-scale));
+}
+
+.senate {
+    background-image: url('img/agora_senate.png');
+    background-size: calc(var(--senate-width) * var(--senate-scale)) calc(var(--senate-height) * var(--senate-scale));
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+    position: absolute;
+    display: inline-block;
+}
+
+#senate_chambers  {
+    width: calc(var(--senate-width) * var(--senate-scale));
+    height: calc(var(--senate-height) * var(--senate-scale));
+    position: absolute;
+    display: inline-block;
+}
+
+#senate_chambers path {
+    fill:#00000000;
+}
+#senate_chambers path.red_stroke, #senate_chambers path.gray_stroke {
+    cursor: pointer;
+}
+
+.influence_containers > div {
+    position: absolute;
+    z-index: 25;
+}
+.influence_containers > div:nth-of-type(1) {
+    left: calc(var(--senate-scale) * 141px);
+    top: calc(var(--senate-scale) * 105px);
+    transform: rotate(0deg);
+}
+.influence_containers > div:nth-of-type(1) span {
+    transform: rotate(0deg);
+}
+.influence_containers > div:nth-of-type(2) {
+    left: calc(var(--senate-scale) * 50px);
+    top: calc(var(--senate-scale) * 238px);
+    transform: rotate(-19deg);
+}
+.influence_containers > div:nth-of-type(2) span {
+    transform: rotate(19deg);
+}
+.influence_containers > div:nth-of-type(3) {
+    left: calc(var(--senate-scale) * 2px);
+    top: calc(var(--senate-scale) * 393px);
+    transform: rotate(-36deg);
+}
+.influence_containers > div:nth-of-type(3) span {
+    transform: rotate(36deg);
+}
+.influence_containers > div:nth-of-type(4) {
+    left: calc(var(--senate-scale) * 3px);
+    top: calc(var(--senate-scale) * 560px);
+    transform: rotate(-54deg);
+}
+.influence_containers > div:nth-of-type(4) span {
+    transform: rotate(54deg);
+}
+.influence_containers > div:nth-of-type(5) {
+    left: calc(var(--senate-scale) * 49px);
+    top: calc(var(--senate-scale) * 715px);
+    transform: rotate(-71deg);
+}
+.influence_containers > div:nth-of-type(5) span {
+    transform: rotate(71deg);
+}
+.influence_containers > div:nth-of-type(6) {
+    left: calc(var(--senate-scale) * 140px);
+    top: calc(var(--senate-scale) * 848px);
+    transform: rotate(-90deg);
+}
+
+.influence_containers > div:nth-of-type(6) span {
+    transform: rotate(90deg);
+}
+
+.influence_containers > div > div {
+    position: absolute;
+}
+
+.agora_cube {
+    text-align: center;
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1px) black) drop-shadow(0px 0px calc(var(--scale) * 3px) white) drop-shadow(0px 0px calc(var(--scale) * 4px) white);
+    backface-visibility: hidden;
+
+    width: calc(var(--senate-scale) * var(--cube-size));
+    height: calc(var(--senate-scale) * var(--cube-size));
+    display: inline-block;
+    position: absolute;
+    pointer-events: none;
+}
+
+.agora_cube > span {
+    font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
+    font-size: calc(var(--scale) * var(--element-scale) * var(--cube-size) * 0.8);
+    line-height: calc(var(--senate-scale) * var(--cube-size)) !important;
+    text-shadow: 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white;
+    color: black;
+    cursor: default;
+    position: relative;
+    display: inline-block;
+    width: calc(var(--senate-scale) * var(--cube-size));
+    height: calc(var(--senate-scale) * var(--cube-size));
+}
+
+.agora_cube_me > span {
+    color: #481e0a;
+}
+.agora_cube_opponent > span {
+    color: #1f1d1d;
+}
+
+.agora_cube_me {
+    background-image: url('img/agora_sprites.png');
+    display: inline-block;
+    background-position: 66.505% 37.136%;
+    background-size: 512.000%;
+}
+
+.influence_containers .agora_cube {
+    transition: top ease-in-out 0.7s, left ease-in-out 0.7s;
+}
+
+.agora_cube_opponent {
+    background-image: url('img/agora_sprites.png');
+    display: inline-block;
+    background-position: 91.262% 37.136%;
+    background-size: 512.000%;
+}
+
+.influence_containers .agora_cube_me {
+    top: calc(var(--senate-scale) * 45px);
+    left: 0;
+}
+.influence_containers .agora_cube_opponent {
+    left: calc(var(--senate-scale) * 45px);
+    top: 0;
+}
+
+.agora_control {
+    left: 0 !important;
+    top: 0 !important;
+}
+
+#senate_actions_tooltip {
+    opacity: 0;
+}

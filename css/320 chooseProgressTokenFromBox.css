@@ -21,3 +21,13 @@
 #progress_token_from_box_container > div:not(:last-child) {
     margin-right: var(--gutter);
 }
+
+.current_player_is_active #swd[data-state=lockProgressToken] #progress_token_from_box {
+    display: block;
+}
+.current_player_is_active #swd[data-state=lockProgressToken] .player_info.opponent .progress_token_small {
+    cursor: pointer;
+}
+.current_player_is_active #swd[data-state=lockProgressToken] #board_progress_tokens .progress_token_small {
+    cursor: pointer;
+}

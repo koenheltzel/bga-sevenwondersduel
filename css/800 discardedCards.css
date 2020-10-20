@@ -1,9 +1,10 @@
 
-#discarded_cards_whiteblock {
+#lower_divs_container {
     margin-top: var(--gutter) !important;
     margin-left: auto !important;
     margin-right: auto !important;
     box-sizing: border-box;
+    display: flex;
 }
 
 #discarded_cards_container {
@@ -24,4 +25,24 @@
 
 .discarded_cards_cursor {
     display: none !important;
+}
+
+#discarded_cards_whiteblock {
+    flex-grow: 2;
+}
+
+#conspiracy_deck_container {
+    margin-left: var(--gutter) !important;
+}
+
+#conspiracy_deck_container span {
+    font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
+    font-size: calc(var(--scale) * 32px);
+    text-shadow: 0 0 calc(var(--scale) * 3px) black, 0 0 calc(var(--scale) * 3px) black;
+    color: white;
+    cursor: default;
+    position: relative;
+}
+#conspiracy_deck_container .conspiracy {
+    position: initial;
 }
