@@ -277,12 +277,12 @@ $stats_type = [
         ],
         "politician_cards" => [
             "id" => 201,
-            "name" => totranslate("Politician cards (Senator)"),
+            "name" => totranslate("White cards (Politician)"),
             "type" => "int"
         ],
         "conspirator_cards" => [
             "id" => 202,
-            "name" => totranslate("Conspirator cards (Senator)"),
+            "name" => totranslate("Black cards (Conspirator)"),
             "type" => "int"
         ],
 
