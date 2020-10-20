@@ -62,7 +62,6 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->tpl['GUILDS'] = self::_("Guilds");
         $this->tpl['BUILDINGS_WITH_LINKS'] = self::_("Buildings with links");
         $this->tpl['BUILDINGS_WITHOUT_LINKS'] = self::_("Buildings without links");
-        $this->tpl['SETTING_SCALE_DESCRIPTION'] = self::_("(value between 50 and 200)");
         $this->tpl['OPPONENT_COST'] = self::_("Opponent cost visible");
         $this->tpl['OPPONENT_COST_DESCRIPTION'] = self::_("Show opponent cost for Age cards and Wonders (if disabled, this information is still available in tooltips)");
         // Agora

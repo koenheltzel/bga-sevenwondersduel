@@ -34,6 +34,7 @@ define([
 
             instance: null,
 
+            LAYOUT_AUTO: 'auto',
             LAYOUT_LANDSCAPE: 'landscape',
             LAYOUT_SQUARE: 'square',
             LAYOUT_PORTRAIT: 'portrait',
@@ -128,21 +129,17 @@ define([
                 this.me_id = parseInt(this.gamedatas.me_id); // me = alias for the player on the bottom
                 this.opponent_id = parseInt(this.gamedatas.opponent_id); // opponent = alias for the player on the top
 
-                // Do this here and not in constructor because setLayout uses gamedatas
-                if (this.isCookieSetAndValid('swd_autoLayout', true)) {
-                    this.autoLayout = parseInt(dojo.cookie('swd_autoLayout'));
+                if (this.isCookieSetAndValid('swd_layout_v2')) {
+                    this.layout = dojo.cookie('swd_layout_v2');
+                    this.setLayout(this.layout);
                 }
-                if (!this.autoLayout) {
-                    if (this.isCookieSetAndValid('swd_layout')) {
-                        this.layout = dojo.cookie('swd_layout');
-                        this.setLayout(this.layout);
-                    }
-                    else {
-                        this.autoLayout = 1;
-                    }
+                else {
+                    this.layout = this.LAYOUT_AUTO;
                 }
-                if (this.isCookieSetAndValid('swd_autoScale', true)) {
-                    this.autoScale = parseInt(dojo.cookie('swd_autoScale'));
+                $('setting_layout').value = this.layout;
+
+                if (this.isCookieSetAndValid('swd_autoScale_v2', true)) {
+                    this.autoScale = parseInt(dojo.cookie('swd_autoScale_v2'));
                 }
                 if (!this.autoScale) {
                     if (this.isCookieSetAndValid('swd_scale', true)) {
@@ -243,9 +240,14 @@ define([
                 this.updatePlayersSituation(this.gamedatas.playersSituation);
 
                 // Set setting dropdown values (translations don't work yet in the constructor, so we do it here).
+                dojo.query('#setting_layout option[value="' + this.LAYOUT_AUTO + '"]')[0].innerText = _('Auto');
                 dojo.query('#setting_layout option[value="' + this.LAYOUT_PORTRAIT + '"]')[0].innerText = _('Portrait');
                 dojo.query('#setting_layout option[value="' + this.LAYOUT_SQUARE + '"]')[0].innerText = _('Square');
                 dojo.query('#setting_layout option[value="' + this.LAYOUT_LANDSCAPE + '"]')[0].innerText = _('Landscape');
+
+                dojo.query('#setting_auto_scale option[value="1"]')[0].innerText = _('Fit to screen (no scrolling)');
+                dojo.query('#setting_auto_scale option[value="2"]')[0].innerText = _('Use full width (scroll vertically)');
+                dojo.query('#setting_auto_scale option[value="0"]')[0].innerText = _('Manual');
 
                 dojo.query('#setting_quality option[value="1x"]')[0].innerText = _('Normal');
                 dojo.query('#setting_quality option[value="2x"]')[0].innerText = _('High definition');
@@ -298,7 +300,6 @@ define([
 
                 dojo.query("#setting_auto_scale").on("change", dojo.hitch(this, "onSettingAutoScaleChange"));
                 dojo.query("#setting_scale").on("change", dojo.hitch(this, "onSettingScaleChange"));
-                dojo.query("#setting_auto_layout").on("change", dojo.hitch(this, "onSettingAutoLayoutChange"));
                 dojo.query("#setting_layout").on("change", dojo.hitch(this, "onSettingLayoutChange"));
                 dojo.query("#setting_quality").on("change", dojo.hitch(this, "onSettingQualityChange"));
                 dojo.query("#setting_opponent_cost").on("change", dojo.hitch(this, "onSettingOpponentCostChange"));
@@ -5137,7 +5138,6 @@ define([
                 dojo.removeClass(swdNode, this.LAYOUT_PORTRAIT);
                 dojo.removeClass(swdNode, this.LAYOUT_LANDSCAPE);
                 dojo.addClass(swdNode, layout);
-                $('setting_layout').value = layout;
 
                 switch(layout) {
                     case this.LAYOUT_LANDSCAPE:
@@ -5235,12 +5235,12 @@ define([
             },
 
             updateLayout: function () {
-                if (!this.autoLayout) {
+                if (this.layout != this.LAYOUT_AUTO) {
                     this.layout = $('setting_layout').value;
-                    dojo.cookie('swd_layout', this.layout, { expires: this.cookieExpireDays });
+                    dojo.cookie('swd_layout_v2', this.layout, { expires: this.cookieExpireDays });
                 }
                 else {
-                    dojo.cookie("swd_layout", null, {expires: -1});
+                    dojo.cookie("swd_layout_v2", null, {expires: -1});
                 }
 
                 if (!this.autoScale) {
@@ -5268,7 +5268,7 @@ define([
                 // var square = 947 / 897; // 1.056
                 var landscape = 1.4;
 
-                if (this.autoLayout) {
+                if (this.layout == this.LAYOUT_AUTO) {
                     if (availableRatio >= landscape) {
                         if (this.debug) console.log('ratio: ', availableRatio, 'choosing landscape');
                         this.layout = this.LAYOUT_LANDSCAPE;
@@ -5291,6 +5291,9 @@ define([
                     clearTimeout(this.autoUpdateScaleTimeoutId);
                     this.autoUpdateScaleTimeoutId = setTimeout(dojo.hitch(this, "autoUpdateScale"), 50);
                 }
+                else if(this.settingsScrollIntoView) {
+                    this.scrollSettingsIntoView();
+                }
             },
 
             updateLowerDivsWidth: function() {
@@ -5312,14 +5315,25 @@ define([
                         currentDimensions = this.getCurrentDimensions();
                         let currentRatio = currentDimensions[0] / currentDimensions[1];
 
-                        if (availableRatio > currentRatio) {
-                            this.scale = availableDimensions[1] / currentDimensions[1];
-                        }
-                        else {
-                            this.scale = availableDimensions[0] / currentDimensions[0];
+                        switch(this.autoScale) {
+                            case 1:
+                                if (availableRatio > currentRatio) {
+                                    this.scale = availableDimensions[1] / currentDimensions[1];
+                                }
+                                else {
+                                    this.scale = availableDimensions[0] / currentDimensions[0];
+                                }
+                                break;
+                            case 2:
+                                this.scale = availableDimensions[0] / currentDimensions[0];
+                                break;
                         }
                         this.setScale(this.scale);
                     }
+                }
+
+                if(this.settingsScrollIntoView) {
+                    this.scrollSettingsIntoView();
                 }
             },
 
@@ -5335,17 +5349,30 @@ define([
                 dojo.stopEvent(e);
                 if (this.debug) console.log('onSettingAutoScaleChange');
 
-                this.autoScale = 1 - parseInt(this.autoScale);
-                dojo.cookie('swd_autoScale', this.autoScale, { expires: this.cookieExpireDays });
+                this.settingsScrollIntoView = true;
+
+                this.autoScale = parseInt($('setting_auto_scale').value);
+                dojo.cookie('swd_autoScale_v2', this.autoScale, { expires: this.cookieExpireDays });
 
                 this.updateLayout();
                 this.updateSettings();
+            },
+
+            scrollSettingsIntoView: function() {
+                this.settingsScrollIntoView = false;
+                document.getElementById("settings_whiteblock").scrollIntoView({
+                    behavior: 'auto',
+                    block: 'center',
+                    inline: 'center'
+                });
             },
 
             onSettingScaleChange: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
                 if (this.debug) console.log('onSettingScaleChange');
+
+                this.settingsScrollIntoView = true;
 
                 // Input can be cleared, in that case restore the current scale.
                 if (isNaN(parseInt(e.target.value))) {
@@ -5356,22 +5383,12 @@ define([
                 this.updateSettings();
             },
 
-            onSettingAutoLayoutChange: function (e) {
-                // Preventing default browser reaction
-                dojo.stopEvent(e);
-                if (this.debug) console.log('onSettingAutoLayoutChange');
-
-                this.autoLayout = 1 - parseInt(this.autoLayout);
-                dojo.cookie('swd_autoLayout', this.autoLayout, { expires: this.cookieExpireDays });
-
-                this.updateLayout();
-                this.updateSettings();
-            },
-
             onSettingLayoutChange: function (e) {
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
                 if (this.debug) console.log('onSettingLayoutChange');
+
+                this.settingsScrollIntoView = true;
 
                 this.updateLayout();
                 this.updateSettings();
@@ -5395,24 +5412,16 @@ define([
             },
 
             updateSettings: function() {
-                if (this.autoScale) {
-                    dojo.attr('setting_auto_scale', 'checked', 'checked');
+                $('setting_auto_scale').value = this.autoScale;
+                if (this.autoScale > 0) {
                     dojo.attr('setting_scale', 'disabled', '');
+                    dojo.style('setting_scale_container', 'display', 'none');
                 }
                 else {
-                    dojo.removeAttr('setting_auto_scale', 'checked');
                     dojo.removeAttr('setting_scale', 'disabled');
+                    dojo.style('setting_scale_container', 'display', 'inline-block');
                 }
-                dojo.style('setting_scale_description', 'display', this.autoScale ? 'none' : 'inline-block');
-
-                if (this.autoLayout) {
-                    dojo.attr('setting_auto_layout', 'checked', 'checked');
-                    dojo.attr('setting_layout', 'disabled', '');
-                }
-                else {
-                    dojo.removeAttr('setting_auto_layout', 'checked');
-                    dojo.removeAttr('setting_layout', 'disabled');
-                }
+                dojo.attr('setting_scale', 'title', _("(value between 50 and 200)"));
 
                 $('setting_quality').value = this.quality;
 

@@ -338,27 +338,28 @@
         <h3>{SETTINGS}</h3>
         <table class="settings_table">
             <tr>
-                <td></td>
-                <td>{MANUAL}</td>
-                <td>{AUTOMATIC}</td>
-            </tr>
-            <tr>
                 <td><strong>{LAYOUT}</strong></td>
                 <td>
-                    <select id="setting_layout" disabled>
+                    <select id="setting_layout">
+                        <option value="auto"></option>
                         <option value="portrait"></option>
                         <option value="square"></option>
                         <option value="landscape"></option>
                     </select>
                 </td>
-                <td><input type="checkbox" id="setting_auto_layout" checked="checked"> {AUTOMATIC_LAYOUT_DESCRIPTION}</td>
+                <td>{AUTOMATIC_LAYOUT_DESCRIPTION}</td>
             </tr>
             <tr>
                 <td><strong>{SCALE}</strong></td>
                 <td>
-                    <input type="number" id="setting_scale" style="width: 50px" min="50" max="200" disabled>% <span id="setting_scale_description">{SETTING_SCALE_DESCRIPTION}</span>
+                    <select id="setting_auto_scale">
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option value="0"></option>
+                    </select>
+                    <div id="setting_scale_container"><input type="number" id="setting_scale" style="width: 50px" min="50" max="200" disabled>%</div>
                 </td>
-                <td><input type="checkbox" id="setting_auto_scale" checked="checked"> {AUTOMATIC_SCALING_DESCRIPTION}</td>
+                <td>{AUTOMATIC_SCALING_DESCRIPTION}</td>
             </tr>
             <tr>
                 <td><strong>{QUALITY}</strong></td>

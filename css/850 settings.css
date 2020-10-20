@@ -7,8 +7,7 @@
 }
 
 .settings_table {
-    font-size: max(14px, calc(16px * var(--scale)));
-    line-height: max(16px, calc(28px * var(--scale)));
+    line-height: 28px;
 }
 
 .settings_table tr td {
@@ -21,4 +20,8 @@
 
 .settings_table tr td:not(:last-of-type) {
     padding-right: var(--gutter);
+}
+
+#setting_scale_container {
+    display: inline-block;
 }
