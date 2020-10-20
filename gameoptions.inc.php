@@ -78,7 +78,7 @@ $game_options = [
             [
                 'type' => 'otheroption',
                 'id' => 110,
-                'value' => 1
+                'value' => strstr($_SERVER['HTTP_HOST'], 'studio') ? 1 : 1337 // Only show in Studio
             ]
         ],
     ],
@@ -97,7 +97,7 @@ $game_options = [
             [
                 'type' => 'otheroption',
                 'id' => 110,
-                'value' => 1
+                'value' => strstr($_SERVER['HTTP_HOST'], 'studio') ? 1 : 1337 // Only show in Studio
             ]
         ],
     ]
