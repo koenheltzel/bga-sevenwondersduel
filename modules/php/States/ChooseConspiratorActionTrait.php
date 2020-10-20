@@ -2,7 +2,7 @@
 
 namespace SWD\States;
 
-use SevenWondersDuelAgora;
+use SevenWondersDuel;
 use SWD\Conspiracies;
 use SWD\Draftpool;
 use SWD\Material;
@@ -58,7 +58,7 @@ trait ChooseConspiratorActionTrait {
             $cardIds = [];
             for ($i = 0; $i < 2; $i++) {
                 $card = array_pop($cards);
-                SevenWondersDuelAgora::get()->conspiracyDeck->insertCardOnExtremePosition($card['id'], Player::getActive()->id, true);
+                SevenWondersDuel::get()->conspiracyDeck->insertCardOnExtremePosition($card['id'], Player::getActive()->id, true);
                 $cardIds[] = $card['id'];
             }
 

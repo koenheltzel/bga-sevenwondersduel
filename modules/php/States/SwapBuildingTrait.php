@@ -2,7 +2,7 @@
 
 namespace SWD\States;
 
-use SevenWondersDuelAgora;
+use SevenWondersDuel;
 use SWD\Building;
 use SWD\Conspiracy;
 use SWD\Player;

@@ -53,7 +53,7 @@ else {
 }
 
 
-class SevenWondersDuelAgora extends Table
+class SevenWondersDuel extends Table
 {
 
     use SWD\States\ChooseDiscardedBuildingTrait;
@@ -90,7 +90,7 @@ class SevenWondersDuelAgora extends Table
     use SWD\States\PlayerSwitchTrait;
 
     /**
-     * @var SevenWondersDuelAgora
+     * @var SevenWondersDuel
      */
     public static $instance;
 
@@ -312,7 +312,7 @@ class SevenWondersDuelAgora extends Table
     public $influenceCubeDeck;
 
     public static function get() {
-        // We can assume self::$instance exists since SevenWondersDuelAgora's constructor is the entry point for SWD code.
+        // We can assume self::$instance exists since SevenWondersDuel's constructor is the entry point for SWD code.
         return self::$instance;
     }
 
@@ -416,7 +416,7 @@ class SevenWondersDuelAgora extends Table
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
-        return "sevenwondersduelagora";
+        return "sevenwondersduel";
     }
 
     /*
@@ -562,10 +562,10 @@ class SevenWondersDuelAgora extends Table
 
         $me = Player::me();
         $opponent = Player::opponent();
-        $result['discardedBuildings'] = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
+        $result['discardedBuildings'] = SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
         $result['playerBuildings'] = [
-            $me->id => SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation($me->id, null, 'card_location_arg'),
-            $opponent->id => SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation($opponent->id, null, 'card_location_arg'),
+            $me->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($me->id, null, 'card_location_arg'),
+            $opponent->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($opponent->id, null, 'card_location_arg'),
         ];
         $result['playersSituation'] = Players::getSituation((int)$this->getGameStateValue(self::VALUE_END_GAME_CONDITION) != 0);
         $result['buildings'] = Material::get()->buildings->array;

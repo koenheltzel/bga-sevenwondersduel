@@ -2,7 +2,7 @@
 
 namespace SWD\States;
 
-use SevenWondersDuelAgora;
+use SevenWondersDuel;
 use SWD\Building;
 use SWD\Conspiracies;
 use SWD\Conspiracy;
@@ -33,7 +33,7 @@ trait PlayerTurnTrait {
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             $this->addConspiraciesSituation($data);
             $data['senateSituation'] = Senate::getSituation();
-            $data['mayTriggerConspiracy'] = (int)SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_MAY_TRIGGER_CONSPIRACY);
+            $data['mayTriggerConspiracy'] = (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_MAY_TRIGGER_CONSPIRACY);
         }
         return $data;
     }
@@ -50,7 +50,7 @@ trait PlayerTurnTrait {
 
         $player = Player::getActive();
         $building = Building::get($buildingId);
-        if (SevenWondersDuelAgora::get()->gamestate->state()['name'] == SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
+        if (SevenWondersDuel::get()->gamestate->state()['name'] == SevenWondersDuel::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
             $building->checkBuildingLastRow();
         }
         else {
@@ -194,7 +194,7 @@ trait PlayerTurnTrait {
         // Handle some special rewards that possibly require going to a separate state. If not move on to the Next Player Turn.
         switch ($wonder->id) {
             case 5: // Wonder The Mausoleum - Choose a discarded building and construct it for free.
-                if (count(SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation('discard')) > 0) {
+                if (count(SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard')) > 0) {
                     $this->prependStateStack([self::STATE_CHOOSE_DISCARDED_BUILDING_NAME]);
                 }
                 else {
@@ -302,7 +302,7 @@ trait PlayerTurnTrait {
 
         $payment = $conspiracy->trigger($player);
 
-        SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_MAY_TRIGGER_CONSPIRACY, 0);
+        SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_MAY_TRIGGER_CONSPIRACY, 0);
 
         $this->incStat(1, self::STAT_CONSPIRACIES_TRIGGERED, $player->id);
 

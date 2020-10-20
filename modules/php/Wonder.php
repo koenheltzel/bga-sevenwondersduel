@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuelAgora;
+use SevenWondersDuel;
 
 class Wonder extends Item {
 
@@ -27,9 +27,9 @@ class Wonder extends Item {
     public function construct(Player $player, $building = null, $discardedBuilding = false) {
         $payment = parent::construct($player, $building, $discardedBuilding);
 
-        SevenWondersDuelAgora::get()->buildingDeck->moveCard($building->id, 'wonder' . $this->id);
+        SevenWondersDuel::get()->buildingDeck->moveCard($building->id, 'wonder' . $this->id);
 
-        SevenWondersDuelAgora::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'constructWonder',
             clienttranslate('${player_name} constructed wonder “${wonderName}” for ${cost} ${costUnit} using building “${buildingName}”'),
             [
@@ -60,7 +60,7 @@ class Wonder extends Item {
         }
         if ($eightWonder) {
             $payment->eightWonderId = $eightWonder->id;
-            SevenWondersDuelAgora::get()->notifyAllPlayers(
+            SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name}\'s Wonder “${wonderName}” is removed from the game because 7 Wonders have been constructed'),
                 [
@@ -69,7 +69,7 @@ class Wonder extends Item {
                     'wonderName' => $eightWonder->name,
                 ]
             );
-            SevenWondersDuelAgora::get()->wonderDeck->moveCard($eightWonder->id, 'box');
+            SevenWondersDuel::get()->wonderDeck->moveCard($eightWonder->id, 'box');
         }
 
         $this->constructEffects($player, $payment);
@@ -89,10 +89,10 @@ class Wonder extends Item {
 
         // Set extra turn if the wonder provides it or if the player has progress token Theology.
         if ($this->extraTurn) {
-            SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_NORMAL, 1);
+            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_NORMAL, 1);
         }
         elseif($player->hasProgressToken(9)) {
-            SevenWondersDuelAgora::get()->setGameStateValue(SevenWondersDuelAgora::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 1);
+            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 1);
         }
 
         if ($this->opponentCoinLoss > 0) {
@@ -101,7 +101,7 @@ class Wonder extends Item {
                 $payment->opponentCoinLoss = $opponentCoinLoss;
                 $opponent->increaseCoins(-$opponentCoinLoss);
 
-                SevenWondersDuelAgora::get()->notifyAllPlayers(
+                SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
                     clienttranslate('${player_name} loses ${coins} coin(s)'),
                     [
@@ -114,13 +114,13 @@ class Wonder extends Item {
 
         if ($player->hasDecree(14) || $opponent->hasDecree(14)) {
             $payment->decreeCoinRewardDecreeId = 14;
-            $payment->decreeCoinReward = (int)SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CURRENT_AGE);
+            $payment->decreeCoinReward = (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
             $decreePlayer = $player->hasDecree(14) ? $player : $opponent;
 
             $payment->decreeCoinRewardPlayerId = $decreePlayer->id;
             $decreePlayer->increaseCoins($payment->decreeCoinReward);
 
-            SevenWondersDuelAgora::get()->notifyAllPlayers(
+            SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} gets ${coins} coin(s) (as many as the current Age) because a Wonder was constructed and he controls the Decree in Chamber ${chamber}'),
                 [
@@ -144,7 +144,7 @@ class Wonder extends Item {
             return true;
         }
         else {
-            $cards = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation('wonder' . $this->id);
+            $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation('wonder' . $this->id);
             if (count($cards) > 0) {
                 $card = array_shift($cards);
                 return Building::get($card['id'])->age;
@@ -154,7 +154,7 @@ class Wonder extends Item {
     }
 
     protected function getScoreCategory() {
-        return SevenWondersDuelAgora::SCORE_WONDERS;
+        return SevenWondersDuel::SCORE_WONDERS;
     }
 
     /**

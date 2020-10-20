@@ -5,14 +5,14 @@ namespace SWD;
 
 
 use Deck;
-use SevenWondersDuelAgora;
+use SevenWondersDuel;
 
 class Senate extends Base
 {
 
     public static function getSituation() {
         /** @var Deck $deck */
-        $deck = SevenWondersDuelAgora::get()->influenceCubeDeck;
+        $deck = SevenWondersDuel::get()->influenceCubeDeck;
 
         $chambers = [];
         /** @var Player $player */
@@ -51,7 +51,7 @@ class Senate extends Base
         $oldController = self::getControllingPlayer($chamber);
 
         /** @var Deck $deck */
-        $deck = SevenWondersDuelAgora::get()->influenceCubeDeck;
+        $deck = SevenWondersDuel::get()->influenceCubeDeck;
         $cubes = $deck->getCardsInLocation($player->id);
         if (count($cubes) == 0) {
             throw new \BgaUserException( clienttranslate("You have no more Influence cubes available") );
@@ -61,7 +61,7 @@ class Senate extends Base
 
         $senateAction = new SenateAction(SenateAction::ACTION_PLACE);
 
-        SevenWondersDuelAgora::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'placeInfluence',
             clienttranslate('${player_name} placed an Influence cube in Senate chamber ${chamber}'),
             [
@@ -83,7 +83,7 @@ class Senate extends Base
         $oldController = self::getControllingPlayer($chamber);
 
         /** @var Deck $deck */
-        $deck = SevenWondersDuelAgora::get()->influenceCubeDeck;
+        $deck = SevenWondersDuel::get()->influenceCubeDeck;
         $cubes = $deck->getCardsOfTypeInLocation($opponent->id, null, "chamber{$chamber}");
         if (count($cubes) == 0) {
             throw new \BgaUserException( clienttranslate("The opponent has no Influence cubes in that Senate chamber") );
@@ -93,7 +93,7 @@ class Senate extends Base
 
         $senateAction = new SenateAction(SenateAction::ACTION_REMOVE);
 
-        SevenWondersDuelAgora::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'removeInfluence',
             clienttranslate('${player_name} removed one of ${opponent_name}\'s Influence cubes from Senate chamber ${chamber}'),
             [
@@ -122,7 +122,7 @@ class Senate extends Base
         $oldControllerTo = self::getControllingPlayer($chamberTo);
 
         /** @var Deck $deck */
-        $deck = SevenWondersDuelAgora::get()->influenceCubeDeck;
+        $deck = SevenWondersDuel::get()->influenceCubeDeck;
         $cubes = $deck->getCardsOfTypeInLocation($player->id, null, "chamber{$chamberFrom}");
         if (count($cubes) == 0) {
             throw new \BgaUserException( clienttranslate("There is no Influence cube from that player in the chamber") );
@@ -134,7 +134,7 @@ class Senate extends Base
         $senateAction->moveFrom = $chamberFrom;
         $senateAction->moveTo = $chamberTo;
 
-        SevenWondersDuelAgora::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'moveInfluence',
             clienttranslate('${player_name} moves an Influence cube from Senate chamber ${chamberFrom} to chamber ${chamberTo}'),
             [
@@ -159,18 +159,18 @@ class Senate extends Base
     public static function moveDecree($chamberFrom, $chamberTo) {
         $player = Player::getActive();
 
-        $cards = SevenWondersDuelAgora::get()->decreeDeck->getCardsInLocation('board', "{$chamberFrom}1");
+        $cards = SevenWondersDuel::get()->decreeDeck->getCardsInLocation('board', "{$chamberFrom}1");
         $card = array_shift($cards);
         $decreeId = $card['id'];
 
-        SevenWondersDuelAgora::get()->decreeDeck->moveCard($decreeId, 'board', "{$chamberTo}2");
+        SevenWondersDuel::get()->decreeDeck->moveCard($decreeId, 'board', "{$chamberTo}2");
 
         $senateAction = new SenateAction(SenateAction::ACTION_MOVE_DECREE);
         $controllerFrom = self::getControllingPlayer($chamberFrom, $senateAction);
         $controllerTo = self::getControllingPlayer($chamberTo, $senateAction);
 
         // This notification updates the decrees position through decreesSituation
-        SevenWondersDuelAgora::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'moveDecree',
             clienttranslate('${player_name} moved the Decree in Chamber ${chamberFrom} to Chamber ${chamberTo}'),
             [
@@ -198,7 +198,7 @@ class Senate extends Base
                 }
 
                 // This notification handles military pawn movement of the losing controller
-                SevenWondersDuelAgora::get()->notifyAllPlayers(
+                SevenWondersDuel::get()->notifyAllPlayers(
                     'decreeControlChanged',
                     clienttranslate(''),
                     [
@@ -217,7 +217,7 @@ class Senate extends Base
                 }
 
                 // This notification handles the decree reveal if neccesary, along with the military pawn movement of the winning controller
-                SevenWondersDuelAgora::get()->notifyAllPlayers(
+                SevenWondersDuel::get()->notifyAllPlayers(
                     'decreeControlChanged',
                     clienttranslate(''),
                     [
@@ -233,13 +233,13 @@ class Senate extends Base
     }
 
     public static function handleDecreeControlChange($decreeId, ?Player $newController, $chamber, SenateAction &$senateAction) {
-        $card = SevenWondersDuelAgora::get()->decreeDeck->getCard($decreeId);
+        $card = SevenWondersDuel::get()->decreeDeck->getCard($decreeId);
         if ($card['type_arg'] == 0) {
             self::DbQuery( "UPDATE decree SET card_type_arg = 1 WHERE card_id = {$decreeId}" );
 
             $senateAction->addDecreeReveal($chamber, $card['location_arg'], $decreeId);
 
-            SevenWondersDuelAgora::get()->notifyAllPlayers(
+            SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('A Decree is revealed in Senate chamber ${chamber}'),
                 [
@@ -272,7 +272,7 @@ class Senate extends Base
                 $payment = self::handleDecreeControlChange($id, $newController, $chamber, $senateAction);
             }
 
-            SevenWondersDuelAgora::get()->notifyAllPlayers(
+            SevenWondersDuel::get()->notifyAllPlayers(
                 'decreeControlChanged',
                 clienttranslate('${player_name} gained control of Senate chamber ${chamber}'),
                 [
@@ -298,7 +298,7 @@ class Senate extends Base
                 }
             }
 
-            SevenWondersDuelAgora::get()->notifyAllPlayers(
+            SevenWondersDuel::get()->notifyAllPlayers(
                 'decreeControlChanged',
                 clienttranslate('${player_name} lost control of Senate chamber ${chamber}'),
                 [
@@ -319,7 +319,7 @@ class Senate extends Base
         $controllingPlayer = null;
         if ($chamber) {
             /** @var Deck $deck */
-            $deck = SevenWondersDuelAgora::get()->influenceCubeDeck;
+            $deck = SevenWondersDuel::get()->influenceCubeDeck;
             $me = Player::me();
             $opponent = Player::opponent();
 

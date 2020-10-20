@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuelAgora;
+use SevenWondersDuel;
 
 class ProgressToken extends Item
 {
@@ -23,11 +23,11 @@ class ProgressToken extends Item
     public function construct(Player $player, $building = null, $discardedBuilding = false) {
         $payment = parent::construct($player, $building, $discardedBuilding);
 
-        SevenWondersDuelAgora::get()->progressTokenDeck->insertCardOnExtremePosition($this->id, $player->id, true);
+        SevenWondersDuel::get()->progressTokenDeck->insertCardOnExtremePosition($this->id, $player->id, true);
 
-        SevenWondersDuelAgora::get()->incStat(1, SevenWondersDuelAgora::STAT_PROGRESS_TOKENS, $player->id);
+        SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_PROGRESS_TOKENS, $player->id);
 
-        SevenWondersDuelAgora::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'progressTokenChosen',
             clienttranslate('${player_name} chose Progress token “${progressTokenName}”'),
             [
@@ -47,7 +47,7 @@ class ProgressToken extends Item
     }
 
     protected function getScoreCategory() {
-        return SevenWondersDuelAgora::SCORE_PROGRESSTOKENS;
+        return SevenWondersDuel::SCORE_PROGRESSTOKENS;
     }
 
 }

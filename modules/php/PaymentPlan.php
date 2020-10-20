@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuelAgora;
+use SevenWondersDuel;
 
 class PaymentPlan extends Base
 {
@@ -215,7 +215,7 @@ class PaymentPlan extends Base
 
         $opponent = $player->getOpponent();
 
-        if ($this instanceof Payment && SevenWondersDuelAgora::get()->gamestate->state()['name'] == SevenWondersDuelAgora::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
+        if ($this instanceof Payment && SevenWondersDuel::get()->gamestate->state()['name'] == SevenWondersDuel::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
             // Player can build a building from the last row for free
             // No need to construct a payment plan.
         }

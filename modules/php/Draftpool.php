@@ -4,7 +4,7 @@
 namespace SWD;
 
 
-use SevenWondersDuelAgora;
+use SevenWondersDuel;
 
 class Draftpool extends Base
 {
@@ -71,8 +71,8 @@ class Draftpool extends Base
     }
 
     public static function buildingAvailable($buildingId) {
-        $age = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CURRENT_AGE);
-        $cards = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
+        $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
 
         $rows = self::getRows($age);
@@ -102,7 +102,7 @@ class Draftpool extends Base
     }
 
     public static function get() {
-        $age = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CURRENT_AGE);
+        $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
 
         $draftpool = [
             'age' => $age,
@@ -114,7 +114,7 @@ class Draftpool extends Base
         ];
 
         if ($age > 0) { // Check needed for Agora Wonders which trigger game states outside of the wonder selection realm
-            $cards = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation("age{$age}");
+            $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
             $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
 
             $rows = self::getRows($age);
@@ -148,7 +148,7 @@ class Draftpool extends Base
                                 $position['discardGain'] = [];
                                 $position['payment'] = [];
                                 $position['hasLinkedBuilding'] = [];
-                                $players = SevenWondersDuelAgora::get()->loadPlayersBasicInfos();
+                                $players = SevenWondersDuel::get()->loadPlayersBasicInfos();
                                 $playerIds = array_keys($players);
                                 foreach ($playerIds as $playerId) {
                                     $payment = Player::get($playerId)->getPaymentPlan($building);
@@ -173,8 +173,8 @@ class Draftpool extends Base
     }
 
     public static function countCardsInCurrentAge() {
-        $age = SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::VALUE_CURRENT_AGE);
-        $cards = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
+        $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         return count($cards);
     }
 
@@ -182,7 +182,7 @@ class Draftpool extends Base
      * @return array
      */
     public static function getRows($age): array {
-        if (SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::OPTION_AGORA)) {
+        if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
             return self::$agoraAges[$age];
         }
         return self::$ages[$age];

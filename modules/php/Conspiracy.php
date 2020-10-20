@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuelAgora;
+use SevenWondersDuel;
 
 class Conspiracy extends Item {
 
@@ -27,10 +27,10 @@ class Conspiracy extends Item {
      * @return PaymentPlan
      */
     public function choose(Player $player) {
-        SevenWondersDuelAgora::get()->conspiracyDeck->insertCardOnExtremePosition($this->id, $player->id, true);
+        SevenWondersDuel::get()->conspiracyDeck->insertCardOnExtremePosition($this->id, $player->id, true);
 
         // Text notification to all
-        SevenWondersDuelAgora::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'message',
             clienttranslate('${player_name} chose a Conspiracy and placed it face down'),
             [
@@ -39,10 +39,10 @@ class Conspiracy extends Item {
             ]
         );
 
-        $position = SevenWondersDuelAgora::get()->conspiracyDeck->getExtremePosition(true, $player->id);
+        $position = SevenWondersDuel::get()->conspiracyDeck->getExtremePosition(true, $player->id);
 
         // Send conspiracy id to active player
-        SevenWondersDuelAgora::get()->notifyPlayer($player->id,
+        SevenWondersDuel::get()->notifyPlayer($player->id,
             'constructConspiracy',
             '',
             [
@@ -53,7 +53,7 @@ class Conspiracy extends Item {
         );
 
         // Don't send conspiracy id to the other player / spectators, only the picked conspiracy's position in the deck's player location
-        SevenWondersDuelAgora::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'constructConspiracy',
             '',
             [
@@ -64,9 +64,9 @@ class Conspiracy extends Item {
     }
 
     public function prepare(Player $player, $building) {
-        SevenWondersDuelAgora::get()->buildingDeck->moveCard($building->id, 'conspiracy' . $this->id);
+        SevenWondersDuel::get()->buildingDeck->moveCard($building->id, 'conspiracy' . $this->id);
 
-        SevenWondersDuelAgora::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'prepareConspiracy',
             clienttranslate('${player_name} prepared a Conspiracy using building “${buildingName}”'),
             [
@@ -97,7 +97,7 @@ class Conspiracy extends Item {
         // We want to send this notification first, before the detailed "effects" notifications.
         // However, the Payment object passed in this notification is by reference and this will contain
         // the effects' modifications when the notification is send at the end of the request.
-        SevenWondersDuelAgora::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'triggerConspiracy',
             clienttranslate('${player_name} triggered Conspiracy “${conspiracyName}”'),
             [
@@ -121,7 +121,7 @@ class Conspiracy extends Item {
                     $opponent->increaseCoins(-$payment->coinsFromOpponent);
                     $player->increaseCoins($payment->coinsFromOpponent);
 
-                    SevenWondersDuelAgora::get()->notifyAllPlayers(
+                    SevenWondersDuel::get()->notifyAllPlayers(
                         'message',
                         clienttranslate('${player_name} takes half of ${opponent_name}\'s coin(s) (${coins}, rounded up) (Conspiracy “${conspiracyName}”)'),
                         [
@@ -135,11 +135,11 @@ class Conspiracy extends Item {
                 }
                 break;
             case 5:
-                SevenWondersDuelAgora::get()->progressTokenDeck->moveAllCardsInLocation('box', 'selection');
-                SevenWondersDuelAgora::get()->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg
+                SevenWondersDuel::get()->progressTokenDeck->moveAllCardsInLocation('box', 'selection');
+                SevenWondersDuel::get()->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg
                 break;
             case 10:
-//                SevenWondersDuelAgora::get()->notifyAllPlayers(
+//                SevenWondersDuel::get()->notifyAllPlayers(
 //                    'message',
 //                    clienttranslate('${player_name} must choose a Progress token from the box (Conspiracy “${conspiracyName}”)'),
 //                    [
@@ -149,15 +149,15 @@ class Conspiracy extends Item {
 //                    ]
 //                );
 
-                SevenWondersDuelAgora::get()->progressTokenDeck->moveAllCardsInLocation('box', 'selection');
-                SevenWondersDuelAgora::get()->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg
+                SevenWondersDuel::get()->progressTokenDeck->moveAllCardsInLocation('box', 'selection');
+                SevenWondersDuel::get()->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg
                 break;
             case 12:
                 $payment->coinReward = 12 - $player->getCubes();
                 if ($payment->coinReward > 0) {
                     $player->increaseCoins($payment->coinReward);
 
-                    SevenWondersDuelAgora::get()->notifyAllPlayers(
+                    SevenWondersDuel::get()->notifyAllPlayers(
                         'message',
                         clienttranslate('${player_name} gets ${coins} coin(s), as many as Influence cubes he has in the Senate (Conspiracy “${conspiracyName}”)'),
                         [
@@ -175,7 +175,7 @@ class Conspiracy extends Item {
                         $payment->opponentCoinLoss = $possibleOpponentCoinLoss;
                         $opponent->increaseCoins(-$possibleOpponentCoinLoss);
 
-                        SevenWondersDuelAgora::get()->notifyAllPlayers(
+                        SevenWondersDuel::get()->notifyAllPlayers(
                             'message',
                             clienttranslate('${player_name} loses ${coins} coin(s), as many as Influence cubes he has in the Senate (Conspiracy “${conspiracyName}”)'),
                             [
@@ -202,7 +202,7 @@ class Conspiracy extends Item {
             return true;
         }
         else {
-            $cards = SevenWondersDuelAgora::get()->buildingDeck->getCardsInLocation('conspiracy' . $this->id);
+            $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation('conspiracy' . $this->id);
             if (count($cards) > 0) {
                 $card = array_shift($cards);
                 return Building::get($card['id'])->age;
@@ -217,17 +217,17 @@ class Conspiracy extends Item {
             return true;
         }
         else {
-            $card = SevenWondersDuelAgora::get()->conspiracyDeck->getCard($this->id);
+            $card = SevenWondersDuel::get()->conspiracyDeck->getCard($this->id);
             return (int)$card['type_arg'];
         }
     }
 
     public function getPosition(Player $player) {
-        return (int)SevenWondersDuelAgora::get()->conspiracyDeck->getCard($this->id)['location_arg'];
+        return (int)SevenWondersDuel::get()->conspiracyDeck->getCard($this->id)['location_arg'];
     }
 
     protected function getScoreCategory() {
-        return SevenWondersDuelAgora::SCORE_WONDERS;
+        return SevenWondersDuel::SCORE_WONDERS;
     }
 
 }

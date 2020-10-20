@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuelAgora;
+use SevenWondersDuel;
 
 class Item extends Base
 {
@@ -89,7 +89,7 @@ class Item extends Base
             if ($payment->economyProgressTokenCoins > 0) {
                 $player->getOpponent()->increaseCoins($payment->economyProgressTokenCoins);
 
-                SevenWondersDuelAgora::get()->notifyAllPlayers(
+                SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
                     clienttranslate('${coins} coin(s) of the cost for ${item_name} go to ${player_name} (“${progressTokenName}” Progress token)'),
                     [
@@ -106,7 +106,7 @@ class Item extends Base
         if ($this->victoryPoints > 0) {
             $player->increaseScore($this->victoryPoints, $this->getScoreCategory());
 
-            SevenWondersDuelAgora::get()->notifyAllPlayers(
+            SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} scores ${points} victory point(s)'),
                 [
@@ -119,7 +119,7 @@ class Item extends Base
             $payment->coinReward = $this->coins;
             $player->increaseCoins($payment->coinReward);
 
-            SevenWondersDuelAgora::get()->notifyAllPlayers(
+            SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} takes ${coins} coin(s) from the bank'),
                 [
@@ -141,7 +141,7 @@ class Item extends Base
                 $message = clienttranslate('${player_name} moves the Conflict pawn ${steps} space(s)');
             }
 
-            SevenWondersDuelAgora::get()->notifyAllPlayers(
+            SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
                 $message,
                 [
@@ -156,10 +156,10 @@ class Item extends Base
             $opponent = $player->getOpponent();
             $payment->militarySenateActions = [];
             foreach($payment->militaryTokens as &$token) {
-                if (SevenWondersDuelAgora::get()->getGameStateValue(SevenWondersDuelAgora::OPTION_AGORA)) {
+                if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
                     if ($token['value'] == 2) {
-                        $payment->militarySenateActions[] = SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME;
-                        SevenWondersDuelAgora::get()->notifyAllPlayers(
+                        $payment->militarySenateActions[] = SevenWondersDuel::STATE_PLACE_INFLUENCE_NAME;
+                        SevenWondersDuel::get()->notifyAllPlayers(
                             'message',
                             clienttranslate('A small military token is removed, ${player_name} must place an Influence cube'),
                             [
@@ -168,9 +168,9 @@ class Item extends Base
                         );
                     }
                     if ($token['value'] == 5) {
-                        $payment->militarySenateActions[] = SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME;
-                        $payment->militarySenateActions[] = SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME;
-                        SevenWondersDuelAgora::get()->notifyAllPlayers(
+                        $payment->militarySenateActions[] = SevenWondersDuel::STATE_REMOVE_INFLUENCE_NAME;
+                        $payment->militarySenateActions[] = SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME;
+                        SevenWondersDuel::get()->notifyAllPlayers(
                             'message',
                             clienttranslate('A large military token is removed, ${player_name} must remove an Influence cube and may move an Influence cube'),
                             [
@@ -185,7 +185,7 @@ class Item extends Base
                     if ($militaryOpponentPays > 0) {
                         $opponent->increaseCoins(-$militaryOpponentPays);
 
-                        SevenWondersDuelAgora::get()->notifyAllPlayers(
+                        SevenWondersDuel::get()->notifyAllPlayers(
                             'message',
                             clienttranslate('A military “${value} coins” token is removed, ${player_name} discards ${coins} coin(s)'),
                             [
@@ -195,7 +195,7 @@ class Item extends Base
                             ]
                         );
                     } else {
-                        SevenWondersDuelAgora::get()->notifyAllPlayers(
+                        SevenWondersDuel::get()->notifyAllPlayers(
                             'message',
                             clienttranslate('A military “${value} coins” token is removed, but ${player_name} can\'t discard any coins'),
                             [
@@ -321,16 +321,16 @@ class Item extends Base
     public function addActionState($stateName) {
         $this->actionStates[] = $stateName;
         switch ($stateName) {
-            case SevenWondersDuelAgora::STATE_PLACE_INFLUENCE_NAME:
+            case SevenWondersDuel::STATE_PLACE_INFLUENCE_NAME:
                 $this->addText(clienttranslate('Place 1 Influence cube in a Chamber of your choice.'));
                 break;
-            case SevenWondersDuelAgora::STATE_MOVE_INFLUENCE_NAME:
+            case SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME:
                 $this->addText(clienttranslate('You can move 1 of your Influence cubes to an adjacent Chamber.'));
                 break;
-            case SevenWondersDuelAgora::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME:
+            case SevenWondersDuel::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME:
                 $this->addText(clienttranslate('Trigger an unprepared Conspiracy in your possession (optional).'));
                 break;
-            case SevenWondersDuelAgora::STATE_REMOVE_INFLUENCE_NAME:
+            case SevenWondersDuel::STATE_REMOVE_INFLUENCE_NAME:
                 $this->addText(clienttranslate('Remove 1 of your opponent\'s Influence cubes of your choice from the Senate.'));
                 break;
         }
