@@ -15,9 +15,7 @@ class MilitaryTrack extends Base
             $shields += 1;
         }
 
-        if (!SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
-            SevenWondersDuel::get()->incStat($shields, SevenWondersDuel::STAT_SHIELDS, $player->id);
-        }
+        SevenWondersDuel::get()->incStat($shields, SevenWondersDuel::STAT_SHIELDS, $player->id);
 
         $direction = $player->id == SevenWondersDuel::get()->getGameStartPlayerId() ? 1 : -1;
 
