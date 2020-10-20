@@ -61,7 +61,7 @@ $game_options = [
                 'nobeginner' => true
             ]
         ],
-        'default' => 1
+        'default' => 0
     ],
 //    111 => [
 //        'name' => totranslate('Guarantee Agora Wonders (testing option)'),
