@@ -22,9 +22,12 @@ class Players extends Base
             $data[$player->id] = [
                 'score' => $player->getScore(),
                 'coins' => $player->getCoins(),
-                'cubes' => $player->getCubes(),
                 'scienceSymbolCount' => $player->getScientificSymbolCount(),
             ];
+            if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
+                $data[$player->id]['cubes'] = $player->getCubes();
+            }
+
             $scoringCategories = $player->getScoreCategories();
             foreach (array_shift($scoringCategories) as $key => $value) {
                 $data[$player->id][$key] = (int)$value;

@@ -3,7 +3,7 @@
     width: calc(var(--building-width) * var(--scale));
     height: calc(var(--building-height) * var(--scale));
     background-size: calc(var(--building-width) * var(--building-spritesheet-columns) * var(--scale)) calc(var(--building-height) * var(--building-spritesheet-rows) * var(--scale));
-    background-image: url('img/buildings.jpg');
+    background-image: url('img/buildings_v2.jpg');
     border-radius: calc(14px * var(--scale));
     box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
     inset 0 0 0 calc(var(--scale) * 1px) #00000060;

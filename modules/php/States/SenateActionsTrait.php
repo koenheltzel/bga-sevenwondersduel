@@ -116,6 +116,7 @@ trait SenateActionsTrait {
         }
         else {
             $stack = json_decode($this->getGameStateValue(self::VALUE_STATE_STACK));
+            if (!is_array($stack)) $stack = []; // Needed during launch of Agora expansion when running games don't have the state stack value yet.
 
             while (count($stack) > 0) {
                 $nextState = array_shift($stack);
@@ -146,6 +147,7 @@ trait SenateActionsTrait {
 
     public function prependStateStack(Array $states) {
         $stack = json_decode($this->getGameStateValue(self::VALUE_STATE_STACK));
+        if (!is_array($stack)) $stack = []; // Needed during launch of Agora expansion when running games don't have the state stack value yet.
         $stack = array_merge($states, $stack);
         $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
     }

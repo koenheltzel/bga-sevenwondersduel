@@ -410,6 +410,10 @@ class Player extends Base{
             return in_array($id, $this->decreeIds);
         }
         else {
+            if (!SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
+                // Needed during launch of Agora expansion when running games don't have the Agora database tables yet.
+                return false;
+            }
             $chamber = Decree::get($id)->getChamber();
             $player = Senate::getControllingPlayer($chamber);
             return $this == $player;

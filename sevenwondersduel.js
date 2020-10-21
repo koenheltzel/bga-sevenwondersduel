@@ -162,11 +162,11 @@ define([
 
                 if (this.quality == '2x') {
                     this.dontPreloadImage('board.png');
-                    this.dontPreloadImage('buildings.jpg');
+                    this.dontPreloadImage('buildings_v2.jpg');
                     this.dontPreloadImage('linked-building-icons.jpg');
-                    this.dontPreloadImage('progress_tokens.jpg');
+                    this.dontPreloadImage('progress_tokens_v2.jpg');
                     this.dontPreloadImage('sprites.png');
-                    this.dontPreloadImage('wonders.jpg');
+                    this.dontPreloadImage('wonders_v2.jpg');
                 }
                 if (!this.agora) {
                     this.dontPreloadImage('agora_senate_tooltips.png');
@@ -180,11 +180,11 @@ define([
 
                 if (this.quality == '1x') {
                     this.dontPreloadImage('board@2X.png');
-                    this.dontPreloadImage('buildings@2X.jpg');
+                    this.dontPreloadImage('buildings_v2@2X.jpg');
                     this.dontPreloadImage('linked-building-icons@2X.jpg');
-                    this.dontPreloadImage('progress_tokens@2X.jpg');
+                    this.dontPreloadImage('progress_tokens_v2@2X.jpg');
                     this.dontPreloadImage('sprites@2X.png');
-                    this.dontPreloadImage('wonders@2X.jpg');
+                    this.dontPreloadImage('wonders_v2@2X.jpg');
                 }
                 if (this.quality == '1x' || !this.agora) {
                     this.dontPreloadImage('agora_conspiracies@2X.jpg');
