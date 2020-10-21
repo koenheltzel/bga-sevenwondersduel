@@ -377,9 +377,6 @@ class SevenWondersDuel extends Table
         $this->influenceCubeDeck = self::getNew( "module.common.deck" );
         $this->influenceCubeDeck->init( "influence_cube" );
         // End Agora
-
-        // Needed during launch of Agora expansion when running games' global_value column is still INT and can't save the state stack to it.
-        self::DbQuery("ALTER TABLE `global` CHANGE COLUMN `global_value` `global_value` VARCHAR(255)");
 	}
 
     /**
@@ -823,6 +820,12 @@ class SevenWondersDuel extends Table
 //
 //
 
+        if ($from_version <= 2010211049) {
+            // Needed during launch of Agora expansion when running games' global_value column is still INT and can't save the state stack to it.
+            // ! important ! Use DBPREFIX_<table_name> for all tables
+            $sql = "ALTER TABLE `DBPREFIX_global` CHANGE COLUMN `global_value` `global_value` VARCHAR(255)";
+            self::applyDbUpgradeToAllDB($sql);
+        }
 
     }
 
