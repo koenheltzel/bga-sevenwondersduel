@@ -400,6 +400,7 @@ $machinestates = [
             "actionChooseProgressTokenFromBox",
         ],
         "transitions" => [
+            SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID, // LAW token > Scientific supremacy
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID, // Conspiracy Espionage
             SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
