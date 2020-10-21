@@ -362,6 +362,7 @@ $machinestates = [
             "actionChooseProgressToken",
         ],
         "transitions" => [
+            SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID,
             SevenWondersDuel::STATE_PLAYER_SWITCH_NAME => SevenWondersDuel::STATE_PLAYER_SWITCH_ID,
             SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuel::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
