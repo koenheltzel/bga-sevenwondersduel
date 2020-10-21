@@ -370,19 +370,19 @@ class Building extends Item {
     protected function getBuildingTypeString($type) {
         switch($type){
             case Building::TYPE_BROWN:
-                return self::_('Brown');
+                return clienttranslate('Brown');
             case Building::TYPE_GREY:
-                return self::_('Grey');
+                return clienttranslate('Grey');
             case Building::TYPE_YELLOW:
-                return self::_('Yellow');
+                return clienttranslate('Yellow');
             case Building::TYPE_RED:
-                return self::_('Red');
+                return clienttranslate('Red');
             case Building::TYPE_BLUE:
-                return self::_('Blue');
+                return clienttranslate('Blue');
             case Building::TYPE_GREEN:
-                return self::_('Green');
+                return clienttranslate('Green');
             case Building::TYPE_PURPLE:
-                return self::_('Purple');
+                return clienttranslate('Purple');
         }
     }
     public function getScoreCategory() {
@@ -465,8 +465,13 @@ class Building extends Item {
             $x = ($linkedBuilding - 1) % $spritesheetColumns;
             $y = floor(($linkedBuilding - 1) / $spritesheetColumns);
             $this->addText(
-                sprintf(self::_("This card grants the linking symbol shown. During Age %s you will be able to construct building “%s” for free."), ageRoman($building->age), self::_($building->name))
-                . '<br/><div class="building building_header_small" style="background-position: -' . $x . '00% calc((-10px + -' . $y . ' * var(--building-height)) * var(--building-small-scale));"></div>'
+                clienttranslate('This card grants the linking symbol shown. During Age ${age} you will be able to construct building “${buildingName}” for free.'),
+                true,
+                ["age" => ageRoman($building->age), "buildingName" => clienttranslate($building->name)]
+            );
+            $this->addText(
+                '<div class="building building_header_small" style="background-position: -' . $x . '00% calc((-10px + -' . $y . ' * var(--building-height)) * var(--building-small-scale)); margin-left: calc(var(--scale) * 50px)"></div>',
+                false
             );
         }
         return $this;
@@ -478,12 +483,15 @@ class Building extends Item {
      */
     public function setCoinsPerBuildingOfType(string $type, int $coins) {
         $this->coinsPerBuildingOfType = [$type, $coins];
-        $this->addText(sprintf(
-            self::_("This card is worth %d coin(s) for each %s card in your city %s at the time it is constructed."),
-            $coins,
-            $this->getBuildingTypeString($type),
-            $type == Building::TYPE_YELLOW ? self::_("(including itself)") : ''
-        ));
+        $this->addText(
+            clienttranslate('This card is worth ${coins} coin(s) for each ${color} card in your city ${includingItself} at the time it is constructed.'),
+            true,
+            [
+                'coins' => $coins,
+                'color' => $this->getBuildingTypeString($type),
+                'includingItself' => $type == Building::TYPE_YELLOW ? clienttranslate("(including itself)") : ''
+            ]
+        );
         return $this;
     }
 
@@ -525,8 +533,16 @@ class Building extends Item {
         $this->guildRewardBuildingTypes = $guildRewardBuildingTypes;
         if (count($guildRewardBuildingTypes) == 1) {
             $buildingType = $this->getBuildingTypeString($this->guildRewardBuildingTypes[0]);
-            $this->addText(sprintf(self::_("At the time it is constructed, this card grants you 1 coin for each %s card in the city which has the most %s cards."), $buildingType, $buildingType));
-            $this->addText(sprintf(self::_("At the end of the game, this card is worth 1 victory point for each %s card in the city which has the most %s cards."), $buildingType, $buildingType));
+            $this->addText(
+                clienttranslate('At the time it is constructed, this card grants you 1 coin for each ${color} card in the city which has the most ${color} cards.'),
+                true,
+                ['color' => $buildingType]
+            );
+            $this->addText(
+                clienttranslate('At the end of the game, this card is worth 1 victory point for each ${color} card constructed in the city which has the most ${color} cards.'),
+                true,
+                ['color' => $buildingType]
+            );
         }
         else {
             $this->addText(clienttranslate("At the time it is constructed, this card grants you 1 coin for each brown and each grey card in the city which has the most brown and grey cards."));

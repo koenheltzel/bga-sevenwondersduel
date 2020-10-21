@@ -61,8 +61,8 @@ class Item extends Base
 
         $totalCost = $payment->totalCost();
         if ($totalCost > $player->getCoins()) {
-            $itemType = $this instanceof Building ? clienttranslate('Building') : clienttranslate('Wonder');
-            throw new \BgaUserException(sprintf(clienttranslate("You can't afford the %s you selected."), $itemType));
+            $itemType = $this instanceof Building ? self::_('Building') : self::_('Wonder');
+            throw new \BgaUserException(sprintf(self::_("You can't afford the %s you selected."), $itemType));
         }
 
         if ($totalCost > 0) {
@@ -212,16 +212,16 @@ class Item extends Base
 
     protected function getItemType() {
         if ($this instanceof Building) {
-            return self::_('building');
+            return clienttranslate('Building');
         }
         if ($this instanceof Wonder) {
-            return self::_('wonder');
+            return clienttranslate('Wonder');
         }
         if ($this instanceof ProgressToken) {
-            return self::_('progress token');
+            return clienttranslate('Progress token');
         }
         if ($this instanceof Conspiracy) {
-            return self::_('conspiracy');
+            return clienttranslate('Conspiracy');
         }
     }
 
@@ -253,7 +253,14 @@ class Item extends Base
      */
     public function setMilitary($military) {
         $this->military = $military;
-        $this->addText(sprintf(self::_('This %s is worth %d Shield(s).'), $this->getItemType(), $military));
+        $this->addText(
+            clienttranslate('This ${item} is worth ${shields} Shield(s).'),
+            true,
+            [
+                'item' => $this->getItemType(),
+                'shields' => $military
+            ]
+        );
         return $this;
     }
 
@@ -263,7 +270,14 @@ class Item extends Base
      */
     public function setVictoryPoints(int $victoryPoints) {
         $this->victoryPoints = $victoryPoints;
-        $this->addText(sprintf(self::_('This %s is worth %d victory point(s).'), $this->getItemType(), $victoryPoints));
+        $this->addText(
+            clienttranslate('This ${item} is worth ${points} victory point(s).'),
+            true,
+            [
+                'item' => $this->getItemType(),
+                'points' => $victoryPoints
+            ]
+        );
         return $this;
     }
 
@@ -273,7 +287,11 @@ class Item extends Base
      */
     public function setCoins(int $coins) {
         $this->coins = $coins;
-        $this->addText(sprintf(self::_('You take %d coins from the bank.'), $coins));
+        $this->addText(
+            clienttranslate('You take ${coins} coins from the bank.'),
+            true,
+            ['coins' => $coins]
+        );
         return $this;
     }
 
@@ -283,7 +301,11 @@ class Item extends Base
      */
     public function setScientificSymbol(int $scientificSymbol) {
         $this->scientificSymbol = $scientificSymbol;
-        $this->addText(sprintf(self::_('This %s is worth a scientific symbol.'), $this->getItemType()));
+        $this->addText(
+            clienttranslate('This ${item} is worth a scientific symbol.'),
+            true,
+            ['item' => $this->getItemType()]
+        );
         return $this;
     }
 
@@ -293,7 +315,11 @@ class Item extends Base
      */
     public function setResourceChoice(array $resourceChoice) {
         $this->resourceChoice = $resourceChoice;
-        $this->addText(sprintf(self::_("This %s produces one unit of one of the resources shown for you each turn."), $this->getItemType()));
+        $this->addText(
+            clienttranslate('This ${item} produces one unit of one of the resources shown for you each turn.'),
+            true,
+            ['item' => $this->getItemType()]
+        );
         return $this;
     }
 

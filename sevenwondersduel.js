@@ -1655,21 +1655,25 @@ define([
                 return output;
             },
 
+            getTextWithArgs: function(text, args) {
+                if (!args) args = {};
+                Object.keys(args).forEach(dojo.hitch(this, function (key) {
+                    args[key] = _(args[key]);
+                }));
+                return dojo.string.substitute(_(text), args);
+            },
+
             getTextHtml: function (text) {
                 if (text instanceof Array) {
                     if (text.length == 0) return '';
-                    else if (text.length == 1) return _(text[0][0]);
+                    else if (text.length == 1) {
+                        return this.getTextWithArgs(text[0][0], text[0][2]);
+                    }
                     else {
                         var string = '';
-
                         for (let i = 0; i < text.length; i++) {
                             // Replace/translate arguments in text.
-                            let args = text[i][2] ? text[i][2] : {};
-                            Object.keys(args).forEach(dojo.hitch(this, function (key) {
-                                args[key] = _(args[key]);
-                            }));
-                            let output = dojo.string.substitute(_(text[i][0]), args);
-
+                            let output = this.getTextWithArgs(text[i][0], text[i][2]);
                             string += "<li " + (text[i][1] ? '' : 'class="no_li"') + ">" + output + "</li>";
                         }
                         return "<ul>" + string + "</ul>";
