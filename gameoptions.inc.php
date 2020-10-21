@@ -56,6 +56,7 @@ $game_options = [
             0 => ['name' => totranslate('No')],
             1 => [
                 'name' => totranslate('Yes'),
+                'tmdisplay' => totranslate('Expansion: Agora'),
                 'description' => totranslate('Agora adds Senators and their influence on the Senate. Try to control these Chambers to benefit from Decrees or call on Conspirators who could very well overthrow the situation.'),
                 'beta' => true,
                 'nobeginner' => true
