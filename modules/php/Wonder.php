@@ -47,25 +47,21 @@ class Wonder extends Item {
             ]
         );
 
+        $opponent = $player->getOpponent();
+
         $eightWonder = null;
-        foreach(array_merge($player->getWonders()->array, $player->getOpponent()->getWonders()->array) as $wonder) {
-            if (!$wonder->isConstructed()) {
-                if ($eightWonder) {
-                    // Found a second unconstructed wonder, means there aren't 7 wonders constructed yet.
-                    $eightWonder = null;
-                    break;
-                }
-                $eightWonder = $wonder;
-            }
-        }
-        if ($eightWonder) {
+        $wondersConstructed = array_merge($player->getWonders()->filterByConstructed()->array, $opponent->getWonders()->filterByConstructed()->array);
+        $wondersUnconstructed = array_merge($player->getWonders()->filterByConstructed(false)->array, $opponent->getWonders()->filterByConstructed(false)->array);
+        if (count($wondersConstructed) == 7 && count($wondersUnconstructed) > 0) {
+            $eightWonder = array_shift($wondersUnconstructed);
+
             $payment->eightWonderId = $eightWonder->id;
             SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name}\'s Wonder “${wonderName}” is removed from the game because 7 Wonders have been constructed'),
                 [
                     'i18n' => ['wonderName'],
-                    'player_name' => $player->hasWonder($eightWonder->id) ? $player->name : $player->getOpponent()->name,
+                    'player_name' => $player->hasWonder($eightWonder->id) ? $player->name : $opponent->name,
                     'wonderName' => $eightWonder->name,
                 ]
             );
