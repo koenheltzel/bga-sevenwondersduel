@@ -300,13 +300,13 @@ $machinestates = [
             "actionMoveInfluence",
             "actionSkipMoveInfluence",
         ],
-        "transitions" => [
+        "transitions" => array_merge($militaryTokenTransitions, [ // When a move results in the military decree, which results in a military token
             SevenWondersDuel::STATE_SENATE_ACTIONS_NAME => SevenWondersDuel::STATE_SENATE_ACTIONS_ID, // Going back to Senate Actions after a Senate Action triggered the Military Decree which collected a Military Token.
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID, // Political supremacy
             SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
-        ]
+        ])
     ],
 
     SevenWondersDuel::STATE_REMOVE_INFLUENCE_ID => [
@@ -319,14 +319,14 @@ $machinestates = [
         "possibleactions" => [
             "actionRemoveInfluence",
         ],
-        "transitions" => [
+        "transitions" => array_merge($militaryTokenTransitions, [ // When a remove results in the military decree, which results in a military token
             SevenWondersDuel::STATE_SENATE_ACTIONS_NAME => SevenWondersDuel::STATE_SENATE_ACTIONS_ID, // Going back to Senate Actions after a Senate Action triggered the Military Decree which collected a Military Token.
             SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuel::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID, // Political supremacy
             SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
-        ]
+        ])
     ],
 
     SevenWondersDuel::STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID => [
