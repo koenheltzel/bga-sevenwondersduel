@@ -826,6 +826,11 @@ class SevenWondersDuel extends Table
             $sql = "ALTER TABLE `DBPREFIX_global` CHANGE COLUMN `global_value` `global_value` VARCHAR(255)";
             self::applyDbUpgradeToAllDB($sql);
         }
+        if ($from_version <= 2010221924) {
+            // Fixed only getting 2 progress tokens to choose from when constructing The Great Library in a game from before the Agora update.
+            $sql = "UPDATE `DBPREFIX_progress_token` SET card_location = 'box' WHERE card_location = 'wonder6'";
+            self::applyDbUpgradeToAllDB($sql);
+        }
 
     }
 
