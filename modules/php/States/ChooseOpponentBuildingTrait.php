@@ -53,13 +53,14 @@ trait ChooseOpponentBuildingTrait {
 
         SevenWondersDuel::get()->buildingDeck->insertCardOnExtremePosition($buildingId, 'discard', true);
 
+        $building = Building::get($buildingId);
         if ($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER) > 0) {
             $this->notifyAllPlayers(
                 'opponentDiscardBuilding',
                 clienttranslate('${player_name} discarded opponent\'s building “${buildingName}” (Wonder “${wonderName}”)'),
                 [
                     'i18n' => ['buildingName', 'wonderName'],
-                    'buildingName' => Building::get($buildingId)->name,
+                    'buildingName' => $building->name,
                     'wonderName' => Wonder::get($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER))->name,
                     'player_name' => $player->name,
                     'playerId' => $player->id,
@@ -74,7 +75,7 @@ trait ChooseOpponentBuildingTrait {
                 clienttranslate('${player_name} discarded opponent\'s building “${buildingName}” (Conspiracy “${conspiracyName}”)'),
                 [
                     'i18n' => ['buildingName', 'conspiracyName'],
-                    'buildingName' => Building::get($buildingId)->name,
+                    'buildingName' => $building->name,
                     'conspiracyName' => Conspiracy::get($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY))->name,
                     'player_name' => $player->name,
                     'playerId' => $player->id,
@@ -82,6 +83,20 @@ trait ChooseOpponentBuildingTrait {
                 ]
             );
             $this->setGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY, 0);
+
+            if ($building->victoryPoints > 0) {
+                $opponent = $player->getOpponent();
+                $opponent->increaseScore(-$building->victoryPoints, $building->getScoreCategory());
+
+                $this->notifyAllPlayers(
+                    'message',
+                    clienttranslate('${player_name} loses ${points} victory point(s)'),
+                    [
+                        'player_name' => $opponent->name,
+                        'points' => $building->victoryPoints,
+                    ]
+                );
+            }
         }
 
         $this->stateStackNextState(self::STATE_NEXT_PLAYER_TURN_NAME);
