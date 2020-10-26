@@ -73,10 +73,6 @@
     float: right;
 }
 
-#buttonDiscardBuilding .coin {
-    --element-scale: calc(2.0 - var(--scale));
-}
-
 #buttonDiscardBuilding .coin > span {
     font-weight: normal;
 }
