@@ -31,6 +31,9 @@ trait NextAgeTrait
     public function enterStateNextAge() {
         $age = $this->incGameStateValue(self::VALUE_CURRENT_AGE, 1);
 
+        // "Reveal" cards in the new age.
+        Draftpool::revealCards();
+
         if ($age == 1) {
             SevenWondersDuel::get()->notifyAllPlayers(
                 'nextAgeDraftpoolReveal',
