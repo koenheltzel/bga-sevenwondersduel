@@ -188,4 +188,19 @@ class Draftpool extends Base
         return self::$ages[$age];
     }
 
+    public static function getLastRowBuildings() {
+        $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
+        $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $rows = self::getRows($age);
+
+        $maxLocationArg = count($rows[0]) - 1;
+        $buildingIds = [];
+        foreach ($cards as $card) {
+            if ((int)$card['location_arg'] <= $maxLocationArg) {
+                $buildingIds[] = $card['id'];
+            }
+        }
+        return Buildings::createByBuildingIds($buildingIds);
+    }
+
 }

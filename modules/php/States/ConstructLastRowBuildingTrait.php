@@ -2,6 +2,7 @@
 
 namespace SWD\States;
 
+use SWD\Building;
 use SWD\Draftpool;
 use SWD\Player;
 
@@ -23,7 +24,10 @@ trait ConstructLastRowBuildingTrait {
     }
 
     public function shouldSkipConstructLastRowBuilding() {
-        if (Draftpool::countCardsInCurrentAge() == 0) {
+        $lastRowBuildings = Draftpool::getLastRowBuildings();
+        $lastRowBuildingsCount = count(Draftpool::getLastRowBuildings()->array);
+        $lastRowSenatorsCount = count($lastRowBuildings->filterByTypes([Building::TYPE_SENATOR])->array);
+        if ($lastRowBuildingsCount - $lastRowSenatorsCount <= 0) {
             $this->notifyAllPlayers(
                 'message',
                 clienttranslate('There are no more cards available for ${player_name} to construct for free'),
