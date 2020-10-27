@@ -163,7 +163,7 @@ class Item extends Base
                             'message',
                             clienttranslate('A small military token is removed, ${player_name} must place an Influence cube'),
                             [
-                                'player_name' => $player->name,
+                                'player_name' => Player::getActive()->name,  // Get the active player here. In case of Agora $player could be the opponent (when losing control of a chamber with the military Decree)
                             ]
                         );
                     }
@@ -174,7 +174,7 @@ class Item extends Base
                             'message',
                             clienttranslate('A large military token is removed, ${player_name} must remove an Influence cube and may move an Influence cube'),
                             [
-                                'player_name' => $player->name,
+                                'player_name' => Player::getActive()->name,  // Get the active player here. In case of Agora $player could be the opponent (when losing control of a chamber with the military Decree)
                             ]
                         );
                     }
