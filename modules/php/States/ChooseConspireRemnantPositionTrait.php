@@ -26,7 +26,11 @@ trait ChooseConspireRemnantPositionTrait {
                 ]
             ],
         ];
+        $data['wonderSelectionRound'] = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
+        if ($this->getGameStateValue(self::VALUE_CURRENT_AGE) == 0) {
+            $data['draftpool'] = Draftpool::revealCards(1); // Curia Julia during Wonder Selection
+        }
         return $data;
     }
 

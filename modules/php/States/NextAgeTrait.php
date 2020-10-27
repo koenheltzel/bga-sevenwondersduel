@@ -35,16 +35,18 @@ trait NextAgeTrait
         Draftpool::revealCards();
 
         if ($age == 1) {
-            SevenWondersDuel::get()->notifyAllPlayers(
-                'nextAgeDraftpoolReveal',
-                '',
-                [
-                    'ageRoman' => ageRoman($age),
-                    'player_name' => Player::getActive()->name,
-                    'draftpool' => Draftpool::get(),
-                    'playersSituation' => Players::getSituation(), // Mostly so the science symbol count is updated.
-                ]
-            );
+            if (!$this->expansionActive()) {
+                SevenWondersDuel::get()->notifyAllPlayers(
+                    'nextAgeDraftpoolReveal',
+                    '',
+                    [
+                        'ageRoman' => ageRoman($age),
+                        'player_name' => Player::getActive()->name,
+                        'draftpool' => Draftpool::get(),
+                        'playersSituation' => Players::getSituation(), // Mostly so the science symbol count is updated.
+                    ]
+                );
+            }
             $this->gamestate->nextState(self::STATE_PLAYER_TURN_NAME);
         } else {
             $conflictPawnPosition = $this->getGameStateValue(self::VALUE_CONFLICT_PAWN_POSITION);

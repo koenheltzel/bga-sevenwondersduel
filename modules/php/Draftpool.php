@@ -111,10 +111,14 @@ class Draftpool extends Base
     }
 
     public static function get($revealCards = false) {
+        $actualAge = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
+        if ($actualAge == 0 && SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
+            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE, 1);
+        }
         $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
 
         $draftpool = [
-            'age' => $age,
+            'age' => $actualAge,
             'discardGain' => [
                 Player::me()->id => Player::me()->calculateDiscardGain(),
                 Player::opponent()->id => Player::opponent()->calculateDiscardGain(),
@@ -191,6 +195,10 @@ class Draftpool extends Base
             }
 
             SevenWondersDuel::get()->setAvailableCardIds($availableCardIds);
+        }
+
+        if ($age <> $actualAge) {
+            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE, $actualAge);
         }
 
         return $draftpool;

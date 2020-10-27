@@ -316,6 +316,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "swd");
         $this->page->insert_block("swd", [
             "AGORA" => (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA),
+            "EXPANSION" => (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA), // Any expansion, add || Pantheon in the future
             "PLAYER_ME_ID" => Player::me()->id,
             "PLAYER_OPPONENT_ID" => Player::opponent()->id,
         ]);

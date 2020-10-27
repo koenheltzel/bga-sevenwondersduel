@@ -432,6 +432,10 @@ class SevenWondersDuel extends Table
         $this->setGameStateValue(self::VALUE_AVAILABLE_CARDS, json_encode($checkedIds));
     }
 
+    public function expansionActive() {
+        return $this->getGameStateValue(self::OPTION_AGORA);
+    }
+
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
