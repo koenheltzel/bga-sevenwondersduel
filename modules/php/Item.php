@@ -210,6 +210,25 @@ class Item extends Base
         }
     }
 
+    /**
+     * Handle any effects the player loses when he loses the item (victory points) and send notifications about them.
+     * @param Player $player
+     */
+    public function deconstructEffects(Player $player) {
+        if ($this->victoryPoints > 0) {
+            $player->increaseScore(-$this->victoryPoints, $this->getScoreCategory());
+
+            SevenWondersDuel::get()->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} loses ${points} victory point(s)'),
+                [
+                    'player_name' => $player->name,
+                    'points' => $this->victoryPoints,
+                ]
+            );
+        }
+    }
+
     protected function getItemType() {
         if ($this instanceof Building) {
             return clienttranslate('Building');

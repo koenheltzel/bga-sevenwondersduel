@@ -86,6 +86,7 @@ trait LockProgressTokenTrait {
             );
         }
         else {
+            $opponent = $player->getOpponent();
             $this->notifyAllPlayers(
                 'lockProgressToken',
                 clienttranslate('${player_name} locks away Progress Token “${progressTokenName}” from ${opponent_name}, it can\'t be used during this game (Conspiracy “${conspiracyName}”)'),
@@ -95,9 +96,11 @@ trait LockProgressTokenTrait {
                     'progressTokenName' => $progressToken->name,
                     'progressTokenId' => $progressToken->id,
                     'player_name' => $player->name,
-                    'opponent_name' => $player->getOpponent()->name,
+                    'opponent_name' => $opponent->name,
                 ]
             );
+
+            $progressToken->deconstructEffects($opponent);
         }
 
         // Return any remaining progress tokens in the active selection back to the box.

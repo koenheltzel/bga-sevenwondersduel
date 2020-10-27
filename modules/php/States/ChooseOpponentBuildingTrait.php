@@ -46,7 +46,8 @@ trait ChooseOpponentBuildingTrait {
         $this->checkAction("actionChooseOpponentBuilding");
 
         $player = Player::getActive();
-        if (!$player->getOpponent()->hasBuilding($buildingId)) {
+        $opponent = $player->getOpponent();
+        if (!$opponent->hasBuilding($buildingId)) {
             throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
         }
         // TODO check if selected building is actually of the type that is allowed to discard?
@@ -83,21 +84,9 @@ trait ChooseOpponentBuildingTrait {
                 ]
             );
             $this->setGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY, 0);
-
-            if ($building->victoryPoints > 0) {
-                $opponent = $player->getOpponent();
-                $opponent->increaseScore(-$building->victoryPoints, $building->getScoreCategory());
-
-                $this->notifyAllPlayers(
-                    'message',
-                    clienttranslate('${player_name} loses ${points} victory point(s)'),
-                    [
-                        'player_name' => $opponent->name,
-                        'points' => $building->victoryPoints,
-                    ]
-                );
-            }
         }
+
+        $building->deconstructEffects($opponent);
 
         $this->stateStackNextState(self::STATE_NEXT_PLAYER_TURN_NAME);
 

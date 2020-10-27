@@ -98,6 +98,7 @@ trait SwapBuildingTrait {
                 );
             }
             if ($tmpPoints < 0) {
+                // Because it's a swap we don't use the deconstruct function here to prevent a flood of notifications.
                 $this->notifyAllPlayers(
                     'message',
                     clienttranslate('${player_name} loses ${points} victory points'),

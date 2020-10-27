@@ -56,18 +56,7 @@ trait DestroyConstructedWonderTrait {
             ]
         );
 
-        if ($wonder->victoryPoints > 0) {
-            $opponent->increaseScore(-$wonder->victoryPoints, self::SCORE_WONDERS);
-
-            $this->notifyAllPlayers(
-                'message',
-                clienttranslate('${player_name} loses ${points} victory point(s)'),
-                [
-                    'player_name' => $opponent->name,
-                    'points' => $wonder->victoryPoints,
-                ]
-            );
-        }
+        $wonder->deconstructEffects($opponent);
 
         $this->stateStackNextState();
     }
