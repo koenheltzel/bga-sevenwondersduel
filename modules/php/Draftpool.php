@@ -71,6 +71,11 @@ class Draftpool extends Base
     }
 
     public static function buildingAvailable($buildingId) {
+        $ids = SevenWondersDuel::get()->getAvailableCardIds();
+        return in_array((int)$buildingId, $ids);
+    }
+
+    public static function buildingRevealable($buildingId) {
         $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
         $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
@@ -101,11 +106,19 @@ class Draftpool extends Base
         return false;
     }
 
-    public static function get() {
+    public static function revealCards() {
+        return self::get(true);
+    }
+
+    public static function get($revealCards = false) {
+        $actualAge = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
+        if ($actualAge == 0 && SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
+            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE, 1);
+        }
         $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
 
         $draftpool = [
-            'age' => $age,
+            'age' => $actualAge,
             'discardGain' => [
                 Player::me()->id => Player::me()->calculateDiscardGain(),
                 Player::opponent()->id => Player::opponent()->calculateDiscardGain(),
@@ -116,6 +129,12 @@ class Draftpool extends Base
         if ($age > 0) { // Check needed for Agora Wonders which trigger game states outside of the wonder selection realm
             $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
             $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
+
+            $availableCardIds = SevenWondersDuel::get()->getAvailableCardIds();
+            if (!$revealCards && count($availableCardIds) == 0 && count($cards) > 0) {
+                // Needed during the launch of this update when running games don't have the revealed cards value yet.
+                $revealCards = true;
+            }
 
             $rows = self::getRows($age);
             $locationArg = (count($rows, COUNT_RECURSIVE) - count($rows)) - 1;
@@ -133,10 +152,17 @@ class Draftpool extends Base
                         $positionsFound[] = ($row_index + 1) . "_" . $column;
                         $cardvisible = $row_index % 2 == 0;
                         // Determine if card is available because other cards have revealed it.
-                        $available = Draftpool::buildingAvailable($building->id);
-                        if (!$cardvisible && $available) {
-                            $cardvisible = true;
+                        $available = Draftpool::buildingRevealable($building->id, $revealCards);
+
+                        if ($available) {
+                            if ($revealCards && !in_array($building->id, $availableCardIds)) {
+                                // Reveal this card
+                                $availableCardIds[] = $building->id;
+                            }
+                            $available = in_array($building->id, $availableCardIds);
                         }
+                        $cardvisible = ($cardvisible || $available);
+
                         if ($cardvisible) {
                             $position['available'] = $available;
                             $position['building'] = $building->id;
@@ -167,6 +193,12 @@ class Draftpool extends Base
                     $locationArg--;
                 }
             }
+
+            SevenWondersDuel::get()->setAvailableCardIds($availableCardIds);
+        }
+
+        if ($age <> $actualAge) {
+            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE, $actualAge);
         }
 
         return $draftpool;

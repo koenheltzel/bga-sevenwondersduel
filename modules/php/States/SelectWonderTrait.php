@@ -3,6 +3,7 @@
 namespace SWD\States;
 
 use SWD\Conspiracies;
+use SWD\Draftpool;
 use SWD\Material;
 use SWD\Player;
 use SWD\Wonder;
@@ -14,16 +15,19 @@ trait SelectWonderTrait {
         $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
         $cards = Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}");
         $data = [
-            'round' => $wonderSelectionRound,
+            'round' => $wonderSelectionRound, // Support Legacy js
+            'wonderSelectionRound' => $wonderSelectionRound,
             'updateWonderSelection' => count($cards) == 4, // Update the wonder selection at the end of the first and second selection rounds (second to hide the block).
             'wonderSelection' => count($cards) == 4 ? Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}") : null,
         ];
 
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
+            $data['draftpool'] = Draftpool::revealCards(1);
             $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         }
         return $data;
     }
+
     public function enterStateSelectWonder() {
         $wonderSelectionRound = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
         $location = "selection{$wonderSelectionRound}";

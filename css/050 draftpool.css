@@ -3,6 +3,10 @@
     --draftpool-row-height-multiplier: 0.4;
     --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
 }
+#swd[data-age="0"][data-expansion="1"] {
+    --draftpool-row-height-multiplier: 0.36; /* First age doesn't have linking symbols in cost yet. */
+    --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
+}
 
 #draftpool_container {
     display: flex;
@@ -42,6 +46,9 @@
 
 #action_container {
     min-height: calc(67px * var(--scale));
+}
+#swd[data-age="0"] #action_container {
+    min-height: unset;
 }
 
 #draftpool_actions {

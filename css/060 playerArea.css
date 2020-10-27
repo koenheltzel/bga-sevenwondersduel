@@ -29,6 +29,14 @@
     border-radius: 0 var(--small-border-radius) var(--small-border-radius) 0;
 }
 
+#swd[data-age="0"][data-expansion="1"] .player_info.me {
+    border-top-left-radius: var(--small-border-radius);
+}
+
+#swd[data-age="0"][data-expansion="1"] .player_info.opponent {
+    border-bottom-left-radius: var(--small-border-radius);
+}
+
 .player_area_name {
     position: relative;
     display: inline-block;
@@ -54,6 +62,9 @@
     align-items: flex-end;
     justify-content: space-between;
 }
+#swd[data-age="0"][data-expansion="1"] .player_buildings {
+    min-height: var(--building-header-small-height);
+}
 
 #swd_wrap.square .player_buildings.opponent, #swd_wrap.landscape .player_buildings.opponent {
     border-radius: 0 0 var(--small-border-radius) 0;
@@ -69,6 +80,14 @@
 
 #swd_wrap.portrait .player_buildings.me {
     border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
+}
+
+#swd[data-age="0"][data-expansion="1"] .player_buildings.me {
+    border-top-right-radius: 0;
+}
+
+#swd[data-age="0"][data-expansion="1"] .player_buildings.opponent {
+    border-bottom-right-radius: 0;
 }
 
 .player_building_column {

@@ -42,6 +42,7 @@ define([
             // Show console.log messages
             debug: 0,
             agora: 0,
+            expansion: 0,
 
             // Settings
             autoScale: 1,
@@ -124,6 +125,7 @@ define([
                 this.gamedatas = gamedatas;
 
                 this.agora = this.gamedatas.agora;
+                this.expansion = this.agora;
 
                 // Because of spectators we can't assume everywhere that this.player_id is one of the two players.
                 this.me_id = parseInt(this.gamedatas.me_id); // me = alias for the player on the bottom
@@ -569,11 +571,19 @@ define([
                         this.updatePlayersSituation(args.args.playersSituation);
                     }
 
-                    if (args.args.draftpool) this.updateDraftpool(args.args.draftpool);
+                    if (args.args.draftpool) {
+                        // Wait for loading screen (for Agora, when Age I draftpool gets revealed at the start of the game).
+                        this.callFunctionAfterLoading(dojo.hitch(this, "updateDraftpool"), [args.args.draftpool]);
+                    }
                     if (args.args.wondersSituation) this.updateWondersSituation(args.args.wondersSituation);
                     if (args.args._private && args.args._private.myConspiracies) this.myConspiracies = args.args._private.myConspiracies;
                     if (args.args.conspiraciesSituation) this.updateConspiraciesSituation(args.args.conspiraciesSituation);
                     if (args.args.senateSituation) this.updateSenateSituation(args.args.senateSituation);
+                    if (args.args.wonderSelectionRound) {
+                        $('wonder_selection_block_title').innerText = dojo.string.substitute(_("Wonders selection - round ${round} of 2"), {
+                            round: args.args.wonderSelectionRound
+                        });
+                    }
 
                     this.updateLayout(); // Because of added height of action button divs being auto shown/hidden because of the state change, it's a good idea to update the layout here.
 
@@ -822,15 +832,22 @@ define([
              * @param setupGame
              * @returns {number} Duration of the full animation.
              */
-            updateDraftpool: function (draftpool, setupGame = false) {
+            updateDraftpool: function (draftpool, setupGame = false, forceAnimation = false) {
                 if (this.debug) console.log('updateDraftpool: ', draftpool, setupGame, 'age: ', draftpool.age);
 
-                dojo.style('draftpool_container', 'display', draftpool.age > 0 ? 'flex' : 'none');
+                let currentState = dojo.attr($('swd'), 'data-state');
+                if (!setupGame && currentState != "playerTurn" && !forceAnimation) {
+                    setupGame = true; // Only animate in the draftpool when in playerTurn (to prevent Agora wonder selection actions getting a draftpool setup animation on every F5).
+                }
+
+                let realAgeOrExpansion = (draftpool.age > 0 || this.expansion);
+
+                dojo.style('draftpool_container', 'display', realAgeOrExpansion ? 'flex' : 'none');
 
                 dojo.attr($('swd'), 'data-age', draftpool.age == undefined ? 0 : draftpool.age);
 
                 // New age. Animate the build up
-                if (draftpool.age > 0 && draftpool.age >= this.currentAge) {
+                if (realAgeOrExpansion && draftpool.age >= this.currentAge) {
                     this.currentAge = draftpool.age; // This currentAge business is a bit of dirty check to prevent older notifications (due to animations finishing) arriving after newer notifications. Especially when a new age has arrived.
                     this.gamedatas.draftpool = draftpool;
 
@@ -1891,10 +1908,6 @@ define([
 
 
             onEnterSelectWonder: function (args) {
-                $('wonder_selection_block_title').innerText = dojo.string.substitute(_("Wonders selection - round ${round} of 2"), {
-                    round: args.round
-                });
-
                 if (args.updateWonderSelection) {
                     this.callFunctionAfterLoading(dojo.hitch(this, "updateWonderSelection"), [args.wonderSelection])
                 }
@@ -2030,7 +2043,7 @@ define([
                 anim.play();
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
             },
 
             //   ____  _                         _____
@@ -3093,7 +3106,9 @@ define([
             },
 
             notif_nextAgeDraftpoolReveal: function (notif) {
-                var animationDuration = this.updateDraftpool(notif.args.draftpool);
+                if (this.debug) console.log('notif_nextAgeDraftpoolReveal', notif);
+
+                var animationDuration = this.updateDraftpool(notif.args.draftpool, false, true);
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(animationDuration);

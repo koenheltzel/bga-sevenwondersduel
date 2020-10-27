@@ -220,6 +220,7 @@ class SevenWondersDuel extends Table
     const VALUE_STATE_STACK = "state_stack";
     const VALUE_MAY_TRIGGER_CONSPIRACY = "may_trigger_conspiracy";
     const VALUE_DISCARD_AVAILABLE_CARD_ROUND = "discard_available_card_round";
+    const VALUE_AVAILABLE_CARDS = "available_cards";
 
     // Game options (variants)
     const OPTION_AGORA = "option_agora";
@@ -342,6 +343,7 @@ class SevenWondersDuel extends Table
                 self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY => 19,
                 self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER => 20,
                 self::VALUE_END_GAME_CONDITION => 21,
+                self::VALUE_AVAILABLE_CARDS => 23,
                 // Global variables Agora
                 self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY => 22,
                 self::VALUE_CONSPIRE_RETURN_STATE => 33,
@@ -413,6 +415,27 @@ class SevenWondersDuel extends Table
         return $value;
     }
 
+    public function getAvailableCardIds() {
+        $revealedCardIds = json_decode($this->getGameStateValue(self::VALUE_AVAILABLE_CARDS));
+        if (!is_array($revealedCardIds)) $revealedCardIds = [];
+        return $revealedCardIds;
+    }
+
+    public function setAvailableCardIds($cardIds) {
+        // First check what ids are in the draftpool, so we can remove ids that have been used already.
+        $age = $this->getGameStateValue(self::VALUE_CURRENT_AGE);
+        $allAgeCards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $allAgeCards = arrayWithPropertyAsKeys($allAgeCards, 'id');
+        $allAgeCardIds = array_keys($allAgeCards);
+        $intersected = array_intersect($allAgeCardIds, $cardIds);
+        $checkedIds = array_values($intersected);
+        $this->setGameStateValue(self::VALUE_AVAILABLE_CARDS, json_encode($checkedIds));
+    }
+
+    public function expansionActive() {
+        return $this->getGameStateValue(self::OPTION_AGORA);
+    }
+
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
@@ -464,6 +487,7 @@ class SevenWondersDuel extends Table
         self::setGameStateInitialValue( self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, 0);
         self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, 0);
         self::setGameStateInitialValue( self::VALUE_STATE_STACK, json_encode([]));
+        self::setGameStateInitialValue( self::VALUE_AVAILABLE_CARDS, json_encode([]));
         // Agora
         self::setGameStateInitialValue( self::VALUE_CONSPIRE_RETURN_STATE, 0);
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_SECTION, 0);

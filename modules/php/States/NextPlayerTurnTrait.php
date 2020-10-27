@@ -17,6 +17,9 @@ trait NextPlayerTurnTrait {
     public function enterStateNextPlayerTurn() {
         SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_MAY_TRIGGER_CONSPIRACY, 1);
 
+        // Reveal cards for the next turn.
+        Draftpool::revealCards();
+
         if ($this->checkImmediateVictory()) {
             $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );
         }
