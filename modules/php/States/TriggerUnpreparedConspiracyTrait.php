@@ -23,7 +23,9 @@ trait TriggerUnpreparedConspiracyTrait {
     }
 
     public function shouldSkipTriggerUnpreparedConspiracy() {
-        if (count(Player::getActive()->getConspiracies()->filterByPrepared(false)->array) == 0) {
+        $player = Player::getActive();
+        $unpreparedConspiracies = $player->getConspiracies()->filterByPrepared(false);
+        if (count($unpreparedConspiracies->array) == 0) {
             // Player has no unprepared conspiracies, so skip this state
             $this->notifyAllPlayers(
                 'message',
@@ -35,6 +37,24 @@ trait TriggerUnpreparedConspiracyTrait {
                 ]
             );
             return true;
+        }
+        else {
+            $usefulConspiracies = 0;
+            foreach($unpreparedConspiracies->array as $conspiracy) {
+                $usefulConspiracies += (int)$conspiracy->isUsefulToTrigger($player);
+            }
+            if ($usefulConspiracies == 0) {
+                // Player has no useful unprepared conspiracies, so skip this state
+                $this->notifyAllPlayers(
+                    'message',
+                    clienttranslate('${player_name} has no unprepared Conspiracies to trigger that have relevant actions (Wonder “${wonderName}”)'),
+                    [
+                        'i18n' => ['wonderName'],
+                        'player_name' => Player::getActive()->name,
+                        'wonderName' => Wonder::get(13)->name,
+                    ]
+                );
+            }
         }
         return false;
     }

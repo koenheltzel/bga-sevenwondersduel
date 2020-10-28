@@ -523,6 +523,7 @@ var jstpl_conspiracy = '\
             data-conspiracy-position="${jsPosition}"\
             data-conspiracy-prepared="${jsPrepared}"\
             data-conspiracy-triggered="${jsTriggered}"\
+            data-conspiracy-useful="${jsUseful}"\
             data-conspiracy-progress-token="${jsProgressToken}"\
             class="conspiracy conspiracy_small conspiracy_compact"\
             style="background-position: -${jsX}00% calc(-${jsY}.62 * var(--conspiracy-height) * var(--conspiracy-small-scale));"\

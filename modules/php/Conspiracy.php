@@ -222,6 +222,95 @@ class Conspiracy extends Item {
         }
     }
 
+    /*
+     * Check if at least 1 of the Conspiracy's actions can have an effect
+     */
+    public function isUsefulToTrigger(Player $player) {
+        $opponent = $player->getOpponent();
+        switch ($this->id) {
+            case 1:
+                // Check if opponent has unconstructed Wonders
+                $action1 = count($opponent->getWonders()->filterByConstructed(false)->array) > 0;
+                $action2 = $player->getCubes() < 12;
+                return $action1 || $action2;
+                break;
+            case 2:
+                // Check if opponent has coins
+                $action1 = $opponent->getCoins() > 0;
+                $action2 = $player->getCubes() < 12;
+                return $action1 || $action2;
+                break;
+            case 3:
+            case 4:
+                // Check if opponent has blue/yellow buildings Wonders
+                $action1 = count($opponent->getBuildings()->filterByTypes([($this->id == 3) ? Building::TYPE_BLUE : Building::TYPE_YELLOW])->array) > 0;
+                $action2 = $player->getCubes() < 12;
+                return $action1 || $action2;
+                break;
+            case 5:
+                // There's a always a Progress token available to lock away
+                return true;
+                break;
+            case 6:
+                // Military shields are always "useful"
+                return true;
+                break;
+            case 7;
+                $lastRowBuildings = Draftpool::getLastRowBuildings();
+                $lastRowBuildingsCount = count(Draftpool::getLastRowBuildings()->array);
+                $lastRowSenatorsCount = count($lastRowBuildings->filterByTypes([Building::TYPE_SENATOR])->array);
+                return $lastRowBuildingsCount - $lastRowSenatorsCount > 0;
+                break;
+            case 8:
+                // The cards in the box shouldn't be touched so this action is always useful.
+                return true;
+                break;
+            case 9:
+                $action1 = $player->getCubes() > 0;
+                $action2 = $opponent->getCubes() < 12;
+                $action3 = $player->getCubes() < 12;
+                return $action1 || $action2 || $action3;
+                break;
+            case 10:
+                // There's a always a Progress token available in the box.
+                return true;
+                break;
+            case 11:
+                // Are there cards left in the current age?
+                $action1 = Draftpool::countCardsInCurrentAge() > 0;
+                $action2 = $player->getCubes() < 12;
+                return $action1 || $action2;
+                break;
+            case 12:
+                // Does the player have cubes in the senate?
+                $action1 = $player->getCubes() < 12;
+                // Does the opponent have cubes in the senate and does he have coins to lose?
+                $action2 = $opponent->getCubes() < 12 && $opponent->getCoins() > 0;
+                return $action1 || $action2;
+                break;
+            case 13:
+                // Check if opponent has brown/gray buildings Wonders
+                return count($opponent->getBuildings()->filterByTypes([Building::TYPE_BROWN, Building::TYPE_GREY])->array) > 0;
+                break;
+            case 14:
+                // Check if there are blue cards to swap or green cards to swap.
+                $playerGreenCount = count($player->getBuildings()->filterByTypes([Building::TYPE_GREEN])->array);
+                $playerBlueCount = count($player->getBuildings()->filterByTypes([Building::TYPE_BLUE])->array);
+                $opponentGreenCount = count($opponent->getBuildings()->filterByTypes([Building::TYPE_GREEN])->array);
+                $opponentBlueCount = count($opponent->getBuildings()->filterByTypes([Building::TYPE_BLUE])->array);
+                return ($playerGreenCount > 0 && $opponentGreenCount > 0) || ($playerBlueCount > 0 && $opponentBlueCount > 0);
+                break;
+            case 15:
+                // There's always a Decree to move.
+                return true;
+                break;
+            case 16:
+                // Check if opponent has constructed Wonders
+                return count($opponent->getWonders()->filterByConstructed(true)->array) > 0;
+                break;
+        }
+    }
+
     public function getPosition(Player $player) {
         return (int)SevenWondersDuel::get()->conspiracyDeck->getCard($this->id)['location_arg'];
     }

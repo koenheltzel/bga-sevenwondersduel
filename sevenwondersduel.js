@@ -1209,7 +1209,7 @@ define([
             //  \____\___/|_| |_|___/ .__/|_|_|  \__,_|\___|_|\___||___/
             //                      |_|
 
-            getConspiracyDivHtml: function (conspiracyId, spriteId, full=false, position=-1, prepared=0, triggered=0, progressToken=0) {
+            getConspiracyDivHtml: function (conspiracyId, spriteId, full=false, position=-1, prepared=0, triggered=0, useful=0, progressToken=0) {
                 var conspiracy = this.gamedatas.conspiracies[conspiracyId];
                 var data = {
                     jsId: conspiracyId,
@@ -1217,6 +1217,7 @@ define([
                     jsPosition: position,
                     jsPrepared: prepared ? 1 : 0, // Make sure this is 0/1, not the age of the age card used to prepare
                     jsTriggered: triggered,
+                    jsUseful: useful,
                 };
                 var spritesheetColumns = 6;
                 data.jsX = (spriteId - 1) % spritesheetColumns;
@@ -1253,7 +1254,7 @@ define([
                     if (!row.triggered && playerId == this.me_id && this.myConspiracies[row.position]) {
                         id = this.myConspiracies[row.position].id;
                     }
-                    let newNode = dojo.place(this.getConspiracyDivHtml(id, row.triggered ? row.conspiracy : 18, false, row.position, row.prepared, row.triggered, row.progressToken), container);
+                    let newNode = dojo.place(this.getConspiracyDivHtml(id, row.triggered ? row.conspiracy : 18, false, row.position, row.prepared, row.triggered, row.useful, row.progressToken), container);
 
                     if (row.prepared > 0) {
                         var data = {
@@ -2060,7 +2061,7 @@ define([
                 if (this.agora) {
                     Object.keys(this.gamedatas.conspiraciesSituation[this.getActivePlayerId()]).forEach(dojo.hitch(this, function (index) {
                         var conspiracyData = this.gamedatas.conspiraciesSituation[this.getActivePlayerId()][index];
-                        if (args.mayTriggerConspiracy && conspiracyData.prepared && !conspiracyData.triggered) {
+                        if (args.mayTriggerConspiracy && conspiracyData.prepared && !conspiracyData.triggered && conspiracyData.useful) {
                             if (this.isCurrentPlayerActive()) {
                                 let conspiracyNode = dojo.query('#player_conspiracies_' + this.getActivePlayerId() + ' div[data-conspiracy-position="' + conspiracyData.position + '"]')[0];
                                 dojo.addClass(conspiracyNode, 'green_border');
@@ -2128,7 +2129,7 @@ define([
                     dojo.removeClass($('buttonConstructWonder'), 'bgabutton_darkgray');
                     dojo.addClass($('buttonConstructWonder'), canAffordWonder ? 'bgabutton_blue' : 'bgabutton_darkgray');
 
-                    let conspiraciesToPrepare = dojo.query('#player_conspiracies_' + this.player_id + ' .conspiracy_small[data-conspiracy-prepared="0"][data-conspiracy-triggered="0"]');
+                    let conspiraciesToPrepare = dojo.query('#player_conspiracies_' + this.player_id + ' .conspiracy_small[data-conspiracy-prepared="0"][data-conspiracy-triggered="0"][data-conspiracy-useful="1"]');
                     dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_blue', conspiraciesToPrepare.length > 0);
                     dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_darkgray', conspiraciesToPrepare.length == 0);
 
@@ -4144,7 +4145,7 @@ define([
                 if (this.isCurrentPlayerActive()) {
                     Object.keys(this.gamedatas.conspiraciesSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
                         var conspiracyData = this.gamedatas.conspiraciesSituation[this.player_id][index];
-                        if (!conspiracyData.prepared && !conspiracyData.triggered) {
+                        if (!conspiracyData.prepared && !conspiracyData.triggered && conspiracyData.useful) {
                             let conspiracyNode = dojo.query('#player_conspiracies_' + this.player_id + ' div[data-conspiracy-position="' + conspiracyData.position + '"]')[0];
                             dojo.addClass(conspiracyNode, 'green_border');
                         }

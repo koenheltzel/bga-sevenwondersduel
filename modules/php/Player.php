@@ -316,6 +316,7 @@ class Player extends Base{
             $row['position'] = (int)$card['location_arg'];
             $row['prepared'] = $conspiracy->isPrepared(); // Returns 0 or the age of the card used to prepare.
             $row['triggered'] = (int)$conspiracy->isTriggered();
+            $row['useful'] = $row['triggered'] ? 0 : (int)$conspiracy->isUsefulToTrigger($this);
             $row['progressToken'] = $progressToken;
             $row['ageCardSpriteXY'] = $row['prepared'] ? Building::getBackSpriteXY($row['prepared']) : null;
             $rows[] = $row;
