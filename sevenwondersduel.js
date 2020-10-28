@@ -4329,16 +4329,72 @@ define([
 
                 this.clearRedBorder();
 
-                let anim = dojo.fadeOut({
-                    node: $('wonder_' + notif.args.wonderId + '_container'),
-                    duration: 1000,
-                    onEnd: dojo.hitch(this, function (node) {
-                        dojo.destroy(node);
-                    })
-                });
+                let wonderNode = $('wonder_' + notif.args.wonderId);
+                let wonderContainer = $('wonder_' + notif.args.wonderId + '_container');
+                let ageCardNode = dojo.query('.building_small', wonderContainer)[0];
+
+                var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
+                this.placeOnObjectPos(buildingNode, ageCardNode, 0, 0);
+                dojo.style(buildingNode, 'transform', 'rotate(-90deg) rotateY(-180deg) perspective(40em)'); // The rotateY(-90deg) affects the position the element will end up after the slide. Here's the place to apply it therefor, not before the animation instantiation.
+
+                var anim = dojo.fx.chain([
+                    dojo.fadeOut({
+                        node: wonderNode,
+                        duration: 1000,
+                        onEnd: dojo.hitch(this, function (node) {
+                            dojo.destroy(node);
+                        })
+                    }),
+                    dojo.fx.combine([
+                        dojo.animateProperty({
+                            node: ageCardNode,
+                            duration: this.constructWonderAnimationDuration / 3,
+                            easing: dojo.fx.easing.linear,
+                            properties: {
+                                propertyXTransform: {start: -90, end: 0},
+                                propertyYTransform: {start: 0, end: 180}
+                            },
+                            onAnimate: function (values) {
+                                dojo.style(this.node, 'transform', 'perspective(40em) rotate(' + parseFloat(values.propertyXTransform.replace("px", "")) + 'deg) rotateY(' + parseFloat(values.propertyYTransform.replace("px", "")) + 'deg)');
+                            },
+                            onEnd: dojo.hitch(this, function (node) {
+                                dojo.destroy(node);
+                                dojo.destroy(wonderContainer);
+                            })
+                        }),
+                        dojo.animateProperty({
+                            node: buildingNode,
+                            duration: this.constructWonderAnimationDuration / 3,
+                            easing: dojo.fx.easing.linear,
+                            properties: {
+                                propertyXTransform: {start: -90, end: 0},
+                                propertyYTransform: {start: -180, end: 0}
+                            },
+                            onAnimate: function (values) {
+                                dojo.style(this.node, 'transform', 'perspective(40em) rotate(' + parseFloat(values.propertyXTransform.replace("px", "")) + 'deg) rotateY(' + parseFloat(values.propertyYTransform.replace("px", "")) + 'deg)');
+                            }
+                        }),
+                    ]),
+                    dojo.animateProperty({
+                        node: buildingNode,
+                        duration: this.constructWonderAnimationDuration / 2,
+                        easing: dojo.fx.easing.linear,
+                        delay: this.constructWonderAnimationDuration / 4,
+                        properties: {
+                            top: 0,
+                            left: 0
+                        },
+                        onPlay: function (values) {
+                            dojo.style(this.node, 'z-index', 50);
+                        },
+                        onEnd: function (values) {
+                            dojo.style(this.node, 'z-index', 1);
+                        }
+                    }),
+                ]);
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
 
                 anim.play();
             },

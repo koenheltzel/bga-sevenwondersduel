@@ -2,6 +2,7 @@
 
 namespace SWD\States;
 
+use SWD\Building;
 use SWD\Conspiracy;
 use SWD\Player;
 use SWD\Wonder;
@@ -38,20 +39,27 @@ trait DestroyConstructedWonderTrait {
             throw new \BgaUserException( clienttranslate("The wonder you selected is not constructed.") );
         }
 
-        // Move the wonder to the box. The age card keeps the location wonderX, which is good because it doesn't interfere with Conspiracy 8 Treason.
+        // Move the wonder to the box.
         $this->wonderDeck->moveCard($wonderId, 'box');
+        // Move the age card to the discard.
+        $ageCards = $this->buildingDeck->getCardsInLocation('wonder' . $wonderId);
+        $ageCard = array_shift($ageCards);
+        $building = Building::get($ageCard['id']);
+        $this->buildingDeck->insertCardOnExtremePosition($building->id, 'discard', true);
 
         $this->notifyAllPlayers(
             'destroyConstructedWonder',
-            clienttranslate('${player_name} returns ${opponent_name}\'s constructed Wonder “${wonderName}” to the box (Conspiracy “${conspiracyName}”)'),
+            clienttranslate('${player_name} returns ${opponent_name}\'s constructed Wonder “${wonderName}” to the box and Age card “${buildingName}” to the discard pile (Conspiracy “${conspiracyName}”)'),
             [
-                'i18n' => ['wonderName', 'conspiracyName'],
+                'i18n' => ['wonderName', 'buildingName', 'conspiracyName'],
                 'wonderName' => Wonder::get($wonderId)->name,
                 'conspiracyName' => Conspiracy::get(1)->name,
                 'player_name' => $player->name,
                 'opponent_name' => $opponent->name,
                 'playerId' => $player->id,
                 'wonderId' => $wonderId,
+                'buildingId' => $building->id,
+                'buildingName' => $building->name,
                 'wondersSituation' => Wonders::getSituation(),
             ]
         );
