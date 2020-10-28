@@ -2348,8 +2348,18 @@ define([
                 this.clearRedBorder(); // For Conspiracy 7, Property Fraud
                 this.clearGreenBorder();
 
-                var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
-                var buildingNodeParent = buildingNode.parentElement; // Only used when we are constructing a discarded building.
+                var buildingNode = dojo.query(".building_small[data-building-id=" + notif.args.buildingId + "]")[0]; // Without the .building_small, the building might be selected from the (linked) buildings list.
+                var buildingNodeParent = null;
+                if (buildingNode) {
+                    buildingNodeParent = buildingNode.parentElement; // Only used when we are constructing a discarded building.
+                }
+                else {
+                    // Conspiracy 8, Treason
+                    let conspiracyNode = dojo.query('[data-conspiracy-id="8"]')[0];
+                    // Create nodes that are approprately positioned and can be destroyed afterwards.
+                    buildingNodeParent = dojo.place('<div id="buildingNodeParent" style="position: relative; left: calc(70px * var(--scale)); top: calc(90px * var(--scale));"><div id="buildingNode" style="position: absolute;"></div></div>', conspiracyNode);
+                    buildingNode = dojo.query('#buildingNode', buildingNodeParent)[0];
+                }
 
                 var building = this.gamedatas.buildings[notif.args.buildingId];
                 var container = dojo.query('.player_buildings.player' + notif.args.playerId + ' .' + building.type)[0];
