@@ -214,10 +214,16 @@ class Draftpool extends Base
      * @return array
      */
     public static function getRows($age): array {
-        if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
-            return self::$agoraAges[$age];
+        if ($age > 0) {
+            if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
+                return self::$agoraAges[$age];
+            }
+            return self::$ages[$age];
         }
-        return self::$ages[$age];
+        else {
+            // Return empty age structure with at least 1 row, which gets checked by getLastRowBuildings
+            return [[]];
+        }
     }
 
     public static function getLastRowBuildings() {
