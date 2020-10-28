@@ -16,12 +16,9 @@ trait PlaceInfluenceTrait {
     public function argPlaceInfluence() {
         $data = [];
         $data['wonderSelectionRound'] = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
-        $data['draftpool'] = Draftpool::get();
+        $data['draftpool'] = Draftpool::get(); // Normal & For F5 while selecting Curia Julia during Wonder Selection
         $data['senateSituation'] = Senate::getSituation();
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
-        if ($this->getGameStateValue(self::VALUE_CURRENT_AGE) == 0) {
-            $data['draftpool'] = Draftpool::revealCards(1); // Curia Julia during Wonder Selection
-        }
         return $data;
     }
 

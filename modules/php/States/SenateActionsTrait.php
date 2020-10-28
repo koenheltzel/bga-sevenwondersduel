@@ -126,6 +126,12 @@ trait SenateActionsTrait {
                     // We now have skipped this state, continue the while loop.
                 }
                 else {
+                    //Call the preEnterState function for this state if it exists.
+                    $preEnterStateMethod = "preEnterState" . ucfirst($nextState);
+                    if (method_exists($this, $preEnterStateMethod)) {
+                        $this->{$preEnterStateMethod}();
+                    }
+
                     // Skip method does not exist or result is false, we can go into this state.
                     $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
                     $this->gamestate->nextState( $nextState );

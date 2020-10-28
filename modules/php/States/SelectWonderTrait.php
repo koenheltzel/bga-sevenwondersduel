@@ -22,7 +22,7 @@ trait SelectWonderTrait {
         ];
 
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
-            $data['draftpool'] = Draftpool::revealCards(1);
+            $data['draftpool'] = Draftpool::get();
             $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         }
         return $data;

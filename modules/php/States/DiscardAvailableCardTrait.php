@@ -17,7 +17,7 @@ trait DiscardAvailableCardTrait {
         $data = [];
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         $data['round'] = (int)$this->getGameStateValue(self::VALUE_DISCARD_AVAILABLE_CARD_ROUND);
-        $data['draftpool'] = Draftpool::revealCards(); // Reveal any cards and pass the draftpool.
+        $data['draftpool'] = Draftpool::get();
         return $data;
     }
 
@@ -85,6 +85,11 @@ trait DiscardAvailableCardTrait {
             return true;
         }
         return false;
+    }
+
+    public function preEnterStateDiscardAvailableCard() {
+        // Always reveal cards that are available thanks to this Conspiracy.
+        Draftpool::revealCards(); // Pierre Berthelot: The Conspiracy card “Turn of events” is the exception that confirms the rule. Cards "released" by his action are returned immediately.
     }
 
 }
