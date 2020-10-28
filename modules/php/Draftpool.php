@@ -75,8 +75,7 @@ class Draftpool extends Base
         return in_array((int)$buildingId, $ids);
     }
 
-    public static function buildingRevealable($buildingId) {
-        $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
+    public static function buildingRevealable($age, $buildingId) {
         $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
 
@@ -112,10 +111,10 @@ class Draftpool extends Base
 
     public static function get($revealCards = false) {
         $actualAge = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
+        $age = $actualAge;
         if ($actualAge == 0 && SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
-            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE, 1);
+            $age = 1;
         }
-        $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
 
         $draftpool = [
             'age' => $actualAge,
@@ -152,7 +151,7 @@ class Draftpool extends Base
                         $positionsFound[] = ($row_index + 1) . "_" . $column;
                         $cardvisible = $row_index % 2 == 0;
                         // Determine if card is available because other cards have revealed it.
-                        $available = Draftpool::buildingRevealable($building->id, $revealCards);
+                        $available = Draftpool::buildingRevealable($age, $building->id, $revealCards);
 
                         if ($available) {
                             if ($revealCards && !in_array($building->id, $availableCardIds)) {
@@ -194,11 +193,7 @@ class Draftpool extends Base
                 }
             }
 
-            SevenWondersDuel::get()->setAvailableCardIds($availableCardIds);
-        }
-
-        if ($age <> $actualAge) {
-            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE, $actualAge);
+            if ($revealCards) SevenWondersDuel::get()->setAvailableCardIds($availableCardIds);
         }
 
         return $draftpool;
