@@ -373,8 +373,8 @@ $machinestates = [
 
     SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_ID => [
         "name" => SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_NAME,
-        "description" => clienttranslate('${actplayer} must choose one of the opponent\'s ${buildingType} cards to discard'),
-        "descriptionmyturn" => clienttranslate('${you} must choose one of the opponent\'s ${buildingType} cards to discard'),
+        "description" => clienttranslate('${actplayer} must choose one of the opponent\'s ${buildingTypeTranslatable} cards to discard'),
+        "descriptionmyturn" => clienttranslate('${you} must choose one of the opponent\'s ${buildingTypeTranslatable} cards to discard'),
         "type" => "activeplayer",
         "action" => "enterStateChooseOpponentBuilding",
         "args" => "argChooseOpponentBuilding",

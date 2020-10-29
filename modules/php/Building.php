@@ -367,7 +367,7 @@ class Building extends Item {
         }
     }
 
-    protected function getBuildingTypeString($type) {
+    public static function getBuildingTypeString($type) {
         switch($type){
             case Building::TYPE_BROWN:
                 return clienttranslate('Brown');

@@ -1839,7 +1839,7 @@ define([
                 else {
                     text.push([_('The Decree token in this Chamber is visible from the start of the game'), true]);
                 }
-                data.jsName = _("Senate Chamber " + chamber) + ' - ' + section;
+                data.jsName = _("Senate Chamber") + " " + chamber + ' - ' + section;
                 data.jsText = this.getTextHtml(text);
                 data.jsBackX = ((chamber - 1) % spritesheetColumns);
                 data.jsSection = chamber <= 2 ? 'left' : (chamber <= 4 ? 'center' : 'right');

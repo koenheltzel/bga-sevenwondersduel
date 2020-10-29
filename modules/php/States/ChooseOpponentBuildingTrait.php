@@ -28,6 +28,7 @@ trait ChooseOpponentBuildingTrait {
         }
         $data = [
             'buildingType' => $buildingType,
+            'buildingTypeTranslatable' => Building::getBuildingTypeString($buildingType),
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
