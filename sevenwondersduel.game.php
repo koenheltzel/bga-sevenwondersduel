@@ -429,7 +429,13 @@ class SevenWondersDuel extends Table
         $allAgeCardIds = array_keys($allAgeCards);
         $intersected = array_intersect($allAgeCardIds, $cardIds);
         $checkedIds = array_values($intersected);
-        $this->setGameStateValue(self::VALUE_AVAILABLE_CARDS, json_encode($checkedIds));
+
+        $currentValue = $this->getGameStateValue(self::VALUE_AVAILABLE_CARDS);
+        $newValue = json_encode($checkedIds);
+        if ($currentValue != $newValue) {
+            // Only update if value is different to what is in the database, in an attempt to reduce deadlocks.
+            $this->setGameStateValue(self::VALUE_AVAILABLE_CARDS, $newValue);
+        }
     }
 
     public function expansionActive() {

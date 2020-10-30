@@ -193,7 +193,9 @@ class Draftpool extends Base
                 }
             }
 
-            if ($revealCards) SevenWondersDuel::get()->setAvailableCardIds($availableCardIds);
+            if ($revealCards) {
+                SevenWondersDuel::get()->setAvailableCardIds($availableCardIds);
+            }
         }
 
         return $draftpool;
