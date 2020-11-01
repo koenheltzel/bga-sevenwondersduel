@@ -27,6 +27,16 @@ class ProgressToken extends Item
 
         SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_PROGRESS_TOKENS, $player->id);
 
+        $source = 'board';
+        if (SevenWondersDuel::get()->gamestate->state()['name'] == SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME) {
+            if (SevenWondersDuel::get()->progressTokenDeck->countCardInLocation('selection') == 2) {
+                $source = 'wonder';
+            }
+            else {
+                $source = 'conspiracy';
+            }
+        }
+
         SevenWondersDuel::get()->notifyAllPlayers(
             'progressTokenChosen',
             clienttranslate('${player_name} chose Progress token “${progressTokenName}”'),
@@ -38,6 +48,7 @@ class ProgressToken extends Item
                 'progressTokenId' => $this->id,
                 'progressTokenPosition' => count($player->getProgressTokenIds()),
                 'payment' => $payment,
+                'source' => $source,
             ]
         );
 

@@ -3089,7 +3089,12 @@ define([
                     // In case of "Choose progress token from box", the inactive player doesn't have the chosen
                     // progress token on the screen yet, so we place the progress token on the Wonder.
                     progressTokenNode = dojo.place(this.getProgressTokenDivHtml(notif.args.progressTokenId), container);
-                    this.placeOnObject(progressTokenNode, 'wonder_6');
+                    if (notif.args.source == 'wonder') {
+                        this.placeOnObject(progressTokenNode, 'wonder_6');
+                    }
+                    else if (notif.args.source == 'conspiracy') {
+                        this.placeOnObject(progressTokenNode, dojo.query('.conspiracy_compact[data-conspiracy-id="10"]')[0]);
+                    }
                 }
 
                 var anim = dojo.fx.chain([
