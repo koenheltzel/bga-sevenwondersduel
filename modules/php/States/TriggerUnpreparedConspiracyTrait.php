@@ -54,6 +54,7 @@ trait TriggerUnpreparedConspiracyTrait {
                         'wonderName' => Wonder::get(13)->name,
                     ]
                 );
+                return true;
             }
         }
         return false;
