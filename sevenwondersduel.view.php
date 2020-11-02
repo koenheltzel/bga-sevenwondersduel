@@ -313,6 +313,13 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
             $this->page->insert_block("block_catalog");
         }
 
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "admin");
+        global $g_user;
+        if (in_array($g_user->get_id(), SevenWondersDuel::adminPlayerIds)) {
+            $this->tpl['AVAILABLE_CARDS'] = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_AVAILABLE_CARDS);
+            $this->page->insert_block("admin");
+        }
+
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "swd");
         $this->page->insert_block("swd", [
             "AGORA" => (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA),

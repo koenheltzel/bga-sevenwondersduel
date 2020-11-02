@@ -282,6 +282,12 @@ class SevenWondersDuel extends Table
     const STAT_POLITICIAN_CARDS = "politician_cards";
     const STAT_CONSPIRATOR_CARDS = "conspirator_cards";
 
+    const adminPlayerIds = [
+        2310957, // JumpMaybe0 on Studio. Player doesn't exist on BGA.
+        2310958, // JumpMaybe1 on Studio. Player doesn't exist on BGA.
+        85142237, // JumpMaybe
+    ];
+
     /**
      * @var Deck
      */
@@ -432,7 +438,7 @@ class SevenWondersDuel extends Table
 
         $currentValue = $this->getGameStateValue(self::VALUE_AVAILABLE_CARDS);
         $newValue = json_encode($checkedIds);
-        if ($currentValue != $newValue) {
+        if ($currentValue !== $newValue) {
             // Only update if value is different to what is in the database, in an attempt to reduce deadlocks.
             $this->setGameStateValue(self::VALUE_AVAILABLE_CARDS, $newValue);
         }
@@ -668,6 +674,16 @@ class SevenWondersDuel extends Table
         }
 
         return (int)($wonderPercentage * 8 + $agePercentage * 92);
+    }
+
+    public function actionAdminFunction($function) {
+        if (in_array($this->getCurrentPlayerId(), self::adminPlayerIds)) {
+            switch($function) {
+                case "revealCards":
+                    Draftpool::revealCards();
+                    break;
+            }
+        }
     }
 
 

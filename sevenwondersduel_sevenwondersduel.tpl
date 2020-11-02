@@ -384,6 +384,16 @@
         </table>
     </div>
 
+    <!-- BEGIN admin -->
+    <div id="adminControls" class="whiteblock" style="margin-top: var(--gutter)">
+        <h3>Admin controls</h3>
+        <hr/>
+        <a id="revealCards" class="admin_function" style="cursor: pointer">Recalculate available cards (for bug introduced 27-10-2020)</a><br/>
+        Current: {AVAILABLE_CARDS}
+        <hr/>
+    </div>
+    <!-- END admin -->
+
     <!-- BEGIN block_catalog -->
     <div>
         <div class="whiteblock">

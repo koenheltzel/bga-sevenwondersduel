@@ -294,6 +294,10 @@ define([
                     .on("#swd[data-state=chooseProgressTokenFromBox] #progress_token_from_box_container .progress_token :click",
                         dojo.hitch(this, "onProgressTokenFromBoxClick")
                     );
+                dojo.query('body')
+                    .on("#adminControls a.admin_function :click",
+                        dojo.hitch(this, "onAdminFunctionClick")
+                    );
 
                 // Click handlers without event delegation:
                 dojo.query("#buttonConstructBuilding").on("click", dojo.hitch(this, "onPlayerTurnConstructBuildingClick"));
@@ -5526,6 +5530,33 @@ define([
                 dojo.cookie('swd_quality_v2', this.quality, { expires: this.cookieExpireDays });
 
                 dojo.attr('swd', 'data-quality', this.quality);
+            },
+
+            //     _       _           _          __                  _   _
+            //    / \   __| |_ __ ___ (_)_ __    / _|_   _ _ __   ___| |_(_) ___  _ __  ___
+            //   / _ \ / _` | '_ ` _ \| | '_ \  | |_| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
+            //  / ___ \ (_| | | | | | | | | | | |  _| |_| | | | | (__| |_| | (_) | | | \__ \
+            // /_/   \_\__,_|_| |_| |_|_|_| |_| |_|  \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
+
+            onAdminFunctionClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                var _function = e.target.id;
+
+                this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionAdminFunction.html", {
+                        function: _function
+                    },
+                    this, function (result) {
+                        // What to do after the server call if it succeeded
+                        // (most of the time: nothing)
+                        location.reload();
+                    }, function (is_error) {
+                        // What to do after the server call in anyway (success or failure)
+                        // (most of the time: nothing)
+
+                    }
+                );
             },
 
             //  _   _      _                   _____                 _   _

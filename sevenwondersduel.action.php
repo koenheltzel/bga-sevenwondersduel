@@ -321,6 +321,15 @@ class action_sevenwondersduel extends APP_GameAction
         self::ajaxResponse();
     }
 
+    public function actionAdminFunction() {
+        self::setAjaxMode();
+
+        $function = self::getArg("function", AT_alphanum, true);
+        SevenWondersDuel::get()->actionAdminFunction($function);
+
+        self::ajaxResponse();
+    }
+
 }
   
 
