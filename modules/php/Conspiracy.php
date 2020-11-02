@@ -298,7 +298,9 @@ class Conspiracy extends Item {
                 $playerBlueCount = count($player->getBuildings()->filterByTypes([Building::TYPE_BLUE])->array);
                 $opponentGreenCount = count($opponent->getBuildings()->filterByTypes([Building::TYPE_GREEN])->array);
                 $opponentBlueCount = count($opponent->getBuildings()->filterByTypes([Building::TYPE_BLUE])->array);
-                return ($playerGreenCount > 0 && $opponentGreenCount > 0) || ($playerBlueCount > 0 && $opponentBlueCount > 0);
+                $action1 = ($playerGreenCount > 0 && $opponentGreenCount > 0) || ($playerBlueCount > 0 && $opponentBlueCount > 0);
+                $action2 = $player->getCubes() < 12;
+                return $action1 || $action2;
                 break;
             case 15:
                 // There's always a Decree to move.
