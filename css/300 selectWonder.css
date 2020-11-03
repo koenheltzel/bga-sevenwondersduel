@@ -14,7 +14,7 @@
     --wonder-small-scale: calc(0.8 * var(--scale));
 }
 
-.current_player_is_active #swd[data-state=conspire] #wonder_selection_container > div, #swd[data-state=chooseConspireRemnantPosition] #wonder_selection_container > div {
+.current_player_is_active #swd[data-state=conspire] #wonder_selection_container > div, .current_player_is_active #swd[data-state=chooseConspireRemnantPosition] #wonder_selection_container > div {
     --wonder-small-scale: unset;
 }
 

@@ -2133,7 +2133,7 @@ define([
                     dojo.removeClass($('buttonConstructWonder'), 'bgabutton_darkgray');
                     dojo.addClass($('buttonConstructWonder'), canAffordWonder ? 'bgabutton_blue' : 'bgabutton_darkgray');
 
-                    let conspiraciesToPrepare = dojo.query('#player_conspiracies_' + this.player_id + ' .conspiracy_small[data-conspiracy-prepared="0"][data-conspiracy-triggered="0"][data-conspiracy-useful="1"]');
+                    let conspiraciesToPrepare = dojo.query('#player_conspiracies_' + this.player_id + ' .conspiracy_small[data-conspiracy-prepared="0"][data-conspiracy-triggered="0"]');
                     dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_blue', conspiraciesToPrepare.length > 0);
                     dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_darkgray', conspiraciesToPrepare.length == 0);
 
