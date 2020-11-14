@@ -85,13 +85,13 @@ define([
                             let tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
 
                             if (this.game.agora) {
-                                let playerNameContainer = dojo.query('.player_info.' + this.game.getPlayerAlias(active_player_id) + ' .player_area_name')[0];
+                                let playerNameContainer = dojo.query('.player_info.' + this.game.getPlayerAlias(token.tokenToPlayerId) + ' .player_area_name')[0];
 
                                 // Move and rotate military token to player.
                                 let yOffset = 7.5 * this.game.getCssVariable('--scale');
                                 let xOffset = (playerNameContainer.offsetWidth - tokenNode.offsetWidth) / 2;
                                 let rotateCompensation = (tokenNode.offsetHeight - tokenNode.offsetWidth) / 2
-                                if (active_player_id == this.game.me_id) {
+                                if (token.tokenToPlayerId == this.game.me_id) {
                                     yOffset = -rotateCompensation + -tokenNode.offsetWidth - yOffset;
                                 }
                                 else {

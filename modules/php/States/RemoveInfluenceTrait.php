@@ -30,7 +30,7 @@ trait RemoveInfluenceTrait {
             // Opponent still has all 12 cubes unused, so skip this state
             $this->notifyAllPlayers(
                 'message',
-                clienttranslate('${player_name} has no Influence cubes to remove'),
+                clienttranslate('${player_name}\'s opponent has no Influence cubes to remove'),
                 [
                     'player_name' => Player::opponent()->name,
                 ]

@@ -132,7 +132,7 @@ class Item extends Base
             MilitaryTrack::movePawn($player, $this->military, $payment);
 
             if($payment->getItem() instanceof Decree) {
-                $message = clienttranslate('${player_name} moves the Conflict pawn 1 space towards ${towards_player_name}\'s capital');
+                $message = clienttranslate('The Conflict pawn moves 1 space towards ${towards_player_name}\'s capital');
             }
             elseif($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
                 $message = clienttranslate('${player_name} moves the Conflict pawn ${steps} space(s) (+1 from Progress token “${progressTokenName}”)');
@@ -146,7 +146,7 @@ class Item extends Base
                 $message,
                 [
                     'i18n' => ['progressTokenName'],
-                    'player_name' => Player::getActive()->name, // Get the active player here. In case of Agora $player could be the opponent (when losing control of a chamber with the military Decree)
+                    'player_name' => $player->name,
                     'towards_player_name' => $player == Player::getActive() ? Player::getActive()->getOpponent()->name : Player::getActive()->name,
                     'steps' => $payment->militarySteps,
                     'progressTokenName' => ProgressToken::get(8)->name, //Strategy
@@ -155,6 +155,9 @@ class Item extends Base
 
             $opponent = $player->getOpponent();
             $payment->militarySenateActions = [];
+            if ($player !== Player::getActive() && SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA) && count($payment->militaryTokens) > 0) {
+                $payment->militarySenateActions[] = SevenWondersDuel::STATE_PLAYER_SWITCH_NAME;
+            }
             foreach($payment->militaryTokens as &$token) {
                 if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
                     if ($token['value'] == 2) {
@@ -163,7 +166,7 @@ class Item extends Base
                             'message',
                             clienttranslate('A small military token is removed, ${player_name} must place an Influence cube'),
                             [
-                                'player_name' => Player::getActive()->name,  // Get the active player here. In case of Agora $player could be the opponent (when losing control of a chamber with the military Decree)
+                                'player_name' => $player->name,
                             ]
                         );
                     }
@@ -174,7 +177,7 @@ class Item extends Base
                             'message',
                             clienttranslate('A large military token is removed, ${player_name} must remove an Influence cube and may move an Influence cube'),
                             [
-                                'player_name' => Player::getActive()->name,  // Get the active player here. In case of Agora $player could be the opponent (when losing control of a chamber with the military Decree)
+                                'player_name' => $player->name,
                             ]
                         );
                     }
@@ -206,6 +209,9 @@ class Item extends Base
                     }
                     $payment->militaryOpponentPays += $militaryOpponentPays;
                 }
+            }
+            if ($player !== Player::getActive() && SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA) && count($payment->militaryTokens) > 0) {
+                $payment->militarySenateActions[] = SevenWondersDuel::STATE_PLAYER_SWITCH_NAME;
             }
         }
     }

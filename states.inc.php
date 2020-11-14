@@ -264,6 +264,7 @@ $machinestates = [
         "transitions" => array_merge($militaryTokenTransitions, [ // For when the military Decree triggers a Military Token.
             SevenWondersDuel::STATE_SENATE_ACTIONS_NAME => SevenWondersDuel::STATE_SENATE_ACTIONS_ID,
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuel::STATE_PLAYER_SWITCH_NAME => SevenWondersDuel::STATE_PLAYER_SWITCH_ID,
             SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID, // Political supremacy
             SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ])
@@ -285,6 +286,7 @@ $machinestates = [
             SevenWondersDuel::STATE_WONDER_SELECTED_NAME => SevenWondersDuel::STATE_WONDER_SELECTED_ID,
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID, // Political supremacy
+            SevenWondersDuel::STATE_PLAYER_SWITCH_NAME => SevenWondersDuel::STATE_PLAYER_SWITCH_ID,
             SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ])
     ],
@@ -305,6 +307,7 @@ $machinestates = [
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID, // Political supremacy
+            SevenWondersDuel::STATE_PLAYER_SWITCH_NAME => SevenWondersDuel::STATE_PLAYER_SWITCH_ID,
             SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ])
     ],
@@ -325,6 +328,7 @@ $machinestates = [
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID, // Political supremacy
+            SevenWondersDuel::STATE_PLAYER_SWITCH_NAME => SevenWondersDuel::STATE_PLAYER_SWITCH_ID,
             SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ])
     ],
@@ -543,6 +547,7 @@ $machinestates = [
             SevenWondersDuel::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuel::STATE_REMOVE_INFLUENCE_ID, // Military token 5 if Decree 9 control is lost/gained
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuel::STATE_PLAYER_SWITCH_NAME => SevenWondersDuel::STATE_PLAYER_SWITCH_ID,
             SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
             SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ]
@@ -617,6 +622,10 @@ $machinestates = [
             SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID,
             SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuel::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
+            SevenWondersDuel::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuel::STATE_PLACE_INFLUENCE_ID,
+            SevenWondersDuel::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuel::STATE_REMOVE_INFLUENCE_ID,
+            SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuel::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuel::STATE_PLAYER_SWITCH_NAME => SevenWondersDuel::STATE_PLAYER_SWITCH_ID, // In case all military token actions are skipped.
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
             SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,

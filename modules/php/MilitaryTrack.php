@@ -31,6 +31,7 @@ class MilitaryTrack extends Base
                 $payment->militaryTokens[$i] = [
                     'number' => $militaryTokenNumber,
                     'value' => $militaryTokenValue,
+                    'tokenToPlayerId' => SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA) ? $player->id : $player->getOpponent()->id,
                 ];
             }
         }
