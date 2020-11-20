@@ -2,7 +2,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
+ * SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -315,15 +315,15 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
 
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "admin");
         global $g_user;
-        if (in_array($g_user->get_id(), SevenWondersDuel::adminPlayerIds)) {
-            $this->tpl['AVAILABLE_CARDS'] = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_AVAILABLE_CARDS);
+        if (in_array($g_user->get_id(), SevenWondersDuelPantheon::adminPlayerIds)) {
+            $this->tpl['AVAILABLE_CARDS'] = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_AVAILABLE_CARDS);
             $this->page->insert_block("admin");
         }
 
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "swd");
         $this->page->insert_block("swd", [
-            "AGORA" => (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA),
-            "EXPANSION" => (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA), // Any expansion, add || Pantheon in the future
+            "AGORA" => (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA),
+            "EXPANSION" => (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA), // Any expansion, add || Pantheon in the future
             "PLAYER_ME_ID" => Player::me()->id,
             "PLAYER_OPPONENT_ID" => Player::opponent()->id,
         ]);

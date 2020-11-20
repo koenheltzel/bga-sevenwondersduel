@@ -2,7 +2,7 @@
  /**
   *------
   * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
-  * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
+  * SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
   * 
   * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
   * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -53,7 +53,7 @@ else {
 }
 
 
-class SevenWondersDuel extends Table
+class SevenWondersDuelPantheon extends Table
 {
 
     use SWD\States\ChooseDiscardedBuildingTrait;
@@ -90,7 +90,7 @@ class SevenWondersDuel extends Table
     use SWD\States\PlayerSwitchTrait;
 
     /**
-     * @var SevenWondersDuel
+     * @var SevenWondersDuelPantheon
      */
     public static $instance;
 
@@ -319,7 +319,7 @@ class SevenWondersDuel extends Table
     public $influenceCubeDeck;
 
     public static function get() {
-        // We can assume self::$instance exists since SevenWondersDuel's constructor is the entry point for SWD code.
+        // We can assume self::$instance exists since SevenWondersDuelPantheon's constructor is the entry point for SWD code.
         return self::$instance;
     }
 
@@ -430,7 +430,7 @@ class SevenWondersDuel extends Table
     public function setAvailableCardIds($cardIds) {
         // First check what ids are in the draftpool, so we can remove ids that have been used already.
         $age = $this->getGameStateValue(self::VALUE_CURRENT_AGE);
-        $allAgeCards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $allAgeCards = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation("age{$age}");
         $allAgeCards = arrayWithPropertyAsKeys($allAgeCards, 'id');
         $allAgeCardIds = array_keys($allAgeCards);
         $intersected = array_intersect($allAgeCardIds, $cardIds);
@@ -598,10 +598,10 @@ class SevenWondersDuel extends Table
 
         $me = Player::me();
         $opponent = Player::opponent();
-        $result['discardedBuildings'] = SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
+        $result['discardedBuildings'] = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
         $result['playerBuildings'] = [
-            $me->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($me->id, null, 'card_location_arg'),
-            $opponent->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($opponent->id, null, 'card_location_arg'),
+            $me->id => SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation($me->id, null, 'card_location_arg'),
+            $opponent->id => SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation($opponent->id, null, 'card_location_arg'),
         ];
         $result['playersSituation'] = Players::getSituation((int)$this->getGameStateValue(self::VALUE_END_GAME_CONDITION) != 0);
         $result['buildings'] = Material::get()->buildings->array;

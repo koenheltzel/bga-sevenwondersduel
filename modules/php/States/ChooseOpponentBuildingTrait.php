@@ -2,7 +2,7 @@
 
 namespace SWD\States;
 
-use SevenWondersDuel;
+use SevenWondersDuelPantheon;
 use SWD\Building;
 use SWD\Conspiracy;
 use SWD\Draftpool;
@@ -53,7 +53,7 @@ trait ChooseOpponentBuildingTrait {
         }
         // TODO check if selected building is actually of the type that is allowed to discard?
 
-        SevenWondersDuel::get()->buildingDeck->insertCardOnExtremePosition($buildingId, 'discard', true);
+        SevenWondersDuelPantheon::get()->buildingDeck->insertCardOnExtremePosition($buildingId, 'discard', true);
 
         $building = Building::get($buildingId);
         if ($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER) > 0) {

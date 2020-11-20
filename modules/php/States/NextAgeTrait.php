@@ -2,7 +2,7 @@
 
 namespace SWD\States;
 
-use SevenWondersDuel;
+use SevenWondersDuelPantheon;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Players;
@@ -36,7 +36,7 @@ trait NextAgeTrait
 
         if ($age == 1) {
             if (!$this->expansionActive()) {
-                SevenWondersDuel::get()->notifyAllPlayers(
+                SevenWondersDuelPantheon::get()->notifyAllPlayers(
                     'nextAgeDraftpoolReveal',
                     '',
                     [
@@ -57,11 +57,11 @@ trait NextAgeTrait
             else{
                 $message = clienttranslate('${player_name} must choose who begins Age ${ageRoman} (because of weaker military position)');
                 // In case the pawn is NOT in the middle, the player that has the pawn on his side becomes the player to decide the start player.
-                $gameStartPlayerId = SevenWondersDuel::get()->getGameStartPlayerId();
+                $gameStartPlayerId = SevenWondersDuelPantheon::get()->getGameStartPlayerId();
                 $decisionPlayerId = $conflictPawnPosition < 0 ? $gameStartPlayerId : Player::opponent($gameStartPlayerId)->id;
                 $this->gamestate->changeActivePlayer($decisionPlayerId);
             }
-            SevenWondersDuel::get()->notifyAllPlayers(
+            SevenWondersDuelPantheon::get()->notifyAllPlayers(
                 'nextAgeDraftpoolReveal',
                 $message,
                 [

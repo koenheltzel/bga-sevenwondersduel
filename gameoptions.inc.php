@@ -3,7 +3,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
+ * SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -11,7 +11,7 @@
  *
  * gameoptions.inc.php
  *
- * SevenWondersDuel game options description
+ * SevenWondersDuelPantheon game options description
  *
  * In this file, you can define your game options (= game variants).
  *

@@ -2,7 +2,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
+ * SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
  * See http://en.doc.boardgamearena.com/Studio for more information.
@@ -10,7 +10,7 @@
  *
  * sevenwondersduelpantheon.action.php
  *
- * SevenWondersDuel main action entry point
+ * SevenWondersDuelPantheon main action entry point
  *
  *
  * In this file, you are describing all the methods that can be called from your
@@ -62,7 +62,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $wonderId = self::getArg("wonderId", AT_posint, true);
-        SevenWondersDuel::get()->actionSelectWonder($wonderId);
+        SevenWondersDuelPantheon::get()->actionSelectWonder($wonderId);
 
         self::ajaxResponse();
     }
@@ -71,7 +71,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $playerId = self::getArg("playerId", AT_posint, true);
-        SevenWondersDuel::get()->actionSelectStartPlayer($playerId);
+        SevenWondersDuelPantheon::get()->actionSelectStartPlayer($playerId);
 
         self::ajaxResponse();
     }
@@ -80,7 +80,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $buildingId = self::getArg("buildingId", AT_posint, true);
-        SevenWondersDuel::get()->actionConstructBuilding($buildingId);
+        SevenWondersDuelPantheon::get()->actionConstructBuilding($buildingId);
 
         self::ajaxResponse();
     }
@@ -89,7 +89,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $buildingId = self::getArg("buildingId", AT_posint, true);
-        SevenWondersDuel::get()->actionDiscardBuilding($buildingId);
+        SevenWondersDuelPantheon::get()->actionDiscardBuilding($buildingId);
 
         self::ajaxResponse();
     }
@@ -99,7 +99,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
 
         $buildingId = self::getArg("buildingId", AT_posint, true);
         $wonderId = self::getArg("wonderId", AT_posint, true);
-        SevenWondersDuel::get()->actionConstructWonder($buildingId, $wonderId);
+        SevenWondersDuelPantheon::get()->actionConstructWonder($buildingId, $wonderId);
 
         self::ajaxResponse();
     }
@@ -108,7 +108,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $progressTokenId = self::getArg("progressTokenId", AT_posint, true);
-        SevenWondersDuel::get()->actionChooseProgressToken($progressTokenId);
+        SevenWondersDuelPantheon::get()->actionChooseProgressToken($progressTokenId);
 
         self::ajaxResponse();
     }
@@ -117,7 +117,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $buildingId = self::getArg("buildingId", AT_posint, true);
-        SevenWondersDuel::get()->actionChooseOpponentBuilding($buildingId);
+        SevenWondersDuelPantheon::get()->actionChooseOpponentBuilding($buildingId);
 
         self::ajaxResponse();
     }
@@ -126,7 +126,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $progressTokenId = self::getArg("progressTokenId", AT_posint, true);
-        SevenWondersDuel::get()->actionChooseProgressTokenFromBox($progressTokenId);
+        SevenWondersDuelPantheon::get()->actionChooseProgressTokenFromBox($progressTokenId);
 
         self::ajaxResponse();
     }
@@ -135,7 +135,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $buildingId = self::getArg("buildingId", AT_posint, true);
-        SevenWondersDuel::get()->actionChooseDiscardedBuilding($buildingId);
+        SevenWondersDuelPantheon::get()->actionChooseDiscardedBuilding($buildingId);
 
         self::ajaxResponse();
     }
@@ -145,7 +145,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
     public function actionChooseConspiratorActionPlaceInfluence() {
         self::setAjaxMode();
 
-        SevenWondersDuel::get()->actionChooseConspiratorActionPlaceInfluence();
+        SevenWondersDuelPantheon::get()->actionChooseConspiratorActionPlaceInfluence();
 
         self::ajaxResponse();
     }
@@ -153,7 +153,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
     public function actionConspire() {
         self::setAjaxMode();
 
-        SevenWondersDuel::get()->actionConspire();
+        SevenWondersDuelPantheon::get()->actionConspire();
 
         self::ajaxResponse();
     }
@@ -162,7 +162,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $conspiracyId = self::getArg("conspiracyId", AT_posint, true);
-        SevenWondersDuel::get()->actionChooseConspiracy($conspiracyId);
+        SevenWondersDuelPantheon::get()->actionChooseConspiracy($conspiracyId);
 
         self::ajaxResponse();
     }
@@ -171,7 +171,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $top = self::getArg("top", AT_posint, true);
-        SevenWondersDuel::get()->actionChooseConspireRemnantPosition($top);
+        SevenWondersDuelPantheon::get()->actionChooseConspireRemnantPosition($top);
 
         self::ajaxResponse();
     }
@@ -181,7 +181,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
 
         $buildingId = self::getArg("buildingId", AT_posint, true);
         $conspiracyId = self::getArg("conspiracyId", AT_posint, true);
-        SevenWondersDuel::get()->actionPrepareConspiracy($buildingId, $conspiracyId);
+        SevenWondersDuelPantheon::get()->actionPrepareConspiracy($buildingId, $conspiracyId);
 
         self::ajaxResponse();
     }
@@ -190,7 +190,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $conspiracyId = self::getArg("conspiracyId", AT_posint, true);
-        SevenWondersDuel::get()->actionTriggerConspiracy($conspiracyId);
+        SevenWondersDuelPantheon::get()->actionTriggerConspiracy($conspiracyId);
 
         self::ajaxResponse();
     }
@@ -199,7 +199,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $chamber = self::getArg("chamber", AT_posint, true);
-        SevenWondersDuel::get()->actionPlaceInfluence($chamber);
+        SevenWondersDuelPantheon::get()->actionPlaceInfluence($chamber);
 
         self::ajaxResponse();
     }
@@ -209,7 +209,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
 
         $chamberFrom = self::getArg("chamberFrom", AT_posint, true);
         $chamberTo = self::getArg("chamberTo", AT_posint, true);
-        SevenWondersDuel::get()->actionMoveInfluence($chamberFrom, $chamberTo);
+        SevenWondersDuelPantheon::get()->actionMoveInfluence($chamberFrom, $chamberTo);
 
         self::ajaxResponse();
     }
@@ -217,7 +217,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
     public function actionSkipMoveInfluence() {
         self::setAjaxMode();
 
-        SevenWondersDuel::get()->actionSkipMoveInfluence();
+        SevenWondersDuelPantheon::get()->actionSkipMoveInfluence();
 
         self::ajaxResponse();
     }
@@ -226,7 +226,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $chamber = self::getArg("chamber", AT_posint, true);
-        SevenWondersDuel::get()->actionRemoveInfluence($chamber);
+        SevenWondersDuelPantheon::get()->actionRemoveInfluence($chamber);
 
         self::ajaxResponse();
     }
@@ -234,7 +234,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
     public function actionSkipTriggerUnpreparedConspiracy() {
         self::setAjaxMode();
 
-        SevenWondersDuel::get()->actionSkipTriggerUnpreparedConspiracy();
+        SevenWondersDuelPantheon::get()->actionSkipTriggerUnpreparedConspiracy();
 
         self::ajaxResponse();
     }
@@ -243,7 +243,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $buildingId = self::getArg("buildingId", AT_posint, true);
-        SevenWondersDuel::get()->actionConstructBuildingFromBox($buildingId);
+        SevenWondersDuelPantheon::get()->actionConstructBuildingFromBox($buildingId);
 
         self::ajaxResponse();
     }
@@ -252,7 +252,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $wonderId = self::getArg("wonderId", AT_posint, true);
-        SevenWondersDuel::get()->actionDestroyConstructedWonder($wonderId);
+        SevenWondersDuelPantheon::get()->actionDestroyConstructedWonder($wonderId);
 
         self::ajaxResponse();
     }
@@ -261,7 +261,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $buildingId = self::getArg("buildingId", AT_posint, true);
-        SevenWondersDuel::get()->actionDiscardAvailableCard($buildingId);
+        SevenWondersDuelPantheon::get()->actionDiscardAvailableCard($buildingId);
 
         self::ajaxResponse();
     }
@@ -269,7 +269,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
     public function actionSkipDiscardAvailableCard() {
         self::setAjaxMode();
 
-        SevenWondersDuel::get()->actionSkipDiscardAvailableCard();
+        SevenWondersDuelPantheon::get()->actionSkipDiscardAvailableCard();
 
         self::ajaxResponse();
     }
@@ -278,7 +278,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $progressTokenId = self::getArg("progressTokenId", AT_posint, true);
-        SevenWondersDuel::get()->actionLockProgressToken($progressTokenId);
+        SevenWondersDuelPantheon::get()->actionLockProgressToken($progressTokenId);
 
         self::ajaxResponse();
     }
@@ -288,7 +288,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
 
         $chamberFrom = self::getArg("chamberFrom", AT_posint, true);
         $chamberTo = self::getArg("chamberTo", AT_posint, true);
-        SevenWondersDuel::get()->actionMoveDecree($chamberFrom, $chamberTo);
+        SevenWondersDuelPantheon::get()->actionMoveDecree($chamberFrom, $chamberTo);
 
         self::ajaxResponse();
     }
@@ -298,7 +298,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
 
         $opponentBuildingId = self::getArg("opponentBuildingId", AT_posint, true);
         $meBuildingId = self::getArg("meBuildingId", AT_posint, true);
-        SevenWondersDuel::get()->actionSwapBuilding($opponentBuildingId, $meBuildingId);
+        SevenWondersDuelPantheon::get()->actionSwapBuilding($opponentBuildingId, $meBuildingId);
 
         self::ajaxResponse();
     }
@@ -307,7 +307,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $buildingId = self::getArg("buildingId", AT_posint, true);
-        SevenWondersDuel::get()->actionTakeBuilding($buildingId);
+        SevenWondersDuelPantheon::get()->actionTakeBuilding($buildingId);
 
         self::ajaxResponse();
     }
@@ -316,7 +316,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $wonderId = self::getArg("wonderId", AT_posint, true);
-        SevenWondersDuel::get()->actionTakeUnconstructedWonder($wonderId);
+        SevenWondersDuelPantheon::get()->actionTakeUnconstructedWonder($wonderId);
 
         self::ajaxResponse();
     }
@@ -325,7 +325,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $function = self::getArg("function", AT_alphanum, true);
-        SevenWondersDuel::get()->actionAdminFunction($function);
+        SevenWondersDuelPantheon::get()->actionAdminFunction($function);
 
         self::ajaxResponse();
     }
