@@ -8,7 +8,7 @@
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  *
- * sevenwondersduel.view.php
+ * sevenwondersduelpantheon.view.php
  *
  * This is your "view" file.
  *
@@ -17,7 +17,7 @@
  * _ when a player refreshes the game page (F5)
  *
  * "build_page" method allows you to dynamically modify the HTML generated for the game interface. In
- * particular, you can set here the values of variables elements defined in sevenwondersduel_sevenwondersduel.tpl (elements
+ * particular, you can set here the values of variables elements defined in sevenwondersduelpantheon_sevenwondersduelpantheon.tpl (elements
  * like {MY_VARIABLE_ELEMENT}), and insert HTML block elements (also defined in your HTML template file)
  *
  * Note: if the HTML of your game interface is always the same, you don't have to place anything here.
@@ -33,10 +33,10 @@ use SWD\Wonder;
 
 require_once(APP_BASE_PATH . "view/common/game.view.php");
 
-class view_sevenwondersduel_sevenwondersduel extends game_view
+class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
 {
     function getGameName() {
-        return "sevenwondersduel";
+        return "sevenwondersduelpantheon";
     }
 
     function build_page($viewArgs) {
@@ -78,25 +78,25 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
         /*********** Place your code below:  ************/
 
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row_info");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row_progress_tokens");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "influence_cube");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "influence_container");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_column_block");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "list_of_cards_page1");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "list_of_cards_page2");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board_player_row_info");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board_player_row_progress_tokens");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board_player_row");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board_player");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "influence_cube");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "influence_container");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board_column_block");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "list_of_cards_page1");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "list_of_cards_page2");
 
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", 'player_buildings');
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "draftpool");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_category_header");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_category_player");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_player");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "middle_column_block");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_wonders");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", 'player_buildings');
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "draftpool");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "end_game_category_header");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "end_game_category_player");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "end_game_player");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "end_game");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "middle_column_block");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "player_wonders");
 
         $boardPlayerClasses = ["board_player_left", "board_player_right"];
         $index = 0;
@@ -241,12 +241,12 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
 
 
         // The "catalog". For testing spritesheets / tooltips.
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_wonder");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_conspiracy");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_conspiracy_compact");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_building");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_progress_token");
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "block_catalog_wonder");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "block_catalog_conspiracy");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "block_catalog_conspiracy_compact");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "block_catalog_building");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "block_catalog_progress_token");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "block_catalog");
         if (0) {
             $this->page->reset_subblocks('block_catalog_building');
             for ($id = 1; $id <= 82; $id++) {
@@ -313,14 +313,14 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
             $this->page->insert_block("block_catalog");
         }
 
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "admin");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "admin");
         global $g_user;
         if (in_array($g_user->get_id(), SevenWondersDuel::adminPlayerIds)) {
             $this->tpl['AVAILABLE_CARDS'] = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_AVAILABLE_CARDS);
             $this->page->insert_block("admin");
         }
 
-        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "swd");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "swd");
         $this->page->insert_block("swd", [
             "AGORA" => (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA),
             "EXPANSION" => (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA), // Any expansion, add || Pantheon in the future
@@ -352,7 +352,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         //      <!-- END myblock --> 
         
 
-        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "myblock" );
+        $this->page->begin_block( "sevenwondersduelpantheon_sevenwondersduelpantheon", "myblock" );
         foreach( $players as $player )
         {
             $this->page->insert_block( "myblock", array( 

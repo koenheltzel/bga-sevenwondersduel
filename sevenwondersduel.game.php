@@ -8,7 +8,7 @@
   * See http://en.boardgamearena.com/#!doc/Studio for more information.
   * -----
   * 
-  * sevenwondersduel.game.php
+  * sevenwondersduelpantheon.game.php
   *
   * This is the main file for your game logic.
   *
@@ -451,7 +451,7 @@ class SevenWondersDuel extends Table
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
-        return "sevenwondersduel";
+        return "sevenwondersduelpantheon";
     }
 
     /*
@@ -703,7 +703,7 @@ class SevenWondersDuel extends Table
 
     /*
         Each time a player is doing some game action, one of the methods below is called.
-        (note: each method below must match an input method in sevenwondersduel.action.php)
+        (note: each method below must match an input method in sevenwondersduelpantheon.action.php)
     */
 
     /*

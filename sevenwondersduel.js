@@ -7,7 +7,7 @@
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  *
- * sevenwondersduel.js
+ * sevenwondersduelpantheon.js
  *
  * SevenWondersDuel user interface script
  *
@@ -30,7 +30,7 @@ define([
         g_gamethemeurl + "modules/js/MilitaryTrackAnimator.js",
     ],
     function (dojo, declare, on, dom, cookie) {
-        return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
+        return declare("bgagame.sevenwondersduelpantheon", ebg.core.gamegui, {
 
             instance: null,
 
@@ -98,7 +98,7 @@ define([
             choose_conspire_remnant_position_duration: 1600,
 
             constructor: function () {
-                bgagame.sevenwondersduel.instance = this;
+                bgagame.sevenwondersduelpantheon.instance = this;
 
                 // Tooltip settings
                 // dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
@@ -452,7 +452,7 @@ define([
                 In this method, you associate each of your game notifications with your local method to handle it.
 
                 Note: game notification names correspond to "notifyAllPlayers" and "notifyPlayer" calls in
-                      your sevenwondersduel.game.php file.
+                      your sevenwondersduelpantheon.game.php file.
 
             */
             setupNotifications: function () {
@@ -1989,7 +1989,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSelectWonder.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionSelectWonder.html", {
                             lock: true,
                             wonderId: wonder.attr('data-wonder-id')
                         },
@@ -2183,7 +2183,7 @@ define([
                     var conspiracyNode = dojo.hasClass(e.target, 'conspiracy') ? e.target : dojo.query(e.target).closest(".conspiracy")[0];
                     var conspiracyId = dojo.attr(conspiracyNode, "data-conspiracy-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionTriggerConspiracy.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionTriggerConspiracy.html", {
                             lock: true,
                             conspiracyId: conspiracyId,
                         },
@@ -2320,7 +2320,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionConstructBuilding.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId
                         },
@@ -2473,7 +2473,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionDiscardBuilding.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId
                         },
@@ -2578,7 +2578,7 @@ define([
                     var wonderNode = dojo.hasClass(e.target, 'wonder') ? e.target : dojo.query(e.target).closest(".wonder")[0];
                     var wonderId = dojo.attr(wonderNode, "data-wonder-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionConstructWonder.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId,
                             wonderId: wonderId,
@@ -2796,7 +2796,7 @@ define([
                     var conspiracyNode = dojo.hasClass(e.target, 'conspiracy') ? e.target : dojo.query(e.target).closest(".conspiracy")[0];
                     var conspiracyId = dojo.attr(conspiracyNode, "data-conspiracy-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionPrepareConspiracy.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionPrepareConspiracy.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId,
                             conspiracyId: conspiracyId,
@@ -2932,7 +2932,7 @@ define([
 
                     var buildingId = dojo.attr(e.target, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseOpponentBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseOpponentBuilding.html", {
                             lock: true,
                             buildingId: buildingId
                         },
@@ -3018,7 +3018,7 @@ define([
 
                     var buildingId = dojo.attr(e.target, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseDiscardedBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseDiscardedBuilding.html", {
                             lock: true,
                             buildingId: buildingId
                         },
@@ -3062,7 +3062,7 @@ define([
                     var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
                     var progressTokenId = progressToken.attr("data-progress-token-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseProgressToken.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseProgressToken.html", {
                             lock: true,
                             progressTokenId: progressTokenId
                         },
@@ -3182,7 +3182,7 @@ define([
 
                     var playerId = dojo.attr(e.target, "data-player-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSelectStartPlayer.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionSelectStartPlayer.html", {
                             lock: true,
                             playerId: playerId
                         },
@@ -3237,7 +3237,7 @@ define([
                 var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
                 var progressTokenId = progressToken.attr("data-progress-token-id");
 
-                this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseProgressTokenFromBox.html", {
+                this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseProgressTokenFromBox.html", {
                         lock: true,
                         progressTokenId: progressTokenId
                     },
@@ -3284,7 +3284,7 @@ define([
                                 return;
                             }
 
-                            this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConspire.html", {
+                            this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionConspire.html", {
                                     lock: true
                                 },
                                 this, function (result) {
@@ -3304,7 +3304,7 @@ define([
                                 return;
                             }
 
-                            this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseConspiratorActionPlaceInfluence.html", {
+                            this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseConspiratorActionPlaceInfluence.html", {
                                     lock: true
                                 },
                                 this, function (result) {
@@ -3394,7 +3394,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseConspiracy.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseConspiracy.html", {
                             conspiracyId: conspiracyId,
                             lock: true
                         },
@@ -3611,7 +3611,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseConspireRemnantPosition.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseConspireRemnantPosition.html", {
                             top: top,
                             lock: true
                         },
@@ -3854,7 +3854,7 @@ define([
 
                     var chamber = dojo.attr(e.target, "data-chamber");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionPlaceInfluence.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionPlaceInfluence.html", {
                             chamber: chamber,
                             lock: true
                         },
@@ -3983,7 +3983,7 @@ define([
 
                     var chamber = dojo.attr(e.target, "data-chamber");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionMoveInfluence.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionMoveInfluence.html", {
                             chamberFrom: this.moveInfluenceFrom,
                             chamberTo: chamber,
                             lock: true
@@ -4047,7 +4047,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSkipMoveInfluence.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionSkipMoveInfluence.html", {
                             lock: true
                         },
                         this, function (result) {
@@ -4091,7 +4091,7 @@ define([
 
                     var chamber = dojo.attr(e.target, "data-chamber");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionRemoveInfluence.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionRemoveInfluence.html", {
                             chamber: chamber,
                             lock: true
                         },
@@ -4174,7 +4174,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSkipTriggerUnpreparedConspiracy.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionSkipTriggerUnpreparedConspiracy.html", {
                             lock: true
                         },
                         this, function (result) {
@@ -4242,7 +4242,7 @@ define([
 
                     var buildingId = dojo.attr(e.target, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuildingFromBox.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionConstructBuildingFromBox.html", {
                             lock: true,
                             buildingId: buildingId
                         },
@@ -4285,7 +4285,7 @@ define([
                     var building = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
                     var buildingId = dojo.attr(building, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionConstructBuilding.html", {
                             lock: true,
                             buildingId: buildingId
                         },
@@ -4327,7 +4327,7 @@ define([
 
                     var wonderId = dojo.attr(e.target, "data-wonder-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDestroyConstructedWonder.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionDestroyConstructedWonder.html", {
                             lock: true,
                             wonderId: wonderId
                         },
@@ -4462,7 +4462,7 @@ define([
 
                     var buildingId = dojo.attr(building, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardAvailableCard.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionDiscardAvailableCard.html", {
                             lock: true,
                             buildingId: buildingId
                         },
@@ -4495,7 +4495,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSkipDiscardAvailableCard.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionSkipDiscardAvailableCard.html", {
                             lock: true
                         },
                         this, function (result) {
@@ -4556,7 +4556,7 @@ define([
                     var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
                     var progressTokenId = dojo.attr(progressToken[0], "data-progress-token-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionLockProgressToken.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionLockProgressToken.html", {
                             lock: true,
                             progressTokenId: progressTokenId
                         },
@@ -4698,7 +4698,7 @@ define([
 
                     var chamber = dojo.attr(e.target, "data-chamber");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionMoveDecree.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionMoveDecree.html", {
                             lock: true,
                             chamberFrom: this.moveDecreeFrom,
                             chamberTo: chamber,
@@ -4775,7 +4775,7 @@ define([
                     }
 
                     if (this.swapOpponentBuildingId > 0 && this.swapMeBuildingId > 0) {
-                        this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSwapBuilding.html", {
+                        this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionSwapBuilding.html", {
                                 lock: true,
                                 opponentBuildingId: this.swapOpponentBuildingId,
                                 meBuildingId: this.swapMeBuildingId
@@ -4865,7 +4865,7 @@ define([
 
                     var buildingId = dojo.attr(e.target, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionTakeBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionTakeBuilding.html", {
                             lock: true,
                             buildingId: buildingId
                         },
@@ -4940,7 +4940,7 @@ define([
 
                     var wonderId = dojo.attr(e.target, "data-wonder-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionTakeUnconstructedWonder.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionTakeUnconstructedWonder.html", {
                             lock: true,
                             wonderId: wonderId
                         },
@@ -5544,7 +5544,7 @@ define([
 
                 var _function = e.target.id;
 
-                this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionAdminFunction.html", {
+                this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionAdminFunction.html", {
                         function: _function
                     },
                     this, function (result) {

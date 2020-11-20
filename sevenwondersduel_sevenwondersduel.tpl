@@ -9,7 +9,7 @@
 -- See http://en.boardgamearena.com/#!doc/Studio for more information.
 -------
 
-    sevenwondersduel_sevenwondersduel.tpl
+    sevenwondersduelpantheon_sevenwondersduelpantheon.tpl
     
     This is the HTML template of your game.
     

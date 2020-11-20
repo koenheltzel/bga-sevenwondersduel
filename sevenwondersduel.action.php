@@ -8,7 +8,7 @@
  * See http://en.doc.boardgamearena.com/Studio for more information.
  * -----
  *
- * sevenwondersduel.action.php
+ * sevenwondersduelpantheon.action.php
  *
  * SevenWondersDuel main action entry point
  *
@@ -17,12 +17,12 @@
  * user interface logic (javascript).
  *
  * If you define a method "myAction" here, then you can call it from your javascript code with:
- * this.ajaxcall( "/sevenwondersduel/sevenwondersduel/myAction.html", ...)
+ * this.ajaxcall( "/sevenwondersduelpantheon/sevenwondersduelpantheon/myAction.html", ...)
  *
  */
 
 
-class action_sevenwondersduel extends APP_GameAction
+class action_sevenwondersduelpantheon extends APP_GameAction
 {
     // Constructor: please do not modify
     public function __default() {
@@ -30,7 +30,7 @@ class action_sevenwondersduel extends APP_GameAction
             $this->view = "common_notifwindow";
             $this->viewArgs['table'] = self::getArg("table", AT_posint, true);
         } else {
-            $this->view = "sevenwondersduel_sevenwondersduel";
+            $this->view = "sevenwondersduelpantheon_sevenwondersduelpantheon";
             self::trace("Complete reinitialization of board game");
         }
     }
