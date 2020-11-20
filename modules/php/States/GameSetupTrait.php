@@ -12,6 +12,7 @@ trait GameSetupTrait
 
     public function enterStateGameSetup() {
         $agora = $this->getGameStateValue(self::OPTION_AGORA);
+        $pantheon = $this->getGameStateValue(self::OPTION_PANTHEON);
 
         // Set up two 4-wonders selection pools, rest of the wonders go back to the box.
         $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards(1, 12));
@@ -46,13 +47,24 @@ trait GameSetupTrait
             $this->buildingDeck->shuffle("age{$age}");
             $this->buildingDeck->pickCardsForLocation(3, "age{$age}", 'box');
             if ($age == 3) {
-                // Then randomly draw 3 Guild cards and add them to the Age 3 deck.
-                $this->buildingDeck->createCards(Material::get()->buildings->filterByAge(4)->getDeckCards(), 'guilds' );
-                $this->buildingDeck->shuffle( 'guilds' );
-                $this->buildingDeck->pickCardsForLocation(3, 'guilds', 'age3');
-                $this->buildingDeck->shuffle( 'age3' );
-                // Return the remaining Guilds to the box.
-                $this->buildingDeck->moveAllCardsInLocation( 'guilds', 'box');
+                if ($pantheon) {
+                    // Then randomly draw 3 Grand Temple cards and add them to the Age 3 deck.
+                    $this->buildingDeck->createCards(Material::get()->buildings->getDeckCards(87, 91), 'grandtemples' );
+                    $this->buildingDeck->shuffle( 'grandtemples' );
+                    $this->buildingDeck->pickCardsForLocation(3, 'grandtemples', 'age3');
+                    $this->buildingDeck->shuffle( 'age3' );
+                    // Return the remaining Guilds to the box.
+                    $this->buildingDeck->moveAllCardsInLocation( 'grandtemples', 'box');
+                }
+                else {
+                    // Then randomly draw 3 Guild cards and add them to the Age 3 deck.
+                    $this->buildingDeck->createCards(Material::get()->buildings->filterByAge(4)->getDeckCards(), 'guilds' );
+                    $this->buildingDeck->shuffle( 'guilds' );
+                    $this->buildingDeck->pickCardsForLocation(3, 'guilds', 'age3');
+                    $this->buildingDeck->shuffle( 'age3' );
+                    // Return the remaining Guilds to the box.
+                    $this->buildingDeck->moveAllCardsInLocation( 'guilds', 'box');
+                }
             }
             if ($agora) {
                 // Add 5 (Age 1 & 2) or 3 (Age 3) senator cards.

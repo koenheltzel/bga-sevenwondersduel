@@ -226,6 +226,10 @@ class SevenWondersDuelPantheon extends Table
     const OPTION_AGORA = "option_agora";
     const OPTION_AGORA_WONDERS = "option_agora_wonders";
     const OPTION_AGORA_PROGRESS_TOKENS = "option_agora_progress_tokens";
+    
+    const OPTION_PANTHEON = "option_pantheon";
+    const OPTION_PANTHEON_WONDERS = "option_pantheon_wonders";
+    const OPTION_PANTHEON_PROGRESS_TOKENS = "option_pantheon_progress_tokens";
 
     // End game scoring categories
     const SCORE_WONDERS = "wonders";
@@ -360,6 +364,9 @@ class SevenWondersDuelPantheon extends Table
                 self::VALUE_MAY_TRIGGER_CONSPIRACY => 38,
                 self::VALUE_DISCARD_AVAILABLE_CARD_ROUND => 39,
                 // Game variants
+                self::OPTION_PANTHEON => 105,
+                self::OPTION_PANTHEON_WONDERS => 106,
+                self::OPTION_PANTHEON_PROGRESS_TOKENS => 107,
                 self::OPTION_AGORA => 110,
                 self::OPTION_AGORA_WONDERS => 111,
                 self::OPTION_AGORA_PROGRESS_TOKENS => 112,
@@ -374,8 +381,14 @@ class SevenWondersDuelPantheon extends Table
         $this->progressTokenDeck = self::getNew( "module.common.deck" );
         $this->progressTokenDeck->init( "progress_token" );
 
+        // Start Pantheon
+        // Checking whether Pantheon is active isn't possible here. So create the deck objects anyway.
+        $this->divinityDeck = self::getNew( "module.common.deck" );
+        $this->divinityDeck->init( "divinity" );
+        // End Pantheon
+
         // Start Agora
-        // Checking wether Agora is active isn't possible here. So create the deck objects anyway.
+        // Checking whether Agora is active isn't possible here. So create the deck objects anyway.
         $this->decreeDeck = self::getNew( "module.common.deck" );
         $this->decreeDeck->init( "decree" );
 
@@ -385,6 +398,7 @@ class SevenWondersDuelPantheon extends Table
         $this->influenceCubeDeck = self::getNew( "module.common.deck" );
         $this->influenceCubeDeck->init( "influence_cube" );
         // End Agora
+
 	}
 
     /**
@@ -445,7 +459,7 @@ class SevenWondersDuelPantheon extends Table
     }
 
     public function expansionActive() {
-        return $this->getGameStateValue(self::OPTION_AGORA);
+        return $this->getGameStateValue(self::OPTION_AGORA) || $this->getGameStateValue(self::OPTION_PANTHEON);
     }
 
     protected function getGameName( )
@@ -558,6 +572,10 @@ class SevenWondersDuelPantheon extends Table
             self::initStat('player', self::STAT_POLITICIAN_CARDS, 0);
             self::initStat('player', self::STAT_CONSPIRATOR_CARDS, 0);
         }
+        // Pantheon
+        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+
+        }
         // TODO: setup the initial game situation here
 
         $this->enterStateGameSetup(); // This state function isn't called automatically apparently.
@@ -621,6 +639,7 @@ class SevenWondersDuelPantheon extends Table
             $opponent->id => json_decode(json_encode($opponent), true),
         ];
         $result['agora'] = (int)$this->getGameStateValue(self::OPTION_AGORA);
+        $result['pantheon'] = (int)$this->getGameStateValue(self::OPTION_PANTHEON);
         if ($result['agora']) {
             $result['conspiraciesSituation'] = Conspiracies::getSituation();
             $result['conspiracies'] = Material::get()->conspiracies->array;

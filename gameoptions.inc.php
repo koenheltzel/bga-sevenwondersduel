@@ -50,6 +50,59 @@ $game_options = [
 
     */
 
+    105 => [
+        'name' => totranslate('Expansion: Pantheon'),
+        'values' => [
+            0 => ['name' => totranslate('No')],
+            1 => [
+                'name' => totranslate('Yes'),
+                'tmdisplay' => totranslate('Expansion: Pantheon'),
+                'description' => totranslate('Pantheon offers players the ability to invoke powerful Divinities to benefit from their powers. During Age I, the players will choose the Divinities they will be able to invoke during Ages II and III.'),
+                'beta' => true,
+                'nobeginner' => true
+            ]
+        ],
+        'default' => 0
+    ],
+    106 => [
+        'name' => totranslate('Guarantee Pantheon Wonders (testing option)'),
+        'values' => [
+            0 => ['name' => totranslate('No')],
+            1 => [
+                'name' => totranslate('Yes'),
+                'description' => totranslate('Guarantees the inclusion of the 2 Pantheon Wonders for testing purposes.'),
+                'beta' => true,
+            ]
+        ],
+        'default' => 0,
+        'displaycondition' => [ // Note: do not display this option unless these conditions are met
+            [
+                'type' => 'otheroption',
+                'id' => 105,
+                'value' => 1
+            ]
+        ],
+    ],
+    107 => [
+        'name' => totranslate('Guarantee Pantheon Progress Tokens (testing option)'),
+        'values' => [
+            0 => ['name' => totranslate('No')],
+            1 => [
+                'name' => totranslate('Yes'),
+                'description' => totranslate('Guarantees the inclusion of the 3 Pantheon Progress Tokens for testing purposes.'),
+                'beta' => true,
+            ]
+        ],
+        'default' => 0,
+        'displaycondition' => [ // Note: do not display this option unless these conditions are met
+            [
+                'type' => 'otheroption',
+                'id' => 105,
+                'value' => 1
+            ]
+        ],
+    ],
+
     110 => [
         'name' => totranslate('Expansion: Agora'),
         'values' => [
@@ -64,44 +117,44 @@ $game_options = [
         ],
         'default' => 0
     ],
-//    111 => [
-//        'name' => totranslate('Guarantee Agora Wonders (testing option)'),
-//        'values' => [
-//            0 => ['name' => totranslate('No')],
-//            1 => [
-//                'name' => totranslate('Yes'),
-//                'description' => totranslate('Guarantees the inclusion of the 2 Agora Wonders for testing purposes.'),
-//                'beta' => true,
-//            ]
-//        ],
-//        'default' => 0,
-//        'displaycondition' => [ // Note: do not display this option unless these conditions are met
-//            [
-//                'type' => 'otheroption',
-//                'id' => 110,
-//                'value' => 1
-//            ]
-//        ],
-//    ],
-//    112 => [
-//        'name' => totranslate('Guarantee Agora Progress Tokens (testing option)'),
-//        'values' => [
-//            0 => ['name' => totranslate('No')],
-//            1 => [
-//                'name' => totranslate('Yes'),
-//                'description' => totranslate('Guarantees the inclusion of the 2 Agora Progress Tokens for testing purposes.'),
-//                'beta' => true,
-//            ]
-//        ],
-//        'default' => 0,
-//        'displaycondition' => [ // Note: do not display this option unless these conditions are met
-//            [
-//                'type' => 'otheroption',
-//                'id' => 110,
-//                'value' => 1
-//            ]
-//        ],
-//    ]
+    111 => [
+        'name' => totranslate('Guarantee Agora Wonders (testing option)'),
+        'values' => [
+            0 => ['name' => totranslate('No')],
+            1 => [
+                'name' => totranslate('Yes'),
+                'description' => totranslate('Guarantees the inclusion of the 2 Agora Wonders for testing purposes.'),
+                'beta' => true,
+            ]
+        ],
+        'default' => 0,
+        'displaycondition' => [ // Note: do not display this option unless these conditions are met
+            [
+                'type' => 'otheroption',
+                'id' => 110,
+                'value' => 1
+            ]
+        ],
+    ],
+    112 => [
+        'name' => totranslate('Guarantee Agora Progress Tokens (testing option)'),
+        'values' => [
+            0 => ['name' => totranslate('No')],
+            1 => [
+                'name' => totranslate('Yes'),
+                'description' => totranslate('Guarantees the inclusion of the 2 Agora Progress Tokens for testing purposes.'),
+                'beta' => true,
+            ]
+        ],
+        'default' => 0,
+        'displaycondition' => [ // Note: do not display this option unless these conditions are met
+            [
+                'type' => 'otheroption',
+                'id' => 110,
+                'value' => 1
+            ]
+        ],
+    ]
 
 ];
 

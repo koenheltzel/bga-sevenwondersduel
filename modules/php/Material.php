@@ -22,6 +22,11 @@ class Material extends Base
     public $wonders;
 
     /**
+     * @var Divinities
+     */
+    public $divinities;
+
+    /**
      * @var Conspiracies
      */
     public $conspiracies;
@@ -147,6 +152,16 @@ class Material extends Base
             ->addActionState(SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_NAME)
             ->addActionState(SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME)
             ->setVictoryPoints(3);
+
+        $this->wonders[15] = (new Wonder(15, clienttranslate("The Sanctuary")))
+            ->setCost([PAPYRUS => 1, GLASS => 1, STONE => 2])
+//            ->addActionState(SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME)
+            ->setExtraTurn();
+
+        $this->wonders[16] = (new Wonder(16, clienttranslate("The Divine Theater")))
+            ->setCost([PAPYRUS => 2, GLASS => 1, WOOD => 2])
+//            ->addActionState(SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME)
+            ->setVictoryPoints(2);
         
         //     _                  ___
         //    / \   __ _  ___    |_ _|
@@ -603,6 +618,21 @@ class Material extends Base
                 ->addText(clienttranslate('Conspire (draw 2 Conspiracies and choose 1 to keep)'));
         }
 
+        $this->buildings[87] = (new Building(87, 4, clienttranslate("Mesopotamian Grand Temple"), Building::TYPE_PURPLE))
+            ->setCost([WOOD => 3, GLASS => 1, PAPYRUS => 1]);
+
+        $this->buildings[88] = (new Building(88, 4, clienttranslate("Phoenician Grand Temple"), Building::TYPE_PURPLE))
+            ->setCost([WOOD => 1, STONE => 1, GLASS => 1, PAPYRUS => 2]);
+
+        $this->buildings[89] = (new Building(89, 4, clienttranslate("Greek Grand Temple"), Building::TYPE_PURPLE))
+            ->setCost([STONE => 3, GLASS => 1, PAPYRUS => 1]);
+
+        $this->buildings[90] = (new Building(90, 4, clienttranslate("Egyptian Grand Temple"), Building::TYPE_PURPLE))
+            ->setCost([CLAY => 3, GLASS => 1, PAPYRUS => 1]);
+
+        $this->buildings[91] = (new Building(91, 4, clienttranslate("Roman Grand Temple"), Building::TYPE_PURPLE))
+            ->setCost([CLAY => 1, STONE => 1, GLASS => 2, PAPYRUS => 1]);
+
         // Set the link relationship in the other way, to add text to the tooltip about it.
         Building::get(9)->setLinkedBuilding(29);
         Building::get(10)->setLinkedBuilding(30);
@@ -694,6 +724,71 @@ class Material extends Base
 
         $this->progressTokens[12] = (new ProgressToken(12, clienttranslate("Organized Crime")))
             ->addText(clienttranslate("When you Conspire, keep both Conspiracy cards drawn and place them face down in front of you."));
+
+        $this->progressTokens[13] = (new ProgressToken(13, clienttranslate("Mysticism")))
+            ->addText(clienttranslate("At the end of the game, you score 2 victory points for each Mythology token and each Offering token still in your possession."));
+
+        $this->progressTokens[14] = (new ProgressToken(14, clienttranslate("Poliorcetics")))
+            ->addText(clienttranslate("Each time you move the Conflict token forward on the track, your opponent loses a coin for each space moved."));
+
+        $this->progressTokens[15] = (new ProgressToken(15, clienttranslate("Engineering")))
+            ->addText(clienttranslate("You can construct, for 1 coin, any card which has, under its cost, a chaining symbol (white symbol), even if your city doesn’t contain the Building or the token which has that symbol."));
+
+        //  ____  _       _       _ _   _
+        // |  _ \(_)_   _(_)_ __ (_) |_(_) ___  ___
+        // | | | | \ \ / / | '_ \| | __| |/ _ \/ __|
+        // | |_| | |\ V /| | | | | | |_| |  __/\__ \
+        // |____/|_| \_/ |_|_| |_|_|\__|_|\___||___/
+
+        $this->divinities = new Divinities();
+
+        $this->divinities[1] = (new Divinity(1, clienttranslate("Enki"), Divinity::TYPE_GREEN))
+            ->addText(clienttranslate("When Enki is revealed, randomly draw 2 Progress tokens from those discarded at the beginning of the game. These tokens are placed face-up on Enki’s card. When you invoke Enki, choose one of these two Progress tokens and gain it. The other token is returned to the box with those discarded at the beginning of the game."));
+
+        $this->divinities[2] = (new Divinity(2, clienttranslate("Ishtar"), Divinity::TYPE_GREEN))
+            ->addText(clienttranslate("When"));
+
+        $this->divinities[3] = (new Divinity(3, clienttranslate("Nisaba"), Divinity::TYPE_GREEN))
+            ->addText(clienttranslate("When"));
+
+        $this->divinities[4] = (new Divinity(4, clienttranslate("Astarte"), Divinity::TYPE_YELLOW))
+            ->addText(clienttranslate("When"));
+
+        $this->divinities[5] = (new Divinity(5, clienttranslate("Baal"), Divinity::TYPE_YELLOW))
+            ->addText(clienttranslate("When"));
+
+        $this->divinities[6] = (new Divinity(6, clienttranslate("Tanit"), Divinity::TYPE_YELLOW))
+            ->addText(clienttranslate("When"));
+
+        $this->divinities[7] = (new Divinity(7, clienttranslate("Aphrodite"), Divinity::TYPE_BLUE))
+            ->addText(clienttranslate("When"));
+
+        $this->divinities[8] = (new Divinity(8, clienttranslate("Hades"), Divinity::TYPE_BLUE))
+            ->addText(clienttranslate("When"));
+
+        $this->divinities[9] = (new Divinity(9, clienttranslate("Zeus"), Divinity::TYPE_BLUE))
+            ->addText(clienttranslate("When Enki is revealed, randomly draw 2 Progress tokens from those discarded at the beginning of the game. These tokens are placed face-up on Enki’s card. When you invoke Enki, choose one of these two Progress tokens and gain it. The other token is returned to the box with those discarded at the beginning of the game."));
+
+        $this->divinities[10] = (new Divinity(10, clienttranslate("Anubis"), Divinity::TYPE_GREY))
+            ->addText(clienttranslate("When"));
+
+        $this->divinities[11] = (new Divinity(11, clienttranslate("Isis"), Divinity::TYPE_GREY))
+            ->addText(clienttranslate("When"));
+
+        $this->divinities[12] = (new Divinity(12, clienttranslate("Ra"), Divinity::TYPE_GREY))
+            ->addText(clienttranslate("When"));
+
+        $this->divinities[13] = (new Divinity(13, clienttranslate("Mars"), Divinity::TYPE_RED))
+            ->addText(clienttranslate("When"));
+
+        $this->divinities[14] = (new Divinity(14, clienttranslate("Minerva"), Divinity::TYPE_RED))
+            ->addText(clienttranslate("When"));
+
+        $this->divinities[15] = (new Divinity(15, clienttranslate("Neptune"), Divinity::TYPE_RED))
+            ->addText(clienttranslate("When"));
+
+        $this->divinities[16] = (new Divinity(16, clienttranslate("Gate"), Divinity::TYPE_GATE))
+            ->addText(clienttranslate("When"));
 
         //   ____                      _                _
         //  / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___(_) ___  ___

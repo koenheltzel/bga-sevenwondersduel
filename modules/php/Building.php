@@ -52,6 +52,7 @@ class Building extends Item {
         $this->type = $type;
 
         $spriteId = $id;
+        // Senators
         if ($id >= 74 && $id <= 75){
             $spriteId = 74;
         }
@@ -63,6 +64,10 @@ class Building extends Item {
         }
         elseif ($id >= 81 && $id <= 86){
             $spriteId = 77;
+        }
+        // Grand Temples (Pantheon)
+        elseif ($id >= 87 && $id <= 91){
+            $spriteId = $id - 9;
         }
         $this->spriteXY = self::getSpriteXY($spriteId);
 
@@ -93,7 +98,7 @@ class Building extends Item {
                 break;
             case self::TYPE_PURPLE:
                 $this->typeColor = '#6f488b';
-                $this->typeDescription = clienttranslate('Guild');
+                $this->typeDescription = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON) ? clienttranslate('Grand Temple') : clienttranslate('Guild');
                 break;
             case self::TYPE_SENATOR:
                 $this->typeColor = '#000000';
