@@ -35,7 +35,7 @@
     margin-left: var(--gutter) !important;
 }
 
-#conspiracy_deck_container span {
+#conspiracy_deck span {
     font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
     font-size: calc(var(--scale) * 32px);
     text-shadow: 0 0 calc(var(--scale) * 3px) black, 0 0 calc(var(--scale) * 3px) black;
