@@ -27,6 +27,7 @@ trait ChooseOpponentBuildingTrait {
             $buildingType = $this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY) == 3 ? Building::TYPE_BLUE : Building::TYPE_YELLOW;
         }
         $data = [
+            'i18n' => ['buildingTypeTranslatable'],
             'buildingType' => $buildingType,
             'buildingTypeTranslatable' => Building::getBuildingTypeString($buildingType),
             'draftpool' => Draftpool::get(),

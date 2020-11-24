@@ -292,7 +292,7 @@
             </div>
         </div>
         <div id="conspiracy_deck_container" class="whiteblock agora">
-            <h3>Conspiracy deck</h3>
+            <h3>{CONSPIRACY_DECK}</h3>
             <div id="conspiracy_deck" class="conspiracy conspiracy_small" style="background-position: -400% -200%;">
                 <span id="conspiracy_deck_count"></span>
             </div>
