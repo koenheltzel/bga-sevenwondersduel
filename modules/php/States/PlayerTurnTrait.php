@@ -221,6 +221,7 @@ trait PlayerTurnTrait {
                 );
 
                 // Would like to this in enterStateChooseProgressTokenFromBox, but aparently argChooseProgressTokenFromBox can be called before, so we need to do it now.
+                $this->progressTokenDeck->shuffle('box'); // #1 player Pistol Star felt that the 3 picked progress tokens were not truly random. For his peace of mind and for the outside change that this is actually the case, add a shuffle here.
                 $this->progressTokenDeck->pickCardsForLocation(3, 'box', 'selection'); // Select 3 progress tokens for Wonder The Great Library.
                 $this->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg
                 $this->prependStateStack([self::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME]);
