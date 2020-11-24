@@ -316,7 +316,19 @@ trait NextPlayerTurnTrait {
             }
         }
 
+
+        // With Agora, the pawn can go backwards, so the winner isn't always the active player.
+        $militarySupremacyPlayer = null;
         $conflictPawnPosition = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION);
+        if ($conflictPawnPosition <= -9 || $conflictPawnPosition >= 9) {
+            if ($conflictPawnPosition >= 9) {
+                $militarySupremacyPlayer = Player::get(SevenWondersDuelPantheon::get()->getGameStartPlayerId());
+            }
+            else {
+                $militarySupremacyPlayer = Player::get(SevenWondersDuelPantheon::get()->getGameStartPlayerId())->getOpponent();
+            }
+        }
+
         if ($scienceSymbolCount >= 6 && $scienceSymbolCountOpponent >= 6) {
             $this->setGameStateValue(self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_SCIENTIFIC); // Bit of a hacky way to achieve both players' green cards getting highlighted part 1
             $this->setStat(1, self::STAT_DRAW, $player->id);
@@ -370,17 +382,17 @@ trait NextPlayerTurnTrait {
                 }
             }
         }
-        elseif ($conflictPawnPosition <= -9 || $conflictPawnPosition >= 9) {
-            $player->setWinner();
+        elseif ($militarySupremacyPlayer) {
+            $militarySupremacyPlayer->setWinner();
             self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, self::END_GAME_CONDITION_MILITARY);
             $this->setStat(1, self::STAT_MILITARY_SUPREMACY);
-            $this->setStat(1, self::STAT_MILITARY_SUPREMACY, $player->id);
+            $this->setStat(1, self::STAT_MILITARY_SUPREMACY, $militarySupremacyPlayer->id);
 
             SevenWondersDuelPantheon::get()->notifyAllPlayers(
                 'nextPlayerTurnMilitarySupremacy',
                 clienttranslate('${player_name} wins the game through Military Supremacy (Conflict pawn reached the opponent\'s capital)'),
                 [
-                    'player_name' => $player->name,
+                    'player_name' => $militarySupremacyPlayer->name,
                     'playersSituation' => Players::getSituation(true),
                 ]
             );
