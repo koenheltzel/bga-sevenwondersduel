@@ -60,6 +60,17 @@ class Draftpool extends Base
         ]
     ];
 
+    private static $pantheonAgeTokens = [
+        1 => [2, 4, 9, 11, 13],
+        2 => [6, 8, 10],
+        3 => []
+    ];
+    private static $agoraPantheonAgeTokens = [
+        1 => [4, 6, 12, 14, 17],
+        2 => [7, 9, 12],
+        3 => []
+    ];
+
     public static function buildingRow($buildingId) {
         $draftpool = Draftpool::get();
         foreach($draftpool['cards'] as $card) {
@@ -112,7 +123,7 @@ class Draftpool extends Base
     public static function get($revealCards = false) {
         $actualAge = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
         $age = $actualAge;
-        if ($actualAge == 0 && SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA)) {
+        if ($actualAge == 0 && SevenWondersDuelPantheon::get()->expansionActive()) {
             $age = 1;
         }
 

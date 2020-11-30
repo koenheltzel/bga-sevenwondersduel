@@ -41,6 +41,7 @@ define([
 
             // Show console.log messages
             debug: 0,
+            pantheon: 0,
             agora: 0,
             expansion: 0,
 
@@ -125,7 +126,8 @@ define([
                 this.gamedatas = gamedatas;
 
                 this.agora = this.gamedatas.agora;
-                this.expansion = this.agora;
+                this.pantheon = this.gamedatas.pantheon;
+                this.expansion = this.agora || this.pantheon;
 
                 // Because of spectators we can't assume everywhere that this.player_id is one of the two players.
                 this.me_id = parseInt(this.gamedatas.me_id); // me = alias for the player on the bottom
@@ -179,6 +181,9 @@ define([
                     this.dontPreloadImage('agora_senate.png');
                     this.dontPreloadImage('agora_sprites.png');
                 }
+                if (this.quality == '2x' || !this.pantheon) {
+                    this.dontPreloadImage('agora_sprites.png');
+                }
 
                 if (this.quality == '1x') {
                     this.dontPreloadImage('board@2X.png');
@@ -192,6 +197,9 @@ define([
                     this.dontPreloadImage('agora_conspiracies@2X.jpg');
                     this.dontPreloadImage('agora_decrees@2X.png');
                     this.dontPreloadImage('agora_senate@2X.png');
+                    this.dontPreloadImage('agora_sprites@2X.png');
+                }
+                if (this.quality == '1x' || !this.pantheon) {
                     this.dontPreloadImage('agora_sprites@2X.png');
                 }
 

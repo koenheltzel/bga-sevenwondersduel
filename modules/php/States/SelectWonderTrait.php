@@ -21,7 +21,7 @@ trait SelectWonderTrait {
             'wonderSelection' => count($cards) == 4 ? Wonders::getDeckCardsSorted("selection{$wonderSelectionRound}") : null,
         ];
 
-        if ($this->getGameStateValue(self::OPTION_AGORA)) {
+        if ($this->expansionActive()) {
             $data['draftpool'] = Draftpool::get();
             $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         }

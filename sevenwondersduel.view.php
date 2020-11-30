@@ -64,6 +64,12 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
         $this->tpl['BUILDINGS_WITHOUT_LINKS'] = self::_("Buildings without links");
         $this->tpl['OPPONENT_COST'] = self::_("Opponent cost visible");
         $this->tpl['OPPONENT_COST_DESCRIPTION'] = self::_("Show opponent cost for Age cards and Wonders (if disabled, this information is still available in tooltips)");
+        // Pantheon
+        $this->tpl['GREEK'] = self::_("Greek");
+        $this->tpl['PHOENICIAN'] = self::_("Phoenician");
+        $this->tpl['MESOPOTAMIAN'] = self::_("Mesopotamian");
+        $this->tpl['EGYPTIAN'] = self::_("Egyptian");
+        $this->tpl['ROMAN'] = self::_("Roman");
         // Agora
         $this->tpl['PREPARE_CONSPIRACY'] = self::_("Prepare a Conspiracy");
         $this->tpl['PLACE_INFLUENCE'] = self::_("Place Influence");
@@ -76,6 +82,7 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
         $this->tpl['CHOOSE_CONSPIRE_REMNANT_POSITION'] = self::_("Put the remaining Conspiracy on the top or the bottom of the deck?");
         $this->tpl['CONSTRUCT_BUILDING_FROM_BOX'] = self::_("Choose a Building removed from the game up to the current Age to play for free");
         $this->tpl['CONSPIRACY_DECK'] = self::_("Conspiracy deck");
+        $this->tpl['MYTHOLOGY_DECKS'] = self::_("Mythology decks");
 
         /*********** Place your code below:  ************/
 
@@ -324,7 +331,8 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "swd");
         $this->page->insert_block("swd", [
             "AGORA" => (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA),
-            "EXPANSION" => (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA), // Any expansion, add || Pantheon in the future
+            "PANTHEON" => (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON),
+            "EXPANSION" => (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) || (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON), // Any expansion, add || Pantheon in the future
             "PLAYER_ME_ID" => Player::me()->id,
             "PLAYER_OPPONENT_ID" => Player::opponent()->id,
         ]);

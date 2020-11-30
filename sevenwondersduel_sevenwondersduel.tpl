@@ -31,7 +31,7 @@
     box-shadow: rgba(0, 0, 0, 1) 0px 0px 0px 10px inset;
     background-color: red;
     z-index: 50; opacity: 0.5; display: none"></div>
-<div id="swd" data-state="" data-client-state="" data-age="" data-quality="" data-show-opponent-cost="" data-agora="{AGORA}" data-expansion="{EXPANSION}">
+<div id="swd" data-state="" data-client-state="" data-age="" data-quality="" data-show-opponent-cost="" data-pantheon="{PANTHEON}" data-agora="{AGORA}" data-expansion="{EXPANSION}">
     <div id="swd_wrap" class="square" data-wonder-columns="1">
         <div id="player_wonders_mobile_container_{PLAYER_OPPONENT_ID}" class="player_wonders_mobile opponent whiteblock"></div>
         <div id="layout_flexbox">
@@ -284,11 +284,50 @@
         </div>
         <div id="player_wonders_mobile_container_{PLAYER_ME_ID}" class="player_wonders_mobile me whiteblock"></div>
     </div>
+    <div class="mythologyToken mythologyToken1"></div>
+    <div class="mythologyToken mythologyToken2"></div>
+    <div class="mythologyToken mythologyToken3"></div>
+    <div class="mythologyToken mythologyToken4"></div>
+    <div class="mythologyToken mythologyToken5"></div>
+    <div class="mythologyToken mythologyTokenBack"></div>
     <div id="lower_divs_container">
         <div id="discarded_cards_whiteblock" class="whiteblock">
             <h3>{DISCARDED_BUILDINGS}</h3>
             <div id="discarded_cards_container">
                 <div class="discarded_cards_cursor"></div>
+            </div>
+        </div>
+        <div id="mythology_decks_container" class="whiteblock pantheon">
+            <h3>{MYTHOLOGY_DECKS}</h3>
+            <div>
+                <div id="conspiracy_deck" class="conspiracy conspiracy_small" style="background-position: -400% -200%;">
+                    <span id="conspiracy_deck_count">3</span>
+                </div>
+                <h3>{MESOPOTAMIAN}</h3>
+            </div>
+            <div>
+                <div id="conspiracy_deck" class="conspiracy conspiracy_small" style="background-position: -400% -200%;">
+                    <span id="conspiracy_deck_count">3</span>
+                </div>
+                <h3>{PHOENICIAN}</h3>
+            </div>
+            <div>
+                <div id="conspiracy_deck" class="conspiracy conspiracy_small" style="background-position: -400% -200%;">
+                    <span id="conspiracy_deck_count">3</span>
+                </div>
+                <h3>{GREEK}</h3>
+            </div>
+            <div>
+                <div id="conspiracy_deck" class="conspiracy conspiracy_small" style="background-position: -400% -200%;">
+                    <span id="conspiracy_deck_count">3</span>
+                </div>
+                <h3>{EGYPTIAN}</h3>
+            </div>
+            <div>
+                <div id="conspiracy_deck" class="conspiracy conspiracy_small" style="background-position: -400% -200%;">
+                    <span id="conspiracy_deck_count">3</span>
+                </div>
+                <h3>{ROMAN}</h3>
             </div>
         </div>
         <div id="conspiracy_deck_container" class="whiteblock agora">

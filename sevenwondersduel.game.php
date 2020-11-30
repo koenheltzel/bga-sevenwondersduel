@@ -459,7 +459,7 @@ class SevenWondersDuelPantheon extends Table
     }
 
     public function expansionActive() {
-        return $this->getGameStateValue(self::OPTION_AGORA) || $this->getGameStateValue(self::OPTION_PANTHEON);
+        return (int)$this->getGameStateValue(self::OPTION_AGORA) || (int)$this->getGameStateValue(self::OPTION_PANTHEON);
     }
 
     protected function getGameName( )
