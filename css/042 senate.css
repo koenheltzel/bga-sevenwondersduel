@@ -105,7 +105,9 @@
 }
 
 .agora_cube > span {
-    font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
+    font-family: cafeteria, sans-serif;
+    font-weight: 800;
+    font-style: normal;
     font-size: calc(var(--scale) * var(--element-scale) * var(--cube-size) * 0.8);
     line-height: calc(var(--senate-scale) * var(--cube-size)) !important;
     text-shadow: 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white, 0 0 calc(var(--scale) * 4px) white;
