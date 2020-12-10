@@ -42,9 +42,10 @@
     text-overflow: ellipsis;
 }
 #end_game_container tr td:not(:first-of-type) {
-    font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
+    font-family: cafeteria, sans-serif;
+    font-weight: 800;
+    font-style: normal;
     font-size: calc(32px * var(--scale));
-    font-weight: normal;
 }
 
 .end_game_player_name {

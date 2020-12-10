@@ -25,6 +25,9 @@
     Please REMOVE this comment before publishing your game on BGA
 -->
 
+<style>
+    @import url("https://use.typekit.net/jim0ypy.css");
+</style>
 
 <!-- BEGIN swd -->
 <div id="debugPlayArea" style="position: absolute; width: 20px; height: 20px;

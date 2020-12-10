@@ -77,7 +77,9 @@
 }
 
 #conspiracy_deck span {
-    font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
+    font-family: cafeteria, sans-serif;
+    font-weight: 800;
+    font-style: normal;
     font-size: calc(var(--scale) * 32px);
     text-shadow: 0 0 calc(var(--scale) * 3px) black, 0 0 calc(var(--scale) * 3px) black;
     color: white;
