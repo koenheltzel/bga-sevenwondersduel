@@ -5,9 +5,9 @@
     --gutter: calc(7.5px * var(--scale));
 
     --building-spritesheet-width: 1992px;
-    --building-spritesheet-height: 1792px;
+    --building-spritesheet-height: 2048px;
     --building-spritesheet-columns: 12;
-    --building-spritesheet-rows: 7;
+    --building-spritesheet-rows: 8;
     --building-spritesheet-scale: 1.253; /* Had to make the spritesheet smaller to support the @2X version at 4096 pixels high. */
     --building-width: calc(var(--building-spritesheet-width) / var(--building-spritesheet-columns) * var(--building-spritesheet-scale));
     --building-height: calc(var(--building-spritesheet-height) / var(--building-spritesheet-rows) * var(--building-spritesheet-scale));
@@ -18,9 +18,9 @@
     --building-columns-count: 7;
 
     --wonder-spritesheet-width: 1845px;
-    --wonder-spritesheet-height: 720px;
+    --wonder-spritesheet-height: 960px;
     --wonder-spritesheet-columns: 5;
-    --wonder-spritesheet-rows: 3;
+    --wonder-spritesheet-rows: 4;
     --wonder-width: calc(var(--wonder-spritesheet-width) / var(--wonder-spritesheet-columns));
     --wonder-height: calc(var(--wonder-spritesheet-height) / var(--wonder-spritesheet-rows));
     --wonder-border-radius: 15px;

@@ -23,6 +23,7 @@ use SWD\Decrees;
 use SWD\Draftpool;
 use SWD\Material;
 use SWD\MilitaryTrack;
+use SWD\MythologyTokens;
 use SWD\Player;
 use SWD\Players;
 use SWD\ProgressTokens;
@@ -385,6 +386,12 @@ class SevenWondersDuelPantheon extends Table
         // Checking whether Pantheon is active isn't possible here. So create the deck objects anyway.
         $this->divinityDeck = self::getNew( "module.common.deck" );
         $this->divinityDeck->init( "divinity" );
+
+        $this->mythologyTokenDeck = self::getNew( "module.common.deck" );
+        $this->mythologyTokenDeck->init( "mythology_token" );
+
+        $this->offeringTokenDeck = self::getNew( "module.common.deck" );
+        $this->offeringTokenDeck->init( "offering_token" );
         // End Pantheon
 
         // Start Agora
@@ -640,6 +647,9 @@ class SevenWondersDuelPantheon extends Table
         ];
         $result['agora'] = (int)$this->getGameStateValue(self::OPTION_AGORA);
         $result['pantheon'] = (int)$this->getGameStateValue(self::OPTION_PANTHEON);
+        if ($result['pantheon']) {
+            $result['mythologyTokensSituation'] = MythologyTokens::getSituation();
+        }
         if ($result['agora']) {
             $result['conspiraciesSituation'] = Conspiracies::getSituation();
             $result['conspiracies'] = Material::get()->conspiracies->array;

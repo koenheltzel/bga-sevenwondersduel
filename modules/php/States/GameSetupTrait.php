@@ -97,6 +97,18 @@ trait GameSetupTrait
         self::DbQuery( "UPDATE progress_token SET card_id = card_id - 1000" );
 
 
+        if ($pantheon) {
+            $this->mythologyTokenDeck->createCards(Material::get()->mythologyTokens->getDeckCards());
+            $this->mythologyTokenDeck->shuffle('deck');
+            $this->mythologyTokenDeck->pickCardsForLocation(5, 'deck', 'board');
+            $this->mythologyTokenDeck->shuffle('board'); // Ensures we have defined card_location_arg
+            // Return the remaining Mythology Tokens to the box.
+            $this->mythologyTokenDeck->moveAllCardsInLocation('deck', 'box');
+            // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and mythology token ids.
+            self::DbQuery( "UPDATE mythology_token SET card_id = card_type_arg + 1000, card_type_arg = 0" );
+            self::DbQuery( "UPDATE mythology_token SET card_id = card_id - 1000" );
+        }
+        
         if ($agora) {
             // Set up decrees
             $this->decreeDeck->createCards(Material::get()->decrees->getDeckCards());

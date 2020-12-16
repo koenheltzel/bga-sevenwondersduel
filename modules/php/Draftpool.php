@@ -71,6 +71,28 @@ class Draftpool extends Base
         3 => []
     ];
 
+    public static function getTokenRowCol($age, $location) {
+        $tokensArray = [];
+        $ageArray = [];
+        if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA)) {
+            $tokensArray = self::$agoraPantheonAgeTokens;
+            $ageArray = self::$agoraAges;
+        }
+        else {
+            $tokensArray = self::$pantheonAgeTokens;
+            $ageArray = self::$ages;
+        }
+        $buildingIndex = $tokensArray[$age][$location];
+        foreach($ageArray[$age] as $rowIndex => $row) {
+            if ($buildingIndex < count($row)) {
+                return [$rowIndex, $row[$buildingIndex]];
+            }
+            else {
+                $buildingIndex -= count($row);
+            }
+        }
+    }
+
     public static function buildingRow($buildingId) {
         $draftpool = Draftpool::get();
         foreach($draftpool['cards'] as $card) {

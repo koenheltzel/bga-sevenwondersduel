@@ -420,7 +420,7 @@ class Building extends Item {
     }
 
     public static function getBackSpriteXY($age){
-        return self::getSpriteXY(77 + $age);
+        return self::getSpriteXY(82 + $age);
     }
 
     /**

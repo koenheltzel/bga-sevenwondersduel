@@ -166,11 +166,11 @@ define([
 
                 if (this.quality == '2x') {
                     this.dontPreloadImage('board.png');
-                    this.dontPreloadImage('buildings_v2.jpg');
+                    this.dontPreloadImage('buildings_v3.jpg');
                     this.dontPreloadImage('linked-building-icons.jpg');
-                    this.dontPreloadImage('progress_tokens_v2.jpg');
+                    this.dontPreloadImage('progress_tokens_v3.jpg');
                     this.dontPreloadImage('sprites.png');
-                    this.dontPreloadImage('wonders_v2.jpg');
+                    this.dontPreloadImage('wonders_v3.jpg');
                 }
                 if (!this.agora) {
                     this.dontPreloadImage('agora_senate_tooltips.png');

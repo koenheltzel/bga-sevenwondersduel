@@ -790,6 +790,38 @@ class Material extends Base
         $this->divinities[16] = (new Divinity(16, clienttranslate("Gate"), Divinity::TYPE_GATE))
             ->addText(clienttranslate("When"));
 
+
+        $this->mythologyTokens = new MythologyTokens();
+        for($divinityNr = 1; $divinityNr <= 5; $divinityNr++) {
+            for($pairIndex = 0; $pairIndex <= 1; $pairIndex++) {
+                $type = null;
+                $id = ($pairIndex * 5) + $divinityNr;
+                switch ($id) {
+                    case 1:
+                    case 2:
+                        $type = Divinity::TYPE_GREEN;
+                        break;
+                    case 3:
+                    case 4:
+                        $type = Divinity::TYPE_YELLOW;
+                        break;
+                    case 5:
+                    case 6:
+                        $type = Divinity::TYPE_BLUE;
+                        break;
+                    case 7:
+                    case 8:
+                        $type = Divinity::TYPE_GREY;
+                        break;
+                    case 9:
+                    case 10:
+                        $type = Divinity::TYPE_RED;
+                        break;
+                }
+                $this->mythologyTokens[$id] = (new MythologyToken($id, $type));
+            }
+        }
+
         //   ____                      _                _
         //  / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___(_) ___  ___
         // | |   / _ \| '_ \/ __| '_ \| | '__/ _` |/ __| |/ _ \/ __|

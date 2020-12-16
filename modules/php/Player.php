@@ -279,6 +279,10 @@ class Player extends Base{
         return $rows;
     }
 
+    public function getMythologyTokenDeckCards(): array {
+        return MythologyTokens::getDeckCardsSorted($this->id);
+    }
+
     /**
      * @return Conspiracies
      */
