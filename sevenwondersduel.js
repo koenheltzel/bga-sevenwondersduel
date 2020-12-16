@@ -182,16 +182,17 @@ define([
                     this.dontPreloadImage('agora_sprites.png');
                 }
                 if (this.quality == '2x' || !this.pantheon) {
-                    this.dontPreloadImage('agora_sprites.png');
+                    this.dontPreloadImage('pantheon_sprites.png');
+                    this.dontPreloadImage('pantheon_divinities.png');
                 }
 
                 if (this.quality == '1x') {
                     this.dontPreloadImage('board@2X.png');
-                    this.dontPreloadImage('buildings_v2@2X.jpg');
+                    this.dontPreloadImage('buildings_v3@2X.jpg');
                     this.dontPreloadImage('linked-building-icons@2X.jpg');
-                    this.dontPreloadImage('progress_tokens_v2@2X.jpg');
+                    this.dontPreloadImage('progress_tokens_v3@2X.jpg');
                     this.dontPreloadImage('sprites@2X.png');
-                    this.dontPreloadImage('wonders_v2@2X.jpg');
+                    this.dontPreloadImage('wonders_v3@2X.jpg');
                 }
                 if (this.quality == '1x' || !this.agora) {
                     this.dontPreloadImage('agora_conspiracies@2X.jpg');
@@ -200,7 +201,8 @@ define([
                     this.dontPreloadImage('agora_sprites@2X.png');
                 }
                 if (this.quality == '1x' || !this.pantheon) {
-                    this.dontPreloadImage('agora_sprites@2X.png');
+                    this.dontPreloadImage('pantheon_sprites@2X.png');
+                    this.dontPreloadImage('pantheon_divinities@2X.png');
                 }
 
                 // Setup game situation.

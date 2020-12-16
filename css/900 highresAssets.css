@@ -23,15 +23,15 @@
 }
 
 #swd[data-quality="2x"] .building {
-    background-image: url('img/buildings_v2@2X.jpg') !important;
+    background-image: url('img/buildings_v3@2X.jpg') !important;
 }
 
 #swd[data-quality="2x"] .wonder {
-    background-image: url('img/wonders_v2@2X.jpg') !important;
+    background-image: url('img/wonders_v3@2X.jpg') !important;
 }
 
 #swd[data-quality="2x"] .progress_token {
-    background-image: url('img/progress_tokens_v2@2X.jpg') !important;
+    background-image: url('img/progress_tokens_v3@2X.jpg') !important;
 }
 
 #swd[data-quality="2x"] .linked_building_icon {

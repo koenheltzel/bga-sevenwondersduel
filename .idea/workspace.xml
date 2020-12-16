@@ -52,20 +52,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/modules/php/MythologyToken.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/php/MythologyTokens.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/010 variables.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/010 variables.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/070 buildings.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/070 buildings.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/080 wonders.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/080 wonders.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/090 progressTokens.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/090 progressTokens.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dbmodel.sql" beforeDir="false" afterPath="$PROJECT_DIR$/dbmodel.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/Building.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/Building.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/Draftpool.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/Draftpool.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/Material.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/Material.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/Player.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/Player.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/States/GameSetupTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/GameSetupTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sevenwondersduel.game.php" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.game.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sevenwondersduel.js" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.js" afterDir="false" />
     </list>
     <ignored path="D:\wamp64\www\bga\sevenwondersduel\.idea\shelf/" />
@@ -113,11 +99,29 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/php/Building.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="316">
               <caret line="422" column="35" selection-start-line="422" selection-start-column="35" selection-end-line="422" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="250">
+              <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/modules/php/Material.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="787" selection-start-line="786" selection-end-line="787" />
             </state>
           </provider>
         </entry>
@@ -293,7 +297,7 @@
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1936" />
+    <option name="width" value="976" />
     <option name="height" value="1056" />
   </component>
   <component name="ProjectView">
@@ -443,14 +447,7 @@
       <workItem from="1607265195947" duration="519000" />
       <workItem from="1607331943264" duration="3000" />
       <workItem from="1607604848850" duration="13417000" />
-      <workItem from="1607702177347" duration="2709000" />
-    </task>
-    <task id="LOCAL-00693" summary="Re-enabled shields statistic for Agora, don't know why I disabled it.">
-      <created>1603182965220</created>
-      <option name="number" value="00693" />
-      <option name="presentableId" value="LOCAL-00693" />
-      <option name="project" value="LOCAL" />
-      <updated>1603182965220</updated>
+      <workItem from="1607702177347" duration="4230000" />
     </task>
     <task id="LOCAL-00694" summary="Tweaked statistic names to be more consistent with base game">
       <created>1603183179094</created>
@@ -788,11 +785,18 @@
       <option name="project" value="LOCAL" />
       <updated>1608125101744</updated>
     </task>
-    <option name="localTasksCounter" value="742" />
+    <task id="LOCAL-00742" summary="Mythology token deck implementation.&#10;&#10;Image updates for Pantheon (css implementation + spritesheet adjustments)">
+      <created>1608129487583</created>
+      <option name="number" value="00742" />
+      <option name="presentableId" value="LOCAL-00742" />
+      <option name="project" value="LOCAL" />
+      <updated>1608129487583</updated>
+    </task>
+    <option name="localTasksCounter" value="743" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1729226000" />
+    <option name="totallyTimeSpent" value="1730747000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -807,7 +811,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info id="Structure" order="0" sideWeight="0.46695557" side_tool="true" weight="0.22761194" />
-      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.5330444" visible="true" weight="0.1881663" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.5330444" visible="true" weight="0.15671642" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49946696" weight="0.31419286" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49840087" weight="0.49945828" />
@@ -816,7 +820,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="8" sideWeight="0.6791045" visible="true" weight="0.41386783" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="8" sideWeight="0.6791045" visible="true" weight="0.16793066" />
       <window_info anchor="bottom" id="Cacher" order="9" sideWeight="0.6098081" weight="0.5362947" />
       <window_info anchor="bottom" id="File Transfer" order="10" sideWeight="0.6332623" weight="0.07042254" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
@@ -918,7 +922,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Player loses Victory Points when a progress token (with VPs) is locked away by Conspiracy Obscurantism.&#10;Centralized losing of victory points in Item's deconstruct method." />
     <MESSAGE value="Fixed player name being wrong when active player backs into a Military Token." />
     <MESSAGE value="Conspiracy Sabotage: return Age card to discard, not the box." />
     <MESSAGE value="Fixed bookmarks and added workspace.xml" />
@@ -943,7 +946,8 @@
     <MESSAGE value="Added Pantheon tokens spritesheet WIP.&#10;Added some Pantheon expansion checks" />
     <MESSAGE value="Changed font Cafetaria-Black's implementation to comply with Adobe's policy." />
     <MESSAGE value="Image updates for Pantheon" />
-    <option name="LAST_COMMIT_MESSAGE" value="Image updates for Pantheon" />
+    <MESSAGE value="Mythology token deck implementation.&#10;&#10;Image updates for Pantheon (css implementation + spritesheet adjustments)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mythology token deck implementation.&#10;&#10;Image updates for Pantheon (css implementation + spritesheet adjustments)" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/modules/php/States/PlaceInfluenceTrait.php">
@@ -1237,13 +1241,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/php/Player.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4794">
@@ -1262,13 +1259,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="397">
           <caret line="34" column="43" selection-start-line="34" selection-start-column="43" selection-end-line="34" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/Material.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="633" column="59" lean-forward="true" selection-start-line="633" selection-start-column="59" selection-end-line="633" selection-end-column="59" />
         </state>
       </provider>
     </entry>
@@ -1293,6 +1283,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="316">
           <caret line="422" column="35" selection-start-line="422" selection-start-column="35" selection-end-line="422" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/Material.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="787" selection-start-line="786" selection-end-line="787" />
         </state>
       </provider>
     </entry>
