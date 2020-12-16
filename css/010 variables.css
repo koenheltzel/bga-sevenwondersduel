@@ -27,6 +27,17 @@
     --wonder-small-scale: calc(0.58 * var(--scale));
     --wonder-plus-age-card-scale: 1.1;
 
+    --divinity-spritesheet-width: 1356px;
+    --divinity-spritesheet-height: 1660px;
+    --divinity-spritesheet-columns: 6;
+    --divinity-spritesheet-rows: 4;
+    --divinity-width: calc(var(--divinity-spritesheet-width) / var(--divinity-spritesheet-columns));
+    --divinity-height: calc(var(--divinity-spritesheet-height) / var(--divinity-spritesheet-rows));
+    --divinity-compact-height: calc(var(--divinity-spritesheet-height) / var(--divinity-spritesheet-rows) * (140/369));
+    --divinity-border-radius: 15px;
+    --divinity-small-scale: calc(0.58 * var(--scale));
+    --divinity-plus-age-card-scale: 1.25;
+
     --conspiracy-spritesheet-width: 1440px;
     --conspiracy-spritesheet-height: 1107px;
     --conspiracy-spritesheet-columns: 6;
