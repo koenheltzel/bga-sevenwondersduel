@@ -649,6 +649,7 @@ class SevenWondersDuelPantheon extends Table
         $result['pantheon'] = (int)$this->getGameStateValue(self::OPTION_PANTHEON);
         if ($result['pantheon']) {
             $result['mythologyTokensSituation'] = MythologyTokens::getSituation();
+            $result['divinities'] = Material::get()->divinities->array;
         }
         if ($result['agora']) {
             $result['conspiraciesSituation'] = Conspiracies::getSituation();

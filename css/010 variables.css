@@ -33,7 +33,8 @@
     --divinity-spritesheet-rows: 4;
     --divinity-width: calc(var(--divinity-spritesheet-width) / var(--divinity-spritesheet-columns));
     --divinity-height: calc(var(--divinity-spritesheet-height) / var(--divinity-spritesheet-rows));
-    --divinity-compact-height: calc(var(--divinity-spritesheet-height) / var(--divinity-spritesheet-rows) * (140/369));
+    --divinity-compact-width: calc(var(--divinity-spritesheet-width) / var(--divinity-spritesheet-columns) * (194/226));
+    --divinity-compact-height: calc(var(--divinity-spritesheet-height) / var(--divinity-spritesheet-rows) * (114/415));
     --divinity-border-radius: 15px;
     --divinity-small-scale: calc(0.58 * var(--scale));
     --divinity-plus-age-card-scale: 1.25;
@@ -78,11 +79,18 @@
     --board-height: 949px;
     --board-scale: calc(0.75 * var(--scale));
     --military-token-scale: calc(0.5 * var(--scale));
+    --board-column-width: 220px;
+
+    --pantheon-board-width: 217px;
+    --pantheon-board-height: 949px;
+    --pantheon-board-scale: calc(0.75 * var(--scale));
+    --pantheon-board-column-width: 0px;
 
     --senate-width: 220px;
     --senate-height: 949px;
     --senate-scale: calc(0.75 * var(--scale));
     --cube-size: 30px;
+    --senate-board-column-width: 0px;
 
     --senate-tooltip-spritesheet-width: 1980px;
     --senate-tooltip-spritesheet-height: 315px;
@@ -106,9 +114,24 @@
     --list-of-cards-scale: calc(var(--scale) * 0.75);
 }
 
+#swd_wrap.square #board_column, #swd_wrap.landscape #board_column {
+    --board-column-width: 225px;
+}
+
+#swd[data-pantheon="1"] {
+    --building-columns-count: 8;
+    --draftpool-column-count: 13;
+    --pantheon-board-column-width: 128px;
+}
+
+#swd[data-pantheon="0"] .pantheon {
+    display: none;
+}
+
 #swd[data-agora="1"] {
     --building-columns-count: 8;
     --draftpool-column-count: 13;
+    --senate-board-column-width: 175px;
 }
 
 #swd[data-agora="0"] .agora {

@@ -1,0 +1,69 @@
+
+#pantheon_board_container {
+    position: relative;
+    display: inline-block;
+    align-self: flex-end;
+    left: calc(var(--scale) * -82px); /* To clear the decrees (with possible double stack) */
+}
+
+.pantheon_board, #pantheon_board_container {
+    width: calc(var(--pantheon-board-width) * var(--pantheon-board-scale));
+    height: calc(var(--pantheon-board-height) * var(--pantheon-board-scale));
+    margin-right: calc(var(--scale) * -30px);
+}
+
+.pantheon_board {
+    background-image: url('img/pantheon_board.png');
+    background-size: calc(var(--pantheon-board-width) * var(--pantheon-board-scale)) calc(var(--pantheon-board-height) * var(--pantheon-board-scale));
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+    position: absolute;
+    display: inline-block;
+}
+
+.pantheon_space_containers {
+
+}
+.pantheon_space_containers .divinity_small {
+    position: absolute;
+    display: block;
+}
+.pantheon_space_containers > div {
+    position: absolute;
+    transform-origin: 50% 0%;
+    z-index:20; /* Don't know why but this div level specifically needs the z-index set. (Goal is to have the decrees over the age cards if they are stacked 3 deep) */
+    width: calc(var(--divinity-compact-width) * var(--divinity-small-scale));
+    height: calc(var(--divinity-compact-height) * var(--divinity-small-scale));
+    background-color: #FFFFFFaa;
+    border-radius: 10px;
+    border: none;
+}
+.pantheon_space_containers > div:nth-of-type(1) {
+    transform: rotate(36deg);
+    left: calc(var(--pantheon-board-scale) * 28px);
+    top: calc(var(--pantheon-board-scale) * 26px);
+}
+.pantheon_space_containers > div:nth-of-type(2) {
+    transform: rotate(63deg);
+    left: calc(var(--pantheon-board-scale) * 164.5px);
+    top: calc(var(--pantheon-board-scale) * 183.5px);
+}
+.pantheon_space_containers > div:nth-of-type(3) {
+    transform: rotate(88deg);
+    left: calc(var(--pantheon-board-scale) * 212px);
+    top: calc(var(--pantheon-board-scale) * 385px);
+}
+.pantheon_space_containers > div:nth-of-type(4) {
+    transform: rotate(92deg);
+    left: calc(var(--pantheon-board-scale) * 212px);
+    top: calc(var(--pantheon-board-scale) * 565px);
+}
+.pantheon_space_containers > div:nth-of-type(5) {
+    transform: rotate(117deg);
+    left: calc(var(--pantheon-board-scale) * 164px);
+    top: calc(var(--pantheon-board-scale) * 765px);
+}
+.pantheon_space_containers > div:nth-of-type(6) {
+    transform: rotate(144deg);
+    left: calc(var(--pantheon-board-scale) * 27px);
+    top: calc(var(--pantheon-board-scale) * 923px);
+}

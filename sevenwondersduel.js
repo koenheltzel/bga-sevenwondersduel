@@ -453,6 +453,19 @@ define([
                 this.callFunctionAfterLoading(dojo.hitch(this, "updateLayout"));
             },
 
+            testDivinities: function () {
+                for (let place = 1; place <= 6; place++) {
+                    let divinity = Math.ceil(Math.random() * 21);
+                    let node = dojo.query('.pantheon_space_containers > div:nth-of-type(' + place + ')');
+                    node.empty();
+                    dojo.place( this.getDivinityDivHtml(divinity, divinity, false), node[0], 'first');
+
+                    if (place % 2 == 0) {
+                        dojo.place( this.getDivinityDivHtml(divinity, divinity, false), 'player_conspiracies_2310958', 'first');
+                    }
+                }
+            },
+
             ///////////////////////////////////////////////////
             //// Reaction to cometD notifications
 
@@ -1127,6 +1140,26 @@ define([
                 dojo.style(containers[6 - 1], 'display', nodes.length >= 5 ? 'inline-block' : 'none');
             },
 
+            //  ____  _       _       _ _   _
+            // |  _ \(_)_   _(_)_ __ (_) |_(_) ___  ___
+            // | | | | \ \ / / | '_ \| | __| |/ _ \/ __|
+            // | |_| | |\ V /| | | | | | |_| |  __/\__ \
+            // |____/|_| \_/ |_|_| |_|_|\__|_|\___||___/
+
+            getDivinityDivHtml: function (divinityId, spriteId, full=false) {
+                var divinity = this.gamedatas.divinities[divinityId];
+                var data = {
+                    jsId: divinityId,
+                    jsName: spriteId <= 16 ? _(divinity.name) : '',
+                    jsDivinityBack: spriteId > 16 ? 'divinity_back' : '',
+                    jsYOffset: spriteId > 16 ? '.6512' : '.7012',
+                };
+                var spritesheetColumns = 6;
+                data.jsX = (spriteId - 1) % spritesheetColumns;
+                data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
+                return this.format_block(full ? 'jstpl_divinity_full' : 'jstpl_divinity', data);
+            },
+
             //  ____                   _
             // / ___|  ___ _ __   __ _| |_ ___
             // \___ \ / _ \ '_ \ / _` | __/ _ \
@@ -1278,6 +1311,8 @@ define([
                         dojo.place(this.format_block('jstpl_wonder_age_card', data), dojo.query('.age_card_container', newNode)[0]);
                     }
                 }));
+
+                if (playerId == 2310958) this.testDivinities();
             },
 
             //   __  __ _ _ _ _                     _____               _

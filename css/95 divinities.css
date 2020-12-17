@@ -15,9 +15,9 @@
 }
 
 .divinity_small {
-    width: calc(var(--divinity-width) * var(--divinity-small-scale));
-    height: calc(var(--divinity-height) * var(--divinity-small-scale));
-    background-size: calc(var(--divinity-spritesheet-width) * var(--divinity-small-scale)) calc(var(--divinity-spritesheet-height) * var(--divinity-small-scale));
+    width: calc(var(--divinity-width) * var(--divinity-small-scale) * var(--element-scale));
+    height: calc(var(--divinity-height) * var(--divinity-small-scale) * var(--element-scale));
+    background-size: calc(var(--divinity-spritesheet-width) * var(--divinity-small-scale) * var(--element-scale)) calc(var(--divinity-spritesheet-height) * var(--divinity-small-scale) * var(--element-scale));
     border-radius: calc(var(--divinity-border-radius) * var(--divinity-small-scale));
     box-shadow: 0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0, 0, 0, 0.4),
     inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
@@ -26,11 +26,16 @@
     display: block;
 }
 .divinity_compact {
-    height: calc(var(--divinity-compact-height) * var(--divinity-small-scale));
+    width: calc(var(--divinity-compact-width) * var(--divinity-small-scale) * var(--element-scale));
+    height: calc(var(--divinity-compact-height) * var(--divinity-small-scale) * var(--element-scale));
     backface-visibility: hidden;
 }
 
-.divinity_container > .divinity {
+.divinity_compact.divinity_back {
+    box-shadow: 0 0 0px calc(var(--scale) * 6px) #001017 inset;
+}
+
+.player_conspiracies .divinity_container > .divinity {
     top: calc(21px * var(--scale));
 }
 .divinity_container {
@@ -66,7 +71,7 @@
     font-size: calc(16px * var(--wonder-small-scale));
 }
 .divinity_small.divinity_compact .swd_title {
-    top: 9%;
+    top: 7%;
 }
 
 .divinity_compact .trigger, .divinity_compact .prepare, .divinity_small .deck_position {
