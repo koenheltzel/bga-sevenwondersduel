@@ -62,7 +62,7 @@
 
 .divinity .swd_title {
     position: relative;
-    top: 65%;
+    top: 72%;
     font-size: calc(16px * var(--scale));
     display: block;
 }
