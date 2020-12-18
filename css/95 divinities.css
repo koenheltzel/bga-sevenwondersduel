@@ -32,7 +32,7 @@
 }
 
 .divinity_compact.divinity_back {
-    box-shadow: 0 0 0px calc(var(--scale) * 6px) #001017 inset;
+    box-shadow: 0 0 0px calc(var(--scale) * 4.5px) #001017 inset;
 }
 
 .player_conspiracies .divinity_container > .divinity {

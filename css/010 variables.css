@@ -119,8 +119,6 @@
 }
 
 #swd[data-pantheon="1"] {
-    --building-columns-count: 8;
-    --draftpool-column-count: 13;
     --pantheon-board-column-width: 128px;
 }
 

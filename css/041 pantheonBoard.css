@@ -33,7 +33,6 @@
     z-index:20; /* Don't know why but this div level specifically needs the z-index set. (Goal is to have the decrees over the age cards if they are stacked 3 deep) */
     width: calc(var(--divinity-compact-width) * var(--divinity-small-scale));
     height: calc(var(--divinity-compact-height) * var(--divinity-small-scale));
-    background-color: #FFFFFFaa;
     border-radius: 10px;
     border: none;
 }
@@ -48,14 +47,14 @@
     top: calc(var(--pantheon-board-scale) * 183.5px);
 }
 .pantheon_space_containers > div:nth-of-type(3) {
-    transform: rotate(88deg);
-    left: calc(var(--pantheon-board-scale) * 212px);
+    transform: rotate(88.5deg);
+    left: calc(var(--pantheon-board-scale) * 211px);
     top: calc(var(--pantheon-board-scale) * 385px);
 }
 .pantheon_space_containers > div:nth-of-type(4) {
-    transform: rotate(92deg);
-    left: calc(var(--pantheon-board-scale) * 212px);
-    top: calc(var(--pantheon-board-scale) * 565px);
+    transform: rotate(91.5deg);
+    left: calc(var(--pantheon-board-scale) * 211px);
+    top: calc(var(--pantheon-board-scale) * 564px);
 }
 .pantheon_space_containers > div:nth-of-type(5) {
     transform: rotate(117deg);

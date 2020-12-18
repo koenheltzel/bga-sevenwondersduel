@@ -52,7 +52,7 @@
 
 .player_conspiracies > .divinity_container {
     width: calc(var(--divinity-compact-width) * var(--divinity-small-scale) * var(--element-scale));
-    height: calc(var(--divinity-compact-height) * var(--divinity-small-scale) * var(--element-scale));
+    height: calc(var(--divinity-compact-height) * var(--divinity-small-scale) * var(--element-scale) * var(--divinity-plus-age-card-scale));
     --element-scale: 1.2372;
 }
 

@@ -453,15 +453,18 @@ define([
                 this.callFunctionAfterLoading(dojo.hitch(this, "updateLayout"));
             },
 
-            testDivinities: function () {
+            testDivinities: function (playerId) {
                 for (let place = 1; place <= 6; place++) {
-                    let divinity = Math.ceil(Math.random() * 21);
-                    let node = dojo.query('.pantheon_space_containers > div:nth-of-type(' + place + ')');
-                    node.empty();
-                    dojo.place( this.getDivinityDivHtml(divinity, divinity, false), node[0], 'first');
+                    if (playerId == 2310958 && place != 4) {
+                        let divinity = Math.ceil(16 + Math.random() * 5);
+                        let node = dojo.query('.pantheon_space_containers > div:nth-of-type(' + place + ')');
+                        node.empty();
+                        dojo.place( this.getDivinityDivHtml(divinity, divinity, false), node[0], 'first');
+                    }
 
-                    if (place % 2 == 0) {
-                        dojo.place( this.getDivinityDivHtml(divinity, divinity, false), 'player_conspiracies_2310958', 'first');
+                    if (place % 3 == 0) {
+                        let divinity = Math.ceil(Math.random() * 16);
+                        dojo.place( this.getDivinityDivHtml(divinity, divinity, false), 'player_conspiracies_' + playerId, 'first');
                     }
                 }
             },
@@ -611,6 +614,10 @@ define([
                             round: args.args.wonderSelectionRound
                         });
                     }
+
+
+                    this.testDivinities(2310957);
+                    this.testDivinities(2310958);
 
                     this.updateLayout(); // Because of added height of action button divs being auto shown/hidden because of the state change, it's a good idea to update the layout here.
 
@@ -1152,7 +1159,7 @@ define([
                     jsId: divinityId,
                     jsName: spriteId <= 16 ? _(divinity.name) : '',
                     jsDivinityBack: spriteId > 16 ? 'divinity_back' : '',
-                    jsYOffset: spriteId > 16 ? '.6512' : '.7012',
+                    jsYOffset: spriteId > 16 ? '.6562' : '.7012',
                 };
                 var spritesheetColumns = 6;
                 data.jsX = (spriteId - 1) % spritesheetColumns;
@@ -1311,8 +1318,6 @@ define([
                         dojo.place(this.format_block('jstpl_wonder_age_card', data), dojo.query('.age_card_container', newNode)[0]);
                     }
                 }));
-
-                if (playerId == 2310958) this.testDivinities();
             },
 
             //   __  __ _ _ _ _                     _____               _
