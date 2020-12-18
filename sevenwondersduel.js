@@ -211,6 +211,9 @@ define([
                 this.updateProgressTokensSituation(this.gamedatas.progressTokensSituation);
                 this.updateMilitaryTrack(this.gamedatas.militaryTrack);
                 this.updateDiscardedBuildings(this.gamedatas.discardedBuildings);
+                if (this.pantheon) {
+                    this.updateMythologyTokensSituation(this.gamedatas.mythologyTokensSituation);
+                }
                 if (this.agora) {
                     this.updateDecreesSituation(this.gamedatas.decreesSituation);
                     this.updateConspiracyDeckCount(this.gamedatas.conspiraciesSituation['deckCount']);
@@ -608,6 +611,7 @@ define([
                     if (args.args.wondersSituation) this.updateWondersSituation(args.args.wondersSituation);
                     if (args.args._private && args.args._private.myConspiracies) this.myConspiracies = args.args._private.myConspiracies;
                     if (args.args.conspiraciesSituation) this.updateConspiraciesSituation(args.args.conspiraciesSituation);
+                    if (args.args.mythologyTokensSituation) this.updateMythologyTokensSituation(args.args.mythologyTokensSituation);
                     if (args.args.senateSituation) this.updateSenateSituation(args.args.senateSituation);
                     if (args.args.wonderSelectionRound) {
                         $('wonder_selection_block_title').innerText = dojo.string.substitute(_("Wonders selection - round ${round} of 2"), {
@@ -1028,6 +1032,20 @@ define([
                         }
                     }
 
+                    // Mythology tokens
+                    if (this.pantheon) {
+                        for (let i = 0; i < this.gamedatas.mythologyTokensSituation.board.length; i++) {
+                            let card = this.gamedatas.mythologyTokensSituation.board[i];
+                            let row = card.rowCol[0];
+                            let col = card.rowCol[1];
+                            let node = dojo.query('#draftpool #' + row + '_' + col)[0];
+                            let tokenNode = dojo.query('.mythology_token', node);
+                            if (!tokenNode[0]) {
+                                dojo.place( this.getMythologyTokenHtml(card.id, card.type, false), node);
+                            }
+                        }
+                    }
+
                     // Adjust the height of the age divs based on the age cards absolutely positioned within.
                     var rows = draftpool.age == 3 ? 7 : 5;
                     dojo.query('.draftpool').style("height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + ".35 * var(--draftpool-row-height))");
@@ -1165,6 +1183,53 @@ define([
                 data.jsX = (spriteId - 1) % spritesheetColumns;
                 data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
                 return this.format_block(full ? 'jstpl_divinity_full' : 'jstpl_divinity', data);
+            },
+
+            //  __  __       _   _           _                     _____     _
+            // |  \/  |_   _| |_| |__   ___ | | ___   __ _ _   _  |_   _|__ | | _____ _ __  ___
+            // | |\/| | | | | __| '_ \ / _ \| |/ _ \ / _` | | | |   | |/ _ \| |/ / _ \ '_ \/ __|
+            // | |  | | |_| | |_| | | | (_) | | (_) | (_| | |_| |   | | (_) |   <  __/ | | \__ \
+            // |_|  |_|\__, |\__|_| |_|\___/|_|\___/ \__, |\__, |   |_|\___/|_|\_\___|_| |_|___/
+            //         |___/                         |___/ |___/
+
+            getMythologyTokenHtml: function (id, type, full=false) {
+                var data = {
+                    jsId: id,
+                    jsType: type,
+                };
+                return this.format_block('jstpl_mythology_token', data);
+            },
+
+            updateMythologyTokensSituation: function (situation) {
+                if (this.debug) console.log('updateMythologyTokensSituation', situation);
+                this.gamedatas.mythologyTokensSituation = situation;
+
+                for (var player_id in this.gamedatas.players) {
+                    this.updatePlayerMythologyTokens(player_id, situation[player_id]);
+                }
+            },
+
+            updatePlayerMythologyTokens: function (playerId, rows) {
+                if (this.debug) console.log('updatePlayerMythologyTokens', playerId, rows);
+
+                // let container = $('player_conspiracies_' + playerId);
+                // dojo.empty(container);
+                // Object.keys(rows).forEach(dojo.hitch(this, function (index) {
+                //     var row = rows[index];
+                //     let id = row.conspiracy;
+                //     if (!row.triggered && playerId == this.me_id && this.myConspiracies[row.position]) {
+                //         id = this.myConspiracies[row.position].id;
+                //     }
+                //     let newNode = dojo.place(this.getConspiracyDivHtml(id, row.triggered ? row.conspiracy : 18, false, row.position, row.prepared, row.triggered, row.useful, row.progressToken), container);
+                //
+                //     if (row.prepared > 0) {
+                //         var data = {
+                //             jsX: row.ageCardSpriteXY[0],
+                //             jsY: row.ageCardSpriteXY[1]
+                //         };
+                //         dojo.place(this.format_block('jstpl_wonder_age_card', data), dojo.query('.age_card_container', newNode)[0]);
+                //     }
+                // }));
             },
 
             //  ____                   _

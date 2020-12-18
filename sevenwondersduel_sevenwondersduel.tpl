@@ -312,31 +312,31 @@
                 <div id="divinity_deck" class="divinity divinity_small" style="background-position: -400% -200%;">
                     <span id="divinity_deck_count">3</span>
                 </div>
-                <h3>{MESOPOTAMIAN}</h3>
+                <h3>{DIVINITY_TYPE_1}</h3>
             </div>
             <div>
                 <div id="divinity_deck" class="divinity divinity_small" style="background-position: -500% -200%;">
                     <span id="divinity_deck_count">3</span>
                 </div>
-                <h3>{PHOENICIAN}</h3>
+                <h3>{DIVINITY_TYPE_2}</h3>
             </div>
             <div>
                 <div id="divinity_deck" class="divinity divinity_small" style="background-position: -000% -300%;">
                     <span id="divinity_deck_count">3</span>
                 </div>
-                <h3>{GREEK}</h3>
+                <h3>{DIVINITY_TYPE_3}</h3>
             </div>
             <div>
                 <div id="divinity_deck" class="divinity divinity_small" style="background-position: -100% -300%;">
                     <span id="divinity_deck_count">3</span>
                 </div>
-                <h3>{EGYPTIAN}</h3>
+                <h3>{DIVINITY_TYPE_4}</h3>
             </div>
             <div>
                 <div id="divinity_deck" class="divinity divinity_small" style="background-position: -200% -300%;">
                     <span id="divinity_deck_count">3</span>
                 </div>
-                <h3>{ROMAN}</h3>
+                <h3>{DIVINITY_TYPE_5}</h3>
             </div>
         </div>
         <div id="conspiracy_deck_container" class="whiteblock agora">
@@ -346,13 +346,6 @@
             </div>
         </div>
     </div>
-
-    <div class="mythologyToken mythologyToken1"></div>
-    <div class="mythologyToken mythologyToken2"></div>
-    <div class="mythologyToken mythologyToken3"></div>
-    <div class="mythologyToken mythologyToken4"></div>
-    <div class="mythologyToken mythologyToken5"></div>
-    <div class="mythologyToken mythologyTokenBack"></div>
 
     <div id="list_of_cards_flexbox">
         <div class="list_of_cards_whiteblock whiteblock">
@@ -574,6 +567,14 @@ var jstpl_wonder_age_card = '\
         class="building building_small"\
         style="background-position: -${jsX}00% -${jsY}00%;"\
     >\
+    </div>';
+
+var jstpl_mythology_token = '\
+    <div class="mythology_token_container">\
+        <div\
+            data-mythology-token-id="${jsId}"\
+            class="mythology_token mythology_token_small mythology_token${jsType}">\
+        </div>\
     </div>';
 
 var jstpl_divinity = '\

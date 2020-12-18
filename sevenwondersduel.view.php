@@ -26,6 +26,7 @@
 
 use SWD\Building;
 use SWD\Conspiracy;
+use SWD\Divinity;
 use SWD\Material;
 use SWD\Player;
 use SWD\ProgressToken;
@@ -65,11 +66,11 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
         $this->tpl['OPPONENT_COST'] = self::_("Opponent cost visible");
         $this->tpl['OPPONENT_COST_DESCRIPTION'] = self::_("Show opponent cost for Age cards and Wonders (if disabled, this information is still available in tooltips)");
         // Pantheon
-        $this->tpl['GREEK'] = self::_("Greek");
-        $this->tpl['PHOENICIAN'] = self::_("Phoenician");
-        $this->tpl['MESOPOTAMIAN'] = self::_("Mesopotamian");
-        $this->tpl['EGYPTIAN'] = self::_("Egyptian");
-        $this->tpl['ROMAN'] = self::_("Roman");
+        $this->tpl['DIVINITY_TYPE_1'] = self::_(Divinity::getTypeName(1));
+        $this->tpl['DIVINITY_TYPE_2'] = self::_(Divinity::getTypeName(2));
+        $this->tpl['DIVINITY_TYPE_3'] = self::_(Divinity::getTypeName(3));
+        $this->tpl['DIVINITY_TYPE_4'] = self::_(Divinity::getTypeName(4));
+        $this->tpl['DIVINITY_TYPE_5'] = self::_(Divinity::getTypeName(5));
         // Agora
         $this->tpl['PREPARE_CONSPIRACY'] = self::_("Prepare a Conspiracy");
         $this->tpl['PLACE_INFLUENCE'] = self::_("Place Influence");

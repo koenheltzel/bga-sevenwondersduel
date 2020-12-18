@@ -6,14 +6,15 @@ use SevenWondersDuelPantheon;
 
 class Divinity extends Item {
 
-    public const TYPE_GREEN = 'Mesopotamian';
-    public const TYPE_YELLOW = 'Phoenician';
-    public const TYPE_BLUE = 'Greek';
-    public const TYPE_GREY = 'Egyptian';
-    public const TYPE_RED = 'Roman';
-    public const TYPE_GATE = 'Gate';
+    public const TYPE_GREEN = 1;
+    public const TYPE_YELLOW = 2;
+    public const TYPE_BLUE = 3;
+    public const TYPE_GREY = 4;
+    public const TYPE_RED = 5;
+    public const TYPE_GATE = 6;
 
     public $type;
+    public $typeName;
 
     /**
      * @param $id
@@ -25,6 +26,7 @@ class Divinity extends Item {
 
     public function __construct($id, $name, $type) {
         $this->type = $type;
+        $this->typeName = self::getTypeName($type);
         $this->addText(clienttranslate('After preparing a Divinity with an Age card, it can be triggered at the start of a following turn, before playing an Age card.'), false);
         if ($id <= 16) {
             $this->addText('&nbsp;', false);
@@ -32,6 +34,24 @@ class Divinity extends Item {
         }
         parent::__construct($id, $name);
     }
+
+    public static function getTypeName($type) {
+        switch ($type) {
+            case Divinity::TYPE_GREEN:
+                return clienttranslate('Mesopotamian');
+            case Divinity::TYPE_YELLOW:
+                return clienttranslate('Phoenician');
+            case Divinity::TYPE_BLUE:
+                return clienttranslate('Greek');
+            case Divinity::TYPE_GREY:
+                return clienttranslate('Egyptian');
+            case Divinity::TYPE_RED:
+                return clienttranslate('Roman');
+            case Divinity::TYPE_GATE:
+                return clienttranslate('Gate');
+        }
+    }
+
     /**
      * @param Divinity $building
      * @return PaymentPlan

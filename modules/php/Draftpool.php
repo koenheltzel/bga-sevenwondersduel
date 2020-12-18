@@ -85,7 +85,7 @@ class Draftpool extends Base
         $buildingIndex = $tokensArray[$age][$location];
         foreach($ageArray[$age] as $rowIndex => $row) {
             if ($buildingIndex < count($row)) {
-                return [$rowIndex, $row[$buildingIndex]];
+                return [$rowIndex + 1, $row[$buildingIndex]];
             }
             else {
                 $buildingIndex -= count($row);

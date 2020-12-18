@@ -39,6 +39,12 @@
     --divinity-small-scale: calc(0.58 * var(--scale));
     --divinity-plus-age-card-scale: 1.25;
 
+    --pantheon-spritesheet-width: 756px;
+    --pantheon-spritesheet-height: 230px;
+    --mythology-token-width: 150px;
+    --mythology-token-height: 150px;
+    --mythology-token-small-scale: calc(0.4 * var(--scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
+
     --conspiracy-spritesheet-width: 1440px;
     --conspiracy-spritesheet-height: 1107px;
     --conspiracy-spritesheet-columns: 6;
