@@ -20,6 +20,7 @@ use SWD\Conspiracies;
 use SWD\Conspiracy;
 use SWD\Decree;
 use SWD\Decrees;
+use SWD\Divinity;
 use SWD\Draftpool;
 use SWD\Material;
 use SWD\MilitaryTrack;
@@ -650,6 +651,23 @@ class SevenWondersDuelPantheon extends Table
         if ($result['pantheon']) {
             $result['mythologyTokensSituation'] = MythologyTokens::getSituation();
             $result['divinities'] = Material::get()->divinities->array;
+            $result['divinities'][0] = new Divinity(0, '', 0); // To pass the generic explanation text to the tooltip.
+            $result['divinityTypeNames'] = [
+                1 => Divinity::getTypeName(1),
+                2 => Divinity::getTypeName(2),
+                3 => Divinity::getTypeName(3),
+                4 => Divinity::getTypeName(4),
+                5 => Divinity::getTypeName(5),
+                6 => Divinity::getTypeName(6),
+            ];
+            $result['divinityTypeColors'] = [
+                1 => '#008946',
+                2 => '#f79021',
+                3 => '#159fc7',
+                4 => '#58585a',
+                5 => '#d1232a',
+                6 => '#585858',
+            ];
         }
         if ($result['agora']) {
             $result['conspiraciesSituation'] = Conspiracies::getSituation();

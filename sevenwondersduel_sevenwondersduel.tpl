@@ -581,6 +581,7 @@ var jstpl_divinity = '\
     <div class="divinity_container">\
         <div\
             data-divinity-id="${jsId}"\
+            data-divinity-type="${jsType}"\
             class="divinity divinity_small divinity_compact ${jsDivinityBack}"\
             style="background-position: calc(-${jsX}.0741 * var(--divinity-width) * var(--divinity-small-scale) * var(--element-scale)) calc(-${jsY}${jsYOffset} * var(--divinity-height) * var(--divinity-small-scale) * var(--element-scale));"\
         >\
@@ -716,6 +717,21 @@ var jstpl_progress_token_tooltip = '\
                         </textPath>\
                     </text>\
                 </svg>\
+            </div>\
+        </div>\
+        <div class="clear"></div>\
+    </div>';
+
+var jstpl_divinity_tooltip = '\
+    <div class="swd_tooltip">\
+        <div class="cardinfos">\
+            <strong><span style="color: ${jsDivinityColor}">${jsDivinityType}</span> ${translateDivinity} ${jsName}</strong>\
+            <hr\>\
+            <p>${jsText}</p>\
+        </div>\
+        <div>\
+            <div class="divinity tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
+                <span class="swd_title">${jsNameOnCard}</span>\
             </div>\
         </div>\
         <div class="clear"></div>\

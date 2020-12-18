@@ -27,11 +27,11 @@ class Divinity extends Item {
     public function __construct($id, $name, $type) {
         $this->type = $type;
         $this->typeName = self::getTypeName($type);
-        $this->addText(clienttranslate('After preparing a Divinity with an Age card, it can be triggered at the start of a following turn, before playing an Age card.'), false);
-        if ($id <= 16) {
-            $this->addText('&nbsp;', false);
-            $this->addText(clienttranslate('When you trigger this Divinity:'), false);
-        }
+//        $this->addText(clienttranslate('After preparing a Divinity with an Age card, it can be triggered at the start of a following turn, before playing an Age card.'), false);
+//        if ($id <= 16) {
+//            $this->addText('&nbsp;', false);
+//            $this->addText(clienttranslate('When you trigger this Divinity:'), false);
+//        }
         parent::__construct($id, $name);
     }
 

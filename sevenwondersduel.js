@@ -459,15 +459,16 @@ define([
             testDivinities: function (playerId) {
                 for (let place = 1; place <= 6; place++) {
                     if (playerId == 2310958 && place != 4) {
-                        let divinity = Math.ceil(16 + Math.random() * 5);
+                        let divinityType = Math.ceil(Math.random() * 5);
                         let node = dojo.query('.pantheon_space_containers > div:nth-of-type(' + place + ')');
                         node.empty();
-                        dojo.place( this.getDivinityDivHtml(divinity, divinity, false), node[0], 'first');
+                        dojo.place( this.getDivinityDivHtml(0, divinityType, false), node[0], 'first');
                     }
 
                     if (place % 3 == 0) {
                         let divinity = Math.ceil(Math.random() * 16);
-                        dojo.place( this.getDivinityDivHtml(divinity, divinity, false), 'player_conspiracies_' + playerId, 'first');
+                        let divinityType = this.gamedatas.divinities[divinity].type;
+                        dojo.place( this.getDivinityDivHtml(divinity, divinityType, false), 'player_conspiracies_' + playerId, 'first');
                     }
                 }
             },
@@ -1171,13 +1172,16 @@ define([
             // | |_| | |\ V /| | | | | | |_| |  __/\__ \
             // |____/|_| \_/ |_|_| |_|_|\__|_|\___||___/
 
-            getDivinityDivHtml: function (divinityId, spriteId, full=false) {
+            getDivinityDivHtml: function (divinityId, divinityType, full=false) {
+                let hidden = divinityId == 0;
+                let spriteId = hidden ? (16 + divinityType) : divinityId;
                 var divinity = this.gamedatas.divinities[divinityId];
                 var data = {
                     jsId: divinityId,
-                    jsName: spriteId <= 16 ? _(divinity.name) : '',
-                    jsDivinityBack: spriteId > 16 ? 'divinity_back' : '',
-                    jsYOffset: spriteId > 16 ? '.6562' : '.7012',
+                    jsType: divinityType,
+                    jsName: hidden ? '' : _(divinity.name),
+                    jsDivinityBack: hidden ? 'divinity_back' : '',
+                    jsYOffset: hidden ? '.6562' : '.7012',
                 };
                 var spritesheetColumns = 6;
                 data.jsX = (spriteId - 1) % spritesheetColumns;
@@ -1653,6 +1657,20 @@ define([
                     })
                 );
 
+                // Add tooltips to conspiracies everywhere.
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: 'div[data-divinity-id]',
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            var id = dojo.attr(node, "data-divinity-id");
+                            var type = dojo.attr(node, "data-divinity-type");
+                            return this.getDivinityTooltip(id, type, node);
+                        })
+                    })
+                );
+
                 // Add tooltips to decrees everywhere.
                 this.customTooltips.push(
                     new dijit.Tooltip({
@@ -1867,6 +1885,27 @@ define([
                     return this.format_block('jstpl_progress_token_tooltip', data);
                 }
                 return false;
+            },
+
+            getDivinityTooltip: function (id, type, node) {
+                let hidden = id == 0;
+                let spriteId = hidden ? (16 + type) : id;
+
+                var divinity = this.gamedatas.divinities[id];
+
+                var spritesheetColumns = 6;
+
+                var data = {};
+                data.translateDivinity = hidden ? _("Face down Divinity") : _("Divinity");
+                data.jsName = hidden ? '' : '“' + _(divinity.name) + '”';
+                data.jsNameOnCard = hidden ? '' : _(divinity.name);
+                data.jsDivinityType = _(this.gamedatas.divinityTypeNames[type]);
+                data.jsDivinityColor = this.gamedatas.divinityTypeColors[type];
+
+                data.jsText = this.getTextHtml(divinity.text);
+                data.jsBackX = ((spriteId - 1) % spritesheetColumns);
+                data.jsBackY = Math.floor((spriteId - 1) / spritesheetColumns);
+                return this.format_block('jstpl_divinity_tooltip', data);
             },
 
             getDecreeTooltip: function (id) {
