@@ -1159,8 +1159,8 @@ define([
             },
 
             maybeShowSecondRowProgressTokens: function (playerId) {
-                var nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>.progress_token_outline>div');
-                var containers = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>.progress_token_outline');
+                var nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens > .progress_token_outline > div');
+                var containers = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens > .progress_token_outline');
                 for (var i = 4; i <= 5; i++) {
                     dojo.style(containers[i - 1], 'display', nodes.length >= 3 ? 'inline-block' : 'none');
                 }
@@ -4693,7 +4693,7 @@ define([
                 }
 
                 dojo.addClass($('board_progress_tokens'), 'red_border');
-                dojo.query('.player' + this.getOppositePlayerId(this.getActivePlayerId()) + ' .player_area_progress_tokens>.progress_token_outline').addClass('red_border');
+                dojo.query('.player' + this.getOppositePlayerId(this.getActivePlayerId()) + ' .player_area_progress_tokens > .progress_token_outline').addClass('red_border');
             },
 
             onLockProgressTokenClick: function (e) {
