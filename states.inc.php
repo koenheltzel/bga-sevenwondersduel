@@ -625,6 +625,7 @@ $machinestates = [
             SevenWondersDuel::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuel::STATE_PLACE_INFLUENCE_ID,
             SevenWondersDuel::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuel::STATE_REMOVE_INFLUENCE_ID,
             SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuel::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuel::STATE_SENATE_ACTIONS_NAME => SevenWondersDuel::STATE_SENATE_ACTIONS_ID,
             SevenWondersDuel::STATE_PLAYER_SWITCH_NAME => SevenWondersDuel::STATE_PLAYER_SWITCH_ID, // In case all military token actions are skipped.
             SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
