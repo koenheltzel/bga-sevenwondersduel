@@ -1148,8 +1148,9 @@ define([
             updatePlayerProgressTokens: function (playerId, deckCards) {
                 if (this.debug) console.log('updatePlayerProgressTokens', playerId, deckCards);
 
+                let nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens > .progress_token_outline');
                 Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
-                    var container = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + (parseInt(index) + 1) + ')')[0]; // parseInt(index) is apparently necessary?
+                    var container = nodes[index];
                     dojo.empty(container);
                     var deckCard = deckCards[index];
                     dojo.place(this.getProgressTokenDivHtml(deckCard.id), container);
@@ -1158,8 +1159,8 @@ define([
             },
 
             maybeShowSecondRowProgressTokens: function (playerId) {
-                var nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div>div');
-                var containers = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div');
+                var nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>.progress_token_outline>div');
+                var containers = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>.progress_token_outline');
                 for (var i = 4; i <= 5; i++) {
                     dojo.style(containers[i - 1], 'display', nodes.length >= 3 ? 'inline-block' : 'none');
                 }
@@ -3238,7 +3239,7 @@ define([
 
                 dojo.removeClass($('board_progress_tokens'), 'red_border');
 
-                var container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + notif.args.progressTokenPosition + ')')[0];
+                let container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens > .progress_token_outline')[notif.args.progressTokenPosition - 1];
                 var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
                 if (progressTokenNode) {
                     progressTokenNode = this.attachToNewParent(progressTokenNode, container);
@@ -4692,7 +4693,7 @@ define([
                 }
 
                 dojo.addClass($('board_progress_tokens'), 'red_border');
-                dojo.query('.player' + this.getOppositePlayerId(this.getActivePlayerId()) + ' .player_area_progress_tokens').addClass('red_border');
+                dojo.query('.player' + this.getOppositePlayerId(this.getActivePlayerId()) + ' .player_area_progress_tokens>.progress_token_outline').addClass('red_border');
             },
 
             onLockProgressTokenClick: function (e) {
