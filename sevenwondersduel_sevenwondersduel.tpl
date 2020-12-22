@@ -735,7 +735,7 @@ var jstpl_progress_token_tooltip = '\
 var jstpl_divinity_tooltip = '\
     <div class="swd_tooltip">\
         <div class="cardinfos">\
-            <strong><span style="color: ${jsDivinityColor}">${jsDivinityType}</span> ${translateDivinity} ${jsName}</strong>\
+            <strong>${translateDivinity} ${jsName} (<span style="color: ${jsDivinityColor}">${jsDivinityType}</span>)</strong>\
             <hr\>\
             <p>${jsText}</p>\
         </div>\
@@ -756,6 +756,19 @@ var jstpl_decree_tooltip = '\
         </div>\
         <div>\
             <div class="decree tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;"></div>\
+        </div>\
+        <div class="clear"></div>\
+    </div>';
+
+var jstpl_mythology_token_tooltip = '\
+    <div class="swd_tooltip offering_token_tooltip">\
+        <div class="cardinfos">\
+            <strong>${translateToken} (<span style="color: ${jsDivinityColor}">${jsDivinityType}</span>)</strong>\
+            <hr\>\
+            <p>${jsText}</p>\
+        </div>\
+        <div>\
+            <div class="mythology_token mythology_token${jsType} tooltipWiggle" style="float:right;"></div>\
         </div>\
         <div class="clear"></div>\
     </div>';

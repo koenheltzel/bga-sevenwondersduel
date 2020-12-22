@@ -1746,7 +1746,20 @@ define([
                     })
                 );
 
-                // Add tooltips to offering tokens everywhere.
+                // Add tooltips to Mythology tokens everywhere.
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: 'div[data-mythology-token-id]',
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            var id = dojo.attr(node, "data-mythology-token-id");
+                            return this.getMythologyTokenTooltip(id, node);
+                        })
+                    })
+                );
+
+                // Add tooltips to Offering tokens everywhere.
                 this.customTooltips.push(
                     new dijit.Tooltip({
                         connectId: "game_play_area",
@@ -1985,10 +1998,21 @@ define([
                 return this.format_block('jstpl_decree_tooltip', data);
             },
 
+            getMythologyTokenTooltip: function (id) {
+                var token = this.gamedatas.mythologyTokens[id];
+
+                var data = {};
+                data.jsId = id;
+                data.jsType = token.type;
+                data.translateToken = _("Mythology token");
+                data.jsDivinityType = _(this.gamedatas.divinityTypeNames[token.type]);
+                data.jsDivinityColor = this.gamedatas.divinityTypeColors[token.type];
+                data.jsText = this.getTextHtml(token.text);
+                return this.format_block('jstpl_mythology_token_tooltip', data);
+            },
+
             getOfferingTokenTooltip: function (id) {
                 var token = this.gamedatas.offeringTokens[id];
-
-                var spritesheetColumns = 6;
 
                 var data = {};
                 data.jsId = id;
