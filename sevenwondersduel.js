@@ -2967,7 +2967,7 @@ define([
                     }));
 
                     this.setClientState("client_useAgeCard", {
-                        descriptionmyturn: "${you} must select a Conspiracy to prepare, or select a different card or action.",
+                        descriptionmyturn: _("${you} must select a Conspiracy to prepare, or select a different card or action"),
                     });
                 }
             },
@@ -3940,7 +3940,7 @@ define([
 
                 if (this.isCurrentPlayerActive()) {
                     this.setClientState("client_placeInfluence", {
-                        descriptionmyturn: "${you} select a Senate chamber to place an Influence cube, or select a different action",
+                        descriptionmyturn: _("${you} select a Senate chamber to place an Influence cube, or select a different action"),
                     });
                     this.markSection(this.senateActionsSection);
                 }
@@ -4114,7 +4114,7 @@ define([
 
             selectMoveInfluenceMode: function() {
                 this.setClientState("client_moveInfluenceFrom", {
-                    descriptionmyturn: "${you} select a Senate chamber to move an Influence cube from, or select a different action",
+                    descriptionmyturn: _("${you} select a Senate chamber to move an Influence cube from, or select a different action"),
                 });
 
                 this.markChambers(this.getChambersWithPlayerInfluenceCubes(this.me_id));
@@ -4133,7 +4133,7 @@ define([
                     }
 
                     this.setClientState("client_moveInfluenceTo", {
-                        descriptionmyturn: "${you} select a Senate chamber to move the Influence cube to, or select a different action",
+                        descriptionmyturn: _("${you} select a Senate chamber to move the Influence cube to, or select a different action"),
                     });
 
                     let chamber = parseInt(dojo.attr(e.target, "data-chamber"));
@@ -4818,7 +4818,7 @@ define([
 
             selectMoveDecreeFromMode: function() {
                 this.setClientState("client_moveDecreeFrom", {
-                    descriptionmyturn: "${you} must choose a Decree token to move to a Chamber of your choice, under the existing Decree",
+                    descriptionmyturn: _("${you} must choose a Decree token to move to a Chamber of your choice, under the existing Decree"),
                 });
 
                 this.markChambers([]);
@@ -4842,7 +4842,7 @@ define([
                     this.clearRedBorder();
 
                     this.setClientState("client_moveDecreeTo", {
-                        descriptionmyturn: "${you} must choose a Senate Chamber to move the Decree token to, under the existing Decree",
+                        descriptionmyturn: _("${you} must choose a Senate Chamber to move the Decree token to, under the existing Decree"),
                     });
 
                     let chamber = parseInt($(e.target).closest(".chamber_decrees_container").dataset.chamber);
