@@ -760,6 +760,19 @@ var jstpl_decree_tooltip = '\
         <div class="clear"></div>\
     </div>';
 
+var jstpl_offering_token_tooltip = '\
+    <div class="swd_tooltip offering_token_tooltip">\
+        <div class="cardinfos">\
+            <strong>${translateToken} (-${jsDiscount})</strong>\
+            <hr\>\
+            <p>${jsText}</p>\
+        </div>\
+        <div>\
+            <div class="offering_token offering_token${jsId} tooltipWiggle" style="float:right;"></div>\
+        </div>\
+        <div class="clear"></div>\
+    </div>';
+
 var jstpl_conspiracy_tooltip = '\
     <div class="swd_tooltip">\
         <div class="cardinfos">\

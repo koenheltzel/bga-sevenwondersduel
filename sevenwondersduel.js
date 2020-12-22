@@ -1746,6 +1746,19 @@ define([
                     })
                 );
 
+                // Add tooltips to offering tokens everywhere.
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: 'div[data-offering-token-id]',
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            var id = dojo.attr(node, "data-offering-token-id");
+                            return this.getOfferingTokenTooltip(id, node);
+                        })
+                    })
+                );
+
                 // Add tooltips to Senate Chambers
                 this.customTooltips.push(
                     new dijit.Tooltip({
@@ -1970,6 +1983,19 @@ define([
                 data.jsBackX = ((id - 1) % spritesheetColumns);
                 data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
                 return this.format_block('jstpl_decree_tooltip', data);
+            },
+
+            getOfferingTokenTooltip: function (id) {
+                var token = this.gamedatas.offeringTokens[id];
+
+                var spritesheetColumns = 6;
+
+                var data = {};
+                data.jsId = id;
+                data.jsDiscount = token.discount;
+                data.translateToken = _("Offering token");
+                data.jsText = this.getTextHtml(token.text);
+                return this.format_block('jstpl_offering_token_tooltip', data);
             },
 
             getConspiracyTooltip: function (id, node) {

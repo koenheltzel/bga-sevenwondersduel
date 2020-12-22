@@ -212,7 +212,7 @@ class Draftpool extends Base
                                             SevenWondersDuelPantheon::get()->mythologyTokenDeck->insertCardOnExtremePosition($card['id'], $player->id, true);
                                             SevenWondersDuelPantheon::get()->notifyAllPlayers(
                                                 'takeToken',
-                                                clienttranslate('${player_name} takes a Mythology token (${mythologyType}) before revealing “${buildingName}”'),
+                                                clienttranslate('${player_name} takes a Mythology token (${mythologyType}) before flipping over “${buildingName}”'),
                                                 [
                                                     'player_name' => $player->name,
                                                     'i18n' => ['buildingName', 'mythologyType'],
@@ -229,7 +229,7 @@ class Draftpool extends Base
                                             SevenWondersDuelPantheon::get()->offeringTokenDeck->insertCardOnExtremePosition($card['id'], $player->id, true);
                                             SevenWondersDuelPantheon::get()->notifyAllPlayers(
                                                 'takeToken',
-                                                clienttranslate('${player_name} takes a Offering token (-${discount}) before revealing “${buildingName}”'),
+                                                clienttranslate('${player_name} takes a Offering token (-${discount}) before flipping over “${buildingName}”'),
                                                 [
                                                     'player_name' => $player->name,
                                                     'i18n' => ['buildingName'],

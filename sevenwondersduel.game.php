@@ -652,6 +652,8 @@ class SevenWondersDuelPantheon extends Table
         if ($result['pantheon']) {
             $result['mythologyTokensSituation'] = MythologyTokens::getSituation();
             $result['offeringTokensSituation'] = OfferingTokens::getSituation();
+            $result['mythologyTokens'] = Material::get()->mythologyTokens->array;
+            $result['offeringTokens'] = Material::get()->offeringTokens->array;
             $result['divinities'] = Material::get()->divinities->array;
             $result['divinities'][0] = new Divinity(0, '', 0); // To pass the generic explanation text to the tooltip.
             $result['divinityTypeNames'] = [
