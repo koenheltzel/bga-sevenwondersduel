@@ -1042,24 +1042,28 @@ define([
 
                     // Mythology tokens
                     if (this.pantheon) {
-                        for (let i = 0; i < this.gamedatas.mythologyTokensSituation.board.length; i++) {
-                            let card = this.gamedatas.mythologyTokensSituation.board[i];
-                            let row = card.rowCol[0];
-                            let col = card.rowCol[1];
-                            let node = dojo.query('#draftpool #' + row + '_' + col)[0];
-                            let tokenNode = dojo.query('.mythology_token', node);
-                            if (!tokenNode[0]) {
-                                dojo.place( this.getMythologyTokenHtml(card.id, card.type, false), node);
+                        if (draftpool.mythologyTokens) {
+                            for (let i = 0; i < draftpool.mythologyTokens.length; i++) {
+                                let card = draftpool.mythologyTokens[i];
+                                let row = card.rowCol[0];
+                                let col = card.rowCol[1];
+                                let node = dojo.query('#draftpool #' + row + '_' + col)[0];
+                                let tokenNode = dojo.query('.mythology_token', node);
+                                if (!tokenNode[0]) {
+                                    dojo.place( this.getMythologyTokenHtml(card.id, card.type, false), node);
+                                }
                             }
                         }
-                        for (let i = 0; i < this.gamedatas.offeringTokensSituation.board.length; i++) {
-                            let card = this.gamedatas.offeringTokensSituation.board[i];
-                            let row = card.rowCol[0];
-                            let col = card.rowCol[1];
-                            let node = dojo.query('#draftpool #' + row + '_' + col)[0];
-                            let tokenNode = dojo.query('.offering_token', node);
-                            if (!tokenNode[0]) {
-                                dojo.place( this.getOfferingTokenHtml(card.id, card.type, false), node);
+                        if (draftpool.offeringTokens) {
+                            for (let i = 0; i < draftpool.offeringTokens.length; i++) {
+                                let card = draftpool.offeringTokens[i];
+                                let row = card.rowCol[0];
+                                let col = card.rowCol[1];
+                                let node = dojo.query('#draftpool #' + row + '_' + col)[0];
+                                let tokenNode = dojo.query('.offering_token', node);
+                                if (!tokenNode[0]) {
+                                    dojo.place( this.getOfferingTokenHtml(card.id, card.type, false), node);
+                                }
                             }
                         }
                     }
@@ -1232,7 +1236,7 @@ define([
             },
 
             updatePlayerMythologyTokens: function (playerId, deckCards) {
-                if (this.debug) console.log('updatePlayerMythologyTokens', playerId, rows);
+                if (this.debug) console.log('updatePlayerMythologyTokens', playerId, deckCards);
 
                 let tokensContainer = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens')[0];
                 Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
@@ -1268,7 +1272,7 @@ define([
             },
 
             updatePlayerOfferingTokens: function (playerId, deckCards) {
-                if (this.debug) console.log('updatePlayerOfferingTokens', playerId, rows);
+                if (this.debug) console.log('updatePlayerOfferingTokens', playerId, deckCards);
 
                 let tokensContainer = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens')[0];
                 Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {

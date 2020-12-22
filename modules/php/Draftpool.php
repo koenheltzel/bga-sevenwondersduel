@@ -174,6 +174,9 @@ class Draftpool extends Base
             if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON)) {
                 if ($age == 1) $tokenCards = MythologyTokens::getDeckCardsSorted('board');
                 if ($age == 2) $tokenCards = OfferingTokens::getDeckCardsSorted('board');
+
+                $draftpool['mythologyTokens'] = MythologyTokens::getBoardTokens();
+                $draftpool['offeringTokens'] = OfferingTokens::getBoardTokens();
             }
 
             $rows = self::getRows($age);

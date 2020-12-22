@@ -69,7 +69,6 @@ trait NextAgeTrait
                     'ageRoman' => ageRoman($age),
                     'player_name' => Player::getActive()->name,
                     'draftpool' => Draftpool::get(),
-                    'offeringTokensSituation' => OfferingTokens::getSituation(),
                     'playersSituation' => Players::getSituation(), // Mostly so the science symbol count is updated.
                 ]
             );

@@ -21,7 +21,7 @@ class MythologyTokens extends Collection {
         $this->array = $mythologyTokens;
     }
 
-    public static function getSituation() {
+    public static function getBoardTokens() {
         $age = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
         if ($age == 0 && SevenWondersDuelPantheon::get()->expansionActive()) {
             $age = 1;
@@ -36,9 +36,12 @@ class MythologyTokens extends Collection {
                 $board[] = $card;
             }
         }
+        return $board;
+    }
 
+    public static function getSituation() {
         return [
-            'board' => $board,
+            'board' => self::getBoardTokens(),
             Player::me()->id => Player::me()->getMythologyTokenDeckCards(),
             Player::opponent()->id => Player::opponent()->getMythologyTokenDeckCards(),
         ];

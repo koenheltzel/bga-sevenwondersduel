@@ -3,8 +3,6 @@
 namespace SWD\States;
 
 use SWD\Draftpool;
-use SWD\MythologyTokens;
-use SWD\OfferingTokens;
 use SWD\Player;
 use SWD\Players;
 use SWD\Wonders;
@@ -26,11 +24,6 @@ trait SelectStartPlayerTrait {
         ];
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
-        }
-
-        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
-            $data['mythologyTokensSituation'] = MythologyTokens::getSituation();
-            $data['offeringTokensSituation'] = OfferingTokens::getSituation();
         }
         return $data;
     }
