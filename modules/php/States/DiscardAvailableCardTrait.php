@@ -4,6 +4,8 @@ namespace SWD\States;
 
 use SWD\Building;
 use SWD\Draftpool;
+use SWD\MythologyTokens;
+use SWD\OfferingTokens;
 use SWD\Player;
 
 trait DiscardAvailableCardTrait {
@@ -18,6 +20,11 @@ trait DiscardAvailableCardTrait {
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         $data['round'] = (int)$this->getGameStateValue(self::VALUE_DISCARD_AVAILABLE_CARD_ROUND);
         $data['draftpool'] = Draftpool::get();
+
+        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+            $data['mythologyTokensSituation'] = MythologyTokens::getSituation();
+            $data['offeringTokensSituation'] = OfferingTokens::getSituation();
+        }
         return $data;
     }
 

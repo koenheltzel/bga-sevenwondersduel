@@ -41,6 +41,16 @@ class Material extends Base
      */
     public $progressTokens;
 
+    /**
+     * @var OfferingTokens
+     */
+    public $offeringTokens;
+
+    /**
+     * @var MythologyTokens
+     */
+    public $mythologyTokens;
+
     public $buildingIdsToLinkIconId;
 
     /**

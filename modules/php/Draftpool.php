@@ -168,6 +168,14 @@ class Draftpool extends Base
                 $revealCards = true;
             }
 
+            $player = Player::getActive();
+            // Check for Mythology and Offering tokens
+            $tokenCards = [];
+            if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON)) {
+                if ($age == 1) $tokenCards = MythologyTokens::getDeckCardsSorted('board');
+                if ($age == 2) $tokenCards = OfferingTokens::getDeckCardsSorted('board');
+            }
+
             $rows = self::getRows($age);
             $locationArg = (count($rows, COUNT_RECURSIVE) - count($rows)) - 1;
             $positionsFound = [];
@@ -177,11 +185,12 @@ class Draftpool extends Base
                 foreach($columns as $column) {
                     if(isset($cards[$locationArg])) {
                         $building = Building::get($cards[$locationArg]['id']);
+                        $row = $row_index + 1;
                         $position = [
-                            'row' => $row_index + 1,
+                            'row' => $row,
                             'column' => $column,
                         ];
-                        $positionsFound[] = ($row_index + 1) . "_" . $column;
+                        $positionsFound[] = $row . "_" . $column;
                         $cardvisible = $row_index % 2 == 0;
                         // Determine if card is available because other cards have revealed it.
                         $available = Draftpool::buildingRevealable($age, $building->id, $revealCards);
@@ -190,6 +199,47 @@ class Draftpool extends Base
                             if ($revealCards && !in_array($building->id, $availableCardIds)) {
                                 // Reveal this card
                                 $availableCardIds[] = $building->id;
+
+                                // Check for Mythology and Offering tokens
+                                foreach ($tokenCards as $card) {
+                                    $cardRowCol = Draftpool::getTokenRowCol($age, $card['location_arg']);
+                                    if ($cardRowCol[0] == $row && $cardRowCol[1] == $column) {
+                                        // Mythology token
+                                        if ($age == 1) {
+                                            SevenWondersDuelPantheon::get()->mythologyTokenDeck->insertCardOnExtremePosition($card['id'], $player->id, true);
+                                            SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                                                'takeToken',
+                                                clienttranslate('${player_name} takes a Mythology token (${mythologyType}) before revealing “${buildingName}”'),
+                                                [
+                                                    'player_name' => $player->name,
+                                                    'i18n' => ['buildingName', 'mythologyType'],
+                                                    'buildingName' => $building->name,
+                                                    'mythologyType' => Divinity::getTypeName(MythologyToken::get($card['id'])->type),
+                                                    'type' => 'mythology',
+                                                    'tokenId' => $card['id'],
+                                                    'playerId' => $player->id,
+                                                ]
+                                            );
+                                        }
+                                        // Offering token
+                                        if ($age == 2) {
+                                            SevenWondersDuelPantheon::get()->offeringTokenDeck->insertCardOnExtremePosition($card['id'], $player->id, true);
+                                            SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                                                'takeToken',
+                                                clienttranslate('${player_name} takes a Offering token (-${discount}) before revealing “${buildingName}”'),
+                                                [
+                                                    'player_name' => $player->name,
+                                                    'i18n' => ['buildingName'],
+                                                    'buildingName' => $building->name,
+                                                    'discount' => OfferingToken::get($card['id'])->discount,
+                                                    'type' => 'offering',
+                                                    'tokenId' => $card['id'],
+                                                    'playerId' => $player->id,
+                                                ]
+                                            );
+                                        }
+                                    }
+                                }
                             }
                             $available = in_array($building->id, $availableCardIds);
                         }

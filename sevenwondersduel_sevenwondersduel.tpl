@@ -290,12 +290,6 @@
                                 <div class="progress_token_outline"></div>
                                 <div class="progress_token_outline"></div>
                                 <div class="mythology_token_outline"></div>
-                                <div class="mythology_token_outline"></div>
-                                <div class="mythology_token_outline"></div>
-                                <div class="mythology_token_outline"></div>
-                                <div class="offering_token_outline"></div>
-                                <div class="offering_token_outline"></div>
-                                <div class="offering_token_outline"></div>
                                 <div class="offering_token_outline"></div>
                             </div>
                             <!-- END board_player_row_progress_tokens -->

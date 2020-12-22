@@ -13,7 +13,7 @@ class OfferingToken extends Item {
      * @return OfferingToken
      */
     public static function get($id) {
-        return Material::get()->mythologyTokens[$id];
+        return Material::get()->offeringTokens[$id];
     }
 
     public function __construct($id, $discount) {

@@ -537,6 +537,11 @@ define([
                 dojo.subscribe('endGameCategoryUpdate', this, "notif_endGameCategoryUpdate");
                 this.notifqueue.setSynchronous('endGameCategoryUpdate');
 
+                // Pantheon
+
+                dojo.subscribe('takeToken', this, "notif_takeToken");
+                this.notifqueue.setSynchronous('takeToken');
+
                 // Agora
 
                 dojo.subscribe('constructConspiracy', this, "notif_constructConspiracy");
@@ -606,10 +611,6 @@ define([
                         this.updatePlayersSituation(args.args.playersSituation);
                     }
 
-                    if (args.args.draftpool) {
-                        // Wait for loading screen (for Agora, when Age I draftpool gets revealed at the start of the game).
-                        this.callFunctionAfterLoading(dojo.hitch(this, "updateDraftpool"), [args.args.draftpool]);
-                    }
                     if (args.args.wondersSituation) this.updateWondersSituation(args.args.wondersSituation);
                     if (args.args._private && args.args._private.myConspiracies) this.myConspiracies = args.args._private.myConspiracies;
                     if (args.args.conspiraciesSituation) this.updateConspiraciesSituation(args.args.conspiraciesSituation);
@@ -622,6 +623,10 @@ define([
                         });
                     }
 
+                    if (args.args.draftpool) {
+                        // Wait for loading screen (for Agora, when Age I draftpool gets revealed at the start of the game).
+                        this.callFunctionAfterLoading(dojo.hitch(this, "updateDraftpool"), [args.args.draftpool]);
+                    }
 
                     this.testDivinities(2310957);
                     this.testDivinities(2310958);
@@ -1229,12 +1234,13 @@ define([
             updatePlayerMythologyTokens: function (playerId, deckCards) {
                 if (this.debug) console.log('updatePlayerMythologyTokens', playerId, rows);
 
-                let nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens > .mythology_token_outline');
+                let tokensContainer = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens')[0];
                 Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
-                    var container = nodes[index];
-                    dojo.empty(container);
-                    var deckCard = deckCards[index];
-                    dojo.place(this.getMythologyTokenHtml(deckCard.id, deckCard.type), container);
+                    let deckCard = deckCards[index];
+                    let nodeExists = dojo.query('.mythology_token[data-mythology-token-id=' + deckCard.id + ']', tokensContainer)[0];
+                    if (!nodeExists) {
+                        dojo.place(this.getMythologyTokenHtml(deckCard.id, deckCard.type), tokensContainer);
+                    }
                 }));
             },
 
@@ -1264,12 +1270,13 @@ define([
             updatePlayerOfferingTokens: function (playerId, deckCards) {
                 if (this.debug) console.log('updatePlayerOfferingTokens', playerId, rows);
 
-                let nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens > .offering_token_outline');
+                let tokensContainer = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens')[0];
                 Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
-                    var container = nodes[index];
-                    dojo.empty(container);
-                    var deckCard = deckCards[index];
-                    dojo.place(this.getOfferingTokenHtml(deckCard.id, deckCard.type), container);
+                    let deckCard = deckCards[index];
+                    let nodeExists = dojo.query('.offering_token[data-offering-token-id=' + deckCard.id + ']', tokensContainer)[0];
+                    if (!nodeExists) {
+                        dojo.place(this.getOfferingTokenHtml(deckCard.id, deckCard.type), tokensContainer);
+                    }
                 }));
             },
 
@@ -2336,6 +2343,34 @@ define([
                 }
             },
 
+            notif_takeToken: function (notif) {
+                if (this.debug) console.log('notif_progressTokenChosen', notif);
+
+                let container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens')[0];
+                if (notif.args.type == 'mythology') {
+                    newTokenContainerNode = dojo.place(this.getMythologyTokenHtml(notif.args.tokenId, Math.ceil(notif.args.tokenId / 2)), container);
+                    newTokenNode = dojo.query('.mythology_token', newTokenContainerNode)[0];
+                    oldTokenNode = dojo.query('#draftpool .mythology_token[data-mythology-token-id=' + notif.args.tokenId + ']')[0];
+                }
+                if (notif.args.type == 'offering') {
+                    newTokenContainerNode = dojo.place(this.getOfferingTokenHtml(notif.args.tokenId), container);
+                    newTokenNode = dojo.query('.offering_token', newTokenContainerNode)[0];
+                    oldTokenNode = dojo.query('#draftpool .offering_token[data-offering-token-id=' + notif.args.tokenId + ']')[0];
+                }
+                oldTokenContainerNode = oldTokenNode.parentElement;
+                this.placeOnObject(newTokenNode, oldTokenNode);
+                dojo.destroy(oldTokenContainerNode);
+
+                var anim = dojo.fx.chain([
+                    this.slideToObjectPos(newTokenNode, newTokenContainerNode, 0, 0, this.progressTokenDuration),
+                ]);
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+
+                anim.play();
+            },
+
             clearPlayerTurnNodeGlow: function () {
                 if (this.playerTurnNode) {
                     dojo.removeClass(this.playerTurnNode, 'glow');
@@ -3319,6 +3354,7 @@ define([
             notif_nextAgeDraftpoolReveal: function (notif) {
                 if (this.debug) console.log('notif_nextAgeDraftpoolReveal', notif);
 
+                if (notif.args.offeringTokensSituation) this.updateOfferingTokensSituation(notif.args.offeringTokensSituation); // Sets this.gamedatas.offeringTokensSituation so it can be used in this.updateDraftpool
                 var animationDuration = this.updateDraftpool(notif.args.draftpool, false, true);
 
                 // Wait for animation before handling the next notification (= state change).
