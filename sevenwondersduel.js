@@ -213,6 +213,7 @@ define([
                 this.updateDiscardedBuildings(this.gamedatas.discardedBuildings);
                 if (this.pantheon) {
                     this.updateMythologyTokensSituation(this.gamedatas.mythologyTokensSituation);
+                    this.updateOfferingTokensSituation(this.gamedatas.offeringTokensSituation);
                 }
                 if (this.agora) {
                     this.updateDecreesSituation(this.gamedatas.decreesSituation);
@@ -613,6 +614,7 @@ define([
                     if (args.args._private && args.args._private.myConspiracies) this.myConspiracies = args.args._private.myConspiracies;
                     if (args.args.conspiraciesSituation) this.updateConspiraciesSituation(args.args.conspiraciesSituation);
                     if (args.args.mythologyTokensSituation) this.updateMythologyTokensSituation(args.args.mythologyTokensSituation);
+                    if (args.args.offeringTokensSituation) this.updateOfferingTokensSituation(args.args.offeringTokensSituation);
                     if (args.args.senateSituation) this.updateSenateSituation(args.args.senateSituation);
                     if (args.args.wonderSelectionRound) {
                         $('wonder_selection_block_title').innerText = dojo.string.substitute(_("Wonders selection - round ${round} of 2"), {
@@ -1045,6 +1047,16 @@ define([
                                 dojo.place( this.getMythologyTokenHtml(card.id, card.type, false), node);
                             }
                         }
+                        for (let i = 0; i < this.gamedatas.offeringTokensSituation.board.length; i++) {
+                            let card = this.gamedatas.offeringTokensSituation.board[i];
+                            let row = card.rowCol[0];
+                            let col = card.rowCol[1];
+                            let node = dojo.query('#draftpool #' + row + '_' + col)[0];
+                            let tokenNode = dojo.query('.offering_token', node);
+                            if (!tokenNode[0]) {
+                                dojo.place( this.getOfferingTokenHtml(card.id, card.type, false), node);
+                            }
+                        }
                     }
 
                     // Adjust the height of the age divs based on the age cards absolutely positioned within.
@@ -1214,27 +1226,51 @@ define([
                 }
             },
 
-            updatePlayerMythologyTokens: function (playerId, rows) {
+            updatePlayerMythologyTokens: function (playerId, deckCards) {
                 if (this.debug) console.log('updatePlayerMythologyTokens', playerId, rows);
 
-                // let container = $('player_conspiracies_' + playerId);
-                // dojo.empty(container);
-                // Object.keys(rows).forEach(dojo.hitch(this, function (index) {
-                //     var row = rows[index];
-                //     let id = row.conspiracy;
-                //     if (!row.triggered && playerId == this.me_id && this.myConspiracies[row.position]) {
-                //         id = this.myConspiracies[row.position].id;
-                //     }
-                //     let newNode = dojo.place(this.getConspiracyDivHtml(id, row.triggered ? row.conspiracy : 18, false, row.position, row.prepared, row.triggered, row.useful, row.progressToken), container);
-                //
-                //     if (row.prepared > 0) {
-                //         var data = {
-                //             jsX: row.ageCardSpriteXY[0],
-                //             jsY: row.ageCardSpriteXY[1]
-                //         };
-                //         dojo.place(this.format_block('jstpl_wonder_age_card', data), dojo.query('.age_card_container', newNode)[0]);
-                //     }
-                // }));
+                let nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens > .mythology_token_outline');
+                Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
+                    var container = nodes[index];
+                    dojo.empty(container);
+                    var deckCard = deckCards[index];
+                    dojo.place(this.getMythologyTokenHtml(deckCard.id, deckCard.type), container);
+                }));
+            },
+
+            //   ___   __  __           _               _____     _
+            //  / _ \ / _|/ _| ___ _ __(_)_ __   __ _  |_   _|__ | | _____ _ __  ___
+            // | | | | |_| |_ / _ \ '__| | '_ \ / _` |   | |/ _ \| |/ / _ \ '_ \/ __|
+            // | |_| |  _|  _|  __/ |  | | | | | (_| |   | | (_) |   <  __/ | | \__ \
+            //  \___/|_| |_|  \___|_|  |_|_| |_|\__, |   |_|\___/|_|\_\___|_| |_|___/
+            //                                  |___/
+
+            getOfferingTokenHtml: function (id, full=false) {
+                var data = {
+                    jsId: id
+                };
+                return this.format_block('jstpl_offering_token', data);
+            },
+
+            updateOfferingTokensSituation: function (situation) {
+                if (this.debug) console.log('updateOfferingTokensSituation', situation);
+                this.gamedatas.offeringTokensSituation = situation;
+
+                for (var player_id in this.gamedatas.players) {
+                    this.updatePlayerOfferingTokens(player_id, situation[player_id]);
+                }
+            },
+
+            updatePlayerOfferingTokens: function (playerId, deckCards) {
+                if (this.debug) console.log('updatePlayerOfferingTokens', playerId, rows);
+
+                let nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens > .offering_token_outline');
+                Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
+                    var container = nodes[index];
+                    dojo.empty(container);
+                    var deckCard = deckCards[index];
+                    dojo.place(this.getOfferingTokenHtml(deckCard.id, deckCard.type), container);
+                }));
             },
 
             //  ____                   _

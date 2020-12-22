@@ -107,6 +107,14 @@ trait GameSetupTrait
             // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and mythology token ids.
             self::DbQuery( "UPDATE mythology_token SET card_id = card_type_arg + 1000, card_type_arg = 0" );
             self::DbQuery( "UPDATE mythology_token SET card_id = card_id - 1000" );
+            
+            $this->offeringTokenDeck->createCards(Material::get()->offeringTokens->getDeckCards());
+            $this->offeringTokenDeck->moveAllCardsInLocation('deck', 'board');
+            $this->offeringTokenDeck->shuffle('board'); // Ensures we have defined card_location_arg
+            // Return the remaining Offering Tokens to the box.
+            // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and offering token ids.
+            self::DbQuery( "UPDATE offering_token SET card_id = card_type_arg + 1000, card_type_arg = 0" );
+            self::DbQuery( "UPDATE offering_token SET card_id = card_id - 1000" );
         }
         
         if ($agora) {

@@ -822,6 +822,11 @@ class Material extends Base
             }
         }
 
+        $this->offeringTokens = new OfferingTokens();
+        $this->offeringTokens[1] = (new OfferingToken(1, 2));
+        $this->offeringTokens[2] = (new OfferingToken(2, 3));
+        $this->offeringTokens[3] = (new OfferingToken(3, 4));
+
         //   ____                      _                _
         //  / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___(_) ___  ___
         // | |   / _ \| '_ \/ __| '_ \| | '__/ _` |/ __| |/ _ \/ __|

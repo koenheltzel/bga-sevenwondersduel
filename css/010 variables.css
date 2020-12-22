@@ -41,9 +41,14 @@
 
     --pantheon-spritesheet-width: 756px;
     --pantheon-spritesheet-height: 230px;
-    --mythology-token-width: 150px;
-    --mythology-token-height: 150px;
-    --mythology-token-small-scale: calc(0.4 * var(--scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
+
+    --mythology-token-width: 124px;
+    --mythology-token-height: 122px;
+    --mythology-token-small-scale: calc(0.484 * var(--scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
+
+    --offering-token-width: 100px;
+    --offering-token-height: 97px;
+    --offering-token-small-scale: calc(0.484 * var(--scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
 
     --conspiracy-spritesheet-width: 1440px;
     --conspiracy-spritesheet-height: 1107px;

@@ -1,0 +1,38 @@
+
+#draftpool .building_small .offering_token_container {
+    left: calc(0.5 * (var(--building-small-width) - (var(--offering-token-width) * var(--offering-token-small-scale) * var(--element-scale))));
+    top: calc(var(--scale) * 40px * var(--draftpool-row-height-multiplier));
+}
+
+.offering_token_container {
+    position: relative;
+}
+.offering_token {
+    background-image: url('img/pantheon_sprites.png');
+    width: var(--offering-token-width);
+    height: var(--offering-token-height);
+    filter: drop-shadow(0px 0px calc(var(--scale) * 5px) #000000);
+}
+.offering_token1 {
+    background-position: 0.305% 94.007%;
+    background-size: 759.8%;
+}
+.offering_token2 {
+    background-position: 15.765% 94.007%;
+    background-size: 759.8%;
+}
+.offering_token3 {
+    background-position: 31.226% 94.007%;
+    background-size: 759.8%;
+}
+.offering_token_back {
+    background-position: 46.687% 94.007%;
+    background-size: 759.8%;
+}
+.offering_token_small {
+    position: relative;
+    z-index: 5;
+    width: calc(var(--offering-token-width) * var(--offering-token-small-scale) * var(--element-scale));
+    height: calc(var(--offering-token-height) * var(--offering-token-small-scale) * var(--element-scale));
+    filter: drop-shadow(0px 0px calc(var(--scale) * 3px) #000000);
+}

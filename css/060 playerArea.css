@@ -354,8 +354,12 @@
 }
 
 .player_area_progress_tokens {
-    display: inline-block;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--gutter);
     position: relative;
     z-index: 10;
 }

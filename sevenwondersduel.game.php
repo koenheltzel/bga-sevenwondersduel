@@ -25,6 +25,7 @@ use SWD\Draftpool;
 use SWD\Material;
 use SWD\MilitaryTrack;
 use SWD\MythologyTokens;
+use SWD\OfferingTokens;
 use SWD\Player;
 use SWD\Players;
 use SWD\ProgressTokens;
@@ -650,6 +651,7 @@ class SevenWondersDuelPantheon extends Table
         $result['pantheon'] = (int)$this->getGameStateValue(self::OPTION_PANTHEON);
         if ($result['pantheon']) {
             $result['mythologyTokensSituation'] = MythologyTokens::getSituation();
+            $result['offeringTokensSituation'] = OfferingTokens::getSituation();
             $result['divinities'] = Material::get()->divinities->array;
             $result['divinities'][0] = new Divinity(0, '', 0); // To pass the generic explanation text to the tooltip.
             $result['divinityTypeNames'] = [

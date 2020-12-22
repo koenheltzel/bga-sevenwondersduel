@@ -289,6 +289,14 @@
                                 <div class="progress_token_outline"></div>
                                 <div class="progress_token_outline"></div>
                                 <div class="progress_token_outline"></div>
+                                <div class="mythology_token_outline"></div>
+                                <div class="mythology_token_outline"></div>
+                                <div class="mythology_token_outline"></div>
+                                <div class="mythology_token_outline"></div>
+                                <div class="offering_token_outline"></div>
+                                <div class="offering_token_outline"></div>
+                                <div class="offering_token_outline"></div>
+                                <div class="offering_token_outline"></div>
                             </div>
                             <!-- END board_player_row_progress_tokens -->
                         <!-- END board_player_row -->
@@ -574,6 +582,14 @@ var jstpl_mythology_token = '\
         <div\
             data-mythology-token-id="${jsId}"\
             class="mythology_token mythology_token_small mythology_token${jsType}">\
+        </div>\
+    </div>';
+
+var jstpl_offering_token = '\
+    <div class="offering_token_container">\
+        <div\
+            data-offering-token-id="${jsId}"\
+            class="offering_token offering_token${jsId} offering_token_small">\
         </div>\
     </div>';
 
