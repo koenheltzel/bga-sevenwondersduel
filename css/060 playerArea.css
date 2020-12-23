@@ -371,12 +371,12 @@
     width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
     height: calc(var(--progress-token-height) * var(--progress-token-small-scale));
 }
-.player_area_progress_tokens .mythology_token_container {
+.player_area_progress_tokens .mythology_token_outline {
     order: 2;
     width: calc(var(--mythology-token-width) * var(--mythology-token-small-scale));
     height: calc(var(--mythology-token-height) * var(--mythology-token-small-scale));
 }
-.player_area_progress_tokens .offering_token_container {
+.player_area_progress_tokens .offering_token_outline {
     order: 3;
     width: calc(var(--offering-token-width) * var(--offering-token-small-scale));
     height: calc(var(--offering-token-height) * var(--offering-token-small-scale));

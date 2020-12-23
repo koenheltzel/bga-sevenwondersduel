@@ -250,7 +250,6 @@ define([
 
                     this.updatePlayerWonders(player_id, this.gamedatas.wondersSituation[player_id]);
                     this.updatePlayerBuildings(player_id, this.gamedatas.playerBuildings[player_id]);
-                    this.updatePlayerProgressTokens(player_id, this.gamedatas.progressTokensSituation[player_id]);
 
                     if (this.pantheon) {
                         // For Pantheon, only show 1 instead of 3 Progress Token outline placeholders (because we have placeholders for Mythology & Offering tokens too), so delete the last 2.
@@ -258,6 +257,7 @@ define([
                         dojo.destroy(outlineNodes[2]);
                         dojo.destroy(outlineNodes[1]);
                     }
+                    this.updatePlayerProgressTokens(player_id, this.gamedatas.progressTokensSituation[player_id]);
                 }
                 // After updatePlayerProgressTokens so we can highlight the Law progress token for the endgameanimation.
                 this.updatePlayersSituation(this.gamedatas.playersSituation);
@@ -1167,7 +1167,7 @@ define([
                     return outlineNodes[0];
                 }
                 else {
-                    return dojo.place(this.format_block('jstpl_progress_token_container', {}), tokensContainer);
+                    return dojo.place(this.format_block('jstpl_progress_token_outline', {}), tokensContainer);
                 }
             },
 
@@ -1187,12 +1187,12 @@ define([
             updatePlayerProgressTokens: function (playerId, deckCards) {
                 if (this.debug) console.log('updatePlayerProgressTokens', playerId, deckCards);
 
-                let tokensContainer = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens')[0]
+                let tokensContainer = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens')[0];
                 Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
                     var deckCard = deckCards[index];
-                    let node = dojo.query('div[data-progress-token-id=' + deckCard.id + ']', tokensContainer);
+                    let node = dojo.query('div[data-progress-token-id=' + deckCard.id + ']', tokensContainer)[0];
                     if (!node) {
-                        dojo.place(this.getProgressTokenDivHtml(deckCard.id), this.getNewProgressTokenContainer(playerId));
+                        let result = dojo.place(this.getProgressTokenDivHtml(deckCard.id), this.getNewProgressTokenContainer(playerId));
                     }
                 }));
             },
@@ -1253,7 +1253,7 @@ define([
                     let nodeExists = dojo.query('.mythology_token[data-mythology-token-id=' + deckCard.id + ']', tokensContainer)[0];
                     if (!nodeExists) {
                         // Destroy first outline node if it exists
-                        dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens .mythology_token_container:empty')[0]);
+                        dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens .mythology_token_outline:empty')[0]);
 
                         dojo.place(this.getMythologyTokenHtml(deckCard.id, deckCard.type), tokensContainer);
                     }
@@ -1292,7 +1292,7 @@ define([
                     let nodeExists = dojo.query('.offering_token[data-offering-token-id=' + deckCard.id + ']', tokensContainer)[0];
                     if (!nodeExists) {
                         // Destroy first outline node if it exists
-                        dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens .offering_token_container:empty')[0]);
+                        dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens .offering_token_outline:empty')[0]);
 
                         dojo.place(this.getOfferingTokenHtml(deckCard.id, deckCard.type), tokensContainer);
                     }
@@ -2418,7 +2418,7 @@ define([
                 let container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens')[0];
                 if (notif.args.type == 'mythology') {
                     // Destroy first outline node if it exists
-                    dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens .mythology_token_container:empty')[0]);
+                    dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens .mythology_token_outline:empty')[0]);
 
                     newTokenContainerNode = dojo.place(this.getMythologyTokenHtml(notif.args.tokenId, Math.ceil(notif.args.tokenId / 2)), container);
                     newTokenNode = dojo.query('.mythology_token', newTokenContainerNode)[0];
@@ -2426,7 +2426,7 @@ define([
                 }
                 if (notif.args.type == 'offering') {
                     // Destroy first outline node if it exists
-                    dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens .offering_token_container:empty')[0]);
+                    dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens .offering_token_outline:empty')[0]);
 
                     newTokenContainerNode = dojo.place(this.getOfferingTokenHtml(notif.args.tokenId), container);
                     newTokenNode = dojo.query('.offering_token', newTokenContainerNode)[0];

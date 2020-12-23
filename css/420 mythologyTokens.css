@@ -1,10 +1,10 @@
 
-#draftpool .building_small .mythology_token_container {
+#draftpool .building_small .mythology_token_outline {
     left: calc(0.5 * (var(--building-small-width) - (var(--mythology-token-width) * var(--mythology-token-small-scale) * var(--element-scale))));
     top: calc(var(--scale) * 29px * var(--draftpool-row-height-multiplier));
 }
 
-.mythology_token_container {
+.mythology_token_outline {
     position: relative;
     background-position: 0.552% 99.115%;
     background-size: 617.143%;

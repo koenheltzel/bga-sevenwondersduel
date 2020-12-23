@@ -1,10 +1,10 @@
 
-#draftpool .building_small .offering_token_container {
+#draftpool .building_small .offering_token_outline {
     left: calc(0.5 * (var(--building-small-width) - (var(--offering-token-width) * var(--offering-token-small-scale) * var(--element-scale))));
     top: calc(var(--scale) * 40px * var(--draftpool-row-height-multiplier));
 }
 
-.offering_token_container {
+.offering_token_outline {
     position: relative;
     background-position: 19.848% 91.2%;
     background-size: 767.513%;

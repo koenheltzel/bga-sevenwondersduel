@@ -286,8 +286,8 @@
                                 <div class="progress_token_outline"></div>
                                 <div class="progress_token_outline"></div>
                                 <div class="progress_token_outline"></div>
-                                <div class="mythology_token_container pantheon"></div>
-                                <div class="offering_token_container pantheon"></div>
+                                <div class="mythology_token_outline pantheon"></div>
+                                <div class="offering_token_outline pantheon"></div>
                             </div>
                             <!-- END board_player_row_progress_tokens -->
                         <!-- END board_player_row -->
@@ -569,7 +569,7 @@ var jstpl_wonder_age_card = '\
     </div>';
 
 var jstpl_mythology_token = '\
-    <div class="mythology_token_container">\
+    <div class="mythology_token_outline">\
         <div\
             data-mythology-token-id="${jsId}"\
             class="mythology_token mythology_token_small mythology_token${jsType}">\
@@ -577,7 +577,7 @@ var jstpl_mythology_token = '\
     </div>';
 
 var jstpl_offering_token = '\
-    <div class="offering_token_container">\
+    <div class="offering_token_outline">\
         <div\
             data-offering-token-id="${jsId}"\
             class="offering_token offering_token${jsId} offering_token_small">\
@@ -631,7 +631,7 @@ var jstpl_conspiracy_full = '\
         <span class="deck_position"></span>\
     </div>';
 
-var jstpl_progress_token_container = '\
+var jstpl_progress_token_outline = '\
     <div class="progress_token_outline"></div>';
 
 var jstpl_progress_token = '\
