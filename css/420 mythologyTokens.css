@@ -9,33 +9,37 @@
 }
 .mythology_token {
     background-image: url('img/pantheon_sprites.png');
-    width: var(--mythology-token-width);
-    height: var(--mythology-token-height);
+    width: calc(var(--mythology-token-width) * var(--scale));
+    height: calc(var(--mythology-token-height) * var(--scale));
     filter: drop-shadow(0px 0px calc(var(--scale) * 5px) #000000);
 }
 .mythology_token1 {
-    background-position: 0.316% 1.843%;
+    background-position: 0.316% 0.891%;
     background-size: 609.677%;
 }
 .mythology_token2 {
-    background-position: 20.253% 1.843%;
+    background-position: 20.253% 0.891%;
     background-size: 609.677%;
 }
 .mythology_token3 {
-    background-position: 40.19% 1.826%;
+    background-position: 40.19% 0.887%;
     background-size: 609.677%;
 }
 .mythology_token4 {
-    background-position: 60.127% 1.843%;
+    background-position: 60.127% 0.891%;
     background-size: 609.677%;
 }
 .mythology_token5 {
-    background-position: 80.063% 1.826%;
+    background-position: 80.063% 0.887%;
     background-size: 609.677%;
 }
 .mythology_token_back {
-    background-position: 99.763% 2.273%;
+    background-position: 99.763% 1.106%;
     background-size: 614.634%;
+}
+.mythology_token_outline {
+    background-position: 0.552% 99.115%;
+    background-size: 617.143%;
 }
 .mythology_token_small {
     position: relative;
