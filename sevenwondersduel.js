@@ -251,6 +251,13 @@ define([
                     this.updatePlayerWonders(player_id, this.gamedatas.wondersSituation[player_id]);
                     this.updatePlayerBuildings(player_id, this.gamedatas.playerBuildings[player_id]);
                     this.updatePlayerProgressTokens(player_id, this.gamedatas.progressTokensSituation[player_id]);
+
+                    if (this.pantheon) {
+                        // For Pantheon, only show 1 instead of 3 Progress Token outline placeholders (because we have placeholders for Mythology & Offering tokens too), so delete the last 2.
+                        let outlineNodes = dojo.query('.player_info.' + this.getPlayerAlias(player_id) + ' .player_area_progress_tokens .progress_token_outline:empty');
+                        dojo.destroy(outlineNodes[2]);
+                        dojo.destroy(outlineNodes[1]);
+                    }
                 }
                 // After updatePlayerProgressTokens so we can highlight the Law progress token for the endgameanimation.
                 this.updatePlayersSituation(this.gamedatas.playersSituation);
@@ -628,8 +635,8 @@ define([
                         this.callFunctionAfterLoading(dojo.hitch(this, "updateDraftpool"), [args.args.draftpool]);
                     }
 
-                    this.testDivinities(2310957);
-                    this.testDivinities(2310958);
+                    if (this.pantheon) this.testDivinities(2310957);
+                    if (this.pantheon) this.testDivinities(2310958);
 
                     this.updateLayout(); // Because of added height of action button divs being auto shown/hidden because of the state change, it's a good idea to update the layout here.
 
@@ -1153,6 +1160,17 @@ define([
                 }
             },
 
+            getNewProgressTokenContainer: function(playerId) {
+                let tokensContainer = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens')[0];
+                let outlineNodes = dojo.query('.progress_token_outline:empty', tokensContainer);
+                if (outlineNodes[0]) {
+                    return outlineNodes[0];
+                }
+                else {
+                    return dojo.place(this.format_block('jstpl_progress_token_container', {}), tokensContainer);
+                }
+            },
+
             getProgressTokenDivHtml: function (progressTokenId) {
                 var progressToken = this.gamedatas.progressTokens[progressTokenId];
                 var data = {
@@ -1169,23 +1187,14 @@ define([
             updatePlayerProgressTokens: function (playerId, deckCards) {
                 if (this.debug) console.log('updatePlayerProgressTokens', playerId, deckCards);
 
-                let nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens > .progress_token_outline');
+                let tokensContainer = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens')[0]
                 Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
-                    var container = nodes[index];
-                    dojo.empty(container);
                     var deckCard = deckCards[index];
-                    dojo.place(this.getProgressTokenDivHtml(deckCard.id), container);
+                    let node = dojo.query('div[data-progress-token-id=' + deckCard.id + ']', tokensContainer);
+                    if (!node) {
+                        dojo.place(this.getProgressTokenDivHtml(deckCard.id), this.getNewProgressTokenContainer(playerId));
+                    }
                 }));
-                this.maybeShowSecondRowProgressTokens(playerId);
-            },
-
-            maybeShowSecondRowProgressTokens: function (playerId) {
-                var nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens > .progress_token_outline > div');
-                var containers = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens > .progress_token_outline');
-                for (var i = 4; i <= 5; i++) {
-                    dojo.style(containers[i - 1], 'display', nodes.length >= 3 ? 'inline-block' : 'none');
-                }
-                dojo.style(containers[6 - 1], 'display', nodes.length >= 5 ? 'inline-block' : 'none');
             },
 
             //  ____  _       _       _ _   _
@@ -1243,6 +1252,9 @@ define([
                     let deckCard = deckCards[index];
                     let nodeExists = dojo.query('.mythology_token[data-mythology-token-id=' + deckCard.id + ']', tokensContainer)[0];
                     if (!nodeExists) {
+                        // Destroy first outline node if it exists
+                        dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens .mythology_token_container:empty')[0]);
+
                         dojo.place(this.getMythologyTokenHtml(deckCard.id, deckCard.type), tokensContainer);
                     }
                 }));
@@ -1279,6 +1291,9 @@ define([
                     let deckCard = deckCards[index];
                     let nodeExists = dojo.query('.offering_token[data-offering-token-id=' + deckCard.id + ']', tokensContainer)[0];
                     if (!nodeExists) {
+                        // Destroy first outline node if it exists
+                        dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens .offering_token_container:empty')[0]);
+
                         dojo.place(this.getOfferingTokenHtml(deckCard.id, deckCard.type), tokensContainer);
                     }
                 }));
@@ -2402,11 +2417,17 @@ define([
 
                 let container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens')[0];
                 if (notif.args.type == 'mythology') {
+                    // Destroy first outline node if it exists
+                    dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens .mythology_token_container:empty')[0]);
+
                     newTokenContainerNode = dojo.place(this.getMythologyTokenHtml(notif.args.tokenId, Math.ceil(notif.args.tokenId / 2)), container);
                     newTokenNode = dojo.query('.mythology_token', newTokenContainerNode)[0];
                     oldTokenNode = dojo.query('#draftpool .mythology_token[data-mythology-token-id=' + notif.args.tokenId + ']')[0];
                 }
                 if (notif.args.type == 'offering') {
+                    // Destroy first outline node if it exists
+                    dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens .offering_token_container:empty')[0]);
+
                     newTokenContainerNode = dojo.place(this.getOfferingTokenHtml(notif.args.tokenId), container);
                     newTokenNode = dojo.query('.offering_token', newTokenContainerNode)[0];
                     oldTokenNode = dojo.query('#draftpool .offering_token[data-offering-token-id=' + notif.args.tokenId + ']')[0];
@@ -3364,7 +3385,7 @@ define([
 
                 dojo.removeClass($('board_progress_tokens'), 'red_border');
 
-                let container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens > .progress_token_outline')[notif.args.progressTokenPosition - 1];
+                let container = this.getNewProgressTokenContainer(notif.args.playerId);
                 var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
                 if (progressTokenNode) {
                     progressTokenNode = this.attachToNewParent(progressTokenNode, container);
@@ -3396,7 +3417,6 @@ define([
                     anim.stop();
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
-                    this.maybeShowSecondRowProgressTokens(notif.args.playerId);
                 }));
 
                 // Wait for animation before handling the next notification (= state change).
@@ -4819,7 +4839,7 @@ define([
                 }
 
                 dojo.addClass($('board_progress_tokens'), 'red_border');
-                dojo.query('.player' + this.getOppositePlayerId(this.getActivePlayerId()) + ' .player_area_progress_tokens > .progress_token_outline').addClass('red_border');
+                dojo.query('.player' + this.getOppositePlayerId(this.getActivePlayerId()) + ' .player_area_progress_tokens > .progress_token_outline:not(:empty)').addClass('red_border');
             },
 
             onLockProgressTokenClick: function (e) {
@@ -4872,7 +4892,6 @@ define([
                     var anim = this.slideToObject(progressTokenNode, conspiracyNode, this.progressTokenDuration);
 
                     dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                        // this.maybeShowSecondRowProgressTokens(notif.args.playerId);
                         dojo.destroy(progressTokenNode);
                         conspiracyNode.dataset.conspiracyProgressToken = 1;
                     }));

@@ -286,8 +286,8 @@
                                 <div class="progress_token_outline"></div>
                                 <div class="progress_token_outline"></div>
                                 <div class="progress_token_outline"></div>
-                                <div class="mythology_token_container"></div>
-                                <div class="offering_token_container"></div>
+                                <div class="mythology_token_container pantheon"></div>
+                                <div class="offering_token_container pantheon"></div>
                             </div>
                             <!-- END board_player_row_progress_tokens -->
                         <!-- END board_player_row -->
@@ -630,6 +630,9 @@ var jstpl_conspiracy_full = '\
         <span class="swd_title">${jsName}</span>\
         <span class="deck_position"></span>\
     </div>';
+
+var jstpl_progress_token_container = '\
+    <div class="progress_token_outline"></div>';
 
 var jstpl_progress_token = '\
     <div id="progress_token_${jsId}"\
