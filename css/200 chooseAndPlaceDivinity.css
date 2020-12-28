@@ -27,7 +27,10 @@
     display: block;
 }
 
-.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] #choose_and_place_divinity .conspiracy_small {
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] #choose_and_place_divinity .divinity_small {
+    cursor: pointer;
+}
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] .pantheon_space_containers .red_border {
     cursor: pointer;
 }
 

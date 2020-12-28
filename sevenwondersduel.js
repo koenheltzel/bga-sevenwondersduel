@@ -40,7 +40,7 @@ define([
             LAYOUT_PORTRAIT: 'portrait',
 
             // Show console.log messages
-            debug: 0,
+            debug: 1,
             pantheon: 0,
             agora: 0,
             expansion: 0,
@@ -331,6 +331,19 @@ define([
                 dojo.query("#setting_quality").on("change", dojo.hitch(this, "onSettingQualityChange"));
                 dojo.query("#setting_opponent_cost").on("change", dojo.hitch(this, "onSettingOpponentCostChange"));
 
+                if (this.pantheon) {
+                    // Pantheon click handlers using event delegation:
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseAndPlaceDivinity] #choose_and_place_divinity .divinity_small :click",
+                            dojo.hitch(this, "onChooseDivinityClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseAndPlaceDivinity] .pantheon_space_containers .red_border :click",
+                            dojo.hitch(this, "onPlaceDivinityClick")
+                        );
+
+                    // Pantheon click handlers without event delegation:
+                }
                 if (this.agora) {
                     // Agora click handlers using event delegation:
                     dojo.query('body')
@@ -3112,7 +3125,77 @@ define([
                 );
                 anim.play();
             },
-            
+
+            onChooseDivinityClick: function (e) {
+                if (this.debug) console.log('onChooseDivinityClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    this.clearRedBorder();
+                    this.clearGrayBorder();
+
+                    var divinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
+                    dojo.addClass(divinityNode, 'gray_border');
+
+                    dojo.query('#swd .pantheon_space_containers > div:empty').addClass('red_border');
+
+                    // this.playerTurnBuildingId = dojo.attr(building, 'data-building-id');
+                    // this.playerTurnNode = building;
+                    //
+                    // var cardData = this.getDraftpoolCardData(this.playerTurnBuildingId);
+                    // dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + this.gamedatas.draftpool.discardGain[this.player_id];
+                    //
+                    // var playerCoins = this.gamedatas.playersSituation[this.player_id].coins;
+                    //
+                    // var canAffordBuilding = cardData.cost[this.player_id] <= playerCoins;
+                    // dojo.removeClass($('buttonConstructBuilding'), 'bgabutton_blue');
+                    // dojo.removeClass($('buttonConstructBuilding'), 'bgabutton_darkgray');
+                    // dojo.addClass($('buttonConstructBuilding'), canAffordBuilding ? 'bgabutton_blue' : 'bgabutton_darkgray');
+                    //
+                    // var buildingData = this.gamedatas.buildings[this.playerTurnBuildingId];
+                    // if (buildingData.type == "Senator") {
+                    //     dojo.query('#buttonConstructBuilding > span')[0].innerHTML = _('Recruit senator');
+                    // }
+                    // else {
+                    //     dojo.query('#buttonConstructBuilding > span')[0].innerHTML = _('Construct building');
+                    // }
+                    //
+                    // var canAffordWonder = false;
+                    // Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
+                    //     var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
+                    //     if (!wonderData.constructed) {
+                    //         if (wonderData.cost <= playerCoins) {
+                    //             canAffordWonder = true;
+                    //         }
+                    //     }
+                    // }));
+                    // dojo.removeClass($('buttonConstructWonder'), 'bgabutton_blue');
+                    // dojo.removeClass($('buttonConstructWonder'), 'bgabutton_darkgray');
+                    // dojo.addClass($('buttonConstructWonder'), canAffordWonder ? 'bgabutton_blue' : 'bgabutton_darkgray');
+                    //
+                    // let conspiraciesToPrepare = dojo.query('#player_conspiracies_' + this.player_id + ' .conspiracy_small[data-conspiracy-prepared="0"][data-conspiracy-triggered="0"]');
+                    // dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_blue', conspiraciesToPrepare.length > 0);
+                    // dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_darkgray', conspiraciesToPrepare.length == 0);
+                    //
+                    // dojo.setStyle('draftpool_actions', 'display', 'flex');
+                    //
+                    // this.setClientState("client_useAgeCard", {
+                    //     descriptionmyturn: _("${you} must choose the action for the age card, or select a different age card"),
+                    // });
+                }
+            },
+
+            onPlaceDivinityClick: function (e) {
+                if (this.debug) console.log('onPlaceDivinityClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+
+                }
+            },
+
             //  ____                                           ____                      _
             // |  _ \ _ __ ___ _ __   __ _ _ __ ___    __ _   / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___ _   _
             // | |_) | '__/ _ \ '_ \ / _` | '__/ _ \  / _` | | |   / _ \| '_ \/ __| '_ \| | '__/ _` |/ __| | | |
