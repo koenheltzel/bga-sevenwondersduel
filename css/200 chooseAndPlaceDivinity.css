@@ -1,0 +1,38 @@
+
+#choose_and_place_divinity {
+    display: none;
+}
+
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] {
+    --draftpool-row-height-multiplier: 0.35 !important;
+    --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
+}
+
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] #choose_and_place_divinity {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+/* During Wonder Selection, for the Curia Julia ability, we need to show draftpool_container, else #choose_and_place_divinity isn't visible either. */
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] #draftpool_container {
+    display: flex !important; /* Override inline style set by javascript */
+}
+
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] #choose_and_place_divinity > div:nth-of-type(1) {
+    margin-right: var(--gutter);
+}
+
+/* Hide/show second div */
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] #choose_and_place_divinity > div:nth-of-type(2) {
+    display: block;
+}
+
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] #choose_and_place_divinity .conspiracy_small {
+    cursor: pointer;
+}
+
+#choose_and_place_divinity > div {
+    width: calc(var(--divinity-width) * var(--divinity-small-scale));
+    height: calc(var(--divinity-height) * var(--divinity-small-scale));
+    position: relative;
+}

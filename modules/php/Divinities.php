@@ -21,6 +21,20 @@ class Divinities extends Collection {
         $this->array = $divinities;
     }
 
+    public function getDeckCards($idMin = 0, $idMax = 999) {
+        $cards = [];
+        foreach ($this->array as $item) {
+            if ($item->id >= $idMin && $item->id <= $idMax) {
+                $cards[] = [
+                    'type' => $item->type,
+                    'type_arg' => $item->id,
+                    'nbr' => 1
+                ];
+            }
+        }
+        return $cards;
+    }
+
 //    public static function getSituation() {
 //        return [
 //            'deckCount' => count(Divinities::getDeckCardsSorted('deck')),

@@ -14,11 +14,19 @@ use SWD\Senate;
 
 trait NextPlayerTurnTrait {
 
+    public function preEnterStateNextPlayerTurn() {
+        // Reveal cards for the next turn.
+        $result = Draftpool::revealCards();
+        if (isset($result['mythologyToken'])) {
+            // Choose and place a divinity next.
+            SevenWondersDuelPantheon::get()->prependStateStackAndContinue([SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME]);
+            return false;
+        }
+        return true;
+    }
+
     public function enterStateNextPlayerTurn() {
         SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_MAY_TRIGGER_CONSPIRACY, 1);
-
-        // Reveal cards for the next turn.
-        Draftpool::revealCards();
 
         if ($this->checkImmediateVictory()) {
             $this->gamestate->nextState( self::STATE_GAME_END_DEBUG_NAME );

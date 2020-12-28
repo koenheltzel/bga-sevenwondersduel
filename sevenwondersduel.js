@@ -635,8 +635,10 @@ define([
                         this.callFunctionAfterLoading(dojo.hitch(this, "updateDraftpool"), [args.args.draftpool]);
                     }
 
-                    if (this.pantheon) this.testDivinities(2310957);
-                    if (this.pantheon) this.testDivinities(2310958);
+                    if (0 && this.pantheon) {
+                        this.testDivinities(2310957);
+                        this.testDivinities(2310958);
+                    }
 
                     this.updateLayout(); // Because of added height of action button divs being auto shown/hidden because of the state change, it's a good idea to update the layout here.
 
@@ -3052,7 +3054,65 @@ define([
                 }));
                 coinAnimation.play();
             },
+            
+            //   ____ _                               _              _   ____  _                  ____  _       _       _ _         
+            //  / ___| |__   ___   ___  ___  ___     / \   _ __   __| | |  _ \| | __ _  ___ ___  |  _ \(_)_   _(_)_ __ (_) |_ _   _ 
+            // | |   | '_ \ / _ \ / _ \/ __|/ _ \   / _ \ | '_ \ / _` | | |_) | |/ _` |/ __/ _ \ | | | | \ \ / / | '_ \| | __| | | |
+            // | |___| | | | (_) | (_) \__ \  __/  / ___ \| | | | (_| | |  __/| | (_| | (_|  __/ | |_| | |\ V /| | | | | | |_| |_| |
+            //  \____|_| |_|\___/ \___/|___/\___| /_/   \_\_| |_|\__,_| |_|   |_|\__,_|\___\___| |____/|_| \_/ |_|_| |_|_|\__|\__, |
+            //                                                                                                                |___/ 
+            
+            onEnterChooseAndPlaceDivinity: function (args) {
+                if (this.debug) console.log('onEnterChooseAndPlaceDivinity', args);
 
+                let anims = [];
+                if (this.isCurrentPlayerActive()) {
+                    let i = 1;
+                    Object.keys(args._private.divinities).forEach(dojo.hitch(this, function (divinityId) {
+                        var card = args._private.divinities[divinityId];
+                        let divinity = this.gamedatas.divinities[divinityId];
+                        var container = dojo.query('#choose_and_place_divinity>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
+                        dojo.empty(container);
+                        let divinityContainer = dojo.place(this.getDivinityDivHtml(divinityId, divinity.type,true), container);
+                        let divinityNode = dojo.query('.divinity', divinityContainer)[0];
+                        this.placeOnObject(divinityNode, $('mythology' + divinity.type));
+                        anims.push(this.slideToObjectPos( divinityNode, divinityContainer, 0, 0, this.conspire_duration, i * this.conspire_duration / 3));
+                        i++;
+                    }));
+                    this.updateLayout();
+                }
+                else {
+                    for (let i = 0; i <= 1; i++) {
+                        var container = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                        let node = dojo.place(this.getDivinityDivHtml(0, args.divinitiesType, true), container);
+                        this.placeOnObject(node, $('mythology' + args.divinitiesType));
+                        let startDelay = i * this.conspire_duration / 3;
+
+                        anims.push(
+                            dojo.fx.combine([
+                                this.slideToObject( node, container, this.conspire_duration, i * this.conspire_duration / 3),
+                                dojo.fadeIn({
+                                    node: node,
+                                    duration: this.conspire_duration / 3
+                                }),
+                                dojo.fadeOut({
+                                    node: node,
+                                    delay: startDelay + this.conspire_duration / 3 * 2,
+                                    duration: this.conspire_duration / 3,
+                                    onEnd: dojo.hitch(this, function (node) {
+                                        dojo.destroy(node);
+                                    })
+                                }),
+                            ])
+                        );
+                    }
+                }
+                let anim = dojo.fx.combine(
+                    anims
+                );
+                anim.play();
+            },
+            
             //  ____                                           ____                      _
             // |  _ \ _ __ ___ _ __   __ _ _ __ ___    __ _   / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___ _   _
             // | |_) | '__/ _ \ '_ \ / _` | '__/ _ \  / _` | | |   / _ \| '_ \/ __| '_ \| | '__/ _` |/ __| | | |

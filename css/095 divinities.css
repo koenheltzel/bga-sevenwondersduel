@@ -39,7 +39,7 @@
     top: calc(21px * var(--scale));
 }
 .divinity_container {
-    display: inline-block;
+    /*display: inline-block;*/
     position: relative; /* Without this the divinity won't slide properly */
 }
 

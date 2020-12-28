@@ -52,11 +52,40 @@ class Divinity extends Item {
         }
     }
 
+    public function place($space) {
+        SevenWondersDuelPantheon::get()->divinityDeck->moveCard($this->id, "space{$space}");
+
+        $player = Player::getActive();
+
+        // Send divinity id to active player
+        SevenWondersDuelPantheon::get()->notifyPlayer($player->id,
+            'placeDivinity',
+            '',
+            [
+                'playerId' => $player->id,
+                'divinityId' => $this->id,
+                'divinityType' => $this->type,
+                'space' => $space,
+            ]
+        );
+
+        // Don't send divinity id to the other player / spectators, only the picked divinity's position in the deck's player location
+        SevenWondersDuelPantheon::get()->notifyAllPlayers(
+            'placeDivinity',
+            '',
+            [
+                'playerId' => $player->id,
+                'divinityType' => $this->type,
+                'space' => $space,
+            ]
+        );
+    }
+
     /**
      * @param Divinity $building
      * @return PaymentPlan
      */
-    public function choose(Player $player) {
+    public function activate(Player $player) {
         SevenWondersDuelPantheon::get()->divinityDeck->insertCardOnExtremePosition($this->id, $player->id, true);
 
         // Text notification to all

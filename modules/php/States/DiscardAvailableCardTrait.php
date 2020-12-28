@@ -2,6 +2,7 @@
 
 namespace SWD\States;
 
+use SevenWondersDuelPantheon;
 use SWD\Building;
 use SWD\Draftpool;
 use SWD\MythologyTokens;
@@ -70,8 +71,11 @@ trait DiscardAvailableCardTrait {
         $this->incGameStateValue(self::VALUE_DISCARD_AVAILABLE_CARD_ROUND, 1);
 
         // Always reveal cards that are available thanks to this Conspiracy.
-        Draftpool::revealCards(); // Pierre Berthelot: The Conspiracy card “Turn of events” is the exception that confirms the rule. Cards "released" by his action are returned immediately.
-
+        $result = Draftpool::revealCards(); // Pierre Berthelot: The Conspiracy card “Turn of events” is the exception that confirms the rule. Cards "released" by his action are returned immediately.
+        if (isset($result['mythologyToken'])) {
+            // Choose and place a divinity next.
+            SevenWondersDuelPantheon::get()->prependStateStack([SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME]);
+        }
         $this->stateStackNextState();
     }
 
@@ -91,7 +95,13 @@ trait DiscardAvailableCardTrait {
 
     public function preEnterStateDiscardAvailableCard() {
         // Always reveal cards that are available thanks to this Conspiracy.
-        Draftpool::revealCards(); // Pierre Berthelot: The Conspiracy card “Turn of events” is the exception that confirms the rule. Cards "released" by his action are returned immediately.
+        $result = Draftpool::revealCards(); // Pierre Berthelot: The Conspiracy card “Turn of events” is the exception that confirms the rule. Cards "released" by his action are returned immediately.
+        if (isset($result['mythologyToken'])) {
+            // Choose and place a divinity next.
+            SevenWondersDuelPantheon::get()->prependStateStackAndContinue([SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME]);
+            return false;
+        }
+        return true;
     }
 
 }

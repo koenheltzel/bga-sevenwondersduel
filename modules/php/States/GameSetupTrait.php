@@ -4,6 +4,7 @@
 namespace SWD\States;
 
 
+use SevenWondersDuelPantheon;
 use SWD\Material;
 use SWD\Player;
 
@@ -98,6 +99,20 @@ trait GameSetupTrait
 
 
         if ($pantheon) {
+            $this->divinityDeck->createCards(Material::get()->divinities->getDeckCards());
+            // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and progress token ids.
+            self::DbQuery( "UPDATE divinity SET card_id = card_type_arg + 1000, card_type_arg = 0" );
+            self::DbQuery( "UPDATE divinity SET card_id = card_id - 1000" );
+
+            for($type = 1; $type <= 5; $type++) {
+                $cards = $this->divinityDeck->getCardsOfType($type);
+                $location = "mythology{$type}";
+                foreach($cards as $card) {
+                    $this->divinityDeck->insertCardOnExtremePosition($card['id'], $location, true);
+                }
+                $this->divinityDeck->shuffle($location);
+            }
+
             $this->mythologyTokenDeck->createCards(Material::get()->mythologyTokens->getDeckCards());
             $this->mythologyTokenDeck->shuffle('deck');
             $this->mythologyTokenDeck->pickCardsForLocation(5, 'deck', 'board');

@@ -140,6 +140,18 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::ajaxResponse();
     }
 
+    // Pantheon
+
+    public function actionChooseAndPlaceDivinity() {
+        self::setAjaxMode();
+
+        $divinityId = self::getArg("divinityId", AT_posint, true);
+        $space = self::getArg("space", AT_posint, true);
+        SevenWondersDuelPantheon::get()->actionChooseAndPlaceDivinity();
+
+        self::ajaxResponse();
+    }
+
     // Agora
 
     public function actionChooseConspiratorActionPlaceInfluence() {

@@ -77,6 +77,10 @@
                                     <div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div>
                                 </div>
                             </div>
+                            <div id="choose_and_place_divinity" class="whiteblock">
+                                <div></div>
+                                <div></div>
+                            </div>
                             <div id="choose_conspirator_action" class="whiteblock">
                                 <a href="#" id="buttonPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_place_influence"></div><span>{PLACE_INFLUENCE}</span></a>
                                 <a href="#" id="buttonConspire" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{CONSPIRE}</span></a>
@@ -307,31 +311,31 @@
         </div>
         <div id="mythology_decks_container" class="whiteblock pantheon">
             <h3>{MYTHOLOGY_DECKS}</h3>
-            <div>
+            <div id="mythology1">
                 <div id="divinity_deck" class="divinity divinity_small" style="background-position: -400% -200%;">
                     <span id="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_1}</h3>
             </div>
-            <div>
+            <div id="mythology2">
                 <div id="divinity_deck" class="divinity divinity_small" style="background-position: -500% -200%;">
                     <span id="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_2}</h3>
             </div>
-            <div>
+            <div id="mythology3">
                 <div id="divinity_deck" class="divinity divinity_small" style="background-position: -000% -300%;">
                     <span id="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_3}</h3>
             </div>
-            <div>
+            <div id="mythology4">
                 <div id="divinity_deck" class="divinity divinity_small" style="background-position: -100% -300%;">
                     <span id="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_4}</h3>
             </div>
-            <div>
+            <div id="mythology5">
                 <div id="divinity_deck" class="divinity divinity_small" style="background-position: -200% -300%;">
                     <span id="divinity_deck_count">3</span>
                 </div>
@@ -591,6 +595,18 @@ var jstpl_divinity = '\
             data-divinity-type="${jsType}"\
             class="divinity divinity_small divinity_compact ${jsDivinityBack}"\
             style="background-position: calc(-${jsX}.0741 * var(--divinity-width) * var(--divinity-small-scale) * var(--element-scale)) calc(-${jsY}${jsYOffset} * var(--divinity-height) * var(--divinity-small-scale) * var(--element-scale));"\
+        >\
+            <span class="swd_title">${jsName}</span>\
+        </div>\
+    </div>';
+
+var jstpl_divinity_full = '\
+    <div class="divinity_container">\
+        <div\
+            data-divinity-id="${jsId}"\
+            data-divinity-type="${jsType}"\
+            class="divinity divinity_small ${jsDivinityBack}"\
+            style="background-position: -${jsX}00% -${jsY}00%;"\
         >\
             <span class="swd_title">${jsName}</span>\
         </div>\

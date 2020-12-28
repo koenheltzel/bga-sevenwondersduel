@@ -72,6 +72,8 @@ class SevenWondersDuelPantheon extends Table
     use SWD\States\SelectWonderTrait;
     use SWD\States\StartPlayerSelectedTrait;
     use SWD\States\WonderSelectedTrait;
+    // Pantheon
+    use SWD\States\ChooseAndPlaceDivinityTrait;
     // Agora
     use SWD\States\ChooseConspiratorActionTrait;
     use SWD\States\ConspireTrait;
@@ -176,6 +178,13 @@ class SevenWondersDuelPantheon extends Table
     const STATE_PLAYER_SWITCH_NAME = "playerSwitch";
 
     // End Agora
+
+    // Start Pantheon
+
+    const STATE_CHOOSE_AND_PLACE_DIVINITY_ID = 50;
+    const STATE_CHOOSE_AND_PLACE_DIVINITY_NAME = "chooseAndPlaceDivinity";
+
+    // End Pantheon
 
     const STATE_CHOOSE_PROGRESS_TOKEN_ID = 45;
     const STATE_CHOOSE_PROGRESS_TOKEN_NAME = "chooseProgressToken";

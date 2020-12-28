@@ -123,25 +123,28 @@ trait SenateActionsTrait {
                 if (method_exists($this, $shouldSkipMethod) &&
                     $this->{$shouldSkipMethod}()
                 ) {
-                    // We now have skipped this state, continue the while loop.
+                    // We now have skipped this state, save the state stack and continue the while loop.
+                    $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
                 }
                 else {
                     //Call the preEnterState function for this state if it exists.
                     $preEnterStateMethod = "preEnterState" . ucfirst($nextState);
-                    if (method_exists($this, $preEnterStateMethod)) {
-                        $this->{$preEnterStateMethod}();
+                    if (method_exists($this, $preEnterStateMethod) && !$this->{$preEnterStateMethod}()) {
+                        // If the preEnter method returns false, it is interrupting the state stack itself.
+                        return;
                     }
-
-                    // Skip method does not exist or result is false, we can go into this state.
-                    $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
-                    $this->gamestate->nextState( $nextState );
-                    return;
+                    else {
+                        // Save the state stack first.
+                        $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
+                        // Skip method does not exist or result is false, we can go into this state.
+                        $this->gamestate->nextState( $nextState );
+                        return;
+                    }
                 }
             }
 
-            // Stack is empty, store that in the database
-            $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
-            $this->gamestate->nextState( $stateIfEmpty );
+            // Stack is empty. We used to do a $this->gamestate->nextState( $stateIfEmpty ) here, but it's possible the preEnter function for this stateIfEmpty state has something to interupt first (divinity selection when a Mythology token is collected).
+            $this->prependStateStackAndContinue([$stateIfEmpty]);
         }
     }
 

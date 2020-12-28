@@ -181,8 +181,9 @@ $machinestates = [
             $conspiracyStateTransitions, // Support all conspiracy actions
             $constructBuildingTransitions, // Support all construct building actions
             [
-                SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME=> SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID, // After triggering conspiracy
-                SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME=> SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID, // After triggering conspiracy
+                SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
+                SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
                 SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_ID,
                 SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
                 SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_ID,
@@ -210,6 +211,7 @@ $machinestates = [
         "transitions" => [
             SevenWondersDuelPantheon::STATE_CONSPIRE_NAME => SevenWondersDuelPantheon::STATE_CONSPIRE_ID,
             SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
         ]
@@ -227,6 +229,7 @@ $machinestates = [
         ],
         "transitions" => [
             SevenWondersDuelPantheon::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
         ]
@@ -243,6 +246,7 @@ $machinestates = [
             "actionChooseConspireRemnantPosition",
         ],
         "transitions" => [
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_WONDER_SELECTED_NAME => SevenWondersDuelPantheon::STATE_WONDER_SELECTED_ID,
             SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
@@ -263,6 +267,7 @@ $machinestates = [
         ],
         "transitions" => array_merge($militaryTokenTransitions, [ // For when the military Decree triggers a Military Token.
             SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID,
             SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political supremacy
@@ -284,6 +289,7 @@ $machinestates = [
             SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_ID, // Going back to Senate Actions after a Senate Action triggered the Military Decree which collected a Military Token.
             SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID, // After Conspiracy Coup, after military token action.
             SevenWondersDuelPantheon::STATE_WONDER_SELECTED_NAME => SevenWondersDuelPantheon::STATE_WONDER_SELECTED_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political supremacy
             SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID,
@@ -305,6 +311,7 @@ $machinestates = [
         "transitions" => array_merge($militaryTokenTransitions, [ // When a move results in the military decree, which results in a military token
             SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_ID, // Going back to Senate Actions after a Senate Action triggered the Military Decree which collected a Military Token.
             SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political supremacy
             SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID,
@@ -326,6 +333,7 @@ $machinestates = [
             SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_ID, // Going back to Senate Actions after a Senate Action triggered the Military Decree which collected a Military Token.
             SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political supremacy
             SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID,
@@ -348,6 +356,7 @@ $machinestates = [
             $conspiracyStateTransitions, // Support all conspiracy actions
             [
                 SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
                 SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
                 SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // For immediate victories
                 SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
@@ -355,25 +364,46 @@ $machinestates = [
         )
     ],
 
-    SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_NAME,
-        "description" => clienttranslate('${actplayer} must choose a progress token'),
-        "descriptionmyturn" => clienttranslate('${you} must choose a progress token'),
-        "type" => "activeplayer",
-        "action" => "enterStateChooseProgressToken",
-        "args" => "argChooseProgressToken",
-        "possibleactions" => [
-            "actionChooseProgressToken",
-        ],
-        "transitions" => [
-            SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID,
-            SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID,
-            SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
-            SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
-            SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
-            SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
-        ]
+    SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID => [
+    "name" => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME,
+    "description" => clienttranslate('${actplayer} must choose a Divinity and place it face down in the Pantheon'),
+    "descriptionmyturn" => clienttranslate('${you} must choose a Divinity and place it face down in the Pantheon'),
+    "type" => "activeplayer",
+    "action" => "enterStateChooseAndPlaceDivinity",
+    "args" => "argChooseAndPlaceDivinity",
+    "possibleactions" => [
+        "actionChooseAndPlaceDivinity",
     ],
+    "transitions" => [
+        SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID,
+        SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID,
+        SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
+        SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+        SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+        SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+    ]
+],
+
+    SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_ID => [
+    "name" => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_NAME,
+    "description" => clienttranslate('${actplayer} must choose a progress token'),
+    "descriptionmyturn" => clienttranslate('${you} must choose a progress token'),
+    "type" => "activeplayer",
+    "action" => "enterStateChooseProgressToken",
+    "args" => "argChooseProgressToken",
+    "possibleactions" => [
+        "actionChooseProgressToken",
+    ],
+    "transitions" => [
+        SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID,
+        SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID,
+        SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
+        SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+        SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
+        SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+        SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+    ]
+],
 
     SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_ID => [
         "name" => SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_NAME,
@@ -389,6 +419,7 @@ $machinestates = [
         "transitions" => array_merge($militaryTokenTransitions, [
             SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID, // Conspiracies, when skipping the discard action
             SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
         ])
@@ -406,6 +437,7 @@ $machinestates = [
         ],
         "transitions" => [
             SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // LAW token > Scientific supremacy
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID, // Conspiracy Espionage
             SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
@@ -426,6 +458,7 @@ $machinestates = [
         "transitions" => array_merge(
             $constructBuildingTransitions, // Support all construct building actions
             [
+                SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
                 SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
                 SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             ]
@@ -446,6 +479,7 @@ $machinestates = [
             $constructBuildingTransitions, // Support all construct building actions
             [
                 SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
                 SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
                 SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
                 SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
@@ -467,6 +501,7 @@ $machinestates = [
             $constructBuildingTransitions, // Support all construct building actions
             [
                 SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
                 SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
                 SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
                 SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
@@ -486,6 +521,7 @@ $machinestates = [
         ],
         "transitions" => [
             SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
             SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
@@ -507,6 +543,7 @@ $machinestates = [
             SevenWondersDuelPantheon::STATE_DISCARD_AVAILABLE_CARD_NAME => SevenWondersDuelPantheon::STATE_DISCARD_AVAILABLE_CARD_ID,
             SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
             SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
@@ -525,6 +562,7 @@ $machinestates = [
         ],
         "transitions" => [
             SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
             SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
@@ -546,6 +584,7 @@ $machinestates = [
             SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_ID, // Military token 2 if Decree 9 control is lost/gained
             SevenWondersDuelPantheon::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_REMOVE_INFLUENCE_ID, // Military token 5 if Decree 9 control is lost/gained
             SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID,
             SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
@@ -568,6 +607,7 @@ $machinestates = [
             SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID,
             SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
             SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
@@ -587,6 +627,7 @@ $machinestates = [
         "transitions" => [
             SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
             SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
@@ -606,6 +647,7 @@ $machinestates = [
         "transitions" => [
             SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
             SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
@@ -627,6 +669,7 @@ $machinestates = [
             SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
             SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_ID,
             SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID, // In case all military token actions are skipped.
+            SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
             SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Political / Military supremacy
             SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,

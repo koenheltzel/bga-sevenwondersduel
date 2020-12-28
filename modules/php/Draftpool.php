@@ -209,7 +209,10 @@ class Draftpool extends Base
                                     if ($cardRowCol[0] == $row && $cardRowCol[1] == $column) {
                                         // Mythology token
                                         if ($age == 1) {
+                                            $mythologyToken = MythologyToken::get($card['id']);
                                             SevenWondersDuelPantheon::get()->mythologyTokenDeck->insertCardOnExtremePosition($card['id'], $player->id, true);
+                                            SevenWondersDuelPantheon::get()->divinityDeck->pickCardForLocation("mythology{$mythologyToken->type}", "selection", 0);
+                                            SevenWondersDuelPantheon::get()->divinityDeck->pickCardForLocation("mythology{$mythologyToken->type}", "selection", 1);
                                             SevenWondersDuelPantheon::get()->notifyAllPlayers(
                                                 'takeToken',
                                                 clienttranslate('${player_name} takes a Mythology token (${mythologyType}) before flipping over “${buildingName}”'),
@@ -217,12 +220,15 @@ class Draftpool extends Base
                                                     'player_name' => $player->name,
                                                     'i18n' => ['buildingName', 'mythologyType'],
                                                     'buildingName' => $building->name,
-                                                    'mythologyType' => Divinity::getTypeName(MythologyToken::get($card['id'])->type),
+                                                    'mythologyType' => Divinity::getTypeName($mythologyToken->type),
                                                     'type' => 'mythology',
                                                     'tokenId' => $card['id'],
                                                     'playerId' => $player->id,
                                                 ]
                                             );
+
+                                            $draftpool['mythologyToken'] = $card['id'];
+                                            $revealCards = false; // Don't reveal the cards just yet, handle the mythology token first (ChooseAndPlaceDivinity)
                                         }
                                         // Offering token
                                         if ($age == 2) {
