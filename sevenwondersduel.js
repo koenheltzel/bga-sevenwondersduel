@@ -3067,134 +3067,6 @@ define([
                 }));
                 coinAnimation.play();
             },
-            
-            //   ____ _                               _              _   ____  _                  ____  _       _       _ _         
-            //  / ___| |__   ___   ___  ___  ___     / \   _ __   __| | |  _ \| | __ _  ___ ___  |  _ \(_)_   _(_)_ __ (_) |_ _   _ 
-            // | |   | '_ \ / _ \ / _ \/ __|/ _ \   / _ \ | '_ \ / _` | | |_) | |/ _` |/ __/ _ \ | | | | \ \ / / | '_ \| | __| | | |
-            // | |___| | | | (_) | (_) \__ \  __/  / ___ \| | | | (_| | |  __/| | (_| | (_|  __/ | |_| | |\ V /| | | | | | |_| |_| |
-            //  \____|_| |_|\___/ \___/|___/\___| /_/   \_\_| |_|\__,_| |_|   |_|\__,_|\___\___| |____/|_| \_/ |_|_| |_|_|\__|\__, |
-            //                                                                                                                |___/ 
-            
-            onEnterChooseAndPlaceDivinity: function (args) {
-                if (this.debug) console.log('onEnterChooseAndPlaceDivinity', args);
-
-                let anims = [];
-                if (this.isCurrentPlayerActive()) {
-                    let i = 1;
-                    Object.keys(args._private.divinities).forEach(dojo.hitch(this, function (divinityId) {
-                        var card = args._private.divinities[divinityId];
-                        let divinity = this.gamedatas.divinities[divinityId];
-                        var container = dojo.query('#choose_and_place_divinity>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
-                        dojo.empty(container);
-                        let divinityContainer = dojo.place(this.getDivinityDivHtml(divinityId, divinity.type,true), container);
-                        let divinityNode = dojo.query('.divinity', divinityContainer)[0];
-                        this.placeOnObject(divinityNode, $('mythology' + divinity.type));
-                        anims.push(this.slideToObjectPos( divinityNode, divinityContainer, 0, 0, this.conspire_duration, i * this.conspire_duration / 3));
-                        i++;
-                    }));
-                    this.updateLayout();
-                }
-                else {
-                    for (let i = 0; i <= 1; i++) {
-                        var container = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
-                        let node = dojo.place(this.getDivinityDivHtml(0, args.divinitiesType, true), container);
-                        this.placeOnObject(node, $('mythology' + args.divinitiesType));
-                        let startDelay = i * this.conspire_duration / 3;
-
-                        anims.push(
-                            dojo.fx.combine([
-                                this.slideToObject( node, container, this.conspire_duration, i * this.conspire_duration / 3),
-                                dojo.fadeIn({
-                                    node: node,
-                                    duration: this.conspire_duration / 3
-                                }),
-                                dojo.fadeOut({
-                                    node: node,
-                                    delay: startDelay + this.conspire_duration / 3 * 2,
-                                    duration: this.conspire_duration / 3,
-                                    onEnd: dojo.hitch(this, function (node) {
-                                        dojo.destroy(node);
-                                    })
-                                }),
-                            ])
-                        );
-                    }
-                }
-                let anim = dojo.fx.combine(
-                    anims
-                );
-                anim.play();
-            },
-
-            onChooseDivinityClick: function (e) {
-                if (this.debug) console.log('onChooseDivinityClick');
-                // Preventing default browser reaction
-                dojo.stopEvent(e);
-
-                if (this.isCurrentPlayerActive()) {
-                    this.clearRedBorder();
-                    this.clearGrayBorder();
-
-                    var divinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
-                    dojo.addClass(divinityNode, 'gray_border');
-
-                    dojo.query('#swd .pantheon_space_containers > div:empty').addClass('red_border');
-
-                    // this.playerTurnBuildingId = dojo.attr(building, 'data-building-id');
-                    // this.playerTurnNode = building;
-                    //
-                    // var cardData = this.getDraftpoolCardData(this.playerTurnBuildingId);
-                    // dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + this.gamedatas.draftpool.discardGain[this.player_id];
-                    //
-                    // var playerCoins = this.gamedatas.playersSituation[this.player_id].coins;
-                    //
-                    // var canAffordBuilding = cardData.cost[this.player_id] <= playerCoins;
-                    // dojo.removeClass($('buttonConstructBuilding'), 'bgabutton_blue');
-                    // dojo.removeClass($('buttonConstructBuilding'), 'bgabutton_darkgray');
-                    // dojo.addClass($('buttonConstructBuilding'), canAffordBuilding ? 'bgabutton_blue' : 'bgabutton_darkgray');
-                    //
-                    // var buildingData = this.gamedatas.buildings[this.playerTurnBuildingId];
-                    // if (buildingData.type == "Senator") {
-                    //     dojo.query('#buttonConstructBuilding > span')[0].innerHTML = _('Recruit senator');
-                    // }
-                    // else {
-                    //     dojo.query('#buttonConstructBuilding > span')[0].innerHTML = _('Construct building');
-                    // }
-                    //
-                    // var canAffordWonder = false;
-                    // Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
-                    //     var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
-                    //     if (!wonderData.constructed) {
-                    //         if (wonderData.cost <= playerCoins) {
-                    //             canAffordWonder = true;
-                    //         }
-                    //     }
-                    // }));
-                    // dojo.removeClass($('buttonConstructWonder'), 'bgabutton_blue');
-                    // dojo.removeClass($('buttonConstructWonder'), 'bgabutton_darkgray');
-                    // dojo.addClass($('buttonConstructWonder'), canAffordWonder ? 'bgabutton_blue' : 'bgabutton_darkgray');
-                    //
-                    // let conspiraciesToPrepare = dojo.query('#player_conspiracies_' + this.player_id + ' .conspiracy_small[data-conspiracy-prepared="0"][data-conspiracy-triggered="0"]');
-                    // dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_blue', conspiraciesToPrepare.length > 0);
-                    // dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_darkgray', conspiraciesToPrepare.length == 0);
-                    //
-                    // dojo.setStyle('draftpool_actions', 'display', 'flex');
-                    //
-                    // this.setClientState("client_useAgeCard", {
-                    //     descriptionmyturn: _("${you} must choose the action for the age card, or select a different age card"),
-                    // });
-                }
-            },
-
-            onPlaceDivinityClick: function (e) {
-                if (this.debug) console.log('onPlaceDivinityClick');
-                // Preventing default browser reaction
-                dojo.stopEvent(e);
-
-                if (this.isCurrentPlayerActive()) {
-
-                }
-            },
 
             //  ____                                           ____                      _
             // |  _ \ _ __ ___ _ __   __ _ _ __ ___    __ _   / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___ _   _
@@ -3640,6 +3512,134 @@ define([
 
                         }
                     );
+                }
+            },
+
+            //   ____ _                               _              _   ____  _                  ____  _       _       _ _
+            //  / ___| |__   ___   ___  ___  ___     / \   _ __   __| | |  _ \| | __ _  ___ ___  |  _ \(_)_   _(_)_ __ (_) |_ _   _
+            // | |   | '_ \ / _ \ / _ \/ __|/ _ \   / _ \ | '_ \ / _` | | |_) | |/ _` |/ __/ _ \ | | | | \ \ / / | '_ \| | __| | | |
+            // | |___| | | | (_) | (_) \__ \  __/  / ___ \| | | | (_| | |  __/| | (_| | (_|  __/ | |_| | |\ V /| | | | | | |_| |_| |
+            //  \____|_| |_|\___/ \___/|___/\___| /_/   \_\_| |_|\__,_| |_|   |_|\__,_|\___\___| |____/|_| \_/ |_|_| |_|_|\__|\__, |
+            //                                                                                                                |___/
+
+            onEnterChooseAndPlaceDivinity: function (args) {
+                if (this.debug) console.log('onEnterChooseAndPlaceDivinity', args);
+
+                let anims = [];
+                if (this.isCurrentPlayerActive()) {
+                    let i = 1;
+                    Object.keys(args._private.divinities).forEach(dojo.hitch(this, function (divinityId) {
+                        var card = args._private.divinities[divinityId];
+                        let divinity = this.gamedatas.divinities[divinityId];
+                        var container = dojo.query('#choose_and_place_divinity>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
+                        dojo.empty(container);
+                        let divinityContainer = dojo.place(this.getDivinityDivHtml(divinityId, divinity.type,true), container);
+                        let divinityNode = dojo.query('.divinity', divinityContainer)[0];
+                        this.placeOnObject(divinityNode, $('mythology' + divinity.type));
+                        anims.push(this.slideToObjectPos( divinityNode, divinityContainer, 0, 0, this.conspire_duration, i * this.conspire_duration / 3));
+                        i++;
+                    }));
+                    this.updateLayout();
+                }
+                else {
+                    for (let i = 0; i <= 1; i++) {
+                        var container = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                        let node = dojo.place(this.getDivinityDivHtml(0, args.divinitiesType, true), container);
+                        this.placeOnObject(node, $('mythology' + args.divinitiesType));
+                        let startDelay = i * this.conspire_duration / 3;
+
+                        anims.push(
+                            dojo.fx.combine([
+                                this.slideToObject( node, container, this.conspire_duration, i * this.conspire_duration / 3),
+                                dojo.fadeIn({
+                                    node: node,
+                                    duration: this.conspire_duration / 3
+                                }),
+                                dojo.fadeOut({
+                                    node: node,
+                                    delay: startDelay + this.conspire_duration / 3 * 2,
+                                    duration: this.conspire_duration / 3,
+                                    onEnd: dojo.hitch(this, function (node) {
+                                        dojo.destroy(node);
+                                    })
+                                }),
+                            ])
+                        );
+                    }
+                }
+                let anim = dojo.fx.combine(
+                    anims
+                );
+                anim.play();
+            },
+
+            onChooseDivinityClick: function (e) {
+                if (this.debug) console.log('onChooseDivinityClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    this.clearRedBorder();
+                    this.clearGrayBorder();
+
+                    var divinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
+                    dojo.addClass(divinityNode, 'gray_border');
+
+                    dojo.query('#swd .pantheon_space_containers > div:empty').addClass('red_border');
+
+                    // this.playerTurnBuildingId = dojo.attr(building, 'data-building-id');
+                    // this.playerTurnNode = building;
+                    //
+                    // var cardData = this.getDraftpoolCardData(this.playerTurnBuildingId);
+                    // dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + this.gamedatas.draftpool.discardGain[this.player_id];
+                    //
+                    // var playerCoins = this.gamedatas.playersSituation[this.player_id].coins;
+                    //
+                    // var canAffordBuilding = cardData.cost[this.player_id] <= playerCoins;
+                    // dojo.removeClass($('buttonConstructBuilding'), 'bgabutton_blue');
+                    // dojo.removeClass($('buttonConstructBuilding'), 'bgabutton_darkgray');
+                    // dojo.addClass($('buttonConstructBuilding'), canAffordBuilding ? 'bgabutton_blue' : 'bgabutton_darkgray');
+                    //
+                    // var buildingData = this.gamedatas.buildings[this.playerTurnBuildingId];
+                    // if (buildingData.type == "Senator") {
+                    //     dojo.query('#buttonConstructBuilding > span')[0].innerHTML = _('Recruit senator');
+                    // }
+                    // else {
+                    //     dojo.query('#buttonConstructBuilding > span')[0].innerHTML = _('Construct building');
+                    // }
+                    //
+                    // var canAffordWonder = false;
+                    // Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
+                    //     var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
+                    //     if (!wonderData.constructed) {
+                    //         if (wonderData.cost <= playerCoins) {
+                    //             canAffordWonder = true;
+                    //         }
+                    //     }
+                    // }));
+                    // dojo.removeClass($('buttonConstructWonder'), 'bgabutton_blue');
+                    // dojo.removeClass($('buttonConstructWonder'), 'bgabutton_darkgray');
+                    // dojo.addClass($('buttonConstructWonder'), canAffordWonder ? 'bgabutton_blue' : 'bgabutton_darkgray');
+                    //
+                    // let conspiraciesToPrepare = dojo.query('#player_conspiracies_' + this.player_id + ' .conspiracy_small[data-conspiracy-prepared="0"][data-conspiracy-triggered="0"]');
+                    // dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_blue', conspiraciesToPrepare.length > 0);
+                    // dojo.toggleClass($('buttonPrepareConspiracy'), 'bgabutton_darkgray', conspiraciesToPrepare.length == 0);
+                    //
+                    // dojo.setStyle('draftpool_actions', 'display', 'flex');
+                    //
+                    // this.setClientState("client_useAgeCard", {
+                    //     descriptionmyturn: _("${you} must choose the action for the age card, or select a different age card"),
+                    // });
+                }
+            },
+
+            onPlaceDivinityClick: function (e) {
+                if (this.debug) console.log('onPlaceDivinityClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+
                 }
             },
 
