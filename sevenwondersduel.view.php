@@ -93,6 +93,7 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board_player");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "influence_cube");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "influence_container");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "pantheon_space");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board_column_block");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "list_of_cards_page1");
@@ -116,6 +117,7 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
             $this->page->reset_subblocks('board');
             $this->page->reset_subblocks('board_player');
             $this->page->reset_subblocks('board_player_row');
+            $this->page->reset_subblocks('pantheon_space');
             $this->page->reset_subblocks('influence_container');
             $this->page->reset_subblocks('influence_cube');
 
@@ -131,6 +133,14 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
                     }
                     $this->page->insert_block("influence_container");
                 }
+
+                $spaces = $playerId == SevenWondersDuelPantheon::get()->getGameStartPlayerId() ? [1,2,3,4,5,6] : [6,5,4,3,2,1];
+                foreach ($spaces as $space) {
+                    $this->page->insert_block("pantheon_space", array(
+                        "SPACE" => $space
+                    ));
+                }
+
                 $this->page->insert_block("board");
             }
 

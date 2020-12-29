@@ -248,12 +248,9 @@
                         <div id="pantheon_board_container" class="pantheon">
                             <div class="pantheon_board">
                                 <div class="pantheon_space_containers">
-                                    <div data-space="1"></div>
-                                    <div data-space="2"></div>
-                                    <div data-space="3"></div>
-                                    <div data-space="4"></div>
-                                    <div data-space="5"></div>
-                                    <div data-space="6"></div>
+                                    <!-- BEGIN pantheon_space -->
+                                    <div data-space="{SPACE}"></div>
+                                    <!-- END pantheon_space -->
                                 </div>
                             </div>
                         </div>
