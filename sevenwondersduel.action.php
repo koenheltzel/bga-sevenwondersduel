@@ -147,7 +147,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
 
         $divinityId = self::getArg("divinityId", AT_posint, true);
         $space = self::getArg("space", AT_posint, true);
-        SevenWondersDuelPantheon::get()->actionChooseAndPlaceDivinity();
+        SevenWondersDuelPantheon::get()->actionChooseAndPlaceDivinity($divinityId, $space);
 
         self::ajaxResponse();
     }

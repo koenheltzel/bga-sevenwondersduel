@@ -44,7 +44,6 @@ trait ChooseAndPlaceDivinityTrait {
         $divinity = Divinity::get($divinityId);
         $divinity->place($space);
 
-        $this->gamestate->nextState( self::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME);
-
+        $this->stateStackNextState();
     }
 }

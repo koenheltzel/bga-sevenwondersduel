@@ -57,6 +57,18 @@ class Divinity extends Item {
 
         $player = Player::getActive();
 
+        // Text notification to all
+        SevenWondersDuelPantheon::get()->notifyAllPlayers(
+            'message',
+            clienttranslate('${player_name} chose a Divinity (${divinityType}) and placed it in the Pantheon'),
+            [
+                'i18n' => ['divinityType'],
+                'player_name' => $player->name,
+                'playerId' => $player->id,
+                'divinityType' => self::getTypeName($this->type),
+            ]
+        );
+
         // Send divinity id to active player
         SevenWondersDuelPantheon::get()->notifyPlayer($player->id,
             'placeDivinity',
