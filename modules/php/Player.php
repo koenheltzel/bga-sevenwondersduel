@@ -402,7 +402,7 @@ class Player extends Base{
         $rows = [];
         foreach($cards as $card) {
             $row = [];
-            $row['divinity'] = $card['id'];
+            $row['id'] = $card['id'];
             $row['position'] = $card['location_arg'];
             $rows[] = $row;
         }

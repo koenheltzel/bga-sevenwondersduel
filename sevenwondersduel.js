@@ -1253,6 +1253,19 @@ define([
                     let span = dojo.query('#mythology_decks_container #mythology' + type + ' .divinity_deck_count')[0];
                     span.innerHTML = divinitiesSituation.deckCounts[type];
                 }));
+
+                // Player divinities
+                for (var playerId in this.gamedatas.players) {
+                    for (let i = 0; i < divinitiesSituation[playerId].length; i++) {
+                        let divinityData = divinitiesSituation[playerId][i];
+                        let container = $('player_conspiracies_' + playerId);
+                        let divinityNode = dojo.query('div[data-divinity-id=' + divinityData.id + ']', container)[0];
+                        if (!divinityNode) {
+                            let divinityType = this.gamedatas.divinities[divinityData.id].type;
+                            dojo.place( this.getDivinityDivHtml(divinityData.id, divinityType, false), container, 'first');
+                        }
+                    }
+                }
             },
 
             getDivinityDivHtml: function (divinityId, divinityType, full=false) {
