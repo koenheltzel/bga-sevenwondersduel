@@ -33,11 +33,12 @@
 }
 #mythology_decks_container > div {
     display: inline-block;
+    position: relative;
     text-align: center;
 }
 
 #mythology_decks_container .divinity {
-    position: initial;
+    position: relative;
 }
 
 #divinity_deck_container {

@@ -3688,122 +3688,151 @@ define([
                     return;
                 }
 
-                var spaceNode = dojo.query('.pantheon_space_containers div[data-space=' + space + ']')[0];
-                var newDivinityContainerNode = dojo.place(this.getDivinityDivHtml(0, divinityType, false), spaceNode);
-                var newDivinityNode = dojo.query('.divinity_compact', newDivinityContainerNode)[0];
-                dojo.style(newDivinityContainerNode, 'opacity', 0);
-                // Start: Correct position to match Mythology logo of full and compact nodes.
-                dojo.style(newDivinityNode, 'top', 'calc(-192px * var(--scale))');
-                if (!this.isCurrentPlayerActive()) {
-                    // Don't know why but this is neccessary to correct the position for the inactive player.
-                    dojo.style(newDivinityNode, 'left', 'calc(16px * var(--scale))');
-                }
+                let anims = [];
 
-                this.autoUpdateScale();
-
-                let flipAnims = [];
-                let slideAnims = [];
-                var backSideDivinityContainerNode = null;
-                if (this.isCurrentPlayerActive()) {
-                    this.clearGrayBorder();
-                    this.clearRedBorder();
-
-                    // For the active player, turn the card first so the backside is visible.
-                    var oldDivinityNode = dojo.query('#choose_and_place_divinity div[data-divinity-id=' + divinityId + ']')[0];
-
-                    backSideDivinityContainerNode = dojo.place(this.getDivinityDivHtml(0, divinityType, true), oldDivinityNode.parentElement);
-                    let backSideDivinityNode = dojo.query('.divinity', backSideDivinityContainerNode)[0];
-
-                    dojo.style(backSideDivinityNode, 'transform', 'perspective(40em) rotateY(-180deg)'); // When delay > 0 this is necesarry to hide the new node.
-
-                    flipAnims.push(
-                        dojo.fx.combine([
-                            dojo.animateProperty({
-                                node: oldDivinityNode,
-                                duration: this.turnAroundCardDuration,
-                                easing: dojo.fx.easing.linear,
-                                properties: {
-                                    propertyTransform: {start: 0, end: 180}
-                                },
-                                onAnimate: function (values) {
-                                    dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
-                                },
-                                onEnd: dojo.hitch(this, function (node) {
-                                    dojo.destroy(node);
-                                })
-                            }),
-                            dojo.animateProperty({
-                                node: backSideDivinityNode,
-                                duration: this.turnAroundCardDuration,
-                                easing: dojo.fx.easing.linear,
-                                properties: {
-                                    propertyTransform: {start: -180, end: 0}
-                                },
-                                onAnimate: function (values) {
-                                    dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
-                                }
-                            }),
-                        ])
-                    );
-                }
-                else {
-                    // For the inactive player / spectator, fadein the backside of the divinity and slide towards the final place
-                    var playerBuildingsContainer = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
-                    backSideDivinityContainerNode = dojo.place(this.getDivinityDivHtml(0, divinityType, true), dojo.query('#pantheon_board_container')[0]);
-                    this.placeOnObject( backSideDivinityContainerNode, playerBuildingsContainer ); // Center the card in the player buildingsContainer
-                    dojo.style(backSideDivinityContainerNode, 'opacity', 0);
-
-                    slideAnims.push(
-                        dojo.fx.combine([
-                            dojo.fadeIn({
-                                node: backSideDivinityContainerNode,
-                                duration: this.construct_divinity_duration / 4
-                            }),
-                        ])
-                    );
-                }
-                dojo.style(backSideDivinityContainerNode, 'z-index', 100);
-
-                slideAnims.push(this.slideToObject( backSideDivinityContainerNode, newDivinityNode, this.construct_divinity_duration));
-                // End: Correct position to match Mythology logo of full and compact nodes.
-                dojo.style(newDivinityNode, 'top', '0px');
-                dojo.style(newDivinityNode, 'left', '0px');
-
-                slideAnims.push(
-                    dojo.animateProperty({
-                        node: backSideDivinityContainerNode,
-                        duration: this.construct_divinity_duration,
-                        easing: dojo.fx.easing.linear,
-                        properties: {
-                            propertyTransform: {start: 0, end: this.getCurrentRotation(spaceNode)}
-                        },
-                        onAnimate: function (values) {
-                            dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                for (let iteration = 1; iteration <= 2; iteration++) {
+                    let targetNode = null;
+                    if (iteration == 1) {
+                        var spaceNode = dojo.query('.pantheon_space_containers div[data-space=' + space + ']')[0];
+                        var newDivinityContainerNode = dojo.place(this.getDivinityDivHtml(0, divinityType, false), spaceNode);
+                        var newDivinityNode = dojo.query('.divinity_compact', newDivinityContainerNode)[0];
+                        dojo.style(newDivinityContainerNode, 'opacity', 0);
+                        // Start: Correct position to match Mythology logo of full and compact nodes.
+                        dojo.style(newDivinityNode, 'top', 'calc(-192px * var(--scale))');
+                        if (!this.isCurrentPlayerActive()) {
+                            // Don't know why but this is neccessary to correct the position for the inactive player.
+                            dojo.style(newDivinityNode, 'left', 'calc(16px * var(--scale))');
                         }
-                    })
-                );
+                        targetNode = newDivinityNode;
+                    }
+                    else if (iteration == 2) {
+                        targetNode = dojo.query('#mythology_decks_container #mythology' + notif.args.divinityType + ' .divinity')[0];
+                    }
 
-                let anim = dojo.fx.chain([
-                    dojo.fx.combine(
-                        flipAnims
-                    ),
-                    dojo.fx.combine(
-                        slideAnims
-                    ),
-                    dojo.fx.combine([
-                        dojo.fadeOut({
-                            node: backSideDivinityContainerNode,
-                            duration: this.construct_divinity_duration / 4,
-                            onPlay: dojo.hitch(this, function (node) {
-                                // Show newDivinityContainerNode fully, since it's behind the backSideDivinityNode we don't have to fade it.
-                                dojo.style(newDivinityContainerNode, 'opacity', 1);
-                            }),
-                            onEnd: dojo.hitch(this, function (node) {
-                                dojo.destroy(node);
+                    this.autoUpdateScale();
+
+                    let flipAnims = [];
+                    let slideAnims = [];
+                    var backSideDivinityContainerNode = null;
+                    if (this.isCurrentPlayerActive()) {
+                        this.clearGrayBorder();
+                        this.clearRedBorder();
+
+                        // For the active player, turn the card first so the backside is visible.
+                        var oldDivinityNode = null;
+                        if (iteration == 1) {
+                            oldDivinityNode = dojo.query('#choose_and_place_divinity .divinity[data-divinity-id=' + divinityId + ']')[0];
+                        }
+                        else if (iteration == 2) {
+                            oldDivinityNode = dojo.query('#choose_and_place_divinity .divinity:not([data-divinity-id=' + divinityId + ']):not([data-divinity-id=0])')[0];
+                        }
+
+                        backSideDivinityContainerNode = dojo.place(this.getDivinityDivHtml(0, divinityType, true), oldDivinityNode.parentElement);
+                        let backSideDivinityNode = dojo.query('.divinity', backSideDivinityContainerNode)[0];
+
+                        dojo.style(backSideDivinityNode, 'transform', 'perspective(40em) rotateY(-180deg)'); // When delay > 0 this is necesarry to hide the new node.
+
+                        flipAnims.push(
+                            dojo.fx.combine([
+                                dojo.animateProperty({
+                                    node: oldDivinityNode,
+                                    duration: this.turnAroundCardDuration,
+                                    easing: dojo.fx.easing.linear,
+                                    properties: {
+                                        propertyTransform: {start: 0, end: 180}
+                                    },
+                                    onAnimate: function (values) {
+                                        dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    },
+                                    onEnd: dojo.hitch(this, function (node) {
+                                        dojo.destroy(node);
+                                    })
+                                }),
+                                dojo.animateProperty({
+                                    node: backSideDivinityNode,
+                                    duration: this.turnAroundCardDuration,
+                                    easing: dojo.fx.easing.linear,
+                                    properties: {
+                                        propertyTransform: {start: -180, end: 0}
+                                    },
+                                    onAnimate: function (values) {
+                                        dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    }
+                                }),
+                            ])
+                        );
+                    } else {
+                        // For the inactive player / spectator, fadein the backside of the divinity and slide towards the final place
+                        var playerBuildingsContainer = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                        backSideDivinityContainerNode = dojo.place(this.getDivinityDivHtml(0, divinityType, true), dojo.query('#pantheon_board_container')[0]);
+                        this.placeOnObject(backSideDivinityContainerNode, playerBuildingsContainer); // Center the card in the player buildingsContainer
+                        dojo.style(backSideDivinityContainerNode, 'opacity', 0);
+
+                        slideAnims.push(
+                            dojo.fx.combine([
+                                dojo.fadeIn({
+                                    node: backSideDivinityContainerNode,
+                                    duration: this.construct_divinity_duration / 4
+                                }),
+                            ])
+                        );
+                    }
+                    dojo.style(backSideDivinityContainerNode, 'z-index', 100);
+
+                    if (iteration == 1) {
+                        slideAnims.push(this.slideToObject(backSideDivinityContainerNode, targetNode, this.construct_divinity_duration));
+                    }
+                    else if (iteration == 2) {
+                        slideAnims.push(this.slideToObjectPos(backSideDivinityContainerNode, targetNode, 0, 0, this.construct_divinity_duration));
+                    }
+
+                    if (iteration == 1) {
+                        // End: Correct position to match Mythology logo of full and compact nodes.
+                        dojo.style(newDivinityNode, 'top', '0px');
+                        dojo.style(newDivinityNode, 'left', '0px');
+
+                        slideAnims.push(
+                            dojo.animateProperty({
+                                node: backSideDivinityContainerNode,
+                                duration: this.construct_divinity_duration,
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    propertyTransform: {start: 0, end: this.getCurrentRotation(spaceNode)}
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                }
                             })
+                        );
+                    }
+
+                    let fadeOutParams = {
+                        node: backSideDivinityContainerNode,
+                        duration: this.construct_divinity_duration / 4,
+                        onEnd: dojo.hitch(this, function (node) {
+                            dojo.destroy(node);
                         })
-                    ])
-                ]);
+                    };
+                    if (iteration == 1) {
+                        fadeOutParams.onPlay = dojo.hitch(this, function (node) {
+                            // Show newDivinityContainerNode fully, since it's behind the backSideDivinityNode we don't have to fade it.
+                            dojo.style(newDivinityContainerNode, 'opacity', 1);
+                        });
+                    }
+                    let fadeOutAnim = dojo.fadeOut(fadeOutParams);
+
+                    anims.push(dojo.fx.chain([
+                        dojo.fx.combine(
+                            flipAnims
+                        ),
+                        dojo.fx.combine(
+                            slideAnims
+                        ),
+                        fadeOutAnim
+                    ]));
+                }
+
+                let anim = dojo.fx.chain(anims);
                 anim.play();
 
                 this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
