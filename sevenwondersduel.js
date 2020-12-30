@@ -97,7 +97,7 @@ define([
             conspire_duration: 1000,
             construct_conspiracy_duration: 1600,
             choose_conspire_remnant_position_duration: 1600,
-            construct_divinity_duration: 1600,
+            construct_divinity_duration: 1200,
 
             constructor: function () {
                 bgagame.sevenwondersduelpantheon.instance = this;
@@ -3689,6 +3689,7 @@ define([
                 }
 
                 let anims = [];
+                let startSlideAfterFlipPercentage = 0.5;
 
                 for (let iteration = 1; iteration <= 2; iteration++) {
                     let targetNode = null;
@@ -3772,6 +3773,7 @@ define([
                             dojo.fx.combine([
                                 dojo.fadeIn({
                                     node: backSideDivinityContainerNode,
+                                    delay: this.turnAroundCardDuration * startSlideAfterFlipPercentage,
                                     duration: this.construct_divinity_duration / 4
                                 }),
                             ])
@@ -3780,10 +3782,10 @@ define([
                     dojo.style(backSideDivinityContainerNode, 'z-index', 100);
 
                     if (iteration == 1) {
-                        slideAnims.push(this.slideToObject(backSideDivinityContainerNode, targetNode, this.construct_divinity_duration));
+                        slideAnims.push(this.slideToObject(backSideDivinityContainerNode, targetNode, this.construct_divinity_duration, this.turnAroundCardDuration * startSlideAfterFlipPercentage));
                     }
                     else if (iteration == 2) {
-                        slideAnims.push(this.slideToObjectPos(backSideDivinityContainerNode, targetNode, 0, 0, this.construct_divinity_duration));
+                        slideAnims.push(this.slideToObjectPos(backSideDivinityContainerNode, targetNode, 0, 0, this.construct_divinity_duration, this.turnAroundCardDuration * startSlideAfterFlipPercentage));
                     }
 
                     if (iteration == 1) {
@@ -3794,6 +3796,7 @@ define([
                         slideAnims.push(
                             dojo.animateProperty({
                                 node: backSideDivinityContainerNode,
+                                delay: this.turnAroundCardDuration * startSlideAfterFlipPercentage,
                                 duration: this.construct_divinity_duration,
                                 easing: dojo.fx.easing.linear,
                                 properties: {
@@ -3823,10 +3826,7 @@ define([
 
                     anims.push(dojo.fx.chain([
                         dojo.fx.combine(
-                            flipAnims
-                        ),
-                        dojo.fx.combine(
-                            slideAnims
+                            flipAnims.concat(slideAnims)
                         ),
                         fadeOutAnim
                     ]));

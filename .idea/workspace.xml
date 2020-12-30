@@ -57,7 +57,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/802 mythologyDecks.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/802 mythologyDecks.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sevenwondersduel.js" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.js" afterDir="false" />
     </list>
     <ignored path="D:\wamp64\www\bga\sevenwondersduel\.idea\shelf/" />
@@ -99,8 +98,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="3708" column="133" selection-start-line="3708" selection-start-column="133" selection-end-line="3708" selection-end-column="133" />
+            <state relative-caret-position="204">
+              <caret line="3691" column="55" selection-start-line="3691" selection-start-column="55" selection-end-line="3691" selection-end-column="55" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -130,7 +129,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>'transform-origin', 'center center'</find>
       <find>duration: this.turnAroundCardDuration</find>
       <find>pantheon_space_containers</find>
       <find>influence_container</find>
@@ -160,6 +158,7 @@
       <find>#mythology_decks_container .divinity</find>
       <find>spaceNode</find>
       <find>mythology_decks_container</find>
+      <find>slideToObject</find>
     </findStrings>
     <replaceStrings>
       <replace>Divinity</replace>
@@ -465,14 +464,7 @@
       <workItem from="1609244984848" duration="46000" />
       <workItem from="1609245185456" duration="139000" />
       <workItem from="1609245328152" duration="13345000" />
-      <workItem from="1609259181415" duration="12608000" />
-    </task>
-    <task id="LOCAL-00724" summary="Removed all revealCards from args function. There should be no database mutations in args function, which likely caused the deadlocks.&#10;Added preEnterState mechanic.">
-      <created>1603922976216</created>
-      <option name="number" value="00724" />
-      <option name="presentableId" value="LOCAL-00724" />
-      <option name="project" value="LOCAL" />
-      <updated>1603922976216</updated>
+      <workItem from="1609259181415" duration="13501000" />
     </task>
     <task id="LOCAL-00725" summary="Removed hacky temporary change of VALUE_CURRENT_AGE global variable, likely contributing to the deadlock issue.">
       <created>1603923713124</created>
@@ -810,11 +802,18 @@
       <option name="project" value="LOCAL" />
       <updated>1609332642174</updated>
     </task>
-    <option name="localTasksCounter" value="773" />
+    <task id="LOCAL-00773" summary="Return second divinity to deck animation.">
+      <created>1609341775436</created>
+      <option name="number" value="00773" />
+      <option name="presentableId" value="LOCAL-00773" />
+      <option name="project" value="LOCAL" />
+      <updated>1609341775436</updated>
+    </task>
+    <option name="localTasksCounter" value="774" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1875006000" />
+    <option name="totallyTimeSpent" value="1875899000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -839,7 +838,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.67803836" weight="0.13976164" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.67803836" visible="true" weight="0.24918744" />
       <window_info anchor="bottom" id="Cacher" order="9" sideWeight="0.6098081" weight="0.5362947" />
       <window_info anchor="bottom" id="File Transfer" order="10" sideWeight="0.63272923" weight="0.032502707" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
@@ -941,7 +940,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Removed mythology &amp; conspiracy decks css into separate css files." />
     <MESSAGE value="Divinities graphics implementation WIP" />
     <MESSAGE value="Mythology Tokens implementation WIP" />
     <MESSAGE value="Divinity tooltips" />
@@ -966,7 +964,8 @@
     <MESSAGE value="Invert Pantheon spaces for the non-start player." />
     <MESSAGE value="Update divinities in Pantheon spaces.&#10;Move not-chosen divinity back to its deck." />
     <MESSAGE value="Update player divinities" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update player divinities" />
+    <MESSAGE value="Return second divinity to deck animation." />
+    <option name="LAST_COMMIT_MESSAGE" value="Return second divinity to deck animation." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/css/800 discardedCards.css">
@@ -12269,8 +12268,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="3708" column="133" selection-start-line="3708" selection-start-column="133" selection-end-line="3708" selection-end-column="133" />
+        <state relative-caret-position="204">
+          <caret line="3691" column="55" selection-start-line="3691" selection-start-column="55" selection-end-line="3691" selection-end-column="55" />
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
