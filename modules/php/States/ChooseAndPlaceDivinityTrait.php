@@ -2,6 +2,7 @@
 
 namespace SWD\States;
 
+use SWD\Divinities;
 use SWD\Divinity;
 use SWD\Draftpool;
 use SWD\Player;
@@ -29,6 +30,7 @@ trait ChooseAndPlaceDivinityTrait {
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
             'wonderSelectionRound' => $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND),
+            'divinitiesSituation' => Divinities::getSituation(),
         ];
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         return $data;

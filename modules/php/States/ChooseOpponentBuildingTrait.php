@@ -5,6 +5,7 @@ namespace SWD\States;
 use SevenWondersDuelPantheon;
 use SWD\Building;
 use SWD\Conspiracy;
+use SWD\Divinities;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Players;
@@ -34,6 +35,9 @@ trait ChooseOpponentBuildingTrait {
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
         ];
+        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+            $data['divinitiesSituation'] = Divinities::getSituation();
+        }
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         }

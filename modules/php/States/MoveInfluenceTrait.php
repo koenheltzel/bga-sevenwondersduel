@@ -2,6 +2,7 @@
 
 namespace SWD\States;
 
+use SWD\Divinities;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Senate;
@@ -16,6 +17,9 @@ trait MoveInfluenceTrait {
     public function argMoveInfluence() {
         $data = [];
         $data['draftpool'] = Draftpool::get();
+        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+            $data['divinitiesSituation'] = Divinities::getSituation();
+        }
         $data['senateSituation'] = Senate::getSituation();
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         return $data;

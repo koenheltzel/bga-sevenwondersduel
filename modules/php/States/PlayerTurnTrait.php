@@ -7,6 +7,7 @@ use SWD\Building;
 use SWD\Conspiracies;
 use SWD\Conspiracy;
 use SWD\Decree;
+use SWD\Divinities;
 use SWD\Draftpool;
 use SWD\Payment;
 use SWD\Player;
@@ -30,6 +31,9 @@ trait PlayerTurnTrait {
             'playersSituation' => Players::getSituation(),
         ];
 
+        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+            $data['divinitiesSituation'] = Divinities::getSituation();
+        }
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             $this->addConspiraciesSituation($data);
             $data['senateSituation'] = Senate::getSituation();
