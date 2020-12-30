@@ -44,7 +44,7 @@
     margin-left: var(--gutter) !important;
 }
 
-#divinity_deck span {
+.divinity_deck span {
     font-family: cafeteria, sans-serif;
     font-weight: 800;
     font-style: normal;

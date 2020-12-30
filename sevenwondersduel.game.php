@@ -20,6 +20,7 @@ use SWD\Conspiracies;
 use SWD\Conspiracy;
 use SWD\Decree;
 use SWD\Decrees;
+use SWD\Divinities;
 use SWD\Divinity;
 use SWD\Draftpool;
 use SWD\Material;
@@ -661,6 +662,7 @@ class SevenWondersDuelPantheon extends Table
         if ($result['pantheon']) {
             $result['mythologyTokensSituation'] = MythologyTokens::getSituation();
             $result['offeringTokensSituation'] = OfferingTokens::getSituation();
+            $result['divinitiesSituation'] = Divinities::getSituation();
             $result['mythologyTokens'] = Material::get()->mythologyTokens->array;
             $result['offeringTokens'] = Material::get()->offeringTokens->array;
             $result['divinities'] = Material::get()->divinities->array;

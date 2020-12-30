@@ -13,6 +13,7 @@ class Player extends Base{
     private $conspiracyIds = [];
     private $buildingIds = [];
     public $progressTokenIds = [];
+    public $divinityIds = [];
     public $decreeIds = [];
 
     public static $instances = [];
@@ -378,6 +379,34 @@ class Player extends Base{
             $symbols[] = ProgressToken::get(4)->scientificSymbol;
         }
         return count($symbols);
+    }
+
+    /**
+     * @return array
+     */
+    public function getDivinityIds(): array {
+        if (isDevEnvironment()) {
+            return $this->divinityIds;
+        }
+        else {
+            return array_column($this->getDivinityDeckCards(), 'id');
+        }
+    }
+
+    public function getDivinityDeckCards(): array {
+        return Divinities::getDeckCardsSorted($this->id);
+    }
+
+    public function getDivinitiesData(): array {
+        $cards = $this->getDivinityDeckCards();
+        $rows = [];
+        foreach($cards as $card) {
+            $row = [];
+            $row['divinity'] = $card['id'];
+            $row['position'] = $card['location_arg'];
+            $rows[] = $row;
+        }
+        return $rows;
     }
 
     /**

@@ -309,32 +309,32 @@
         <div id="mythology_decks_container" class="whiteblock pantheon">
             <h3>{MYTHOLOGY_DECKS}</h3>
             <div id="mythology1">
-                <div id="divinity_deck" class="divinity divinity_small" style="background-position: -400% -200%;">
-                    <span id="divinity_deck_count">3</span>
+                <div class="divinity_deck divinity divinity_small" style="background-position: -400% -200%;">
+                    <span class="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_1}</h3>
             </div>
             <div id="mythology2">
-                <div id="divinity_deck" class="divinity divinity_small" style="background-position: -500% -200%;">
-                    <span id="divinity_deck_count">3</span>
+                <div class="divinity_deck divinity divinity_small" style="background-position: -500% -200%;">
+                    <span class="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_2}</h3>
             </div>
             <div id="mythology3">
-                <div id="divinity_deck" class="divinity divinity_small" style="background-position: -000% -300%;">
-                    <span id="divinity_deck_count">3</span>
+                <div class="divinity_deck divinity divinity_small" style="background-position: -000% -300%;">
+                    <span class="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_3}</h3>
             </div>
             <div id="mythology4">
-                <div id="divinity_deck" class="divinity divinity_small" style="background-position: -100% -300%;">
-                    <span id="divinity_deck_count">3</span>
+                <div class="divinity_deck divinity divinity_small" style="background-position: -100% -300%;">
+                    <span class="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_4}</h3>
             </div>
             <div id="mythology5">
-                <div id="divinity_deck" class="divinity divinity_small" style="background-position: -200% -300%;">
-                    <span id="divinity_deck_count">3</span>
+                <div class="divinity_deck divinity divinity_small" style="background-position: -200% -300%;">
+                    <span class="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_5}</h3>
             </div>

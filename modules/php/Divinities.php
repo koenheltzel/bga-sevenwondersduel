@@ -35,13 +35,28 @@ class Divinities extends Collection {
         return $cards;
     }
 
-//    public static function getSituation() {
-//        return [
-//            'deckCount' => count(Divinities::getDeckCardsSorted('deck')),
-//            Player::me()->id => Player::me()->getDivinitiesData(),
-//            Player::opponent()->id => Player::opponent()->getDivinitiesData(),
-//        ];
-//    }
+    public static function getSituation() {
+        $age = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
+        $deckCounts = [];
+        for ($type = 1; $type <= 5; $type++) {
+            $deckCounts[$type] = count(Divinities::getDeckCardsSorted("mythology{$type}"));
+        }
+        $spaces = [];
+        for ($space = 1; $space <= 5; $space++) {
+            $cards = Divinities::getDeckCardsSorted("space{$space}");
+            if (count($cards) > 0) {
+                $card = array_slice($cards, 0, 1)[0];
+                $spaces[$space] = $age >= 2 ? (int)$card['id'] : (int)$card['type'];
+            }
+        }
+        return [
+            'age' => $age,
+            'deckCounts' => $deckCounts,
+            'spaces' => $spaces,
+            Player::me()->id => Player::me()->getDivinitiesData(),
+            Player::opponent()->id => Player::opponent()->getDivinitiesData(),
+        ];
+    }
 
     public static function getDeckCardsSorted($location): array {
         $cards = SevenWondersDuelPantheon::get()->divinityDeck->getCardsInLocation($location);

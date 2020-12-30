@@ -54,6 +54,7 @@ class Divinity extends Item {
 
     public function place($space) {
         SevenWondersDuelPantheon::get()->divinityDeck->moveCard($this->id, "space{$space}");
+        SevenWondersDuelPantheon::get()->divinityDeck->moveAllCardsInLocation('selection', "mythology{$this->type}");
 
         $player = Player::getActive();
 

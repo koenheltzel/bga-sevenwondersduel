@@ -215,6 +215,7 @@ define([
                 if (this.pantheon) {
                     this.updateMythologyTokensSituation(this.gamedatas.mythologyTokensSituation);
                     this.updateOfferingTokensSituation(this.gamedatas.offeringTokensSituation);
+                    this.updateDivinitiesSituation(this.gamedatas.divinitiesSituation);
                 }
                 if (this.agora) {
                     this.updateDecreesSituation(this.gamedatas.decreesSituation);
@@ -635,6 +636,7 @@ define([
                         this.updatePlayersSituation(args.args.playersSituation);
                     }
 
+                    if (args.args.divinitiesSituation) this.updateDivinitiesSituation(args.args.divinitiesSituation);
                     if (args.args.wondersSituation) this.updateWondersSituation(args.args.wondersSituation);
                     if (args.args._private && args.args._private.myConspiracies) this.myConspiracies = args.args._private.myConspiracies;
                     if (args.args.conspiraciesSituation) this.updateConspiraciesSituation(args.args.conspiraciesSituation);
@@ -1221,6 +1223,37 @@ define([
             // | | | | \ \ / / | '_ \| | __| |/ _ \/ __|
             // | |_| | |\ V /| | | | | | |_| |  __/\__ \
             // |____/|_| \_/ |_|_| |_|_|\__|_|\___||___/
+
+            updateDivinitiesSituation: function (divinitiesSituation) {
+                if (this.debug) console.log('updateDivinitiesSituation: ', divinitiesSituation);
+                this.divinitiesSituation = divinitiesSituation;
+
+                // Pantheon spaces
+                let tokensContainer = dojo.query('.pantheon_space_containers')[0];
+                Object.keys(divinitiesSituation.spaces).forEach(dojo.hitch(this, function (space) {
+                    let id = 0;
+                    let type = null;
+                    if (divinitiesSituation.age >= 2) {
+                        id = divinitiesSituation.spaces[space];
+                        let divinity = this.gamedatas.divinities[id];
+                        type = divinity.type;
+                    }
+                    else {
+                        type = divinitiesSituation.spaces[space];
+                    }
+
+                    let emptySpace = dojo.query('div[data-space=' + space + ']:empty', tokensContainer)[0];
+                    if (emptySpace) {
+                        let result = dojo.place(this.getDivinityDivHtml(id, type, false), emptySpace);
+                    }
+                }));
+
+                // Deck counts
+                Object.keys(divinitiesSituation.deckCounts).forEach(dojo.hitch(this, function (type) {
+                    let span = dojo.query('#mythology_decks_container #mythology' + type + ' .divinity_deck_count')[0];
+                    span.innerHTML = divinitiesSituation.deckCounts[type];
+                }));
+            },
 
             getDivinityDivHtml: function (divinityId, divinityType, full=false) {
                 let hidden = divinityId == 0;
