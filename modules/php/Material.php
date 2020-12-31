@@ -756,50 +756,51 @@ class Material extends Base
             ->addText(clienttranslate("When Enki is revealed, randomly draw 2 Progress tokens from those discarded at the beginning of the game. These tokens are placed face-up on Enki’s card. When you invoke Enki, choose one of these two Progress tokens and gain it. The other token is returned to the box with those discarded at the beginning of the game."));
 
         $this->divinities[2] = (new Divinity(2, clienttranslate("Ishtar"), Divinity::TYPE_GREEN))
-            ->addText(clienttranslate("When"));
+            ->addText(clienttranslate("This Divinity grants the shown scientific symbol (identical to that of the Law Progress token)."));
 
         $this->divinities[3] = (new Divinity(3, clienttranslate("Nisaba"), Divinity::TYPE_GREEN))
-            ->addText(clienttranslate("When"));
+            ->addText(clienttranslate("Place the Snake token on an opponent’s green card. Nisaba is worth the scientific symbol shown on the card."));
 
         $this->divinities[4] = (new Divinity(4, clienttranslate("Astarte"), Divinity::TYPE_YELLOW))
-            ->addText(clienttranslate("When"));
+            ->addText(clienttranslate("Place 7 coins from the bank on Astarte’s card. These are not part of your City’s Treasury, and so are thus protected against coin losses. It’s possible to spend them normally. At the end of the game, each coin still present on Astarte’s card is worth 1 victory point for you."));
 
         $this->divinities[5] = (new Divinity(5, clienttranslate("Baal"), Divinity::TYPE_YELLOW))
-            ->addText(clienttranslate("When"));
+            ->addText(clienttranslate("Steal a brown or grey card built by your opponent, it is added to the cards of your City."));
 
         $this->divinities[6] = (new Divinity(6, clienttranslate("Tanit"), Divinity::TYPE_YELLOW))
-            ->addText(clienttranslate("When"));
+            ->addText(clienttranslate("Take 12 coins from the bank."));
 
         $this->divinities[7] = (new Divinity(7, clienttranslate("Aphrodite"), Divinity::TYPE_BLUE))
-            ->addText(clienttranslate("When"));
+            ->addText(clienttranslate("This Divinity is worth 9 victory points."));
 
         $this->divinities[8] = (new Divinity(8, clienttranslate("Hades"), Divinity::TYPE_BLUE))
-            ->addText(clienttranslate("When"));
+            ->addText(clienttranslate("You take all cards discarded since the beginning of the game, choose one, and construct it for free."));
 
         $this->divinities[9] = (new Divinity(9, clienttranslate("Zeus"), Divinity::TYPE_BLUE))
-            ->addText(clienttranslate("When Enki is revealed, randomly draw 2 Progress tokens from those discarded at the beginning of the game. These tokens are placed face-up on Enki’s card. When you invoke Enki, choose one of these two Progress tokens and gain it. The other token is returned to the box with those discarded at the beginning of the game."));
+            ->addText(clienttranslate("Put in the discard pile a card of your choice (face up or down) from the structure, as well as any tokens which may be present on that card."));
 
         $this->divinities[10] = (new Divinity(10, clienttranslate("Anubis"), Divinity::TYPE_GREY))
-            ->addText(clienttranslate("When"));
+            ->addText(clienttranslate("Discard a card previously used to construct a Wonder (an opposing one or one of your own). The affected player doesn’t lose the instant effects previously granted by that Wonder (shields, coins, progress tokens, constructed or discarded card, replay effect)."), false)
+            ->addText(clienttranslate("It is possible to rebuild this Wonder and thus apply its effects once again."), false);
 
         $this->divinities[11] = (new Divinity(11, clienttranslate("Isis"), Divinity::TYPE_GREY))
-            ->addText(clienttranslate("When"));
+            ->addText(clienttranslate("Choose a card from the discard pile and construct one of your Wonders for free using that card."));
 
         $this->divinities[12] = (new Divinity(12, clienttranslate("Ra"), Divinity::TYPE_GREY))
-            ->addText(clienttranslate("When"));
+            ->addText(clienttranslate("Steal an opponent’s Wonder which has not yet been constructed; it is added to your own Wonders."));
 
         $this->divinities[13] = (new Divinity(13, clienttranslate("Mars"), Divinity::TYPE_RED))
-            ->addText(clienttranslate("When"));
+            ->addText(clienttranslate("This Divinity grants 2 shields."));
 
         $this->divinities[14] = (new Divinity(14, clienttranslate("Minerva"), Divinity::TYPE_RED))
-            ->addText(clienttranslate("When"));
+            ->addText(clienttranslate("Place the Minerva pawn on any space of the Military Track. If the Conflict pawn would enter the space which contains the Minerva pawn, it instead stops moving and its movement ends. Then discard the Minerva pawn."));
 
         $this->divinities[15] = (new Divinity(15, clienttranslate("Neptune"), Divinity::TYPE_RED))
-            ->addText(clienttranslate("When"));
+            ->addText(clienttranslate("Choose and discard a Military token without applying its effect. Then choose and apply the effect of another Military token (which is then discarded)."));
 
         $this->divinities[16] = (new Divinity(16, clienttranslate("Gate"), Divinity::TYPE_GATE))
-            ->addText(clienttranslate("When"));
-
+            ->addText(clienttranslate("The activation cost of the Gate corresponds to twice the normal activation cost of its space (BGA calculates and previews this)."), false)
+            ->addText(clienttranslate("Reveal the top Divinity card from each Mythology deck. Then choose one of the revealed Divinities and activate it for free. Finally, place the other Divinities face down on their respective decks."));
 
         $this->mythologyTokens = new MythologyTokens();
         for($divinityNr = 1; $divinityNr <= 5; $divinityNr++) {

@@ -247,6 +247,20 @@
                         </div>
                         <div id="pantheon_board_container" class="pantheon">
                             <div class="pantheon_board">
+                                <div class="pantheon_cost_containers">
+                                    <!-- BEGIN pantheon_cost -->
+                                    <div data-space="{SPACE}">
+                                        <div class="me">
+                                            <div class="pantheon_cost_arrow me"></div>
+                                            <div class="coin "><span style="color: black !important">4</span></div>
+                                        </div>
+                                        <div class="opponent">
+                                            <div class="pantheon_cost_arrow opponent"></div>
+                                            <div class="coin cost_free"><span style="color: #008000 !important">✓</span></div>
+                                        </div>
+                                    </div>
+                                    <!-- END pantheon_cost -->
+                                </div>
                                 <div class="pantheon_space_containers">
                                     <!-- BEGIN pantheon_space -->
                                     <div data-space="{SPACE}"></div>
