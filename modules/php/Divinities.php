@@ -42,7 +42,7 @@ class Divinities extends Collection {
             $deckCounts[$type] = count(Divinities::getDeckCardsSorted("mythology{$type}"));
         }
         $spaces = [];
-        for ($space = 1; $space <= 5; $space++) {
+        for ($space = 1; $space <= 6; $space++) {
             $cards = Divinities::getDeckCardsSorted("space{$space}");
             if (count($cards) > 0) {
                 $card = array_slice($cards, 0, 1)[0];

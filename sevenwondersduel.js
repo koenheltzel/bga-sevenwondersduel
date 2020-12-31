@@ -767,7 +767,8 @@ define([
             /*
             Transition (3D flip) from old node to new node. Destroy old node afterwards.
              */
-            twistAnimation: function (oldNode, newNode) {
+            twistAnimation: function (oldNode, newNode, autoPlay=true, delay=0, duration=-1) {
+                if (duration == -1) duration = this.twistCoinDuration;
                 if (!oldNode || dojo.style(oldNode, 'display') == 'none' || oldNode.outerHTML != newNode.outerHTML) {
                     var displayValue = dojo.style(newNode, 'display'); // probably inline-block or block.
                     dojo.style(newNode, 'display', 'none');
@@ -777,7 +778,8 @@ define([
                         dojo.place(oldNode, newNode.parentElement);
                         var oldNodeAnim = dojo.animateProperty({
                             node: oldNode,
-                            duration: this.twistCoinDuration / 2,
+                            delay: delay,
+                            duration: duration / 2,
                             easing: dojo.fx.easing.linear,
                             properties: {
                                 propertyTransform: {start: 0, end: 90}
@@ -794,7 +796,7 @@ define([
 
                     var newNodeAnim = dojo.animateProperty({
                         node: newNode,
-                        duration: this.twistCoinDuration / 2,
+                        duration: duration / 2,
                         easing: dojo.fx.easing.linear,
                         properties: {
                             propertyTransform: {start: -90, end: 0}
@@ -811,7 +813,8 @@ define([
                     anims.push(newNodeAnim);
 
                     var anim = dojo.fx.chain(anims);
-                    anim.play();
+                    if (autoPlay) anim.play();
+                    return anim;
                 } else {
                     dojo.destroy(oldNode);
                 }
@@ -1266,6 +1269,51 @@ define([
                         }
                     }
                 }
+            },
+
+            divinitiesRevealAnimation: function(doorSpace, divinitiesSituation) {
+                let movementDuration = 650;
+                let delay = 0;
+                for (let space = 1; space <= 6; space++) {
+                    if (space != doorSpace) {
+                        let spaceNode = dojo.query('.pantheon_space_containers div[data-space=' + space + ']')[0];
+                        let oldNode = dojo.query('.divinity_container', spaceNode)[0];
+                        let divinity = this.gamedatas.divinities[divinitiesSituation.spaces[space]];
+                        let newNode = dojo.place(this.getDivinityDivHtml(divinity.id, divinity.type, false), spaceNode);
+                        this.twistAnimation(oldNode, newNode, true, delay, movementDuration);
+                        delay += movementDuration * 0.75;
+                    }
+                }
+                // delay += this.turnAroundCardDuration;
+
+                let spaceNode = dojo.query('.pantheon_space_containers div[data-space=' + doorSpace + ']')[0];
+                let gateContainerNode = dojo.place(this.getDivinityDivHtml(16, 6, false), spaceNode);
+                let gateNode = dojo.query('.divinity', gateContainerNode)[0];
+                dojo.style(gateNode, 'opacity', 0);
+
+                let gateAnim = dojo.animateProperty({ // Standard fadeOut started of at opacity 0 (?!?)
+                    node: gateNode,
+                    duration: movementDuration,
+                    delay: delay,
+                    // easing: dojo.fx.easing.linear,
+                    properties: {
+                        opacity: {
+                            start: 0,
+                            end: 1
+                        },
+                        top: {
+                            start: -50,
+                            end: 0
+                        }
+                    },
+                    onAnimate: function (values) {
+                        dojo.style(gateNode, 'top', 'calc(var(--scale) * ' + values.top + ')');
+                    },
+                });
+                gateAnim.play();
+                delay += movementDuration;
+
+                return delay;
             },
 
             getDivinityDivHtml: function (divinityId, divinityType, full=false) {
@@ -3495,6 +3543,10 @@ define([
 
                 if (notif.args.offeringTokensSituation) this.updateOfferingTokensSituation(notif.args.offeringTokensSituation); // Sets this.gamedatas.offeringTokensSituation so it can be used in this.updateDraftpool
                 var animationDuration = this.updateDraftpool(notif.args.draftpool, false, true);
+
+                if (notif.args.divinitiesSituation) {
+                    this.divinitiesRevealAnimation(notif.args.doorSpace, notif.args.divinitiesSituation);
+                }
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(animationDuration);

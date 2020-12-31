@@ -3,6 +3,7 @@
 namespace SWD\States;
 
 use SevenWondersDuelPantheon;
+use SWD\Divinities;
 use SWD\Draftpool;
 use SWD\OfferingTokens;
 use SWD\Player;
@@ -62,15 +63,34 @@ trait NextAgeTrait
                 $decisionPlayerId = $conflictPawnPosition < 0 ? $gameStartPlayerId : Player::opponent($gameStartPlayerId)->id;
                 $this->gamestate->changeActivePlayer($decisionPlayerId);
             }
+
+            $data = [
+                'ageRoman' => ageRoman($age),
+                'player_name' => Player::getActive()->name,
+                'draftpool' => Draftpool::get(),
+                'playersSituation' => Players::getSituation(), // Mostly so the science symbol count is updated.
+            ];
+            if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON) && $age == 2) {
+                // Add the gate to the Pantheon
+                $doorSpace = -1;
+                for ($space = 1; $space <= 6; $space++) {
+                    $cards = Divinities::getDeckCardsSorted("space{$space}");
+                    if (count($cards) == 0) {
+                        $doorSpace = $space;
+                        $this->divinityDeck->moveCard(16, "space{$doorSpace}");
+                        break;
+                    }
+                }
+
+                // Divinities reveal
+                $data['divinitiesSituation'] = Divinities::getSituation();
+                $data['doorSpace'] = $doorSpace;
+            }
+
             SevenWondersDuelPantheon::get()->notifyAllPlayers(
                 'nextAgeDraftpoolReveal',
                 $message,
-                [
-                    'ageRoman' => ageRoman($age),
-                    'player_name' => Player::getActive()->name,
-                    'draftpool' => Draftpool::get(),
-                    'playersSituation' => Players::getSituation(), // Mostly so the science symbol count is updated.
-                ]
+                $data
             );
             $this->gamestate->nextState(self::STATE_SELECT_START_PLAYER_NAME);
         }
