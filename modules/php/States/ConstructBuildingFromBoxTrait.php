@@ -37,7 +37,7 @@ trait ConstructBuildingFromBoxTrait {
             throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
         }
 
-        $payment = $building->construct(Player::getActive(), null, true);
+        $payment = $building->construct(Player::getActive(), null, false, true);
 
 
         $this->transitionAfterConstructBuilding($building, $payment);
