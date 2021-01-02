@@ -132,8 +132,8 @@ class Building extends Item {
      * @param $cardId
      * @return PaymentPlan
      */
-    public function construct(Player $player, $building = null, $discardedCard = false) {
-        $payment = parent::construct($player, $building, $discardedCard);
+    public function construct(Player $player, $building = null, $discardedCard = false, $conspiracyTreason = false) {
+        $payment = parent::construct($player, $building, $discardedCard || $conspiracyTreason);
 
         SevenWondersDuelPantheon::get()->buildingDeck->insertCardOnExtremePosition($this->id, $player->id, true);
 
@@ -141,10 +141,15 @@ class Building extends Item {
         // However, the Payment object passed in this notification is by reference and this will contain
         // the effects' modifications when the notification is send at the end of the request.
         $wonderName = null;
+        $conspiracyName = null;
         $progressTokenName = null;
         if ($discardedCard) {
             $message = clienttranslate('${player_name} constructed discarded building “${buildingName}” for free (Wonder “${wonderName}”)');
             $wonderName = Wonder::get(5)->name;
+        }
+        elseif ($conspiracyTreason) {
+            $message = clienttranslate('${player_name} constructed building “${buildingName}” for free (Conspiracy “${conspiracyName}”)');
+            $conspiracyName = Conspiracy::get(16)->name;
         }
         elseif ($this->type == Building::TYPE_SENATOR) {
             if ($player->hasProgressToken(11)) {
@@ -162,7 +167,7 @@ class Building extends Item {
             'constructBuilding',
             $message,
             [
-                'i18n' => ['buildingName', 'wonderName', 'costUnit', 'progressTokenName'],
+                'i18n' => ['buildingName', 'wonderName', 'conspiracyName', 'costUnit', 'progressTokenName'],
                 'buildingName' => $this->name,
                 'cost' => $payment->totalCost() > 0 ? $payment->totalCost() : "",
                 'costUnit' => $payment->totalCost() > 0 ? RESOURCES[COINS] : clienttranslate('free'),
@@ -171,6 +176,7 @@ class Building extends Item {
                 'buildingId' => $this->id,
                 'payment' => $payment,
                 'wonderName' => $wonderName,
+                'conspiracyName' => $conspiracyName,
                 'progressTokenName' => $progressTokenName,
             ]
         );
