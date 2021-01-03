@@ -3,18 +3,18 @@
 
 #swd[data-quality="2x"] .action_construct,
 #swd[data-quality="2x"] .action_wonder,
-#swd[data-quality="2x"] .clay,
-#swd[data-quality="2x"] .coin,
-#swd[data-quality="2x"] .coin.opponent,
+#swd[data-quality="2x"] .clay, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .clay,
+#swd[data-quality="2x"] .coin, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .coin,
+#swd[data-quality="2x"] .coin.opponent, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .coin.opponent,
 #swd[data-quality="2x"] .end_game_card,
-#swd[data-quality="2x"] .glass,
+#swd[data-quality="2x"] .glass, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .glass,
 #swd[data-quality="2x"] .military_token_2,
 #swd[data-quality="2x"] .military_token_5,
-#swd[data-quality="2x"] .papyrus,
+#swd[data-quality="2x"] .papyrus, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .papyrus,
 #swd[data-quality="2x"] .pawn,
 #swd[data-quality="2x"] .point,
-#swd[data-quality="2x"] .stone,
-#swd[data-quality="2x"] .wood {
+#swd[data-quality="2x"] .stone, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .stone,
+#swd[data-quality="2x"] .wood, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .wood {
     background-image: url('img/sprites@2X.png') !important;
 }
 
@@ -22,28 +22,28 @@
     background-image: url('img/board@2X.png') !important;
 }
 
-#swd[data-quality="2x"] .building {
+#swd[data-quality="2x"] .building, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .building {
     background-image: url('img/buildings_v2@2X.jpg') !important;
 }
 
-#swd[data-quality="2x"] .wonder {
+#swd[data-quality="2x"] .wonder, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .wonder {
     background-image: url('img/wonders_v2@2X.jpg') !important;
 }
 
-#swd[data-quality="2x"] .progress_token {
+#swd[data-quality="2x"] .progress_token, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .progress_token {
     background-image: url('img/progress_tokens_v2@2X.jpg') !important;
 }
 
-#swd[data-quality="2x"] .linked_building_icon {
+#swd[data-quality="2x"] .linked_building_icon, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .linked_building_icon {
     background-image: url('img/linked-building-icons@2X.jpg') !important;
 }
 
 /* Agora */
 
-#swd[data-quality="2x"] .conspiracy {
+#swd[data-quality="2x"] .conspiracy, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .conspiracy {
     background-image: url('img/agora_conspiracies@2X.jpg');
 }
-#swd[data-quality="2x"] .decree {
+#swd[data-quality="2x"] .decree, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .decree {
     background-image: url('img/agora_decrees@2X.png');
 }
 #swd[data-quality="2x"] .senate {
@@ -53,8 +53,8 @@
 #swd[data-quality="2x"] .agora_cube3d_opponent,
 #swd[data-quality="2x"] .agora_cube_me,
 #swd[data-quality="2x"] .agora_cube_opponent,
-#swd[data-agora="1"][data-quality="2x"] .military_token_2,
-#swd[data-agora="1"][data-quality="2x"] .military_token_5,
+#swd[data-agora="1"][data-swd-quality="2x"] .military_token_2,
+#swd[data-agora="1"][data-swd-quality="2x"] .military_token_5,
 #swd[data-quality="2x"] .end_game_senate .end_game_card,
 #swd[data-quality="2x"] .action_conspiracy,
 #swd[data-quality="2x"] .action_place_influence,
@@ -62,6 +62,6 @@
 #swd[data-quality="2x"] .action_remove_influence,
 #swd[data-quality="2x"] .action_skip,
 #swd[data-quality="2x"] .agora_icon,
-#swd[data-quality="2x"] .senate_section  {
+#swd[data-quality="2x"] .senate_section, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .senate_section  {
     background-image: url('img/agora_sprites@2X.png') !important;
 }
