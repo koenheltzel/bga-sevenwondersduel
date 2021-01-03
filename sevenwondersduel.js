@@ -1234,20 +1234,10 @@ define([
                 // Pantheon spaces
                 let tokensContainer = dojo.query('.pantheon_space_containers')[0];
                 Object.keys(divinitiesSituation.spaces).forEach(dojo.hitch(this, function (space) {
-                    let id = 0;
-                    let type = null;
-                    if (divinitiesSituation.age >= 2) {
-                        id = divinitiesSituation.spaces[space];
-                        let divinity = this.gamedatas.divinities[id];
-                        type = divinity.type;
-                    }
-                    else {
-                        type = divinitiesSituation.spaces[space];
-                    }
-
+                    let spaceData = divinitiesSituation.spaces[space];
                     let emptySpace = dojo.query('div[data-space=' + space + ']:empty', tokensContainer)[0];
                     if (emptySpace) {
-                        let result = dojo.place(this.getDivinityDivHtml(id, type, false), emptySpace);
+                        let result = dojo.place(this.getDivinityDivHtml(spaceData.id, spaceData.type, false), emptySpace);
                     }
                 }));
 

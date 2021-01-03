@@ -46,7 +46,16 @@ class Divinities extends Collection {
             $cards = Divinities::getDeckCardsSorted("space{$space}");
             if (count($cards) > 0) {
                 $card = array_slice($cards, 0, 1)[0];
-                $spaces[$space] = $age >= 2 ? (int)$card['id'] : (int)$card['type'];
+                $data = [
+                    'type' => (int)$card['type'],
+                    'id' => ($age >= 2) ? (int)$card['id'] : 0,
+                ];
+                foreach (Players::get() as $player) {
+                    $payment = $player->getPaymentPlan(Divinity::get($card['id']));
+                    $data['cost'][$player->id] = $payment->totalCost();
+                    $data['payment'][$player->id] = $payment;
+                }
+                $spaces[$space] = $data;
             }
         }
         return [

@@ -265,14 +265,12 @@ class Draftpool extends Base
                                 $position['discardGain'] = [];
                                 $position['payment'] = [];
                                 $position['hasLinkedBuilding'] = [];
-                                $players = SevenWondersDuelPantheon::get()->loadPlayersBasicInfos();
-                                $playerIds = array_keys($players);
-                                foreach ($playerIds as $playerId) {
-                                    $payment = Player::get($playerId)->getPaymentPlan($building);
-                                    $position['cost'][$playerId] = $payment->totalCost();
-                                    $position['payment'][$playerId] = $payment;
-                                    $position['hasLinkedBuilding'][$playerId] = Player::get($playerId)->hasBuilding($building->linkedBuilding)
-                                        || (Player::get($playerId)->hasDecree(15) && Player::get($playerId)->getOpponent()->hasBuilding($building->linkedBuilding));
+                                foreach (Players::get() as $player) {
+                                    $payment = $player->getPaymentPlan($building);
+                                    $position['cost'][$player->id] = $payment->totalCost();
+                                    $position['payment'][$player->id] = $payment;
+                                    $position['hasLinkedBuilding'][$player->id] = $player->hasBuilding($building->linkedBuilding)
+                                        || ($player->hasDecree(15) && $player->getOpponent()->hasBuilding($building->linkedBuilding));
                                 }
                             }
                         }
