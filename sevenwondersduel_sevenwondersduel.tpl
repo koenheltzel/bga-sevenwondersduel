@@ -81,6 +81,34 @@
                                 <div></div>
                                 <div></div>
                             </div>
+                            <div id="activate_divinity" class="whiteblock">
+                                <h3>Confirm Pantheon card activation</h3>
+                                <div id="activate_divinity_flexbox">
+                                    <div id="activate_divinity_container">
+                                        <div data-divinity-id="14" data-divinity-type="5" class="divinity divinity_small divinity_compact " style="background-position: calc(-1.0741 * var(--divinity-width) * var(--divinity-small-scale) * var(--element-scale)) calc(-2.7012 * var(--divinity-height) * var(--divinity-small-scale) * var(--element-scale));">            <span class="swd_title">Minerva</span>        </div>
+                                    </div>
+                                    <div id="activate_divinity_payment">
+                                        <div>
+                                            Pay <div class="coin "><span style="color: black !important">6</span></div>:
+                                        </div>
+                                        <div>
+                                            <div class="offering_token_outline">        <div data-offering-token-id="2" class="offering_token offering_token2 offering_token_small">        </div>    </div>
+                                        </div>
+                                        <div>&</div>
+                                        <div>
+                                            <div class="offering_token_outline">        <div data-offering-token-id="3" class="offering_token offering_token3 offering_token_small">        </div>    </div>
+                                        </div>
+                                        <div>&</div>
+                                        <div>
+                                            <div class="coin "><span style="color: black !important">3</span></div>
+                                            <!-- Free <div class="coin cost_free"><span style="color: #008000 !important">✓</span></div> -->
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a href="#" id="activate_divinity_confirm" class="action_button bgabutton bgabutton_blue"><span>Confirm</span></a>
+                                    </div>
+                                </div>
+                            </div>
                             <div id="choose_conspirator_action" class="whiteblock">
                                 <a href="#" id="buttonPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_place_influence"></div><span>{PLACE_INFLUENCE}</span></a>
                                 <a href="#" id="buttonConspire" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{CONSPIRE}</span></a>

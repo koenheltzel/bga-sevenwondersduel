@@ -68,7 +68,7 @@
 }
 
 .divinity_small .swd_title {
-    font-size: calc(16px * var(--wonder-small-scale));
+    font-size: calc(16px * var(--divinity-small-scale) * var(--element-scale));
 }
 .divinity_small.divinity_compact .swd_title {
     top: 7%;

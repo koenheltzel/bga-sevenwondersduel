@@ -1,0 +1,21 @@
+
+#activate_divinity_flexbox {
+    display: flex;
+    gap: calc(2 * var(--gutter));
+    align-items: center;
+}
+
+#activate_divinity .divinity {
+    position: initial;
+    --element-scale: 1.5;
+}
+
+#activate_divinity_payment {
+    display: flex;
+    gap: calc(1 * var(--gutter));
+    align-items: center;
+}
+
+#activate_divinity_payment .offering_token {
+    --element-scale: 1.5;
+}
