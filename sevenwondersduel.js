@@ -5530,6 +5530,7 @@ define([
                 dojo.cookie('swd_quality_v2', this.quality, { expires: this.cookieExpireDays });
 
                 dojo.attr('swd', 'data-quality', this.quality);
+                dojo.attr('ebd-body', 'data-swd-quality', this.quality);
             },
 
             //     _       _           _          __                  _   _
