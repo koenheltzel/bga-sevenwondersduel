@@ -385,6 +385,14 @@ class Divinity extends Item {
         }
     }
 
+    public function getSpace() {
+        $location = SevenWondersDuelPantheon::get()->divinityDeck->getCard($this->id)['location'];
+        if (strstr($location, 'space')) {
+            return (int)substr($location, strlen('space'));
+        }
+        return -1;
+    }
+
     public function getPosition(Player $player) {
         return (int)SevenWondersDuelPantheon::get()->divinityDeck->getCard($this->id)['location_arg'];
     }
