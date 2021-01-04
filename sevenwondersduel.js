@@ -1173,7 +1173,7 @@ define([
 
             updateProgressTokensSituation: function (progressTokensSituation) {
                 if (this.debug) console.log('updateProgressTokensSituation: ', progressTokensSituation);
-                this.progressTokensSituation = progressTokensSituation;
+                this.gamedatas.progressTokensSituation = progressTokensSituation;
 
                 dojo.query("#board_progress_tokens>div").forEach(dojo.empty);
 
@@ -1231,7 +1231,7 @@ define([
 
             updateDivinitiesSituation: function (divinitiesSituation) {
                 if (this.debug) console.log('updateDivinitiesSituation: ', divinitiesSituation);
-                this.divinitiesSituation = divinitiesSituation;
+                this.gamedatas.divinitiesSituation = divinitiesSituation;
 
                 // Pantheon spaces
                 let tokensContainer = dojo.query('.pantheon_space_containers')[0];
@@ -1460,7 +1460,7 @@ define([
 
             updateDecreesSituation: function (decreesSituation) {
                 if (this.debug) console.log('updateDecreesSituation: ', decreesSituation);
-                this.decreesSituation = decreesSituation;
+                this.gamedatas.decreesSituation = decreesSituation;
 
                 dojo.query(".decree_containers>div>div").forEach(dojo.empty);
 
@@ -2131,7 +2131,7 @@ define([
                         translateCurrentCost: _("Current activation cost for you"),
                         translateTotal: _("Total"),
                         jsCoinHtml: meCoinHtml,
-                        jsPayment: this.getPaymentPlan(this.divinitiesSituation.spaces[space].payment[this.me_id])
+                        jsPayment: this.getPaymentPlan(this.gamedatas.divinitiesSituation.spaces[space].payment[this.me_id])
                     });
 
                     opponentCoinHtml = dojo.query('.pantheon_cost_containers div[data-space=' + space + '] .opponent .coin')[0].outerHTML;
@@ -2139,7 +2139,7 @@ define([
                         translateCurrentCost: _("Current activation cost for opponent"),
                         translateTotal: _("Total"),
                         jsCoinHtml: opponentCoinHtml,
-                        jsPayment: this.getPaymentPlan(this.divinitiesSituation.spaces[space].payment[this.opponent_id])
+                        jsPayment: this.getPaymentPlan(this.gamedatas.divinitiesSituation.spaces[space].payment[this.opponent_id])
                     });
                 }
                 return this.format_block('jstpl_divinity_tooltip', data);
@@ -2476,6 +2476,15 @@ define([
             onEnterPlayerTurn: function (args) {
                 if (this.debug) console.log('in onEnterPlayerTurn', args);
 
+                let activatable = 0;
+                if (this.pantheon && this.currentAge >= 2) {
+                    Object.keys(this.gamedatas.divinitiesSituation.spaces).forEach(dojo.hitch(this, function (space) {
+                        if (this.gamedatas.divinitiesSituation.spaces[space]) {
+                            activatable += 1;
+                        }
+                    }));
+                }
+
                 let triggerable = 0;
                 if (this.agora) {
                     Object.keys(this.gamedatas.conspiraciesSituation[this.getActivePlayerId()]).forEach(dojo.hitch(this, function (index) {
@@ -2491,15 +2500,26 @@ define([
                 }
 
                 if (this.agora && triggerable > 0) {
-                    this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must play an Age card or trigger a Conspiracy first');
-                    this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must play an Age card or trigger a Conspiracy first');
-                    this.updatePageTitle();
+                    if (activatable > 0) {
+                        this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must play an Age card, activate a card from the Pantheon or trigger a Conspiracy first');
+                        this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must play an Age card, activate a card from the Pantheon or trigger a Conspiracy first');
+                    }
+                    else {
+                        this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must choose and use an age card or activate a card from the Pantheon');
+                        this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must choose an age card, or activate a card from the Pantheon');
+                    }
                 }
                 else {
-                    this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must choose and use an age card');
-                    this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must choose an age card');
-                    this.updatePageTitle();
+                    if (activatable > 0) {
+                        this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must choose and use an age card or activate a card from the Pantheon');
+                        this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must choose an age card, or activate a card from the Pantheon');
+                    }
+                    else {
+                        this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must choose and use an age card');
+                        this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must choose an age card');
+                    }
                 }
+                this.updatePageTitle();
             },
 
             onPlayerTurnDraftpoolClick: function (e) {
