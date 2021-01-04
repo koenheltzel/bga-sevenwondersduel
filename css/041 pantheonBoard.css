@@ -83,16 +83,17 @@
     background-image: url('img/pantheon_sprites.png');
     width: calc(var(--pantheon-board-scale) * 37px * var(--element-scale));
     height: calc(var(--pantheon-board-scale) * 39px * var(--element-scale));
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #00000088);
 }
 .pantheon_cost_arrow.opponent {
     transform: scaleX(-1);
-    top: calc(var(--pantheon-board-scale) * -20px) !important;
+    top: calc(var(--pantheon-board-scale) * -17px) !important;
     left: calc(var(--pantheon-board-scale) * 6.5px) !important;
     z-index: -1;
 }
 .pantheon_cost_arrow.me {
     transform: scaleY(-1);
-    top: calc(var(--pantheon-board-scale) * 30px) !important;
+    top: calc(var(--pantheon-board-scale) * 27px) !important;
     left: calc(var(--pantheon-board-scale) * 6px) !important;
     z-index: -1;
 }
@@ -142,7 +143,7 @@
 }
 
 .pantheon_cost_containers > div:nth-of-type(6) {
-    left: calc(var(--pantheon-board-scale) * 47px);
+    left: calc(var(--pantheon-board-scale) * 46px);
     top: calc(var(--pantheon-board-scale) * 796px);
 }
 .pantheon_cost_containers > div:nth-of-type(6) .me {
