@@ -219,6 +219,9 @@ class PaymentPlan extends Base
             // Player can build a building from the last row for free
             // No need to construct a payment plan.
         }
+        elseif ($this->item instanceof Divinity) {
+            $this->addStep(COINS, 4, 4, null, null, "", []);
+        }
         elseif ($this->item instanceof Building && $this->item->type == Building::TYPE_SENATOR) {
             if ($player->hasProgressToken(11)) {
                 $string = clienttranslate('Player can recruit Senators for free (Progress Token “${progressTokenName}”)');

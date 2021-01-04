@@ -249,21 +249,21 @@
                             <div class="pantheon_board">
                                 <div class="pantheon_cost_containers">
                                     <!-- BEGIN pantheon_cost -->
-                                    <div data-space="{SPACE}">
+                                    <div class="pantheon_space" data-space="{SPACE}">
                                         <div class="me">
                                             <div class="pantheon_cost_arrow me"></div>
-                                            <div class="coin "><span style="color: black !important">4</span></div>
+                                            <div class="cost"></div>
                                         </div>
                                         <div class="opponent">
                                             <div class="pantheon_cost_arrow opponent"></div>
-                                            <div class="coin cost_free"><span style="color: #008000 !important">✓</span></div>
+                                            <div class="cost"></div>
                                         </div>
                                     </div>
                                     <!-- END pantheon_cost -->
                                 </div>
                                 <div class="pantheon_space_containers">
                                     <!-- BEGIN pantheon_space -->
-                                    <div data-space="{SPACE}"></div>
+                                    <div class="pantheon_space" data-space="{SPACE}"></div>
                                     <!-- END pantheon_space -->
                                 </div>
                             </div>
@@ -623,6 +623,9 @@ var jstpl_divinity_full = '\
         </div>\
     </div>';
 
+var jstpl_cost = '\
+        <div class="coin ${jsCostClass}"><span style="color: ${jsCostColor} !important">${jsCost}</span></div>';
+
 var jstpl_conspiracy = '\
     <div class="conspiracy_container">\
         <div \
@@ -765,6 +768,8 @@ var jstpl_divinity_tooltip = '\
             <strong>${translateDivinity} ${jsName} (<span style="color: ${jsDivinityColor}">${jsDivinityType}</span>)</strong>\
             <hr\>\
             <p>${jsText}</p>\
+            ${jsCostOpponent}\
+            ${jsCostMe}\
         </div>\
         <div>\
             <div class="divinity tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\

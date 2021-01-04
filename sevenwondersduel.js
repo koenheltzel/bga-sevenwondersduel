@@ -1235,11 +1235,22 @@ define([
 
                 // Pantheon spaces
                 let tokensContainer = dojo.query('.pantheon_space_containers')[0];
+                let costContainer = dojo.query('.pantheon_cost_containers')[0];
                 Object.keys(divinitiesSituation.spaces).forEach(dojo.hitch(this, function (space) {
                     let spaceData = divinitiesSituation.spaces[space];
                     let emptySpace = dojo.query('div[data-space=' + space + ']:empty', tokensContainer)[0];
                     if (emptySpace) {
                         let result = dojo.place(this.getDivinityDivHtml(spaceData.id, spaceData.type, false), emptySpace);
+                    }
+                    for (var playerId in this.gamedatas.players) {
+                        let alias = this.getPlayerAlias(playerId);
+                        let container = dojo.query('div[data-space=' + space + '] .' + alias + ' .cost', costContainer)[0];
+                        let oldNode = dojo.query('.coin', container)[0];
+                        let playerCoins = this.gamedatas.playersSituation[playerId].coins;
+                        let newNode = dojo.place( this.getCostDivHtml(spaceData.cost[playerId], playerCoins), container, 'first');
+                        if (oldNode && newNode) {
+                            this.twistAnimation(oldNode, newNode);
+                        }
                     }
                 }));
 
@@ -1323,6 +1334,15 @@ define([
                 data.jsX = (spriteId - 1) % spritesheetColumns;
                 data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
                 return this.format_block(full ? 'jstpl_divinity_full' : 'jstpl_divinity', data);
+            },
+
+            getCostDivHtml: function (cost, playerCoins) {
+                var data = {
+                    jsCost: this.getCostValue(cost),
+                    jsCostColor: this.getCostColor(cost, playerCoins),
+                };
+                data.jsCostClass = isNaN(data.jsCost) ? 'cost_free' : '';
+                return this.format_block('jstpl_cost', data);
             },
 
             //  __  __       _   _           _                     _____     _
@@ -2099,6 +2119,29 @@ define([
                 data.jsText = this.getTextHtml(divinity.text);
                 data.jsBackX = ((spriteId - 1) % spritesheetColumns);
                 data.jsBackY = Math.floor((spriteId - 1) / spritesheetColumns);
+
+                data.jsCostMe = '';
+                data.jsCostOpponent = '';
+                var spaceNode = dojo.query(node).closest(".pantheon_space")[0];
+                if (spaceNode) {
+                    let space = dojo.attr(spaceNode, 'data-space');
+
+                    meCoinHtml = dojo.query('.pantheon_cost_containers div[data-space=' + space + '] .me .coin')[0].outerHTML;
+                    data.jsCostMe = this.format_block('jstpl_tooltip_cost_me', {
+                        translateCurrentCost: _("Current activation cost for you"),
+                        translateTotal: _("Total"),
+                        jsCoinHtml: meCoinHtml,
+                        jsPayment: this.getPaymentPlan(this.divinitiesSituation.spaces[space].payment[this.me_id])
+                    });
+
+                    opponentCoinHtml = dojo.query('.pantheon_cost_containers div[data-space=' + space + '] .opponent .coin')[0].outerHTML;
+                    data.jsCostOpponent = this.format_block('jstpl_tooltip_cost_opponent', {
+                        translateCurrentCost: _("Current activation cost for opponent"),
+                        translateTotal: _("Total"),
+                        jsCoinHtml: opponentCoinHtml,
+                        jsPayment: this.getPaymentPlan(this.divinitiesSituation.spaces[space].payment[this.opponent_id])
+                    });
+                }
                 return this.format_block('jstpl_divinity_tooltip', data);
             },
 
