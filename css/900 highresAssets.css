@@ -38,6 +38,21 @@
     background-image: url('img/linked-building-icons@2X.jpg') !important;
 }
 
+/* Pantheon */
+#swd[data-quality="2x"] .divinity, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .divinity {
+    background-image: url('img/pantheon_divinities@2X.jpg');
+}
+#swd[data-quality="2x"] .pantheon_board {
+    background-image: url('img/pantheon_board@2X.png');
+}
+#swd[data-quality="2x"] .mythology_token, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .mythology_token,
+#swd[data-quality="2x"] .offering_token, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .offering_token,
+#swd[data-quality="2x"] .mythology_token_outline,
+#swd[data-quality="2x"] .offering_token_outline,
+#swd[data-quality="2x"] .pantheon_cost_arrow {
+    background-image: url('img/pantheon_sprites@2X.png') !important;
+}
+
 /* Agora */
 
 #swd[data-quality="2x"] .conspiracy, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .conspiracy {
@@ -53,8 +68,8 @@
 #swd[data-quality="2x"] .agora_cube3d_opponent,
 #swd[data-quality="2x"] .agora_cube_me,
 #swd[data-quality="2x"] .agora_cube_opponent,
-#swd[data-agora="1"][data-swd-quality="2x"] .military_token_2,
-#swd[data-agora="1"][data-swd-quality="2x"] .military_token_5,
+#swd[data-agora="1"][data-quality="2x"] .military_token_2,
+#swd[data-agora="1"][data-quality="2x"] .military_token_5,
 #swd[data-quality="2x"] .end_game_senate .end_game_card,
 #swd[data-quality="2x"] .action_conspiracy,
 #swd[data-quality="2x"] .action_place_influence,

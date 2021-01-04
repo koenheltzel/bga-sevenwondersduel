@@ -184,6 +184,7 @@ define([
                 }
                 if (this.quality == '2x' || !this.pantheon) {
                     this.dontPreloadImage('pantheon_sprites.png');
+                    this.dontPreloadImage('pantheon_board.png');
                     this.dontPreloadImage('pantheon_divinities.png');
                 }
 
@@ -203,6 +204,7 @@ define([
                 }
                 if (this.quality == '1x' || !this.pantheon) {
                     this.dontPreloadImage('pantheon_sprites@2X.png');
+                    this.dontPreloadImage('pantheon_board@2X.png');
                     this.dontPreloadImage('pantheon_divinities@2X.png');
                 }
 
