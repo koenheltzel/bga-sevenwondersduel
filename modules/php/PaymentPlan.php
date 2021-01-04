@@ -252,6 +252,13 @@ class PaymentPlan extends Base
                 if ($this->item->type == Divinity::TYPE_GATE) {
                     $cost *= 2;
                 }
+                $wonderSanctuary = Wonder::get(15);
+                if ($player->hasWonder($wonderSanctuary->id) && $wonderSanctuary->isConstructed()) {
+                    $args = ['wonderName' => $wonderSanctuary->name];
+                    $string = 'Discount (Wonder “${wonderName}”)';
+                    $this->addStep(COINS, -2, 0, null, null, $string, $args);
+                    $cost -= 2;
+                }
                 $string = clienttranslate('Pay ${costIcon}');
                 $this->addStep(COINS, $cost, $cost, null, null, $string);
             }

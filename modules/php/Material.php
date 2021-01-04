@@ -165,7 +165,6 @@ class Material extends Base
 
         $this->wonders[15] = (new Wonder(15, clienttranslate("The Sanctuary")))
             ->setCost([PAPYRUS => 1, GLASS => 1, STONE => 2])
-//            ->addActionState(SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME)
             ->setExtraTurn();
 
         $this->wonders[16] = (new Wonder(16, clienttranslate("The Divine Theater")))
