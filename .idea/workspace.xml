@@ -55,11 +55,11 @@
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Conspire Remnant Position" line="4332" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="Tooltips were never using @2X images because they were outside of the #swd div. To fix this we now set a data-swd-quality on the body, which is leading for the @2X css selectors.">
+    <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/php/PaymentPlan.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/PaymentPlan.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/php/Player.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/Player.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sevenwondersduel.js" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" afterDir="false" />
     </list>
     <ignored path="D:\wamp64\www\bga\sevenwondersduel\.idea\shelf/" />
     <ignored path="D:\wamp64\www\bga\pantheon\.idea\shelf/" />
@@ -96,14 +96,14 @@
     </favorites_list>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.42243436">
+    <splitter split-orientation="horizontal" split-proportion="0.7352071">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="272">
-                  <caret line="1246" column="82" lean-forward="true" selection-start-line="1246" selection-start-column="52" selection-end-line="1246" selection-end-column="82" />
+                <state relative-caret-position="289">
+                  <caret line="1247" column="72" lean-forward="true" selection-start-line="1247" selection-start-column="72" selection-end-line="1247" selection-end-column="72" />
                 </state>
               </provider>
             </entry>
@@ -111,8 +111,17 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/modules/php/Divinities.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="373">
-                  <caret line="53" column="46" lean-forward="true" selection-start-line="53" selection-start-column="46" selection-end-line="53" selection-end-column="46" />
+                <state relative-caret-position="171">
+                  <caret line="16" column="27" lean-forward="true" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/modules/php/Divinity.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="473">
+                  <caret line="387" column="11" selection-start-line="387" selection-start-column="11" selection-end-line="387" selection-end-column="11" />
                 </state>
               </provider>
             </entry>
@@ -120,17 +129,17 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/modules/php/Player.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="333">
-                  <caret line="226" column="23" lean-forward="true" selection-start-line="226" selection-start-column="23" selection-end-line="226" selection-end-column="23" />
+                <state relative-caret-position="231">
+                  <caret line="303" column="57" selection-start-line="303" selection-start-column="57" selection-end-line="303" selection-end-column="57" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/modules/php/PaymentPlan.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="429">
-                  <caret line="222" column="58" selection-start-line="222" selection-start-column="58" selection-end-line="222" selection-end-column="58" />
+                <state relative-caret-position="623">
+                  <caret line="255" column="71" selection-start-line="255" selection-start-column="71" selection-end-line="255" selection-end-column="71" />
                   <folding>
                     <element signature="e#11#23#0" expanded="true" />
                     <element signature="n#style#0;n#strong#0;n#PRE#0;n#!!top" expanded="true" />
@@ -155,8 +164,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="229">
-                  <caret line="2127" selection-start-line="2127" selection-end-line="2127" />
+                <state relative-caret-position="37">
+                  <caret line="3950" selection-start-line="3950" selection-end-line="3950" />
                 </state>
               </provider>
             </entry>
@@ -184,11 +193,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>divinity</find>
-      <find>dojo.attr('swd', 'data-quality'</find>
-      <find>dijit__MasterTooltip_0</find>
-      <find>#swd[data-quality=&quot;2x&quot;]</find>
-      <find>dojo.attr(</find>
       <find>dojo.attr($('swd')</find>
       <find>dojo.attr('swd'</find>
       <find>#swd[</find>
@@ -210,10 +214,15 @@
       <find>divinitiesSituation</find>
       <find>jstpl_divinity_tooltip</find>
       <find>tooltip</find>
-      <find>data-space</find>
       <find>closest</find>
       <find>meCoinHtml</find>
       <find>meIconHtml</find>
+      <find>data-space</find>
+      <find>Start</find>
+      <find>mytho</find>
+      <find>jsCostOpponent</find>
+      <find>addStep</find>
+      <find>getMythologyTokens</find>
     </findStrings>
     <replaceStrings>
       <replace>--pantheon-board-scale</replace>
@@ -298,8 +307,6 @@
         <option value="$PROJECT_DIR$/modules/js/States/ChooseAndPlaceDivinity.js" />
         <option value="$PROJECT_DIR$/sevenwondersduel.action.php" />
         <option value="$PROJECT_DIR$/sevenwondersduel.game.php" />
-        <option value="$PROJECT_DIR$/modules/php/Divinity.php" />
-        <option value="$PROJECT_DIR$/modules/php/Player.php" />
         <option value="$PROJECT_DIR$/css/802 mythologyDecks.css" />
         <option value="$PROJECT_DIR$/modules/php/States/ChooseConspireRemnantPositionTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/States/ChooseAndPlaceDivinityTrait.php" />
@@ -323,9 +330,11 @@
         <option value="$PROJECT_DIR$/modules/php/Draftpool.php" />
         <option value="$PROJECT_DIR$/modules/php/Divinities.php" />
         <option value="$PROJECT_DIR$/css/900 highresAssets.css" />
-        <option value="$PROJECT_DIR$/modules/php/PaymentPlan.php" />
         <option value="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" />
         <option value="$PROJECT_DIR$/sevenwondersduel.js" />
+        <option value="$PROJECT_DIR$/modules/php/Divinity.php" />
+        <option value="$PROJECT_DIR$/modules/php/Player.php" />
+        <option value="$PROJECT_DIR$/modules/php/PaymentPlan.php" />
       </list>
     </option>
   </component>
@@ -507,21 +516,7 @@
       <workItem from="1609245185456" duration="139000" />
       <workItem from="1609245328152" duration="13345000" />
       <workItem from="1609259181415" duration="15753000" />
-      <workItem from="1609406682401" duration="30983000" />
-    </task>
-    <task id="LOCAL-00734" summary="Replaced SevenWondersDuel with SevenWondersDuelPantheon">
-      <created>1605866573373</created>
-      <option name="number" value="00734" />
-      <option name="presentableId" value="LOCAL-00734" />
-      <option name="project" value="LOCAL" />
-      <updated>1605866573373</updated>
-    </task>
-    <task id="LOCAL-00735" summary="Added material and game setup for Pantheon">
-      <created>1605879561178</created>
-      <option name="number" value="00735" />
-      <option name="presentableId" value="LOCAL-00735" />
-      <option name="project" value="LOCAL" />
-      <updated>1605879561178</updated>
+      <workItem from="1609406682401" duration="33294000" />
     </task>
     <task id="LOCAL-00736" summary="Bugfix #28711. With Agora, the conflict pawn can go backwards, so the winner isn't always the active player.">
       <created>1606318638475</created>
@@ -852,11 +847,25 @@
       <option name="project" value="LOCAL" />
       <updated>1609747280096</updated>
     </task>
-    <option name="localTasksCounter" value="783" />
+    <task id="LOCAL-00783" summary="Divinities activation cost WIP">
+      <created>1609754994704</created>
+      <option name="number" value="00783" />
+      <option name="presentableId" value="LOCAL-00783" />
+      <option name="project" value="LOCAL" />
+      <updated>1609754994704</updated>
+    </task>
+    <task id="LOCAL-00784" summary="Divinities activation cost WIP">
+      <created>1609755487259</created>
+      <option name="number" value="00784" />
+      <option name="presentableId" value="LOCAL-00784" />
+      <option name="project" value="LOCAL" />
+      <updated>1609755487259</updated>
+    </task>
+    <option name="localTasksCounter" value="785" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1909134000" />
+    <option name="totallyTimeSpent" value="1911445000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -881,20 +890,20 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.53571427" weight="0.16251354" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="8" sideWeight="0.5351812" visible="true" weight="0.16251354" />
       <window_info anchor="bottom" id="Cacher" order="9" sideWeight="0.6098081" weight="0.5362947" />
       <window_info anchor="bottom" id="File Transfer" order="10" sideWeight="0.6620469" weight="0.1971831" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
       <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.72121537" weight="0.46912244" />
       <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.49946696" weight="0.32936078" />
       <window_info anchor="bottom" id="Inspection Results" order="14" sideWeight="0.49946696" weight="0.32936078" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="15" sideWeight="0.4642857" side_tool="true" visible="true" weight="0.25785482" />
+      <window_info anchor="bottom" id="Event Log" order="15" sideWeight="0.46481878" side_tool="true" visible="true" weight="0.16251354" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" weight="0.32995737" />
       <window_info anchor="right" x="0" y="0" width="434" height="856" id="Documentation" order="4" side_tool="true" visible="true" weight="0.16490486" />
-      <window_info anchor="right" id="Favorites" order="5" sideWeight="0.35455862" weight="0.17270789" />
+      <window_info anchor="right" id="Favorites" order="5" sideWeight="0.35455862" visible="true" weight="0.17270789" />
     </layout>
     <layout-to-restore>
       <window_info id="Structure" order="0" sideWeight="0.46695557" side_tool="true" weight="0.22761194" />
@@ -983,7 +992,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Collecting of Mythology tokens &amp; Offering tokens (WIP)" />
     <MESSAGE value="Refactoring Collecting of Mythology tokens &amp; Offering tokens.&#10;Dont pass mythology &amp; offering situations, but pass the &quot;board&quot; tokens within draftpool which simplifies things greatly." />
     <MESSAGE value="Offering token tooltips" />
     <MESSAGE value="Mythology token tooltips" />
@@ -1008,7 +1016,8 @@
     <MESSAGE value="Prepared updateDivinitiesSituation for cost/payment data.&#10;Refactored Draftpool foreach to use Players/Player objects more efficiently" />
     <MESSAGE value="Tooltips were never using @2X images because they were outside of the #swd div. To fix this we now set a data-swd-quality on the body, which is leading for the @2X css selectors." />
     <MESSAGE value="Added Pantheon @2X css/js" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Pantheon @2X css/js" />
+    <MESSAGE value="Divinities activation cost WIP" />
+    <option name="LAST_COMMIT_MESSAGE" value="Divinities activation cost WIP" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/modules/php/Conspiracy.php">
@@ -1227,13 +1236,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/Divinity.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="55" column="92" lean-forward="true" selection-start-line="54" selection-start-column="35" selection-end-line="55" selection-end-column="92" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/php/States/NextAgeTrait.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="663">
@@ -1307,42 +1309,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/Divinities.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="53" column="46" lean-forward="true" selection-start-line="53" selection-start-column="46" selection-end-line="53" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/Player.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="226" column="23" lean-forward="true" selection-start-line="226" selection-start-column="23" selection-end-line="226" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/PaymentPlan.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="222" column="58" selection-start-line="222" selection-start-column="58" selection-end-line="222" selection-end-column="58" />
-          <folding>
-            <element signature="e#11#23#0" expanded="true" />
-            <element signature="n#style#0;n#strong#0;n#PRE#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="519">
-          <caret line="265" column="62" selection-start-line="265" selection-start-column="48" selection-end-line="265" selection-end-column="62" />
+        <state relative-caret-position="272">
+          <caret line="258" column="68" selection-start-line="258" selection-start-column="68" selection-end-line="258" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/Divinities.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="16" column="27" lean-forward="true" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="2127" selection-start-line="2127" selection-end-line="2127" />
+        <state relative-caret-position="289">
+          <caret line="1247" column="72" lean-forward="true" selection-start-line="1247" selection-start-column="72" selection-end-line="1247" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/Player.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="303" column="57" selection-start-line="303" selection-start-column="57" selection-end-line="303" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/Divinity.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="473">
+          <caret line="387" column="11" selection-start-line="387" selection-start-column="11" selection-end-line="387" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/PaymentPlan.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="623">
+          <caret line="255" column="71" selection-start-line="255" selection-start-column="71" selection-end-line="255" selection-end-column="71" />
+          <folding>
+            <element signature="e#11#23#0" expanded="true" />
+            <element signature="n#style#0;n#strong#0;n#PRE#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

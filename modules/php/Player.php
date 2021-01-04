@@ -10,6 +10,8 @@ class Player extends Base{
     public $name = null;
     public $color = null;
     private $wonderIds = [];
+    private $mythologyTokenIds = [];
+    private $offeringTokenIds = [];
     private $conspiracyIds = [];
     private $buildingIds = [];
     public $progressTokenIds = [];
@@ -231,6 +233,18 @@ class Player extends Base{
     /**
      * @return array
      */
+    public function getMythologyTokenIds(): array {
+        if (isDevEnvironment()) {
+            return $this->mythologyTokenIds;
+        }
+        else {
+            return array_column($this->getMythologyTokenDeckCards(), 'id');
+        }
+    }
+
+    /**
+     * @return array
+     */
     public function getWonderIds(): array {
         if (isDevEnvironment()) {
             return $this->wonderIds;
@@ -282,6 +296,23 @@ class Player extends Base{
 
     public function getMythologyTokenDeckCards(): array {
         return MythologyTokens::getDeckCardsSorted($this->id);
+    }
+
+    /**
+     * @return MythologyTokens
+     */
+    public function getMythologyTokens(): MythologyTokens {
+        return MythologyTokens::createByMythologyTokenIds($this->getMythologyTokenIds());
+    }
+
+    public function hasMythologyToken($type) {
+        $tokens = $this->getMythologyTokens();
+        foreach($tokens as $token) {
+            if ($token->type == $type) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function getOfferingTokenDeckCards(): array {

@@ -220,33 +220,42 @@ class PaymentPlan extends Base
             // No need to construct a payment plan.
         }
         elseif ($this->item instanceof Divinity) {
-            $space = $this->item->getSpace();
-            $startPlayer = $player->id == SevenWondersDuelPantheon::get()->getGameStartPlayerId();
-            $cost = 0;
-            switch ($space) {
-                case 1:
-                    $cost = $startPlayer ? 8 : 3;
-                    break;
-                case 2:
-                    $cost = $startPlayer ? 7 : 4;
-                    break;
-                case 3:
-                    $cost = $startPlayer ? 6 : 5;
-                    break;
-                case 4:
-                    $cost = $startPlayer ? 5 : 6;
-                    break;
-                case 5:
-                    $cost = $startPlayer ? 4 : 7;
-                    break;
-                case 6:
-                    $cost = $startPlayer ? 3 : 8;
-                    break;
+            if ($player->hasMythologyToken($this->item->type)) {
+                $string = clienttranslate('Player has the corresponding Mythology Token (${mythologyTokenType})');
+                $args = ['mythologyTokenType' => Divinity::getTypeName($this->item->type)];
+                $this->addStep(COINS, 0, 0, null, null, $string, $args);
             }
-            if ($this->item->type == Divinity::TYPE_GATE) {
-                $cost *= 2;
+            else {
+                $space = $this->item->getSpace();
+                $startPlayer = $player->id == SevenWondersDuelPantheon::get()->getGameStartPlayerId();
+                $cost = 0;
+                switch ($space) {
+                    case 1:
+                        $cost = $startPlayer ? 8 : 3;
+                        break;
+                    case 2:
+                        $cost = $startPlayer ? 7 : 4;
+                        break;
+                    case 3:
+                        $cost = $startPlayer ? 6 : 5;
+                        break;
+                    case 4:
+                        $cost = $startPlayer ? 5 : 6;
+                        break;
+                    case 5:
+                        $cost = $startPlayer ? 4 : 7;
+                        break;
+                    case 6:
+                        $cost = $startPlayer ? 3 : 8;
+                        break;
+                }
+                if ($this->item->type == Divinity::TYPE_GATE) {
+                    $cost *= 2;
+                }
+                $string = clienttranslate('Pay ${costIcon}');
+                $this->addStep(COINS, $cost, $cost, null, null, $string);
             }
-            $this->addStep(COINS, $cost, $cost, null, null, "", []);
+
         }
         elseif ($this->item instanceof Building && $this->item->type == Building::TYPE_SENATOR) {
             if ($player->hasProgressToken(11)) {
