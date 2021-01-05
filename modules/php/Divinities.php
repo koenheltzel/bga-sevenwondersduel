@@ -50,10 +50,12 @@ class Divinities extends Collection {
                     'type' => (int)$card['type'],
                     'id' => ($age >= 2) ? (int)$card['id'] : 0,
                 ];
-                foreach (Players::get() as $player) {
-                    $payment = $player->getPaymentPlan(Divinity::get($card['id']));
-                    $data['cost'][$player->id] = $payment->totalCost();
-                    $data['payment'][$player->id] = $payment;
+                if ($age >= 2) {
+                    foreach (Players::get() as $player) {
+                        $payment = $player->getPaymentPlan(Divinity::get($card['id']));
+                        $data['cost'][$player->id] = $payment->totalCost();
+                        $data['payment'][$player->id] = $payment;
+                    }
                 }
                 $spaces[$space] = $data;
             }

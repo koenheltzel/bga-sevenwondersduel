@@ -1243,13 +1243,21 @@ define([
                         let result = dojo.place(this.getDivinityDivHtml(spaceData.id, spaceData.type, false), emptySpace);
                     }
                     for (var playerId in this.gamedatas.players) {
-                        let alias = this.getPlayerAlias(playerId);
-                        let container = dojo.query('div[data-space=' + space + '] .' + alias + ' .cost', costContainer)[0];
-                        let oldNode = dojo.query('.coin', container)[0];
-                        let playerCoins = this.gamedatas.playersSituation[playerId].coins;
-                        let newNode = dojo.place( this.getCostDivHtml(spaceData.cost[playerId], playerCoins), container, 'first');
-                        if (oldNode && newNode) {
-                            this.twistAnimation(oldNode, newNode);
+                        if (spaceData.payment) {
+                            let alias = this.getPlayerAlias(playerId);
+                            let container = dojo.query('div[data-space=' + space + '] .' + alias + ' .cost', costContainer)[0];
+                            let oldNode = dojo.query('.coin', container)[0];
+                            let playerCoins = this.gamedatas.playersSituation[playerId].coins;
+                            let newNode = dojo.place( this.getCostDivHtml(spaceData.cost[playerId], playerCoins), container, 'first');
+                            if (oldNode && newNode) {
+                                this.twistAnimation(oldNode, newNode);
+                            }
+                            else {
+                                // This fadein doesn't work.. why?
+                                dojo.style(newNode, 'opacity', 0);
+                                let anim = dojo.fadeIn({node: newNode, duration: 2.5 });
+                                anim.play();
+                            }
                         }
                     }
                 }));
@@ -1281,8 +1289,8 @@ define([
                     if (space != doorSpace) {
                         let spaceNode = dojo.query('.pantheon_space_containers div[data-space=' + space + ']')[0];
                         let oldNode = dojo.query('.divinity_container', spaceNode)[0];
-                        let divinity = this.gamedatas.divinities[divinitiesSituation.spaces[space]];
-                        let newNode = dojo.place(this.getDivinityDivHtml(divinity.id, divinity.type, false), spaceNode);
+                        let divinityData = divinitiesSituation.spaces[space];
+                        let newNode = dojo.place(this.getDivinityDivHtml(divinityData.id, divinityData.type, false), spaceNode);
                         this.twistAnimation(oldNode, newNode, true, delay, movementDuration);
                         delay += movementDuration * 0.75;
                     }
@@ -2125,22 +2133,23 @@ define([
                 var spaceNode = dojo.query(node).closest(".pantheon_space")[0];
                 if (spaceNode) {
                     let space = dojo.attr(spaceNode, 'data-space');
+                    if (this.gamedatas.divinitiesSituation.spaces[space].payment) {
+                        meCoinHtml = dojo.query('.pantheon_cost_containers div[data-space=' + space + '] .me .coin')[0].outerHTML;
+                        data.jsCostMe = this.format_block('jstpl_tooltip_cost_me', {
+                            translateCurrentCost: _("Current activation cost for you"),
+                            translateTotal: _("Total"),
+                            jsCoinHtml: meCoinHtml,
+                            jsPayment: this.getPaymentPlan(this.gamedatas.divinitiesSituation.spaces[space].payment[this.me_id])
+                        });
 
-                    meCoinHtml = dojo.query('.pantheon_cost_containers div[data-space=' + space + '] .me .coin')[0].outerHTML;
-                    data.jsCostMe = this.format_block('jstpl_tooltip_cost_me', {
-                        translateCurrentCost: _("Current activation cost for you"),
-                        translateTotal: _("Total"),
-                        jsCoinHtml: meCoinHtml,
-                        jsPayment: this.getPaymentPlan(this.gamedatas.divinitiesSituation.spaces[space].payment[this.me_id])
-                    });
-
-                    opponentCoinHtml = dojo.query('.pantheon_cost_containers div[data-space=' + space + '] .opponent .coin')[0].outerHTML;
-                    data.jsCostOpponent = this.format_block('jstpl_tooltip_cost_opponent', {
-                        translateCurrentCost: _("Current activation cost for opponent"),
-                        translateTotal: _("Total"),
-                        jsCoinHtml: opponentCoinHtml,
-                        jsPayment: this.getPaymentPlan(this.gamedatas.divinitiesSituation.spaces[space].payment[this.opponent_id])
-                    });
+                        opponentCoinHtml = dojo.query('.pantheon_cost_containers div[data-space=' + space + '] .opponent .coin')[0].outerHTML;
+                        data.jsCostOpponent = this.format_block('jstpl_tooltip_cost_opponent', {
+                            translateCurrentCost: _("Current activation cost for opponent"),
+                            translateTotal: _("Total"),
+                            jsCoinHtml: opponentCoinHtml,
+                            jsPayment: this.getPaymentPlan(this.gamedatas.divinitiesSituation.spaces[space].payment[this.opponent_id])
+                        });
+                    }
                 }
                 return this.format_block('jstpl_divinity_tooltip', data);
             },
