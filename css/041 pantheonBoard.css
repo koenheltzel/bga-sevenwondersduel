@@ -67,6 +67,10 @@
     top: calc(var(--pantheon-board-scale) * 923px);
 }
 
+.current_player_is_active .pantheon_space_containers .divinity.divinity_border[data-activatable="1"] {
+    cursor: pointer;
+}
+
 
 .pantheon_cost_containers > div, .pantheon_cost_containers > div > div {
     position: absolute;

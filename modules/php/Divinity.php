@@ -99,168 +99,103 @@ class Divinity extends Item {
      * @return PaymentPlan
      */
     public function activate(Player $player) {
+        $payment = parent::construct($player);
+
         SevenWondersDuelPantheon::get()->divinityDeck->insertCardOnExtremePosition($this->id, $player->id, true);
 
         // Text notification to all
         SevenWondersDuelPantheon::get()->notifyAllPlayers(
-            'message',
-            clienttranslate('${player_name} chose a Divinity and placed it face down'),
+            'activateDivinity',
+            clienttranslate('${player_name} activated Divinity for ${cost} ${costUnit}'),
             [
+                'i18n' => ['costUnit'],
                 'player_name' => $player->name,
-                'playerId' => $player->id,
-            ]
-        );
-
-        $position = SevenWondersDuelPantheon::get()->divinityDeck->getExtremePosition(true, $player->id);
-
-        // Send divinity id to active player
-        SevenWondersDuelPantheon::get()->notifyPlayer($player->id,
-            'constructDivinity',
-            '',
-            [
                 'playerId' => $player->id,
                 'divinityId' => $this->id,
-                'divinityPosition' => $position,
-            ]
-        );
-
-        // Don't send divinity id to the other player / spectators, only the picked divinity's position in the deck's player location
-        SevenWondersDuelPantheon::get()->notifyAllPlayers(
-            'constructDivinity',
-            '',
-            [
-                'playerId' => $player->id,
-                'divinityPosition' => $position,
-            ]
-        );
-    }
-
-    public function prepare(Player $player, $building) {
-        SevenWondersDuelPantheon::get()->buildingDeck->moveCard($building->id, 'divinity' . $this->id);
-
-        SevenWondersDuelPantheon::get()->notifyAllPlayers(
-            'prepareDivinity',
-            clienttranslate('${player_name} prepared a Divinity using building “${buildingName}”'),
-            [
-                'i18n' => ['buildingName'],
-                'position' => $this->getPosition($player),
-                'buildingId' => $building->id,
-                'buildingName' => $building->name,
-                'playerId' => $player->id,
-                'player_name' => $player->name,
-                'divinitiesSituation' => Divinities::getSituation(),
-            ]
-        );
-    }
-
-    /**
-     * Handle any effects the item has (victory points, gain coins, military) and send notifications about them.
-     * @param Player $player
-     */
-    public function trigger(Player $player) {
-        // Set this divinity's "type_arg" to 1, which we use to indicate if the divinity is triggered.
-        $sql = "UPDATE divinity SET card_type_arg = 1 WHERE card_id='{$this->id}'";
-        self::DbQuery( $sql );
-
-        $opponent = $player->getOpponent();
-
-        $payment = new Payment(); // Triggering a divinity is free.
-
-        // We want to send this notification first, before the detailed "effects" notifications.
-        // However, the Payment object passed in this notification is by reference and this will contain
-        // the effects' modifications when the notification is send at the end of the request.
-        SevenWondersDuelPantheon::get()->notifyAllPlayers(
-            'triggerDivinity',
-            clienttranslate('${player_name} triggered Divinity “${divinityName}”'),
-            [
-                'i18n' => ['divinityName'],
-                'divinityPosition' => $this->getPosition($player),
-                'divinityId' => $this->id,
-                'divinityName' => $this->name,
-                'payment' => $payment,
-                'playerId' => $player->id,
-                'player_name' => $player->name,
-                'divinitiesSituation' => Divinities::getSituation(),
+                'divinityType' => $this->type,
+                'cost' => $payment->totalCost() > 0 ? $payment->totalCost() : "",
+                'costUnit' => $payment->totalCost() > 0 ? RESOURCES[COINS] : clienttranslate('free'),
             ]
         );
 
         parent::constructEffects($player, $payment);
 
-        switch($this->id) {
-            case 2:
-                $payment->coinsFromOpponent = ceil($opponent->getCoins() / 2);
-                if ($payment->coinsFromOpponent > 0) {
-                    $opponent->increaseCoins(-$payment->coinsFromOpponent);
-                    $player->increaseCoins($payment->coinsFromOpponent);
+//        switch($this->id) {
+//            case 2:
+//                $payment->coinsFromOpponent = ceil($opponent->getCoins() / 2);
+//                if ($payment->coinsFromOpponent > 0) {
+//                    $opponent->increaseCoins(-$payment->coinsFromOpponent);
+//                    $player->increaseCoins($payment->coinsFromOpponent);
+//
+//                    SevenWondersDuelPantheon::get()->notifyAllPlayers(
+//                        'message',
+//                        clienttranslate('${player_name} takes half of ${opponent_name}\'s coin(s) (${coins}, rounded up) (Divinity “${divinityName}”)'),
+//                        [
+//                            'i18n' => ['divinityName'],
+//                            'player_name' => $player->name,
+//                            'opponent_name' => $opponent->name,
+//                            'coins' => $payment->coinsFromOpponent,
+//                            'divinityName' => $this->name,
+//                        ]
+//                    );
+//                }
+//                break;
+//            case 5:
+//                SevenWondersDuelPantheon::get()->progressTokenDeck->moveAllCardsInLocation('box', 'selection');
+//                SevenWondersDuelPantheon::get()->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg
+//                break;
+//            case 10:
+////                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+////                    'message',
+////                    clienttranslate('${player_name} must choose a Progress token from the box (Divinity “${divinityName}”)'),
+////                    [
+////                        'i18n' => ['divinityName'],
+////                        'player_name' => $player->name,
+////                        'divinityName' => $this->name,
+////                    ]
+////                );
+//
+//                SevenWondersDuelPantheon::get()->progressTokenDeck->moveAllCardsInLocation('box', 'selection');
+//                SevenWondersDuelPantheon::get()->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg
+//                break;
+//            case 12:
+//                $payment->coinReward = 12 - $player->getCubes();
+//                if ($payment->coinReward > 0) {
+//                    $player->increaseCoins($payment->coinReward);
+//
+//                    SevenWondersDuelPantheon::get()->notifyAllPlayers(
+//                        'message',
+//                        clienttranslate('${player_name} gets ${coins} coin(s), as many as Influence cubes he has in the Senate (Divinity “${divinityName}”)'),
+//                        [
+//                            'i18n' => ['divinityName'],
+//                            'player_name' => $player->name,
+//                            'coins' => $payment->coinReward,
+//                            'divinityName' => $this->name,
+//                        ]
+//                    );
+//                }
+//                $payment->opponentCoinLoss = 12 - $opponent->getCubes();
+//                if ($payment->opponentCoinLoss > 0) {
+//                    $possibleOpponentCoinLoss = min($opponent->getCoins(), $payment->opponentCoinLoss);
+//                    if ($possibleOpponentCoinLoss > 0) {
+//                        $payment->opponentCoinLoss = $possibleOpponentCoinLoss;
+//                        $opponent->increaseCoins(-$possibleOpponentCoinLoss);
+//
+//                        SevenWondersDuelPantheon::get()->notifyAllPlayers(
+//                            'message',
+//                            clienttranslate('${player_name} loses ${coins} coin(s), as many as Influence cubes he has in the Senate (Divinity “${divinityName}”)'),
+//                            [
+//                                'i18n' => ['divinityName'],
+//                                'player_name' => $opponent->name,
+//                                'coins' => $possibleOpponentCoinLoss,
+//                                'divinityName' => $this->name,
+//                            ]
+//                        );
+//                    }
+//                }
+//                break;
+//        }
 
-                    SevenWondersDuelPantheon::get()->notifyAllPlayers(
-                        'message',
-                        clienttranslate('${player_name} takes half of ${opponent_name}\'s coin(s) (${coins}, rounded up) (Divinity “${divinityName}”)'),
-                        [
-                            'i18n' => ['divinityName'],
-                            'player_name' => $player->name,
-                            'opponent_name' => $opponent->name,
-                            'coins' => $payment->coinsFromOpponent,
-                            'divinityName' => $this->name,
-                        ]
-                    );
-                }
-                break;
-            case 5:
-                SevenWondersDuelPantheon::get()->progressTokenDeck->moveAllCardsInLocation('box', 'selection');
-                SevenWondersDuelPantheon::get()->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg
-                break;
-            case 10:
-//                SevenWondersDuelPantheon::get()->notifyAllPlayers(
-//                    'message',
-//                    clienttranslate('${player_name} must choose a Progress token from the box (Divinity “${divinityName}”)'),
-//                    [
-//                        'i18n' => ['divinityName'],
-//                        'player_name' => $player->name,
-//                        'divinityName' => $this->name,
-//                    ]
-//                );
-
-                SevenWondersDuelPantheon::get()->progressTokenDeck->moveAllCardsInLocation('box', 'selection');
-                SevenWondersDuelPantheon::get()->progressTokenDeck->shuffle('selection'); // Ensures we have defined card_location_arg
-                break;
-            case 12:
-                $payment->coinReward = 12 - $player->getCubes();
-                if ($payment->coinReward > 0) {
-                    $player->increaseCoins($payment->coinReward);
-
-                    SevenWondersDuelPantheon::get()->notifyAllPlayers(
-                        'message',
-                        clienttranslate('${player_name} gets ${coins} coin(s), as many as Influence cubes he has in the Senate (Divinity “${divinityName}”)'),
-                        [
-                            'i18n' => ['divinityName'],
-                            'player_name' => $player->name,
-                            'coins' => $payment->coinReward,
-                            'divinityName' => $this->name,
-                        ]
-                    );
-                }
-                $payment->opponentCoinLoss = 12 - $opponent->getCubes();
-                if ($payment->opponentCoinLoss > 0) {
-                    $possibleOpponentCoinLoss = min($opponent->getCoins(), $payment->opponentCoinLoss);
-                    if ($possibleOpponentCoinLoss > 0) {
-                        $payment->opponentCoinLoss = $possibleOpponentCoinLoss;
-                        $opponent->increaseCoins(-$possibleOpponentCoinLoss);
-
-                        SevenWondersDuelPantheon::get()->notifyAllPlayers(
-                            'message',
-                            clienttranslate('${player_name} loses ${coins} coin(s), as many as Influence cubes he has in the Senate (Divinity “${divinityName}”)'),
-                            [
-                                'i18n' => ['divinityName'],
-                                'player_name' => $opponent->name,
-                                'coins' => $possibleOpponentCoinLoss,
-                                'divinityName' => $this->name,
-                            ]
-                        );
-                    }
-                }
-                break;
-        }
         return $payment;
     }
 

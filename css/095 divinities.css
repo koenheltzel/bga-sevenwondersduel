@@ -36,7 +36,7 @@
 }
 
 .player_conspiracies .divinity_container > .divinity {
-    top: calc(21px * var(--scale));
+    /*top: calc(21px * var(--scale));*/
 }
 .divinity_container {
     /*display: inline-block;*/
@@ -44,20 +44,8 @@
 }
 
 /* So during divinity selection, during the sliding animation the player wonder will be on top of the selection wonders. And when constructing a wonder the age card will be on top of the other draftpool cards. */
-.player_divinities .divinity_container {
-    z-index: 10;
-}
-
-.player_divinities .divinity_container .card_outline, .player_divinities .divinity_container .age_card_container {
-    position: absolute;
-    top: 0;
-    left: calc(17px * var(--scale));
-    width: var(--building-small-width);
-    height: calc(var(--building-small-height) * 0.63);
-}
-
-.player_divinities .divinity_container:not(.animating) .age_card_container {
-    overflow: hidden;
+.player_conspiracies .divinity {
+    z-index: 30;
 }
 
 .divinity .swd_title {

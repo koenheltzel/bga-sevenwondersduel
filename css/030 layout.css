@@ -54,6 +54,7 @@
     width: calc(var(--divinity-compact-width) * var(--divinity-small-scale) * var(--element-scale));
     height: calc(var(--divinity-compact-height) * var(--divinity-small-scale) * var(--element-scale) * var(--divinity-plus-age-card-scale));
     --element-scale: 1.2372;
+    top: calc(21px * var(--scale));
 }
 
 #swd_wrap.landscape .player_conspiracies {

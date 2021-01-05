@@ -175,6 +175,7 @@ $machinestates = [
             "actionConstructBuilding",
             "actionDiscardBuilding",
             "actionConstructWonder",
+            "actionActivateDivinity",
             "actionPrepareConspiracy",
         ],
         "transitions" => array_merge(

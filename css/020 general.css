@@ -173,7 +173,7 @@
     }
 }
 
-.red_border {
+.red_border, .divinity_border {
     animation: red_border 0.5s infinite alternate;
     z-index: 20;
     outline-width: calc(var(--scale) * 5px);

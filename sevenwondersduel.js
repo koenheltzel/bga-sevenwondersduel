@@ -40,7 +40,7 @@ define([
             LAYOUT_PORTRAIT: 'portrait',
 
             // Show console.log messages
-            debug: 0,
+            debug: 1,
             pantheon: 0,
             agora: 0,
             expansion: 0,
@@ -97,7 +97,8 @@ define([
             conspire_duration: 1000,
             construct_conspiracy_duration: 1600,
             choose_conspire_remnant_position_duration: 1600,
-            construct_divinity_duration: 1200,
+            place_divinity_duration: 1200,
+            activate_divinity_duration: 1000,
 
             constructor: function () {
                 bgagame.sevenwondersduelpantheon.instance = this;
@@ -345,6 +346,10 @@ define([
                         .on("#swd[data-state=chooseAndPlaceDivinity] .pantheon_space_containers .red_border :click",
                             dojo.hitch(this, "onPlaceDivinityClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=playerTurn] .pantheon_space_containers .divinity.divinity_border :click",
+                            dojo.hitch(this, "onActivateDivinityClick")
+                        );
 
                     // Pantheon click handlers without event delegation:
                 }
@@ -568,6 +573,9 @@ define([
 
                 dojo.subscribe('placeDivinity', this, "notif_placeDivinity");
                 this.notifqueue.setSynchronous('placeDivinity');
+
+                dojo.subscribe('activateDivinity', this, "notif_activateDivinity");
+                this.notifqueue.setSynchronous('activateDivinity');
 
                 // Agora
 
@@ -1242,7 +1250,12 @@ define([
                     if (emptySpace) {
                         let result = dojo.place(this.getDivinityDivHtml(spaceData.id, spaceData.type, false), emptySpace);
                     }
+                    let divinityNode = dojo.query('div[data-space=' + space + '] .divinity', tokensContainer)[0];
+
                     for (var playerId in this.gamedatas.players) {
+                        if (playerId == this.player_id) {
+                            dojo.attr(divinityNode, 'data-activatable', spaceData.activatable[playerId]);
+                        }
                         if (spaceData.payment) {
                             let alias = this.getPlayerAlias(playerId);
                             let container = dojo.query('div[data-space=' + space + '] .' + alias + ' .cost', costContainer)[0];
@@ -1255,7 +1268,7 @@ define([
                             else {
                                 // This fadein doesn't work.. why?
                                 dojo.style(newNode, 'opacity', 0);
-                                let anim = dojo.fadeIn({node: newNode, duration: 2.5 });
+                                let anim = dojo.fadeIn({node: newNode, duration: 0.5 });
                                 anim.play();
                             }
                         }
@@ -2486,6 +2499,12 @@ define([
                 if (this.debug) console.log('in onEnterPlayerTurn', args);
 
                 let activatable = 0;
+                let nodes = dojo.query('.pantheon_space_containers .divinity[data-activatable=1]');
+                if (this.isCurrentPlayerActive()) {
+                    nodes.addClass('divinity_border');
+                    activatable = nodes.length;
+                }
+
                 if (this.pantheon && this.currentAge >= 2) {
                     Object.keys(this.gamedatas.divinitiesSituation.spaces).forEach(dojo.hitch(this, function (space) {
                         if (this.gamedatas.divinitiesSituation.spaces[space]) {
@@ -2637,6 +2656,9 @@ define([
             },
             clearGrayBorder: function () {
                 dojo.query('.gray_border').removeClass("gray_border");
+            },
+            clearDivinityBorder: function () {
+                dojo.query('.divinity_border').removeClass("divinity_border");
             },
 
             //     _        _   _               _____     _                          ____                      _
@@ -3230,6 +3252,80 @@ define([
                 coinAnimation.play();
             },
 
+            //     _        _   _            _                 ____  _       _       _ _
+            //    / \   ___| |_(_)_   ____ _| |_ ___    __ _  |  _ \(_)_   _(_)_ __ (_) |_ _   _
+            //   / _ \ / __| __| \ \ / / _` | __/ _ \  / _` | | | | | \ \ / / | '_ \| | __| | | |
+            //  / ___ \ (__| |_| |\ V / (_| | ||  __/ | (_| | | |_| | |\ V /| | | | | | |_| |_| |
+            // /_/   \_\___|\__|_| \_/ \__,_|\__\___|  \__,_| |____/|_| \_/ |_|_| |_|_|\__|\__, |
+            //                                                                             |___/
+
+            onActivateDivinityClick: function (e) {
+                if (this.debug) console.log('onActivateDivinityClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    var divinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
+                    let divinityId = dojo.attr(divinityNode, 'data-divinity-id');
+
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionActivateDivinity')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionActivateDivinity.html", {
+                            divinityId: divinityId,
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_activateDivinity: function (notif) {
+                if (this.debug) console.log('notif_activateDivinity', notif);
+
+                this.clearDivinityBorder();
+
+                var oldDivinityNode = dojo.query('.pantheon_space_containers .divinity[data-divinity-id="' + notif.args.divinityId + '"]')[0];
+                var oldDivinityContainerNode = oldDivinityNode.parentElement;
+                var spaceNode = dojo.query(oldDivinityNode).closest('.pantheon_space')[0];
+                var newDivinityContainerNode = dojo.place(this.getDivinityDivHtml(notif.args.divinityId, notif.args.divinityType, false), 'player_conspiracies_' + notif.args.playerId);
+                var newDivinityNode = dojo.query('.divinity', newDivinityContainerNode)[0];
+                this.autoUpdateScale();
+
+                this.placeOnObjectPos(newDivinityNode, oldDivinityNode, 0, 0);
+                // dojo.style(newDivinityNode, 'transform', 'rotate(' + this.getCurrentRotation(spaceNode) + 'deg)');
+                dojo.destroy(oldDivinityContainerNode);
+
+                let anim = dojo.fx.combine([
+                    this.slideToObjectPos(newDivinityNode, newDivinityContainerNode, 0, 0, this.activate_divinity_duration),
+                    dojo.animateProperty({
+                        node: newDivinityNode,
+                        // delay: this.constructWonderAnimationDuration / 6,
+                        duration: this.activate_divinity_duration * 0.6,
+                        properties: {
+                            propertyTransform: {start: this.getCurrentRotation(spaceNode), end: 0}
+                        },
+                        onAnimate: function (values) {
+                            dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                        }
+                    })
+                ])
+
+                anim.play();
+
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+            },
+
             //  ____                                           ____                      _
             // |  _ \ _ __ ___ _ __   __ _ _ __ ___    __ _   / ___|___  _ __  ___ _ __ (_)_ __ __ _  ___ _   _
             // | |_) | '__/ _ \ '_ \ / _` | '__/ _ \  / _` | | |   / _ \| '_ \/ __| '_ \| | '__/ _` |/ __| | | |
@@ -3764,30 +3860,28 @@ define([
                 dojo.stopEvent(e);
 
                 if (this.isCurrentPlayerActive()) {
-                    if (this.isCurrentPlayerActive()) {
-                        let space = dojo.attr(e.target, 'data-space');
+                    let space = dojo.attr(e.target, 'data-space');
 
-                        // Check that this action is possible (see "possibleactions" in states.inc.php)
-                        if (!this.checkAction('actionChooseAndPlaceDivinity')) {
-                            return;
-                        }
-
-                        this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseAndPlaceDivinity.html", {
-                                divinityId: this.chooseDivinityId,
-                                space: space,
-                                lock: true
-                            },
-                            this, function (result) {
-                                // What to do after the server call if it succeeded
-                                // (most of the time: nothing)
-
-                            }, function (is_error) {
-                                // What to do after the server call in anyway (success or failure)
-                                // (most of the time: nothing)
-
-                            }
-                        );
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseAndPlaceDivinity')) {
+                        return;
                     }
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseAndPlaceDivinity.html", {
+                            divinityId: this.chooseDivinityId,
+                            space: space,
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
                 }
             },
 
@@ -3890,7 +3984,7 @@ define([
                                 dojo.fadeIn({
                                     node: backSideDivinityContainerNode,
                                     delay: this.turnAroundCardDuration * startSlideAfterFlipPercentage,
-                                    duration: this.construct_divinity_duration / 4
+                                    duration: this.place_divinity_duration / 4
                                 }),
                             ])
                         );
@@ -3898,10 +3992,10 @@ define([
                     dojo.style(backSideDivinityContainerNode, 'z-index', 100);
 
                     if (iteration == 1) {
-                        slideAnims.push(this.slideToObject(backSideDivinityContainerNode, targetNode, this.construct_divinity_duration, this.turnAroundCardDuration * startSlideAfterFlipPercentage));
+                        slideAnims.push(this.slideToObject(backSideDivinityContainerNode, targetNode, this.place_divinity_duration, this.turnAroundCardDuration * startSlideAfterFlipPercentage));
                     }
                     else if (iteration == 2) {
-                        slideAnims.push(this.slideToObjectPos(backSideDivinityContainerNode, targetNode, 0, 0, this.construct_divinity_duration, this.turnAroundCardDuration * startSlideAfterFlipPercentage));
+                        slideAnims.push(this.slideToObjectPos(backSideDivinityContainerNode, targetNode, 0, 0, this.place_divinity_duration, this.turnAroundCardDuration * startSlideAfterFlipPercentage));
                     }
 
                     if (iteration == 1) {
@@ -3913,7 +4007,7 @@ define([
                             dojo.animateProperty({
                                 node: backSideDivinityContainerNode,
                                 delay: this.turnAroundCardDuration * startSlideAfterFlipPercentage,
-                                duration: this.construct_divinity_duration,
+                                duration: this.place_divinity_duration,
                                 easing: dojo.fx.easing.linear,
                                 properties: {
                                     propertyTransform: {start: 0, end: this.getCurrentRotation(spaceNode)}
@@ -3927,7 +4021,7 @@ define([
 
                     let fadeOutParams = {
                         node: backSideDivinityContainerNode,
-                        duration: this.construct_divinity_duration / 4,
+                        duration: this.place_divinity_duration / 4,
                         onEnd: dojo.hitch(this, function (node) {
                             dojo.destroy(node);
                         })

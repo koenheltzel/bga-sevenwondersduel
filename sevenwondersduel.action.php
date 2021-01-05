@@ -152,6 +152,15 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::ajaxResponse();
     }
 
+    public function actionActivateDivinity() {
+        self::setAjaxMode();
+
+        $divinityId = self::getArg("divinityId", AT_posint, true);
+        SevenWondersDuelPantheon::get()->actionActivateDivinity($divinityId);
+
+        self::ajaxResponse();
+    }
+
     // Agora
 
     public function actionChooseConspiratorActionPlaceInfluence() {

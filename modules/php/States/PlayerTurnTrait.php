@@ -8,6 +8,7 @@ use SWD\Conspiracies;
 use SWD\Conspiracy;
 use SWD\Decree;
 use SWD\Divinities;
+use SWD\Divinity;
 use SWD\Draftpool;
 use SWD\Payment;
 use SWD\Player;
@@ -250,6 +251,18 @@ trait PlayerTurnTrait {
                 }
                 break;
         }
+
+        $this->stateStackNextState();
+    }
+
+    public function actionActivateDivinity($divinityId) {
+        $this->checkAction("actionActivateDivinity");
+
+        $player = Player::getActive();
+        $divinity = Divinity::get($divinityId);
+        $divinity->activate($player);
+
+        $this->incStat(1, self::STAT_DIVINITIES_ACTIVATED, $player->id);
 
         $this->stateStackNextState();
     }

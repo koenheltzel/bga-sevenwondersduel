@@ -55,6 +55,8 @@ class Divinities extends Collection {
                         $payment = $player->getPaymentPlan(Divinity::get($card['id']));
                         $data['cost'][$player->id] = $payment->totalCost();
                         $data['payment'][$player->id] = $payment;
+                        // Can the player afford to activate this Divinity?
+                        $data['activatable'][$player->id] = (int)($player->getCoins() >= $payment->totalCost());
                     }
                 }
                 $spaces[$space] = $data;

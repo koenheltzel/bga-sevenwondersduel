@@ -226,6 +226,8 @@ class SevenWondersDuelPantheon extends Table
     const VALUE_DISCARD_OPPONENT_BUILDING_WONDER = "discard_opponent_building_wonder";
     const VALUE_END_GAME_CONDITION = "end_game_condition";
     const VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY = "discard_opponent_building_conspiracy";
+    // Global value labels Pantheon
+    const VALUE_ASTARTE_COINS = "astarte_coins";
     // Global value labels Agora
     const VALUE_CONSPIRE_RETURN_STATE = "conspire_return_state";
     const VALUE_SENATE_ACTIONS_SECTION = "senate_actions_section";
@@ -290,6 +292,8 @@ class SevenWondersDuelPantheon extends Table
     const STAT_EXTRA_TURNS = "extra_turns";
     const STAT_DISCARDED_CARDS = "discarded_cards";
     const STAT_CHAINED_CONSTRUCTIONS = "chained_constructions";
+    // Pantheon Statistics
+    const STAT_DIVINITIES_ACTIVATED = "divinities_activated";
     // Agora Statistics
     const STAT_CONSPIRACIES_PREPARED = "conspiracies_prepared";
     const STAT_CONSPIRACIES_TRIGGERED = "conspiracies_triggered";
@@ -367,6 +371,8 @@ class SevenWondersDuelPantheon extends Table
                 self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER => 20,
                 self::VALUE_END_GAME_CONDITION => 21,
                 self::VALUE_AVAILABLE_CARDS => 23,
+                // Global variables Pantheon
+                self::VALUE_ASTARTE_COINS => 50,
                 // Global variables Agora
                 self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY => 22,
                 self::VALUE_CONSPIRE_RETURN_STATE => 33,
@@ -533,6 +539,8 @@ class SevenWondersDuelPantheon extends Table
         self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, 0);
         self::setGameStateInitialValue( self::VALUE_STATE_STACK, json_encode([]));
         self::setGameStateInitialValue( self::VALUE_AVAILABLE_CARDS, json_encode([]));
+        // Pantheon
+        self::setGameStateInitialValue( self::VALUE_ASTARTE_COINS, 0);
         // Agora
         self::setGameStateInitialValue( self::VALUE_CONSPIRE_RETURN_STATE, 0);
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_SECTION, 0);
@@ -581,6 +589,10 @@ class SevenWondersDuelPantheon extends Table
         self::initStat('player', self::STAT_EXTRA_TURNS, 0);
         self::initStat('player', self::STAT_DISCARDED_CARDS, 0);
         self::initStat('player', self::STAT_CHAINED_CONSTRUCTIONS, 0);
+        // Pantheon
+        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+            self::initStat('player', self::STAT_DIVINITIES_ACTIVATED, 0);
+        }
         // Agora
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             self::initStat('player', self::STAT_CONSPIRACIES_PREPARED, 0);
@@ -590,10 +602,6 @@ class SevenWondersDuelPantheon extends Table
             self::initStat('player', self::STAT_CHAMBERS_IN_CONTROL, 0);
             self::initStat('player', self::STAT_POLITICIAN_CARDS, 0);
             self::initStat('player', self::STAT_CONSPIRATOR_CARDS, 0);
-        }
-        // Pantheon
-        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
-
         }
         // TODO: setup the initial game situation here
 
