@@ -53,7 +53,7 @@ trait DestroyConstructedWonderTrait {
             [
                 'i18n' => ['wonderName', 'buildingName', 'conspiracyName'],
                 'wonderName' => Wonder::get($wonderId)->name,
-                'conspiracyName' => Conspiracy::get(1)->name,
+                'conspiracyName' => Conspiracy::get(16)->name,
                 'player_name' => $player->name,
                 'opponent_name' => $opponent->name,
                 'playerId' => $player->id,
