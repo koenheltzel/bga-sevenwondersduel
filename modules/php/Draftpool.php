@@ -168,7 +168,7 @@ class Draftpool extends Base
                 $revealCards = true;
             }
 
-            $player = Player::getActive();
+            $activePlayer = Player::getActive();
             // Check for Mythology and Offering tokens
             $tokenCards = [];
             if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON)) {
@@ -210,20 +210,20 @@ class Draftpool extends Base
                                         // Mythology token
                                         if ($age == 1) {
                                             $mythologyToken = MythologyToken::get($card['id']);
-                                            SevenWondersDuelPantheon::get()->mythologyTokenDeck->insertCardOnExtremePosition($card['id'], $player->id, true);
+                                            SevenWondersDuelPantheon::get()->mythologyTokenDeck->insertCardOnExtremePosition($card['id'], $activePlayer->id, true);
                                             SevenWondersDuelPantheon::get()->divinityDeck->pickCardForLocation("mythology{$mythologyToken->type}", "selection", 0);
                                             SevenWondersDuelPantheon::get()->divinityDeck->pickCardForLocation("mythology{$mythologyToken->type}", "selection", 1);
                                             SevenWondersDuelPantheon::get()->notifyAllPlayers(
                                                 'takeToken',
                                                 clienttranslate('${player_name} takes a Mythology token (${mythologyType}) before flipping over “${buildingName}”'),
                                                 [
-                                                    'player_name' => $player->name,
+                                                    'player_name' => $activePlayer->name,
                                                     'i18n' => ['buildingName', 'mythologyType'],
                                                     'buildingName' => $building->name,
                                                     'mythologyType' => Divinity::getTypeName($mythologyToken->type),
                                                     'type' => 'mythology',
                                                     'tokenId' => $card['id'],
-                                                    'playerId' => $player->id,
+                                                    'playerId' => $activePlayer->id,
                                                 ]
                                             );
 
@@ -232,20 +232,21 @@ class Draftpool extends Base
                                         }
                                         // Offering token
                                         if ($age == 2) {
-                                            SevenWondersDuelPantheon::get()->offeringTokenDeck->insertCardOnExtremePosition($card['id'], $player->id, true);
+                                            SevenWondersDuelPantheon::get()->offeringTokenDeck->insertCardOnExtremePosition($card['id'], $activePlayer->id, true);
                                             SevenWondersDuelPantheon::get()->notifyAllPlayers(
                                                 'takeToken',
                                                 clienttranslate('${player_name} takes a Offering token (-${discount}) before flipping over “${buildingName}”'),
                                                 [
-                                                    'player_name' => $player->name,
+                                                    'player_name' => $activePlayer->name,
                                                     'i18n' => ['buildingName'],
                                                     'buildingName' => $building->name,
                                                     'discount' => OfferingToken::get($card['id'])->discount,
                                                     'type' => 'offering',
                                                     'tokenId' => $card['id'],
-                                                    'playerId' => $player->id,
+                                                    'playerId' => $activePlayer->id,
                                                 ]
                                             );
+                                            $draftpool['offeringToken'] = $card['id'];
                                         }
                                     }
                                 }
@@ -265,12 +266,12 @@ class Draftpool extends Base
                                 $position['discardGain'] = [];
                                 $position['payment'] = [];
                                 $position['hasLinkedBuilding'] = [];
-                                foreach (Players::get() as $player) {
-                                    $payment = $player->getPaymentPlan($building);
-                                    $position['cost'][$player->id] = $payment->totalCost();
-                                    $position['payment'][$player->id] = $payment;
-                                    $position['hasLinkedBuilding'][$player->id] = $player->hasBuilding($building->linkedBuilding)
-                                        || ($player->hasDecree(15) && $player->getOpponent()->hasBuilding($building->linkedBuilding));
+                                foreach (Players::get() as $tmpPlayer) {
+                                    $payment = $tmpPlayer->getPaymentPlan($building);
+                                    $position['cost'][$tmpPlayer->id] = $payment->totalCost();
+                                    $position['payment'][$tmpPlayer->id] = $payment;
+                                    $position['hasLinkedBuilding'][$tmpPlayer->id] = $tmpPlayer->hasBuilding($building->linkedBuilding)
+                                        || ($tmpPlayer->hasDecree(15) && $tmpPlayer->getOpponent()->hasBuilding($building->linkedBuilding));
                                 }
                             }
                         }
