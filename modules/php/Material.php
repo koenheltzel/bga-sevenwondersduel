@@ -99,6 +99,7 @@ class Material extends Base
         $this->wonders[5] = (new Wonder(5, clienttranslate("The Mausoleum")))
             ->setCost([PAPYRUS => 1, GLASS => 2, CLAY => 2])
             ->setConstructDiscardedBuilding()
+            ->addActionState(SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_NAME)
             ->setVictoryPoints(2);
 
         $this->wonders[6] = (new Wonder(6, clienttranslate("The Great Library")))
@@ -775,7 +776,8 @@ class Material extends Base
             ->setVictoryPoints(9);
 
         $this->divinities[8] = (new Divinity(8, clienttranslate("Hades"), Divinity::TYPE_BLUE))
-            ->addText(clienttranslate("You take all cards discarded since the beginning of the game, choose one, and construct it for free."));
+            ->addText(clienttranslate("You take all cards discarded since the beginning of the game, choose one, and construct it for free."))
+            ->addActionState(SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_NAME);
 
         $this->divinities[9] = (new Divinity(9, clienttranslate("Zeus"), Divinity::TYPE_BLUE))
             ->addText(clienttranslate("Put in the discard pile a card of your choice (face up or down) from the structure, as well as any tokens which may be present on that card."));

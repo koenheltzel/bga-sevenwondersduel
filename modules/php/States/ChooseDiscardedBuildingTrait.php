@@ -48,7 +48,20 @@ trait ChooseDiscardedBuildingTrait
         $building = Building::get($buildingId);
         $payment = $building->construct(Player::getActive(), null, true);
 
-
         $this->transitionAfterConstructBuilding($building, $payment);
+    }
+
+    public function shouldSkipDiscardedBuilding() {
+        if (count($this->buildingDeck->getCardsInLocation('discard')) == 0) {
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} can\'t choose a discarded card'),
+                [
+                    'player_name' => Player::getActive()->name,
+                ]
+            );
+            return true;
+        }
+        return false;
     }
 }

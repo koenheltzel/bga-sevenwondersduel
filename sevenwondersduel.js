@@ -3655,7 +3655,7 @@ define([
 
             onEnterChooseDiscardedBuilding: function (args) {
                 if (this.isCurrentPlayerActive()) {
-                    var whiteblock = $('lower_divs_container');
+                    var whiteblock = $('discarded_cards_whiteblock');
                     dojo.addClass(whiteblock, 'red_border');
 
                     // Scroll so the discarded card whiteblock is visible (remember the scroll position so we can restore the view later).

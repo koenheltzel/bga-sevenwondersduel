@@ -198,22 +198,6 @@ trait PlayerTurnTrait {
 
         // Handle some special rewards that possibly require going to a separate state. If not move on to the Next Player Turn.
         switch ($wonder->id) {
-            case 5: // Wonder The Mausoleum - Choose a discarded building and construct it for free.
-                if (count(SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation('discard')) > 0) {
-                    $this->prependStateStack([self::STATE_CHOOSE_DISCARDED_BUILDING_NAME]);
-                }
-                else {
-                    $this->notifyAllPlayers(
-                        'message',
-                        clienttranslate('${player_name} can\'t choose a discarded card (Wonder “${wonderName}”)'),
-                        [
-                            'i18n' => ['wonderName'],
-                            'player_name' => $player->name,
-                            'wonderName' => $wonder->name
-                        ]
-                    );
-                }
-                break;
             case 6: // Wonder The Great Library - Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box.
                 $this->notifyAllPlayers(
                     'message',

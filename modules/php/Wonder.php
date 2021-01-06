@@ -8,7 +8,6 @@ class Wonder extends Item {
 
     public $extraTurn = false;
     public $opponentCoinLoss = 0;
-    public $constructDiscardedBuilding = false;
     public $discardOpponentBuilding = false;
     public $progressTokenFromBox = false;
 
@@ -178,11 +177,9 @@ class Wonder extends Item {
     }
 
     /**
-     * @param bool $constructDiscardedBuilding
      * @return static
      */
     public function setConstructDiscardedBuilding() {
-        $this->constructDiscardedBuilding = true;
         $this->addText(clienttranslate("Take all of the cards which have been discarded since the beginning of the game and immediately construct one of your choice for free."));
         return $this;
     }
