@@ -366,6 +366,10 @@ define([
                         .on("#swd[data-state=takeBuilding] .player_building_column.red_border .building_header_small:click",
                             dojo.hitch(this, "onTakeBuildingClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=takeUnconstructedWonder] .wonder.red_border:click",
+                            dojo.hitch(this, "onTakeUnconstructedWonderClick")
+                        );
                 }
                 if (this.agora) {
                     // Agora click handlers using event delegation:
@@ -423,10 +427,6 @@ define([
                     dojo.query('body')
                         .on("#swd[data-state=constructLastRowBuilding] #draftpool .row1.red_border:click",
                             dojo.hitch(this, "onConstructLastRowBuildingClick")
-                        );
-                    dojo.query('body')
-                        .on("#swd[data-state=takeUnconstructedWonder] .wonder.red_border:click",
-                            dojo.hitch(this, "onTakeUnconstructedWonderClick")
                         );
                     dojo.query('body')
                         .on("#swd[data-state=destroyConstructedWonder] .wonder.red_border:click",
@@ -845,8 +845,11 @@ define([
                 let wondersCount = Math.max(4, count);
                 this.setCssVariable('--number-of-wonders', wondersCount , playerWonderContainer);
                 this.setCssVariable('--number-of-wonder-rows-landscape', Math.ceil(wondersCount / 2) , playerWonderContainer);
-                if (wondersCount == 5) {
+                if (wondersCount > 4) {
                     dojo.style(dojo.query('.player_wonders.player' + playerId + ' > div:nth-of-type(5)')[0], 'display', wondersCount > 4 ? 'inline-block' : 'none');
+                }
+                if (wondersCount > 5) {
+                    dojo.style(dojo.query('.player_wonders.player' + playerId + ' > div:nth-of-type(6)')[0], 'display', wondersCount > 5 ? 'inline-block' : 'none');
                 }
                 this.autoUpdateScale();
             },

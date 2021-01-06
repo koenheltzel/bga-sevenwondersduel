@@ -339,6 +339,9 @@
 .player_wonders > div:nth-of-type(5) {
     display: none;
 }
+.player_wonders > div:nth-of-type(6) {
+    display: none;
+}
 
 .player_wonders > div {
     width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));

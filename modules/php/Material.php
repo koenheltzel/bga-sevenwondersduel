@@ -790,7 +790,8 @@ class Material extends Base
             ->addText(clienttranslate("Choose a card from the discard pile and construct one of your Wonders for free using that card."));
 
         $this->divinities[12] = (new Divinity(12, clienttranslate("Ra"), Divinity::TYPE_GREY))
-            ->addText(clienttranslate("Steal an opponent’s Wonder which has not yet been constructed; it is added to your own Wonders."));
+            ->addText(clienttranslate("Steal an opponent’s Wonder which has not yet been constructed; it is added to your own Wonders."))
+            ->addActionState(SevenWondersDuelPantheon::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME);
 
         $this->divinities[13] = (new Divinity(13, clienttranslate("Mars"), Divinity::TYPE_RED))
             ->setMilitary(2);
