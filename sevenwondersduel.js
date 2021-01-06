@@ -3352,32 +3352,45 @@ define([
                 var oldDivinityNode = dojo.query('.pantheon_space_containers .divinity[data-divinity-id="' + notif.args.divinityId + '"]')[0];
                 var oldDivinityContainerNode = oldDivinityNode.parentElement;
                 var spaceNode = dojo.query(oldDivinityNode).closest('.pantheon_space')[0];
-                var newDivinityContainerNode = dojo.place(this.getDivinityDivHtml(notif.args.divinityId, notif.args.divinityType, false), 'player_conspiracies_' + notif.args.playerId);
-                var newDivinityNode = dojo.query('.divinity', newDivinityContainerNode)[0];
-                this.autoUpdateScale();
+                let space = dojo.attr(spaceNode, 'data-space');
+                let coinNode = dojo.query('.pantheon_cost_containers .pantheon_space[data-space="' + space + '"] .' + this.getPlayerAlias(notif.args.playerId) + ' .coin')[0];
 
-                this.placeOnObjectPos(newDivinityNode, oldDivinityNode, 0, 0);
-                // dojo.style(newDivinityNode, 'transform', 'rotate(' + this.getCurrentRotation(spaceNode) + 'deg)');
-                dojo.destroy(oldDivinityContainerNode);
+                var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
+                    this.getPlayerCoinContainer(notif.args.playerId),
+                    coinNode,
+                    notif.args.cost,
+                    notif.args.playerId
+                );
 
-                let anim = dojo.fx.combine([
-                    this.slideToObjectPos(newDivinityNode, newDivinityContainerNode, 0, 0, this.activate_divinity_duration),
-                    dojo.animateProperty({
-                        node: newDivinityNode,
-                        // delay: this.constructWonderAnimationDuration / 6,
-                        duration: this.activate_divinity_duration * 0.6,
-                        properties: {
-                            propertyTransform: {start: this.getCurrentRotation(spaceNode), end: 0}
-                        },
-                        onAnimate: function (values) {
-                            dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
-                        }
-                    })
-                ])
+                dojo.connect(coinAnimation, 'onEnd', dojo.hitch(this, function (node) {
+                    var newDivinityContainerNode = dojo.place(this.getDivinityDivHtml(notif.args.divinityId, notif.args.divinityType, false), 'player_conspiracies_' + notif.args.playerId);
+                    var newDivinityNode = dojo.query('.divinity', newDivinityContainerNode)[0];
+                    this.autoUpdateScale();
 
-                anim.play();
+                    this.placeOnObjectPos(newDivinityNode, oldDivinityNode, 0, 0);
+                    // dojo.style(newDivinityNode, 'transform', 'rotate(' + this.getCurrentRotation(spaceNode) + 'deg)');
+                    dojo.destroy(oldDivinityContainerNode);
 
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                    let anim = dojo.fx.combine([
+                        this.slideToObjectPos(newDivinityNode, newDivinityContainerNode, 0, 0, this.activate_divinity_duration),
+                        dojo.animateProperty({
+                            node: newDivinityNode,
+                            // delay: this.constructWonderAnimationDuration / 6,
+                            duration: this.activate_divinity_duration * 0.6,
+                            properties: {
+                                propertyTransform: {start: this.getCurrentRotation(spaceNode), end: 0}
+                            },
+                            onAnimate: function (values) {
+                                dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                            }
+                        })
+                    ]);
+
+                    anim.play();
+
+                    this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                }));
+                coinAnimation.play();
             },
 
             //  ____                                           ____                      _
