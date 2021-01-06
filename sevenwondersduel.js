@@ -82,6 +82,8 @@ define([
             windowResizeTimeoutId: null,
             autoUpdateScaleTimeoutId: null,
             previousAvailableDimensions: null,
+            playerTurnDescription: null,
+            playerTurnDescriptionMyTurn: null,
 
             // Animation durations
             constructBuildingAnimationDuration: 1000,
@@ -2534,25 +2536,38 @@ define([
 
                 if (this.agora && triggerable > 0) {
                     if (activatable > 0) {
-                        this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must play an Age card, activate a card from the Pantheon or trigger a Conspiracy first');
-                        this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must play an Age card, activate a card from the Pantheon or trigger a Conspiracy first');
+                        this.playerTurnDescription = _('Age ${ageRoman}: ${actplayer} must play an Age card, activate a card from the Pantheon or trigger a Conspiracy first');
+                        this.playerTurnDescriptionMyTurn = _('Age ${ageRoman}: ${you} must play an Age card, activate a card from the Pantheon or trigger a Conspiracy first');
                     }
                     else {
-                        this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must choose and use an age card or activate a card from the Pantheon');
-                        this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must choose an age card, or activate a card from the Pantheon');
+                        this.playerTurnDescription = _('Age ${ageRoman}: ${actplayer} must choose and use an age card or activate a card from the Pantheon');
+                        this.playerTurnDescriptionMyTurn = _('Age ${ageRoman}: ${you} must choose an age card, or activate a card from the Pantheon');
                     }
                 }
                 else {
                     if (activatable > 0) {
-                        this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must choose and use an age card or activate a card from the Pantheon');
-                        this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must choose an age card, or activate a card from the Pantheon');
+                        this.playerTurnDescription = _('Age ${ageRoman}: ${actplayer} must choose and use an age card or activate a card from the Pantheon');
+                        this.playerTurnDescriptionMyTurn = _('Age ${ageRoman}: ${you} must choose an age card, or activate a card from the Pantheon');
                     }
                     else {
-                        this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must choose and use an age card');
-                        this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must choose an age card');
+                        this.playerTurnDescription = _('Age ${ageRoman}: ${actplayer} must choose and use an age card');
+                        this.playerTurnDescriptionMyTurn = _('Age ${ageRoman}: ${you} must choose an age card');
                     }
                 }
+                this.updatePlayerTurnStateDescription();
+            },
+
+            updatePlayerTurnStateDescription: function() {
+                this.gamedatas.gamestate.description = this.playerTurnDescription;
+                this.gamedatas.gamestate.descriptionmyturn = this.playerTurnDescriptionMyTurn;
                 this.updatePageTitle();
+            },
+
+            cancelDraftpoolClick: function() {
+                this.clearPlayerTurnNodeGlow();
+                this.clearRedBorder();
+                dojo.setStyle('draftpool_actions', 'display', 'none');
+                this.updatePlayerTurnStateDescription();
             },
 
             onPlayerTurnDraftpoolClick: function (e) {
@@ -2563,6 +2578,7 @@ define([
                 if (this.isCurrentPlayerActive()) {
                     this.clearPlayerTurnNodeGlow();
                     this.clearRedBorder();
+                    this.hideActivateDivinityDialog();
 
                     var building = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
                     dojo.addClass(building, 'glow');
@@ -3272,6 +3288,7 @@ define([
                 this.activateDivinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
                 this.activateDivinityId = dojo.attr(this.activateDivinityNode, 'data-divinity-id');
 
+                this.cancelDraftpoolClick();
                 this.showActivateDivinityDialog();
             },
 
@@ -3282,13 +3299,19 @@ define([
                 let divinityContainer = $('activate_divinity_container');
                 dojo.empty(divinityContainer);
 
+                // Till we implement offering token discounts
+                dojo.empty($('activate_divinity_payment'));
+
                 let divinityNode = dojo.clone(this.activateDivinityNode);
                 dojo.removeClass(divinityNode, 'divinity_border');
                 dojo.place(divinityNode, divinityContainer);
             },
 
             hideActivateDivinityDialog: function() {
-                dojo.style('activate_divinity', 'display', 'none');
+                if (dojo.style('activate_divinity', 'display') != 'none') {
+                    dojo.style('activate_divinity', 'display', 'none');
+                    this.autoUpdateScale();
+                }
             },
 
             onActivateDivinityConfirmClick: function (e) {
