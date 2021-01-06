@@ -767,11 +767,10 @@ class Material extends Base
             ->addText(clienttranslate("Steal a brown or grey card built by your opponent, it is added to the cards of your City."));
 
         $this->divinities[6] = (new Divinity(6, clienttranslate("Tanit"), Divinity::TYPE_YELLOW))
-            ->addText(clienttranslate("Take 12 coins from the bank."))
             ->setCoins(12);
 
         $this->divinities[7] = (new Divinity(7, clienttranslate("Aphrodite"), Divinity::TYPE_BLUE))
-            ->addText(clienttranslate("This Divinity is worth 9 victory points."));
+            ->setVictoryPoints(9);
 
         $this->divinities[8] = (new Divinity(8, clienttranslate("Hades"), Divinity::TYPE_BLUE))
             ->addText(clienttranslate("You take all cards discarded since the beginning of the game, choose one, and construct it for free."));
@@ -790,7 +789,7 @@ class Material extends Base
             ->addText(clienttranslate("Steal an opponent’s Wonder which has not yet been constructed; it is added to your own Wonders."));
 
         $this->divinities[13] = (new Divinity(13, clienttranslate("Mars"), Divinity::TYPE_RED))
-            ->addText(clienttranslate("This Divinity grants 2 shields."));
+            ->setMilitary(2);
 
         $this->divinities[14] = (new Divinity(14, clienttranslate("Minerva"), Divinity::TYPE_RED))
             ->addText(clienttranslate("Place the Minerva pawn on any space of the Military Track. If the Conflict pawn would enter the space which contains the Minerva pawn, it instead stops moving and its movement ends. Then discard the Minerva pawn."));

@@ -248,6 +248,9 @@ class Item extends Base
         if ($this instanceof Conspiracy) {
             return clienttranslate('Conspiracy');
         }
+        if ($this instanceof Divinity) {
+            return clienttranslate('Divinity');
+        }
     }
 
     protected function getScoreCategory() {
