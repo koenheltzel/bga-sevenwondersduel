@@ -360,6 +360,13 @@ define([
                     dojo.query("#activate_divinity_confirm").on("click", dojo.hitch(this, "onActivateDivinityConfirmClick"));
 
                 }
+                // Click handlers shared between Agora and Pantheon:
+                if (this.agora || this.pantheon) {
+                    dojo.query('body')
+                        .on("#swd[data-state=takeBuilding] .player_building_column.red_border .building_header_small:click",
+                            dojo.hitch(this, "onTakeBuildingClick")
+                        );
+                }
                 if (this.agora) {
                     // Agora click handlers using event delegation:
                     dojo.query('body')
@@ -444,10 +451,6 @@ define([
                     dojo.query('body')
                         .on("#swd[data-client-state=client_moveDecreeTo] .decree_containers .gray_border:click",
                             dojo.hitch(this, "onMoveDecreeCancelClick")
-                        );
-                    dojo.query('body')
-                        .on("#swd[data-state=takeBuilding] .player_building_column.red_border .building_header_small:click",
-                            dojo.hitch(this, "onTakeBuildingClick")
                         );
                     dojo.query('body')
                         .on("#swd[data-state=swapBuilding] .player_building_column.red_border .building_header_small:click",
@@ -1292,11 +1295,16 @@ define([
                 for (var playerId in this.gamedatas.players) {
                     for (let i = 0; i < divinitiesSituation[playerId].length; i++) {
                         let divinityData = divinitiesSituation[playerId][i];
+                        console.log('divinityData', divinityData);
                         let container = $('player_conspiracies_' + playerId);
-                        let divinityNode = dojo.query('div[data-divinity-id=' + divinityData.id + ']', container)[0];
+                        console.log('container', container);
+                        let divinityNode = dojo.query('div[data-divinity-id="' + divinityData.id + '"]', container)[0];
+                        console.log('divinityNode', divinityNode);
                         if (!divinityNode) {
                             let divinityType = this.gamedatas.divinities[divinityData.id].type;
-                            dojo.place( this.getDivinityDivHtml(divinityData.id, divinityType, false), container, 'first');
+                            console.log('divinityType', divinityType);
+                            let newNode = dojo.place( this.getDivinityDivHtml(divinityData.id, divinityType, false), container, 'first');
+                            console.log('newNode', newNode);
                         }
                     }
                 }
@@ -1586,7 +1594,8 @@ define([
                 if (this.debug) console.log('updatePlayerConspiracies', playerId, rows);
 
                 let container = $('player_conspiracies_' + playerId);
-                dojo.empty(container);
+                dojo.query(".conspiracy_container", container).forEach(dojo.destroy);
+
                 Object.keys(rows).forEach(dojo.hitch(this, function (index) {
                     var row = rows[index];
                     let id = row.conspiracy;
@@ -5954,6 +5963,10 @@ define([
                     var progressTokenNode = dojo.query('.player_info.player' + playersSituation.winner + ' #progress_token_4')[0];
                     if (progressTokenNode) {
                         dojo.addClass(progressTokenNode, 'endgame_highlight');
+                    }
+                    var divinityNode = dojo.query('#player_conspiracies_' + playersSituation.winner + ' .divinity[data-divinity-id="2"]')[0];
+                    if (divinityNode) {
+                        dojo.addClass(divinityNode, 'endgame_highlight');
                     }
 
                     // Unset endGameCondition to prevent an infinite loop.

@@ -409,6 +409,12 @@ class Player extends Base{
         if ($this->hasProgressToken(4)) {
             $symbols[] = ProgressToken::get(4)->scientificSymbol;
         }
+        if ($this->hasDivinity(2)) {
+            $divinity = Divinity::get(2);
+            if (!in_array($divinity->scientificSymbol, $symbols)) {
+                $symbols[] = $divinity->scientificSymbol;
+            }
+        }
         return count($symbols);
     }
 
@@ -438,6 +444,10 @@ class Player extends Base{
             $rows[] = $row;
         }
         return $rows;
+    }
+
+    public function hasDivinity($id) : int {
+        return in_array($id, $this->getDivinityIds());
     }
 
     /**

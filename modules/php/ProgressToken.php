@@ -52,6 +52,10 @@ class ProgressToken extends Item
             ]
         );
 
+        if ($this->id == 4 && $player->hasDivinity(2) && $this->gatheredSciencePairNotification($player)) {
+            $payment->selectProgressToken = true;
+        }
+
         $this->constructEffects($player, $payment);
 
         return $payment;

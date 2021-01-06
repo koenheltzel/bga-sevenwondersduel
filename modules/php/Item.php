@@ -235,6 +235,29 @@ class Item extends Base
         }
     }
 
+    public function gatheredSciencePairNotification($player) {
+        if (count(SevenWondersDuelPantheon::get()->progressTokenDeck->getCardsInLocation('board')) > 0) {
+            SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} gathered a pair of identical scientific symbols, and may now choose a Progress token'),
+                [
+                    'player_name' => $player->name,
+                ]
+            );
+            return true;
+        }
+        else {
+            SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} gathered a pair of identical scientific symbols, but there are no Progress tokens left'),
+                [
+                    'player_name' => $player->name,
+                ]
+            );
+            return false;
+        }
+    }
+
     protected function getItemType() {
         if ($this instanceof Building) {
             return clienttranslate('Building');

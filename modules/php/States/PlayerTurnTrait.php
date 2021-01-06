@@ -260,11 +260,17 @@ trait PlayerTurnTrait {
 
         $player = Player::getActive();
         $divinity = Divinity::get($divinityId);
-        $divinity->activate($player);
+        $payment = $divinity->activate($player);
 
         $this->incStat(1, self::STAT_DIVINITIES_ACTIVATED, $player->id);
 
-        $this->stateStackNextState();
+        if ($payment->selectProgressToken) {
+            $this->prependStateStackAndContinue([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
+        }
+        else {
+            $this->setStateStack(array_merge($payment->militarySenateActions, $divinity->actionStates, [self::STATE_NEXT_PLAYER_TURN_NAME]));
+            $this->stateStackNextState();
+        }
     }
 
     public function actionPrepareConspiracy($buildingId, $conspiracyId) {

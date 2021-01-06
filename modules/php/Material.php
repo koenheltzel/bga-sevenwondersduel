@@ -755,7 +755,8 @@ class Material extends Base
             ->addText(clienttranslate("When Enki is revealed, randomly draw 2 Progress tokens from those discarded at the beginning of the game. These tokens are placed face-up on Enki’s card. When you invoke Enki, choose one of these two Progress tokens and gain it. The other token is returned to the box with those discarded at the beginning of the game."));
 
         $this->divinities[2] = (new Divinity(2, clienttranslate("Ishtar"), Divinity::TYPE_GREEN))
-            ->addText(clienttranslate("This Divinity grants the shown scientific symbol (identical to that of the Law Progress token)."));
+            ->addText(clienttranslate("This Divinity grants the shown scientific symbol (identical to that of the Law Progress token)."))
+            ->setScientificSymbol(2);
 
         $this->divinities[3] = (new Divinity(3, clienttranslate("Nisaba"), Divinity::TYPE_GREEN))
             ->addText(clienttranslate("Place the Snake token on an opponent’s green card. Nisaba is worth the scientific symbol shown on the card."));
@@ -764,7 +765,8 @@ class Material extends Base
             ->addText(clienttranslate("Place 7 coins from the bank on Astarte’s card. These are not part of your City’s Treasury, and so are thus protected against coin losses. It’s possible to spend them normally. At the end of the game, each coin still present on Astarte’s card is worth 1 victory point for you."));
 
         $this->divinities[5] = (new Divinity(5, clienttranslate("Baal"), Divinity::TYPE_YELLOW))
-            ->addText(clienttranslate("Steal a brown or grey card built by your opponent, it is added to the cards of your City."));
+            ->addText(clienttranslate("Steal a brown or grey card built by your opponent, it is added to the cards of your City."))
+            ->addActionState(SevenWondersDuelPantheon::STATE_TAKE_BUILDING_NAME);
 
         $this->divinities[6] = (new Divinity(6, clienttranslate("Tanit"), Divinity::TYPE_YELLOW))
             ->setCoins(12);

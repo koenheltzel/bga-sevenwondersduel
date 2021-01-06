@@ -400,6 +400,7 @@ $machinestates = [
         SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID,
         SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
         SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+        SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_ID, // Pantheon when collecting Progress Token Law if you already have Divinity Ishtar
         SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
         SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
         SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,

@@ -101,6 +101,12 @@ class Divinity extends Item {
     public function activate(Player $player) {
         $payment = parent::construct($player);
 
+        if ($this->scientificSymbol) {
+            if ($player->hasProgressToken(4) && $this->gatheredSciencePairNotification($player)) {
+                $payment->selectProgressToken = true;
+            }
+        }
+
         SevenWondersDuelPantheon::get()->divinityDeck->insertCardOnExtremePosition($this->id, $player->id, true);
 
         // Text notification to all
