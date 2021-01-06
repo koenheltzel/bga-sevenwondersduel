@@ -207,6 +207,26 @@ trait NextPlayerTurnTrait {
                             );
                         }
                     }
+                    // Progress Token Mysticism (2 points for each Mythology and Offering token)
+                    if ($player->hasProgressToken(13)) {
+                        $points = 2 * (count($player->getMythologyTokenDeckCards()) + count($player->getOfferingTokenDeckCards()));
+                        if ($points > 0) {
+                            $player->increaseScore($points, self::SCORE_PROGRESSTOKENS);
+                            SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                                'endGameCategoryUpdate',
+                                clienttranslate('${player_name} scores ${points} victory points (Progress token “${progressTokenName}”)'),
+                                [
+                                    'i18n' => ['progressTokenName'],
+                                    'player_name' => $player->name,
+                                    'points' => $points,
+                                    'progressTokenName' => ProgressToken::get(13)->name,
+                                    'playerIds' => [$player->id],
+                                    'category' => 'progresstokens',
+                                    'highlightId' => 'progress_token_13',
+                                ]
+                            );
+                        }
+                    }
                 }
 
                 foreach(Players::get() as $player) {
