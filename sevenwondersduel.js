@@ -67,6 +67,9 @@ define([
             playerTurnNode: null,
             currentAge: 0,
             myConspiracies: [],
+            // Pantheon
+            activateDivinityNode: null,
+            activateDivinityId: 0,
             // Agora
             senateActionsSection: 0,
             moveInfluenceFrom: 0,
@@ -352,6 +355,8 @@ define([
                         );
 
                     // Pantheon click handlers without event delegation:
+                    dojo.query("#activate_divinity_confirm").on("click", dojo.hitch(this, "onActivateDivinityConfirmClick"));
+
                 }
                 if (this.agora) {
                     // Agora click handlers using event delegation:
@@ -3264,9 +3269,34 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
+                this.activateDivinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
+                this.activateDivinityId = dojo.attr(this.activateDivinityNode, 'data-divinity-id');
+
+                this.showActivateDivinityDialog();
+            },
+
+            showActivateDivinityDialog: function() {
+                dojo.style('activate_divinity', 'display', 'block');
+                this.autoUpdateScale();
+
+                let divinityContainer = $('activate_divinity_container');
+                dojo.empty(divinityContainer);
+
+                let divinityNode = dojo.clone(this.activateDivinityNode);
+                dojo.removeClass(divinityNode, 'divinity_border');
+                dojo.place(divinityNode, divinityContainer);
+            },
+
+            hideActivateDivinityDialog: function() {
+                dojo.style('activate_divinity', 'display', 'none');
+            },
+
+            onActivateDivinityConfirmClick: function (e) {
+                if (this.debug) console.log('onActivateDivinityConfirmClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
                 if (this.isCurrentPlayerActive()) {
-                    var divinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
-                    let divinityId = dojo.attr(divinityNode, 'data-divinity-id');
 
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
                     if (!this.checkAction('actionActivateDivinity')) {
@@ -3274,7 +3304,7 @@ define([
                     }
 
                     this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionActivateDivinity.html", {
-                            divinityId: divinityId,
+                            divinityId: this.activateDivinityId,
                             lock: true
                         },
                         this, function (result) {
@@ -3294,6 +3324,7 @@ define([
                 if (this.debug) console.log('notif_activateDivinity', notif);
 
                 this.clearDivinityBorder();
+                this.hideActivateDivinityDialog();
 
                 var oldDivinityNode = dojo.query('.pantheon_space_containers .divinity[data-divinity-id="' + notif.args.divinityId + '"]')[0];
                 var oldDivinityContainerNode = oldDivinityNode.parentElement;

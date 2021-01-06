@@ -1,4 +1,8 @@
 
+#activate_divinity {
+    display: none;
+}
+
 #activate_divinity_flexbox {
     display: flex;
     gap: calc(2 * var(--gutter));
