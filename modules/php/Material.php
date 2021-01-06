@@ -767,7 +767,8 @@ class Material extends Base
             ->addText(clienttranslate("Steal a brown or grey card built by your opponent, it is added to the cards of your City."));
 
         $this->divinities[6] = (new Divinity(6, clienttranslate("Tanit"), Divinity::TYPE_YELLOW))
-            ->addText(clienttranslate("Take 12 coins from the bank."));
+            ->addText(clienttranslate("Take 12 coins from the bank."))
+            ->setCoins(12);
 
         $this->divinities[7] = (new Divinity(7, clienttranslate("Aphrodite"), Divinity::TYPE_BLUE))
             ->addText(clienttranslate("This Divinity is worth 9 victory points."));

@@ -106,13 +106,15 @@ class Divinity extends Item {
         // Text notification to all
         SevenWondersDuelPantheon::get()->notifyAllPlayers(
             'activateDivinity',
-            clienttranslate('${player_name} activated Divinity for ${cost} ${costUnit}'),
+            clienttranslate('${player_name} activated Divinity “${divinityName}” for ${cost} ${costUnit}'),
             [
-                'i18n' => ['costUnit'],
+                'i18n' => ['divinityName', 'costUnit'],
                 'player_name' => $player->name,
                 'playerId' => $player->id,
                 'divinityId' => $this->id,
                 'divinityType' => $this->type,
+                'divinityName' => $this->name,
+                'payment' => $payment,
                 'cost' => $payment->totalCost() > 0 ? $payment->totalCost() : "",
                 'costUnit' => $payment->totalCost() > 0 ? RESOURCES[COINS] : clienttranslate('free'),
             ]

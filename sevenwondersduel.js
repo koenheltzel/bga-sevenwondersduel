@@ -3367,23 +3367,35 @@ define([
                     var newDivinityNode = dojo.query('.divinity', newDivinityContainerNode)[0];
                     this.autoUpdateScale();
 
+                    var coinRewardAnimation = bgagame.CoinAnimator.get().getAnimation(
+                        newDivinityNode,
+                        this.getPlayerCoinContainer(notif.args.playerId),
+                        notif.args.payment.coinReward,
+                        notif.args.playerId,
+                    );
+
                     this.placeOnObjectPos(newDivinityNode, oldDivinityNode, 0, 0);
                     // dojo.style(newDivinityNode, 'transform', 'rotate(' + this.getCurrentRotation(spaceNode) + 'deg)');
                     dojo.destroy(oldDivinityContainerNode);
 
-                    let anim = dojo.fx.combine([
-                        this.slideToObjectPos(newDivinityNode, newDivinityContainerNode, 0, 0, this.activate_divinity_duration),
-                        dojo.animateProperty({
-                            node: newDivinityNode,
-                            // delay: this.constructWonderAnimationDuration / 6,
-                            duration: this.activate_divinity_duration * 0.6,
-                            properties: {
-                                propertyTransform: {start: this.getCurrentRotation(spaceNode), end: 0}
-                            },
-                            onAnimate: function (values) {
-                                dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
-                            }
-                        })
+                    let anim = dojo.fx.chain([
+                        dojo.fx.combine([
+                            this.slideToObjectPos(newDivinityNode, newDivinityContainerNode, 0, 0, this.activate_divinity_duration),
+                            dojo.animateProperty({
+                                node: newDivinityNode,
+                                // delay: this.constructWonderAnimationDuration / 6,
+                                duration: this.activate_divinity_duration * 0.6,
+                                properties: {
+                                    propertyTransform: {start: this.getCurrentRotation(spaceNode), end: 0}
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                }
+                            })
+                        ]),
+                        coinRewardAnimation,
+                        // Military Track animation (pawn movement, token handling)
+                        bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment),
                     ]);
 
                     anim.play();
