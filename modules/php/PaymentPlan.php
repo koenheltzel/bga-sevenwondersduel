@@ -278,11 +278,19 @@ class PaymentPlan extends Base
             }
         }
         elseif ($this->item instanceof Building && $player->hasBuilding($this->item->linkedBuilding)) {
-            // Player has the linked building, so no building cost.
-            $linkedBuilding = Building::get($this->item->linkedBuilding);
-            $string = clienttranslate('Construction is free through linked building “${name}”');
-            $args = ['name' => $linkedBuilding->name];
-            $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string, $args);
+            if ($this->item->linkedBuilding < 0) {
+                // Grand Temple cards. linkedBuilding is Mythology type (but negative)
+                $string = clienttranslate('Construction is free because player has a ${mythologyType} Mythology Token');
+                $args = ['mythologyType' => Divinity::getTypeName(abs($this->item->linkedBuilding))];
+                $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string, $args);
+            }
+            else {
+                // Player has the linked building, so no building cost.
+                $linkedBuilding = Building::get($this->item->linkedBuilding);
+                $string = clienttranslate('Construction is free through linked building “${name}”');
+                $args = ['name' => $linkedBuilding->name];
+                $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string, $args);
+            }
         }
         elseif ($this->item instanceof Building && $player->hasDecree(15) && $opponent->hasBuilding($this->item->linkedBuilding)) {
             // Opponent has the linked building, and the player has the Decree to take advantage of it.
@@ -362,6 +370,15 @@ class PaymentPlan extends Base
             // Sort the steps so they match the card.
             $this->sortSteps($this->item->cost);
         }
+
+        if ($this->item instanceof Building && $this->item->linkedBuilding != 0 && $this->totalCost() > 1 && $player->hasProgressToken(15)) {
+            $this->steps = [];
+            $string = clienttranslate('Player can construct any card with a chaining symbol under the cost for 1 Coin (Progress Token “${progressTokenName}”)');
+            $args = ['progressTokenName' => ProgressToken::get(15)->name];
+            $this->addStep(COINS, 1, 1, null, null, $string, $args);
+        }
+
+
         $this->cost = $this->totalCost();
 
         if($print) {

@@ -79,12 +79,12 @@
     --decree-small-scale: calc(0.45 * var(--senate-scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
 
     --linked-building-icon-spritesheet-width: 288px;
-    --linked-building-icon-spritesheet-height: 64px;
+    --linked-building-icon-spritesheet-height: 96px;
     --linked-building-icon-spritesheet-columns: 9;
-    --linked-building-icon-spritesheet-rows: 2;
+    --linked-building-icon-spritesheet-rows: 3;
     --linked-building-icon-width: calc(var(--linked-building-icon-spritesheet-width) / var(--linked-building-icon-spritesheet-columns));
     --linked-building-icon-height: calc(var(--linked-building-icon-spritesheet-height) / var(--linked-building-icon-spritesheet-rows));
-    --linked-building-icon-small-scale: calc(0.45 * var(--scale));
+    --linked-building-icon-small-scale: calc(0.52 * var(--scale));
 
     --board-width: 268px;
     --board-height: 949px;

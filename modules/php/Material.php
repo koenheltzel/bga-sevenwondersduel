@@ -629,19 +629,24 @@ class Material extends Base
         }
 
         $this->buildings[87] = (new Building(87, 4, clienttranslate("Mesopotamian Grand Temple"), Building::TYPE_PURPLE))
-            ->setCost([WOOD => 3, GLASS => 1, PAPYRUS => 1]);
+            ->setCost([WOOD => 3, GLASS => 1, PAPYRUS => 1])
+            ->setLinkedBuilding(-1);
 
         $this->buildings[88] = (new Building(88, 4, clienttranslate("Phoenician Grand Temple"), Building::TYPE_PURPLE))
-            ->setCost([WOOD => 1, STONE => 1, GLASS => 1, PAPYRUS => 2]);
+            ->setCost([WOOD => 1, STONE => 1, GLASS => 1, PAPYRUS => 2])
+            ->setLinkedBuilding(-2);
 
         $this->buildings[89] = (new Building(89, 4, clienttranslate("Greek Grand Temple"), Building::TYPE_PURPLE))
-            ->setCost([STONE => 3, GLASS => 1, PAPYRUS => 1]);
+            ->setCost([STONE => 3, GLASS => 1, PAPYRUS => 1])
+            ->setLinkedBuilding(-3);
 
         $this->buildings[90] = (new Building(90, 4, clienttranslate("Egyptian Grand Temple"), Building::TYPE_PURPLE))
-            ->setCost([CLAY => 3, GLASS => 1, PAPYRUS => 1]);
+            ->setCost([CLAY => 3, GLASS => 1, PAPYRUS => 1])
+            ->setLinkedBuilding(-4);
 
         $this->buildings[91] = (new Building(91, 4, clienttranslate("Roman Grand Temple"), Building::TYPE_PURPLE))
-            ->setCost([CLAY => 1, STONE => 1, GLASS => 2, PAPYRUS => 1]);
+            ->setCost([CLAY => 1, STONE => 1, GLASS => 2, PAPYRUS => 1])
+            ->setLinkedBuilding(-5);
 
         // Set the link relationship in the other way, to add text to the tooltip about it.
         Building::get(9)->setLinkedBuilding(29);

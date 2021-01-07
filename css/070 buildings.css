@@ -105,14 +105,11 @@ Because of reversing the flexbox order for the opponent there are 2 different ru
 }
 
 .linked_building_icon {
-    background-image: url('img/linked-building-icons.jpg');
+    background-image: url('img/linked-building-icons.png');
     width: calc(var(--scale) * var(--element-scale) * var(--linked-building-icon-width));
     height: calc(var(--scale) * var(--element-scale) * var(--linked-building-icon-height));
     background-size: calc(var(--linked-building-icon-spritesheet-width) * var(--scale) * var(--element-scale)) calc(var(--linked-building-icon-spritesheet-height) * var(--scale) * var(--element-scale));
-    border-radius: calc(var(--scale) * 3px);
     display: inline-block;
-    box-shadow: calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 3px) 0 rgba(0, 0, 0, 0.4),
-    inset 0 0 0 calc(var(--scale) * 1px) #00000060;
 }
 
 .linked_building_icon_small {
@@ -121,11 +118,10 @@ Because of reversing the flexbox order for the opponent there are 2 different ru
     background-size: calc(var(--linked-building-icon-spritesheet-width) * var(--linked-building-icon-small-scale)) calc(var(--linked-building-icon-spritesheet-height) * var(--linked-building-icon-small-scale));
     border-radius: calc(var(--scale) * 2px);
     position: absolute;
-    left: calc(var(--building-small-width) * 0.55);
-    top: calc(var(--scale) * 18px);
+    left: calc(var(--building-small-width) * 0.54);
+    top: calc(var(--scale) * 16px);
     z-index: 2;
-    box-shadow: calc(var(--scale) * 1px) calc(var(--scale) * 1px) calc(var(--scale) * 1px) 0 rgba(0, 0, 0, 0.3),
-    inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #00000060);
 }
 
 .opponent .linked_building_icon_small {

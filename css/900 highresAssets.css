@@ -35,7 +35,7 @@
 }
 
 #swd[data-quality="2x"] .linked_building_icon, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .linked_building_icon {
-    background-image: url('img/linked-building-icons@2X.jpg') !important;
+    background-image: url('img/linked-building-icons@2X.png') !important;
 }
 
 /* Pantheon */
@@ -77,6 +77,7 @@
 #swd[data-quality="2x"] .action_remove_influence,
 #swd[data-quality="2x"] .action_skip,
 #swd[data-quality="2x"] .agora_icon,
+#swd[data-quality="2x"] .pantheon_icon,
 #swd[data-quality="2x"] .senate_section, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .senate_section  {
     background-image: url('img/agora_sprites@2X.png') !important;
 }

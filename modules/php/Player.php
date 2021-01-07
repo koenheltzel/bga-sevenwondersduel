@@ -391,7 +391,17 @@ class Player extends Base{
     }
 
     public function hasBuilding($id) : bool {
-        return in_array($id, $this->getBuildingIds());
+        if ($id < 0) {
+            // Dirty, we use a negative id for mythology token linked buildings (Grand Temples from Pantheon)
+            $divinityType = abs($id);
+            $mythologyTokenId1 = (($divinityType - 1) * 2) + 1;
+            $mythologyTokenId2 = (($divinityType - 1) * 2) + 2;
+            $mythologyTokenIds = $this->getMythologyTokenIds();
+            return in_array($mythologyTokenId1, $mythologyTokenIds) || in_array($mythologyTokenId2, $mythologyTokenIds);
+        }
+        else {
+            return in_array($id, $this->getBuildingIds());
+        }
     }
 
     public function getBuildingDeckCards(): array {

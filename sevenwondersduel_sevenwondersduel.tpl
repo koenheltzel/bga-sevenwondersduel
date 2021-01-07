@@ -194,7 +194,11 @@
                         <div class="player_building_column Green">
                             <div class="building_header_small_container card_outline science_progress"><span></span></div>
                         </div>
-                        <div class="player_building_column Purple"></div>
+                        <div class="player_building_column Purple pantheon">
+                            <div class="building_header_small_container expansion_icon_container expansion_icon_container_pantheon">
+                                <div class="pantheon_icon"></div>
+                            </div>
+                        </div>
                         <div class="player_building_column Senator agora">
                             <div class="building_header_small_container expansion_icon_container expansion_icon_container_agora">
                                 <div class="agora_icon"></div>

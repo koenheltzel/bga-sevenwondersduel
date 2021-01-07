@@ -174,7 +174,7 @@ define([
                 if (this.quality == '2x') {
                     this.dontPreloadImage('board.png');
                     this.dontPreloadImage('buildings_v3.jpg');
-                    this.dontPreloadImage('linked-building-icons.jpg');
+                    this.dontPreloadImage('linked-building-icons.png');
                     this.dontPreloadImage('progress_tokens_v3.jpg');
                     this.dontPreloadImage('sprites.png');
                     this.dontPreloadImage('wonders_v3.jpg');
@@ -197,7 +197,7 @@ define([
                 if (this.quality == '1x') {
                     this.dontPreloadImage('board@2X.png');
                     this.dontPreloadImage('buildings_v3@2X.jpg');
-                    this.dontPreloadImage('linked-building-icons@2X.jpg');
+                    this.dontPreloadImage('linked-building-icons@2X.png');
                     this.dontPreloadImage('progress_tokens_v3@2X.jpg');
                     this.dontPreloadImage('sprites@2X.png');
                     this.dontPreloadImage('wonders_v3@2X.jpg');
@@ -1003,9 +1003,15 @@ define([
 
                             // Linked building symbol
                             linkedBuildingId = buildingData.linkedBuilding;
-                            if (linkedBuildingId > 0) {
+                            if (linkedBuildingId != 0) {
                                 var spritesheetColumns = 9;
-                                var linkedBuildingSpriteId = this.gamedatas.buildingIdsToLinkIconId[linkedBuildingId];
+                                var linkedBuildingSpriteId = 0;
+                                if (linkedBuildingId < 0) {
+                                    linkedBuildingSpriteId = 18 + Math.abs(linkedBuildingId);
+                                }
+                                else {
+                                    linkedBuildingSpriteId = this.gamedatas.buildingIdsToLinkIconId[linkedBuildingId];
+                                }
                                 data.jsLinkX = (linkedBuildingSpriteId - 1) % spritesheetColumns;
                                 data.jsLinkY = Math.floor((linkedBuildingSpriteId - 1) / spritesheetColumns);
                             }
@@ -1686,6 +1692,9 @@ define([
 
                 this.addTooltipToClass('expansion_icon_container_agora',
                     _('Column for Senators (Agora expansion)'), '', this.toolTipDelay);
+
+                this.addTooltipToClass('expansion_icon_container_pantheon',
+                    _('Column for Grand Temples (Pantheon expansion)'), '', this.toolTipDelay);
 
                 this.addTooltipToClass('science_progress',
                     _('If you gather 6 different scientific symbols, you immediately win the game (Scientific Supremacy)'), '', this.toolTipDelay);

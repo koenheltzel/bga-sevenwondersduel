@@ -341,6 +341,12 @@ class SevenWondersDuelPantheon extends Table
 
     public static function get() {
         // We can assume self::$instance exists since SevenWondersDuelPantheon's constructor is the entry point for SWD code.
+
+        // To support paymenttester.php
+        if (!self::$instance) {
+            self::$instance = new Table();
+        }
+
         return self::$instance;
     }
 

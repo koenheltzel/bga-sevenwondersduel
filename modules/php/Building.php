@@ -444,6 +444,9 @@ class Building extends Item {
         $this->setListPage(1);
         if ($linkedBuilding < $this->id) {
             $this->linkedBuilding = $linkedBuilding;
+            if ($linkedBuilding < 0) {
+                $this->addText(clienttranslate("At the end of the game, you score 5, 12, or 21 victory points if you’ve built 1, 2, or 3 Grand Temples."));
+            }
         }
         else {
             $building = Building::get($linkedBuilding);

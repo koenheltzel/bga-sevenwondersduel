@@ -296,3 +296,12 @@
     width: calc(var(--scale) * 38px * 0.4);
     height: calc(var(--scale) * 39px * 0.4);
 }
+
+.pantheon_icon {
+    background-image: url('img/pantheon_sprites.png');
+    display: inline-block;
+    background-position: 79.606% 50.691%;
+    background-size: 3687.805%;
+    width: calc(var(--scale) * 41px * 0.45);
+    height: calc(var(--scale) * 41px * 0.45);
+}
