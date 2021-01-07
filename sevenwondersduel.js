@@ -1276,7 +1276,6 @@ define([
                             dojo.attr(divinityNode, 'data-activatable', spaceData.activatable[playerId]);
                         }
                         if (spaceData.payment) {
-                            let alias = this.getPlayerAlias(playerId);
                             let container = dojo.query('div[data-space=' + space + '] .' + alias + ' .cost', costContainer)[0];
                             let oldNode = dojo.query('.coin', container)[0];
                             let playerCoins = this.gamedatas.playersSituation[playerId].coins;
@@ -2000,9 +1999,11 @@ define([
                             ageRoman: this.ageRoman(building.age)
                         });
                     } else if(building.age == 4) {
-                        data.cardType = _("Guild card");
+                        data.cardType = _(""); // Guild card, but that's already the typeDescription, so leave empty.
                     } else if(building.age == 5) {
                         data.cardType = ""; // Senator, but that's already the typeDescription, so leave empty.
+                    } else if(building.age == 6) {
+                        data.cardType = _(""); // Grand Temple card, but that's already the typeDescription, so leave empty.
                     }
 
                     if (data.cardType != "") {

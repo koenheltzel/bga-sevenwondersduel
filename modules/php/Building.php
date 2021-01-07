@@ -97,7 +97,7 @@ class Building extends Item {
                 $this->typeDescription = clienttranslate('Military Building');
                 break;
             case self::TYPE_PURPLE:
-                $this->typeColor = '#6f488b';
+                $this->typeColor = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON) ? '#41499a' : '#6f488b';
                 $this->typeDescription = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON) ? clienttranslate('Grand Temple') : clienttranslate('Guild');
                 break;
             case self::TYPE_SENATOR:
