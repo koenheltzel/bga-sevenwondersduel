@@ -1,6 +1,7 @@
 
 #mythology_decks_container {
     margin-left: var(--gutter) !important;
+    white-space: nowrap;
 }
 
 #mythology_deck span {

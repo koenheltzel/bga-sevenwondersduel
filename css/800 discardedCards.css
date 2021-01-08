@@ -28,5 +28,5 @@
 }
 
 #discarded_cards_whiteblock {
-    flex-grow: 2;
+    flex: auto;
 }
