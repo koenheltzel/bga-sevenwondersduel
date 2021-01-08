@@ -161,6 +161,70 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::ajaxResponse();
     }
 
+    public function actionDeconstructWonder() {
+        self::setAjaxMode();
+
+        $wonderId = self::getArg("wonderId", AT_posint, true);
+        SevenWondersDuelPantheon::get()->actionDeconstructWonder($wonderId);
+
+        self::ajaxResponse();
+    }
+
+    public function actionChooseEnkiProgressToken() {
+        self::setAjaxMode();
+
+        $progressTokenId = self::getArg("progressTokenId", AT_posint, true);
+        SevenWondersDuelPantheon::get()->actionChooseEnkiProgressToken($progressTokenId);
+
+        self::ajaxResponse();
+    }
+
+    public function actionPlaceSnakeToken() {
+        self::setAjaxMode();
+
+        $buildingId = self::getArg("buildingId", AT_posint, true);
+        SevenWondersDuelPantheon::get()->actionPlaceSnakeToken($buildingId);
+
+        self::ajaxResponse();
+    }
+
+    public function actionDiscardAgeCard() {
+        self::setAjaxMode();
+
+        $row = self::getArg("row", AT_posint, true);
+        $column = self::getArg("column", AT_posint, true);
+        SevenWondersDuelPantheon::get()->actionDiscardAgeCard($row, $column);
+
+        self::ajaxResponse();
+    }
+
+    public function actionPlaceMinervaToken() {
+        self::setAjaxMode();
+
+        $position = self::getArg("position", AT_posint, true);
+        SevenWondersDuelPantheon::get()->actionPlaceMinervaToken($position);
+
+        self::ajaxResponse();
+    }
+
+    public function actionDiscardMilitaryToken() {
+        self::setAjaxMode();
+
+        $token = self::getArg("token", AT_posint, true);
+        SevenWondersDuelPantheon::get()->actionDiscardMilitaryToken($token);
+
+        self::ajaxResponse();
+    }
+
+    public function actionApplyMilitaryToken() {
+        self::setAjaxMode();
+
+        $token = self::getArg("token", AT_posint, true);
+        SevenWondersDuelPantheon::get()->actionApplyMilitaryToken($token);
+
+        self::ajaxResponse();
+    }
+
     // Agora
 
     public function actionChooseConspiratorActionPlaceInfluence() {

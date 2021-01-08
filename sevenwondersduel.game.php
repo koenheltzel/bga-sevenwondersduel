@@ -75,6 +75,16 @@ class SevenWondersDuelPantheon extends Table
     use SWD\States\WonderSelectedTrait;
     // Pantheon
     use SWD\States\ChooseAndPlaceDivinityTrait;
+    use SWD\States\ChooseEnkiProgressTokenTrait;
+    use SWD\States\PlaceSnakeTokenTrait;
+    use SWD\States\DiscardAgeCardTrait;
+    use SWD\States\PlaceMinervaTokenTrait;
+    use SWD\States\DiscardMilitaryTokenTrait;
+    use SWD\States\ApplyMilitaryTokenTrait;
+    use SWD\States\ChooseDivinityFromTopCardsTrait;
+    use SWD\States\ChooseDivinityDeckTrait;
+    use SWD\States\ChooseDivinityFromDeckTrait;
+    use SWD\States\ChooseDivinityForTopOfDeckTrait;
     // Agora
     use SWD\States\ChooseConspiratorActionTrait;
     use SWD\States\ConspireTrait;
@@ -184,6 +194,42 @@ class SevenWondersDuelPantheon extends Table
 
     const STATE_CHOOSE_AND_PLACE_DIVINITY_ID = 50;
     const STATE_CHOOSE_AND_PLACE_DIVINITY_NAME = "chooseAndPlaceDivinity";
+
+    const STATE_DECONSTRUCT_WONDER_ID = 51;
+    const STATE_DECONSTRUCT_WONDER_NAME = "deconstructWonder";
+
+    const STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_ID = 52;
+    const STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME = "constructWonderWithDiscardedBuilding";
+
+    const STATE_CHOOSE_ENKI_PROGRESS_TOKEN_ID = 53;
+    const STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME = "chooseEnkiProgressToken";
+
+    const STATE_PLACE_SNAKE_TOKEN_ID = 54;
+    const STATE_PLACE_SNAKE_TOKEN_NAME = "placeSnakeToken";
+
+    const STATE_DISCARD_AGE_CARD_ID = 55;
+    const STATE_DISCARD_AGE_CARD_NAME = "placeSnakeToken";
+
+    const STATE_PLACE_MINERVA_TOKEN_ID = 56;
+    const STATE_PLACE_MINERVA_TOKEN_NAME = "placeMinervaToken";
+
+    const STATE_DISCARD_MILITARY_TOKEN_ID = 57;
+    const STATE_DISCARD_MILITARY_TOKEN_NAME = "discardMilitaryToken";
+
+    const STATE_APPLY_MILITARY_TOKEN_ID = 58;
+    const STATE_APPLY_MILITARY_TOKEN_NAME = "applyMilitaryToken";
+
+    const STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_ID = 59;
+    const STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_NAME = "chooseDivinityFromTopCards";
+
+    const STATE_CHOOSE_DIVINITY_DECK_ID = 61;
+    const STATE_CHOOSE_DIVINITY_DECK_NAME = "chooseDivinityDeck";
+
+    const STATE_CHOOSE_DIVINITY_FROM_DECK_ID = 62;
+    const STATE_CHOOSE_DIVINITY_FROM_DECK_NAME = "chooseDivinityFromDeck";
+
+    const STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID = 63;
+    const STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME = "chooseDivinityForTopOfDeck";
 
     // End Pantheon
 

@@ -55,6 +55,7 @@ $militaryTokenTransitions = [
     SevenWondersDuelPantheon::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_REMOVE_INFLUENCE_ID,
     SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID, // If remove influence is skipp
     SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // In case of instant victory
+    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID, // Divinity Neptune activated from Wonder The Divine Theater
 ];
 
 $constructBuildingTransitions = array_merge($militaryTokenTransitions, [
@@ -65,6 +66,18 @@ $constructBuildingTransitions = array_merge($militaryTokenTransitions, [
     // Politician
     SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_ID,
 ]);
+
+$divinityStateTransitions = [
+    SevenWondersDuelPantheon::STATE_DECONSTRUCT_WONDER_NAME => SevenWondersDuelPantheon::STATE_DECONSTRUCT_WONDER_ID,
+    SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_ID,
+    SevenWondersDuelPantheon::STATE_PLACE_SNAKE_TOKEN_NAME => SevenWondersDuelPantheon::STATE_PLACE_SNAKE_TOKEN_ID,
+    SevenWondersDuelPantheon::STATE_DISCARD_AGE_CARD_NAME => SevenWondersDuelPantheon::STATE_DISCARD_AGE_CARD_ID,
+    SevenWondersDuelPantheon::STATE_PLACE_MINERVA_TOKEN_NAME => SevenWondersDuelPantheon::STATE_PLACE_MINERVA_TOKEN_ID,
+    SevenWondersDuelPantheon::STATE_DISCARD_MILITARY_TOKEN_NAME => SevenWondersDuelPantheon::STATE_DISCARD_MILITARY_TOKEN_ID,
+    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_ID,
+    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_ID,
+    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
+];
 
 $conspiracyStateTransitions = [
     // Military conspiracy --> Military track tokens
@@ -180,6 +193,7 @@ $machinestates = [
         ],
         "transitions" => array_merge(
             $conspiracyStateTransitions, // Support all conspiracy actions
+            $divinityStateTransitions, // Support all divinity actions
             $constructBuildingTransitions, // Support all construct building actions
             [
                 SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID, // After triggering conspiracy
@@ -366,24 +380,233 @@ $machinestates = [
     ],
 
     SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID => [
-    "name" => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME,
-    "description" => clienttranslate('${actplayer} must choose a Divinity and place it face down in the Pantheon'),
-    "descriptionmyturn" => clienttranslate('${you} must choose a Divinity and place it face down in the Pantheon'),
-    "type" => "activeplayer",
-    "action" => "enterStateChooseAndPlaceDivinity",
-    "args" => "argChooseAndPlaceDivinity",
-    "possibleactions" => [
-        "actionChooseAndPlaceDivinity",
+        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Divinity and place it face down in the Pantheon'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Divinity and place it face down in the Pantheon'),
+        "type" => "activeplayer",
+        "action" => "enterStateChooseAndPlaceDivinity",
+        "args" => "argChooseAndPlaceDivinity",
+        "possibleactions" => [
+            "actionChooseAndPlaceDivinity",
+        ],
+        "transitions" => [
+            SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID,
+            SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID,
+            SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
+            SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+            SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+        ]
     ],
-    "transitions" => [
-        SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID,
-        SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID,
-        SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
-        SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
-        SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
-        SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
-    ]
-],
+
+    SevenWondersDuelPantheon::STATE_DECONSTRUCT_WONDER_ID => [
+        "name" => SevenWondersDuelPantheon::STATE_DECONSTRUCT_WONDER_NAME,
+        "description" => clienttranslate('${actplayer} must choose a constructed Wonder to discard the Age card from'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a constructed Wonder to discard the Age card from'),
+        "type" => "activeplayer",
+        "action" => "enterStateDeconstructWonder",
+        "args" => "argDeconstructWonder",
+        "possibleactions" => [
+            "actionDeconstructWonder",
+        ],
+        "transitions" => array_merge(
+            [
+                SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
+                SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_ID => [
+        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME,
+        "description" => clienttranslate('${actplayer} must choose 1 of the 2 Progress Tokens from Enki'),
+        "descriptionmyturn" => clienttranslate('${you} must choose 1 of the 2 Progress Tokens from Enki'),
+        "type" => "activeplayer",
+        "action" => "enterStateChooseEnkiProgressToken",
+        "args" => "argChooseEnkiProgressToken",
+        "possibleactions" => [
+            "actionChooseEnkiProgressToken",
+        ],
+        "transitions" => array_merge(
+            [
+                SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
+                SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelPantheon::STATE_PLACE_SNAKE_TOKEN_ID => [
+        "name" => SevenWondersDuelPantheon::STATE_PLACE_SNAKE_TOKEN_NAME,
+        "description" => clienttranslate('${actplayer} must place the Snake token on an opponent\'s green card'),
+        "descriptionmyturn" => clienttranslate('${you} must place the Snake token on an opponent\'s green card'),
+        "type" => "activeplayer",
+        "action" => "enterStatePlaceSnakeToken",
+        "args" => "argPlaceSnakeToken",
+        "possibleactions" => [
+            "actionPlaceSnakeToken",
+        ],
+        "transitions" => array_merge(
+            [
+                SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
+                SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelPantheon::STATE_DISCARD_AGE_CARD_ID => [
+        "name" => SevenWondersDuelPantheon::STATE_DISCARD_AGE_CARD_NAME,
+        "description" => clienttranslate('${actplayer} must discard a card (face up or down) from the structure'),
+        "descriptionmyturn" => clienttranslate('${you} must discard a card (face up or down) from the structure'),
+        "type" => "activeplayer",
+        "action" => "enterStateDiscardAgeCard",
+        "args" => "argDiscardAgeCard",
+        "possibleactions" => [
+            "actionDiscardAgeCard",
+        ],
+        "transitions" => array_merge(
+            [
+                SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
+                SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelPantheon::STATE_PLACE_MINERVA_TOKEN_ID => [
+        "name" => SevenWondersDuelPantheon::STATE_PLACE_MINERVA_TOKEN_NAME,
+        "description" => clienttranslate('${actplayer} must place the Minerva pawn on any space of the Military Track'),
+        "descriptionmyturn" => clienttranslate('${you} must place the Minerva pawn on any space of the Military Track'),
+        "type" => "activeplayer",
+        "action" => "enterStatePlaceMinervaToken",
+        "args" => "argPlaceMinervaToken",
+        "possibleactions" => [
+            "actionPlaceMinervaToken",
+        ],
+        "transitions" => array_merge(
+            [
+                SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
+                SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelPantheon::STATE_DISCARD_MILITARY_TOKEN_ID => [
+        "name" => SevenWondersDuelPantheon::STATE_DISCARD_MILITARY_TOKEN_NAME,
+        "description" => clienttranslate('${actplayer} must choose and discard a Military token without applying its effect'),
+        "descriptionmyturn" => clienttranslate('${you} must choose and discard a Military token without applying its effect'),
+        "type" => "activeplayer",
+        "action" => "enterStateDiscardMilitaryToken",
+        "args" => "argDiscardMilitaryToken",
+        "possibleactions" => [
+            "actionDiscardMilitaryToken",
+        ],
+        "transitions" => array_merge(
+            [
+                SevenWondersDuelPantheon::STATE_APPLY_MILITARY_TOKEN_NAME => SevenWondersDuelPantheon::STATE_APPLY_MILITARY_TOKEN_ID,
+                SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
+                SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelPantheon::STATE_APPLY_MILITARY_TOKEN_ID => [
+        "name" => SevenWondersDuelPantheon::STATE_APPLY_MILITARY_TOKEN_NAME,
+        "description" => clienttranslate('${actplayer} must choose and apply the effect of another Military token, then discard it'),
+        "descriptionmyturn" => clienttranslate('${you} must choose and apply the effect of another Military token, then discard it'),
+        "type" => "activeplayer",
+        "action" => "enterStateApplyMilitaryToken",
+        "args" => "argApplyMilitaryToken",
+        "possibleactions" => [
+            "actionApplyMilitaryToken",
+        ],
+        "transitions" => array_merge(
+            $militaryTokenTransitions,
+            [
+                SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
+                SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_ID => [
+        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Divinity card and activate if for free'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Divinity card and activate if for free'),
+        "type" => "activeplayer",
+        "action" => "enterStateChooseDivinityFromTopCards",
+        "args" => "argChooseDivinityFromTopCards",
+        "possibleactions" => [
+            "actionChooseDivinityFromTopCards",
+        ],
+        "transitions" => array_merge(
+            [
+                SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
+                SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_ID => [
+        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Divinity deck to reveal and choose a Divinity from'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Divinity deck to reveal and choose a Divinity from'),
+        "type" => "activeplayer",
+        "action" => "enterStateChooseDivinityDeck",
+        "args" => "argChooseDivinityDeck",
+        "possibleactions" => [
+            "actionChooseDivinityDeck",
+        ],
+        "transitions" => array_merge(
+            [
+                SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_DECK_ID,
+                SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_DECK_ID => [
+        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_DECK_NAME,
+        "description" => clienttranslate('${actplayer} must choose a Divinity from the ${mythologyType} deck and activate it for free'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Divinity from the ${mythologyType} deck and activate it for free'),
+        "type" => "activeplayer",
+        "action" => "enterStateChooseDivinityFromDeck",
+        "args" => "argChooseDivinityFromDeck",
+        "possibleactions" => [
+            "actionChooseDivinityFromDeck",
+        ],
+        "transitions" => array_merge(
+            [
+                SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
+                SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID => [
+        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME,
+        "description" => clienttranslate('${actplayer} must choose which of the two remaining Divinities goes on top of the ${mythologyType} deck'),
+        "descriptionmyturn" => clienttranslate('${you} must choose which of the two remaining Divinities goes on top of the ${mythologyType} deck'),
+        "type" => "activeplayer",
+        "action" => "enterStateChooseDivinityForTopOfDeck",
+        "args" => "argChooseDivinityForTopOfDeck",
+        "possibleactions" => [
+            "actionChooseDivinityForTopOfDeck",
+        ],
+        "transitions" => array_merge(
+            [
+                SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
 
     SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_ID => [
     "name" => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_NAME,
