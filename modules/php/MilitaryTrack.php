@@ -10,35 +10,50 @@ class MilitaryTrack extends Base
 {
 
     public static function movePawn(Player $player, $shields, Payment $payment) {
-        // If player has progress token military, an additional shield is counted.
-        if($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
-            $shields += 1;
+        $divinityNeptune = $payment->getItem() instanceof Divinity && $payment->getItem()->id == 15;
+        if ($divinityNeptune) {
+            $payment->militarySteps = 1; // Not actually but this set off the animation
+            $payment->militaryOldPosition = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION);
+            $payment->militaryNewPosition = $payment->militaryOldPosition;
+            $number = $payment->getItem()->neptuneMilitaryTokenNumber;
+            $value = SevenWondersDuelPantheon::get()->takeMilitaryToken($number);
+            $payment->militaryTokens[$payment->militaryOldPosition] = [
+                'number' => $number,
+                'value' => $value,
+                'tokenToPlayerId' => SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) ? $player->id : $player->getOpponent()->id,
+            ];
         }
-
-        SevenWondersDuelPantheon::get()->incStat($shields, SevenWondersDuelPantheon::STAT_SHIELDS, $player->id);
-
-        $direction = $player->id == SevenWondersDuelPantheon::get()->getGameStartPlayerId() ? 1 : -1;
-
-        $currentPosition = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION);
-        $newPosition = max(-9, min(9, $currentPosition + $shields * $direction));
-
-        $i = $currentPosition;
-        while ($i != $newPosition) {
-            $i += $direction;
-            SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION, $i);
-            list($militaryTokenNumber, $militaryTokenValue) = MilitaryTrack::getMilitaryToken();
-            if ($militaryTokenValue > 0) {
-                $payment->militaryTokens[$i] = [
-                    'number' => $militaryTokenNumber,
-                    'value' => $militaryTokenValue,
-                    'tokenToPlayerId' => SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) ? $player->id : $player->getOpponent()->id,
-                ];
+        else {
+            // If player has progress token military, an additional shield is counted.
+            if($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
+                $shields += 1;
             }
-        }
 
-        $payment->militarySteps = abs($newPosition - $currentPosition);
-        $payment->militaryOldPosition = $currentPosition;
-        $payment->militaryNewPosition = $newPosition;
+            SevenWondersDuelPantheon::get()->incStat($shields, SevenWondersDuelPantheon::STAT_SHIELDS, $player->id);
+
+            $direction = $player->id == SevenWondersDuelPantheon::get()->getGameStartPlayerId() ? 1 : -1;
+
+            $currentPosition = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION);
+            $newPosition = max(-9, min(9, $currentPosition + $shields * $direction));
+
+            $i = $currentPosition;
+            while ($i != $newPosition) {
+                $i += $direction;
+                SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION, $i);
+                list($militaryTokenNumber, $militaryTokenValue) = MilitaryTrack::getMilitaryToken();
+                if ($militaryTokenValue > 0) {
+                    $payment->militaryTokens[$i] = [
+                        'number' => $militaryTokenNumber,
+                        'value' => $militaryTokenValue,
+                        'tokenToPlayerId' => SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) ? $player->id : $player->getOpponent()->id,
+                    ];
+                }
+            }
+
+            $payment->militarySteps = abs($newPosition - $currentPosition);
+            $payment->militaryOldPosition = $currentPosition;
+            $payment->militaryNewPosition = $newPosition;
+        }
     }
     
     public static function getVictoryPoints(Player $player) {

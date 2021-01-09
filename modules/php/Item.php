@@ -128,30 +128,34 @@ class Item extends Base
                 ]
             );
         }
-        if ($this->military > 0) {
+        $divinityNeptune = $payment->getItem() instanceof Divinity && $payment->getItem()->id == 15;
+        if ($this->military > 0 || $divinityNeptune) {
             MilitaryTrack::movePawn($player, $this->military, $payment);
 
+            $message = null;
             if($payment->getItem() instanceof Decree) {
                 $message = clienttranslate('The Conflict pawn moves 1 space towards ${towards_player_name}\'s capital');
             }
             elseif($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
                 $message = clienttranslate('${player_name} moves the Conflict pawn ${steps} space(s) (+1 from Progress token “${progressTokenName}”)');
             }
-            else {
+            elseif (!$divinityNeptune) {
                 $message = clienttranslate('${player_name} moves the Conflict pawn ${steps} space(s)');
             }
 
-            SevenWondersDuelPantheon::get()->notifyAllPlayers(
-                'message',
-                $message,
-                [
-                    'i18n' => ['progressTokenName'],
-                    'player_name' => $player->name,
-                    'towards_player_name' => $player == Player::getActive() ? Player::getActive()->getOpponent()->name : Player::getActive()->name,
-                    'steps' => $payment->militarySteps,
-                    'progressTokenName' => ProgressToken::get(8)->name, //Strategy
-                ]
-            );
+            if ($message) {
+                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                    'message',
+                    $message,
+                    [
+                        'i18n' => ['progressTokenName'],
+                        'player_name' => $player->name,
+                        'towards_player_name' => $player == Player::getActive() ? Player::getActive()->getOpponent()->name : Player::getActive()->name,
+                        'steps' => $payment->militarySteps,
+                        'progressTokenName' => ProgressToken::get(8)->name, //Strategy
+                    ]
+                );
+            }
 
             $opponent = $player->getOpponent();
             $payment->militarySenateActions = [];

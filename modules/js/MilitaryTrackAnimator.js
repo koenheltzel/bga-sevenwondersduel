@@ -59,7 +59,10 @@ define([
                     let stepSize = delta / payment.militarySteps;
 
                     let position = startPosition;
-                    while(position != endPosition) {
+                    let divinationNeptune = position == endPosition && payment.militarySteps > 0;
+                    while(position != endPosition || divinationNeptune) {
+                        divinationNeptune = false;
+
                         // First animate a step
                         anims.push(dojo.animateProperty({
                             node: $('conflict_pawn'),
@@ -138,7 +141,6 @@ define([
                                     [0, yOffset + ((tokenNode.offsetHeight - opponentCoinsContainer.offsetHeight) / 2)]
                                 ));
                             }
-
 
                             // Fade out military token.
                             anims.push(dojo.fadeOut({

@@ -598,6 +598,9 @@ define([
                 dojo.subscribe('discardMilitaryToken', this, "notif_discardMilitaryToken");
                 this.notifqueue.setSynchronous('discardMilitaryToken');
 
+                dojo.subscribe('applyMilitaryToken', this, "notif_applyMilitaryToken");
+                this.notifqueue.setSynchronous('applyMilitaryToken');
+
                 // Agora
 
                 dojo.subscribe('constructConspiracy', this, "notif_constructConspiracy");
@@ -4339,6 +4342,27 @@ define([
 
                         });
                 }
+            },
+
+            notif_applyMilitaryToken: function (notif) {
+                if (this.debug) console.log('notif_applyMilitaryToken', notif);
+
+                let anim = bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment);
+                console.log('anim.duration',anim.duration);
+                //
+                // let militaryTokenNode = dojo.query('.military_token_container[data-military-token-number="' + notif.args.token + '"] .military_token')[0];
+                //
+                // let anim = dojo.fadeOut({
+                //     node: militaryTokenNode,
+                //     duration: this.constructBuildingAnimationDuration * 0.4,
+                //     onEnd: dojo.hitch(this, function (node) {
+                //         dojo.destroy(node);
+                //     })
+                // });
+                anim.play();
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration + 3000);
             },
 
             //   ____ _                            ____  _       _       _ _           _____                      _____              ____              _

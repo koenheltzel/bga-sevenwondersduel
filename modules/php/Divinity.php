@@ -15,6 +15,7 @@ class Divinity extends Item {
 
     public $type;
     public $typeName;
+    public $neptuneMilitaryTokenNumber = null;
 
     /**
      * @param $id
@@ -92,6 +93,21 @@ class Divinity extends Item {
                 'space' => $space,
             ]
         );
+    }
+
+    /**
+     * @param Player $player
+     * @param $token
+     * @return PaymentPlan
+     */
+    public function neptuneApplyMilitaryToken(Player $player, $token) {
+        $this->neptuneMilitaryTokenNumber = $token;
+
+        $payment = parent::construct($player);
+
+        $this->constructEffects($player, $payment);
+
+        return $payment;
     }
 
     /**
