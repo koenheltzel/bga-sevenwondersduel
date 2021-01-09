@@ -87,6 +87,13 @@ class Player extends Base{
     /**
      * @return Player
      */
+    public static function getStartPlayer() {
+        return self::get(SevenWondersDuelPantheon::get()->getGameStartPlayerId());
+    }
+
+    /**
+     * @return Player
+     */
     public static function getActive() {
         return self::get(SevenWondersDuelPantheon::get()->getActivePlayerId());
     }

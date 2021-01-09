@@ -272,10 +272,9 @@
                                 <div></div>
                             </div>
                             <div id="military_tokens">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
+                                <!-- BEGIN military_token -->
+                                <div class="military_token_container" data-military-token-number="{NUMBER}"></div>
+                                <!-- END military_token -->
                             </div>
                         </div>
                         <div id="pantheon_board_container" class="pantheon">

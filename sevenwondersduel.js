@@ -355,6 +355,14 @@ define([
                         .on("#swd[data-state=playerTurn] .pantheon_space_containers .divinity.divinity_border :click",
                             dojo.hitch(this, "onActivateDivinityClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=discardMilitaryToken] .military_token.red_border :click",
+                            dojo.hitch(this, "onDiscardMilitaryTokenClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=applyMilitaryToken] .military_token.red_border :click",
+                            dojo.hitch(this, "onApplyMilitaryTokenClick")
+                        );
 
                     // Pantheon click handlers without event delegation:
                     dojo.query("#activate_divinity_confirm").on("click", dojo.hitch(this, "onActivateDivinityConfirmClick"));
@@ -586,6 +594,9 @@ define([
 
                 dojo.subscribe('activateDivinity', this, "notif_activateDivinity");
                 this.notifqueue.setSynchronous('activateDivinity');
+
+                dojo.subscribe('discardMilitaryToken', this, "notif_discardMilitaryToken");
+                this.notifqueue.setSynchronous('discardMilitaryToken');
 
                 // Agora
 
@@ -4230,6 +4241,58 @@ define([
 
             onEnterDiscardMilitaryToken: function (args) {
                 if (this.debug) console.log('onEnterDiscardMilitaryToken', args);
+
+                if (this.isCurrentPlayerActive()) {
+                    dojo.query('#military_tokens .military_token').addClass('red_border');
+                }
+            },
+
+            onDiscardMilitaryTokenClick: function (e) {
+                if (this.debug) console.log('onDiscardMilitaryTokenClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    let militaryTokenNode = dojo.hasClass(e.target, 'military_token_container') ? e.target : dojo.query(e.target).closest(".military_token_container")[0];
+                    let militaryTokenNumber = dojo.attr(militaryTokenNode, 'data-military-token-number');
+
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionDiscardMilitaryToken')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionDiscardMilitaryToken.html", {
+                            lock: true,
+                            token: militaryTokenNumber
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        });
+                }
+            },
+
+            notif_discardMilitaryToken: function (notif) {
+                if (this.debug) console.log('notif_discardMilitaryToken', notif);
+
+                let militaryTokenNode = dojo.query('.military_token_container[data-military-token-number="' + notif.args.token + '"] .military_token')[0];
+
+                let anim = dojo.fadeOut({
+                    node: militaryTokenNode,
+                    duration: this.constructBuildingAnimationDuration * 0.4,
+                    onEnd: dojo.hitch(this, function (node) {
+                        dojo.destroy(node);
+                    })
+                });
+                anim.play();
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration);
             },
 
             //     _                _         __  __ _ _ _ _                     _____     _
@@ -4241,6 +4304,41 @@ define([
 
             onEnterApplyMilitaryToken: function (args) {
                 if (this.debug) console.log('onEnterApplyMilitaryToken', args);
+
+                if (this.isCurrentPlayerActive()) {
+                    this.clearRedBorder();
+                    dojo.query('#military_tokens .military_token').addClass('red_border');
+                }
+            },
+
+            onApplyMilitaryTokenClick: function (e) {
+                if (this.debug) console.log('onApplyMilitaryTokenClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    let militaryTokenNode = dojo.hasClass(e.target, 'military_token_container') ? e.target : dojo.query(e.target).closest(".military_token_container")[0];
+                    let militaryTokenNumber = dojo.attr(militaryTokenNode, 'data-military-token-number');
+
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionApplyMilitaryToken')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionApplyMilitaryToken.html", {
+                            lock: true,
+                            token: militaryTokenNumber
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        });
+                }
             },
 
             //   ____ _                            ____  _       _       _ _           _____                      _____              ____              _

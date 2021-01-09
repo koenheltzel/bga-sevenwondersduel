@@ -350,10 +350,10 @@ trait NextPlayerTurnTrait {
         $conflictPawnPosition = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION);
         if ($conflictPawnPosition <= -9 || $conflictPawnPosition >= 9) {
             if ($conflictPawnPosition >= 9) {
-                $militarySupremacyPlayer = Player::get(SevenWondersDuelPantheon::get()->getGameStartPlayerId());
+                $militarySupremacyPlayer = Player::getStartPlayer();
             }
             else {
-                $militarySupremacyPlayer = Player::get(SevenWondersDuelPantheon::get()->getGameStartPlayerId())->getOpponent();
+                $militarySupremacyPlayer = Player::getStartPlayer()->getOpponent();
             }
         }
 

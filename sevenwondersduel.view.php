@@ -93,6 +93,7 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board_player");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "influence_cube");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "influence_container");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "military_token");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "pantheon_cost");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "pantheon_space");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board");
@@ -118,6 +119,7 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
             $this->page->reset_subblocks('board');
             $this->page->reset_subblocks('board_player');
             $this->page->reset_subblocks('board_player_row');
+            $this->page->reset_subblocks('military_token');
             $this->page->reset_subblocks('pantheon_cost');
             $this->page->reset_subblocks('pantheon_space');
             $this->page->reset_subblocks('influence_container');
@@ -140,6 +142,11 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
                 foreach ($spaces as $space) {
                     $this->page->insert_block("pantheon_cost", ["SPACE" => $space]);
                     $this->page->insert_block("pantheon_space", ["SPACE" => $space]);
+                }
+
+                $tokenNumbers = $playerId == SevenWondersDuelPantheon::get()->getGameStartPlayerId() ? [4,3,2,1] : [1,2,3,4];
+                foreach ($tokenNumbers as $tokenNumber) {
+                    $this->page->insert_block("military_token", ["NUMBER" => $tokenNumber]);
                 }
 
                 $this->page->insert_block("board");
