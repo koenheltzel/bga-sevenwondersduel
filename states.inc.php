@@ -67,6 +67,13 @@ $constructBuildingTransitions = array_merge($militaryTokenTransitions, [
     SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_ID,
 ]);
 
+$constructWonderTransitions = array_merge($militaryTokenTransitions, [
+    SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_ID,
+    SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
+    SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_ID,
+    SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME => SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID,
+]);
+
 $divinityStateTransitions = [
     SevenWondersDuelPantheon::STATE_DECONSTRUCT_WONDER_NAME => SevenWondersDuelPantheon::STATE_DECONSTRUCT_WONDER_ID,
     SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_ID,
@@ -77,6 +84,7 @@ $divinityStateTransitions = [
     SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_ID,
     SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_ID,
     SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
+    SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_ID,
 ];
 
 $conspiracyStateTransitions = [
@@ -195,17 +203,11 @@ $machinestates = [
             $conspiracyStateTransitions, // Support all conspiracy actions
             $divinityStateTransitions, // Support all divinity actions
             $constructBuildingTransitions, // Support all construct building actions
+            $constructWonderTransitions, // Support all construct wonder actions
             [
                 SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID, // After triggering conspiracy
                 SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
                 SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
-                SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_ID,
-                SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
-                SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_ID,
-                SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME => SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID,
-                SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_ID,
-                SevenWondersDuelPantheon::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_REMOVE_INFLUENCE_ID,
-                SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID, // If remove influence is skipped
                 SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // For immediate victories, skipping special wonder action states.
                 SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             ]
@@ -410,6 +412,26 @@ $machinestates = [
             "actionDeconstructWonder",
         ],
         "transitions" => array_merge(
+            [
+                SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+                SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
+                SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            ]
+        )
+    ],
+
+    SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_ID => [
+        "name" => SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME,
+        "description" => clienttranslate('${actplayer} must choose a discarded card and construct a Wonder for free using that card'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a discarded card and construct a Wonder for free using that card'),
+        "type" => "activeplayer",
+        "action" => "enterStateConstructWonderWithDiscardedBuilding",
+        "args" => "argConstructWonderWithDiscardedBuilding",
+        "possibleactions" => [
+            "actionConstructWonder",
+        ],
+        "transitions" => array_merge(
+            $constructWonderTransitions, // Support all construct building actions
             [
                 SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
                 SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,

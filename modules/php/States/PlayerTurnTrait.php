@@ -165,8 +165,18 @@ trait PlayerTurnTrait {
 
         $player = Player::getActive();
         $building = Building::get($buildingId);
-        $building->checkBuildingAvailable();
 
+        $discardedBuilding = false;
+        if (SevenWondersDuelPantheon::get()->gamestate->state()['name'] == SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME) {
+            $card = $this->buildingDeck->getCard($buildingId);
+            if ($card['location'] != 'discard') {
+                throw new \BgaUserException( clienttranslate("The building you selected is not in the discard pile.") );
+            }
+            $discardedBuilding = true;
+        }
+        else {
+            $building->checkBuildingAvailable();
+        }
 
         if (!in_array($wonderId, $player->getWonderIds())) {
             throw new \BgaUserException( clienttranslate("The wonder you selected is not available.") );
@@ -177,7 +187,7 @@ trait PlayerTurnTrait {
             throw new \BgaUserException( clienttranslate("The wonder you selected has already been constructed.") );
         }
 
-        $payment = $wonder->construct($player, $building);
+        $payment = $wonder->construct($player, $building, $discardedBuilding);
 
         $this->incStat(1, self::STAT_WONDERS_CONSTRUCTED, $player->id);
 

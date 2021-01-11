@@ -363,6 +363,14 @@ define([
                         .on("#swd[data-state=applyMilitaryToken] .military_token.red_border :click",
                             dojo.hitch(this, "onApplyMilitaryTokenClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=constructWonderWithDiscardedBuilding] #discarded_cards_container .building_small:click",
+                            dojo.hitch(this, "onConstructWonderWithDiscardedBuildingClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=constructWonderWithDiscardedBuilding] #player_wonders_" + this.me_id + " .wonder_small:click",
+                            dojo.hitch(this, "onConstructWonderWithDiscardedBuildingWonderClick")
+                        );
 
                     // Pantheon click handlers without event delegation:
                     dojo.query("#activate_divinity_confirm").on("click", dojo.hitch(this, "onActivateDivinityConfirmClick"));
@@ -3190,6 +3198,7 @@ define([
                     this.updateWondersSituation(notif.args.wondersSituation);
 
                     var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
+                    var buildingNodeParent = buildingNode.parentElement; // Only used when we are constructing with a discarded building (Divinity Isis)
 
                     // Animate age card towards wonder:
                     if (1) {
@@ -3305,6 +3314,12 @@ define([
                             dojo.style(ageCardNode, 'z-index', 1);
                             dojo.style(wonderNode, 'z-index', 2);
                             dojo.style(wonderContainer, 'z-index', 10);
+
+                            this.clearRedBorder();
+                            var whiteblock = $('lower_divs_container');
+                            window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
+                            this.freezeLayout = 0;
+                            dojo.destroy(buildingNodeParent); // Destroy old parent (container in discarded buildings block).
                         }));
 
                         // Wait for animation before handling the next notification (= state change).
@@ -4193,6 +4208,103 @@ define([
                 return 0;
             },
 
+            //  ____                           _                   _    __        __              _
+            // |  _ \  ___  ___ ___  _ __  ___| |_ _ __ _   _  ___| |_  \ \      / /__  _ __   __| | ___ _ __
+            // | | | |/ _ \/ __/ _ \| '_ \/ __| __| '__| | | |/ __| __|  \ \ /\ / / _ \| '_ \ / _` |/ _ \ '__|
+            // | |_| |  __/ (_| (_) | | | \__ \ |_| |  | |_| | (__| |_    \ V  V / (_) | | | | (_| |  __/ |
+            // |____/ \___|\___\___/|_| |_|___/\__|_|   \__,_|\___|\__|    \_/\_/ \___/|_| |_|\__,_|\___|_|
+
+            onEnterDeconstructWonder: function (args) {
+                if (this.debug) console.log('onEnterDeconstructWonder', args);
+            },
+
+
+
+        //     if (notif.args.payment.discardedCard) {
+        //     dojo.connect(buildingMoveAnim, 'onEnd', dojo.hitch(this, function (node) {
+        //         var whiteblock = $('lower_divs_container');
+        //         dojo.removeClass(whiteblock, 'red_border');
+        //         window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
+        //         this.freezeLayout = 0;
+        //         dojo.destroy(buildingNodeParent); // Destroy old parent (container in discarded buildings block).
+        //     }));
+        // }
+
+
+            //   ____                _                   _    __        __              _            __        ___ _   _       ____  _                       _          _   ____        _ _     _ _
+            //  / ___|___  _ __  ___| |_ _ __ _   _  ___| |_  \ \      / /__  _ __   __| | ___ _ __  \ \      / (_) |_| |__   |  _ \(_)___  ___ __ _ _ __ __| | ___  __| | | __ ) _   _(_) | __| (_)_ __   __ _
+            // | |   / _ \| '_ \/ __| __| '__| | | |/ __| __|  \ \ /\ / / _ \| '_ \ / _` |/ _ \ '__|  \ \ /\ / /| | __| '_ \  | | | | / __|/ __/ _` | '__/ _` |/ _ \/ _` | |  _ \| | | | | |/ _` | | '_ \ / _` |
+            // | |__| (_) | | | \__ \ |_| |  | |_| | (__| |_    \ V  V / (_) | | | | (_| |  __/ |      \ V  V / | | |_| | | | | |_| | \__ \ (_| (_| | | | (_| |  __/ (_| | | |_) | |_| | | | (_| | | | | | (_| |
+            //  \____\___/|_| |_|___/\__|_|   \__,_|\___|\__|    \_/\_/ \___/|_| |_|\__,_|\___|_|       \_/\_/  |_|\__|_| |_| |____/|_|___/\___\__,_|_|  \__,_|\___|\__,_| |____/ \__,_|_|_|\__,_|_|_| |_|\__, |
+            //                                                                                                                                                                                            |___/
+
+            onEnterConstructWonderWithDiscardedBuilding: function (args) {
+                if (this.debug) console.log('onEnterConstructWonderWithDiscardedBuilding', args);
+
+                if (this.isCurrentPlayerActive()) {
+                    var whiteblock = $('discarded_cards_whiteblock');
+                    dojo.addClass(whiteblock, 'red_border');
+
+                    // Scroll so the discarded card whiteblock is visible (remember the scroll position so we can restore the view later).
+                    this.freezeLayout = 1;
+                    this.rememberScrollX = window.scrollX;
+                    this.rememberScrollY = window.scrollY;
+                    whiteblock.scrollIntoView(false);
+                }
+            },
+
+            onConstructWonderWithDiscardedBuildingClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onConstructWonderWithDiscardedBuildingClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    var buildingNode = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
+
+                    this.clearRedBorder();
+                    dojo.addClass(buildingNode, 'red_border');
+                    var buildingId = dojo.attr(buildingNode, "data-building-id");
+
+                    dojo.query('#player_wonders_' + this.getActivePlayerId() + ' .wonder[data-constructed="0"]').addClass('red_border');
+
+                    this.deconstructWonderDiscardedBuildingId = buildingId;
+                }
+            },
+
+            onConstructWonderWithDiscardedBuildingWonderClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onConstructWonderWithDiscardedBuildingWonderClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionConstructWonder')) {
+                        return;
+                    }
+
+                    var wonderNode = dojo.hasClass(e.target, 'wonder') ? e.target : dojo.query(e.target).closest(".wonder")[0];
+                    var wonderId = dojo.attr(wonderNode, "data-wonder-id");
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionConstructWonder.html", {
+                            lock: true,
+                            buildingId: this.deconstructWonderDiscardedBuildingId,
+                            wonderId: wonderId,
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
             //   ____ _                            _____       _    _   ____                                      _____     _
             //  / ___| |__   ___   ___  ___  ___  | ____|_ __ | | _(_) |  _ \ _ __ ___   __ _ _ __ ___  ___ ___  |_   _|__ | | _____ _ __
             // | |   | '_ \ / _ \ / _ \/ __|/ _ \ |  _| | '_ \| |/ / | | |_) | '__/ _ \ / _` | '__/ _ \/ __/ __|   | |/ _ \| |/ / _ \ '_ \
@@ -4283,6 +4395,8 @@ define([
             notif_discardMilitaryToken: function (notif) {
                 if (this.debug) console.log('notif_discardMilitaryToken', notif);
 
+                this.clearRedBorder();
+
                 let militaryTokenNode = dojo.query('.military_token_container[data-military-token-number="' + notif.args.token + '"] .military_token')[0];
 
                 let anim = dojo.fadeOut({
@@ -4295,7 +4409,7 @@ define([
                 anim.play();
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
             },
 
             //     _                _         __  __ _ _ _ _                     _____     _
@@ -4347,22 +4461,13 @@ define([
             notif_applyMilitaryToken: function (notif) {
                 if (this.debug) console.log('notif_applyMilitaryToken', notif);
 
+                this.clearRedBorder();
+
                 let anim = bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment);
-                console.log('anim.duration',anim.duration);
-                //
-                // let militaryTokenNode = dojo.query('.military_token_container[data-military-token-number="' + notif.args.token + '"] .military_token')[0];
-                //
-                // let anim = dojo.fadeOut({
-                //     node: militaryTokenNode,
-                //     duration: this.constructBuildingAnimationDuration * 0.4,
-                //     onEnd: dojo.hitch(this, function (node) {
-                //         dojo.destroy(node);
-                //     })
-                // });
                 anim.play();
 
                 // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + 3000);
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
             },
 
             //   ____ _                            ____  _       _       _ _           _____                      _____              ____              _

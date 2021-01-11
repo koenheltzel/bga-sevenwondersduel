@@ -23,6 +23,10 @@
     cursor: pointer;
 }
 
+.current_player_is_active #swd[data-state=constructWonderWithDiscardedBuilding] #discarded_cards_container .building_small {
+    cursor: pointer;
+}
+
 .discarded_cards_cursor {
     display: none !important;
 }

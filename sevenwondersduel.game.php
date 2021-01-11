@@ -75,6 +75,8 @@ class SevenWondersDuelPantheon extends Table
     use SWD\States\WonderSelectedTrait;
     // Pantheon
     use SWD\States\ChooseAndPlaceDivinityTrait;
+    use SWD\States\DeconstructWonderTrait;
+    use SWD\States\ConstructWonderWithDiscardedBuildingTrait;
     use SWD\States\ChooseEnkiProgressTokenTrait;
     use SWD\States\PlaceSnakeTokenTrait;
     use SWD\States\DiscardAgeCardTrait;
