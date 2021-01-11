@@ -371,6 +371,10 @@ define([
                         .on("#swd[data-state=constructWonderWithDiscardedBuilding] #player_wonders_" + this.me_id + " .wonder_small:click",
                             dojo.hitch(this, "onConstructWonderWithDiscardedBuildingWonderClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=deconstructWonder] .player_wonders .red_border:click",
+                            dojo.hitch(this, "onDeconstructWonderClick")
+                        );
 
                     // Pantheon click handlers without event delegation:
                     dojo.query("#activate_divinity_confirm").on("click", dojo.hitch(this, "onActivateDivinityConfirmClick"));
@@ -608,6 +612,9 @@ define([
 
                 dojo.subscribe('applyMilitaryToken', this, "notif_applyMilitaryToken");
                 this.notifqueue.setSynchronous('applyMilitaryToken');
+
+                dojo.subscribe('deconstructWonder', this, "notif_deconstructWonder");
+                this.notifqueue.setSynchronous('deconstructWonder');
 
                 // Agora
 
@@ -4216,6 +4223,114 @@ define([
 
             onEnterDeconstructWonder: function (args) {
                 if (this.debug) console.log('onEnterDeconstructWonder', args);
+
+                let constructedWonders = dojo.query('.player_wonders .wonder[data-constructed="1"]');
+                constructedWonders.forEach(function(wonderNode){
+                    dojo.addClass(dojo.query('.age_card_container .building_small', wonderNode.parentElement)[0], 'red_border');
+                    dojo.addClass(wonderNode, 'red_border');
+                });
+            },
+
+            onDeconstructWonderClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onDeconstructWonderClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionDeconstructWonder')) {
+                        return;
+                    }
+
+                    var wonderNode = dojo.hasClass(e.target, 'wonder') ? e.target : dojo.query(e.target).closest(".wonder")[0];
+                    var wonderId = dojo.attr(wonderNode, "data-wonder-id");
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionDeconstructWonder.html", {
+                            lock: true,
+                            wonderId: wonderId,
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_deconstructWonder: function (notif) {
+                if (this.debug) console.log('notif_destroyConstructedWonder', notif);
+
+                this.clearRedBorder();
+
+                let wonderNode = $('wonder_' + notif.args.wonderId);
+                let wonderContainer = $('wonder_' + notif.args.wonderId + '_container');
+                let ageCardNode = dojo.query('.building_small', wonderContainer)[0];
+
+                var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
+                this.placeOnObjectPos(buildingNode, ageCardNode, 0, 0);
+                dojo.style(buildingNode, 'transform', 'rotate(-90deg) rotateY(-180deg) perspective(40em)'); // The rotateY(-90deg) affects the position the element will end up after the slide. Here's the place to apply it therefor, not before the animation instantiation.
+
+                dojo.style(ageCardNode, 'z-index', 20);
+                dojo.style(buildingNode, 'z-index', 20);
+
+                var anim = dojo.fx.chain([
+                    dojo.fx.combine([
+                        dojo.animateProperty({
+                            node: ageCardNode,
+                            duration: this.constructWonderAnimationDuration / 3,
+                            easing: dojo.fx.easing.linear,
+                            properties: {
+                                propertyXTransform: {start: -90, end: 0},
+                                propertyYTransform: {start: 0, end: 180}
+                            },
+                            onAnimate: function (values) {
+                                dojo.style(this.node, 'transform', 'perspective(40em) rotate(' + parseFloat(values.propertyXTransform.replace("px", "")) + 'deg) rotateY(' + parseFloat(values.propertyYTransform.replace("px", "")) + 'deg)');
+                            },
+                            onEnd: dojo.hitch(this, function (node) {
+                                dojo.destroy(node);
+                            })
+                        }),
+                        dojo.animateProperty({
+                            node: buildingNode,
+                            duration: this.constructWonderAnimationDuration / 3,
+                            easing: dojo.fx.easing.linear,
+                            properties: {
+                                propertyXTransform: {start: -90, end: 0},
+                                propertyYTransform: {start: -180, end: 0}
+                            },
+                            onAnimate: function (values) {
+                                dojo.style(this.node, 'transform', 'perspective(40em) rotate(' + parseFloat(values.propertyXTransform.replace("px", "")) + 'deg) rotateY(' + parseFloat(values.propertyYTransform.replace("px", "")) + 'deg)');
+                            }
+                        }),
+                    ]),
+                    dojo.animateProperty({
+                        node: buildingNode,
+                        duration: this.constructWonderAnimationDuration / 2,
+                        easing: dojo.fx.easing.linear,
+                        delay: this.constructWonderAnimationDuration / 4,
+                        properties: {
+                            top: 0,
+                            left: 0
+                        },
+                        onPlay: function (values) {
+                            dojo.style(this.node, 'z-index', 50);
+                        },
+                        onEnd: function (values) {
+                            dojo.style(this.node, 'z-index', 1);
+                        }
+                    }),
+                ]);
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+
+                anim.play();
             },
 
 

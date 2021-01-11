@@ -181,6 +181,10 @@
     outline-offset: 1px;
 }
 
+.age_card_container .red_border {
+    z-index: unset;
+}
+
 @keyframes red_border {
     from {
         outline-color: #ff000066;
