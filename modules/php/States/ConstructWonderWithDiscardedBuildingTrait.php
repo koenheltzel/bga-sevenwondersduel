@@ -2,6 +2,9 @@
 
 namespace SWD\States;
 
+use SWD\Divinity;
+use SWD\Player;
+
 trait ConstructWonderWithDiscardedBuildingTrait {
 
     /**
@@ -20,6 +23,29 @@ trait ConstructWonderWithDiscardedBuildingTrait {
     }
 
     public function shouldSkipConstructWonderWithDiscardedBuilding() {
+        if (count($this->buildingDeck->getCardsInLocation('discard')) == 0) {
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} can\'t choose a discarded card to construct a Wonder with (Divinity “${divinityName}”)'),
+                [
+                    'player_name' => Player::getActive()->name,
+                    'divinityName' => Divinity::get(11)->name,
+                ]
+            );
+            return true;
+        }
+        $activePlayer = Player::opponent();
+        if (count($activePlayer->getWonders()->filterByConstructed(false)->array) == 0) {
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} has no unconstructed Wonder to construct (Divinity “${divinityName}”)'),
+                [
+                    'i18n' => ['divinityName'],
+                    'divinityName' => Divinity::get(11)->name,
+                ]
+            );
+            return true;
+        }
         return false;
     }
 

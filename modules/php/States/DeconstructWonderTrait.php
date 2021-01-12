@@ -61,6 +61,18 @@ trait DeconstructWonderTrait {
     }
 
     public function shouldSkipDeconstructWonder() {
+        $activePlayer = Player::opponent();
+        if (count($activePlayer->getWonders()->filterByConstructed()->array) == 0 && count($activePlayer->getOpponent()->getWonders()->filterByConstructed()->array) == 0) {
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('There is no constructed Wonder to discard the Age card from (Divinity “${divinityName}”)'),
+                [
+                    'i18n' => ['divinityName'],
+                    'divinityName' => Divinity::get(10)->name,
+                ]
+            );
+            return true;
+        }
         return false;
     }
 
