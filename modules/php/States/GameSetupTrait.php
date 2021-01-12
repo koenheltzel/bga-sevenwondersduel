@@ -17,23 +17,28 @@ trait GameSetupTrait
 
         // Set up two 4-wonders selection pools, rest of the wonders go back to the box.
         $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards(1, 12));
-        if ($agora) {
-            if ($this->getGameStateValue(self::OPTION_AGORA_WONDERS)) {
-                // Guarantee the inclusion of the 2 Agora wonders by shuffling the 12 base game wonders and moving 6 of them to the box.
-                $this->wonderDeck->shuffle('deck');
-                $this->wonderDeck->pickCardsForLocation(6, 'deck', 'box');
-            }
-            $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards(13, 14));
+        if ($agora) $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards(13, 14));
+        if ($pantheon) $this->wonderDeck->createCards(Material::get()->wonders->getDeckCards(15, 16));
+        $this->matchDeckIds("wonder");
+
+        $selectWonders = 8;
+        if ($agora && $this->getGameStateValue(self::OPTION_AGORA_WONDERS)) {
+            $selectWonders -= 2;
+            $this->wonderDeck->moveCards([13, 14], 'selection');
+        }
+        if ($pantheon && $this->getGameStateValue(self::OPTION_PANTHEON_WONDERS)) {
+            $selectWonders -= 2;
+            $this->wonderDeck->moveCards([15, 16], 'selection');
         }
         $this->wonderDeck->shuffle('deck');
-        $this->wonderDeck->pickCardsForLocation(4, 'deck', 'selection1');
+        $this->wonderDeck->pickCardsForLocation($selectWonders, 'deck', 'selection');
+        $this->wonderDeck->shuffle('selection');
+
+        $this->wonderDeck->pickCardsForLocation(4, 'selection', 'selection1');
         $this->wonderDeck->shuffle('selection1'); // Ensures we have defined card_location_arg
-        $this->wonderDeck->pickCardsForLocation(4, 'deck', 'selection2');
+        $this->wonderDeck->pickCardsForLocation(4, 'selection', 'selection2');
         $this->wonderDeck->shuffle('selection2'); // Ensures we have defined card_location_arg
         $this->wonderDeck->moveAllCardsInLocation('deck', 'box');
-        // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and wonder ids.
-        self::DbQuery( "UPDATE wonder SET card_id = card_type_arg + 1000, card_type_arg = 0" );
-        self::DbQuery( "UPDATE wonder SET card_id = card_id - 1000" );
 
         if ($agora) {
             // Prepare senator cards
@@ -80,22 +85,24 @@ trait GameSetupTrait
 
         // Set up progress tokens
         $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards(1, 10));
-        if ($agora) {
-            if ($this->getGameStateValue(self::OPTION_AGORA_PROGRESS_TOKENS)) {
-                // Guarantee the inclusion of the 2 Agora progress tokens by shuffling the 10 base game tokens and moving 7 of them to the box.
-                $this->progressTokenDeck->shuffle('deck');
-                $this->progressTokenDeck->pickCardsForLocation(7, 'deck', 'box');
-            }
-            $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards(11, 12));
+        if ($agora) $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards(11, 12));
+        if ($pantheon) $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards(13, 14));
+        $this->matchDeckIds("progress_token");
+
+        $selectProgressTokens = 5;
+        if ($agora && $this->getGameStateValue(self::OPTION_AGORA_PROGRESS_TOKENS)) {
+            $selectProgressTokens -= 2;
+            $this->progressTokenDeck->moveCards([11, 12], 'board');
+        }
+        if ($pantheon && $this->getGameStateValue(self::OPTION_PANTHEON_PROGRESS_TOKENS)) {
+            $selectProgressTokens -= 2;
+            $this->progressTokenDeck->moveCards([13, 14], 'board');
         }
         $this->progressTokenDeck->shuffle('deck');
-        $this->progressTokenDeck->pickCardsForLocation(5, 'deck', 'board');
+        $this->progressTokenDeck->pickCardsForLocation($selectProgressTokens, 'deck', 'board');
         $this->progressTokenDeck->shuffle('board'); // Ensures we have defined card_location_arg
         // Return the remaining Progress Tokens to the box.
         $this->progressTokenDeck->moveAllCardsInLocation('deck', 'box');
-        // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and progress token ids.
-        self::DbQuery( "UPDATE progress_token SET card_id = card_type_arg + 1000, card_type_arg = 0" );
-        self::DbQuery( "UPDATE progress_token SET card_id = card_id - 1000" );
 
 
         if ($pantheon) {
@@ -119,25 +126,19 @@ trait GameSetupTrait
             $this->mythologyTokenDeck->shuffle('board'); // Ensures we have defined card_location_arg
             // Return the remaining Mythology Tokens to the box.
             $this->mythologyTokenDeck->moveAllCardsInLocation('deck', 'box');
-            // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and mythology token ids.
-            self::DbQuery( "UPDATE mythology_token SET card_id = card_type_arg + 1000, card_type_arg = 0" );
-            self::DbQuery( "UPDATE mythology_token SET card_id = card_id - 1000" );
+            $this->matchDeckIds("mythology_token");
             
             $this->offeringTokenDeck->createCards(Material::get()->offeringTokens->getDeckCards());
             $this->offeringTokenDeck->moveAllCardsInLocation('deck', 'board');
             $this->offeringTokenDeck->shuffle('board'); // Ensures we have defined card_location_arg
             // Return the remaining Offering Tokens to the box.
-            // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and offering token ids.
-            self::DbQuery( "UPDATE offering_token SET card_id = card_type_arg + 1000, card_type_arg = 0" );
-            self::DbQuery( "UPDATE offering_token SET card_id = card_id - 1000" );
+            $this->matchDeckIds("offering_token");
         }
         
         if ($agora) {
             // Set up decrees
             $this->decreeDeck->createCards(Material::get()->decrees->getDeckCards());
-            // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and decree ids.
-            self::DbQuery( "UPDATE decree SET card_id = card_type_arg + 1000, card_type_arg = 0" );
-            self::DbQuery( "UPDATE decree SET card_id = card_id - 1000" );
+            $this->matchDeckIds("decree");
             if (0) {
                 // TODO: remove these lines which defines a static set of decrees.
                 $i = 0;
@@ -164,9 +165,7 @@ trait GameSetupTrait
             // Set up conspiracies
             $this->conspiracyDeck->createCards(Material::get()->conspiracies->getDeckCards());
             $this->conspiracyDeck->shuffle('deck');
-            // Make the card ids match our material ids. This saves us a lot of headaches tracking both card ids and decree ids.
-            self::DbQuery( "UPDATE conspiracy SET card_id = card_type_arg + 1000, card_type_arg = 0" );
-            self::DbQuery( "UPDATE conspiracy SET card_id = card_id - 1000" );
+            $this->matchDeckIds("conspiracy");
 
             // TODO: remove these lines which put certain conspiracies on top.
             if (0) {
@@ -190,6 +189,11 @@ trait GameSetupTrait
 
         // Activate first player (which is in general a good idea :) )
         $this->activeNextPlayer();
+    }
+
+    private function matchDeckIds($deckName) {
+        self::DbQuery( "UPDATE {$deckName} SET card_id = card_type_arg + 1000, card_type_arg = 0" );
+        self::DbQuery( "UPDATE {$deckName} SET card_id = card_id - 1000" );
     }
 
 }
