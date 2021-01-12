@@ -1308,7 +1308,7 @@ define([
                     let divinityNode = dojo.query('div[data-space=' + space + '] .divinity', tokensContainer)[0];
 
                     for (var playerId in this.gamedatas.players) {
-                        if (playerId == this.player_id) {
+                        if (playerId == this.player_id && spaceData.activatable) {
                             dojo.attr(divinityNode, 'data-activatable', spaceData.activatable[playerId]);
                         }
                         let alias = this.getPlayerAlias(playerId);
@@ -2216,7 +2216,7 @@ define([
                 var spaceNode = dojo.query(node).closest(".pantheon_space")[0];
                 if (spaceNode) {
                     let space = dojo.attr(spaceNode, 'data-space');
-                    if (this.gamedatas.divinitiesSituation.spaces[space].payment) {
+                    if (this.gamedatas.divinitiesSituation.spaces[space] && this.gamedatas.divinitiesSituation.spaces[space].payment) {
                         meCoinHtml = dojo.query('.pantheon_cost_containers div[data-space=' + space + '] .me .coin')[0].outerHTML;
                         data.jsCostMe = this.format_block('jstpl_tooltip_cost_me', {
                             translateCurrentCost: _("Current activation cost for you"),

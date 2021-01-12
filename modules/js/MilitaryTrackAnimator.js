@@ -81,6 +81,18 @@ define([
                         position += stepSize;
 
                         let realPosition = this.game.invertMilitaryTrack()? -position : position;
+                        // Then check if a Poliorcetics coin should be animated.
+                        if (payment.militaryPoliorceticsPositions[realPosition]) {
+                            let opponentCoinsContainer = this.game.getPlayerCoinContainer(opponent_id);
+
+                            // Animate coins to fly from opponent coins total to conflict pawn
+                            anims.push(bgagame.CoinAnimator.get().getAnimation(
+                                opponentCoinsContainer,
+                                dojo.query('#board_container .military_position[data-position="' + position + '"]')[0],
+                                1,
+                                opponent_id,
+                            ));
+                        }
                         // Then check if a token was encountered (before performing the next step).
                         if (payment.militaryTokens[realPosition]) {
                             let token = payment.militaryTokens[realPosition];
@@ -152,6 +164,18 @@ define([
                             }));
                         }
                     }
+
+                    if (payment.militaryRemoveMinerva) {
+                        // Fade out Minerva pawn.
+                        anims.push(dojo.fadeOut({
+                            node: $('minerva_pawn'),
+                            duration: this.militaryTokenAnimationDuration * 0.4,
+                            onEnd: dojo.hitch(this, function (node) {
+                                // dojo.destroy(node);
+                            })
+                        }));
+                    }
+
                     return dojo.fx.chain(anims);
                 }
                 return dojo.fx.combine([]);

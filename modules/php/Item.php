@@ -187,18 +187,14 @@ class Item extends Base
                     }
                 }
                 else {
-                    $militaryOpponentPays = min($token['value'], $opponent->getCoins());
-                    $token['militaryOpponentPays'] = $militaryOpponentPays;
-                    if ($militaryOpponentPays > 0) {
-                        $opponent->increaseCoins(-$militaryOpponentPays);
-
+                    if ($token['militaryOpponentPays'] > 0) {
                         SevenWondersDuelPantheon::get()->notifyAllPlayers(
                             'message',
                             clienttranslate('A military “${value} coins” token is removed, ${player_name} discards ${coins} coin(s)'),
                             [
                                 'value' => $token['value'],
                                 'player_name' => $opponent->name,
-                                'coins' => $militaryOpponentPays,
+                                'coins' => $token['militaryOpponentPays'],
                             ]
                         );
                     } else {
@@ -211,9 +207,32 @@ class Item extends Base
                             ]
                         );
                     }
-                    $payment->militaryOpponentPays += $militaryOpponentPays;
                 }
             }
+
+
+            if (count($payment->militaryPoliorceticsPositions) > 0) {
+                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                    'message',
+                    clienttranslate('${opponentName} discarded ${coins} coin(s) for ${player_name}\'s Conflict pawn movement (Progress Token “${progressTokenName}”)'),
+                    [
+                        'i18n' => ['progressTokenName'],
+                        'player_name' => $player->name,
+                        'opponentName' => $opponent->name,
+                        'progressTokenName' => ProgressToken::get(15)->name,
+                        'coins' => count($payment->militaryPoliorceticsPositions),
+                    ]
+                );
+            }
+
+            if ($payment->militaryRemoveMinerva) {
+                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                    'message',
+                    clienttranslate('The Conflict pawn movement ended because the Minerva pawn blocked it, the Minerva pawn was then discarded.'),
+                    []
+                );
+            }
+
             if ($player !== Player::getActive() && SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) && count($payment->militaryTokens) > 0) {
                 $payment->militarySenateActions[] = SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME;
             }
