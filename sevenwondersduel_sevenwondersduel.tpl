@@ -261,8 +261,14 @@
                         </div>
                         <div id="board_container">
                             <div class="board"></div>
-                            <div id="capital_opponent" class="capital"></div>
-                            <div id="capital_me" class="capital"></div>
+                            <!-- BEGIN military_position -->
+                            <div id="{ID}" data-position="{POSITION}" class="military_position" style="--military-visual-index: {INDEX}">
+                                <svg viewBox="0 0 80 40">
+                                    <ellipse cx="40" cy="20" rx="37" ry="18"></ellipse>
+                                </svg>
+                            </div>
+                            <!-- END military_position -->
+                            <div id="minerva_pawn" class="minerva_pawn"></div>
                             <div id="conflict_pawn" class="pawn"></div>
                             <div id="board_progress_tokens">
                                 <div></div>

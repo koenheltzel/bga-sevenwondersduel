@@ -2,3 +2,7 @@
 .current_player_is_active #swd[data-state=deconstructWonder] .player_wonders .red_border {
     cursor: pointer;
 }
+
+.current_player_is_active #swd[data-state=placeMinervaToken] #board_container .military_position.red_stroke {
+    cursor: pointer;
+}

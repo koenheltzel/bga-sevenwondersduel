@@ -201,7 +201,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
     public function actionPlaceMinervaToken() {
         self::setAjaxMode();
 
-        $position = self::getArg("position", AT_posint, true);
+        $position = self::getArg("position", AT_int, true);
         SevenWondersDuelPantheon::get()->actionPlaceMinervaToken($position);
 
         self::ajaxResponse();

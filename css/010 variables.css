@@ -121,6 +121,7 @@
     --military-track-header: 0.0434;
     --military-track-body: 0.87;
     --conflict-pawn-position: 0; /* -9 to 9 */
+    --minerva-pawn-position: -999; /* -9 to 9 */
 
     --list-of-cards-scale: calc(var(--scale) * 0.75);
 }

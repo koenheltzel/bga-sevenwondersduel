@@ -107,7 +107,7 @@ class MilitaryTrack extends Base
     }
 
     public static function getData() {
-        return [
+        $data = [
             'tokens' => [
                 1 => SevenWondersDuelPantheon::get()->getMilitaryTokenValue(1),
                 2 => SevenWondersDuelPantheon::get()->getMilitaryTokenValue(2),
@@ -116,6 +116,10 @@ class MilitaryTrack extends Base
             ],
             'conflictPawn' => SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION)
         ];
+        if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON)) {
+            $data['minervaPawn'] = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_MINERVA_PAWN_POSITION);
+        }
+        return $data;
     }
 
 }

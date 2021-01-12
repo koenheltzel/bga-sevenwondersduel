@@ -375,6 +375,10 @@ define([
                         .on("#swd[data-state=deconstructWonder] .player_wonders .red_border:click",
                             dojo.hitch(this, "onDeconstructWonderClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=placeMinervaToken] #board_container .military_position.red_stroke:click",
+                            dojo.hitch(this, "onPlaceMinervaTokenClick")
+                        );
 
                     // Pantheon click handlers without event delegation:
                     dojo.query("#activate_divinity_confirm").on("click", dojo.hitch(this, "onActivateDivinityConfirmClick"));
@@ -615,6 +619,9 @@ define([
 
                 dojo.subscribe('deconstructWonder', this, "notif_deconstructWonder");
                 this.notifqueue.setSynchronous('deconstructWonder');
+
+                dojo.subscribe('placeMinervaToken', this, "notif_placeMinervaToken");
+                this.notifqueue.setSynchronous('placeMinervaToken');
 
                 // Agora
 
@@ -1677,6 +1684,9 @@ define([
                 }
 
                 this.setCssVariable('--conflict-pawn-position', this.me_id == this.gamedatas.startPlayerId ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn);
+                if (typeof militaryTrack.minervaPawn !== 'undefined') {
+                    this.setCssVariable('--minerva-pawn-position', this.me_id == this.gamedatas.startPlayerId ? -militaryTrack.minervaPawn : militaryTrack.minervaPawn);
+                }
             },
 
             //   _____           _ _   _
@@ -4460,6 +4470,72 @@ define([
 
             onEnterPlaceMinervaToken: function (args) {
                 if (this.debug) console.log('onEnterPlaceMinervaToken', args);
+
+                let pawnPosition = args.militaryTrack.conflictPawn;
+                console.log('pawnPosition',pawnPosition);
+                dojo.query('#board_container .military_position:not([data-position="' + args.militaryTrack.conflictPawn + '"])').addClass('red_stroke');
+            },
+
+            onPlaceMinervaTokenClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onPlaceMinervaTokenClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionPlaceMinervaToken')) {
+                        return;
+                    }
+
+                    var positionNode = dojo.hasClass(e.target, 'military_position') ? e.target : dojo.query(e.target).closest(".military_position")[0];
+                    var position = parseInt(dojo.attr(positionNode, "data-position"));
+                    console.log('position', position);
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionPlaceMinervaToken.html", {
+                            lock: true,
+                            position: position,
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_placeMinervaToken: function (notif) {
+                if (this.debug) console.log('notif_placeMinervaToken', notif);
+
+                dojo.query('#board_container .military_position').removeClass('red_stroke');
+
+                var divinityNode = dojo.query('.divinity_small[data-divinity-id="14"]')[0];
+                let minervaNode = $('minerva_pawn');
+                this.placeOnObject(minervaNode, divinityNode);
+
+                let positionNode = dojo.query("#board_container .military_position[data-position=" + notif.args.militaryTrack.minervaPawn + "]")[0];
+                dojo.style(minervaNode, 'z-index', 100);
+                var anim = this.slideToObject(minervaNode, positionNode, this.progressTokenDuration);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    // As a fallback for the animation.
+                    this.updateMilitaryTrack(notif.args.militaryTrack);
+
+                    // Unset top/left attributes so the .minerva_pawn class takes over positioning the Minerva pawn
+                    dojo.style(minervaNode, 'top', '');
+                    dojo.style(minervaNode, 'left', '');
+                }));
+
+                // Wait for animation before handling the next notification (= state change).
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+
+                anim.play();
+
             },
 
             //  ____  _                       _   __  __ _ _ _ _                     _____     _

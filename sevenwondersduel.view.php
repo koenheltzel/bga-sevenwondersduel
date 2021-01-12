@@ -94,6 +94,7 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "influence_cube");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "influence_container");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "military_token");
+        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "military_position");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "pantheon_cost");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "pantheon_space");
         $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board");
@@ -120,6 +121,7 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
             $this->page->reset_subblocks('board_player');
             $this->page->reset_subblocks('board_player_row');
             $this->page->reset_subblocks('military_token');
+            $this->page->reset_subblocks('military_position');
             $this->page->reset_subblocks('pantheon_cost');
             $this->page->reset_subblocks('pantheon_space');
             $this->page->reset_subblocks('influence_container');
@@ -147,6 +149,24 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
                 $tokenNumbers = $playerId == SevenWondersDuelPantheon::get()->getGameStartPlayerId() ? [4,3,2,1] : [1,2,3,4];
                 foreach ($tokenNumbers as $tokenNumber) {
                     $this->page->insert_block("military_token", ["NUMBER" => $tokenNumber]);
+                }
+
+                $positions = [9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9];
+                if ($playerId != SevenWondersDuelPantheon::get()->getGameStartPlayerId()) $positions = array_reverse($positions);
+
+                $militaryVisualIndex = 0;
+                foreach ($positions as $position) {
+                    $id = "";
+                    if (in_array($position, [9, -9])) {
+                        if ($militaryVisualIndex == 0) {
+                            $id = "capital_opponent";
+                        }
+                        else {
+                            $id = "capital_me";
+                        }
+                    }
+                    $this->page->insert_block("military_position", ["POSITION" => $position, "ID" => $id, "INDEX" => $militaryVisualIndex]);
+                    $militaryVisualIndex++;
                 }
 
                 $this->page->insert_block("board");

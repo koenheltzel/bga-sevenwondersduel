@@ -276,6 +276,7 @@ class SevenWondersDuelPantheon extends Table
     const VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY = "discard_opponent_building_conspiracy";
     // Global value labels Pantheon
     const VALUE_ASTARTE_COINS = "astarte_coins";
+    const VALUE_MINERVA_PAWN_POSITION = "minerva_pawn_position";
     // Global value labels Agora
     const VALUE_CONSPIRE_RETURN_STATE = "conspire_return_state";
     const VALUE_SENATE_ACTIONS_SECTION = "senate_actions_section";
@@ -427,6 +428,7 @@ class SevenWondersDuelPantheon extends Table
                 self::VALUE_AVAILABLE_CARDS => 23,
                 // Global variables Pantheon
                 self::VALUE_ASTARTE_COINS => 50,
+                self::VALUE_MINERVA_PAWN_POSITION => 51,
                 // Global variables Agora
                 self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY => 22,
                 self::VALUE_CONSPIRE_RETURN_STATE => 33,
@@ -595,6 +597,7 @@ class SevenWondersDuelPantheon extends Table
         self::setGameStateInitialValue( self::VALUE_AVAILABLE_CARDS, json_encode([]));
         // Pantheon
         self::setGameStateInitialValue( self::VALUE_ASTARTE_COINS, 0);
+        self::setGameStateInitialValue( self::VALUE_MINERVA_PAWN_POSITION, -999);
         // Agora
         self::setGameStateInitialValue( self::VALUE_CONSPIRE_RETURN_STATE, 0);
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_SECTION, 0);
