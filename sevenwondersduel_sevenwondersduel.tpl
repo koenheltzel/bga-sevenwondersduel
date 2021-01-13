@@ -25,11 +25,14 @@
     Please REMOVE this comment before publishing your game on BGA
 -->
 
+<!-- BEGIN swd -->
 <style>
     @import url("https://use.typekit.net/jim0ypy.css");
+    :root {
+        --invert-military-positions: {INVERT_MILITARY_POSITIONS}
+    }
 </style>
 
-<!-- BEGIN swd -->
 <div id="debugPlayArea" style="position: absolute; width: 20px; height: 20px;
     box-shadow: rgba(0, 0, 0, 1) 0px 0px 0px 10px inset;
     background-color: red;

@@ -1682,9 +1682,9 @@ define([
                     }
                 }
 
-                this.setCssVariable('--conflict-pawn-position', this.me_id == this.gamedatas.startPlayerId ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn);
+                this.setCssVariable('--conflict-pawn-position', militaryTrack.conflictPawn);
                 if (typeof militaryTrack.minervaPawn !== 'undefined') {
-                    this.setCssVariable('--minerva-pawn-position', this.me_id == this.gamedatas.startPlayerId ? -militaryTrack.minervaPawn : militaryTrack.minervaPawn);
+                    this.setCssVariable('--minerva-pawn-position', militaryTrack.minervaPawn);
                 }
             },
 
@@ -2815,6 +2815,7 @@ define([
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
                 this.clearGreenBorder();
+                this.clearDivinityBorder();
 
                 let oldConspiracyNodeHtml = dojo.query('#player_conspiracies_' + notif.args.playerId + ' div[data-conspiracy-position="' + notif.args.conspiracyPosition + '"]')[0].outerHTML;
 
@@ -2960,6 +2961,7 @@ define([
 
                 this.clearRedBorder(); // For Conspiracy 7, Property Fraud
                 this.clearGreenBorder();
+                this.clearDivinityBorder();
 
                 var buildingNode = dojo.query(".building_small[data-building-id=" + notif.args.buildingId + "]")[0]; // Without the .building_small, the building might be selected from the (linked) buildings list.
                 var buildingNodeParent = null;
@@ -3105,6 +3107,7 @@ define([
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
                 this.clearGreenBorder();
+                this.clearDivinityBorder();
 
                 var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
 
@@ -3211,6 +3214,7 @@ define([
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
                 this.clearGreenBorder();
+                this.clearDivinityBorder();
 
                 var wonderContainer = dojo.query('#player_wonders_' + notif.args.playerId + ' #wonder_' + notif.args.wonderId + '_container')[0];
                 var coinNode = dojo.query('.player_wonder_cost', wonderContainer)[0];
@@ -4489,9 +4493,9 @@ define([
             onEnterPlaceMinervaToken: function (args) {
                 if (this.debug) console.log('onEnterPlaceMinervaToken', args);
 
-                let pawnPosition = args.militaryTrack.conflictPawn;
-                console.log('pawnPosition',pawnPosition);
-                dojo.query('#board_container .military_position:not([data-position="' + args.militaryTrack.conflictPawn + '"])').addClass('red_stroke');
+                if (this.isCurrentPlayerActive()) {
+                    dojo.query('#board_container .military_position:not([data-position="' + args.militaryTrack.conflictPawn + '"])').addClass('red_stroke');
+                }
             },
 
             onPlaceMinervaTokenClick: function (e) {

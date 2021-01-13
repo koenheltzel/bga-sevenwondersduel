@@ -374,6 +374,7 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
             "EXPANSION" => (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) || (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON), // Any expansion, add || Pantheon in the future
             "PLAYER_ME_ID" => Player::me()->id,
             "PLAYER_OPPONENT_ID" => Player::opponent()->id,
+            "INVERT_MILITARY_POSITIONS" => ($playerId == SevenWondersDuelPantheon::get()->getGameStartPlayerId()) ? -1 : 1,
         ]);
 
         /*

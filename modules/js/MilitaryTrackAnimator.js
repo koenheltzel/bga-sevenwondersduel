@@ -53,8 +53,8 @@ define([
                     // The military token animation always concerns the opponent of the active player.
                     let opponent_id = this.game.getOppositePlayerId(active_player_id);
 
-                    let startPosition = this.game.invertMilitaryTrack() ? -parseInt(payment.militaryOldPosition) : parseInt(payment.militaryOldPosition);
-                    let endPosition = this.game.invertMilitaryTrack() ? -parseInt(payment.militaryNewPosition) : parseInt(payment.militaryNewPosition);
+                    let startPosition = parseInt(payment.militaryOldPosition);
+                    let endPosition = parseInt(payment.militaryNewPosition);
                     let delta = this.delta(startPosition, endPosition);
                     let stepSize = delta / payment.militarySteps;
 
@@ -80,9 +80,8 @@ define([
 
                         position += stepSize;
 
-                        let realPosition = this.game.invertMilitaryTrack()? -position : position;
                         // Then check if a Poliorcetics coin should be animated.
-                        if (payment.militaryPoliorceticsPositions[realPosition]) {
+                        if (payment.militaryPoliorceticsPositions[position]) {
                             let opponentCoinsContainer = this.game.getPlayerCoinContainer(opponent_id);
 
                             // Animate coins to fly from opponent coins total to conflict pawn
@@ -94,8 +93,8 @@ define([
                             ));
                         }
                         // Then check if a token was encountered (before performing the next step).
-                        if (payment.militaryTokens[realPosition]) {
-                            let token = payment.militaryTokens[realPosition];
+                        if (payment.militaryTokens[position]) {
+                            let token = payment.militaryTokens[position];
                             let tokenNumber = this.game.invertMilitaryTrack() ? (5 - token.number) : token.number;
                             let tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
 
