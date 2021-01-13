@@ -2215,7 +2215,9 @@ define([
                     if (typeof this.gamedatas.playersSituation[this.opponent_id].astarteCoins != 'undefined') {
                         coins = this.gamedatas.playersSituation[this.opponent_id].astarteCoins;
                     }
-                    text.push([_('There are currently ${coins} coin(s) present on Astarte.'), true, {coins: coins}])
+                    if(coins != null) {
+                        text.push([_('There are currently ${coins} coin(s) present on Astarte.'), true, {coins: coins}]);
+                    }
                 }
 
                 data.jsText = this.getTextHtml(text);
@@ -2717,7 +2719,7 @@ define([
             },
 
             notif_takeToken: function (notif) {
-                if (this.debug) console.log('notif_progressTokenChosen', notif);
+                if (this.debug) console.log('notif_takeToken', notif);
 
                 let container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens')[0];
                 if (notif.args.type == 'mythology') {
