@@ -12,9 +12,15 @@
 .player_info.opponent {
     margin-bottom: var(--gutter) !important;
 }
+#swd[data-pantheon="1"] .player_info.opponent {
+    margin-bottom: calc(2 * var(--gutter)) !important;
+}
 
 .player_info.me {
     margin-top: var(--gutter) !important;
+}
+#swd[data-pantheon="1"] .player_info.me {
+    margin-top: calc(1.5 * var(--gutter)) !important;
 }
 
 #swd_wrap.portrait .player_info.opponent {
