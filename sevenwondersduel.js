@@ -902,7 +902,7 @@ define([
 
                     var oldNode = dojo.query('.wonder_container', container)[0];
 
-                    var wonderDivHtml = this.getWonderDivHtml(row.wonder, row.constructed == 0, row.cost, this.gamedatas.playersSituation[playerId].coins);
+                    var wonderDivHtml = this.getWonderDivHtml(row.wonder, row.constructed == 0, row.cost, this.getPlayerCoins(playerId, true));
                     var newNode = dojo.place(wonderDivHtml, container);
                     if (row.constructed > 0) {
                         var data = {
@@ -1027,12 +1027,12 @@ define([
                             data.jsType = buildingData.type;
                             if (position.available) {
                                 data.jsDisplayCostMe = position.available ? 'block' : 'none',
-                                data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
+                                data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.getPlayerCoins(this.me_id, true)),
                                 data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
                                 data.jsCostMeClass = isNaN(data.jsCostMe) ? 'cost_free' : '';
 
                                 data.jsDisplayCostOpponent = position.available ? 'block' : 'none',
-                                data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playersSituation[this.opponent_id].coins),
+                                data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.getPlayerCoins(this.opponent_id, true)),
                                 data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
                                 data.jsCostOpponentClass = isNaN(data.jsCostOpponent) ? 'cost_free' : '';
                             }
@@ -1342,14 +1342,10 @@ define([
                         let divinityData = divinitiesSituation[playerId][i];
                         console.log('divinityData', divinityData);
                         let container = $('player_conspiracies_' + playerId);
-                        console.log('container', container);
                         let divinityNode = dojo.query('div[data-divinity-id="' + divinityData.id + '"]', container)[0];
-                        console.log('divinityNode', divinityNode);
                         if (!divinityNode) {
                             let divinityType = this.gamedatas.divinities[divinityData.id].type;
-                            console.log('divinityType', divinityType);
                             let newNode = dojo.place( this.getDivinityDivHtml(divinityData.id, divinityType, false), container, 'first');
-                            console.log('newNode', newNode);
                         }
                     }
                 }
@@ -2377,12 +2373,24 @@ define([
             //  |_|   |_|\__,_|\__, |\___|_|  |___/ |___|_| |_|_|  \___/
             //                 |___/
 
-            getPlayerCoins: function (playerId) {
-                return this.gamedatas.playersSituation[playerId].coins;
+            getPlayerCoins: function (playerId, includingAstarteCoins=false) {
+                let coins = this.gamedatas.playersSituation[playerId].coins;
+                if (includingAstarteCoins && typeof this.gamedatas.playersSituation[playerId].astarteCoins != 'undefined') {
+                    coins += this.gamedatas.playersSituation[playerId].astarteCoins;
+                }
+                return coins;
             },
 
+            getPlayerNodeCoins: function (playerId) {
+                return parseInt($('player_area_' + playerId + '_coins').innerHTML);
+            },
             increasePlayerCoins: function (playerId, coins) {
-                $('player_area_' + playerId + '_coins').innerHTML = parseInt($('player_area_' + playerId + '_coins').innerHTML) + coins;
+                $('player_area_' + playerId + '_coins').innerHTML = this.getPlayerNodeCoins(playerId) + coins;
+            },
+
+            increaseAstarteCoins: function (playerId, coins) {
+                let divinityNode = dojo.query('#player_conspiracies_' + playerId + ' .divinity_small[data-divinity-id=4] .coin span')[0];
+                divinityNode.innerHTML = parseInt(divinityNode.innerHTML) + coins;
             },
 
             increasePlayerCubes: function (playerId, cubes) {
@@ -2678,7 +2686,7 @@ define([
                     var cardData = this.getDraftpoolCardData(this.playerTurnBuildingId);
                     dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + this.gamedatas.draftpool.discardGain[this.player_id];
 
-                    var playerCoins = this.gamedatas.playersSituation[this.player_id].coins;
+                    var playerCoins = this.getPlayerCoins(this.player_id, true);
 
                     var canAffordBuilding = cardData.cost[this.player_id] <= playerCoins;
                     dojo.removeClass($('buttonConstructBuilding'), 'bgabutton_blue');
@@ -3164,7 +3172,7 @@ define([
                     Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
                         var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
                         if (!wonderData.constructed) {
-                            if (wonderData.cost <= this.gamedatas.playersSituation[this.player_id].coins) {
+                            if (wonderData.cost <= this.getPlayerCoins(this.player_id, true)) {
                                 dojo.addClass($('wonder_' + wonderData.wonder), 'red_border');
                             }
                         }
@@ -3239,6 +3247,7 @@ define([
                     this.updateWondersSituation(notif.args.wondersSituation);
 
                     var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
+                    let discardedBuilding = dojo.query(buildingNode).closest('#discarded_cards_container').length > 0
                     var buildingNodeParent = buildingNode.parentElement; // Only used when we are constructing with a discarded building (Divinity Isis)
 
                     // Animate age card towards wonder:
@@ -3357,10 +3366,12 @@ define([
                             dojo.style(wonderContainer, 'z-index', 10);
 
                             this.clearRedBorder();
-                            var whiteblock = $('lower_divs_container');
-                            window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
-                            this.freezeLayout = 0;
-                            dojo.destroy(buildingNodeParent); // Destroy old parent (container in discarded buildings block).
+                            if (discardedBuilding) {
+                                var whiteblock = $('lower_divs_container');
+                                window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
+                                this.freezeLayout = 0;
+                                dojo.destroy(buildingNodeParent); // Destroy old parent (container in discarded buildings block).
+                            }
                         }));
 
                         // Wait for animation before handling the next notification (= state change).
@@ -7113,14 +7124,6 @@ define([
 
             getOppositePlayerId: function (playerId) {
                 return parseInt(playerId) == this.me_id ? this.opponent_id : this.me_id;
-            },
-
-            getPlayerCoins: function (playerId, includingAstarteCoins=false) {
-                let coins = this.gamedatas.playersSituation[playerId].coins;
-                if (includingAstarteCoins && typeof this.gamedatas.playersSituation[playerId].astarteCoins != 'undefined') {
-                    coins += this.gamedatas.playersSituation[playerId].astarteCoins;
-                }
-                return coins;
             },
 
             getCostValue: function (cost) {

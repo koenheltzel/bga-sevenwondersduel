@@ -123,7 +123,24 @@ class Player extends Base{
 
     public function increaseCoins($increase) {
         if ($increase < 0) {
+            $originalIncrease = $increase;
             $increase = max($increase, -$this->getCoins());
+            $astarteCoins = $this->getAstarteCoins();
+            if ($originalIncrease != $increase && $astarteCoins > 0) {
+                $astarteIncrease = max($originalIncrease - $increase, -$astarteCoins);
+                SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_ASTARTE_COINS, $astarteCoins + $astarteIncrease);
+
+                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                    'message',
+                    clienttranslate('${player_name} used ${coins} coin(s) from Divinity “${divinityName}”'),
+                    [
+                        'i18n' => ['divinityName'],
+                        'player_name' => $this->name,
+                        'coins' => abs($astarteIncrease),
+                        'divinityName' => Divinity::get(4)->name,
+                    ]
+                );
+            }
         }
         return $this->increaseValue("player_coins", $increase);
     }
