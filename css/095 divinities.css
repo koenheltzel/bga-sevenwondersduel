@@ -61,6 +61,13 @@
 .divinity_small.divinity_compact .swd_title {
     top: 7%;
 }
+/* Astarte coins */
+.divinity_small .coin {
+    --element-scale: 0.85;
+    position: absolute;
+    left: 81%;
+    top: 1%;
+}
 
 .divinity_compact .trigger, .divinity_compact .prepare, .divinity_small .deck_position {
     font-family: cafeteria, sans-serif;

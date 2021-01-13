@@ -56,7 +56,7 @@ class Divinities extends Collection {
                         $data['cost'][$player->id] = $payment->totalCost();
                         $data['payment'][$player->id] = $payment;
                         // Can the player afford to activate this Divinity?
-                        $data['activatable'][$player->id] = (int)($player->getCoins() >= $payment->totalCost());
+                        $data['activatable'][$player->id] = (int)($player->getCoins(true) >= $payment->totalCost());
                     }
                 }
                 $spaces[$space] = $data;
@@ -86,17 +86,5 @@ class Divinities extends Collection {
         return $result;
     }
 
-    /**
-     * @return Divinities
-     */
-//    public function filterByPrepared($prepared=true) {
-//        $divinities = new Divinities();
-//        foreach ($this->array as $divinity) {
-//            if ($divinity->isPrepared() == $prepared) {
-//                $divinities[] = $divinity;
-//            }
-//        }
-//        return $divinities;
-//    }
 
 }

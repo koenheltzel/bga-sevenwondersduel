@@ -102,8 +102,19 @@ class Player extends Base{
         return $this->id == Player::me()->id ? 'me' : 'opponent';
     }
 
-    public function getCoins() {
-        return (int)$this->getValue("player_coins");
+    public function getAstarteCoins() {
+        if (self::hasDivinity(4)) {
+            return (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_ASTARTE_COINS);
+        }
+        return 0;
+    }
+
+    public function getCoins($includeAstarteCoins=false) {
+        $coins = (int)$this->getValue("player_coins");
+        if ($includeAstarteCoins) {
+            $coins += $this->getAstarteCoins();
+        }
+        return $coins;
     }
 
     public function getCubes() {

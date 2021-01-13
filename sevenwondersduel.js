@@ -1316,8 +1316,7 @@ define([
                         if (spaceData.payment) {
                             let container = dojo.query('div[data-space=' + space + '] .' + alias + ' .cost', costContainer)[0];
                             let oldNode = dojo.query('.coin', container)[0];
-                            let playerCoins = this.gamedatas.playersSituation[playerId].coins;
-                            let newNode = dojo.place( this.getCostDivHtml(spaceData.cost[playerId], playerCoins), container, 'first');
+                            let newNode = dojo.place( this.getCostDivHtml(spaceData.cost[playerId], this.getPlayerCoins(playerId, true)), container, 'first');
                             if (oldNode && newNode) {
                                 this.twistAnimation(oldNode, newNode);
                             }
@@ -2207,7 +2206,19 @@ define([
                 data.jsDivinityType = _(this.gamedatas.divinityTypeNames[type]);
                 data.jsDivinityColor = this.gamedatas.divinityTypeColors[type];
 
-                data.jsText = this.getTextHtml(divinity.text);
+                let text = [...divinity.text];
+                if (id == 4) {
+                    let coins = null;
+                    if (typeof this.gamedatas.playersSituation[this.me_id].astarteCoins != 'undefined') {
+                        coins = this.gamedatas.playersSituation[this.me_id].astarteCoins;
+                    }
+                    if (typeof this.gamedatas.playersSituation[this.opponent_id].astarteCoins != 'undefined') {
+                        coins = this.gamedatas.playersSituation[this.opponent_id].astarteCoins;
+                    }
+                    text.push([_('There are currently ${coins} coin(s) present on Astarte.'), true, {coins: coins}])
+                }
+
+                data.jsText = this.getTextHtml(text);
                 data.jsBackX = ((spriteId - 1) % spritesheetColumns);
                 data.jsBackY = Math.floor((spriteId - 1) / spritesheetColumns);
 
@@ -2384,6 +2395,13 @@ define([
                     $('player_area_' + playerId + '_coins').innerHTML = situation[playerId].coins;
                     $('player_area_' + playerId + '_score').innerHTML = situation[playerId].score;
                     $('player_area_' + playerId + '_cubes').innerHTML = situation[playerId].cubes;
+                    if (typeof situation[playerId].astarteCoins != 'undefined') {
+                        let divinityNode = dojo.query('#player_conspiracies_' + playerId + ' .divinity_small[data-divinity-id=4]')[0];
+                        dojo.query(".coin", divinityNode).forEach(dojo.destroy);
+                        let coinDiv = this.getCostDivHtml(situation[playerId].astarteCoins, 999999);
+                        dojo.place(coinDiv, divinityNode);
+                    }
+
                     if (typeof situation[playerId].winner != "undefined" && this.scoreCtrl[playerId]) {
                         this.scoreCtrl[playerId].setValue(situation[playerId].winner);
                     }
@@ -7089,6 +7107,14 @@ define([
 
             getOppositePlayerId: function (playerId) {
                 return parseInt(playerId) == this.me_id ? this.opponent_id : this.me_id;
+            },
+
+            getPlayerCoins: function (playerId, includingAstarteCoins=false) {
+                let coins = this.gamedatas.playersSituation[playerId].coins;
+                if (includingAstarteCoins && typeof this.gamedatas.playersSituation[playerId].astarteCoins != 'undefined') {
+                    coins += this.gamedatas.playersSituation[playerId].astarteCoins;
+                }
+                return coins;
             },
 
             getCostValue: function (cost) {

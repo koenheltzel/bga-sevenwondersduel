@@ -24,6 +24,9 @@ class Players extends Base
                 'coins' => $player->getCoins(),
                 'scienceSymbolCount' => $player->getScientificSymbolCount(),
             ];
+            if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON) && $player->hasDivinity(4)) {
+                $data[$player->id]['astarteCoins'] = $player->getAstarteCoins();
+            }
             if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA)) {
                 $data[$player->id]['cubes'] = $player->getCubes();
             }
