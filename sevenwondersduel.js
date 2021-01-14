@@ -4544,7 +4544,9 @@ define([
             onEnterDiscardAgeCard: function (args) {
                 if (this.debug) console.log('onEnterDiscardAgeCard', args);
 
-                dojo.query('#draftpool .building_small').addClass('red_border');
+                if (this.isCurrentPlayerActive()) {
+                    dojo.query('#draftpool .building_small').addClass('red_border');
+                }
             },
 
             onDiscardAgeCardClick: function (e) {
