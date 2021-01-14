@@ -12,6 +12,7 @@
     display: flex;
     flex: auto;
     flex-direction: column;
+    gap: var(--gutter);
     align-items: center;
     width: calc(100% - 2 * var(--gutter));
 }

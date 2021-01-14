@@ -13,10 +13,6 @@
     justify-content: space-evenly;
     align-items: center;
 }
-/* During Wonder Selection, for the Curia Julia ability, we need to show draftpool_container, else #choose_and_place_divinity isn't visible either. */
-.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] #draftpool_container {
-    display: flex !important; /* Override inline style set by javascript */
-}
 
 .current_player_is_active #swd[data-state=chooseAndPlaceDivinity] #choose_and_place_divinity > div:nth-of-type(1) {
     margin-right: var(--gutter);

@@ -558,8 +558,8 @@ $machinestates = [
 
     SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_ID => [
         "name" => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_NAME,
-        "description" => clienttranslate('${actplayer} must choose a Divinity card and activate if for free'),
-        "descriptionmyturn" => clienttranslate('${you} must choose a Divinity card and activate if for free'),
+        "description" => clienttranslate('${actplayer} must choose a Divinity card and activate it for free'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Divinity card and activate it for free'),
         "type" => "activeplayer",
         "action" => "enterStateChooseDivinityFromTopCards",
         "args" => "argChooseDivinityFromTopCards",
