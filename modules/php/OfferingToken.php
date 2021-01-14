@@ -24,6 +24,23 @@ class OfferingToken extends Item {
         parent::__construct($id, $discount);
     }
 
+    public function take($player, $building) {
+        SevenWondersDuelPantheon::get()->offeringTokenDeck->insertCardOnExtremePosition($this->id, $player->id, true);
+        SevenWondersDuelPantheon::get()->notifyAllPlayers(
+            'takeToken',
+            clienttranslate('${player_name} takes a Offering token (-${discount}) before flipping over “${buildingName}”'),
+            [
+                'player_name' => $player->name,
+                'i18n' => ['buildingName'],
+                'buildingName' => $building->name,
+                'discount' => OfferingToken::get($this->id)->discount,
+                'type' => 'offering',
+                'tokenId' => $this->id,
+                'playerId' => $player->id,
+            ]
+        );
+    }
+
 //    public function getPosition(Player $player) {
 //        return (int)SevenWondersDuelPantheon::get()->mythologyTokenDeck->getCard($this->id)['location_arg'];
 //    }

@@ -109,20 +109,21 @@ class Building extends Item {
         parent::__construct($id, $name);
     }
 
-    public function checkBuildingAvailable() {
+    public function checkBuildingAvailable($dontAllowCoveredBuildings=true) {
         $age = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
         $cards = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation("age{$age}");
         if (!array_key_exists($this->id, $cards)) {
             throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
         }
 
-        if (!Draftpool::buildingAvailable($this->id)) {
+        if ($dontAllowCoveredBuildings && !Draftpool::buildingAvailable($this->id)) {
             throw new \BgaUserException( clienttranslate("The building you selected is still covered by other buildings, so it can't be picked.") );
         }
     }
 
     public function checkBuildingLastRow() {
-        if (Draftpool::buildingRow($this->id) != 1) {
+        $rowColumn = Draftpool::getBuildingRowCol($this->id);
+        if ($rowColumn[0] != 1) {
             throw new \BgaUserException( clienttranslate("The building you selected is not on the last row.") );
         }
     }

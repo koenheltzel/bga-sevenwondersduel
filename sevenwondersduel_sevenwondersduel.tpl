@@ -572,6 +572,7 @@ var jstpl_draftpool_building = '\
     <div id="${jsRow}_${jsColumn}"\
         data-building-id="${jsId}"\
         data-building-type="${jsType}"\
+        data-location="${jsLocation}"\
         class="building building_small column${jsColumn} row${jsRow} ${jsAvailable}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\

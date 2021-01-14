@@ -210,7 +210,7 @@ class SevenWondersDuelPantheon extends Table
     const STATE_PLACE_SNAKE_TOKEN_NAME = "placeSnakeToken";
 
     const STATE_DISCARD_AGE_CARD_ID = 55;
-    const STATE_DISCARD_AGE_CARD_NAME = "placeSnakeToken";
+    const STATE_DISCARD_AGE_CARD_NAME = "discardAgeCard";
 
     const STATE_PLACE_MINERVA_TOKEN_ID = 56;
     const STATE_PLACE_MINERVA_TOKEN_NAME = "placeMinervaToken";

@@ -71,7 +71,7 @@ define([
                                 dojo.addClass(node, 'opponent');
                             }
 
-                            let astarteCoin = (i + 1) > this.game.getPlayerCoins(playerId);
+                            let astarteCoin = sourceNodePlayerId == playerId && (i + 1) > this.game.getPlayerCoins(playerId);
                             let astarteDelay = astarteCoin ? this.coin_slide_duration : 0;
                             this.game.placeOnObjectPos(node, astarteCoin ? astarteCoinNode : sourceNode, sourcePosition[0], sourcePosition[1]);
 

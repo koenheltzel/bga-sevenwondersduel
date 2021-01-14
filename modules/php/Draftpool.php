@@ -93,11 +93,24 @@ class Draftpool extends Base
         }
     }
 
-    public static function buildingRow($buildingId) {
-        $draftpool = Draftpool::get();
-        foreach($draftpool['cards'] as $card) {
-            if (isset($card['building']) && $card['building'] == $buildingId) {
-                return $card['row'];
+    public static function getBuildingRowCol($age, $buildingId) {
+        $cards = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
+
+        $rows = self::getRows($age);
+        $locationArg = (count($rows, COUNT_RECURSIVE) - count($rows)) - 1;
+        for($row_index = count($rows) - 1; $row_index >= 0; $row_index--) {
+            $columns = $rows[$row_index];
+            $columns = array_reverse($columns); // Since we do array_unshift later we reverse here, so when updating the draftpool it happens from left to right.
+            foreach($columns as $column) {
+                if(isset($cards[$locationArg])) {
+                    $building = Building::get($cards[$locationArg]['id']);
+                    $row = $row_index + 1;
+                    if ($building->id == $buildingId) {
+                        return [$row, $column];
+                    }
+                }
+                $locationArg--;
             }
         }
         return null;
@@ -192,6 +205,7 @@ class Draftpool extends Base
                         $position = [
                             'row' => $row,
                             'column' => $column,
+                            'location' => $locationArg,
                         ];
                         $positionsFound[] = $row . "_" . $column;
                         $cardvisible = $row_index % 2 == 0;
@@ -210,43 +224,14 @@ class Draftpool extends Base
                                         // Mythology token
                                         if ($age == 1) {
                                             $mythologyToken = MythologyToken::get($card['id']);
-                                            SevenWondersDuelPantheon::get()->mythologyTokenDeck->insertCardOnExtremePosition($card['id'], $activePlayer->id, true);
-                                            SevenWondersDuelPantheon::get()->divinityDeck->pickCardForLocation("mythology{$mythologyToken->type}", "selection", 0);
-                                            SevenWondersDuelPantheon::get()->divinityDeck->pickCardForLocation("mythology{$mythologyToken->type}", "selection", 1);
-                                            SevenWondersDuelPantheon::get()->notifyAllPlayers(
-                                                'takeToken',
-                                                clienttranslate('${player_name} takes a Mythology token (${mythologyType}) before flipping over “${buildingName}”'),
-                                                [
-                                                    'player_name' => $activePlayer->name,
-                                                    'i18n' => ['buildingName', 'mythologyType'],
-                                                    'buildingName' => $building->name,
-                                                    'mythologyType' => Divinity::getTypeName($mythologyToken->type),
-                                                    'type' => 'mythology',
-                                                    'tokenId' => $card['id'],
-                                                    'playerId' => $activePlayer->id,
-                                                ]
-                                            );
+                                            $mythologyToken->take($activePlayer, $building);
 
-                                            $draftpool['mythologyToken'] = $card['id'];
                                             $revealCards = false; // Don't reveal the cards just yet, handle the mythology token first (ChooseAndPlaceDivinity)
                                         }
                                         // Offering token
                                         if ($age == 2) {
-                                            SevenWondersDuelPantheon::get()->offeringTokenDeck->insertCardOnExtremePosition($card['id'], $activePlayer->id, true);
-                                            SevenWondersDuelPantheon::get()->notifyAllPlayers(
-                                                'takeToken',
-                                                clienttranslate('${player_name} takes a Offering token (-${discount}) before flipping over “${buildingName}”'),
-                                                [
-                                                    'player_name' => $activePlayer->name,
-                                                    'i18n' => ['buildingName'],
-                                                    'buildingName' => $building->name,
-                                                    'discount' => OfferingToken::get($card['id'])->discount,
-                                                    'type' => 'offering',
-                                                    'tokenId' => $card['id'],
-                                                    'playerId' => $activePlayer->id,
-                                                ]
-                                            );
-                                            $draftpool['offeringToken'] = $card['id'];
+                                            $offeringToken = OfferingToken::get($card['id']);
+                                            $offeringToken->take($activePlayer, $building);
                                         }
                                     }
                                 }

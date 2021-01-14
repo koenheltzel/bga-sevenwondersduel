@@ -27,6 +27,25 @@ class MythologyToken extends Item {
         parent::__construct($id, $type);
     }
 
+    public function take($player, $building) {
+        SevenWondersDuelPantheon::get()->mythologyTokenDeck->insertCardOnExtremePosition($this->id, $player->id, true);
+        SevenWondersDuelPantheon::get()->divinityDeck->pickCardForLocation("mythology{$this->type}", "selection", 0);
+        SevenWondersDuelPantheon::get()->divinityDeck->pickCardForLocation("mythology{$this->type}", "selection", 1);
+        SevenWondersDuelPantheon::get()->notifyAllPlayers(
+            'takeToken',
+            clienttranslate('${player_name} takes a Mythology token (${mythologyType}) before flipping over “${buildingName}”'),
+            [
+                'player_name' => $player->name,
+                'i18n' => ['buildingName', 'mythologyType'],
+                'buildingName' => $building->name,
+                'mythologyType' => Divinity::getTypeName($this->type),
+                'type' => 'mythology',
+                'tokenId' => $this->id,
+                'playerId' => $player->id,
+            ]
+        );
+    }
+
 //    public function getPosition(Player $player) {
 //        return (int)SevenWondersDuelPantheon::get()->mythologyTokenDeck->getCard($this->id)['location_arg'];
 //    }

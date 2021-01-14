@@ -379,6 +379,10 @@ define([
                         .on("#swd[data-state=placeMinervaToken] #board_container .military_position.red_stroke:click",
                             dojo.hitch(this, "onPlaceMinervaTokenClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=discardAgeCard] #draftpool .building_small:click",
+                            dojo.hitch(this, "onDiscardAgeCardClick")
+                        );
 
                     // Pantheon click handlers without event delegation:
                     dojo.query("#activate_divinity_confirm").on("click", dojo.hitch(this, "onActivateDivinityConfirmClick"));
@@ -977,6 +981,7 @@ define([
                 }
 
                 let realAgeOrExpansion = (draftpool.age > 0 || this.expansion);
+                let maxRow = 0;
 
                 dojo.style('draftpool_container', 'display', realAgeOrExpansion ? 'flex' : 'none');
 
@@ -990,6 +995,7 @@ define([
                     var animationDelay = 100; // Have some initial delay, so this function can finish updating the DOM.
                     for (var i = 0; i < draftpool.cards.length; i++) {
                         var position = draftpool.cards[i];
+                        if (position.row > maxRow) maxRow = position.row;
 
                         var oldNodes = dojo.query('#draftpool .row' + position.row + '.column' + position.column);
                         if (oldNodes.length > 1) {
@@ -1005,6 +1011,7 @@ define([
                             jsType: '',
                             jsRow: position.row,
                             jsColumn: position.column,
+                            jsLocation: position.location,
                             jsX: position.spriteXY[0],
                             jsY: position.spriteXY[1],
                             jsZindex: position.row,
@@ -1166,7 +1173,7 @@ define([
 
                     // Adjust the height of the age divs based on the age cards absolutely positioned within.
                     var rows = draftpool.age == 3 ? 7 : 5;
-                    dojo.query('.draftpool').style("height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + ".35 * var(--draftpool-row-height))");
+                    dojo.query('.draftpool').style("height", "calc(var(--building-height) * var(--building-small-scale) + " + (maxRow - 1) + ".35 * var(--draftpool-row-height))");
 
                     this.updateLayout();
 
@@ -1195,6 +1202,7 @@ define([
                     jsId: buildingId,
                     jsName: _(building.name),
                     jsType: building.type,
+                    jsLocation: -1,
                     jsRow: '',
                     jsColumn: '',
                     jsX: building.spriteXY[0],
@@ -3118,41 +3126,81 @@ define([
                 this.clearRedBorder();
                 this.clearGreenBorder();
                 this.clearDivinityBorder();
+                dojo.attr($('swd'), 'data-state', 'dummyState'); // Set dummy state so the draftpool row height is reset to normal.
 
-                var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
+                this.autoUpdateScale();
 
-                var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
-                    buildingNode,
-                    dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_coins')[0],
-                    notif.args.gain,
-                    notif.args.playerId
-                );
+                var buildingNode = dojo.query("#draftpool .building_small[data-building-id=" + notif.args.buildingId + "]")[0];
+                var oldBuildingNode = null;
+                if (!buildingNode && notif.args.buildingDomId) {
+                    oldBuildingNode = $(notif.args.buildingDomId);
+                    oldBuildingNode.id = 'oldBuildingNode';
 
-                // Set up a wrapper div so we can move the building to pos 0,0 of that wrapper
-                var discardedCardsContainer = $('discarded_cards_container');
-                var wrapperDiv = dojo.clone(dojo.query('.discarded_cards_cursor', discardedCardsContainer)[0]);
-                dojo.removeClass(wrapperDiv, 'discarded_cards_cursor');
-                dojo.place(wrapperDiv, discardedCardsContainer, discardedCardsContainer.children.length - 1);
+                    var buildingData = this.gamedatas.buildings[notif.args.buildingId];
+                    var data = {
+                        jsId: buildingData.id,
+                        jsName: _(buildingData.name),
+                        jsType: buildingData.type,
+                        jsRow: notif.args.buildingRow,
+                        jsColumn: notif.args.buildingColumn,
+                        jsLocation: -1,
+                        jsX: buildingData.spriteXY[0],
+                        jsY: buildingData.spriteXY[1],
+                        jsZindex: notif.args.buildingRow,
+                        jsAvailable: '',
+                        jsDisplayCostMe: 'none',
+                        jsCostColorMe: 'black',
+                        jsCostMe: -1,
+                        jsCostMeClass: '',
+                        jsDisplayCostOpponent: 'none',
+                        jsCostColorOpponent: 'black',
+                        jsCostOpponent: -1,
+                        jsCostOpponentClass: '',
+                        jsLinkX: 0,
+                        jsLinkY: 0,
+                    };
+                    buildingNode = dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
+                }
 
-                buildingNode = this.attachToNewParent(buildingNode, wrapperDiv); // attachToNewParent creates and returns a new instance of the node (replacing the old one).
-                dojo.attr(buildingNode, 'id', ''); // Remove the draftpool specific id
-                dojo.query(".draftpool_building_cost", buildingNode).forEach(dojo.destroy); // Remove cost coins from building
+                var twistAnimation = dojo.fx.combine([]);;
+                if (oldBuildingNode) {
+                    twistAnimation = this.twistAnimation(oldBuildingNode, buildingNode, false);
+                }
+                dojo.connect(twistAnimation, 'onEnd', dojo.hitch(this, function (node) {
+                    var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
+                        buildingNode,
+                        dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_coins')[0],
+                        notif.args.gain,
+                        notif.args.playerId
+                    );
 
-                var moveAnim = this.slideToObjectPos(buildingNode, wrapperDiv, 0, 0, this.discardBuildingAnimationDuration);
+                    // Set up a wrapper div so we can move the building to pos 0,0 of that wrapper
+                    var discardedCardsContainer = $('discarded_cards_container');
+                    var wrapperDiv = dojo.clone(dojo.query('.discarded_cards_cursor', discardedCardsContainer)[0]);
+                    dojo.removeClass(wrapperDiv, 'discarded_cards_cursor');
+                    dojo.place(wrapperDiv, discardedCardsContainer, discardedCardsContainer.children.length - 1);
 
-                var anim = dojo.fx.chain([
-                    coinAnimation,
-                    moveAnim
-                ]);
+                    buildingNode = this.attachToNewParent(buildingNode, wrapperDiv); // attachToNewParent creates and returns a new instance of the node (replacing the old one).
+                    dojo.attr(buildingNode, 'id', ''); // Remove the draftpool specific id
+                    dojo.query(".draftpool_building_cost", buildingNode).forEach(dojo.destroy); // Remove cost coins from building
 
-                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                    if (notif.args.draftpool) this.updateDraftpool(notif.args.draftpool);
+                    var moveAnim = this.slideToObject(buildingNode, wrapperDiv, this.discardBuildingAnimationDuration);
+
+                    var anim = dojo.fx.chain([
+                        coinAnimation,
+                        moveAnim
+                    ]);
+
+                    dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                        if (notif.args.draftpool) this.updateDraftpool(notif.args.draftpool);
+
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(0);
+                    }));
+
+                    anim.play();
                 }));
-
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
-
-                anim.play();
+                twistAnimation.play();
             },
 
             //    ____                _                   _    __        __              _
@@ -4495,6 +4543,41 @@ define([
 
             onEnterDiscardAgeCard: function (args) {
                 if (this.debug) console.log('onEnterDiscardAgeCard', args);
+
+                dojo.query('#draftpool .building_small').addClass('red_border');
+            },
+
+            onDiscardAgeCardClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onDiscardAgeCardClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionDiscardAgeCard')) {
+                        return;
+                    }
+
+                    var building = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
+
+                    let location = dojo.attr(building, 'data-location');
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionDiscardAgeCard.html", {
+                            lock: true,
+                            location: location,
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
             },
 
             //  ____  _                  __  __ _                              _____     _

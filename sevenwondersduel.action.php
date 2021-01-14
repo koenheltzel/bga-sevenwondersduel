@@ -191,9 +191,8 @@ class action_sevenwondersduelpantheon extends APP_GameAction
     public function actionDiscardAgeCard() {
         self::setAjaxMode();
 
-        $row = self::getArg("row", AT_posint, true);
-        $column = self::getArg("column", AT_posint, true);
-        SevenWondersDuelPantheon::get()->actionDiscardAgeCard($row, $column);
+        $location = self::getArg("location", AT_posint, true);
+        SevenWondersDuelPantheon::get()->actionDiscardAgeCard($location);
 
         self::ajaxResponse();
     }
