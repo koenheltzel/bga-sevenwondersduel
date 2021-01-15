@@ -1587,8 +1587,10 @@ define([
                     // Military Track animation (pawn movement, token handling)
                     let anim = bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment, "agora");
 
-                    // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                    dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(0);
+                    }));
 
                     anim.play();
                 }
@@ -2594,10 +2596,13 @@ define([
                     }),
                     this.slideToObjectPos(wonderNode, targetNode, 0, 0, this.selectWonderAnimationDuration),
                 ]);
-                anim.play();
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
+
+                anim.play();
             },
 
             //   ____  _                         _____
@@ -2762,8 +2767,10 @@ define([
                     this.slideToObjectPos(newTokenNode, newTokenContainerNode, 0, 0, this.progressTokenDuration),
                 ]);
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
 
                 anim.play();
             },
@@ -2919,10 +2926,10 @@ define([
                         dojo.style(conspiracyBackNode, 'z-index', 1);
                         dojo.style(conspiracyNode, 'z-index', 2);
                         dojo.style(conspiracyContainer, 'z-index', 10);
-                    }));
 
-                    // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(0);
+                    }));
 
                     anim.play();
                 }
@@ -3067,17 +3074,17 @@ define([
                     bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment),
                 ]);
 
-                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayersSituation.
                     anim.stop();
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
 
                     dojo.style(playerBuildingId, 'z-index', 15);
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
 
                 anim.play();
             },
@@ -3191,7 +3198,7 @@ define([
                         moveAnim
                     ]);
 
-                    dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                         if (notif.args.draftpool) this.updateDraftpool(notif.args.draftpool);
 
                         // Wait for animation before handling the next notification (= state change).
@@ -3420,10 +3427,10 @@ define([
                                 this.freezeLayout = 0;
                                 dojo.destroy(buildingNodeParent); // Destroy old parent (container in discarded buildings block).
                             }
-                        }));
 
-                        // Wait for animation before handling the next notification (= state change).
-                        this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                            // Wait for animation before handling the next notification (= state change).
+                            this.notifqueue.setSynchronousDuration(0);
+                        }));
 
                         anim.play();
                     }
@@ -3557,9 +3564,12 @@ define([
                         bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment),
                     ]);
 
-                    anim.play();
+                    dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(0);
+                    }));
 
-                    this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                    anim.play();
                 }));
                 coinAnimation.play();
             },
@@ -3708,10 +3718,10 @@ define([
                         dojo.style(peekNode, 'z-index', null);
                         dojo.style(conspiracyContainer, 'z-index', 10);
                         dojo.removeClass(conspiracyContainer, 'animating');
-                    }));
 
-                    // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(0);
+                    }));
 
                     anim.play();
                 }
@@ -3788,10 +3798,10 @@ define([
                     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
                     dojo.removeClass(buildingColumn, 'red_border');
                     dojo.destroy(playerBuildingNode.parentNode);
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
 
                 anim.play();
             },
@@ -3928,10 +3938,10 @@ define([
                     anim.stop();
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
 
                 anim.play();
             },
@@ -4287,9 +4297,13 @@ define([
                 }
 
                 let anim = dojo.fx.chain(anims);
-                anim.play();
 
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
+
+                anim.play();
             },
 
             getCurrentRotation: function (el){
@@ -4420,8 +4434,10 @@ define([
                     }),
                 ]);
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
 
                 anim.play();
             },
@@ -4649,13 +4665,12 @@ define([
                     // Unset top/left attributes so the .minerva_pawn class takes over positioning the Minerva pawn
                     dojo.style(minervaNode, 'top', '');
                     dojo.style(minervaNode, 'left', '');
+
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
                 }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
-
                 anim.play();
-
             },
 
             //  ____  _                       _   __  __ _ _ _ _                     _____     _
@@ -4715,12 +4730,13 @@ define([
                     duration: this.constructBuildingAnimationDuration * 0.4,
                     onEnd: dojo.hitch(this, function (node) {
                         dojo.destroy(node);
+
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(0);
                     })
                 });
-                anim.play();
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                anim.play();
             },
 
             //     _                _         __  __ _ _ _ _                     _____     _
@@ -4775,10 +4791,13 @@ define([
                 this.clearRedBorder();
 
                 let anim = bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment);
-                anim.play();
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
+
+                anim.play();
             },
 
             //   ____ _                            ____  _       _       _ _           _____                      _____              ____              _
@@ -5104,9 +5123,12 @@ define([
                     )
                 ]);
 
-                anim.play();
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
 
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                anim.play();
             },
 
             notif_constructConspiracy: function (notif) {
@@ -5209,9 +5231,13 @@ define([
                         })
                     ])
                 ]);
-                anim.play();
 
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
+
+                anim.play();
             },
 
             //   ____ _                             ____                      _            ____                                  _     ____           _ _   _
@@ -5345,13 +5371,14 @@ define([
                     )
                 ]);
 
-                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     dojo.destroy(backSideConspiracyNode);
+
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
                 }));
 
                 anim.play();
-
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
             },
 
             //  ____                   _            _        _   _
@@ -5531,10 +5558,10 @@ define([
                         var chamberData = notif.args.senateAction.chambers[chamber];
                         this.updateSenateChamber(chamber, chamberData);
                     }));
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.twistCoinDuration + this.notification_safe_margin);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
 
                 anim.play();
             },
@@ -5660,10 +5687,10 @@ define([
 
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd).
                     dojo.query("#swd_wrap .agora_cube.animated").forEach(dojo.destroy);
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.twistCoinDuration + this.notification_safe_margin);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
 
                 anim.play();
             },
@@ -5768,10 +5795,10 @@ define([
                         var chamberData = notif.args.senateAction.chambers[chamber];
                         this.updateSenateChamber(chamber, chamberData);
                     }));
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.twistCoinDuration + this.notification_safe_margin);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
 
                 anim.play();
             },
@@ -6046,8 +6073,10 @@ define([
                     }),
                 ]);
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
 
                 anim.play();
             },
@@ -6226,10 +6255,10 @@ define([
                     dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
                         dojo.destroy(progressTokenNode);
                         conspiracyNode.dataset.conspiracyProgressToken = 1;
-                    }));
 
-                    // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(0);
+                    }));
 
                     anim.play();
                 }
@@ -6445,7 +6474,7 @@ define([
 
                 let anim = dojo.fx.combine(anims);
 
-                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     var buildingOpponentNodeContainerCopy = dojo.clone(buildingOpponentNodeContainer);
                     var buildingPlayerNodeContainerCopy = dojo.clone(buildingPlayerNodeContainer);
 
@@ -6459,10 +6488,10 @@ define([
                     dojo.style(buildingOpponentNodeCopy, 'top', '0px');
 
                     this.clearRedBorder();
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
 
                 anim.play();
             },
@@ -6540,10 +6569,10 @@ define([
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
                     dojo.style(buildingNodeCopy, 'z-index', 5);
                     dojo.destroy(buildingNodeContainer);
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
 
                 anim.play();
             },
@@ -6609,13 +6638,13 @@ define([
                     this.slideToObjectPos(wonderContainerNode, newContainer, 0, 0, this.selectWonderAnimationDuration),
                 ]);
 
-                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Update the wonders situation, so cost is updated for the new wonder owner.
                     this.updateWondersSituation(notif.args.wondersSituation);
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
 
                 anim.play();
             },
@@ -6842,10 +6871,13 @@ define([
                     ]));
                 }
                 var anim = dojo.fx.combine(anims);
-                anim.play();
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
+
+                anim.play();
             },
 
             //   ____  _           _               _____                 _   _
