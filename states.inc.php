@@ -471,6 +471,7 @@ $machinestates = [
         ],
         "transitions" => array_merge(
             [
+                SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_ID,
                 SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
                 SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
                 SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,

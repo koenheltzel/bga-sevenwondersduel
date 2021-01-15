@@ -641,6 +641,11 @@ var jstpl_offering_token = '\
         </div>\
     </div>';
 
+var jstpl_snake_token = '\
+    <div class="snake_token_container">\
+        <div class="snake_token"></div>\
+    </div>';
+
 var jstpl_divinity = '\
     <div class="divinity_container">\
         <div\
@@ -817,6 +822,19 @@ var jstpl_divinity_tooltip = '\
             <div class="divinity tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
                 <span class="swd_title">${jsNameOnCard}</span>\
             </div>\
+        </div>\
+        <div class="clear"></div>\
+    </div>';
+
+var jstpl_snake_token_tooltip = '\
+    <div class="swd_tooltip">\
+        <div class="cardinfos">\
+            <strong>${jsTitle}</strong>\
+            <hr\>\
+            <p>${jsText}</p>\
+        </div>\
+        <div>\
+            <div class="snake_token tooltipWiggle"></div>\
         </div>\
         <div class="clear"></div>\
     </div>';

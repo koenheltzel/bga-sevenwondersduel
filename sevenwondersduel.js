@@ -383,6 +383,10 @@ define([
                         .on("#swd[data-state=discardAgeCard] #draftpool .building_small:click",
                             dojo.hitch(this, "onDiscardAgeCardClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=placeSnakeToken] .player_building_column.red_border .building_header_small:click",
+                            dojo.hitch(this, "onPlaceSnakeTokenClick")
+                        );
 
                     // Pantheon click handlers without event delegation:
                     dojo.query("#activate_divinity_confirm").on("click", dojo.hitch(this, "onActivateDivinityConfirmClick"));
@@ -626,6 +630,9 @@ define([
 
                 dojo.subscribe('placeMinervaToken', this, "notif_placeMinervaToken");
                 this.notifqueue.setSynchronous('placeMinervaToken');
+
+                dojo.subscribe('placeSnakeToken', this, "notif_placeSnakeToken");
+                this.notifqueue.setSynchronous('placeSnakeToken');
 
                 // Agora
 
@@ -1484,6 +1491,10 @@ define([
                 return this.format_block('jstpl_offering_token', data);
             },
 
+            getSnakeTokenHtml: function () {
+                return this.format_block('jstpl_snake_token', []);
+            },
+
             updateOfferingTokensSituation: function (situation) {
                 if (this.debug) console.log('updateOfferingTokensSituation', situation);
                 this.gamedatas.offeringTokensSituation = situation;
@@ -2006,6 +2017,18 @@ define([
                     })
                 );
 
+                // Add tooltips to Snake token
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '.building_header_small_container .snake_token',
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            return this.getSnakeTokenTooltip();
+                        })
+                    })
+                );
+
                 // Add tooltips to Senate Chambers
                 this.customTooltips.push(
                     new dijit.Tooltip({
@@ -2296,6 +2319,16 @@ define([
                 return this.format_block('jstpl_offering_token_tooltip', data);
             },
 
+            getSnakeTokenTooltip: function () {
+                let text = [];
+                text.push([_('See Divinity “Nisaba” for details.'), true]);
+
+                var data = {};
+                data.jsTitle = _("Snake token");
+                data.jsText = this.getTextHtml(text);
+                return this.format_block('jstpl_snake_token_tooltip', data);
+            },
+
             getConspiracyTooltip: function (id, node) {
                 if (id == 18) id = 17;
                 let hidden = id == 17;
@@ -2415,6 +2448,14 @@ define([
                     $('player_area_' + playerId + '_coins').innerHTML = situation[playerId].coins;
                     $('player_area_' + playerId + '_score').innerHTML = situation[playerId].score;
                     $('player_area_' + playerId + '_cubes').innerHTML = situation[playerId].cubes;
+                    if (typeof situation[playerId].snakeTokenBuildingId != 'undefined') {
+                        let buildingNode = dojo.query('.player_buildings .building_header_small[data-building-id="' + situation[playerId].snakeTokenBuildingId + '"]')[0];
+                        dojo.style(buildingNode, 'z-index', 20);
+                        let snakeNodeContainer = dojo.query('.snake_token_container', buildingNode);
+                        if (snakeNodeContainer.length == 0) {
+                            dojo.place(this.getSnakeTokenHtml(), buildingNode);
+                        }
+                    }
                     if (typeof situation[playerId].astarteCoins != 'undefined') {
                         let divinityNode = dojo.query('#player_conspiracies_' + playerId + ' .divinity_small[data-divinity-id=4]')[0];
                         dojo.query(".coin", divinityNode).forEach(dojo.destroy);
@@ -4548,6 +4589,68 @@ define([
 
             onEnterPlaceSnakeToken: function (args) {
                 if (this.debug) console.log('onEnterPlaceSnakeToken', args);
+
+                if (this.isCurrentPlayerActive()) {
+                    var opponentId = this.getOppositePlayerId(this.getActivePlayerId());
+                    var buildingColumn = dojo.query('.player' + opponentId + ' .player_building_column.Green')[0];
+                    dojo.addClass(buildingColumn, 'red_border');
+                }
+            },
+
+            onPlaceSnakeTokenClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onPlaceSnakeTokenClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionPlaceSnakeToken')) {
+                        return;
+                    }
+
+                    var buildingNode = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
+                    var buildingId = dojo.attr(buildingNode, "data-building-id");
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionPlaceSnakeToken.html", {
+                            lock: true,
+                            buildingId: buildingId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_placeSnakeToken: function (notif) {
+                if (this.debug) console.log('notif_placeSnakeToken', notif);
+
+                this.clearRedBorder();
+                this.autoUpdateScale();
+
+                let buildingNode = dojo.query('.player_buildings .building_header_small[data-building-id="' + notif.args.buildingId + '"]')[0];
+                dojo.style(buildingNode, 'z-index', 20);
+                let snakeTokenContainerNode = dojo.place(this.getSnakeTokenHtml(), buildingNode);
+                let snakeTokenNode = dojo.query('.snake_token', snakeTokenContainerNode)[0];
+
+                var divinityNode = dojo.query('.divinity_small[data-divinity-id="3"]')[0];
+                this.placeOnObject(snakeTokenNode, divinityNode);
+
+                var anim = this.slideToObjectPos(snakeTokenNode, snakeTokenContainerNode, 0, 0, this.progressTokenDuration);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(0);
+                }));
+
+                anim.play();
             },
 
             //  ____  _                       _      _                 ____              _

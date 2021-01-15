@@ -230,8 +230,7 @@ class Building extends Item {
         $opponent = $player->getOpponent();
 
         if ($this->scientificSymbol) {
-            $buildings = $player->getBuildings()->filterByScientificSymbol($this->scientificSymbol);
-            if (count($buildings->array) == 2 && $this->gatheredSciencePairNotification($player)) {
+            if ($player->hasScientificSymbolPair($this->scientificSymbol) && $this->gatheredSciencePairNotification($player)) {
                 $payment->selectProgressToken = true;
             }
         }

@@ -443,6 +443,25 @@ class Player extends Base{
         return SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation($this->id);
     }
 
+    public function hasScientificSymbolPair($symbol): bool {
+        $buildings = $this->getBuildings()->filterByScientificSymbol($symbol);
+        $count = count($buildings->array);
+        switch ($symbol) {
+            case 2:
+                if ($this->hasProgressToken(4)) {
+                    $count++;
+                }
+                if ($this->hasDivinity(2)) {
+                    $count++;
+                }
+                break;
+        }
+        if ($this->hasSnakeToken() && Player::snakeTokenScientificSymbol() == $symbol) {
+            $count++;
+        }
+        return $count >= 2;
+    }
+
     public function getScientificSymbolCount(): int {
         $buildings = $this->getBuildings()->filterByTypes([Building::TYPE_GREEN]);
         $symbols = [];
@@ -458,6 +477,12 @@ class Player extends Base{
             $divinity = Divinity::get(2);
             if (!in_array($divinity->scientificSymbol, $symbols)) {
                 $symbols[] = $divinity->scientificSymbol;
+            }
+        }
+        if ($this->hasSnakeToken()) {
+            $symbol = Player::snakeTokenScientificSymbol();
+            if (!in_array($symbol, $symbols)) {
+                $symbols[] = $symbol;
             }
         }
         return count($symbols);
@@ -489,6 +514,38 @@ class Player extends Base{
             $rows[] = $row;
         }
         return $rows;
+    }
+
+    /**
+     * The player "has" the Snake token, meaning it's on one of his opponent's green cards.
+     * @return bool
+     */
+    public function hasSnakeToken() : bool {
+        $building = self::snakeTokenBuilding();
+        if ($building) {
+            $opponent = $this->getOpponent();
+            return $opponent->hasBuilding($building->id);
+        }
+        return false;
+    }
+
+    /**
+     * @return int|null
+     */
+    public static function snakeTokenScientificSymbol() : ?int {
+        $building = self::snakeTokenBuilding();
+        if ($building) {
+            return $building->scientificSymbol;
+        }
+        return null;
+    }
+
+    /**
+     * @return Building|null
+     */
+    public static function snakeTokenBuilding() : ?Building {
+        $building = Building::get((int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_SNAKE_TOKEN_BUILDING_ID));
+        return $building;
     }
 
     public function hasDivinity($id) : int {

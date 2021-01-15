@@ -258,7 +258,7 @@ class Item extends Base
         }
     }
 
-    public function gatheredSciencePairNotification($player) {
+    public static function gatheredSciencePairNotification($player) {
         if (count(SevenWondersDuelPantheon::get()->progressTokenDeck->getCardsInLocation('board')) > 0) {
             SevenWondersDuelPantheon::get()->notifyAllPlayers(
                 'message',

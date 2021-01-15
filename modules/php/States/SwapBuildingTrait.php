@@ -110,8 +110,7 @@ trait SwapBuildingTrait {
             }
 
             // Active player and or opponent can have completed a science symbol pair. Let active player go first, but both get to do the action before determining immediate win.
-            $buildings = $tmpPlayer->getBuildings()->filterByScientificSymbol($tmpBuilding->scientificSymbol);
-            if (count($buildings->array) == 2 && $tmpBuilding->gatheredSciencePairNotification($tmpPlayer)) {
+            if ($tmpPlayer->hasScientificSymbolPair($tmpBuilding->scientificSymbol) && $tmpBuilding->gatheredSciencePairNotification($tmpPlayer)) {
                 if ($tmpPlayer == Player::me()) {
                     $prependStates = array_merge([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME], $prependStates);
                 }

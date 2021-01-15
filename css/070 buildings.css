@@ -27,6 +27,7 @@
     width: var(--building-small-width);
     height: var(--building-header-small-height);
     display: block;
+    position: relative;
 }
 
 /* Put some margin between borders, mostly to prevent misclicks on mobile. Doesn't include current_player_is_active / state so the position stays the same during the animation.
@@ -35,11 +36,15 @@ Because of reversing the flexbox order for the opponent there are 2 different ru
     margin-bottom: calc(2 * var(--gutter));
 }
 
-.player_buildings.opponent .player_building_column.red_border .building_header_small_container:not(:first-child) {
-    margin-bottom: calc(2 * var(--gutter));
+.player_buildings.opponent .player_building_column.red_border {
+    gap: calc(2 * var(--gutter));
 }
 
 .current_player_is_active #swd[data-state=chooseOpponentBuilding] .player_building_column.red_border .building_header_small {
+    cursor: pointer;
+}
+
+.current_player_is_active #swd[data-state=placeSnakeToken] .player_building_column.red_border .building_header_small {
     cursor: pointer;
 }
 
