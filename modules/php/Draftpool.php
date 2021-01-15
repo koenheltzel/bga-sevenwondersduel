@@ -226,6 +226,8 @@ class Draftpool extends Base
                                             $mythologyToken = MythologyToken::get($card['id']);
                                             $mythologyToken->take($activePlayer, $building);
 
+                                            $draftpool['mythologyToken'] = true;
+
                                             $revealCards = false; // Don't reveal the cards just yet, handle the mythology token first (ChooseAndPlaceDivinity)
                                         }
                                         // Offering token
