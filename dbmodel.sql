@@ -43,6 +43,7 @@ ALTER TABLE `player`
     ADD COLUMN `player_score_green` SMALLINT UNSIGNED NOT NULL DEFAULT '0',
     ADD COLUMN `player_score_yellow` SMALLINT UNSIGNED NOT NULL DEFAULT '0',
     ADD COLUMN `player_score_purple` SMALLINT UNSIGNED NOT NULL DEFAULT '0',
+    ADD COLUMN `player_score_divinities` SMALLINT UNSIGNED NOT NULL DEFAULT '0',
     ADD COLUMN `player_score_wonders` SMALLINT UNSIGNED NOT NULL DEFAULT '0',
     ADD COLUMN `player_score_progresstokens` SMALLINT UNSIGNED NOT NULL DEFAULT '0',
     ADD COLUMN `player_score_coins` SMALLINT UNSIGNED NOT NULL DEFAULT '0',

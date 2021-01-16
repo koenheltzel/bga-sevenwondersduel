@@ -6850,6 +6850,9 @@ define([
                 if (this.agora) {
                     categories.push('senate');
                 }
+                if (this.pantheon) {
+                    categories.splice(categories.indexOf('wonders'), 0, "divinities");
+                }
                 Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
                     for (var i = 0; i < categories.length; i++) {
                         dojo.query('#end_game_container .end_game_' + categories[i] + '.player' + playerId)[0].innerHTML = this.gamedatas.playersSituation[playerId]['player_score_' + categories[i]];

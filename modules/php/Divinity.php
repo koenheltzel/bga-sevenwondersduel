@@ -172,7 +172,7 @@ class Divinity extends Item {
     }
 
     protected function getScoreCategory() {
-        return SevenWondersDuelPantheon::SCORE_WONDERS;
+        return SevenWondersDuelPantheon::SCORE_DIVINITIES;
     }
 
 }

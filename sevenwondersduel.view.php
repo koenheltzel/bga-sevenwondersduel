@@ -211,7 +211,7 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
 
                 // END GAME TABLE
                 if (1) {
-                    $categories = ['blue', 'green', 'yellow', 'purple', 'wonders', 'progresstokens', 'coins', 'military', 'senate agora'];
+                    $categories = ['blue', 'green', 'yellow', 'purple', 'divinities pantheon', 'wonders', 'progresstokens', 'coins', 'military', 'senate agora'];
                     foreach ($categories as $category) {
                         $this->page->insert_block('end_game_category_header', array(
                             "CATEGORY" => $category,

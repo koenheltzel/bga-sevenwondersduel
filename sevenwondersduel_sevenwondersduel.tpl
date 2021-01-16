@@ -162,29 +162,31 @@
                     </div>
                     <!-- END draftpool -->
                     <!-- BEGIN end_game -->
-                    <div id="end_game_container" class="whiteblock" style="display: none;">
-                        <table>
-                            <tr>
-                                <td></td>
-                                <!-- BEGIN end_game_category_header -->
-                                <td class="end_game_{CATEGORY}"><div class="end_game_icon end_game_card" /></td>
-                                <!-- END end_game_category_header -->
-                                <td></td>
-                            </tr>
-                            <!-- BEGIN end_game_player -->
-                            <tr>
-                                <td class="end_game_player_name" style="color:#{PLAYER_COLOR}">{PLAYER_NAME}</td>
-                                <!-- BEGIN end_game_category_player -->
-                                <td class="end_game_{CATEGORY} player{PLAYER_ID}">xx</td>
-                                <!-- END end_game_category_player -->
-                                <td style="overflow: initial">
-                                    <div class="end_game_total player{PLAYER_ID}">
+                    <div id="end_game_container" style="display: none;">
+                        <div class="whiteblock">
+                            <table>
+                                <tr>
+                                    <td></td>
+                                    <!-- BEGIN end_game_category_header -->
+                                    <td class="end_game_{CATEGORY}"><div class="end_game_icon end_game_card" /></td>
+                                    <!-- END end_game_category_header -->
+                                    <td></td>
+                                </tr>
+                                <!-- BEGIN end_game_player -->
+                                <tr>
+                                    <td class="end_game_player_name" style="color:#{PLAYER_COLOR}">{PLAYER_NAME}</td>
+                                    <!-- BEGIN end_game_category_player -->
+                                    <td class="end_game_{CATEGORY} player{PLAYER_ID}">xx</td>
+                                    <!-- END end_game_category_player -->
+                                    <td style="overflow: initial">
+                                        <div class="end_game_total player{PLAYER_ID}">
 
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- END end_game_player -->
-                        </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- END end_game_player -->
+                            </table>
+                        </div>
                     </div>
                     <!-- END end_game -->
                     <!-- BEGIN player_buildings -->

@@ -51,6 +51,8 @@
 #swd[data-quality="2x"] .offering_token_outline,
 #swd[data-quality="2x"] .minerva_pawn,
 #swd[data-quality="2x"] .snake_token,
+#swd[data-quality="2x"][data-pantheon="1"] .end_game_purple .end_game_card,
+#swd[data-quality="2x"][data-pantheon="1"] .end_game_divinities .end_game_card,
 #swd[data-quality="2x"] .pantheon_cost_arrow {
     background-image: url('img/pantheon_sprites@2X.png') !important;
 }

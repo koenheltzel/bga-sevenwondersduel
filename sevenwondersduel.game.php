@@ -297,6 +297,7 @@ class SevenWondersDuelPantheon extends Table
     const OPTION_PANTHEON_PROGRESS_TOKENS = "option_pantheon_progress_tokens";
 
     // End game scoring categories
+    const SCORE_DIVINITIES = "divinities";
     const SCORE_WONDERS = "wonders";
     const SCORE_PROGRESSTOKENS = "progresstokens";
     const SCORE_COINS = "coins";
@@ -323,6 +324,7 @@ class SevenWondersDuelPantheon extends Table
     const STAT_VP_GREEN = "vp_green";
     const STAT_VP_YELLOW = "vp_yellow";
     const STAT_VP_PURPLE = "vp_purple";
+    const STAT_VP_DIVINITIES = "vp_divinities";
     const STAT_VP_WONDERS = "vp_wonders";
     const STAT_VP_PROGRESS_TOKENS = "vp_progress_tokens";
     const STAT_VP_COINS = "vp_coins";
@@ -651,6 +653,7 @@ class SevenWondersDuelPantheon extends Table
         self::initStat('player', self::STAT_CHAINED_CONSTRUCTIONS, 0);
         // Pantheon
         if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+            self::initStat('player', self::STAT_VP_DIVINITIES, 0);
             self::initStat('player', self::STAT_DIVINITIES_ACTIVATED, 0);
         }
         // Agora

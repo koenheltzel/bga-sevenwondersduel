@@ -19,6 +19,13 @@
 
 #end_game_container {
     margin: var(--gutter) !important;
+    display: block;
+    position: relative;
+    z-index: 100;
+}
+#end_game_container > .whiteblock {
+    position: absolute;
+    transform: translate(-50%, -50%);
 }
 
 #end_game_container table {
@@ -106,6 +113,34 @@
 .end_game_purple .end_game_card {
     background-position: 93.3921% 42.9245%;
     background-size: 882.759%;
+}
+
+#swd[data-pantheon="1"] .end_game_purple {
+    color: #41499a;
+    background-color: #41499a30;
+    text-shadow: 0 0 0 #000000bb;
+}
+
+#swd[data-pantheon="1"] .end_game_purple .end_game_card {
+    background-image: url('img/pantheon_sprites.png');
+    background-position: 85.508% 41.089%;
+    background-size: 2700%;
+}
+
+#swd[data-pantheon="1"] .end_game_divinities {
+    color: #000000aa;
+    background-color: #00000030;
+    text-shadow: 0 0 0 #000000bb;
+}
+
+#swd[data-pantheon="1"] .end_game_divinities .end_game_card {
+    background-image: url('img/pantheon_sprites.png');
+    background-position: 89.208% 41.089%;
+    background-size: 3150%;
+
+    width: calc(var(--scale) * 24.5px);
+    height: calc(var(--scale) * 44px);
+    /*background-color: initial !important;*/
 }
 
 .end_game_wonders {

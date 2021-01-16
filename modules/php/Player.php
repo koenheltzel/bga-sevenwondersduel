@@ -190,6 +190,9 @@ class Player extends Base{
                 case strtolower(Building::TYPE_PURPLE):
                     SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VP_PURPLE, $this->id);
                     break;
+                case SevenWondersDuelPantheon::SCORE_DIVINITIES:
+                    SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VP_DIVINITIES, $this->id);
+                    break;
                 case SevenWondersDuelPantheon::SCORE_WONDERS:
                     SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VP_WONDERS, $this->id);
                     break;
@@ -224,8 +227,9 @@ class Player extends Base{
 
     public function getScoreCategories() {
         $agora_column = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) ? ',`player_score_senate`' : '';
+        $pantheon_column = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON) ? ',`player_score_divinities`' : '';
 
-        return self::getCollectionFromDB("SELECT `player_score_blue`,`player_score_green`,`player_score_yellow`,`player_score_purple`,`player_score_wonders`,`player_score_progresstokens`,`player_score_coins`,`player_score_military` {$agora_column} FROM player WHERE player_id='{$this->id}'");
+        return self::getCollectionFromDB("SELECT `player_score_blue`,`player_score_green`,`player_score_yellow`,`player_score_purple`,`player_score_wonders`,`player_score_progresstokens`,`player_score_coins`,`player_score_military` {$pantheon_column} {$agora_column} FROM player WHERE player_id='{$this->id}'");
     }
 
     /**
