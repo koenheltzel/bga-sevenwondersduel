@@ -6901,16 +6901,18 @@ define([
                 var anims = [];
 
                 var zIndex = 1;
-                if (notif.args.highlightId) {
+                if (notif.args.highlightQuery) {
                     if (notif.args.category == "senate") {
-                        for (let i = 0; i < notif.args.highlightId.length; i++) {
-                            $(notif.args.highlightId[i]).setAttribute("class",  "red_stroke");
+                        for (let i = 0; i < notif.args.highlightQuery.length; i++) {
+                            $(notif.args.highlightQuery[i]).setAttribute("class",  "red_stroke");
                         }
                     }
                     else {
-                        zIndex = dojo.style(notif.args.highlightId, 'z-index');
-                        dojo.style(notif.args.highlightId, 'z-index', 100);
-                        dojo.addClass(notif.args.highlightId, 'endgame_highlight');
+                        dojo.query(notif.args.highlightQuery).forEach(function (node) {
+                            zIndex = dojo.style(node, 'z-index');
+                            dojo.style(node, 'z-index', 100);
+                            dojo.addClass(node, 'endgame_highlight');
+                        });
                     }
                 }
 
@@ -6953,19 +6955,21 @@ define([
                         dojo.animateProperty({
                             node: 'swd',
                             duration: 400,
-                            onEnd: function (node) {
+                            onEnd: function () {
                                 if (!stickyCategory) {
                                     dojo.removeClass(categoryNode, 'endgame_highlight');
                                 }
-                                if (notif.args.highlightId) {
+                                if (notif.args.highlightQuery) {
                                     if (notif.args.category == "senate") {
-                                        for (let i = 0; i < notif.args.highlightId.length; i++) {
-                                            $(notif.args.highlightId[i]).setAttribute("class",  "");
+                                        for (let i = 0; i < notif.args.highlightQuery.length; i++) {
+                                            $(notif.args.highlightQuery[i]).setAttribute("class",  "");
                                         }
                                     }
                                     else {
-                                        dojo.style(notif.args.highlightId, 'z-index', zIndex);
-                                        dojo.removeClass(notif.args.highlightId, 'endgame_highlight');
+                                        dojo.query(notif.args.highlightQuery).forEach(function (node) {
+                                            dojo.style(node, 'z-index', zIndex);
+                                            dojo.removeClass(node, 'endgame_highlight');
+                                        });
                                     }
                                 }
                             }

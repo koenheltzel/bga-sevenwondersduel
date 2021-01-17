@@ -5,6 +5,7 @@ namespace SWD\States;
 use SevenWondersDuelPantheon;
 use SWD\Building;
 use SWD\Decree;
+use SWD\Divinity;
 use SWD\Draftpool;
 use SWD\MilitaryTrack;
 use SWD\Player;
@@ -112,74 +113,128 @@ trait NextPlayerTurnTrait {
 
                 // Guilds points
                 foreach(Players::get() as $player) {
-                    /** @var Building $building */
-                    foreach($player->getBuildings()->filterByTypes([Building::TYPE_PURPLE]) as $building) {
-                        if ($building->guildRewardWonders) {
-                            $constructedWonders = count($player->getWonders()->filterByConstructed()->array);
-                            $constructedWondersOpponent = count($player->getOpponent()->getWonders()->filterByConstructed()->array);
-                            $maxConstructedWonders = max($constructedWonders, $constructedWondersOpponent);
-                            $mostPlayer = $constructedWonders >= $constructedWondersOpponent ? $player : $player->getOpponent();
-                            $points = $maxConstructedWonders * 2;
-                            $player->increaseScore($points, $building->getScoreCategory());
-                            SevenWondersDuelPantheon::get()->notifyAllPlayers(
-                                'endGameCategoryUpdate',
-                                clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 2 for each constructed Wonder in the city which has the most of them (${mostPlayerName}\'s)'),
-                                [
-                                    'i18n' => ['guildName'],
-                                    'player_name' => $player->name,
-                                    'points' => $points,
-                                    'guildName' => $building->name,
-                                    'mostPlayerName' => $mostPlayer->name,
-                                    'playerIds' => [$player->id],
-                                    'category' => 'purple',
-                                    'highlightId' => 'player_building_container_' . $building->id,
-                                ]
-                            );
+                    if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+                        // Grand temple points
+                        $buildings = $player->getBuildings()->filterByTypes([Building::TYPE_PURPLE]);
+                        $points = 0;
+                        switch (count($buildings->array)) {
+                            case 1:
+                                $points = 5;
+                                break;
+                            case 2:
+                                $points = 12;
+                                break;
+                            case 3:
+                                $points = 21;
+                                break;
                         }
+                        $player->increaseScore($points, 'purple');
+                        SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                            'endGameCategoryUpdate',
+                            clienttranslate('${player_name} scores ${points} victory points for having ${count} Grand Temple(s)'),
+                            [
+                                'player_name' => $player->name,
+                                'points' => $points,
+                                'count' => count($buildings->array),
+                                'playerIds' => [$player->id],
+                                'category' => 'purple',
+                                'highlightQuery' => ".player_buildings.player{$player->id} .player_building_column.Purple",
+                            ]
+                        );
+                    }
+                    else {
+                        /** @var Building $building */
+                        foreach($player->getBuildings()->filterByTypes([Building::TYPE_PURPLE]) as $building) {
+                            if ($building->guildRewardWonders) {
+                                $constructedWonders = count($player->getWonders()->filterByConstructed()->array);
+                                $constructedWondersOpponent = count($player->getOpponent()->getWonders()->filterByConstructed()->array);
+                                $maxConstructedWonders = max($constructedWonders, $constructedWondersOpponent);
+                                $mostPlayer = $constructedWonders >= $constructedWondersOpponent ? $player : $player->getOpponent();
+                                $points = $maxConstructedWonders * 2;
+                                $player->increaseScore($points, $building->getScoreCategory());
+                                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                                    'endGameCategoryUpdate',
+                                    clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 2 for each constructed Wonder in the city which has the most of them (${mostPlayerName}\'s)'),
+                                    [
+                                        'i18n' => ['guildName'],
+                                        'player_name' => $player->name,
+                                        'points' => $points,
+                                        'guildName' => $building->name,
+                                        'mostPlayerName' => $mostPlayer->name,
+                                        'playerIds' => [$player->id],
+                                        'category' => 'purple',
+                                        'highlightQuery' => '#player_building_container_' . $building->id,
+                                    ]
+                                );
+                            }
 
-                        if ($building->guildRewardCoinTriplets) {
-                            $coinTriplets = floor($player->getCoins() / 3);
-                            $coinTripletsOpponent = floor($player->getOpponent()->getCoins() / 3);
-                            $maxCoinTriplets = max($coinTriplets, $coinTripletsOpponent);
-                            $mostPlayer = $coinTriplets >= $coinTripletsOpponent ? $player : $player->getOpponent();
-                            $points = $maxCoinTriplets;
-                            $player->increaseScore($points, $building->getScoreCategory());
-                            SevenWondersDuelPantheon::get()->notifyAllPlayers(
-                                'endGameCategoryUpdate',
-                                clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each set of 3 coins in the richest city (${mostPlayerName}\'s)'),
-                                [
-                                    'i18n' => ['guildName'],
-                                    'player_name' => $player->name,
-                                    'points' => $points,
-                                    'guildName' => $building->name,
-                                    'mostPlayerName' => $mostPlayer->name,
-                                    'playerIds' => [$player->id],
-                                    'category' => 'purple',
-                                    'highlightId' => 'player_building_container_' . $building->id,
-                                ]
-                            );
+                            if ($building->guildRewardCoinTriplets) {
+                                $coinTriplets = floor($player->getCoins() / 3);
+                                $coinTripletsOpponent = floor($player->getOpponent()->getCoins() / 3);
+                                $maxCoinTriplets = max($coinTriplets, $coinTripletsOpponent);
+                                $mostPlayer = $coinTriplets >= $coinTripletsOpponent ? $player : $player->getOpponent();
+                                $points = $maxCoinTriplets;
+                                $player->increaseScore($points, $building->getScoreCategory());
+                                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                                    'endGameCategoryUpdate',
+                                    clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each set of 3 coins in the richest city (${mostPlayerName}\'s)'),
+                                    [
+                                        'i18n' => ['guildName'],
+                                        'player_name' => $player->name,
+                                        'points' => $points,
+                                        'guildName' => $building->name,
+                                        'mostPlayerName' => $mostPlayer->name,
+                                        'playerIds' => [$player->id],
+                                        'category' => 'purple',
+                                        'highlightQuery' => '#player_building_container_' . $building->id,
+                                    ]
+                                );
+                            }
+
+                            if ($building->guildRewardBuildingTypes) {
+                                $buildingsOfType = count($player->getBuildings()->filterByTypes($building->guildRewardBuildingTypes)->array);
+                                $buildingsOfTypeOpponent = count($player->getOpponent()->getBuildings()->filterByTypes($building->guildRewardBuildingTypes)->array);
+                                $maxBuildingsOfType = max($buildingsOfType, $buildingsOfTypeOpponent);
+                                $mostPlayer = $buildingsOfType >= $buildingsOfTypeOpponent ? $player : $player->getOpponent();
+                                $points = $maxBuildingsOfType;
+                                $player->increaseScore($points, $building->getScoreCategory());
+                                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                                    'endGameCategoryUpdate',
+                                    clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),
+                                    [
+                                        'i18n' => ['guildName', 'buildingType'],
+                                        'player_name' => $player->name,
+                                        'points' => $points,
+                                        'buildingType' => count($building->guildRewardBuildingTypes) > 1 ? clienttranslate('Brown and Grey') : $building->guildRewardBuildingTypes[0],
+                                        'guildName' => $building->name,
+                                        'mostPlayerName' => $mostPlayer->name,
+                                        'playerIds' => [$player->id],
+                                        'category' => 'purple',
+                                        'highlightQuery' => '#player_building_container_' . $building->id,
+                                    ]
+                                );
+                            }
                         }
+                    }
+                }
 
-                        if ($building->guildRewardBuildingTypes) {
-                            $buildingsOfType = count($player->getBuildings()->filterByTypes($building->guildRewardBuildingTypes)->array);
-                            $buildingsOfTypeOpponent = count($player->getOpponent()->getBuildings()->filterByTypes($building->guildRewardBuildingTypes)->array);
-                            $maxBuildingsOfType = max($buildingsOfType, $buildingsOfTypeOpponent);
-                            $mostPlayer = $buildingsOfType >= $buildingsOfTypeOpponent ? $player : $player->getOpponent();
-                            $points = $maxBuildingsOfType;
-                            $player->increaseScore($points, $building->getScoreCategory());
+                // Divinity Astarte
+                if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+                    foreach(Players::get() as $player) {
+                        $astarteCoins = $player->getAstarteCoins();
+                        if ($astarteCoins > 0) {
+                            $player->increaseScore($astarteCoins, self::SCORE_DIVINITIES);
                             SevenWondersDuelPantheon::get()->notifyAllPlayers(
                                 'endGameCategoryUpdate',
-                                clienttranslate('${player_name} scores ${points} victory points (Guild “${guildName}”), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),
+                                clienttranslate('${player_name} scores ${points} victory point(s), 1 for each coin still present on Divinity “${divinityName}”'),
                                 [
-                                    'i18n' => ['guildName', 'buildingType'],
+                                    'i18n' => ['divinityName'],
                                     'player_name' => $player->name,
-                                    'points' => $points,
-                                    'buildingType' => count($building->guildRewardBuildingTypes) > 1 ? clienttranslate('Brown and Grey') : $building->guildRewardBuildingTypes[0],
-                                    'guildName' => $building->name,
-                                    'mostPlayerName' => $mostPlayer->name,
+                                    'points' => $astarteCoins,
+                                    'divinityName' => Divinity::get(4)->name,
                                     'playerIds' => [$player->id],
-                                    'category' => 'purple',
-                                    'highlightId' => 'player_building_container_' . $building->id,
+                                    'category' => 'divinities',
+                                    'highlightQuery' => '.divinity_compact[data-divinity-id="4"]',
                                 ]
                             );
                         }
@@ -202,7 +257,7 @@ trait NextPlayerTurnTrait {
                                     'progressTokenName' => ProgressToken::get(6)->name,
                                     'playerIds' => [$player->id],
                                     'category' => 'progresstokens',
-                                    'highlightId' => 'progress_token_6',
+                                    'highlightQuery' => '#progress_token_6',
                                 ]
                             );
                         }
@@ -222,7 +277,7 @@ trait NextPlayerTurnTrait {
                                     'progressTokenName' => ProgressToken::get(13)->name,
                                     'playerIds' => [$player->id],
                                     'category' => 'progresstokens',
-                                    'highlightId' => 'progress_token_13',
+                                    'highlightQuery' => '#progress_token_13',
                                 ]
                             );
                         }
@@ -242,7 +297,7 @@ trait NextPlayerTurnTrait {
                                 'points' => $points,
                                 'playerIds' => [$player->id],
                                 'category' => 'coins',
-                                'highlightId' => 'player_area_' . $player->id . '_coins_container',
+                                'highlightQuery' => '#player_area_' . $player->id . '_coins_container',
                             ]
                         );
                     }
@@ -261,7 +316,7 @@ trait NextPlayerTurnTrait {
                                 'points' => $points,
                                 'playerIds' => [$player->id],
                                 'category' => 'military',
-                                'highlightId' => 'conflict_pawn',
+                                'highlightQuery' => '#conflict_pawn',
                             ]
                         );
                     }
@@ -297,7 +352,7 @@ trait NextPlayerTurnTrait {
                                     'chambers' => implode(', ', $playerChambers),
                                     'playerIds' => [$player->id],
                                     'category' => 'senate',
-                                    'highlightId' => $playerChamberIds,
+                                    'highlightQuery' => $playerChamberIds,
                                 ]
                             );
                         }
@@ -483,7 +538,7 @@ trait NextPlayerTurnTrait {
                         'points' => 0,
                         'playerIds' => [$winner->id],
                         'category' => 'total',
-                        'highlightId' => null,
+                        'highlightQuery' => null,
                         'stickyCategory' => true,
                     ]
                 );
@@ -518,7 +573,7 @@ trait NextPlayerTurnTrait {
                             'points' => 0,
                             'playerIds' => [Player::me()->id, Player::opponent()->id],
                             'category' => 'total',
-                            'highlightId' => null,
+                            'highlightQuery' => null,
                             'stickyCategory' => true,
                         ]
                     );
@@ -530,7 +585,7 @@ trait NextPlayerTurnTrait {
                             'points' => 0,
                             'playerIds' => [$winner->id],
                             'category' => 'blue',
-                            'highlightId' => null,
+                            'highlightQuery' => null,
                             'stickyCategory' => true,
                         ]
                     );
@@ -556,7 +611,7 @@ trait NextPlayerTurnTrait {
                         'points' => 0,
                         'playerIds' => [Player::me()->id, Player::opponent()->id],
                         'category' => 'total',
-                        'highlightId' => null,
+                        'highlightQuery' => null,
                         'stickyCategory' => true,
                     ]
                 );
@@ -568,7 +623,7 @@ trait NextPlayerTurnTrait {
                         'points' => 0,
                         'playerIds' => [Player::me()->id, Player::opponent()->id],
                         'category' => 'blue',
-                        'highlightId' => null,
+                        'highlightQuery' => null,
                         'stickyCategory' => true,
                     ]
                 );

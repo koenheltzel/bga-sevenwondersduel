@@ -155,6 +155,11 @@ $stats_type = [
             "name" => totranslate("VP from purple cards"),
             "type" => "int"
         ],
+        "vp_divinities" => [
+            "id" => 95,
+            "name" => totranslate("VP from Divinities"),
+            "type" => "int"
+        ],
         "vp_wonders" => [
             "id" => 100,
             "name" => totranslate("VP from Wonders"),
