@@ -2713,6 +2713,7 @@ define([
                                 this.slideToObjectPos(ageCardNode, ageCardContainer, 0, 0, this.constructWonderAnimationDuration / 3 * 2),
                             ]),
                             coinRewardAnimation,
+                            opponentCoinLossAnimation,
                             // Decree coin reward
                             bgagame.CoinAnimator.get().getAnimation(
                                 dojo.query('.decree_containers div[data-decree-id="' + notif.args.payment.decreeCoinRewardDecreeId + '"]')[0],
@@ -2720,7 +2721,6 @@ define([
                                 notif.args.payment.decreeCoinReward,
                                 notif.args.payment.decreeCoinRewardPlayerId
                             ),
-                            opponentCoinLossAnimation,
                             // Military Track animation (pawn movement, token handling)
                             bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment),
                             eightWonderFadeOut,
