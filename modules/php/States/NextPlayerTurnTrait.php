@@ -269,7 +269,7 @@ trait NextPlayerTurnTrait {
                             $player->increaseScore($points, self::SCORE_PROGRESSTOKENS);
                             SevenWondersDuelPantheon::get()->notifyAllPlayers(
                                 'endGameCategoryUpdate',
-                                clienttranslate('${player_name} scores ${points} victory points (Progress token “${progressTokenName}”)'),
+                                clienttranslate('${player_name} scores ${points} victory points (Progress token “${progressTokenName}”), 2 for each Mythology and Offering token'),
                                 [
                                     'i18n' => ['progressTokenName'],
                                     'player_name' => $player->name,
