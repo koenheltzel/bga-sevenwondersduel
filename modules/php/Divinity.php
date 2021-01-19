@@ -51,7 +51,7 @@ class Divinity extends Item {
 
     public function place($space) {
         SevenWondersDuelPantheon::get()->divinityDeck->moveCard($this->id, "space{$space}");
-        SevenWondersDuelPantheon::get()->divinityDeck->moveAllCardsInLocation('selection', "mythology{$this->type}");
+        SevenWondersDuelPantheon::get()->divinityDeck->moveAllCardsInLocation('selection', "mythology{$this->type}"); // TODO check if this is on top?
 
         $player = Player::getActive();
 
@@ -110,8 +110,8 @@ class Divinity extends Item {
      * @param Divinity $building
      * @return PaymentPlan
      */
-    public function activate(Player $player) {
-        $payment = parent::construct($player);
+    public function activate(Player $player, $free = true) {
+        $payment = parent::construct($player, null, $free);
 
         if ($this->scientificSymbol) {
             if ($player->hasProgressToken(4) && $this->gatheredSciencePairNotification($player)) {
@@ -154,6 +154,16 @@ class Divinity extends Item {
                     ]
                 );
                 break;
+        }
+
+        SevenWondersDuelPantheon::get()->incStat(1, SevenWondersDuelPantheon::STAT_DIVINITIES_ACTIVATED, $player->id);
+
+        if ($payment->selectProgressToken) {
+            SevenWondersDuelPantheon::get()->prependStateStackAndContinue([SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
+        }
+        else {
+            SevenWondersDuelPantheon::get()->setStateStack(array_merge($payment->militarySenateActions, $this->actionStates, [SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME]));
+            SevenWondersDuelPantheon::get()->stateStackNextState();
         }
 
         return $payment;

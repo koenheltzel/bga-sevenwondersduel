@@ -254,17 +254,7 @@ trait PlayerTurnTrait {
 
         $player = Player::getActive();
         $divinity = Divinity::get($divinityId);
-        $payment = $divinity->activate($player);
-
-        $this->incStat(1, self::STAT_DIVINITIES_ACTIVATED, $player->id);
-
-        if ($payment->selectProgressToken) {
-            $this->prependStateStackAndContinue([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
-        }
-        else {
-            $this->setStateStack(array_merge($payment->militarySenateActions, $divinity->actionStates, [self::STATE_NEXT_PLAYER_TURN_NAME]));
-            $this->stateStackNextState();
-        }
+        $payment = $divinity->activate($player); // Also handles transition to next state
     }
 
     public function actionPrepareConspiracy($buildingId, $conspiracyId) {
