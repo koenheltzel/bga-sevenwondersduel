@@ -74,22 +74,10 @@
   <component name="ChangeListManager">
     <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/095 divinities.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/095 divinities.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/900 highresAssets.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/900 highresAssets.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/js/MilitaryTrackAnimator.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/js/MilitaryTrackAnimator.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/Divinities.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/Divinities.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/States/ChooseDivinityFromTopCardsTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/ChooseDivinityFromTopCardsTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sevenwondersduel.js" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/states.inc.php" beforeDir="false" afterPath="$PROJECT_DIR$/states.inc.php" afterDir="false" />
-    </list>
-    <list id="88e9efaf-6ba8-4357-bb22-fd821f111b5e" name="Choose divinity from top" comment="">
+      <change beforePath="$PROJECT_DIR$/css/240 chooseDivinityFromTopCards.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/240 chooseDivinityFromTopCards.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/255 chooseDivinityForTopOfDeck.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/255 chooseDivinityForTopOfDeck.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/Divinity.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/Divinity.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/States/ChooseDivinityFromTopCardsTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/ChooseDivinityFromTopCardsTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/php/Material.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/Material.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/php/States/GameEndDebugTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/GameEndDebugTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/States/PlayerTurnTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/PlayerTurnTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sevenwondersduel.action.php" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.action.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" afterDir="false" />
     </list>
     <ignored path="D:\wamp64\www\bga\sevenwondersduel\.idea\shelf/" />
@@ -127,100 +115,94 @@
     </favorites_list>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5415778">
-      <split-first>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="519">
-                  <caret line="3612" column="104" selection-start-line="3612" selection-start-column="104" selection-end-line="3612" selection-end-column="104" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/modules/php/States/ChooseDivinityFromTopCardsTrait.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="518">
-                  <caret line="75" column="33" lean-forward="true" selection-start-line="75" selection-start-column="33" selection-end-line="75" selection-end-column="33" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/modules/php/Divinity.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-450">
-                  <caret line="112" column="20" selection-start-line="112" selection-start-column="20" selection-end-line="112" selection-end-column="20" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/states.inc.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="400">
-                  <caret line="89" selection-start-line="89" selection-end-line="89" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/sevenwondersduel.action.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="263">
-                  <caret line="230" column="65" lean-forward="true" selection-start-line="230" selection-start-column="65" selection-end-line="230" selection-end-column="65" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/css/095 divinities.css">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="57">
-                  <caret line="80" column="18" lean-forward="true" selection-start-line="80" selection-start-column="18" selection-end-line="80" selection-end-column="18" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/sevenwondersduel.game.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="206">
-                  <caret line="206" column="10" selection-start-line="206" selection-start-column="10" selection-end-line="206" selection-end-column="10" />
-                  <folding>
-                    <element signature="e#582#603#0#PHP" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="366">
-                  <caret line="678" column="44" selection-start-line="678" selection-start-column="24" selection-end-line="678" selection-end-column="44" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/modules/php/Material.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="518">
-                  <caret line="820" column="96" selection-start-line="820" selection-start-column="55" selection-end-line="820" selection-end-column="96" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="196">
+              <caret line="3656" column="68" lean-forward="true" selection-start-line="3656" selection-start-column="68" selection-end-line="3656" selection-end-column="68" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/030 layout.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="58" selection-start-line="58" selection-end-line="58" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/240 chooseDivinityFromTopCards.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="18" column="31" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/255 chooseDivinityForTopOfDeck.css">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/php/States/ChooseDivinityFromTopCardsTrait.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="518">
+              <caret line="75" column="33" lean-forward="true" selection-start-line="75" selection-start-column="33" selection-end-line="75" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/php/Divinity.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-450">
+              <caret line="112" column="20" selection-start-line="112" selection-start-column="20" selection-end-line="112" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/states.inc.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="400">
+              <caret line="89" selection-start-line="89" selection-end-line="89" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="350">
+              <caret line="123" column="58" selection-start-line="123" selection-start-column="58" selection-end-line="123" selection-end-column="58" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sevenwondersduel.action.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="263">
+              <caret line="230" column="65" lean-forward="true" selection-start-line="230" selection-start-column="65" selection-end-line="230" selection-end-column="65" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/modules/php/Material.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="231">
+              <caret line="818" column="136" selection-start-line="818" selection-start-column="133" selection-end-line="818" selection-end-column="136" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -232,13 +214,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>jstpl_divinity_full</find>
-      <find>jsEnkiProgressTokensHtml</find>
-      <find>getDivinityDivHtml</find>
-      <find>.divinity_small .swd_title</find>
-      <find>.divinity .swd_title</find>
-      <find>enki</find>
-      <find>onChooseDivinityClick</find>
       <find>onEnterChooseDivinityFromTopCards</find>
       <find>this.ajaxcall</find>
       <find>STATE_PLACE_MINERVA_TOKEN_NAME</find>
@@ -262,6 +237,13 @@
       <find>hasClass</find>
       <find>fadeout</find>
       <find>this.placeOnObjectPos</find>
+      <find>.player_conspiracies &gt; .divinity_container</find>
+      <find>fadeOutAndDestroy</find>
+      <find>agora=</find>
+      <find>gap:</find>
+      <find>margin-right: var(--gutter);</find>
+      <find>choose_divinity_from_top_cards</find>
+      <find>Gate</find>
     </findStrings>
     <replaceStrings>
       <replace>dojo.attr('swd'</replace>
@@ -323,9 +305,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/css/235 applyMilitaryToken.css" />
-        <option value="$PROJECT_DIR$/modules/php/States/ApplyMilitaryTokenTrait.php" />
-        <option value="$PROJECT_DIR$/modules/php/States/ConstructWonderWithDiscardedBuilding.php" />
         <option value="$PROJECT_DIR$/css/800 discardedCards.css" />
         <option value="$PROJECT_DIR$/modules/php/States/PlayerTurnTrait.php" />
         <option value="$PROJECT_DIR$/css/020 general.css" />
@@ -365,15 +344,18 @@
         <option value="$PROJECT_DIR$/stats.inc.php" />
         <option value="$PROJECT_DIR$/modules/php/States/NextPlayerTurnTrait.php" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
-        <option value="$PROJECT_DIR$/css/255 chooseDivinityForTopOfDeck.css" />
         <option value="$PROJECT_DIR$/modules/php/Divinities.php" />
-        <option value="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" />
         <option value="$PROJECT_DIR$/css/095 divinities.css" />
         <option value="$PROJECT_DIR$/modules/php/States/ChooseDivinityFromTopCardsTrait.php" />
         <option value="$PROJECT_DIR$/modules/js/MilitaryTrackAnimator.js" />
         <option value="$PROJECT_DIR$/css/900 highresAssets.css" />
         <option value="$PROJECT_DIR$/states.inc.php" />
         <option value="$PROJECT_DIR$/sevenwondersduel.js" />
+        <option value="$PROJECT_DIR$/css/030 layout.css" />
+        <option value="$PROJECT_DIR$/css/255 chooseDivinityForTopOfDeck.css" />
+        <option value="$PROJECT_DIR$/css/240 chooseDivinityFromTopCards.css" />
+        <option value="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" />
+        <option value="$PROJECT_DIR$/modules/php/Material.php" />
       </list>
     </option>
   </component>
@@ -382,23 +364,6 @@
     <exe-path />
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl">
-      <ranges>
-        <range start1="115" end1="115" start2="115" end2="122" changelist="88e9efaf-6ba8-4357-bb22-fd821f111b5e" />
-        <range start1="671" end1="671" start2="678" end2="681" changelist="8d2e2636-1204-4078-b0e7-7956aa2a83b8" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/modules/php/States/ChooseDivinityFromTopCardsTrait.php">
-      <ranges>
-        <range start1="4" end1="4" start2="4" end2="8" changelist="88e9efaf-6ba8-4357-bb22-fd821f111b5e" />
-        <range start1="12" end1="13" start2="16" end2="29" changelist="8d2e2636-1204-4078-b0e7-7956aa2a83b8" />
-        <range start1="17" end1="17" start2="33" end2="43" changelist="88e9efaf-6ba8-4357-bb22-fd821f111b5e" />
-        <range start1="21" end1="22" start2="47" end2="48" changelist="88e9efaf-6ba8-4357-bb22-fd821f111b5e" />
-        <range start1="23" end1="23" start2="49" end2="76" changelist="88e9efaf-6ba8-4357-bb22-fd821f111b5e" />
-      </ranges>
-    </file>
   </component>
   <component name="NamedScopeManager">
     <scope name="css folder recursively *.css" pattern="file[sevenwondersduel]:css//*.css" />
@@ -587,27 +552,6 @@
       <workItem from="1609259181415" duration="15753000" />
       <workItem from="1609406682401" duration="167559000" />
       <workItem from="1610465193859" duration="12646000" />
-    </task>
-    <task id="LOCAL-00781" summary="Tooltips were never using @2X images because they were outside of the #swd div. To fix this we now set a data-swd-quality on the body, which is leading for the @2X css selectors.">
-      <created>1609691872867</created>
-      <option name="number" value="00781" />
-      <option name="presentableId" value="LOCAL-00781" />
-      <option name="project" value="LOCAL" />
-      <updated>1609691872867</updated>
-    </task>
-    <task id="LOCAL-00782" summary="Added Pantheon @2X css/js">
-      <created>1609747280096</created>
-      <option name="number" value="00782" />
-      <option name="presentableId" value="LOCAL-00782" />
-      <option name="project" value="LOCAL" />
-      <updated>1609747280096</updated>
-    </task>
-    <task id="LOCAL-00783" summary="Divinities activation cost WIP">
-      <created>1609754994704</created>
-      <option name="number" value="00783" />
-      <option name="presentableId" value="LOCAL-00783" />
-      <option name="project" value="LOCAL" />
-      <updated>1609754994704</updated>
     </task>
     <task id="LOCAL-00784" summary="Divinities activation cost WIP">
       <created>1609755487259</created>
@@ -931,11 +875,32 @@
       <option name="project" value="LOCAL" />
       <updated>1610969843428</updated>
     </task>
-    <option name="localTasksCounter" value="830" />
+    <task id="LOCAL-00830" summary="chooseDivinityFromTopCards WIP&#10;Enki Progress Tokens WIP">
+      <created>1611053907830</created>
+      <option name="number" value="00830" />
+      <option name="presentableId" value="LOCAL-00830" />
+      <option name="project" value="LOCAL" />
+      <updated>1611053907830</updated>
+    </task>
+    <task id="LOCAL-00831" summary="chooseDivinityFromTopCards WIP&#10;Enki Progress Tokens WIP">
+      <created>1611053971325</created>
+      <option name="number" value="00831" />
+      <option name="presentableId" value="LOCAL-00831" />
+      <option name="project" value="LOCAL" />
+      <updated>1611053971325</updated>
+    </task>
+    <task id="LOCAL-00832" summary="Don't have extra (age card) vertical space above player divinities when Agora is not enabled">
+      <created>1611059068795</created>
+      <option name="number" value="00832" />
+      <option name="presentableId" value="LOCAL-00832" />
+      <option name="project" value="LOCAL" />
+      <updated>1611059068795</updated>
+    </task>
+    <option name="localTasksCounter" value="833" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2131864000" />
+    <option name="totallyTimeSpent" value="2136993000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -948,10 +913,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" sideWeight="0.46695557" side_tool="true" weight="0.22761194" />
-      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.5330444" weight="0.18603411" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.5330444" visible="true" weight="0.18603411" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49946696" weight="0.31419286" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49840087" weight="0.49945828" />
@@ -960,7 +924,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.5351812" weight="0.16901408" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.5351812" visible="true" weight="0.25027084" />
       <window_info anchor="bottom" id="Cacher" order="9" sideWeight="0.6098081" weight="0.3033586" />
       <window_info anchor="bottom" id="File Transfer" order="10" sideWeight="0.6620469" weight="0.1971831" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
@@ -1062,8 +1026,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Divinities are not free when you have the corresponding mythology token" />
-    <MESSAGE value="Fixed mythology decks whitebox width behaviour" />
     <MESSAGE value="Added skeleton for remaining to-be-implemented activeplayer states for Divinities and Wonder The Divine Theater" />
     <MESSAGE value="Added css skeleton for remaining to-be-implemented activeplayer states" />
     <MESSAGE value="Discard Military Token implementation&#10;Number military tokens in template (data-military-token-number) for easy click handling / animations&#10;Added Player::getStartPlayer() convenience function&#10;Added action states of the skeleton state we added in the previous commit(s)" />
@@ -1087,27 +1049,11 @@
     <MESSAGE value="Updated Progress Token Mysticism notification" />
     <MESSAGE value="workspace.xml commit" />
     <MESSAGE value="Choose divinity from top" />
-    <option name="LAST_COMMIT_MESSAGE" value="Choose divinity from top" />
+    <MESSAGE value="chooseDivinityFromTopCards WIP&#10;Enki Progress Tokens WIP" />
+    <MESSAGE value="Don't have extra (age card) vertical space above player divinities when Agora is not enabled" />
+    <option name="LAST_COMMIT_MESSAGE" value="Don't have extra (age card) vertical space above player divinities when Agora is not enabled" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/_bga_ide_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="748" column="49" selection-start-line="748" selection-start-column="45" selection-end-line="748" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/PaymentPlan.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="592">
-          <caret line="388" column="9" lean-forward="true" selection-start-line="388" selection-start-column="9" selection-end-line="388" selection-end-column="9" />
-          <folding>
-            <element signature="e#11#23#0" expanded="true" />
-            <element signature="n#style#0;n#strong#0;n#PRE#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/060 playerArea.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -1351,13 +1297,6 @@
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/255 chooseDivinityForTopOfDeck.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/php/States/ConspireTrait.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -1374,13 +1313,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/299 ######## BASE GAME ########">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="678" column="44" selection-start-line="678" selection-start-column="24" selection-end-line="678" selection-end-column="44" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/css/095 divinities.css">
       <provider selected="true" editor-type-id="text-editor">
@@ -1427,13 +1359,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/Material.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
-          <caret line="820" column="96" selection-start-line="820" selection-start-column="55" selection-end-line="820" selection-end-column="96" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/states.inc.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
@@ -1443,8 +1368,39 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="519">
-          <caret line="3612" column="104" selection-start-line="3612" selection-start-column="104" selection-end-line="3612" selection-end-column="104" />
+        <state relative-caret-position="196">
+          <caret line="3656" column="68" lean-forward="true" selection-start-line="3656" selection-start-column="68" selection-end-line="3656" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/030 layout.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="58" selection-start-line="58" selection-end-line="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/255 chooseDivinityForTopOfDeck.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/240 chooseDivinityFromTopCards.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="31" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="123" column="58" selection-start-line="123" selection-start-column="58" selection-end-line="123" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/Material.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="818" column="136" selection-start-line="818" selection-start-column="133" selection-end-line="818" selection-end-column="136" />
         </state>
       </provider>
     </entry>

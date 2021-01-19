@@ -816,8 +816,9 @@ class Material extends Base
             ->addActionState(SevenWondersDuelPantheon::STATE_APPLY_MILITARY_TOKEN_NAME);
 
         $this->divinities[16] = (new Divinity(16, clienttranslate("Gate"), Divinity::TYPE_GATE))
-            ->addText(clienttranslate("The activation cost of the Gate corresponds to twice the normal activation cost of its space (BGA calculates and previews this)."), false)
-            ->addText(clienttranslate("Reveal the top Divinity card from each Mythology deck. Then choose one of the revealed Divinities and activate it for free. Finally, place the other Divinities face down on their respective decks."))
+            ->addText(clienttranslate("The activation cost of the Gate corresponds to twice the normal activation cost of its space (BGA will calculate and show the final cost)."))
+            ->addText(clienttranslate("Reveal the top Divinity card from each Mythology deck."))
+            ->addText(clienttranslate("Then choose one of the revealed Divinities and activate it for free. Finally, place the other Divinities face down on their respective decks."))
             ->addActionState(SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_NAME);
 
         $this->mythologyTokens = new MythologyTokens();

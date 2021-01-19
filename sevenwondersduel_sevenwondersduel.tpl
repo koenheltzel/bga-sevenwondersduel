@@ -113,13 +113,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="choose_divinity_from_top_cards" class="whiteblock">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                            </div>
+                            <div id="choose_divinity_from_top_cards" class="whiteblock"><div></div><div></div><div></div><div></div><div></div></div>
                             <div id="choose_conspirator_action" class="whiteblock">
                                 <a href="#" id="buttonPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_place_influence"></div><span>{PLACE_INFLUENCE}</span></a>
                                 <a href="#" id="buttonConspire" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{CONSPIRE}</span></a>
