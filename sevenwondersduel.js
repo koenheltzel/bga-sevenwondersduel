@@ -3601,6 +3601,12 @@ define([
                 dojo.connect(coinAnimation, 'onEnd', dojo.hitch(this, function (node) {
                     var newDivinityContainerNode = dojo.place(this.getDivinityDivHtml(notif.args.divinityId, notif.args.divinityType, false), 'player_conspiracies_' + notif.args.playerId);
                     var newDivinityNode = dojo.query('.divinity', newDivinityContainerNode)[0];
+
+                    let enkiProgressTokensNode = dojo.query('.enki_progress_tokens', oldDivinityNode)[0];
+                    if (enkiProgressTokensNode) {
+                        dojo.place(enkiProgressTokensNode.outerHTML, newDivinityNode);
+                    }
+
                     this.autoUpdateScale();
 
                     var coinRewardAnimation = bgagame.CoinAnimator.get().getAnimation(

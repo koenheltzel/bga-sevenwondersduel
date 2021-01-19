@@ -94,13 +94,20 @@
     top: calc(var(--scale) * 6px);
 }
 
+.divinity_small.divinity_compact .enki_progress_tokens {
+    top: 28%;
+}
 .divinity_small .enki_progress_tokens {
+    --element-scale2: 0.80;
     top: 78%;
-    --element-scale: 0.80;
-    display: flex;
-    gap: calc(var(--scale) * 11px);
+    display: inline-block;
     left: 7%;
     position: absolute;
+    white-space: nowrap;
+}
+
+.divinity_small .enki_progress_tokens > div:nth-of-type(1) {
+    margin-right: calc(var(--scale) * 12px);
 }
 
 .divinity_compact.green_border .trigger, .divinity_compact.red_border .prepare {

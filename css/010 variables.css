@@ -2,6 +2,7 @@
 :root {
     --scale: 1.0;
     --element-scale: 1.0;
+    --element-scale2: 1.0;
     --gutter: calc(7.5px * var(--scale));
 
     --building-spritesheet-width: 1992px;
