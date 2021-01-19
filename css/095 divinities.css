@@ -48,14 +48,14 @@
     z-index: 30;
 }
 
-.divinity .swd_title {
+.divinity > .swd_title {
     position: relative;
     top: 72%;
     font-size: calc(16px * var(--scale));
     display: block;
 }
 
-.divinity_small .swd_title {
+.divinity_small > .swd_title {
     font-size: calc(16px * var(--divinity-small-scale) * var(--element-scale));
 }
 .divinity_small.divinity_compact .swd_title {
@@ -92,6 +92,15 @@
     animation: none;
     font-size: calc(var(--scale) * 18px);
     top: calc(var(--scale) * 6px);
+}
+
+.divinity_small .enki_progress_tokens {
+    top: 78%;
+    --element-scale: 0.80;
+    display: flex;
+    gap: calc(var(--scale) * 11px);
+    left: 7%;
+    position: absolute;
 }
 
 .divinity_compact.green_border .trigger, .divinity_compact.red_border .prepare {

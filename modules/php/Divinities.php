@@ -71,6 +71,34 @@ class Divinities extends Collection {
         ];
     }
 
+    public static function typesInSelection() {
+        $cards = SevenWondersDuelPantheon::get()->divinityDeck->getCardsInLocation('selection');
+        $types = [];
+        foreach($cards as $card) {
+            $types[] = $card['type'];
+        }
+        return $types;
+    }
+
+    public static function enkiInSelection() {
+        $cards = SevenWondersDuelPantheon::get()->divinityDeck->getCardsInLocation('selection');
+        foreach($cards as $card) {
+            if ($card['id'] == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static function setEnkiProgressTokens() {
+        SevenWondersDuelPantheon::get()->progressTokenDeck->shuffle('box');
+        SevenWondersDuelPantheon::get()->progressTokenDeck->pickCardsForLocation(2, 'box', 'enki');
+    }
+
+    public static function resetEnkiProgressTokens() {
+        SevenWondersDuelPantheon::get()->progressTokenDeck->moveAllCardsInLocation('enki', 'box');
+    }
+
     public static function getDeckCardsSorted($location): array {
         $cards = SevenWondersDuelPantheon::get()->divinityDeck->getCardsInLocation($location);
         usort($cards, function($a, $b) {return (int)$a['location_arg'] > (int)$b['location_arg'];});

@@ -85,6 +85,9 @@ $divinityStateTransitions = [
     SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_ID,
     SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
     SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_ID,
+    SevenWondersDuelPantheon::STATE_TAKE_BUILDING_NAME => SevenWondersDuelPantheon::STATE_TAKE_BUILDING_ID,
+    SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_ID,
+    SevenWondersDuelPantheon::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME => SevenWondersDuelPantheon::STATE_TAKE_UNCONSTRUCTED_WONDER_ID,
 ];
 
 $conspiracyStateTransitions = [
@@ -568,6 +571,7 @@ $machinestates = [
             "actionChooseDivinityFromTopCards",
         ],
         "transitions" => array_merge(
+            $divinityStateTransitions,
             [
                 SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
                 SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,

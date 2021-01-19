@@ -177,7 +177,7 @@ define([
 
                     return dojo.fx.chain(anims);
                 }
-                return dojo.fx.combine([]);
+                return this.game.emptyAnimation();
             },
         });
 

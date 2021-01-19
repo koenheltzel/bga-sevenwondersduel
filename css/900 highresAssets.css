@@ -53,6 +53,7 @@
 #swd[data-quality="2x"] .snake_token,
 #swd[data-quality="2x"][data-pantheon="1"] .end_game_purple .end_game_card,
 #swd[data-quality="2x"][data-pantheon="1"] .end_game_divinities .end_game_card,
+#swd[data-quality="2x"] .pantheon_icon,
 #swd[data-quality="2x"] .pantheon_cost_arrow {
     background-image: url('img/pantheon_sprites@2X.png') !important;
 }
@@ -81,7 +82,6 @@
 #swd[data-quality="2x"] .action_remove_influence,
 #swd[data-quality="2x"] .action_skip,
 #swd[data-quality="2x"] .agora_icon,
-#swd[data-quality="2x"] .pantheon_icon,
 #swd[data-quality="2x"] .senate_section, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .senate_section  {
     background-image: url('img/agora_sprites@2X.png') !important;
 }

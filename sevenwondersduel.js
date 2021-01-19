@@ -387,6 +387,10 @@ define([
                         .on("#swd[data-state=placeSnakeToken] .player_building_column.red_border .building_header_small:click",
                             dojo.hitch(this, "onPlaceSnakeTokenClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseDivinityFromTopCards] #choose_divinity_from_top_cards .divinity :click",
+                            dojo.hitch(this, "onChooseDivinityFromTopCardsClick")
+                        );
 
                     // Pantheon click handlers without event delegation:
                     dojo.query("#activate_divinity_confirm").on("click", dojo.hitch(this, "onActivateDivinityConfirmClick"));
@@ -633,6 +637,9 @@ define([
 
                 dojo.subscribe('placeSnakeToken', this, "notif_placeSnakeToken");
                 this.notifqueue.setSynchronous('placeSnakeToken');
+
+                dojo.subscribe('returnDivinities', this, "notif_returnDivinities");
+                this.notifqueue.setSynchronous('returnDivinities');
 
                 // Agora
 
@@ -1411,7 +1418,7 @@ define([
                 return delay;
             },
 
-            getDivinityDivHtml: function (divinityId, divinityType, full=false) {
+            getDivinityDivHtml: function (divinityId, divinityType, full=false, enkiProgressTokenIds=null) {
                 let hidden = divinityId == 0;
                 let spriteId = hidden ? (16 + divinityType) : divinityId;
                 var divinity = this.gamedatas.divinities[divinityId];
@@ -1421,7 +1428,15 @@ define([
                     jsName: hidden ? '' : _(divinity.name),
                     jsDivinityBack: hidden ? 'divinity_back' : '',
                     jsYOffset: hidden ? '.6562' : '.7012',
+                    jsEnkiProgressTokensHtml: '',
                 };
+                if (divinityId == 1 && enkiProgressTokenIds) {
+                    let enkiProgressTokensHtml = '';
+                    enkiProgressTokensHtml += this.getProgressTokenDivHtml(enkiProgressTokenIds[0])
+                    enkiProgressTokensHtml += this.getProgressTokenDivHtml(enkiProgressTokenIds[1])
+                    data.jsEnkiProgressTokensHtml = enkiProgressTokensHtml;
+                }
+
                 var spritesheetColumns = 6;
                 data.jsX = (spriteId - 1) % spritesheetColumns;
                 data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
@@ -3210,7 +3225,7 @@ define([
                     buildingNode = dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
                 }
 
-                var twistAnimation = dojo.fx.combine([]);;
+                var twistAnimation = this.emptyAnimation();
                 if (oldBuildingNode) {
                     twistAnimation = this.twistAnimation(oldBuildingNode, buildingNode, false);
                 }
@@ -3379,7 +3394,7 @@ define([
                             [wonder.visualOpponentCoinLossPosition[0] * wonderNodePosition.w, wonder.visualOpponentCoinLossPosition[1] * wonderNodePosition.h]
                         );
 
-                        var eightWonderFadeOut = dojo.fx.combine([]);
+                        var eightWonderFadeOut = this.emptyAnimation();
                         if (notif.args.payment.eightWonderId) {
                             eightWonderFadeOut = dojo.fadeOut({
                                 node: $('wonder_' + notif.args.payment.eightWonderId + '_container'),
@@ -3556,18 +3571,32 @@ define([
                 this.clearDivinityBorder();
                 this.hideActivateDivinityDialog();
 
+                // Divinities from the Pantheon
                 var oldDivinityNode = dojo.query('.pantheon_space_containers .divinity[data-divinity-id="' + notif.args.divinityId + '"]')[0];
+                if (!oldDivinityNode) {
+                    // Other divinities (ChooseDivinityFromTopCards, ChooseDivinityFromDeck)
+                    oldDivinityNode = dojo.query('#swd_wrap .divinity[data-divinity-id="' + notif.args.divinityId + '"]')[0];
+                }
+                var oldDivinityFullSize = !dojo.hasClass(oldDivinityNode, 'divinity_compact');
                 var oldDivinityContainerNode = oldDivinityNode.parentElement;
-                var spaceNode = dojo.query(oldDivinityNode).closest('.pantheon_space')[0];
-                let space = dojo.attr(spaceNode, 'data-space');
-                let coinNode = dojo.query('.pantheon_cost_containers .pantheon_space[data-space="' + space + '"] .' + this.getPlayerAlias(notif.args.playerId) + ' .coin')[0];
 
-                var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
-                    this.getPlayerCoinContainer(notif.args.playerId),
-                    coinNode,
-                    notif.args.cost,
-                    notif.args.playerId
-                );
+                let coinAnimation = null;
+                let spaceNode = null;
+                if (!oldDivinityFullSize) {
+                    spaceNode = dojo.query(oldDivinityNode).closest('.pantheon_space')[0];
+                    let space = dojo.attr(spaceNode, 'data-space');
+                    let coinNode = dojo.query('.pantheon_cost_containers .pantheon_space[data-space="' + space + '"] .' + this.getPlayerAlias(notif.args.playerId) + ' .coin')[0];
+
+                    coinAnimation = bgagame.CoinAnimator.get().getAnimation(
+                        this.getPlayerCoinContainer(notif.args.playerId),
+                        coinNode,
+                        notif.args.cost,
+                        notif.args.playerId
+                    );
+                }
+                else {
+                    coinAnimation = this.emptyAnimation();
+                }
 
                 dojo.connect(coinAnimation, 'onEnd', dojo.hitch(this, function (node) {
                     var newDivinityContainerNode = dojo.place(this.getDivinityDivHtml(notif.args.divinityId, notif.args.divinityType, false), 'player_conspiracies_' + notif.args.playerId);
@@ -3581,14 +3610,20 @@ define([
                         notif.args.playerId,
                     );
 
-                    this.placeOnObjectPos(newDivinityNode, oldDivinityNode, 0, 0);
-                    // dojo.style(newDivinityNode, 'transform', 'rotate(' + this.getCurrentRotation(spaceNode) + 'deg)');
-                    dojo.destroy(oldDivinityContainerNode);
+                    this.placeOnObjectPos(newDivinityNode, oldDivinityNode, 0, oldDivinityFullSize ? (78 * this.getCssVariable('--scale')) : 0);
+                    let fadeoutAnim = dojo.fadeOut({
+                        node: oldDivinityContainerNode,
+                        duration: oldDivinityFullSize ? 500 : 0,
+                        onEnd: dojo.hitch(this, function (node) {
+                            dojo.destroy(node);
+                        })
+                    })
 
                     let anim = dojo.fx.chain([
+                        fadeoutAnim,
                         dojo.fx.combine([
                             this.slideToObjectPos(newDivinityNode, newDivinityContainerNode, 0, 0, this.activate_divinity_duration),
-                            dojo.animateProperty({
+                            spaceNode ? dojo.animateProperty({
                                 node: newDivinityNode,
                                 // delay: this.constructWonderAnimationDuration / 6,
                                 duration: this.activate_divinity_duration * 0.6,
@@ -3598,7 +3633,7 @@ define([
                                 onAnimate: function (values) {
                                     dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
                                 }
-                            })
+                            }) : this.emptyAnimation()
                         ]),
                         coinRewardAnimation,
                         // Military Track animation (pawn movement, token handling)
@@ -4912,6 +4947,252 @@ define([
 
             onEnterChooseDivinityFromTopCards: function (args) {
                 if (this.debug) console.log('onEnterChooseDivinityFromTopCards', args);
+
+                for (let type = 1; type <= 5; type++) {
+                    let sourceContainer = dojo.query('#choose_divinity_from_top_cards div:nth-of-type(' + type + ')')[0];
+                    let targetContainer = dojo.query('#mythology_decks_container #mythology' + type + ' .divinity_deck')[0];
+                }
+
+                let anims = [];
+                if (this.isCurrentPlayerActive()) {
+                    let i = 1;
+                    Object.values(args._private.divinityIds).forEach(dojo.hitch(this, function (divinityId) {
+                        let divinity = this.gamedatas.divinities[divinityId];
+                        var container = dojo.query('#choose_divinity_from_top_cards>div:nth-of-type(' + (divinity.type) + ')')[0];
+                        dojo.empty(container);
+                        let divinityContainer = dojo.place(this.getDivinityDivHtml(divinityId, divinity.type,true, args._private.enkiProgressTokenIds), container);
+                        let divinityNode = dojo.query('.divinity', divinityContainer)[0];
+                        this.placeOnObject(divinityNode, $('mythology' + divinity.type));
+                        anims.push(this.slideToObjectPos( divinityNode, divinityContainer, 0, 0, this.conspire_duration, i * this.conspire_duration / 3));
+                        i++;
+                    }));
+                    this.updateLayout();
+                }
+                // else {
+                //     for (let i = 0; i <= 1; i++) {
+                //         var container = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                //         let node = dojo.place(this.getDivinityDivHtml(0, args.divinitiesType, true), container);
+                //         this.placeOnObject(node, $('mythology' + args.divinitiesType));
+                //         let startDelay = i * this.conspire_duration / 3;
+                //
+                //         anims.push(
+                //             dojo.fx.combine([
+                //                 this.slideToObject( node, container, this.conspire_duration, i * this.conspire_duration / 3),
+                //                 dojo.fadeIn({
+                //                     node: node,
+                //                     duration: this.conspire_duration / 3
+                //                 }),
+                //                 dojo.fadeOut({
+                //                     node: node,
+                //                     delay: startDelay + this.conspire_duration / 3 * 2,
+                //                     duration: this.conspire_duration / 3,
+                //                     onEnd: dojo.hitch(this, function (node) {
+                //                         dojo.destroy(node);
+                //                     })
+                //                 }),
+                //             ])
+                //         );
+                //     }
+                // }
+                let anim = dojo.fx.combine(
+                    anims
+                );
+                anim.play();
+            },
+
+            onChooseDivinityFromTopCardsClick: function (e) {
+                if (this.debug) console.log('onChooseDivinityFromTopCardsClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    var divinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
+
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseDivinityFromTopCards')) {
+                        return;
+                    }
+
+                    console.log('actionChooseDivinityFromTopCards data-divinity-id', dojo.attr(divinityNode, 'data-divinity-id'));
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseDivinityFromTopCards.html", {
+                            divinityId: dojo.attr(divinityNode, 'data-divinity-id'),
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_returnDivinities: function(notif) {
+                if (this.debug) console.log('notif_returnDivinities', notif);
+
+                let divinityId = notif.args.divinityId ? notif.args.divinityId : 0;
+                let divinityType = notif.args.divinityType;
+                let space = notif.args.space;
+
+                // Skip for the active player, who will get their own notification of the same type but with a real divinityId.
+                if (this.isCurrentPlayerActive() && divinityId == 0) {
+                    this.notifqueue.setSynchronousDuration(0);
+                    return;
+                }
+
+                let anims = [];
+                let startSlideAfterFlipPercentage = 0.5;
+
+                for (let iteration = 1; iteration <= 2; iteration++) {
+                    let targetNode = null;
+                    if (iteration == 1) {
+                        var spaceNode = dojo.query('.pantheon_space_containers div[data-space=' + space + ']')[0];
+                        var newDivinityContainerNode = dojo.place(this.getDivinityDivHtml(0, divinityType, false), spaceNode);
+                        var newDivinityNode = dojo.query('.divinity_compact', newDivinityContainerNode)[0];
+                        dojo.style(newDivinityContainerNode, 'opacity', 0);
+                        // Start: Correct position to match Mythology logo of full and compact nodes.
+                        dojo.style(newDivinityNode, 'top', 'calc(-192px * var(--scale))');
+                        if (!this.isCurrentPlayerActive()) {
+                            // Don't know why but this is neccessary to correct the position for the inactive player.
+                            dojo.style(newDivinityNode, 'left', 'calc(16px * var(--scale))');
+                        }
+                        targetNode = newDivinityNode;
+                    }
+                    else if (iteration == 2) {
+                        targetNode = dojo.query('#mythology_decks_container #mythology' + notif.args.divinityType + ' .divinity')[0];
+                    }
+
+                    this.autoUpdateScale();
+
+                    let flipAnims = [];
+                    let slideAnims = [];
+                    var backSideDivinityContainerNode = null;
+                    if (this.isCurrentPlayerActive()) {
+                        this.clearGrayBorder();
+                        this.clearRedBorder();
+
+                        // For the active player, turn the card first so the backside is visible.
+                        var oldDivinityNode = null;
+                        if (iteration == 1) {
+                            oldDivinityNode = dojo.query('#choose_and_place_divinity .divinity[data-divinity-id=' + divinityId + ']')[0];
+                        }
+                        else if (iteration == 2) {
+                            oldDivinityNode = dojo.query('#choose_and_place_divinity .divinity:not([data-divinity-id=' + divinityId + ']):not([data-divinity-id=0])')[0];
+                        }
+
+                        backSideDivinityContainerNode = dojo.place(this.getDivinityDivHtml(0, divinityType, true), oldDivinityNode.parentElement);
+                        let backSideDivinityNode = dojo.query('.divinity', backSideDivinityContainerNode)[0];
+
+                        dojo.style(backSideDivinityNode, 'transform', 'perspective(40em) rotateY(-180deg)'); // When delay > 0 this is necesarry to hide the new node.
+
+                        flipAnims.push(
+                            dojo.fx.combine([
+                                dojo.animateProperty({
+                                    node: oldDivinityNode,
+                                    duration: this.turnAroundCardDuration,
+                                    easing: dojo.fx.easing.linear,
+                                    properties: {
+                                        propertyTransform: {start: 0, end: 180}
+                                    },
+                                    onAnimate: function (values) {
+                                        dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    },
+                                    onEnd: dojo.hitch(this, function (node) {
+                                        dojo.destroy(node);
+                                    })
+                                }),
+                                dojo.animateProperty({
+                                    node: backSideDivinityNode,
+                                    duration: this.turnAroundCardDuration,
+                                    easing: dojo.fx.easing.linear,
+                                    properties: {
+                                        propertyTransform: {start: -180, end: 0}
+                                    },
+                                    onAnimate: function (values) {
+                                        dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    }
+                                }),
+                            ])
+                        );
+                    } else {
+                        // For the inactive player / spectator, fadein the backside of the divinity and slide towards the final place
+                        var playerBuildingsContainer = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                        backSideDivinityContainerNode = dojo.place(this.getDivinityDivHtml(0, divinityType, true), dojo.query('#pantheon_board_container')[0]);
+                        this.placeOnObject(backSideDivinityContainerNode, playerBuildingsContainer); // Center the card in the player buildingsContainer
+                        dojo.style(backSideDivinityContainerNode, 'opacity', 0);
+
+                        slideAnims.push(
+                            dojo.fx.combine([
+                                dojo.fadeIn({
+                                    node: backSideDivinityContainerNode,
+                                    delay: this.turnAroundCardDuration * startSlideAfterFlipPercentage,
+                                    duration: this.place_divinity_duration / 4
+                                }),
+                            ])
+                        );
+                    }
+                    dojo.style(backSideDivinityContainerNode, 'z-index', 100);
+
+                    if (iteration == 1) {
+                        slideAnims.push(this.slideToObject(backSideDivinityContainerNode, targetNode, this.place_divinity_duration, this.turnAroundCardDuration * startSlideAfterFlipPercentage));
+                    }
+                    else if (iteration == 2) {
+                        slideAnims.push(this.slideToObjectPos(backSideDivinityContainerNode, targetNode, 0, 0, this.place_divinity_duration, this.turnAroundCardDuration * startSlideAfterFlipPercentage));
+                    }
+
+                    if (iteration == 1) {
+                        // End: Correct position to match Mythology logo of full and compact nodes.
+                        dojo.style(newDivinityNode, 'top', '0px');
+                        dojo.style(newDivinityNode, 'left', '0px');
+
+                        slideAnims.push(
+                            dojo.animateProperty({
+                                node: backSideDivinityContainerNode,
+                                delay: this.turnAroundCardDuration * startSlideAfterFlipPercentage,
+                                duration: this.place_divinity_duration,
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    propertyTransform: {start: 0, end: this.getCurrentRotation(spaceNode)}
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                }
+                            })
+                        );
+                    }
+
+                    let fadeOutParams = {
+                        node: backSideDivinityContainerNode,
+                        duration: this.place_divinity_duration / 4,
+                        onEnd: dojo.hitch(this, function (node) {
+                            dojo.destroy(node);
+                        })
+                    };
+                    if (iteration == 1) {
+                        fadeOutParams.onPlay = dojo.hitch(this, function (node) {
+                            // Show newDivinityContainerNode fully, since it's behind the backSideDivinityNode we don't have to fade it.
+                            dojo.style(newDivinityContainerNode, 'opacity', 1);
+                        });
+                    }
+                    let fadeOutAnim = dojo.fadeOut(fadeOutParams);
+
+                    anims.push(dojo.fx.chain([
+                        dojo.fx.combine(
+                            flipAnims.concat(slideAnims)
+                        ),
+                        fadeOutAnim
+                    ]));
+                }
+
+                let anim = dojo.fx.chain(anims);
+                anim.play();
+
+                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
             },
 
             //   ____ _                            ____  _       _       _ _           ____            _
@@ -7351,6 +7632,10 @@ define([
 
             getOppositePlayerId: function (playerId) {
                 return parseInt(playerId) == this.me_id ? this.opponent_id : this.me_id;
+            },
+
+            emptyAnimation: function() {
+                return dojo.fx.combine([]);
             },
 
             getCostValue: function (cost) {

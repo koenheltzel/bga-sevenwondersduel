@@ -14,7 +14,19 @@ trait ChooseDivinityFromTopCardsTrait {
      * @return array
      */
     public function argChooseDivinityFromTopCards() {
-        $data = [];
+        $data = [
+            '_private' => [ // Using "_private" keyword, all data inside this array will be made private
+                Player::getActive()->id => [ // Using "active" keyword inside "_private", you select active player(s)
+                    'divinityIds' => array_keys($this->divinityDeck->getCardsInLocation('selection')) // will be send only to active player(s)
+                ],
+            ],
+            'divinitiesSituation' => Divinities::getSituation(), // Update the deck count
+            'divinityTypes' => Divinities::typesInSelection(),
+            'enkiInSelection' => (int)Divinities::enkiInSelection(),
+        ];
+        if (Divinities::enkiInSelection()) {
+            $data['_private'][Player::getActive()->id]['enkiProgressTokenIds'] = array_keys($this->progressTokenDeck->getCardsInLocation('enki'));
+        }
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         return $data;
     }
