@@ -1615,13 +1615,13 @@ define([
 
                     dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                         // Wait for animation before handling the next notification (= state change).
-                        this.notifqueue.setSynchronousDuration(0);
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     }));
 
                     anim.play();
                 }
                 else {
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }
             },
 
@@ -2659,7 +2659,7 @@ define([
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -2829,7 +2829,7 @@ define([
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -2988,7 +2988,7 @@ define([
                         dojo.style(conspiracyContainer, 'z-index', 10);
 
                         // Wait for animation before handling the next notification (= state change).
-                        this.notifqueue.setSynchronousDuration(0);
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     }));
 
                     anim.play();
@@ -3143,7 +3143,7 @@ define([
                     dojo.style(playerBuildingId, 'z-index', 15);
 
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -3262,7 +3262,7 @@ define([
                         if (notif.args.draftpool) this.updateDraftpool(notif.args.draftpool);
 
                         // Wait for animation before handling the next notification (= state change).
-                        this.notifqueue.setSynchronousDuration(0);
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     }));
 
                     anim.play();
@@ -3489,7 +3489,7 @@ define([
                             }
 
                             // Wait for animation before handling the next notification (= state change).
-                            this.notifqueue.setSynchronousDuration(0);
+                            this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                         }));
 
                         anim.play();
@@ -3652,7 +3652,7 @@ define([
 
                     dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                         // Wait for animation before handling the next notification (= state change).
-                        this.notifqueue.setSynchronousDuration(0);
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     }));
 
                     anim.play();
@@ -3806,7 +3806,7 @@ define([
                         dojo.removeClass(conspiracyContainer, 'animating');
 
                         // Wait for animation before handling the next notification (= state change).
-                        this.notifqueue.setSynchronousDuration(0);
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     }));
 
                     anim.play();
@@ -3886,7 +3886,7 @@ define([
                     dojo.destroy(playerBuildingNode.parentNode);
 
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -4026,7 +4026,7 @@ define([
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
 
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -4234,7 +4234,7 @@ define([
 
                 // Skip for the active player, who will get their own notification of the same type but with a real divinityId.
                 if (this.isCurrentPlayerActive() && divinityId == 0) {
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     return;
                 }
 
@@ -4386,7 +4386,7 @@ define([
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -4522,7 +4522,7 @@ define([
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -4692,7 +4692,7 @@ define([
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -4815,7 +4815,7 @@ define([
                     dojo.style(minervaNode, 'left', '');
 
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -4880,7 +4880,7 @@ define([
                         dojo.destroy(node);
 
                         // Wait for animation before handling the next notification (= state change).
-                        this.notifqueue.setSynchronousDuration(0);
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     })
                 });
 
@@ -4942,7 +4942,7 @@ define([
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -5165,7 +5165,7 @@ define([
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -5430,7 +5430,7 @@ define([
 
                 // Skip for the active player, who will get their own notification of the same type but with a real progressTokenId.
                 if (this.isCurrentPlayerActive() && conspiracyIds[0] == 17) {
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     return;
                 }
 
@@ -5485,7 +5485,7 @@ define([
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -5498,7 +5498,7 @@ define([
 
                 // Skip for the active player, who will get their own notification of the same type but with a real conspiracyId.
                 if (this.isCurrentPlayerActive() && conspiracyId == 18) {
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     return;
                 }
 
@@ -5594,7 +5594,7 @@ define([
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -5735,7 +5735,7 @@ define([
                     dojo.destroy(backSideConspiracyNode);
 
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -5920,7 +5920,7 @@ define([
                     }));
 
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -6049,7 +6049,7 @@ define([
                     dojo.query("#swd_wrap .agora_cube.animated").forEach(dojo.destroy);
 
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -6157,7 +6157,7 @@ define([
                     }));
 
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -6435,7 +6435,7 @@ define([
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -6600,7 +6600,7 @@ define([
 
                 // Skip for the active player, who will get their own notification of the same type but with a real progressTokenId.
                 if (this.isCurrentPlayerActive() && notif.args.progressTokenId == 16) {
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     return;
                 }
 
@@ -6617,14 +6617,14 @@ define([
                         conspiracyNode.dataset.conspiracyProgressToken = 1;
 
                         // Wait for animation before handling the next notification (= state change).
-                        this.notifqueue.setSynchronousDuration(0);
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     }));
 
                     anim.play();
                 }
                 else {
                     conspiracyNode.dataset.conspiracyProgressToken = 1;
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }
 
             },
@@ -6850,7 +6850,7 @@ define([
                     this.clearRedBorder();
 
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -6931,7 +6931,7 @@ define([
                     dojo.destroy(buildingNodeContainer);
 
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -7003,7 +7003,7 @@ define([
                     this.updateWondersSituation(notif.args.wondersSituation);
 
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
@@ -7241,7 +7241,7 @@ define([
 
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
