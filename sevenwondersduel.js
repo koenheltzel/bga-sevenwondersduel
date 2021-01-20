@@ -2445,9 +2445,9 @@ define([
             increasePlayerCoins: function (playerId, coins) {
                 $('player_area_' + playerId + '_coins').innerHTML = this.getPlayerNodeCoins(playerId) + coins;
             },
-            increaseMythologyDeckCount: function (type) {
+            changeMythologyDeckCount: function (type, change) {
                 let spanNode = dojo.query('#mythology' + type + ' span')[0];
-                spanNode.innerHTML = parseInt(spanNode.innerHTML) + 1;
+                spanNode.innerHTML = parseInt(spanNode.innerHTML) + change;
             },
 
             increaseAstarteCoins: function (playerId, coins) {
@@ -4980,7 +4980,10 @@ define([
                             this.slideToObjectPos( divinityNode, divinityContainerNode, left, top, this.conspire_duration, i * this.conspire_duration / fadePeriod),
                             dojo.fadeIn({
                                 node: divinityNode,
-                                duration: this.conspire_duration / fadePeriod
+                                duration: this.conspire_duration / fadePeriod,
+                                // onEnd: dojo.hitch(this, function (node) {
+                                //     this.changeMythologyDeckCount(dojo.attr(node, 'data-divinity-type'), -1);
+                                // })
                             }),
                             dojo.fadeOut({
                                 node: divinityNode,
@@ -5144,7 +5147,7 @@ define([
                     let slideAnim = this.slideToObjectPos( backSideDivinityNode, 'mythology' + type, 0, 0, this.choose_conspire_remnant_position_duration, delay + this.turnAroundCardDuration);
                     dojo.connect(slideAnim, 'onEnd', dojo.hitch(this, function (node) {
                         let tmpNode = dojo.hasClass(node, 'divinity') ? node : dojo.query(".divinity", node)[0];
-                        this.increaseMythologyDeckCount(dojo.attr(tmpNode, 'data-divinity-type'));
+                        this.changeMythologyDeckCount(dojo.attr(tmpNode, 'data-divinity-type'), 1);
                         dojo.destroy(node.parentElement);
                     }));
 
