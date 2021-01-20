@@ -41,6 +41,7 @@
 .divinity_container {
     /*display: inline-block;*/
     position: relative; /* Without this the divinity won't slide properly */
+    backface-visibility: hidden;
 }
 
 /* So during divinity selection, during the sliding animation the player wonder will be on top of the selection wonders. And when constructing a wonder the age card will be on top of the other draftpool cards. */

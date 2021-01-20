@@ -110,7 +110,7 @@ class Divinity extends Item {
      * @param Divinity $building
      * @return PaymentPlan
      */
-    public function activate(Player $player, $free = true) {
+    public function activate(Player $player, $free = false) {
         $payment = parent::construct($player, null, $free);
 
         if ($this->scientificSymbol) {

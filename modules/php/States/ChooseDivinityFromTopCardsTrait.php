@@ -68,12 +68,13 @@ trait ChooseDivinityFromTopCardsTrait {
             [
                 'player_name' => $player->name,
                 'types' => $types,
+                'selectedDivinityId' => $divinityId,
             ]
         );
 
         // Activate selected Divinity
         $divinity = Divinity::get($divinityId);
-        $payment = $divinity->activate($player); // Also handles transition to next state
+        $payment = $divinity->activate($player, true); // Also handles transition to next state
     }
 
     public function shouldSkipChooseDivinityFromTopCards() {

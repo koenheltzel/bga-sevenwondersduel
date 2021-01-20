@@ -88,9 +88,7 @@
                             <div id="activate_divinity" class="whiteblock">
                                 <h3>Confirm Pantheon card activation</h3>
                                 <div id="activate_divinity_flexbox">
-                                    <div id="activate_divinity_container">
-                                        <div data-divinity-id="14" data-divinity-type="5" class="divinity divinity_small divinity_compact " style="background-position: calc(-1.0741 * var(--divinity-width) * var(--divinity-small-scale) * var(--element-scale)) calc(-2.7012 * var(--divinity-height) * var(--divinity-small-scale) * var(--element-scale));">            <span class="swd_title">Minerva</span>        </div>
-                                    </div>
+                                    <div id="activate_divinity_container"></div>
                                     <div id="activate_divinity_payment">
                                         <div>
                                             Pay <div class="coin "><span style="color: black !important">6</span></div>:
