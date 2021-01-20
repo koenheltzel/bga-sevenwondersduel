@@ -656,6 +656,9 @@ var jstpl_divinity = '\
             style="background-position: calc(-${jsX}.0741 * var(--divinity-width) * var(--divinity-small-scale) * var(--element-scale)) calc(-${jsY}${jsYOffset} * var(--divinity-height) * var(--divinity-small-scale) * var(--element-scale));"\
         >\
             <span class="swd_title">${jsName}</span>\
+            <div class="enki_progress_tokens">\
+                ${jsEnkiProgressTokensHtml}\
+            </div>\
         </div>\
     </div>';
 

@@ -710,7 +710,10 @@ define([
                         this.updatePlayersSituation(args.args.playersSituation);
                     }
 
-                    if (args.args.divinitiesSituation) this.updateDivinitiesSituation(args.args.divinitiesSituation);
+                    if (args.args.divinitiesSituation) {
+                        let enkiProgressTokenIds = (args.args._private && args.args._private.enkiProgressTokenIds) ? args.args._private.enkiProgressTokenIds : null;
+                        this.updateDivinitiesSituation(args.args.divinitiesSituation, enkiProgressTokenIds);
+                    }
                     if (args.args.wondersSituation) this.updateWondersSituation(args.args.wondersSituation);
                     if (args.args._private && args.args._private.myConspiracies) this.myConspiracies = args.args._private.myConspiracies;
                     if (args.args.conspiraciesSituation) this.updateConspiraciesSituation(args.args.conspiraciesSituation);
@@ -1314,8 +1317,8 @@ define([
             // | |_| | |\ V /| | | | | | |_| |  __/\__ \
             // |____/|_| \_/ |_|_| |_|_|\__|_|\___||___/
 
-            updateDivinitiesSituation: function (divinitiesSituation) {
-                if (this.debug) console.log('updateDivinitiesSituation: ', divinitiesSituation);
+            updateDivinitiesSituation: function (divinitiesSituation, enkiProgressTokenIds = null) {
+                if (this.debug) console.log('updateDivinitiesSituation: ', divinitiesSituation, enkiProgressTokenIds);
                 this.gamedatas.divinitiesSituation = divinitiesSituation;
 
                 // Pantheon spaces
@@ -1325,7 +1328,7 @@ define([
                     let spaceData = divinitiesSituation.spaces[space];
                     let emptySpace = dojo.query('div[data-space=' + space + ']:empty', tokensContainer)[0];
                     if (emptySpace) {
-                        let result = dojo.place(this.getDivinityDivHtml(spaceData.id, spaceData.type, false), emptySpace);
+                        let result = dojo.place(this.getDivinityDivHtml(spaceData.id, spaceData.type, false, spaceData.id == 1 ? enkiProgressTokenIds : null), emptySpace);
                     }
                     let divinityNode = dojo.query('div[data-space=' + space + '] .divinity', tokensContainer)[0];
 
@@ -1362,12 +1365,15 @@ define([
                 for (var playerId in this.gamedatas.players) {
                     for (let i = 0; i < divinitiesSituation[playerId].length; i++) {
                         let divinityData = divinitiesSituation[playerId][i];
-                        console.log('divinityData', divinityData);
                         let container = $('player_conspiracies_' + playerId);
                         let divinityNode = dojo.query('div[data-divinity-id="' + divinityData.id + '"]', container)[0];
+                        if (divinityNode && divinityData.id == 1 && enkiProgressTokenIds) {
+                            dojo.destroy(divinityNode.parentElement);
+                            divinityNode = null;
+                        }
                         if (!divinityNode) {
                             let divinityType = this.gamedatas.divinities[divinityData.id].type;
-                            let newNode = dojo.place( this.getDivinityDivHtml(divinityData.id, divinityType, false), container, 'first');
+                            let newNode = dojo.place( this.getDivinityDivHtml(divinityData.id, divinityType, false, divinityData.id == 1 ? enkiProgressTokenIds : null), container, 'first');
                         }
                     }
                 }

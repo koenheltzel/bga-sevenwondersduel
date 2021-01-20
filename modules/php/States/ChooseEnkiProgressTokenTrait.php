@@ -20,9 +20,8 @@ trait ChooseEnkiProgressTokenTrait {
                 ],
             ]
         ];
-        if (Divinities::enkiInSelection()) {
-            $data['_private'][Player::getActive()->id]['enkiProgressTokenIds'] = array_keys($this->progressTokenDeck->getCardsInLocation('enki'));
-        }
+        $data['_private'][Player::getActive()->id]['enkiProgressTokenIds'] = array_keys($this->progressTokenDeck->getCardsInLocation('enki'));
+        $data['divinitiesSituation'] = Divinities::getSituation();
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         return $data;
     }

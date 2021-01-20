@@ -64,7 +64,7 @@ trait ChooseDivinityFromTopCardsTrait {
         // Text notification to all
         $this->notifyAllPlayers(
             'returnDivinities',
-            clienttranslate('${player_name} returns the other Divinities on top of their respective decks'),
+            clienttranslate('${player_name} returns the other Divinities to the top of their respective decks'),
             [
                 'player_name' => $player->name,
                 'types' => $types,
