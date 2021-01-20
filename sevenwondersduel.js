@@ -3578,8 +3578,22 @@ define([
                 // Divinities from the Pantheon
                 var oldDivinityNode = dojo.query('.pantheon_space_containers .divinity[data-divinity-id="' + notif.args.divinityId + '"]')[0];
                 if (!oldDivinityNode) {
-                    // Other divinities (ChooseDivinityFromTopCards, ChooseDivinityFromDeck)
-                    oldDivinityNode = dojo.query('#swd_wrap .divinity[data-divinity-id="' + notif.args.divinityId + '"]')[0];
+                    if (this.isCurrentPlayerActive()) {
+                        // Other divinities (ChooseDivinityFromTopCards, ChooseDivinityFromDeck)
+                        oldDivinityNode = dojo.query('#swd_wrap .divinity[data-divinity-id="' + notif.args.divinityId + '"]')[0];
+                    }
+                    else {
+                        // For the inactive player / spectator
+                        var playerBuildingsContainer = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                        oldDivinityContainerNode = dojo.place(this.getDivinityDivHtml(notif.args.divinityId, notif.args.divinityType, true), playerBuildingsContainer);
+                        oldDivinityNode = dojo.query('.divinity', oldDivinityContainerNode)[0];
+                        dojo.style(oldDivinityContainerNode, 'position', 'absolute');
+                        dojo.style(oldDivinityContainerNode, 'width', dojo.style(oldDivinityNode, 'width') + 'px');
+                        dojo.style(oldDivinityContainerNode, 'height', dojo.style(oldDivinityNode, 'height') + 'px');
+                        this.placeOnObject( oldDivinityContainerNode, playerBuildingsContainer ); // Center the card in the player buildingsContainer
+                        dojo.style(oldDivinityNode, 'opacity', '0');
+                        dojo.style(oldDivinityNode, 'z-index', '50');
+                    }
                 }
                 var oldDivinityFullSize = !dojo.hasClass(oldDivinityNode, 'divinity_compact');
                 var oldDivinityContainerNode = oldDivinityNode.parentElement;
@@ -3599,7 +3613,23 @@ define([
                     );
                 }
                 else {
-                    coinAnimation = this.emptyAnimation();
+                    if (this.isCurrentPlayerActive()) {
+                        coinAnimation = this.emptyAnimation();
+                    }
+                    else {
+                        coinAnimation = dojo.fx.chain([
+                            dojo.fadeIn({
+                                node: oldDivinityNode,
+                                duration: 250
+                            }),
+                            dojo.fadeIn({
+                                node: oldDivinityNode,
+                                duration: 1,
+                                delay: 2000
+                            }),
+                        ]);
+
+                    }
                 }
 
                 dojo.connect(coinAnimation, 'onEnd', dojo.hitch(this, function (node) {
