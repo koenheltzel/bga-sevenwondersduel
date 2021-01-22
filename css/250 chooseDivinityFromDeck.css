@@ -1,0 +1,46 @@
+
+#choose_divinity_from_deck {
+    display: none;
+}
+
+.current_player_is_active #swd[data-state=chooseDivinityFromDeck] {
+    --draftpool-row-height-multiplier: 0.35 !important;
+    --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
+}
+
+.current_player_is_active #swd[data-state=chooseDivinityFromDeck] #choose_divinity_from_deck {
+    display: block;
+}
+
+.current_player_is_active #swd[data-state=chooseDivinityFromDeck][data-client-state=""] #choose_divinity_from_deck .divinity_small {
+    cursor: pointer;
+}
+
+#choose_divinity_from_deck .divinity {
+    position: relative;
+}
+#choose_divinity_from_deck > div {
+    width: calc(var(--divinity-width) * var(--divinity-small-scale));
+    position: relative;
+    display: inline-block;
+}
+
+#choose_divinity_from_deck .cancel_button {
+    cursor: pointer;
+}
+
+#choose_divinity_from_deck > div:not(:last-child) {
+    margin-right: var(--gutter);
+}
+
+#choose_divinity_from_deck > div > div:nth-of-type(2) {
+    margin-top: var(--gutter);
+}
+
+.current_player_is_active #swd[data-state=chooseDivinityFromDeck] #choose_divinity_from_deck > div > div:nth-of-type(2) {
+    display:none;
+}
+
+.current_player_is_active #swd[data-state=chooseDivinityFromDeck][data-client-state=client_chooseDivinityForTopOfDeck] #choose_divinity_from_deck > div > div:nth-of-type(2) {
+    display:block;
+}

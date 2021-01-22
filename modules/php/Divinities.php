@@ -35,12 +35,16 @@ class Divinities extends Collection {
         return $cards;
     }
 
-    public static function getSituation() {
-        $age = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
+    public static function getDeckCounts() {
         $deckCounts = [];
         for ($type = 1; $type <= 5; $type++) {
             $deckCounts[$type] = count(Divinities::getDeckCardsSorted("mythology{$type}"));
         }
+        return $deckCounts;
+    }
+
+    public static function getSituation() {
+        $age = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
         $spaces = [];
         for ($space = 1; $space <= 6; $space++) {
             $cards = Divinities::getDeckCardsSorted("space{$space}");
@@ -64,7 +68,7 @@ class Divinities extends Collection {
         }
         return [
             'age' => $age,
-            'deckCounts' => $deckCounts,
+            'deckCounts' => self::getDeckCounts(),
             'spaces' => $spaces,
             Player::me()->id => Player::me()->getDivinitiesData(),
             Player::opponent()->id => Player::opponent()->getDivinitiesData(),

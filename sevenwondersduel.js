@@ -70,6 +70,8 @@ define([
             // Pantheon
             activateDivinityNode: null,
             activateDivinityId: 0,
+            chooseDivinityFromDeckAmount: 0,
+            chooseDivinityFromDeckId: 0,
             // Agora
             senateActionsSection: 0,
             moveInfluenceFrom: 0,
@@ -390,6 +392,18 @@ define([
                     dojo.query('body')
                         .on("#swd[data-state=chooseDivinityFromTopCards] #choose_divinity_from_top_cards .divinity :click",
                             dojo.hitch(this, "onChooseDivinityFromTopCardsClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseDivinityDeck] #mythology_decks_container .divinity.red_border :click",
+                            dojo.hitch(this, "onChooseDivinityDeckClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseDivinityFromDeck][data-client-state=] #choose_divinity_from_deck .divinity :click",
+                            dojo.hitch(this, "onChooseDivinityFromDeckClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseDivinityFromDeck][data-client-state=client_chooseDivinityForTopOfDeck] #choose_divinity_from_deck .top_of_deck_button :click",
+                            dojo.hitch(this, "onChooseDivinityFromDeckTopClick")
                         );
 
                     // Pantheon click handlers without event delegation:
@@ -2599,7 +2613,7 @@ define([
                 dojo.stopEvent(e);
 
                 if (this.isCurrentPlayerActive()) {
-                    var wonder = dojo.hasClass(e.target, 'wonder') ? dojo.query(e.target) : dojo.query(e.target).closest(".wonder");
+                    var wonder = dojo.hasClass(e.target, 'wonder') ? e.target : dojo.query(e.target).closest(".wonder")[0];
 
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
                     if (!this.checkAction('actionSelectWonder')) {
@@ -2854,6 +2868,7 @@ define([
                 dojo.query('.red_border').removeClass("red_border");
             },
             clearGrayBorder: function () {
+                console.log('clearGrayBorder');
                 dojo.query('.gray_border').removeClass("gray_border");
             },
             clearDivinityBorder: function () {
@@ -3086,8 +3101,7 @@ define([
                     dojo.connect(buildingMoveAnim, 'onEnd', dojo.hitch(this, function (node) {
                         var whiteblock = $('lower_divs_container');
                         dojo.removeClass(whiteblock, 'red_border');
-                        window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
-                        this.freezeLayout = 0;
+                        this.scrollBack();
                         dojo.destroy(buildingNodeParent); // Destroy old parent (container in discarded buildings block).
                     }));
                 }
@@ -3488,9 +3502,7 @@ define([
 
                             this.clearRedBorder();
                             if (discardedBuilding) {
-                                var whiteblock = $('lower_divs_container');
-                                window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
-                                this.freezeLayout = 0;
+                                this.scrollBack();
                                 dojo.destroy(buildingNodeParent); // Destroy old parent (container in discarded buildings block).
                             }
 
@@ -3937,14 +3949,8 @@ define([
 
             onEnterChooseDiscardedBuilding: function (args) {
                 if (this.isCurrentPlayerActive()) {
-                    var whiteblock = $('discarded_cards_whiteblock');
-                    dojo.addClass(whiteblock, 'red_border');
-
-                    // Scroll so the discarded card whiteblock is visible (remember the scroll position so we can restore the view later).
-                    this.freezeLayout = 1;
-                    this.rememberScrollX = window.scrollX;
-                    this.rememberScrollY = window.scrollY;
-                    whiteblock.scrollIntoView(false);
+                    dojo.addClass($('discarded_cards_whiteblock'), 'red_border');
+                    this.scrollToLowerDivs();
                 }
             },
 
@@ -4003,7 +4009,7 @@ define([
                         return;
                     }
 
-                    var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
+                    var progressToken = dojo.hasClass(e.target, 'progress_token') ? e.target : dojo.query(e.target).closest(".progress_token")[0];
                     var progressTokenId = progressToken.attr("data-progress-token-id");
 
                     this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseProgressToken.html", {
@@ -4588,14 +4594,8 @@ define([
                 if (this.debug) console.log('onEnterConstructWonderWithDiscardedBuilding', args);
 
                 if (this.isCurrentPlayerActive()) {
-                    var whiteblock = $('discarded_cards_whiteblock');
-                    dojo.addClass(whiteblock, 'red_border');
-
-                    // Scroll so the discarded card whiteblock is visible (remember the scroll position so we can restore the view later).
-                    this.freezeLayout = 1;
-                    this.rememberScrollX = window.scrollX;
-                    this.rememberScrollY = window.scrollY;
-                    whiteblock.scrollIntoView(false);
+                    dojo.addClass($('discarded_cards_whiteblock'), 'red_border');
+                    this.scrollToLowerDivs();
                 }
             },
 
@@ -5040,11 +5040,6 @@ define([
             onEnterChooseDivinityFromTopCards: function (args) {
                 if (this.debug) console.log('onEnterChooseDivinityFromTopCards', args);
 
-                for (let type = 1; type <= 5; type++) {
-                    let sourceContainer = dojo.query('#choose_divinity_from_top_cards div:nth-of-type(' + type + ')')[0];
-                    let targetContainer = dojo.query('#mythology_decks_container #mythology' + type + ' .divinity_deck')[0];
-                }
-
                 let anims = [];
                 if (this.isCurrentPlayerActive()) {
                     let i = 1;
@@ -5216,6 +5211,44 @@ define([
 
             onEnterChooseDivinityDeck: function (args) {
                 if (this.debug) console.log('onEnterChooseDivinityDeck', args);
+
+                if (this.isCurrentPlayerActive()) {
+                    for (let type = 1; type <= 5; type++) {
+                        if (args.deckCounts[type] > 0) {
+                            dojo.addClass(dojo.query('#mythology' + type + ' .divinity')[0], 'red_border');
+                        }
+                    }
+                    this.scrollToLowerDivs();
+                }
+            },
+
+            onChooseDivinityDeckClick: function (e) {
+                if (this.debug) console.log('onChooseDivinityDeckClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    var divinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
+
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseDivinityDeck')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseDivinityDeck.html", {
+                            lock: true,
+                            type: divinityNode.attr('data-divinity-type')
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        });
+                }
             },
 
             //   ____ _                            ____  _       _       _ _           _____                      ____            _
@@ -5227,6 +5260,108 @@ define([
 
             onEnterChooseDivinityFromDeck: function (args) {
                 if (this.debug) console.log('onEnterChooseDivinityFromDeck', args);
+
+                let anims = [];
+                if (this.isCurrentPlayerActive()) {
+                    this.chooseDivinityFromDeckAmount = Object.keys(args._private.divinities).length;
+
+                    let i = 1;
+                    Object.values(args._private.divinities).forEach(dojo.hitch(this, function (card) {
+                        var container = dojo.query('#choose_divinity_from_deck div[data-position="' + parseInt(card.location_arg) + '"]')[0];
+                        dojo.empty(container);
+                        let divinityContainer = dojo.place(this.getDivinityDivHtml(card.id, card.type,true, args._private.enkiProgressTokenIds), container);
+                        let divinityNode = dojo.query('.divinity', divinityContainer)[0];
+                        this.placeOnObject(divinityNode, $('mythology' + card.type));
+                        anims.push(this.slideToObjectPos( divinityNode, divinityContainer, 0, 0, this.conspire_duration, i * this.conspire_duration / 3));
+                        i++;
+                    }));
+                    this.updateLayout();
+                }
+                else {
+                    anims.push(this.getDivinitiesToOpponentAnimation(args.divinityTypes));
+                }
+                let anim = dojo.fx.combine(
+                    anims
+                );
+                anim.play();
+            },
+
+            onChooseDivinityFromDeckClick: function (e) {
+                if (this.debug) console.log('onChooseDivinityFromDeckClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    let divinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
+                    let divinityId = dojo.attr(divinityNode, 'data-divinity-id');
+
+                    if (this.chooseDivinityFromDeckAmount > 2) {
+                        let position = dojo.attr(divinityNode.parentElement.parentElement, 'data-position');
+                        for (let i = 0; i <= 2; i++) {
+                            let buttonNode = dojo.query('#choose_divinity_from_deck .bgabutton[data-button-position="' + i + '"]')[0];
+                            let hideButton = i == position || i >= this.chooseDivinityFromDeckAmount;
+                            dojo.style(buttonNode, 'visibility', hideButton ? 'hidden' : 'visible');
+                        }
+
+                        this.chooseDivinityFromDeckId = divinityId;
+                        // First let the player decide which card goes to the top in a client state.
+                        this.setClientState("client_chooseDivinityForTopOfDeck", {
+                            descriptionmyturn: _("${you} must choose which of the remaining two Divinities goes on top of the ${mythologyType} Mythology deck"),
+                        });
+
+                        dojo.addClass(divinityNode, 'gray_border');
+                    }
+                    else {
+                        this.chooseDivinityFromDeck(divinityId);
+                    }
+                }
+            },
+
+            onChooseDivinityFromDeckTopClick: function (e) {
+                if (this.debug) console.log('onChooseDivinityFromDeckTopClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                let buttonNode = dojo.hasClass(e.target, 'top_of_deck_button') ? e.target : dojo.query(e.target).closest('top_of_deck_button')[0];
+                let position = dojo.attr(buttonNode, 'data-button-position');
+                let divinityNode = dojo.query('#choose_divinity_from_deck div[data-position="' + position + '"] .divinity')[0];
+                let divinityId = dojo.attr(divinityNode, 'data-divinity-id');
+
+                if (this.isCurrentPlayerActive()) {
+                    console.log('this.chooseDivinityFromDeckAmount',this.chooseDivinityFromDeckAmount);
+                    if (this.chooseDivinityFromDeckAmount > 2) {
+                        // First let the player decide which card goes to the top in a client state.
+                        this.setClientState("client_chooseDivinityForTopOfDeck", {
+                            descriptionmyturn: _("${you} must choose which of the remaining two Divinities goes on top of the ${mythologyType} Mythology deck"),
+                        });
+                    }
+                    else {
+                        this.chooseDivinityFromDeck(this.chooseDivinityFromDeckId, divinityId);
+                    }
+                }
+            },
+
+            chooseDivinityFromDeck: function(divinityId, divinityIdToTop=null) {
+                // Check that this action is possible (see "possibleactions" in states.inc.php)
+                if (!this.checkAction('actionChooseDivinityFromDeck')) {
+                    return;
+                }
+
+                this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseDivinityFromDeck.html", {
+                    lock: true,
+                    divinityId: divinityId,
+                    divinityIdToTop: divinityIdToTop,
+                },
+                this, function (result) {
+                    // What to do after the server call if it succeeded
+                    // (most of the time: nothing)
+
+                }, function (is_error) {
+                    // What to do after the server call in anyway (success or failure)
+                    // (most of the time: nothing)
+
+                });
+
             },
 
             //   ____ _                            ____  _       _       _ _           _____            _____              ___   __   ____            _
@@ -5282,7 +5417,7 @@ define([
                     return;
                 }
 
-                var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
+                var progressToken = dojo.hasClass(e.target, 'progress_token') ? e.target : dojo.query(e.target).closest(".progress_token")[0];
                 var progressTokenId = progressToken.attr("data-progress-token-id");
 
                 this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseProgressTokenFromBox.html", {
@@ -5433,7 +5568,7 @@ define([
 
                 if (this.debug) console.log('onChooseConspiratorActionClick', e);
 
-                var conspiracy = dojo.hasClass(e.target, 'conspiracy') ? dojo.query(e.target) : dojo.query(e.target).closest(".conspiracy");
+                var conspiracy = dojo.hasClass(e.target, 'conspiracy') ? e.target : dojo.query(e.target).closest(".conspiracy")[0];
                 var conspiracyId = conspiracy.attr("data-conspiracy-id");
 
                 if (this.isCurrentPlayerActive()) {
@@ -6611,7 +6746,7 @@ define([
                         return;
                     }
 
-                    var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
+                    var progressToken = dojo.hasClass(e.target, 'progress_token') ? e.target : dojo.query(e.target).closest(".progress_token")[0];
                     var progressTokenId = dojo.attr(progressToken[0], "data-progress-token-id");
 
                     this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionLockProgressToken.html", {
@@ -7501,6 +7636,21 @@ define([
                 if(this.settingsScrollIntoView) {
                     this.scrollSettingsIntoView();
                 }
+            },
+
+            scrollToLowerDivs: function() {
+                // Scroll so the discarded card whiteblock is visible (remember the scroll position so we can restore the view later).
+                this.freezeLayout = 1;
+                this.rememberScrollX = window.scrollX;
+                this.rememberScrollY = window.scrollY;
+                var whiteblock = $('lower_divs_container');
+                whiteblock.scrollIntoView(false);
+            },
+
+            scrollBack: function() {
+                // Scroll back to the position before this state.
+                window.scroll(this.rememberScrollX, this.rememberScrollY);
+                this.freezeLayout = 0;
             },
 
             //  ____       _   _   _

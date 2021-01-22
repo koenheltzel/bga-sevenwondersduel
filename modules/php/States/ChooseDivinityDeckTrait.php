@@ -2,6 +2,8 @@
 
 namespace SWD\States;
 
+use SWD\Divinities;
+
 trait ChooseDivinityDeckTrait {
 
     /**
@@ -10,7 +12,9 @@ trait ChooseDivinityDeckTrait {
      * @return array
      */
     public function argChooseDivinityDeck() {
-        $data = [];
+        $data = [
+            'deckCounts' => Divinities::getDeckCounts()
+        ];
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         return $data;
     }
@@ -19,8 +23,16 @@ trait ChooseDivinityDeckTrait {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-    public function actionChooseDivinityDeck($wonderId) {
+    public function actionChooseDivinityDeck($type) {
         $this->checkAction("actionChooseDivinityDeck");
+
+        // Preserve card order
+        $deckCount = count(Divinities::getDeckCardsSorted("mythology{$type}"));
+        for ($i = 0; $i < $deckCount; $i++) {
+            $this->divinityDeck->pickCardsForLocation(1, "mythology{$type}", 'selection', $i);
+        }
+
+        $this->prependStateStackAndContinue([self::STATE_CHOOSE_DIVINITY_FROM_DECK_NAME]);
     }
 
     public function shouldSkipChooseDivinityDeck() {

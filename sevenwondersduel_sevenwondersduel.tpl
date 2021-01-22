@@ -112,6 +112,26 @@
                                 </div>
                             </div>
                             <div id="choose_divinity_from_top_cards" class="whiteblock"><div></div><div></div><div></div><div></div><div></div></div>
+                            <div id="choose_divinity_from_deck" class="whiteblock">
+                                <div>
+                                    <div data-position="0"></div>
+                                    <div>
+                                        <a href="#" data-button-position="0" class="action_button bgabutton bgabutton_blue top_of_deck_button"><span>On top of deck</span></a>
+                                    </div>
+                                </div><!-- Collapse whitespace
+                                --><div>
+                                    <div data-position="1"></div>
+                                    <div>
+                                        <a href="#" data-button-position="1" class="action_button bgabutton bgabutton_blue top_of_deck_button"><span>On top of deck</span></a>
+                                    </div>
+                                </div><!-- Collapse whitespace
+                                --><div>
+                                    <div data-position="2"></div>
+                                    <div>
+                                        <a href="#" data-button-position="2" class="action_button bgabutton bgabutton_blue top_of_deck_button"><span>On top of deck</span></a>
+                                    </div>
+                                </div>
+                            </div>
                             <div id="choose_conspirator_action" class="whiteblock">
                                 <a href="#" id="buttonPlaceInfluence" class="action_button bgabutton bgabutton_blue"><div class="action_place_influence"></div><span>{PLACE_INFLUENCE}</span></a>
                                 <a href="#" id="buttonConspire" class="action_button bgabutton bgabutton_blue"><div class="action_conspiracy"></div><span>{CONSPIRE}</span></a>
@@ -365,31 +385,31 @@
         <div id="mythology_decks_container" class="whiteblock pantheon">
             <h3>{MYTHOLOGY_DECKS}</h3>
             <div id="mythology1">
-                <div class="divinity_deck divinity divinity_small" style="background-position: -400% -200%;">
+                <div class="divinity_deck divinity divinity_small" data-divinity-type="1" style="background-position: -400% -200%;">
                     <span class="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_1}</h3>
             </div>
             <div id="mythology2">
-                <div class="divinity_deck divinity divinity_small" style="background-position: -500% -200%;">
+                <div class="divinity_deck divinity divinity_small" data-divinity-type="2" style="background-position: -500% -200%;">
                     <span class="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_2}</h3>
             </div>
             <div id="mythology3">
-                <div class="divinity_deck divinity divinity_small" style="background-position: -000% -300%;">
+                <div class="divinity_deck divinity divinity_small" data-divinity-type="3" style="background-position: -000% -300%;">
                     <span class="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_3}</h3>
             </div>
             <div id="mythology4">
-                <div class="divinity_deck divinity divinity_small" style="background-position: -100% -300%;">
+                <div class="divinity_deck divinity divinity_small" data-divinity-type="4" style="background-position: -100% -300%;">
                     <span class="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_4}</h3>
             </div>
             <div id="mythology5">
-                <div class="divinity_deck divinity divinity_small" style="background-position: -200% -300%;">
+                <div class="divinity_deck divinity divinity_small" data-divinity-type="5" style="background-position: -200% -300%;">
                     <span class="divinity_deck_count">3</span>
                 </div>
                 <h3>{DIVINITY_TYPE_5}</h3>

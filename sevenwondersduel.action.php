@@ -233,6 +233,25 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::ajaxResponse();
     }
 
+    public function actionChooseDivinityDeck() {
+        self::setAjaxMode();
+
+        $type = self::getArg("type", AT_posint, true);
+        SevenWondersDuelPantheon::get()->actionChooseDivinityDeck($type);
+
+        self::ajaxResponse();
+    }
+
+    public function actionChooseDivinityFromDeck() {
+        self::setAjaxMode();
+
+        $divinityId = self::getArg("divinityId", AT_posint, true);
+        $divinityIdToTop = self::getArg("divinityIdToTop", AT_posint, false);
+        SevenWondersDuelPantheon::get()->actionChooseDivinityFromDeck($divinityId, $divinityIdToTop);
+
+        self::ajaxResponse();
+    }
+
     // Agora
 
     public function actionChooseConspiratorActionPlaceInfluence() {

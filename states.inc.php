@@ -600,8 +600,8 @@ $machinestates = [
 
     SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_DECK_ID => [
         "name" => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_DECK_NAME,
-        "description" => clienttranslate('${actplayer} must choose a Divinity from the ${mythologyType} deck and activate it for free'),
-        "descriptionmyturn" => clienttranslate('${you} must choose a Divinity from the ${mythologyType} deck and activate it for free'),
+        "description" => clienttranslate('${actplayer} must choose a Divinity from the ${mythologyType} Mythology deck and activate it for free'),
+        "descriptionmyturn" => clienttranslate('${you} must choose a Divinity from the ${mythologyType} Mythology deck and activate it for free'),
         "type" => "activeplayer",
         "action" => "enterStateChooseDivinityFromDeck",
         "args" => "argChooseDivinityFromDeck",
@@ -609,6 +609,7 @@ $machinestates = [
             "actionChooseDivinityFromDeck",
         ],
         "transitions" => array_merge(
+            $divinityStateTransitions,
             [
                 SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
                 SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID,
@@ -619,8 +620,8 @@ $machinestates = [
 
     SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID => [
         "name" => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME,
-        "description" => clienttranslate('${actplayer} must choose which of the two remaining Divinities goes on top of the ${mythologyType} deck'),
-        "descriptionmyturn" => clienttranslate('${you} must choose which of the two remaining Divinities goes on top of the ${mythologyType} deck'),
+        "description" => clienttranslate('${actplayer} must choose which of the two remaining Divinities goes on top of the ${mythologyType} Mythology deck'),
+        "descriptionmyturn" => clienttranslate('${you} must choose which of the two remaining Divinities goes on top of the ${mythologyType} Mythology deck'),
         "type" => "activeplayer",
         "action" => "enterStateChooseDivinityForTopOfDeck",
         "args" => "argChooseDivinityForTopOfDeck",

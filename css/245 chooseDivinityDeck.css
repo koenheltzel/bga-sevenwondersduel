@@ -1,0 +1,4 @@
+
+.current_player_is_active #swd[data-state=chooseDivinityDeck] #mythology_decks_container .divinity.red_border {
+    cursor: pointer;
+}

@@ -170,7 +170,7 @@ class Material extends Base
 
         $this->wonders[16] = (new Wonder(16, clienttranslate("The Divine Theater")))
             ->setCost([PAPYRUS => 2, GLASS => 1, WOOD => 2])
-//            ->addActionState(SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME)
+            ->addActionState(SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_NAME)
             ->setVictoryPoints(2);
         
         //     _                  ___
