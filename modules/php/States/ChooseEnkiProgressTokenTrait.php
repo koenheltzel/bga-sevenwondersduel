@@ -4,6 +4,7 @@ namespace SWD\States;
 
 use SWD\Divinities;
 use SWD\Player;
+use SWD\ProgressToken;
 
 trait ChooseEnkiProgressTokenTrait {
 
@@ -32,6 +33,19 @@ trait ChooseEnkiProgressTokenTrait {
 
     public function actionChooseEnkiProgressToken($progressTokenId) {
         $this->checkAction("actionChooseEnkiProgressToken");
+
+        $progressToken = ProgressToken::get($progressTokenId);
+        $payment = $progressToken->construct(Player::getActive());
+
+        // Return any remaining progress tokens in the active selection back to the box.
+        $this->progressTokenDeck->moveAllCardsInLocation('enki', 'box');
+
+        if ($payment->selectProgressToken) {
+            $this->prependStateStackAndContinue([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
+        }
+        else {
+            $this->stateStackNextState();
+        }
     }
 
     public function shouldSkipChooseEnkiProgressToken() {

@@ -441,8 +441,8 @@ $machinestates = [
 
     SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_ID => [
         "name" => SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME,
-        "description" => clienttranslate('${actplayer} must choose 1 of the 2 Progress Tokens from Enki'),
-        "descriptionmyturn" => clienttranslate('${you} must choose 1 of the 2 Progress Tokens from Enki'),
+        "description" => clienttranslate('${actplayer} must choose one of the two Progress Tokens on Enki'),
+        "descriptionmyturn" => clienttranslate('${you} must choose one of the two Progress Tokens on Enki'),
         "type" => "activeplayer",
         "action" => "enterStateChooseEnkiProgressToken",
         "args" => "argChooseEnkiProgressToken",
@@ -451,6 +451,7 @@ $machinestates = [
         ],
         "transitions" => array_merge(
             [
+                SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_ID, // Symbol pair of Law and Ishtar.
                 SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
                 SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             ]

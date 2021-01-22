@@ -36,6 +36,9 @@ class ProgressToken extends Item
                 $source = 'conspiracy';
             }
         }
+        elseif (SevenWondersDuelPantheon::get()->gamestate->state()['name'] == SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME) {
+            $source = 'divinity';
+        }
 
         SevenWondersDuelPantheon::get()->notifyAllPlayers(
             'progressTokenChosen',

@@ -405,6 +405,10 @@ define([
                         .on("#swd[data-state=chooseDivinityFromDeck][data-client-state=client_chooseDivinityForTopOfDeck] #choose_divinity_from_deck .top_of_deck_button :click",
                             dojo.hitch(this, "onChooseDivinityFromDeckTopClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseEnkiProgressToken] .player_conspiracies .divinity_compact[data-divinity-id=1] .progress_token.red_border :click",
+                            dojo.hitch(this, "onChooseEnkiProgressTokenClick")
+                        );
 
                     // Pantheon click handlers without event delegation:
                     dojo.query("#activate_divinity_confirm").on("click", dojo.hitch(this, "onActivateDivinityConfirmClick"));
@@ -1452,8 +1456,8 @@ define([
                 };
                 if (divinityId == 1 && enkiProgressTokenIds) {
                     let enkiProgressTokensHtml = '';
-                    enkiProgressTokensHtml += this.getProgressTokenDivHtml(enkiProgressTokenIds[0])
-                    enkiProgressTokensHtml += this.getProgressTokenDivHtml(enkiProgressTokenIds[1])
+                    enkiProgressTokensHtml += '<div>' + this.getProgressTokenDivHtml(enkiProgressTokenIds[0]) + '</div>';
+                    enkiProgressTokensHtml += '<div>' + this.getProgressTokenDivHtml(enkiProgressTokenIds[1]) + '</div>';
                     data.jsEnkiProgressTokensHtml = enkiProgressTokensHtml;
                 }
 
@@ -4032,7 +4036,7 @@ define([
             notif_progressTokenChosen: function (notif) {
                 if (this.debug) console.log('notif_progressTokenChosen', notif);
 
-                dojo.removeClass($('board_progress_tokens'), 'red_border');
+                this.clearRedBorder();
 
                 let container = this.getNewProgressTokenContainer(notif.args.playerId);
                 var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
@@ -4049,6 +4053,15 @@ define([
                     else if (notif.args.source == 'conspiracy') {
                         this.placeOnObject(progressTokenNode, dojo.query('.conspiracy_compact[data-conspiracy-id="10"]')[0]);
                     }
+                    else if (notif.args.source == 'divinity') {
+                        this.placeOnObject(progressTokenNode, dojo.query('.divinity_compact[data-divinity-id="1"]')[0]);
+                    }
+                }
+
+                // Fade out 2nd progress token on Enki
+                let remainingEnkiProgressTokenNode = dojo.query('.player_conspiracies .divinity_compact[data-divinity-id="1"] .progress_token')[0];
+                if (remainingEnkiProgressTokenNode) {
+                    this.fadeOutAndDestroy(remainingEnkiProgressTokenNode, 250, 0);
                 }
 
                 var anim = dojo.fx.chain([
@@ -4660,6 +4673,40 @@ define([
 
             onEnterChooseEnkiProgressToken: function (args) {
                 if (this.debug) console.log('onEnterChooseEnkiProgressToken', args);
+
+                dojo.query('.player_conspiracies .divinity_compact[data-divinity-id="1"] .progress_token').addClass('red_border');
+            },
+
+            onChooseEnkiProgressTokenClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onChooseEnkiProgressTokenClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseEnkiProgressToken')) {
+                        return;
+                    }
+
+                    var progressTokenNode = dojo.hasClass(e.target, 'progress_token') ? e.target : dojo.query(e.target).closest(".progress_token")[0];
+                    var progressTokenId = dojo.attr(progressTokenNode, 'data-progress-token-id');
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseEnkiProgressToken.html", {
+                            lock: true,
+                            progressTokenId: progressTokenId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
             },
 
             //  ____  _                  ____              _          _____     _

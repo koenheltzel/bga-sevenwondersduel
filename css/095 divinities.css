@@ -96,7 +96,9 @@
 }
 
 .divinity_small.divinity_compact .enki_progress_tokens {
+    left: 5.5%;
     top: 28%;
+    --element-scale2: 0.72;
 }
 .divinity_small .enki_progress_tokens {
     --element-scale2: 0.80;
@@ -107,8 +109,13 @@
     white-space: nowrap;
 }
 
+.divinity_small .enki_progress_tokens > div {
+    display: inline-block;
+    width: calc(var(--progress-token-width) * var(--progress-token-small-scale) * var(--element-scale) * var(--element-scale2));
+    height: calc(var(--progress-token-height) * var(--progress-token-small-scale) * var(--element-scale) * var(--element-scale2));
+}
 .divinity_small .enki_progress_tokens > div:nth-of-type(1) {
-    margin-right: calc(var(--scale) * 12px);
+    margin-right: calc(var(--scale) * var(--element-scale) * var(--element-scale2) * 12px);
 }
 
 .divinity_compact.green_border .trigger, .divinity_compact.red_border .prepare {

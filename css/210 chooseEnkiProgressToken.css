@@ -1,0 +1,4 @@
+
+.current_player_is_active #swd[data-state=chooseEnkiProgressToken] .player_conspiracies .divinity_compact[data-divinity-id="1"] .progress_token.red_border {
+    cursor: pointer;
+}
