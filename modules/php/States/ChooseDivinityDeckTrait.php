@@ -31,6 +31,9 @@ trait ChooseDivinityDeckTrait {
         for ($i = 0; $i < $deckCount; $i++) {
             $this->divinityDeck->pickCardsForLocation(1, "mythology{$type}", 'selection', $i);
         }
+        if (Divinities::enkiInSelection()) {
+            Divinities::setEnkiProgressTokens();
+        }
 
         $this->prependStateStackAndContinue([self::STATE_CHOOSE_DIVINITY_FROM_DECK_NAME]);
     }

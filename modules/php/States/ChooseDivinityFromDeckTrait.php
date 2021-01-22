@@ -38,8 +38,54 @@ trait ChooseDivinityFromDeckTrait {
         $this->giveExtraTime($this->getActivePlayerId());
     }
 
-    public function actionChooseDivinityFromDeck($divinityId, $divinityIdToTop) {
+    public function actionChooseDivinityFromDeck($divinityId, $divinityIdToTop = null) {
         $this->checkAction("actionChooseDivinityFromDeck");
+
+        $player = Player::getActive();
+
+        // Move all other divinities back to their decks.
+        $selectionCards = $this->divinityDeck->getCardsInLocation('selection');
+        $types = [];
+        foreach($selectionCards as $card) {
+            $divinity = Divinity::get($card['id']);
+            if ($divinity->id != $divinityId) {
+                $position = 0;
+                if (count($selectionCards) > 2) {
+                    $position = $divinity->id == $divinityIdToTop ? 1 : 0;
+                }
+                $this->divinityDeck->moveCard($divinity->id, "mythology{$divinity->type}", $position);
+                $types[] = $divinity->type;
+            }
+        }
+
+        $message = null;
+        switch(count($selectionCards)) {
+            case 2:
+                $message = clienttranslate('${player_name} returns the other Divinity to the ${mythologyType} Mythology deck');
+                break;
+            case 3:
+                $message = clienttranslate('${player_name} returns the other Divinities to the ${mythologyType} Mythology deck in the order of his choice');
+                break;
+        }
+
+        if ($message) {
+            // Text notification to all
+            $this->notifyAllPlayers(
+                'returnDivinities',
+                $message,
+                [
+                    'i18n' => ['mythologyType'],
+                    'mythologyType' => Divinity::getTypeName($divinity->type),
+                    'player_name' => $player->name,
+                    'types' => $types,
+                    'selectedDivinityId' => $divinityId,
+                ]
+            );
+        }
+
+        // Activate selected Divinity
+        $divinity = Divinity::get($divinityId);
+        $payment = $divinity->activate($player, true); // Also handles transition to next state
     }
 
     public function shouldSkipChooseDivinityFromDeck() {

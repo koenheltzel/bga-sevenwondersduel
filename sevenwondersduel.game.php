@@ -86,7 +86,6 @@ class SevenWondersDuelPantheon extends Table
     use SWD\States\ChooseDivinityFromTopCardsTrait;
     use SWD\States\ChooseDivinityDeckTrait;
     use SWD\States\ChooseDivinityFromDeckTrait;
-    use SWD\States\ChooseDivinityForTopOfDeckTrait;
     // Agora
     use SWD\States\ChooseConspiratorActionTrait;
     use SWD\States\ConspireTrait;
@@ -229,9 +228,6 @@ class SevenWondersDuelPantheon extends Table
 
     const STATE_CHOOSE_DIVINITY_FROM_DECK_ID = 62;
     const STATE_CHOOSE_DIVINITY_FROM_DECK_NAME = "chooseDivinityFromDeck";
-
-    const STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_ID = 63;
-    const STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME = "chooseDivinityForTopOfDeck";
 
     // End Pantheon
 

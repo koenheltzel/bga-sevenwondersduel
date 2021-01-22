@@ -116,19 +116,19 @@
                                 <div>
                                     <div data-position="0"></div>
                                     <div>
-                                        <a href="#" data-button-position="0" class="action_button bgabutton bgabutton_blue top_of_deck_button"><span>On top of deck</span></a>
+                                        <a href="#" data-button-position="0" class="action_button bgabutton bgabutton_blue top_of_deck_button"><span>{TOP_OF_DECK}</span></a>
                                     </div>
                                 </div><!-- Collapse whitespace
                                 --><div>
                                     <div data-position="1"></div>
                                     <div>
-                                        <a href="#" data-button-position="1" class="action_button bgabutton bgabutton_blue top_of_deck_button"><span>On top of deck</span></a>
+                                        <a href="#" data-button-position="1" class="action_button bgabutton bgabutton_blue top_of_deck_button"><span>{TOP_OF_DECK}</span></a>
                                     </div>
                                 </div><!-- Collapse whitespace
                                 --><div>
                                     <div data-position="2"></div>
                                     <div>
-                                        <a href="#" data-button-position="2" class="action_button bgabutton bgabutton_blue top_of_deck_button"><span>On top of deck</span></a>
+                                        <a href="#" data-button-position="2" class="action_button bgabutton bgabutton_blue top_of_deck_button"><span>{TOP_OF_DECK}</span></a>
                                     </div>
                                 </div>
                             </div>

@@ -2613,7 +2613,7 @@ define([
                 dojo.stopEvent(e);
 
                 if (this.isCurrentPlayerActive()) {
-                    var wonder = dojo.hasClass(e.target, 'wonder') ? e.target : dojo.query(e.target).closest(".wonder")[0];
+                    var wonderNode = dojo.hasClass(e.target, 'wonder') ? e.target : dojo.query(e.target).closest(".wonder")[0];
 
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
                     if (!this.checkAction('actionSelectWonder')) {
@@ -2622,7 +2622,7 @@ define([
 
                     this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionSelectWonder.html", {
                             lock: true,
-                            wonderId: wonder.attr('data-wonder-id')
+                            wonderId: dojo.attr(wonderNode, 'data-wonder-id')
                         },
                         this, function (result) {
                             // What to do after the server call if it succeeded
@@ -4009,8 +4009,8 @@ define([
                         return;
                     }
 
-                    var progressToken = dojo.hasClass(e.target, 'progress_token') ? e.target : dojo.query(e.target).closest(".progress_token")[0];
-                    var progressTokenId = progressToken.attr("data-progress-token-id");
+                    var progressTokenNode = dojo.hasClass(e.target, 'progress_token') ? e.target : dojo.query(e.target).closest(".progress_token")[0];
+                    var progressTokenId = dojo.attr(progressTokenNode, 'data-progress-token-id');
 
                     this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseProgressToken.html", {
                             lock: true,
@@ -5109,7 +5109,8 @@ define([
 
                     if (this.isCurrentPlayerActive()) {
                         // For the active player, turn the card first so the backside is visible.
-                        oldDivinityNode = dojo.query('#draftpool_container .divinity[data-divinity-type="' + type + '"]:not([data-divinity-id="' + notif.args.selectedDivinityId + '"]):not(.divinity_compact)')[0];
+                        oldDivinityNode = dojo.query('#draftpool_container .divinity[data-divinity-type="' + type + '"]:not([data-divinity-id="' + notif.args.selectedDivinityId + '"]):not(.divinity_compact):not(.divinity_back)')[0];
+                        dojo.attr(oldDivinityNode, 'data-divinity-type', 'dummy');
 
                         backSideDivinityNode = dojo.place(this.getDivinityDivHtml(0, type, true), oldDivinityNode.parentElement);
 
@@ -5237,7 +5238,7 @@ define([
 
                     this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseDivinityDeck.html", {
                             lock: true,
-                            type: divinityNode.attr('data-divinity-type')
+                            type: dojo.attr(divinityNode, 'data-divinity-type')
                         },
                         this, function (result) {
                             // What to do after the server call if it succeeded
@@ -5260,6 +5261,9 @@ define([
 
             onEnterChooseDivinityFromDeck: function (args) {
                 if (this.debug) console.log('onEnterChooseDivinityFromDeck', args);
+
+                this.clearRedBorder();
+                this.scrollBack();
 
                 let anims = [];
                 if (this.isCurrentPlayerActive()) {
@@ -5328,16 +5332,7 @@ define([
                 let divinityId = dojo.attr(divinityNode, 'data-divinity-id');
 
                 if (this.isCurrentPlayerActive()) {
-                    console.log('this.chooseDivinityFromDeckAmount',this.chooseDivinityFromDeckAmount);
-                    if (this.chooseDivinityFromDeckAmount > 2) {
-                        // First let the player decide which card goes to the top in a client state.
-                        this.setClientState("client_chooseDivinityForTopOfDeck", {
-                            descriptionmyturn: _("${you} must choose which of the remaining two Divinities goes on top of the ${mythologyType} Mythology deck"),
-                        });
-                    }
-                    else {
-                        this.chooseDivinityFromDeck(this.chooseDivinityFromDeckId, divinityId);
-                    }
+                    this.chooseDivinityFromDeck(this.chooseDivinityFromDeckId, divinityId);
                 }
             },
 
@@ -5355,6 +5350,9 @@ define([
                 this, function (result) {
                     // What to do after the server call if it succeeded
                     // (most of the time: nothing)
+
+                    dojo.attr($('swd'), 'data-client-state', '');
+                    this.clearGrayBorder();
 
                 }, function (is_error) {
                     // What to do after the server call in anyway (success or failure)
@@ -5417,8 +5415,8 @@ define([
                     return;
                 }
 
-                var progressToken = dojo.hasClass(e.target, 'progress_token') ? e.target : dojo.query(e.target).closest(".progress_token")[0];
-                var progressTokenId = progressToken.attr("data-progress-token-id");
+                var progressTokenNode = dojo.hasClass(e.target, 'progress_token') ? e.target : dojo.query(e.target).closest(".progress_token")[0];
+                var progressTokenId = dojo.attr(progressTokenNode, 'data-progress-token-id');
 
                 this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseProgressTokenFromBox.html", {
                         lock: true,
@@ -5568,8 +5566,8 @@ define([
 
                 if (this.debug) console.log('onChooseConspiratorActionClick', e);
 
-                var conspiracy = dojo.hasClass(e.target, 'conspiracy') ? e.target : dojo.query(e.target).closest(".conspiracy")[0];
-                var conspiracyId = conspiracy.attr("data-conspiracy-id");
+                var conspiracyNode = dojo.hasClass(e.target, 'conspiracy') ? e.target : dojo.query(e.target).closest(".conspiracy")[0];
+                var conspiracyId = dojo.attr(conspiracyNode, 'data-conspiracy-id');
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)

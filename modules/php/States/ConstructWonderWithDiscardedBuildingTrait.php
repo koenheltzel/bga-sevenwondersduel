@@ -42,6 +42,7 @@ trait ConstructWonderWithDiscardedBuildingTrait {
                 [
                     'i18n' => ['divinityName'],
                     'divinityName' => Divinity::get(11)->name,
+                    'player_name' => Player::getActive()->name,
                 ]
             );
             return true;

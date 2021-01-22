@@ -138,7 +138,9 @@ class Divinity extends Item {
             ]
         );
 
-        parent::constructEffects($player, $payment);
+        if ($this->id != 15) { // Skip for Neptune
+            parent::constructEffects($player, $payment);
+        }
 
         switch($this->id) {
             case 4: // Astarte
