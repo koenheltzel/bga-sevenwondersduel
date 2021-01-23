@@ -3644,13 +3644,7 @@ define([
                                 node: oldDivinityNode,
                                 duration: 250
                             }),
-                            dojo.fadeIn({
-                                node: oldDivinityNode,
-                                duration: 1,
-                                delay: 2000
-                            }),
                         ]);
-
                     }
                 }
 
@@ -4059,7 +4053,7 @@ define([
                 }
 
                 // Fade out 2nd progress token on Enki
-                let remainingEnkiProgressTokenNode = dojo.query('.player_conspiracies .divinity_compact[data-divinity-id="1"] .progress_token')[0];
+                let remainingEnkiProgressTokenNode = dojo.query('.player_conspiracies .divinity_compact[data-divinity-id="1"] .progress_token:not([data-progress-token-id="' + notif.args.progressTokenId + '"])')[0];
                 if (remainingEnkiProgressTokenNode) {
                     this.fadeOutAndDestroy(remainingEnkiProgressTokenNode, 250, 0);
                 }
@@ -5407,17 +5401,6 @@ define([
 
                 });
 
-            },
-
-            //   ____ _                            ____  _       _       _ _           _____            _____              ___   __   ____            _
-            //  / ___| |__   ___   ___  ___  ___  |  _ \(_)_   _(_)_ __ (_) |_ _   _  |  ___|__  _ __  |_   _|__  _ __    / _ \ / _| |  _ \  ___  ___| | __
-            // | |   | '_ \ / _ \ / _ \/ __|/ _ \ | | | | \ \ / / | '_ \| | __| | | | | |_ / _ \| '__|   | |/ _ \| '_ \  | | | | |_  | | | |/ _ \/ __| |/ /
-            // | |___| | | | (_) | (_) \__ \  __/ | |_| | |\ V /| | | | | | |_| |_| | |  _| (_) | |      | | (_) | |_) | | |_| |  _| | |_| |  __/ (__|   <
-            //  \____|_| |_|\___/ \___/|___/\___| |____/|_| \_/ |_|_| |_|_|\__|\__, | |_|  \___/|_|      |_|\___/| .__/   \___/|_|   |____/ \___|\___|_|\_\
-            //                                                                 |___/                             |_|
-
-            onEnterChooseDivinityForTopOfDeck: function (args) {
-                if (this.debug) console.log('onEnterChooseDivinityForTopOfDeck', args);
             },
 
             //     _                           ____  _        _
@@ -7249,9 +7232,16 @@ define([
                     if (progressTokenNode) {
                         dojo.addClass(progressTokenNode, 'endgame_highlight');
                     }
-                    var divinityNode = dojo.query('#player_conspiracies_' + playersSituation.winner + ' .divinity[data-divinity-id="2"]')[0];
-                    if (divinityNode) {
-                        dojo.addClass(divinityNode, 'endgame_highlight');
+                    var ishtarDivinityNode = dojo.query('#player_conspiracies_' + playersSituation.winner + ' .divinity[data-divinity-id="2"]')[0];
+                    if (ishtarDivinityNode) {
+                        dojo.addClass(ishtarDivinityNode, 'endgame_highlight');
+                    }
+                    var nisabaDivinityNode = dojo.query('#player_conspiracies_' + playersSituation.winner + ' .divinity[data-divinity-id="3"]')[0];
+                    if (nisabaDivinityNode) {
+                        dojo.addClass(nisabaDivinityNode, 'endgame_highlight');
+                        let opponentId = this.getOppositePlayerId(playersSituation.winner);
+                        var snakeTokenBuildingNode = dojo.query('.player' + opponentId + ' .snake_token').closest('.building')[0];
+                        dojo.addClass(snakeTokenBuildingNode, 'endgame_highlight');
                     }
 
                     // Unset endGameCondition to prevent an infinite loop.
