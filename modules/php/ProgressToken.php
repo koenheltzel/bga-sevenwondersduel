@@ -20,7 +20,7 @@ class ProgressToken extends Item
      * @param $cardId
      * @return PaymentPlan
      */
-    public function construct(Player $player, $building = null, $discardedBuilding = false) {
+    public function construct(Player $player, $building = null, $discardedBuilding = false, $offeringTokens = null) {
         $payment = parent::construct($player, $building, $discardedBuilding);
 
         SevenWondersDuelPantheon::get()->progressTokenDeck->insertCardOnExtremePosition($this->id, $player->id, true);

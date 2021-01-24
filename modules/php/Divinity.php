@@ -108,10 +108,12 @@ class Divinity extends Item {
 
     /**
      * @param Divinity $building
+     * @param bool $free
+     * @param OfferingTokens $offeringTokens
      * @return PaymentPlan
      */
-    public function activate(Player $player, $free = false) {
-        $payment = parent::construct($player, null, $free);
+    public function activate(Player $player, $free = false, $offeringTokens = null) {
+        $payment = parent::construct($player, null, $free, $offeringTokens);
 
         if ($this->scientificSymbol) {
             if ($player->hasProgressToken(4) && $this->gatheredSciencePairNotification($player)) {
@@ -121,10 +123,27 @@ class Divinity extends Item {
 
         SevenWondersDuelPantheon::get()->divinityDeck->insertCardOnExtremePosition($this->id, $player->id, true);
 
+        $message = '';
+        $offeringTokenString = '';
+        $offeringTokenIds = [];
+        if ($offeringTokens && count($offeringTokens->array) > 0) {
+            $message = clienttranslate('${player_name} activated Divinity “${divinityName}” for ${cost} ${costUnit}, using Offering token(s) ${offeringTokens}');
+            $parts = [];
+            foreach($offeringTokens as $offeringToken) {
+                $parts[] = "“-{$offeringToken->discount}”";
+                $offeringTokenIds[] = $offeringToken->id;
+            }
+            $offeringTokenString = implode(' and ', $parts);
+
+        }
+        else {
+            $message = clienttranslate('${player_name} activated Divinity “${divinityName}” for ${cost} ${costUnit}');
+        }
+
         // Text notification to all
         SevenWondersDuelPantheon::get()->notifyAllPlayers(
             'activateDivinity',
-            clienttranslate('${player_name} activated Divinity “${divinityName}” for ${cost} ${costUnit}'),
+            $message,
             [
                 'i18n' => ['divinityName', 'costUnit'],
                 'player_name' => $player->name,
@@ -133,6 +152,8 @@ class Divinity extends Item {
                 'divinityType' => $this->type,
                 'divinityName' => $this->name,
                 'payment' => $payment,
+                'offeringTokens' => $offeringTokenString,
+                'offeringTokenIds' => $offeringTokenIds,
                 'cost' => $payment->totalCost() > 0 ? $payment->totalCost() : "",
                 'costUnit' => $payment->totalCost() > 0 ? RESOURCES[COINS] : clienttranslate('free'),
             ]

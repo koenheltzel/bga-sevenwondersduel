@@ -10,6 +10,8 @@ use SWD\Decree;
 use SWD\Divinities;
 use SWD\Divinity;
 use SWD\Draftpool;
+use SWD\OfferingToken;
+use SWD\OfferingTokens;
 use SWD\Payment;
 use SWD\Player;
 use SWD\Players;
@@ -249,12 +251,25 @@ trait PlayerTurnTrait {
         $this->stateStackNextState();
     }
 
-    public function actionActivateDivinity($divinityId) {
+    public function actionActivateDivinity($divinityId, OfferingTokens $offeringTokens) {
         $this->checkAction("actionActivateDivinity");
 
         $player = Player::getActive();
+
+        $card = SevenWondersDuelPantheon::get()->divinityDeck->getCard($divinityId);
+        if (!strstr($card['location'], 'space')) {
+            throw new \BgaUserException( clienttranslate("The Divinity you selected is not available.") );
+        }
+
+        /** @var OfferingToken $offeringToken */
+        foreach($offeringTokens->array as $offeringToken) {
+            if (!$player->hasOfferingToken($offeringToken->id)) {
+                throw new \BgaUserException(sprintf(self::_("You don't have the -%s Offering token."), $offeringToken->discount));
+            }
+        }
+
         $divinity = Divinity::get($divinityId);
-        $payment = $divinity->activate($player); // Also handles transition to next state
+        $payment = $divinity->activate($player, false, $offeringTokens); // Also handles transition to next state
     }
 
     public function actionPrepareConspiracy($buildingId, $conspiracyId) {

@@ -9,6 +9,8 @@
     background-position: 19.848% 91.2%;
     background-size: 767.513%;
     background-image: url('img/pantheon_sprites.png');
+    width: calc(var(--offering-token-width) * var(--offering-token-small-scale) * var(--element-scale));
+    height: calc(var(--offering-token-height) * var(--offering-token-small-scale) * var(--element-scale));
 }
 .offering_token {
     background-image: url('img/pantheon_sprites.png');

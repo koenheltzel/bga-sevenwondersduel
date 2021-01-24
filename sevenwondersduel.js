@@ -70,6 +70,8 @@ define([
             // Pantheon
             activateDivinityNode: null,
             activateDivinityId: 0,
+            activateDivinitySpace: 0,
+            activateDivinityOfferingTokenIds: [],
             chooseDivinityFromDeckAmount: 0,
             chooseDivinityFromDeckId: 0,
             // Agora
@@ -409,6 +411,15 @@ define([
                         .on("#swd[data-state=chooseEnkiProgressToken] .player_conspiracies .divinity_compact[data-divinity-id=1] .progress_token.red_border :click",
                             dojo.hitch(this, "onChooseEnkiProgressTokenClick")
                         );
+                    dojo.query('body')
+                        .on("#swd[data-client-state=client_activateDivinity] .player_info.me .offering_token.red_border:click",
+                            dojo.hitch(this, "onActivityDivinityOfferingTokenAddClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-client-state=client_activateDivinity] #activate_divinity_payment_steps .offering_token.red_border:click",
+                            dojo.hitch(this, "onActivityDivinityOfferingTokenRemoveClick")
+                        );
+
 
                     // Pantheon click handlers without event delegation:
                     dojo.query("#activate_divinity_confirm").on("click", dojo.hitch(this, "onActivateDivinityConfirmClick"));
@@ -2772,7 +2783,7 @@ define([
                 if (this.isCurrentPlayerActive()) {
                     this.clearPlayerTurnNodeGlow();
                     this.clearRedBorder();
-                    this.hideActivateDivinityDialog();
+                    this.autoUpdateScale();
 
                     var building = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
                     dojo.addClass(building, 'glow');
@@ -3533,33 +3544,88 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
-                this.activateDivinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
-                this.activateDivinityId = dojo.attr(this.activateDivinityNode, 'data-divinity-id');
+                if (this.isCurrentPlayerActive()) {
+                    this.activateDivinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
+                    this.activateDivinityId = dojo.attr(this.activateDivinityNode, 'data-divinity-id');
+                    this.activateDivinitySpace = dojo.query(this.activateDivinityNode).closest('.pantheon_space')[0].dataset.space;
 
-                this.cancelDraftpoolClick();
-                this.showActivateDivinityDialog();
+                    this.cancelDraftpoolClick();
+
+                    if (this.gamedatas.offeringTokensSituation[this.me_id].length > 0) {
+                        this.activateDivinityOfferingTokenIds = [];
+                        this.updateActivateDivinityDialog();
+
+                        this.setClientState("client_activateDivinity", {
+                            descriptionmyturn: _("${you} must choose the action for the age card, or select a different age card"),
+                        });
+                    }
+                    else {
+                        this.activateDivinity();
+                    }
+                }
             },
 
-            showActivateDivinityDialog: function() {
-                dojo.style('activate_divinity', 'display', 'block');
+            updateActivateDivinityDialog: function() {
                 this.autoUpdateScale();
 
                 let divinityContainer = $('activate_divinity_container');
                 dojo.empty(divinityContainer);
 
-                // Till we implement offering token discounts
-                dojo.empty($('activate_divinity_payment'));
-
                 let divinityNode = dojo.clone(this.activateDivinityNode);
                 dojo.removeClass(divinityNode, 'divinity_border');
                 dojo.place(divinityNode, divinityContainer);
+
+                let cost = this.gamedatas.divinitiesSituation.spaces[this.activateDivinitySpace].cost[this.me_id];
+                let stepsCostContainer = $('activate_divinity_cost_container');
+                dojo.empty(stepsCostContainer);
+                dojo.place(this.getCostDivHtml(cost, this.getPlayerCoins(this.me_id, true)), stepsCostContainer);
+
+                let stepsContainer = $('activate_divinity_payment_steps');
+                dojo.empty(stepsContainer);
+                Object.values(this.gamedatas.offeringTokensSituation[this.me_id]).forEach(dojo.hitch(this, function (offeringToken) {
+                    let offeringTokenNode = dojo.query('.player_info.me .offering_token[data-offering-token-id="' + offeringToken.id + '"]')[0];
+                    dojo.removeClass(offeringTokenNode, 'red_border');
+                    if (this.activateDivinityOfferingTokenIds.indexOf(offeringToken.id) == -1) {
+                        dojo.addClass(offeringTokenNode, 'red_border');
+                    }
+                    else {
+                        let selectedOfferingTokenContainerNode = dojo.place(this.getOfferingTokenHtml(offeringToken.id), stepsContainer);
+                        let selectedOfferingTokenNode = dojo.query('.offering_token', selectedOfferingTokenContainerNode)[0];
+                        dojo.addClass(selectedOfferingTokenNode, 'red_border');
+                        cost -= parseInt(offeringToken.type);
+                    }
+                }));
+                dojo.place(this.getCostDivHtml(cost, this.getPlayerCoins(this.me_id, true)), stepsContainer);
             },
 
-            hideActivateDivinityDialog: function() {
-                if (dojo.style('activate_divinity', 'display') != 'none') {
-                    dojo.style('activate_divinity', 'display', 'none');
-                    this.autoUpdateScale();
+            onActivityDivinityOfferingTokenAddClick: function (e) {
+                if (this.debug) console.log('onActivityDivinityOfferingTokenAddClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                let offeringTokenNode = dojo.hasClass(e.target, 'offering_token') ? e.target : dojo.query(e.target).closest(".offering_token")[0];
+                let offeringTokenId = dojo.attr(offeringTokenNode, 'data-offering-token-id');
+
+                if (this.activateDivinityOfferingTokenIds.indexOf(offeringTokenId) == -1) {
+                    this.activateDivinityOfferingTokenIds.push(offeringTokenId);
+                    this.updateActivateDivinityDialog();
                 }
+            },
+
+            onActivityDivinityOfferingTokenRemoveClick: function (e) {
+                if (this.debug) console.log('onActivityDivinityOfferingTokenRemoveClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                let offeringTokenNode = dojo.hasClass(e.target, 'offering_token') ? e.target : dojo.query(e.target).closest(".offering_token")[0];
+                let offeringTokenId = dojo.attr(offeringTokenNode, 'data-offering-token-id');
+
+                let index = this.activateDivinityOfferingTokenIds.indexOf(offeringTokenId)
+                if (index > -1) {
+                    this.activateDivinityOfferingTokenIds.splice(index, 1)
+                }
+
+                this.updateActivateDivinityDialog();
             },
 
             onActivateDivinityConfirmClick: function (e) {
@@ -3567,8 +3633,11 @@ define([
                 // Preventing default browser reaction
                 dojo.stopEvent(e);
 
-                if (this.isCurrentPlayerActive()) {
+                this.activateDivinity();
+            },
 
+            activateDivinity: function () {
+                if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
                     if (!this.checkAction('actionActivateDivinity')) {
                         return;
@@ -3576,6 +3645,7 @@ define([
 
                     this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionActivateDivinity.html", {
                             divinityId: this.activateDivinityId,
+                            offeringTokenIds: this.activateDivinityOfferingTokenIds.join(),
                             lock: true
                         },
                         this, function (result) {
@@ -3595,7 +3665,7 @@ define([
                 if (this.debug) console.log('notif_activateDivinity', notif);
 
                 this.clearDivinityBorder();
-                this.hideActivateDivinityDialog();
+                this.autoUpdateScale();
 
                 // Divinities from the Pantheon
                 var oldDivinityNode = dojo.query('.pantheon_space_containers .divinity[data-divinity-id="' + notif.args.divinityId + '"]')[0];

@@ -1,4 +1,7 @@
 <?php
+
+use SWD\OfferingTokens;
+
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
@@ -156,7 +159,8 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         self::setAjaxMode();
 
         $divinityId = self::getArg("divinityId", AT_posint, true);
-        SevenWondersDuelPantheon::get()->actionActivateDivinity($divinityId);
+        $offeringTokenIds = self::getArg("offeringTokenIds", AT_numberlist, true);
+        SevenWondersDuelPantheon::get()->actionActivateDivinity($divinityId, OfferingTokens::createByOfferingTokenIds(explode(',', $offeringTokenIds)));
 
         self::ajaxResponse();
     }

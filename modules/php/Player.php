@@ -284,6 +284,18 @@ class Player extends Base{
     /**
      * @return array
      */
+    public function getOfferingTokenIds(): array {
+        if (isDevEnvironment()) {
+            return $this->offeringTokenIds;
+        }
+        else {
+            return array_column($this->getOfferingTokenDeckCards(), 'id');
+        }
+    }
+
+    /**
+     * @return array
+     */
     public function getWonderIds(): array {
         if (isDevEnvironment()) {
             return $this->wonderIds;
@@ -309,6 +321,10 @@ class Player extends Base{
 
     public function hasWonder($id) : bool {
         return in_array($id, $this->getWonderIds());
+    }
+
+    public function hasOfferingToken($id) : bool {
+        return in_array($id, $this->getOfferingTokenIds());
     }
 
     public function getWonderDeckCards(): array {

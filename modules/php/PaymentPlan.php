@@ -210,7 +210,13 @@ class PaymentPlan extends Base
         return $scenariosCalculated;
     }
 
-    public function calculate(Player $player, $print = false, $printChoices = false) {
+    /**
+     * @param Player $player
+     * @param bool $print
+     * @param bool $printChoices
+     * @param OfferingTokens $offeringTokens
+     */
+    public function calculate(Player $player, $print = false, $printChoices = false, $offeringTokens = null) {
         if($print) print "<PRE>Calculate cost for player to buy “{$this->item->name}\" card.</PRE>";
 
         $opponent = $player->getOpponent();
@@ -248,10 +254,18 @@ class PaymentPlan extends Base
             }
             $wonderSanctuary = Wonder::get(15);
             if ($player->hasWonder($wonderSanctuary->id) && $wonderSanctuary->isConstructed()) {
+                // This is just for the consistency, this payment plan is never displayed.
                 $args = ['wonderName' => $wonderSanctuary->name];
-                $string = 'Discount (Wonder “${wonderName}”)';
+                $string = clienttranslate('Discount (Wonder “${wonderName}”)');
                 $this->addStep(COINS, -2, 0, null, null, $string, $args);
                 $cost -= 2;
+            }
+            if ($offeringTokens) {
+                foreach($offeringTokens->array as $offeringToken) {
+                    $string = clienttranslate('Player uses Offering token -${discount}');
+                    $cost -= $offeringToken->discount;
+                    $this->addStep(COINS, -$offeringToken->discount, 0, null, null, $string);
+                }
             }
             $string = clienttranslate('Pay ${costIcon}');
             $this->addStep(COINS, $cost, $cost, null, null, $string);

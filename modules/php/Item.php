@@ -49,14 +49,14 @@ class Item extends Base
      * @param $cardId
      * @return PaymentPlan
      */
-    public function construct(Player $player, $building = null, $discardedCard = false) {
+    public function construct(Player $player, $building = null, $discardedCard = false, $offeringTokens = null) {
         if ($discardedCard) {
             $payment = new Payment($this);
             $payment->discardedCard = true;
         }
         else {
             $payment = new Payment($this);
-            $payment->calculate($player);
+            $payment->calculate($player, false, false, $offeringTokens);
         }
 
         $totalCost = $payment->totalCost();

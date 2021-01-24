@@ -3,10 +3,19 @@
     display: none;
 }
 
-#activate_divinity_flexbox {
-    display: flex;
-    gap: calc(2 * var(--gutter));
-    align-items: center;
+.current_player_is_active #swd[data-client-state=client_activateDivinity] #activate_divinity {
+    display: block;
+}
+
+.current_player_is_active #swd[data-client-state=client_activateDivinity] .player_info.me .offering_token.red_border {
+    cursor: pointer;
+}
+.current_player_is_active #swd[data-client-state=client_activateDivinity] #activate_divinity_payment_steps .offering_token.red_border {
+    cursor: pointer;
+}
+
+#activate_divinity_flexbox h3 {
+    display: inline-block;
 }
 
 #activate_divinity .divinity {
@@ -14,12 +23,36 @@
     --element-scale: 1.5;
 }
 
-#activate_divinity_payment {
-    display: flex;
-    gap: calc(1 * var(--gutter));
-    align-items: center;
+#activate_divinity_cost > div {
+    display: inline-block;
 }
 
-#activate_divinity_payment .offering_token {
+#activate_divinity_flexbox, #activate_divinity_payment, #activate_divinity_payment_steps {
+    display: flex;
+    gap: calc(2 * var(--gutter));
+    align-items: center;
+    text-align: left;
+}
+
+#activate_divinity_payment .offering_token, #activate_divinity_payment .offering_token_outline {
     --element-scale: 1.5;
 }
+
+#activate_divinity_payment_steps > div {
+    display: inline-block;
+}
+
+/*#activate_divinity_payment_steps > div:after{*/
+/*    font-size: max(12px, calc(16px * var(--scale)));*/
+/*    font-weight: bold;*/
+/*    content: "+";*/
+/*    display: block;*/
+/*    !*display: block;*!*/
+/*    !*height: 100px;*!*/
+/*    !*background: #FFF;*!*/
+/*    !*width: calc(100% - 20px);*!*/
+/*    !*position: absolute;*!*/
+/*    !*overflow-y: scroll;*!*/
+/*    !*left: 0;*!*/
+/*    !*margin-left: 10px;*!*/
+/*}*/
