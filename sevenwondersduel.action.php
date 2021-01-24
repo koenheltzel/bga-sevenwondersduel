@@ -160,7 +160,7 @@ class action_sevenwondersduelpantheon extends APP_GameAction
 
         $divinityId = self::getArg("divinityId", AT_posint, true);
         $offeringTokenIds = self::getArg("offeringTokenIds", AT_numberlist, true);
-        SevenWondersDuelPantheon::get()->actionActivateDivinity($divinityId, OfferingTokens::createByOfferingTokenIds(explode(',', $offeringTokenIds)));
+        SevenWondersDuelPantheon::get()->actionActivateDivinity($divinityId, strlen($offeringTokenIds) > 0 ? OfferingTokens::createByOfferingTokenIds(explode(',', $offeringTokenIds)) : null);
 
         self::ajaxResponse();
     }

@@ -109,10 +109,15 @@ class Player extends Base{
         return 0;
     }
 
-    public function getCoins($includeAstarteCoins=false) {
+    public function getCoins($includeAstarteCoins=false, $includeOfferingTokensDiscount=false) {
         $coins = (int)$this->getValue("player_coins");
         if ($includeAstarteCoins) {
             $coins += $this->getAstarteCoins();
+        }
+        if ($includeOfferingTokensDiscount) {
+            foreach($this->getOfferingTokens()->array as $offeringToken) {
+                $coins += $offeringToken->discount;
+            }
         }
         return $coins;
     }
@@ -317,6 +322,10 @@ class Player extends Base{
      */
     public function getWonders(): Wonders {
         return Wonders::createByWonderIds($this->getWonderIds());
+    }
+
+    public function getOfferingTokens(): OfferingTokens {
+        return OfferingTokens::createByOfferingTokenIds($this->getOfferingTokenIds());
     }
 
     public function hasWonder($id) : bool {

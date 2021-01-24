@@ -1370,7 +1370,7 @@ define([
                         if (spaceData.payment) {
                             let container = dojo.query('div[data-space=' + space + '] .' + alias + ' .cost', costContainer)[0];
                             let oldNode = dojo.query('.coin', container)[0];
-                            let newNode = dojo.place( this.getCostDivHtml(spaceData.cost[playerId], this.getPlayerCoins(playerId, true)), container, 'first');
+                            let newNode = dojo.place( this.getCostDivHtml(spaceData.cost[playerId], this.getPlayerCoins(playerId, true, true)), container, 'first');
                             if (oldNode && newNode) {
                                 this.twistAnimation(oldNode, newNode);
                             }
@@ -2466,10 +2466,15 @@ define([
             //  |_|   |_|\__,_|\__, |\___|_|  |___/ |___|_| |_|_|  \___/
             //                 |___/
 
-            getPlayerCoins: function (playerId, includingAstarteCoins=false) {
+            getPlayerCoins: function (playerId, includingAstarteCoins=false, includeOfferingTokensDiscount=false) {
                 let coins = this.gamedatas.playersSituation[playerId].coins;
                 if (includingAstarteCoins && typeof this.gamedatas.playersSituation[playerId].astarteCoins != 'undefined') {
                     coins += this.gamedatas.playersSituation[playerId].astarteCoins;
+                }
+                if (includeOfferingTokensDiscount) {
+                    Object.values(this.gamedatas.offeringTokensSituation[playerId]).forEach(dojo.hitch(this, function (offeringToken) {
+                        coins += parseInt(offeringToken.type);
+                    }));
                 }
                 return coins;
             },
@@ -3596,6 +3601,11 @@ define([
                     }
                 }));
                 dojo.place(this.getCostDivHtml(cost, this.getPlayerCoins(this.me_id, true)), stepsContainer);
+
+                let confirmButtonNode = $('activate_divinity_confirm');
+                dojo.removeClass(confirmButtonNode, 'bgabutton_blue');
+                dojo.removeClass(confirmButtonNode, 'bgabutton_darkgray');
+                dojo.addClass(confirmButtonNode, cost <= this.getPlayerCoins(this.me_id, true) ? 'bgabutton_blue' : 'bgabutton_darkgray');
             },
 
             onActivityDivinityOfferingTokenAddClick: function (e) {

@@ -72,6 +72,10 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
         $this->tpl['DIVINITY_TYPE_4'] = self::_(Divinity::getTypeName(4));
         $this->tpl['DIVINITY_TYPE_5'] = self::_(Divinity::getTypeName(5));
         $this->tpl['TOP_OF_DECK'] = self::_('Top of deck');
+        $this->tpl['USE_OFFERING_TOKENS_TITLE'] = self::_('Do you want to use Offering token(s) to help pay for the activation?');
+        $this->tpl['COST'] = self::_('Cost');
+        $this->tpl['PAYMENT'] = self::_('Payment');
+        $this->tpl['ACTIVATE'] = self::_('Activate');
         // Agora
         $this->tpl['PREPARE_CONSPIRACY'] = self::_("Prepare a Conspiracy");
         $this->tpl['PLACE_INFLUENCE'] = self::_("Place Influence");

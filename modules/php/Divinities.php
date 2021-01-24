@@ -60,7 +60,7 @@ class Divinities extends Collection {
                         $data['cost'][$player->id] = $payment->totalCost();
                         $data['payment'][$player->id] = $payment;
                         // Can the player afford to activate this Divinity?
-                        $data['activatable'][$player->id] = (int)($player->getCoins(true) >= $payment->totalCost());
+                        $data['activatable'][$player->id] = (int)($player->getCoins(true, true) >= $payment->totalCost());
                     }
                 }
                 $spaces[$space] = $data;

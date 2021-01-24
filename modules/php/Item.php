@@ -61,7 +61,7 @@ class Item extends Base
 
         $totalCost = $payment->totalCost();
         if ($totalCost > $player->getCoins(true)) {
-            $itemType = $this instanceof Building ? self::_('Building') : self::_('Wonder');
+            $itemType = self::_($this->getItemType());
             throw new \BgaUserException(sprintf(self::_("You can't afford the %s you selected."), $itemType));
         }
 

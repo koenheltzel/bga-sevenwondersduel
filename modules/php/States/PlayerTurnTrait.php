@@ -251,7 +251,7 @@ trait PlayerTurnTrait {
         $this->stateStackNextState();
     }
 
-    public function actionActivateDivinity($divinityId, OfferingTokens $offeringTokens) {
+    public function actionActivateDivinity($divinityId, OfferingTokens $offeringTokens = null) {
         $this->checkAction("actionActivateDivinity");
 
         $player = Player::getActive();
@@ -262,9 +262,11 @@ trait PlayerTurnTrait {
         }
 
         /** @var OfferingToken $offeringToken */
-        foreach($offeringTokens->array as $offeringToken) {
-            if (!$player->hasOfferingToken($offeringToken->id)) {
-                throw new \BgaUserException(sprintf(self::_("You don't have the -%s Offering token."), $offeringToken->discount));
+        if ($offeringTokens) {
+            foreach($offeringTokens->array as $offeringToken) {
+                if (!$player->hasOfferingToken($offeringToken->id)) {
+                    throw new \BgaUserException(sprintf(self::_("You don't have the -%s Offering token."), $offeringToken->discount));
+                }
             }
         }
 
