@@ -86,7 +86,7 @@ trait GameSetupTrait
         // Set up progress tokens
         $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards(1, 10));
         if ($agora) $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards(11, 12));
-        if ($pantheon) $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards(13, 14));
+        if ($pantheon) $this->progressTokenDeck->createCards(Material::get()->progressTokens->getDeckCards(13, 15));
         $this->matchDeckIds("progress_token");
 
         $selectProgressTokens = 5;
@@ -95,8 +95,8 @@ trait GameSetupTrait
             $this->progressTokenDeck->moveCards([11, 12], 'board');
         }
         if ($pantheon && $this->getGameStateValue(self::OPTION_PANTHEON_PROGRESS_TOKENS)) {
-            $selectProgressTokens -= 2;
-            $this->progressTokenDeck->moveCards([13, 14], 'board');
+            $selectProgressTokens -= 3;
+            $this->progressTokenDeck->moveCards([13, 14, 15], 'board');
         }
         $this->progressTokenDeck->shuffle('deck');
         $this->progressTokenDeck->pickCardsForLocation($selectProgressTokens, 'deck', 'board');
