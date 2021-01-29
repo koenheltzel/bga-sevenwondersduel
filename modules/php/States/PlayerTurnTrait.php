@@ -32,6 +32,7 @@ trait PlayerTurnTrait {
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
+            'offeringTokensSituation' => OfferingTokens::getSituation(), // To update the javascript offeringTokensSituation so the player gets the prompt when activating a Divinity
         ];
 
         if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
