@@ -51,7 +51,9 @@ class Divinity extends Item {
 
     public function place($space) {
         SevenWondersDuelPantheon::get()->divinityDeck->moveCard($this->id, "space{$space}");
-        SevenWondersDuelPantheon::get()->divinityDeck->moveAllCardsInLocation('selection', "mythology{$this->type}"); // TODO check if this is on top?
+
+        $remainingCard = SevenWondersDuelPantheon::get()->divinityDeck->getCardOnTop('selection');
+        SevenWondersDuelPantheon::get()->divinityDeck->insertCardOnExtremePosition($remainingCard['id'], "mythology{$this->type}", true);
 
         $player = Player::getActive();
 
