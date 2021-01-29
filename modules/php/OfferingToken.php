@@ -28,11 +28,12 @@ class OfferingToken extends Item {
         SevenWondersDuelPantheon::get()->offeringTokenDeck->insertCardOnExtremePosition($this->id, $player->id, true);
         SevenWondersDuelPantheon::get()->notifyAllPlayers(
             'takeToken',
-            clienttranslate('${player_name} takes a Offering token (-${discount}) before flipping over “${buildingName}”'),
+            clienttranslate('${player_name} takes a Offering token (-${discount})'),
+//            clienttranslate('${player_name} takes a Offering token (-${discount}) before flipping over “${buildingName}”'),
             [
                 'player_name' => $player->name,
                 'i18n' => ['buildingName'],
-                'buildingName' => $building->name,
+//                'buildingName' => $building->name,
                 'discount' => OfferingToken::get($this->id)->discount,
                 'type' => 'offering',
                 'tokenId' => $this->id,

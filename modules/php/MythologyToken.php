@@ -33,11 +33,12 @@ class MythologyToken extends Item {
         SevenWondersDuelPantheon::get()->divinityDeck->pickCardForLocation("mythology{$this->type}", "selection", 1);
         SevenWondersDuelPantheon::get()->notifyAllPlayers(
             'takeToken',
-            clienttranslate('${player_name} takes a Mythology token (${mythologyType}) before flipping over “${buildingName}”'),
+            clienttranslate('${player_name} takes a Mythology token (${mythologyType})”'),
+//            clienttranslate('${player_name} takes a Mythology token (${mythologyType}) before flipping over “${buildingName}”'),
             [
                 'player_name' => $player->name,
                 'i18n' => ['buildingName', 'mythologyType'],
-                'buildingName' => $building->name,
+//                'buildingName' => $building->name,
                 'mythologyType' => Divinity::getTypeName($this->type),
                 'type' => 'mythology',
                 'tokenId' => $this->id,
