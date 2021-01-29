@@ -134,6 +134,8 @@ class Divinity extends Item {
             foreach($offeringTokens as $offeringToken) {
                 $parts[] = "“-{$offeringToken->discount}”";
                 $offeringTokenIds[] = $offeringToken->id;
+
+                SevenWondersDuelPantheon::get()->offeringTokenDeck->moveCard($offeringToken->id, 'box');
             }
             $offeringTokenString = implode(' and ', $parts);
 
@@ -161,11 +163,17 @@ class Divinity extends Item {
             ]
         );
 
-        if ($this->id != 15) { // Skip for Neptune
+        if ($this->id != 15) { // Skip parent::constructEffects for Neptune
             parent::constructEffects($player, $payment);
         }
 
+
         switch($this->id) {
+            case 1: // Enki
+                if (!$free) { // Enki when activated from the Pantheon, select Progress Tokens
+                    Divinities::setEnkiProgressTokens();
+                }
+                break;
             case 4: // Astarte
                 SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_ASTARTE_COINS, 7);
 

@@ -1350,6 +1350,9 @@ define([
                 if (this.debug) console.log('updateDivinitiesSituation: ', divinitiesSituation, enkiProgressTokenIds);
                 this.gamedatas.divinitiesSituation = divinitiesSituation;
 
+                // Hide all cost/arrows
+                dojo.query('.pantheon_cost_containers .pantheon_space').style('visibility', 'hidden');
+
                 // Pantheon spaces
                 let tokensContainer = dojo.query('.pantheon_space_containers')[0];
                 let costContainer = dojo.query('.pantheon_cost_containers')[0];
@@ -1369,6 +1372,10 @@ define([
                         // dojo.style(dojo.query('div[data-space=' + space + '] .' + alias + ' .pantheon_cost_arrow', costContainer)[0], 'display', spaceData.payment ? 'block' : 'none');
                         if (spaceData.payment) {
                             let container = dojo.query('div[data-space=' + space + '] .' + alias + ' .cost', costContainer)[0];
+
+                            // Show cost/arrows for this space
+                            dojo.query(container).closest('.pantheon_space').style('visibility', 'visible');
+
                             let oldNode = dojo.query('.coin', container)[0];
                             let newNode = dojo.place( this.getCostDivHtml(spaceData.cost[playerId], this.getPlayerCoins(playerId, true, true)), container, 'first');
                             if (oldNode && newNode) {
@@ -3707,12 +3714,40 @@ define([
                     let space = dojo.attr(spaceNode, 'data-space');
                     let coinNode = dojo.query('.pantheon_cost_containers .pantheon_space[data-space="' + space + '"] .' + this.getPlayerAlias(notif.args.playerId) + ' .coin')[0];
 
-                    coinAnimation = bgagame.CoinAnimator.get().getAnimation(
+                    let anims = [];
+                    var fadeDurationPercentage = 0.15;
+                    Object.values(notif.args.offeringTokenIds).forEach(dojo.hitch(this, function (offeringTokenId) {
+                        let offeringTokenNode = dojo.query('.player_area_progress_tokens .offering_token[data-offering-token-id="' + offeringTokenId + '"]')[0];
+                        anims.push(
+                            dojo.fx.combine([
+                                this.slideToObject(offeringTokenNode, oldDivinityNode, this.progressTokenDuration),
+                                dojo.animateProperty({
+                                    node: offeringTokenNode,
+                                    duration: this.progressTokenDuration * fadeDurationPercentage,
+                                    delay: (1 - fadeDurationPercentage) * this.progressTokenDuration,
+                                    easing: dojo.fx.easing.linear,
+                                    properties: {
+                                        opacity: {
+                                            start: 1,
+                                            end: 0
+                                        }
+                                    },
+                                    onEnd: dojo.hitch(this, function (node) {
+                                        dojo.destroy(node.parentElement);
+                                    })
+                                })
+                            ])
+                        );
+                    }));
+
+                    anims.push(bgagame.CoinAnimator.get().getAnimation(
                         this.getPlayerCoinContainer(notif.args.playerId),
                         coinNode,
                         notif.args.cost,
                         notif.args.playerId
-                    );
+                    ));
+
+                    coinAnimation = dojo.fx.chain(anims);
                 }
                 else {
                     if (this.isCurrentPlayerActive()) {
