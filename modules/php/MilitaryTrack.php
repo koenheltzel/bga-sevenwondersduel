@@ -10,6 +10,8 @@ class MilitaryTrack extends Base
 {
 
     public static function movePawn(Player $player, $shields, Payment $payment) {
+        $opponent = $player->getOpponent();
+
         $divinityNeptune = $payment->getItem() instanceof Divinity && $payment->getItem()->id == 15;
         if ($divinityNeptune) {
             $payment->militarySteps = 1; // Not actually but this set off the animation
@@ -17,11 +19,16 @@ class MilitaryTrack extends Base
             $payment->militaryNewPosition = $payment->militaryOldPosition;
             $number = $payment->getItem()->neptuneMilitaryTokenNumber;
             $value = SevenWondersDuelPantheon::get()->takeMilitaryToken($number);
-            $payment->militaryTokens[$payment->militaryOldPosition] = [
+            $token = [
                 'number' => $number,
                 'value' => $value,
                 'tokenToPlayerId' => SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) ? $player->id : $player->getOpponent()->id,
             ];
+            if (!SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA)) {
+                $token['militaryOpponentPays'] = min($value, $opponent->getCoins());
+                $opponent->increaseCoins(-$token['militaryOpponentPays']);
+            }
+            $payment->militaryTokens[$payment->militaryOldPosition] = $token;
         }
         else {
             // If player has progress token military, an additional shield is counted.
@@ -36,8 +43,6 @@ class MilitaryTrack extends Base
             $currentPosition = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION);
             $minervaPosition = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_MINERVA_PAWN_POSITION);
             $targetPosition = max(-9, min(9, $currentPosition + $shields * $direction));
-
-            $opponent = $player->getOpponent();
 
             $i = $currentPosition;
             while ($i != $targetPosition) {
