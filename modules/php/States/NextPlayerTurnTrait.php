@@ -116,31 +116,33 @@ trait NextPlayerTurnTrait {
                     if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
                         // Grand temple points
                         $buildings = $player->getBuildings()->filterByTypes([Building::TYPE_PURPLE]);
-                        $points = 0;
-                        switch (count($buildings->array)) {
-                            case 1:
-                                $points = 5;
-                                break;
-                            case 2:
-                                $points = 12;
-                                break;
-                            case 3:
-                                $points = 21;
-                                break;
+                        if (count($buildings->array) > 0) {
+                            $points = 0;
+                            switch (count($buildings->array)) {
+                                case 1:
+                                    $points = 5;
+                                    break;
+                                case 2:
+                                    $points = 12;
+                                    break;
+                                case 3:
+                                    $points = 21;
+                                    break;
+                            }
+                            $player->increaseScore($points, 'purple');
+                            SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                                'endGameCategoryUpdate',
+                                clienttranslate('${player_name} scores ${points} victory points for having ${count} Grand Temple(s)'),
+                                [
+                                    'player_name' => $player->name,
+                                    'points' => $points,
+                                    'count' => count($buildings->array),
+                                    'playerIds' => [$player->id],
+                                    'category' => 'purple',
+                                    'highlightQuery' => ".player_buildings.player{$player->id} .player_building_column.Purple",
+                                ]
+                            );
                         }
-                        $player->increaseScore($points, 'purple');
-                        SevenWondersDuelPantheon::get()->notifyAllPlayers(
-                            'endGameCategoryUpdate',
-                            clienttranslate('${player_name} scores ${points} victory points for having ${count} Grand Temple(s)'),
-                            [
-                                'player_name' => $player->name,
-                                'points' => $points,
-                                'count' => count($buildings->array),
-                                'playerIds' => [$player->id],
-                                'category' => 'purple',
-                                'highlightQuery' => ".player_buildings.player{$player->id} .player_building_column.Purple",
-                            ]
-                        );
                     }
                     else {
                         /** @var Building $building */
