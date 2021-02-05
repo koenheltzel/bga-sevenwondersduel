@@ -71,6 +71,7 @@ $constructWonderTransitions = array_merge($militaryTokenTransitions, [
     SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
     SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_ID,
     SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME => SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID,
+    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_ID,
 ]);
 
 $divinityStateTransitions = [
