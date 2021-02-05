@@ -56,7 +56,7 @@ trait ApplyMilitaryTokenTrait {
             ]
         );
 
-        $this->stateStackNextState();
+        $this->prependStateStackAndContinue($payment->militarySenateActions);
     }
 
     public function shouldSkipApplyMilitaryToken() {
