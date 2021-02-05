@@ -122,7 +122,8 @@ class Building extends Item {
     }
 
     public function checkBuildingLastRow() {
-        $rowColumn = Draftpool::getBuildingRowCol($this->id);
+        $currentAge = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
+        $rowColumn = Draftpool::getBuildingRowCol($currentAge, $this->id);
         if ($rowColumn[0] != 1) {
             throw new \BgaUserException( clienttranslate("The building you selected is not on the last row.") );
         }
