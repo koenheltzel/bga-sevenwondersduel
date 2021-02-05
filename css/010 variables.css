@@ -91,7 +91,7 @@
     --board-height: 949px;
     --board-scale: calc(0.75 * var(--scale));
     --military-token-scale: calc(0.5 * var(--scale));
-    --board-column-width: 220px;
+    --board-column-width: 293px;
 
     --pantheon-board-width: 217px;
     --pantheon-board-height: 949px;
@@ -128,11 +128,11 @@
 }
 
 #swd_wrap.square #board_column, #swd_wrap.landscape #board_column {
-    --board-column-width: 225px;
+    --board-column-width: 300px;
 }
 
 #swd[data-pantheon="1"] {
-    --pantheon-board-column-width: 128px;
+    --pantheon-board-column-width: 175px;
 }
 
 #swd[data-pantheon="0"] .pantheon {
@@ -142,7 +142,7 @@
 #swd[data-agora="1"] {
     --building-columns-count: 8;
     --draftpool-column-count: 13;
-    --senate-board-column-width: 175px;
+    --senate-board-column-width: 233px;
 }
 
 #swd[data-agora="0"] .agora {

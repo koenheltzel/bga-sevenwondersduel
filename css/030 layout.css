@@ -122,7 +122,7 @@
     flex-direction: column;
     justify-content: space-between;
     flex-wrap: wrap;
-    width: calc((var(--board-column-width) + var(--senate-board-column-width) + var(--pantheon-board-column-width)) * var(--scale));
+    width: calc((var(--board-column-width) + var(--senate-board-column-width) + var(--pantheon-board-column-width)) * var(--board-scale));
 }
 
 #swd_wrap.square #wonder_column {
