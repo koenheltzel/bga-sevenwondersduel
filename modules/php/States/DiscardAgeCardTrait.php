@@ -52,6 +52,8 @@ trait DiscardAgeCardTrait {
                 if ($currentAge == 1) {
                     $mythologyToken = MythologyToken::get($token['id']);
                     $mythologyToken->take($player, $building);
+
+                    $draftpool['mythologyToken'] = true;
                 }
                 if ($currentAge == 2) {
                     $offeringToken = OfferingToken::get($token['id']);
@@ -80,6 +82,10 @@ trait DiscardAgeCardTrait {
             ]
         );
 
+        if (isset($draftpool['mythologyToken'])) {
+            // Choose and place a divinity next.
+            $this->prependStateStack([self::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME]);
+        }
         $this->stateStackNextState();
     }
 

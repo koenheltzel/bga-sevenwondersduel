@@ -492,6 +492,7 @@ $machinestates = [
         ],
         "transitions" => array_merge(
             [
+                SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
                 SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
                 SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             ]
