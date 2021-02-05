@@ -195,7 +195,7 @@ class Divinity extends Item {
             SevenWondersDuelPantheon::get()->prependStateStackAndContinue([SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
         }
         else {
-            SevenWondersDuelPantheon::get()->setStateStack(array_merge($payment->militarySenateActions, $this->actionStates, [SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME]));
+            SevenWondersDuelPantheon::get()->setStateStack(array_merge($payment->militarySenateActions, $this->actionStates));
             SevenWondersDuelPantheon::get()->stateStackNextState();
         }
 
