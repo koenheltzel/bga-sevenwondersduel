@@ -2378,7 +2378,10 @@ define([
 
             getSnakeTokenTooltip: function () {
                 let text = [];
-                text.push([_('See Divinity “Nisaba” for details.'), true]);
+                text.push([_('This Snake token is worth the scientific symbol shown on the card for the owner of Divinity “Nisaba”.'), true]);
+                if (this.agora) {
+                    text.push([_('If the green card is traded with Conspiracy “Coercion” the snake token loses its effect and is returned to the box.'), true]);
+                }
 
                 var data = {};
                 data.jsTitle = _("Snake token");
@@ -2505,6 +2508,17 @@ define([
             increasePlayerCubes: function (playerId, cubes) {
                 $('player_area_' + playerId + '_cubes').innerHTML = parseInt($('player_area_' + playerId + '_cubes').innerHTML) + cubes;
                 if (this.debug) console.log('increasePlayerCubes', $('player_area_' + playerId + '_cubes'), cubes);
+            },
+
+            getSnakeTokenBuildingId: function (situation) {
+                if (this.pantheon) {
+                    for (var playerId in this.gamedatas.players) {
+                        if (typeof this.gamedatas.playersSituation[playerId].snakeTokenBuildingId != 'undefined') {
+                            return this.gamedatas.playersSituation[playerId].snakeTokenBuildingId;
+                        }
+                    }
+                }
+                return -1;
             },
 
             updatePlayersSituation: function (situation) {
@@ -7136,6 +7150,12 @@ define([
 
                 let buildingOpponentId = notif.args.buildingOpponentId;
                 let buildingPlayerId = notif.args.buildingPlayerId;
+
+                // Destroy snake token if its involved in the swap
+                let snakeTokenBuildingId = this.getSnakeTokenBuildingId();
+                if (buildingOpponentId == snakeTokenBuildingId || buildingPlayerId == snakeTokenBuildingId) {
+                    dojo.query('.player_buildings .snake_token_container').forEach(dojo.destroy);
+                }
 
                 var buildingPlayerNodeContainer = $('player_building_container_' + buildingPlayerId);
                 var buildingPlayerNode = dojo.query('.building' , buildingPlayerNodeContainer)[0];

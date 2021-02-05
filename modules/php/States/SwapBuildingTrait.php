@@ -76,6 +76,24 @@ trait SwapBuildingTrait {
             ]
         );
 
+        $snakeTokenBuilding = Player::snakeTokenBuilding();
+        if ($snakeTokenBuilding) {
+            foreach([[$player, $buildingOpponent], [$opponent, $buildingPlayer]] as $pair) { // This may look wrong but the Snake token is on your opponent's building
+                $tmpPlayer = $pair[0];
+                $tmpBuilding = $pair[1];
+                if ($tmpBuilding->id == $snakeTokenBuilding->id) {
+                    $this->setGameStateValue(\SevenWondersDuelPantheon::VALUE_SNAKE_TOKEN_BUILDING_ID, 0);
+                    $this->notifyAllPlayers(
+                        'message',
+                        clienttranslate('${player_name}\'s Snake token is discarded'),
+                        [
+                            'player_name' => $tmpPlayer->name
+                        ]
+                    );
+                }
+            }
+        }
+
         $prependStates = [];
 
         $playerPoints = $buildingOpponent->victoryPoints - $buildingPlayer->victoryPoints;
