@@ -3619,6 +3619,7 @@ define([
                         let selectedOfferingTokenNode = dojo.query('.offering_token', selectedOfferingTokenContainerNode)[0];
                         dojo.addClass(selectedOfferingTokenNode, 'red_border');
                         cost -= parseInt(offeringToken.type);
+                        cost = Math.max(0, cost);
                     }
                 }));
                 dojo.place(this.getCostDivHtml(cost, this.getPlayerCoins(this.me_id, true)), stepsContainer);
