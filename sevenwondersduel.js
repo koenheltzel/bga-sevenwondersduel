@@ -3577,8 +3577,8 @@ define([
 
                     this.cancelDraftpoolClick();
 
+                    this.activateDivinityOfferingTokenIds = [];
                     if (this.gamedatas.offeringTokensSituation[this.me_id].length > 0) {
-                        this.activateDivinityOfferingTokenIds = [];
                         this.updateActivateDivinityDialog();
 
                         this.setClientState("client_activateDivinity", {
@@ -3697,6 +3697,7 @@ define([
                 if (this.debug) console.log('notif_activateDivinity', notif);
 
                 this.clearDivinityBorder();
+                this.clearRedBorder(); // Clear offering tokens red border
                 this.autoUpdateScale();
 
                 // Divinities from the Pantheon
