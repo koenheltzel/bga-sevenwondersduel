@@ -166,11 +166,13 @@ class Material extends Base
 
         $this->wonders[15] = (new Wonder(15, clienttranslate("The Sanctuary")))
             ->setCost([PAPYRUS => 1, GLASS => 1, STONE => 2])
+            ->addText(clienttranslate('The activation costs of the Pantheon are reduced by 2 coins for you.'))
             ->setExtraTurn();
 
         $this->wonders[16] = (new Wonder(16, clienttranslate("The Divine Theater")))
             ->setCost([PAPYRUS => 2, GLASS => 1, WOOD => 2])
             ->addActionState(SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_NAME)
+            ->addText(clienttranslate('Reveal all of the cards from a Mythology deck of your choice. Choose one of the Divinities revealed this way and activate it for free. Then return the unused cards in the order of your choice.'))
             ->setVictoryPoints(2);
         
         //     _                  ___
