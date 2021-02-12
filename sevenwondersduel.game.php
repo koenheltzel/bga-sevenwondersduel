@@ -320,7 +320,6 @@ class SevenWondersDuelPantheon extends Table
     const STAT_VP_GREEN = "vp_green";
     const STAT_VP_YELLOW = "vp_yellow";
     const STAT_VP_PURPLE = "vp_purple";
-    const STAT_VP_DIVINITIES = "vp_divinities";
     const STAT_VP_WONDERS = "vp_wonders";
     const STAT_VP_PROGRESS_TOKENS = "vp_progress_tokens";
     const STAT_VP_COINS = "vp_coins";
@@ -342,6 +341,7 @@ class SevenWondersDuelPantheon extends Table
     const STAT_CHAINED_CONSTRUCTIONS = "chained_constructions";
     // Pantheon Statistics
     const STAT_DIVINITIES_ACTIVATED = "divinities_activated";
+    const STAT_VP_DIVINITIES = "vp_divinities";
     // Agora Statistics
     const STAT_CONSPIRACIES_PREPARED = "conspiracies_prepared";
     const STAT_CONSPIRACIES_TRIGGERED = "conspiracies_triggered";
