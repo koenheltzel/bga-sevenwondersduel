@@ -129,3 +129,7 @@
     /* If one player has conspiracies and the other doesn't, make sure the narrower wonder div is aligned to the right.*/
     align-items: flex-end;
 }
+
+#board_middle_container {
+    position: relative; /* So the #pantheon_board_container can be positioned absolute */
+}

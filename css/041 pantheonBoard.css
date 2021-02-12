@@ -1,6 +1,6 @@
 
 #pantheon_board_container {
-    position: relative;
+    position: absolute;
     display: inline-block;
     align-self: flex-end;
     left: calc(var(--scale) * -82px); /* To clear the decrees (with possible double stack) */
@@ -9,7 +9,12 @@
 .pantheon_board, #pantheon_board_container {
     width: calc(var(--pantheon-board-width) * var(--pantheon-board-scale));
     height: calc(var(--pantheon-board-height) * var(--pantheon-board-scale));
-    margin-right: calc(var(--scale) * -30px);
+}
+#pantheon_board_container {
+    left: calc(165.5px * var(--pantheon-board-scale));
+}
+#swd[data-agora="1"] #pantheon_board_container {
+    left: calc(413px * var(--pantheon-board-scale));
 }
 
 .pantheon_board {
