@@ -73,7 +73,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sevenwondersduel.js" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.js" afterDir="false" />
     </list>
     <ignored path="D:\wamp64\www\bga\sevenwondersduel\.idea\shelf/" />
     <ignored path="D:\wamp64\www\bga\pantheon\.idea\shelf/" />
@@ -114,8 +113,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="5669" column="78" selection-start-line="5669" selection-start-column="78" selection-end-line="5669" selection-end-column="78" />
+            <state relative-caret-position="433">
+              <caret line="5684" column="73" lean-forward="true" selection-start-line="5684" selection-start-column="73" selection-end-line="5684" selection-end-column="73" />
             </state>
           </provider>
         </entry>
@@ -480,14 +479,7 @@
       <workItem from="1612253169867" duration="1205000" />
       <workItem from="1612528636870" duration="13426000" />
       <workItem from="1612793935918" duration="14000" />
-      <workItem from="1613118643975" duration="4588000" />
-    </task>
-    <task id="LOCAL-00819" summary="Fixed military track invertedness buggyness (introduced in Minerva implementation)">
-      <created>1610532695167</created>
-      <option name="number" value="00819" />
-      <option name="presentableId" value="LOCAL-00819" />
-      <option name="project" value="LOCAL" />
-      <updated>1610532695167</updated>
+      <workItem from="1613118643975" duration="4840000" />
     </task>
     <task id="LOCAL-00820" summary="Astarte pay animation/php implementation">
       <created>1610546261982</created>
@@ -825,11 +817,18 @@
       <option name="project" value="LOCAL" />
       <updated>1613122084922</updated>
     </task>
-    <option name="localTasksCounter" value="868" />
+    <task id="LOCAL-00868" summary="z-index tweaks">
+      <created>1613123493339</created>
+      <option name="number" value="00868" />
+      <option name="presentableId" value="LOCAL-00868" />
+      <option name="project" value="LOCAL" />
+      <updated>1613123493339</updated>
+    </task>
+    <option name="localTasksCounter" value="869" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2257109000" />
+    <option name="totallyTimeSpent" value="2257361000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -842,7 +841,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" sideWeight="0.46695557" side_tool="true" weight="0.22761194" />
       <window_info content_ui="combo" id="Project" order="1" sideWeight="0.5330444" visible="true" weight="0.2153518" />
@@ -854,7 +852,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.5351812" visible="true" weight="0.22535211" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="8" sideWeight="0.5351812" visible="true" weight="0.22535211" />
       <window_info anchor="bottom" id="Cacher" order="9" sideWeight="0.6098081" weight="0.3347779" />
       <window_info anchor="bottom" id="File Transfer" order="10" sideWeight="0.6620469" weight="0.1971831" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
@@ -867,7 +865,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" weight="0.32995737" />
       <window_info anchor="right" x="0" y="0" width="434" height="856" id="Documentation" order="4" side_tool="true" visible="true" weight="0.16490486" />
-      <window_info active="true" anchor="right" id="Favorites" order="5" sideWeight="0.35455862" visible="true" weight="0.23614073" />
+      <window_info anchor="right" id="Favorites" order="5" sideWeight="0.35455862" visible="true" weight="0.23614073" />
     </layout>
     <layout-to-restore>
       <window_info id="Structure" order="0" sideWeight="0.46695557" side_tool="true" weight="0.22761194" />
@@ -956,7 +954,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed Progress Token animations from Enki&#10;Fixed long pause in activateDivinity animation for inactive player&#10;Added Nisaba &amp; Snake token building to scientific supremacy animation.&#10;Fixed state transitions for scientific supremacy with Enki/Nisaba" />
     <MESSAGE value="Activate Divinity with offering tokens WIP" />
     <MESSAGE value="Keep building that is still not revealed a secret in the notification." />
     <MESSAGE value="Fixed (uncommitted &amp; untested) refactoring bug" />
@@ -981,7 +978,8 @@
     <MESSAGE value="Disabled console.log messages &amp; removed some dev console.log's" />
     <MESSAGE value="workspace.xml" />
     <MESSAGE value="Removed testDivinities test code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed testDivinities test code" />
+    <MESSAGE value="z-index tweaks" />
+    <option name="LAST_COMMIT_MESSAGE" value="z-index tweaks" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/css/250 chooseDivinityFromDeck.css">
@@ -1343,8 +1341,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="5669" column="78" selection-start-line="5669" selection-start-column="78" selection-end-line="5669" selection-end-column="78" />
+        <state relative-caret-position="433">
+          <caret line="5684" column="73" lean-forward="true" selection-start-line="5684" selection-start-column="73" selection-end-line="5684" selection-end-column="73" />
         </state>
       </provider>
     </entry>
