@@ -561,23 +561,6 @@ define([
                 this.callFunctionAfterLoading(dojo.hitch(this, "updateLayout"));
             },
 
-            testDivinities: function (playerId) {
-                for (let place = 1; place <= 6; place++) {
-                    if (playerId == 2310958 && place != 4) {
-                        let divinityType = Math.ceil(Math.random() * 5);
-                        let node = dojo.query('.pantheon_space_containers > div:nth-of-type(' + place + ')');
-                        node.empty();
-                        dojo.place( this.getDivinityDivHtml(0, divinityType, false), node[0], 'first');
-                    }
-
-                    if (place % 3 == 0) {
-                        let divinity = Math.ceil(Math.random() * 16);
-                        let divinityType = this.gamedatas.divinities[divinity].type;
-                        dojo.place( this.getDivinityDivHtml(divinity, divinityType, false), 'player_conspiracies_' + playerId, 'first');
-                    }
-                }
-            },
-
             ///////////////////////////////////////////////////
             //// Reaction to cometD notifications
 
@@ -758,11 +741,6 @@ define([
                     if (args.args.draftpool) {
                         // Wait for loading screen (for Agora, when Age I draftpool gets revealed at the start of the game).
                         this.callFunctionAfterLoading(dojo.hitch(this, "updateDraftpool"), [args.args.draftpool]);
-                    }
-
-                    if (0 && this.pantheon) {
-                        this.testDivinities(2310957);
-                        this.testDivinities(2310958);
                     }
 
                     this.updateLayout(); // Because of added height of action button divs being auto shown/hidden because of the state change, it's a good idea to update the layout here.
