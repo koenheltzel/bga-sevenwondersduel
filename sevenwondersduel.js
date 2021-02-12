@@ -131,8 +131,7 @@ define([
 
             setup: function (gamedatas) {
                 if (this.debug) console.log("setup(gamedatas)", gamedatas);
-
-                dojo.destroy('debug_output'); // TODO: Remove? See http://en.doc.boardgamearena.com/Tools_and_tips_of_BGA_Studio#Speed_up_game_re-loading_by_disabling_Input.2FOutput_debug_section
+                if (this.debug) dojo.destroy('debug_output'); // See http://en.doc.boardgamearena.com/Tools_and_tips_of_BGA_Studio#Speed_up_game_re-loading_by_disabling_Input.2FOutput_debug_section
 
                 this.gamedatas = gamedatas;
 
@@ -2990,7 +2989,6 @@ define([
                                 }
                             }),
                         ]),
-                        // TODO: conspiracy effects
                         // Military Track animation (pawn movement, token handling)
                         bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment, "agora"),
                         // Conspiracy Blackmail (coins going from opponent to player)

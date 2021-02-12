@@ -139,21 +139,9 @@ trait GameSetupTrait
             // Set up decrees
             $this->decreeDeck->createCards(Material::get()->decrees->getDeckCards());
             $this->matchDeckIds("decree");
-            if (0) {
-                // TODO: remove these lines which defines a static set of decrees.
-                $i = 0;
-                $this->decreeDeck->insertCard(13, 'board', $i++);
-                $this->decreeDeck->insertCard(16, 'board', $i++);
-                $this->decreeDeck->insertCard(9, 'board', $i++);
-                $this->decreeDeck->insertCard(15, 'board', $i++);
-                $this->decreeDeck->insertCard(1, 'board', $i++);
-                $this->decreeDeck->insertCard(14, 'board', $i++);
-            }
-            else {
-                $this->decreeDeck->shuffle('deck');
-                $this->decreeDeck->pickCardsForLocation(6, 'deck', 'board');
-                $this->decreeDeck->shuffle('board'); // Ensures we have defined card_location_arg
-            }
+            $this->decreeDeck->shuffle('deck');
+            $this->decreeDeck->pickCardsForLocation(6, 'deck', 'board');
+            $this->decreeDeck->shuffle('board'); // Ensures we have defined card_location_arg
 
             // Return the remaining Decrees to the box.
             $this->decreeDeck->moveAllCardsInLocation('deck', 'box');
@@ -167,25 +155,11 @@ trait GameSetupTrait
             $this->conspiracyDeck->shuffle('deck');
             $this->matchDeckIds("conspiracy");
 
-            // TODO: remove these lines which put certain conspiracies on top.
-            if (0) {
-                $this->conspiracyDeck->insertCardOnExtremePosition(11, 'deck', true);
-                $this->conspiracyDeck->insertCardOnExtremePosition(14, 'deck', true);
-                $this->conspiracyDeck->insertCardOnExtremePosition(13, 'deck', true);
-                $this->conspiracyDeck->insertCardOnExtremePosition(7, 'deck', true);
-            }
-
             // Set up Influence cubes
             $this->influenceCubeDeck->createCards([['type' => Player::me()->id, 'nbr' => 12, 'type_arg' => 0]], Player::me()->id, 0);
             $this->influenceCubeDeck->createCards([['type' => Player::opponent()->id, 'nbr' => 12, 'type_arg' => 0]], Player::opponent()->id, 0);
         }
 
-        // TODO: Remove, this will be done by player interaction:
-//        $playerIds = array_keys($players);
-//        $this->wonderDeck->moveAllCardsInLocation('selection1', 'player' . $playerIds[0]);
-//        $this->wonderDeck->shuffle('player' . $playerIds[0]); // Ensures we have defined card_location_arg
-//        $this->wonderDeck->moveAllCardsInLocation('selection2', 'player' . $playerIds[1]);
-//        $this->wonderDeck->shuffle('player' . $playerIds[1]); // Ensures we have defined card_location_arg
 
         // Activate first player (which is in general a good idea :) )
         $this->activeNextPlayer();

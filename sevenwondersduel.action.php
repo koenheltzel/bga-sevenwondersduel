@@ -38,8 +38,6 @@ class action_sevenwondersduelpantheon extends APP_GameAction
         }
     }
 
-    // TODO: defines your action entry points there
-
     /*
 
     Example:

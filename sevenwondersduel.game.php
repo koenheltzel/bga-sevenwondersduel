@@ -662,7 +662,7 @@ class SevenWondersDuelPantheon extends Table
             self::initStat('player', self::STAT_POLITICIAN_CARDS, 0);
             self::initStat('player', self::STAT_CONSPIRATOR_CARDS, 0);
         }
-        // TODO: setup the initial game situation here
+        // Setup the initial game situation here
 
         $this->enterStateGameSetup(); // This state function isn't called automatically apparently.
 
@@ -695,7 +695,7 @@ class SevenWondersDuelPantheon extends Table
             $result['playerIds'][] = $player['id'];
         }
 
-        // TODO: Gather all information about current game situation (visible by player $current_player_id).
+        // Gather all information about current game situation (visible by player $current_player_id).
 
         // Wonder selection stuff
         $result['wondersSituation'] = Wonders::getSituation();

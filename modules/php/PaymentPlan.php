@@ -7,7 +7,7 @@ use SevenWondersDuelPantheon;
 class PaymentPlan extends Base
 {
 
-    private static $maskCombinations = null; // To prevent passing an array. // TODO check if this is more memory efficient.
+    private static $maskCombinations = null; // To prevent passing an array.
     private $item = null; // Private so it's not included to javascript.
     /**
      * @var PaymentPlanStep[] array
