@@ -299,10 +299,17 @@ class PaymentPlan extends Base
             }
         }
         elseif ($this->item instanceof Building && $player->hasDecree(15) && $opponent->hasBuilding($this->item->linkedBuilding)) {
-            // Opponent has the linked building, and the player has the Decree to take advantage of it.
-            $linkedBuilding = Building::get($this->item->linkedBuilding);
-            $string = clienttranslate('Construction is free through linked building “${name}” (enabled by controlling Decree in Chamber ${chamber})');
-            $args = ['name' => $linkedBuilding->name, 'chamber' => Decree::get(15)->getChamber()];
+            if ($this->item->linkedBuilding > 0) {
+                // Opponent has the linked building, and the player has the Decree to take advantage of it.
+                $linkedBuilding = Building::get($this->item->linkedBuilding);
+                $string = clienttranslate('Construction is free through linked building “${name}” (enabled by controlling Decree in Chamber ${chamber})');
+                $args = ['name' => $linkedBuilding->name, 'chamber' => Decree::get(15)->getChamber()];
+            }
+            else {
+                // Grand Temple cards. linkedBuilding is Mythology type (but negative)
+                $string = clienttranslate('Construction is free because opponent has a ${mythologyType} Mythology Token (enabled by controlling Decree in Chamber ${chamber})');
+                $args = ['mythologyType' => Divinity::getTypeName(abs($this->item->linkedBuilding)), 'chamber' => Decree::get(15)->getChamber()];
+            }
             $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string, $args);
         }
         else {
