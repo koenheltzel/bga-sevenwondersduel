@@ -4304,6 +4304,7 @@ define([
                     for (let i = 0; i <= 1; i++) {
                         var container = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
                         let node = dojo.place(this.getDivinityDivHtml(0, args.divinitiesType, true), container);
+                        dojo.style(node, 'z-index', 50);
                         this.placeOnObject(node, $('mythology' + args.divinitiesType));
                         let startDelay = i * this.conspire_duration / 3;
 
@@ -5666,7 +5667,8 @@ define([
                 else {
                     for (let i = 0; i <= 1; i++) {
                         var container = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
-                        let node = dojo.place(this.getConspiracyDivHtml(18, 18, true), container);
+                        let node = dojo.place(this.getConspiracyDivHtml(17, 17, true), container);
+                        dojo.style(node, 'z-index', 50);
                         this.placeOnObject(node, $('conspiracy_deck'));
                         let startDelay = i * this.conspire_duration / 3;
 
@@ -5861,6 +5863,7 @@ define([
                     var playerBuildingsContainer = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
                     backSideConspiracyNode = dojo.place(this.getConspiracyDivHtml(17, 17, true), playerBuildingsContainer);
                     this.placeOnObject( backSideConspiracyNode, playerBuildingsContainer ); // Center the card in the player buildingsContainer
+                    dojo.style(backSideConspiracyNode, 'z-index', 20);
                     dojo.style(backSideConspiracyNode, 'opacity', 0);
 
                     slideAnims.push(
