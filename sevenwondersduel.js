@@ -40,7 +40,7 @@ define([
             LAYOUT_PORTRAIT: 'portrait',
 
             // Show console.log messages
-            debug: 1,
+            debug: 0,
             pantheon: 0,
             agora: 0,
             expansion: 0,
@@ -2909,7 +2909,6 @@ define([
                 dojo.query('.red_border').removeClass("red_border");
             },
             clearGrayBorder: function () {
-                console.log('clearGrayBorder');
                 dojo.query('.gray_border').removeClass("gray_border");
             },
             clearDivinityBorder: function () {
@@ -4982,7 +4981,6 @@ define([
 
                     var positionNode = dojo.hasClass(e.target, 'military_position') ? e.target : dojo.query(e.target).closest(".military_position")[0];
                     var position = parseInt(dojo.attr(positionNode, "data-position"));
-                    console.log('position', position);
 
                     this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionPlaceMinervaToken.html", {
                             lock: true,
@@ -5248,8 +5246,6 @@ define([
                     if (!this.checkAction('actionChooseDivinityFromTopCards')) {
                         return;
                     }
-
-                    console.log('actionChooseDivinityFromTopCards data-divinity-id', dojo.attr(divinityNode, 'data-divinity-id'));
 
                     this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseDivinityFromTopCards.html", {
                             divinityId: dojo.attr(divinityNode, 'data-divinity-id'),

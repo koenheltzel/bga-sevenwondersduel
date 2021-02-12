@@ -26,56 +26,54 @@
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Construct Building" line="3066" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Discard Building" line="3219" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Construct a Wonder" line="3339" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Prepare a Conspiracy" line="3844" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Progress Token" line="4121" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose And Place Divinity" line="4304" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Next Age" line="4243" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Select Start Player" line="4253" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Progress Token From Box" line="5546" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Conspirator Action" line="5601" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Conspire" line="5670" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Senate Actions" line="6075" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Place Influence" line="6181" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Move Influence" line="6260" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Remove Influence" line="6418" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Trigger Unprepared Conspiracy" line="6498" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Construct Building From Box (Conspiracy 8)" line="6545" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Construct Last Row Building (Conspiracy 7)" line="6614" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Destroy Constructed Wonder (Conspiracy 16)" line="6657" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Lock Progress Token (Conspiracy 5)" line="6872" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Swap Building (Conspiracy 14)" line="7090" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State TakeBuilding (Conspiracy 13)" line="7197" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Next Player Turn / End game animation" line="7350" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Take Unconstructed Wonder (Conspiracy 1)" line="7277" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Display functions" line="7595" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Settings" line="7830" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Helper Functions" line="7958" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Conspire Remnant Position" line="5935" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Prepare a Conspiracy" line="3846" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Progress Token" line="4123" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose And Place Divinity" line="4306" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Next Age" line="4245" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Select Start Player" line="4255" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Progress Token From Box" line="5548" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Conspirator Action" line="5603" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Conspire" line="5672" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Senate Actions" line="6077" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Place Influence" line="6183" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Move Influence" line="6262" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Remove Influence" line="6420" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Trigger Unprepared Conspiracy" line="6500" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Construct Building From Box (Conspiracy 8)" line="6547" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Construct Last Row Building (Conspiracy 7)" line="6616" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Destroy Constructed Wonder (Conspiracy 16)" line="6659" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Lock Progress Token (Conspiracy 5)" line="6874" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Swap Building (Conspiracy 14)" line="7092" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State TakeBuilding (Conspiracy 13)" line="7199" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Next Player Turn / End game animation" line="7352" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Take Unconstructed Wonder (Conspiracy 1)" line="7279" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Display functions" line="7597" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Settings" line="7832" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Helper Functions" line="7960" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Conspire Remnant Position" line="5937" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Action Activate a Divinity" line="3567" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Choose Discarded Building" line="4076" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Enki Progress Token" line="4796" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Place Minerva Token" line="4958" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Place Snake Token" line="4840" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Discard Age Card" line="4913" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Discard Military Token" line="5034" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Apply Military Token" line="5100" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Divinity From Top Cards" line="5161" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Divinity Deck" line="5380" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Divinity From Deck" line="5429" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="######## PANTHEON ########" line="4295" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="######## AGORA ########" line="5539" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Choose Discarded Building" line="4078" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Enki Progress Token" line="4798" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Place Minerva Token" line="4960" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Place Snake Token" line="4842" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Discard Age Card" line="4915" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Discard Military Token" line="5036" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Apply Military Token" line="5102" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Divinity From Top Cards" line="5163" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Divinity Deck" line="5382" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Divinity From Deck" line="5431" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="######## PANTHEON ########" line="4297" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="######## AGORA ########" line="5541" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="######## BASE GAME ########" line="2577" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Construct Wonder With Discarded Building" line="4728" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Deconstruct Wonder" line="4594" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Construct Wonder With Discarded Building" line="4730" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Deconstruct Wonder" line="4596" />
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="Divinities" line="1348" />
-    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Opponent Building" line="3997" />
+    <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Opponent Building" line="3999" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="Neptune second action was not applying the effect of losing the opponent's coins">
+    <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="Tested snake token discard fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/PaymentPlan.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/PaymentPlan.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/States/GameEndDebugTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/GameEndDebugTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/php/States/SwapBuildingTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/States/SwapBuildingTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sevenwondersduel.game.php" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.game.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sevenwondersduel.js" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.js" afterDir="false" />
     </list>
     <ignored path="D:\wamp64\www\bga\sevenwondersduel\.idea\shelf/" />
@@ -115,10 +113,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl">
+        <entry file="file://$PROJECT_DIR$/stats.inc.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="219" column="65" selection-start-line="219" selection-start-column="65" selection-end-line="219" selection-end-column="65" />
+            <state relative-caret-position="220">
+              <caret line="262" column="29" selection-start-line="262" selection-start-column="9" selection-end-line="262" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -135,25 +133,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>addTooltipToClass</find>
-      <find>for detai</find>
-      <find>nisaba is wo</find>
-      <find>coerci</find>
-      <find>updateOfferingTokensSituation</find>
-      <find>snaketoken</find>
-      <find>VALUE_SNAKE_TOKEN_BUILDING_ID</find>
-      <find>swapBuilding</find>
-      <find>snake</find>
-      <find>snakeTokenBuildingId</find>
-      <find>situation[playerId].snakeTokenBuildingId</find>
-      <find>.destroy(</find>
-      <find>destroy</find>
-      <find>STATE_APPLY_MILITARY_TOKEN_NAME</find>
-      <find>$this-&gt;actionStates</find>
-      <find>action</find>
-      <find>actionStates</find>
-      <find>apply</find>
-      <find>STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_ID</find>
       <find>setlinked</find>
       <find>#board_column</find>
       <find>--board-scale:</find>
@@ -165,6 +144,25 @@
       <find>Draftpool::getBuildingRowCol</find>
       <find>52</find>
       <find>.pantheon</find>
+      <find>in exchange</find>
+      <find>akes a Mythology token</find>
+      <find>-&gt;take(</find>
+      <find>place</find>
+      <find>if (isset($result['mythologyToken'])) {</find>
+      <find>DISCARD_AGE_CARD</find>
+      <find>prependStateStack([self::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME]</find>
+      <find>STATE_CHOOSE_AND_PLACE_DIVINITY_NAME</find>
+      <find>column pu</find>
+      <find>discard_age_c</find>
+      <find>activateDivinityOfferingTokenIds</find>
+      <find>vp_military</find>
+      <find>vp_senate</find>
+      <find>STAT_VP_DIVINITIES</find>
+      <find>SCORE_WONDERS</find>
+      <find>STAT_VP_WONDERS</find>
+      <find>Divinities</find>
+      <find>STAT_DIVINITIES_ACTIVATED</find>
+      <find>divinities_activated</find>
     </findStrings>
     <replaceStrings>
       <replace>notif.args.divinityId</replace>
@@ -226,12 +224,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/css/200 various.css" />
         <option value="$PROJECT_DIR$/modules/php/States/PlaceSnakeTokenTrait.php" />
-        <option value="$PROJECT_DIR$/modules/php/States/GameEndDebugTrait.php" />
         <option value="$PROJECT_DIR$/css/700 endGame.css" />
         <option value="$PROJECT_DIR$/dbmodel.sql" />
-        <option value="$PROJECT_DIR$/stats.inc.php" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/modules/js/MilitaryTrackAnimator.js" />
         <option value="$PROJECT_DIR$/css/900 highresAssets.css" />
@@ -239,10 +234,8 @@
         <option value="$PROJECT_DIR$/css/240 chooseDivinityFromTopCards.css" />
         <option value="$PROJECT_DIR$/css/090 progressTokens.css" />
         <option value="$PROJECT_DIR$/modules/php/States/ChooseDivinityFromTopCardsTrait.php" />
-        <option value="$PROJECT_DIR$/modules/php/Material.php" />
         <option value="$PROJECT_DIR$/css/245 chooseDivinityDeck.css" />
         <option value="$PROJECT_DIR$/css/020 general.css" />
-        <option value="$PROJECT_DIR$/sevenwondersduel.game.php" />
         <option value="$PROJECT_DIR$/css/250 chooseDivinityFromDeck.css" />
         <option value="$PROJECT_DIR$/modules/php/States/ConstructWonderWithDiscardedBuildingTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/States/ChooseDivinityDeckTrait.php" />
@@ -268,15 +261,20 @@
         <option value="$PROJECT_DIR$/modules/php/MilitaryTrack.php" />
         <option value="$PROJECT_DIR$/modules/php/States/NextPlayerTurnTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/States/SwapBuildingTrait.php" />
-        <option value="$PROJECT_DIR$/sevenwondersduel.js" />
         <option value="$PROJECT_DIR$/modules/php/Divinity.php" />
         <option value="$PROJECT_DIR$/modules/php/States/ApplyMilitaryTokenTrait.php" />
-        <option value="$PROJECT_DIR$/states.inc.php" />
         <option value="$PROJECT_DIR$/modules/php/PaymentPlan.php" />
         <option value="$PROJECT_DIR$/css/010 variables.css" />
         <option value="$PROJECT_DIR$/modules/php/Building.php" />
         <option value="$PROJECT_DIR$/css/030 layout.css" />
         <option value="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" />
+        <option value="$PROJECT_DIR$/modules/php/States/DiscardAgeCardTrait.php" />
+        <option value="$PROJECT_DIR$/states.inc.php" />
+        <option value="$PROJECT_DIR$/modules/php/Material.php" />
+        <option value="$PROJECT_DIR$/modules/php/States/GameEndDebugTrait.php" />
+        <option value="$PROJECT_DIR$/sevenwondersduel.js" />
+        <option value="$PROJECT_DIR$/sevenwondersduel.game.php" />
+        <option value="$PROJECT_DIR$/stats.inc.php" />
       </list>
     </option>
   </component>
@@ -293,9 +291,9 @@
     <servers />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
+    <option name="x" value="62" />
+    <option name="y" value="-22" />
+    <option name="width" value="1843" />
     <option name="height" value="1056" />
   </component>
   <component name="ProjectView">
@@ -306,7 +304,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -341,6 +338,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -472,49 +470,9 @@
       <workItem from="1611855393039" duration="13485000" />
       <workItem from="1612172671505" duration="93000" />
       <workItem from="1612253169867" duration="1205000" />
-      <workItem from="1612528636870" duration="7332000" />
-    </task>
-    <task id="LOCAL-00810" summary="Apply Military Token implementation">
-      <created>1610208764245</created>
-      <option name="number" value="00810" />
-      <option name="presentableId" value="LOCAL-00810" />
-      <option name="project" value="LOCAL" />
-      <updated>1610208764245</updated>
-    </task>
-    <task id="LOCAL-00811" summary="Implemented Divinity Isis">
-      <created>1610367841934</created>
-      <option name="number" value="00811" />
-      <option name="presentableId" value="LOCAL-00811" />
-      <option name="project" value="LOCAL" />
-      <updated>1610367841934</updated>
-    </task>
-    <task id="LOCAL-00812" summary="Implemented Divinity Anubis">
-      <created>1610372282223</created>
-      <option name="number" value="00812" />
-      <option name="presentableId" value="LOCAL-00812" />
-      <option name="project" value="LOCAL" />
-      <updated>1610372282223</updated>
-    </task>
-    <task id="LOCAL-00813" summary="Implemented Minerva pawn placement (the action following the Divinity activation). The &quot;conflict-pawn stopping&quot; logic / discarding of the Minerva pawn is not yet implemented">
-      <created>1610449528378</created>
-      <option name="number" value="00813" />
-      <option name="presentableId" value="LOCAL-00813" />
-      <option name="project" value="LOCAL" />
-      <updated>1610449528378</updated>
-    </task>
-    <task id="LOCAL-00814" summary="Implemented shouldSkipConstructWonderWithDiscardedBuilding&#10;Implemented shouldSkipDeconstructWonder">
-      <created>1610449573105</created>
-      <option name="number" value="00814" />
-      <option name="presentableId" value="LOCAL-00814" />
-      <option name="project" value="LOCAL" />
-      <updated>1610449573106</updated>
-    </task>
-    <task id="LOCAL-00815" summary="Guarantee Pantheon Wonders / Progress Tokens implementation">
-      <created>1610466629381</created>
-      <option name="number" value="00815" />
-      <option name="presentableId" value="LOCAL-00815" />
-      <option name="project" value="LOCAL" />
-      <updated>1610466629382</updated>
+      <workItem from="1612528636870" duration="13426000" />
+      <workItem from="1612793935918" duration="14000" />
+      <workItem from="1613118643975" duration="2280000" />
     </task>
     <task id="LOCAL-00816" summary="Minerva block logic &amp; notification message&#10;Poliorcetics implementation&#10;Some js bugfixes">
       <created>1610468516799</created>
@@ -817,11 +775,53 @@
       <option name="project" value="LOCAL" />
       <updated>1612538351049</updated>
     </task>
-    <option name="localTasksCounter" value="859" />
+    <task id="LOCAL-00859" summary="Tested snake token discard fix">
+      <created>1612538882489</created>
+      <option name="number" value="00859" />
+      <option name="presentableId" value="LOCAL-00859" />
+      <option name="project" value="LOCAL" />
+      <updated>1612538882489</updated>
+    </task>
+    <task id="LOCAL-00860" summary="Fixed Zeus in Age 1 with Mythology token (transition into STATE_CHOOSE_AND_PLACE_DIVINITY_NAME wasn't there).">
+      <created>1612542191612</created>
+      <option name="number" value="00860" />
+      <option name="presentableId" value="LOCAL-00860" />
+      <option name="project" value="LOCAL" />
+      <updated>1612542191612</updated>
+    </task>
+    <task id="LOCAL-00861" summary="Don't let the cost of divinity activation go below 0 when using offering tokens">
+      <created>1612549371718</created>
+      <option name="number" value="00861" />
+      <option name="presentableId" value="LOCAL-00861" />
+      <option name="project" value="LOCAL" />
+      <updated>1612549371718</updated>
+    </task>
+    <task id="LOCAL-00862" summary="Always clear selected offering tokens to prevent error &quot;you don't have the -3 offering token&quot;&#10;Clear offering tokens red border">
+      <created>1612635219334</created>
+      <option name="number" value="00862" />
+      <option name="presentableId" value="LOCAL-00862" />
+      <option name="project" value="LOCAL" />
+      <updated>1612635219334</updated>
+    </task>
+    <task id="LOCAL-00863" summary="Added rules text to Pantheon Wonders.">
+      <created>1612635262844</created>
+      <option name="number" value="00863" />
+      <option name="presentableId" value="LOCAL-00863" />
+      <option name="project" value="LOCAL" />
+      <updated>1612635262844</updated>
+    </task>
+    <task id="LOCAL-00864" summary="Build Grand Temple cards for free with linking symbol Decree">
+      <created>1613120932768</created>
+      <option name="number" value="00864" />
+      <option name="presentableId" value="LOCAL-00864" />
+      <option name="project" value="LOCAL" />
+      <updated>1613120932769</updated>
+    </task>
+    <option name="localTasksCounter" value="865" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2246413000" />
+    <option name="totallyTimeSpent" value="2254801000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -836,7 +836,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info id="Structure" order="0" sideWeight="0.46695557" side_tool="true" weight="0.22761194" />
-      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.5330444" visible="true" weight="0.21108742" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.5330444" visible="true" weight="0.2153518" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49946696" weight="0.31419286" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49840087" weight="0.49945828" />
@@ -845,7 +845,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="8" sideWeight="0.5351812" visible="true" weight="0.2990249" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="8" sideWeight="0.5351812" visible="true" weight="0.22535211" />
       <window_info anchor="bottom" id="Cacher" order="9" sideWeight="0.6098081" weight="0.3347779" />
       <window_info anchor="bottom" id="File Transfer" order="10" sideWeight="0.6620469" weight="0.1971831" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
@@ -858,7 +858,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" weight="0.32995737" />
       <window_info anchor="right" x="0" y="0" width="434" height="856" id="Documentation" order="4" side_tool="true" visible="true" weight="0.16490486" />
-      <window_info anchor="right" id="Favorites" order="5" sideWeight="0.35455862" weight="0.17697228" />
+      <window_info anchor="right" id="Favorites" order="5" sideWeight="0.35455862" visible="true" weight="0.23614073" />
     </layout>
     <layout-to-restore>
       <window_info id="Structure" order="0" sideWeight="0.46695557" side_tool="true" weight="0.22761194" />
@@ -947,12 +947,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Moved 255 chooseDivinityForTopOfDeck.css content to 240 chooseDivinityFromTopCards.css&#10;Removed gap: css from #choose_divinity_from_top_cards" />
-    <MESSAGE value="Don't show grand temples in linked buildings div" />
-    <MESSAGE value="chooseDivinityFromTopCards WIP&#10;Enki Progress Tokens WIP" />
-    <MESSAGE value="chooseDivinityFromTopCards animations WIP" />
-    <MESSAGE value="increaseMythologyDeckCount &gt; changeMythologyDeckCount" />
-    <MESSAGE value="Replaced setSynchronousDuration(0) with setSynchronousDuration(this.notification_safe_margin)" />
     <MESSAGE value="Enki Progress Tokens WIP" />
     <MESSAGE value="Choose divinity from deck (clients state) WIP" />
     <MESSAGE value="ChooseDivinityFromDeck wrap up (?)&#10;Removed STATE_CHOOSE_DIVINITY_FOR_TOP_OF_DECK_NAME state, became a client state in the end." />
@@ -972,48 +966,15 @@
     <MESSAGE value="Building-&gt;checkBuildingLastRow fixed getBuildingRowCol second parameter fix" />
     <MESSAGE value="Divinity: removed trailing STATE_NEXT_PLAYER_TURN_NAME state, shouldn't be neccessary" />
     <MESSAGE value="Fixed purple column (always show, but the icon only when Pantheon is active)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed purple column (always show, but the icon only when Pantheon is active)" />
+    <MESSAGE value="Tested snake token discard fix" />
+    <MESSAGE value="Fixed Zeus in Age 1 with Mythology token (transition into STATE_CHOOSE_AND_PLACE_DIVINITY_NAME wasn't there)." />
+    <MESSAGE value="Don't let the cost of divinity activation go below 0 when using offering tokens" />
+    <MESSAGE value="Always clear selected offering tokens to prevent error &quot;you don't have the -3 offering token&quot;&#10;Clear offering tokens red border" />
+    <MESSAGE value="Added rules text to Pantheon Wonders." />
+    <MESSAGE value="Build Grand Temple cards for free with linking symbol Decree" />
+    <option name="LAST_COMMIT_MESSAGE" value="Build Grand Temple cards for free with linking symbol Decree" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/css/201 chooseAndPlaceDivinity.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="65" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/Material.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="602">
-          <caret line="172" column="86" selection-start-line="172" selection-start-column="86" selection-end-line="172" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/States/ChooseDiscardedBuildingTrait.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-255">
-          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sevenwondersduel.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dbmodel.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="35" selection-start-line="35" selection-end-line="36" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/States/ChooseDivinityForTopOfDeckTrait.php" />
-    <entry file="file://$PROJECT_DIR$/modules/php/Payment.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/250 chooseDivinityFromDeck.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
@@ -1123,13 +1084,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/material.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="42" column="40" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/php/Wonder.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
@@ -1203,13 +1157,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="2514" column="66" selection-start-line="2514" selection-start-column="66" selection-end-line="2514" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/php/States/SwapBuildingTrait.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1037">
@@ -1256,23 +1203,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
           <caret line="57" selection-start-line="57" selection-end-line="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sevenwondersduel.game.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="201" column="59" selection-start-line="201" selection-start-column="10" selection-end-line="201" selection-end-column="59" />
-          <folding>
-            <element signature="e#582#603#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/states.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="61" column="84" selection-start-line="61" selection-start-column="84" selection-end-line="61" selection-end-column="84" />
         </state>
       </provider>
     </entry>
@@ -1326,6 +1256,86 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="337">
           <caret line="219" column="65" selection-start-line="219" selection-start-column="65" selection-end-line="219" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/MythologyToken.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="38" column="47" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/States/DiscardAvailableCardTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="479">
+          <caret line="74" column="47" lean-forward="true" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/States/SenateActionsTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="159" column="20" selection-start-line="159" selection-start-column="20" selection-end-line="159" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sevenwondersduel.game.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="196" column="10" selection-start-line="196" selection-start-column="10" selection-end-line="196" selection-end-column="10" />
+          <folding>
+            <element signature="e#582#603#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/States/DiscardAgeCardTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="88" column="37" selection-start-line="88" selection-start-column="37" selection-end-line="88" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/states.inc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="494" column="142" selection-start-line="494" selection-start-column="142" selection-end-line="494" selection-end-column="142" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/material.inc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="42" column="40" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="3698" column="36" selection-start-line="3698" selection-start-column="36" selection-end-line="3698" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/States/GameEndDebugTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="26" column="14" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/php/Material.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2958">
+          <caret line="174" selection-start-line="174" selection-end-line="174" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stats.inc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="262" column="29" selection-start-line="262" selection-start-column="9" selection-end-line="262" selection-end-column="29" />
         </state>
       </provider>
     </entry>
