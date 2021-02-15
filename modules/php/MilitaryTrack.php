@@ -45,6 +45,7 @@ class MilitaryTrack extends Base
             $targetPosition = max(-9, min(9, $currentPosition + $shields * $direction));
 
             $i = $currentPosition;
+            $newPosition = $currentPosition;
             while ($i != $targetPosition) {
                 $i += $direction;
 

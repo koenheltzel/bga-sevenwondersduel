@@ -163,21 +163,20 @@ define([
                             }));
                         }
                     }
-
-                    if (payment.militaryRemoveMinerva) {
-                        // Fade out Minerva pawn.
-                        anims.push(dojo.fadeOut({
-                            node: $('minerva_pawn'),
-                            duration: this.militaryTokenAnimationDuration * 0.4,
-                            onEnd: dojo.hitch(this, function (node) {
-                                // dojo.destroy(node);
-                            })
-                        }));
-                    }
-
-                    return dojo.fx.chain(anims);
                 }
-                return this.game.emptyAnimation();
+
+                if (payment.militaryRemoveMinerva) {
+                    // Fade out Minerva pawn.
+                    anims.push(dojo.fadeOut({
+                        node: $('minerva_pawn'),
+                        duration: this.militaryTokenAnimationDuration * 0.4,
+                        onEnd: dojo.hitch(this, function (node) {
+                            // dojo.destroy(node);
+                        })
+                    }));
+                }
+
+                return dojo.fx.chain(anims);
             },
         });
 
