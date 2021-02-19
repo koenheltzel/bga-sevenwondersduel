@@ -62,7 +62,7 @@ $game_options = [
                 'nobeginner' => true
             ]
         ],
-        'default' => 0
+        'default' => 1
     ],
     106 => [
         'name' => totranslate('Guarantee Pantheon Wonders (testing option)'),
@@ -117,44 +117,44 @@ $game_options = [
         ],
         'default' => 0
     ],
-    111 => [
-        'name' => totranslate('Guarantee Agora Wonders (testing option)'),
-        'values' => [
-            0 => ['name' => totranslate('No')],
-            1 => [
-                'name' => totranslate('Yes'),
-                'description' => totranslate('Guarantees the inclusion of the 2 Agora Wonders for testing purposes.'),
-                'beta' => true,
-            ]
-        ],
-        'default' => 0,
-        'displaycondition' => [ // Note: do not display this option unless these conditions are met
-            [
-                'type' => 'otheroption',
-                'id' => 110,
-                'value' => 1
-            ]
-        ],
-    ],
-    112 => [
-        'name' => totranslate('Guarantee Agora Progress Tokens (testing option)'),
-        'values' => [
-            0 => ['name' => totranslate('No')],
-            1 => [
-                'name' => totranslate('Yes'),
-                'description' => totranslate('Guarantees the inclusion of the 2 Agora Progress Tokens for testing purposes.'),
-                'beta' => true,
-            ]
-        ],
-        'default' => 0,
-        'displaycondition' => [ // Note: do not display this option unless these conditions are met
-            [
-                'type' => 'otheroption',
-                'id' => 110,
-                'value' => 1
-            ]
-        ],
-    ]
+//    111 => [
+//        'name' => totranslate('Guarantee Agora Wonders (testing option)'),
+//        'values' => [
+//            0 => ['name' => totranslate('No')],
+//            1 => [
+//                'name' => totranslate('Yes'),
+//                'description' => totranslate('Guarantees the inclusion of the 2 Agora Wonders for testing purposes.'),
+//                'beta' => true,
+//            ]
+//        ],
+//        'default' => 0,
+//        'displaycondition' => [ // Note: do not display this option unless these conditions are met
+//            [
+//                'type' => 'otheroption',
+//                'id' => 110,
+//                'value' => 1
+//            ]
+//        ],
+//    ],
+//    112 => [
+//        'name' => totranslate('Guarantee Agora Progress Tokens (testing option)'),
+//        'values' => [
+//            0 => ['name' => totranslate('No')],
+//            1 => [
+//                'name' => totranslate('Yes'),
+//                'description' => totranslate('Guarantees the inclusion of the 2 Agora Progress Tokens for testing purposes.'),
+//                'beta' => true,
+//            ]
+//        ],
+//        'default' => 0,
+//        'displaycondition' => [ // Note: do not display this option unless these conditions are met
+//            [
+//                'type' => 'otheroption',
+//                'id' => 110,
+//                'value' => 1
+//            ]
+//        ],
+//    ]
 
 ];
 
