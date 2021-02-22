@@ -176,7 +176,12 @@ define([
                     }));
                 }
 
-                return dojo.fx.chain(anims);
+                if (anims.length > 0) {
+                    return dojo.fx.chain(anims);
+                }
+                else {
+                    return this.game.emptyAnimation();
+                }
             },
         });
 
