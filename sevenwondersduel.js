@@ -3881,6 +3881,7 @@ define([
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
                 this.clearGreenBorder();
+                this.clearDivinityBorder();
 
                 // Update the conspiracies situation, because now the conspiracy is prepared and the age card has been rendered.
                 this.updateConspiraciesSituation(notif.args.conspiraciesSituation);
