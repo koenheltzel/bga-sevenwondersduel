@@ -473,6 +473,8 @@ class Player extends Base{
     }
 
     public function hasScientificSymbolPair($symbol): bool {
+        if ($symbol < 1 || $symbol > 7) return false;
+
         $buildings = $this->getBuildings()->filterByScientificSymbol($symbol);
         $count = count($buildings->array);
         switch ($symbol) {
