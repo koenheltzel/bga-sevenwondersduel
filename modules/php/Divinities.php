@@ -55,6 +55,9 @@ class Divinities extends Collection {
                     'id' => ($age >= 2) ? (int)$card['id'] : 0,
                 ];
                 if ($age >= 2) {
+                    if($card['id'] == 1) {
+                        $data['enkiProgressTokenIds'] = array_keys(SevenWondersDuelPantheon::get()->progressTokenDeck->getCardsInLocation('enki'));
+                    }
                     foreach (Players::get() as $player) {
                         $payment = $player->getPaymentPlan(Divinity::get($card['id']));
                         $data['cost'][$player->id] = $payment->totalCost();

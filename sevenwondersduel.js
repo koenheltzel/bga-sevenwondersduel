@@ -1337,7 +1337,7 @@ define([
                     let spaceData = divinitiesSituation.spaces[space];
                     let emptySpace = dojo.query('div[data-space=' + space + ']:empty', tokensContainer)[0];
                     if (emptySpace) {
-                        let result = dojo.place(this.getDivinityDivHtml(spaceData.id, spaceData.type, false, spaceData.id == 1 ? enkiProgressTokenIds : null), emptySpace);
+                        let result = dojo.place(this.getDivinityDivHtml(spaceData.id, spaceData.type, false, spaceData.id == 1 ? spaceData.enkiProgressTokenIds : null), emptySpace);
                     }
                     let divinityNode = dojo.query('div[data-space=' + space + '] .divinity', tokensContainer)[0];
 
@@ -1400,7 +1400,7 @@ define([
                         let spaceNode = dojo.query('.pantheon_space_containers div[data-space=' + space + ']')[0];
                         let oldNode = dojo.query('.divinity_container', spaceNode)[0];
                         let divinityData = divinitiesSituation.spaces[space];
-                        let newNode = dojo.place(this.getDivinityDivHtml(divinityData.id, divinityData.type, false), spaceNode);
+                        let newNode = dojo.place(this.getDivinityDivHtml(divinityData.id, divinityData.type, false, divinityData.id == 1 ? divinityData.enkiProgressTokenIds : null), spaceNode);
                         this.twistAnimation(oldNode, newNode, true, delay, movementDuration);
                         delay += movementDuration * 0.75;
                     }

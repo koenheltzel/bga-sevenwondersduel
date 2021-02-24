@@ -82,6 +82,12 @@ trait NextAgeTrait
                     }
                 }
 
+                $enkiCard = $this->divinityDeck->getCard(1);
+                if (strstr($enkiCard['location'], 'space')) {
+                    // Enki when revealed in the Pantheon, select Progress Tokens
+                    Divinities::setEnkiProgressTokens();
+                }
+
                 // Divinities reveal
                 $data['divinitiesSituation'] = Divinities::getSituation();
                 $data['doorSpace'] = $doorSpace;
