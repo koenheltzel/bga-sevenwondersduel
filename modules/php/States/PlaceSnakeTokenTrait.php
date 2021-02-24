@@ -62,7 +62,8 @@ trait PlaceSnakeTokenTrait {
 
     public function shouldSkipPlaceSnakeToken() {
         $activePlayer = Player::getActive();
-        if (count($activePlayer->getBuildings()->filterByTypes([Building::TYPE_GREEN])->array) == 0) {
+        $opponent = $activePlayer->getOpponent();
+        if (count($opponent->getBuildings()->filterByTypes([Building::TYPE_GREEN])->array) == 0) {
             $this->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} can\'t choose a green card from the opponent to place the Snake token on (Divinity “${divinityName}”)'),
