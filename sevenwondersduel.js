@@ -1449,7 +1449,7 @@ define([
                     jsYOffset: hidden ? '.6562' : '.7012',
                     jsEnkiProgressTokensHtml: '',
                 };
-                if (divinityId == 1 && enkiProgressTokenIds) {
+                if (divinityId == 1 && enkiProgressTokenIds && enkiProgressTokenIds.length == 2) {
                     let enkiProgressTokensHtml = '';
                     enkiProgressTokensHtml += '<div>' + this.getProgressTokenDivHtml(enkiProgressTokenIds[0]) + '</div>';
                     enkiProgressTokensHtml += '<div>' + this.getProgressTokenDivHtml(enkiProgressTokenIds[1]) + '</div>';
