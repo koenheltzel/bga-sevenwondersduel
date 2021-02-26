@@ -87,6 +87,7 @@ $divinityStateTransitions = [
     SevenWondersDuelPantheon::STATE_TAKE_BUILDING_NAME => SevenWondersDuelPantheon::STATE_TAKE_BUILDING_ID,
     SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_ID,
     SevenWondersDuelPantheon::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME => SevenWondersDuelPantheon::STATE_TAKE_UNCONSTRUCTED_WONDER_ID,
+    SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Mars, instant military victory
 ];
 
 $conspiracyStateTransitions = [
