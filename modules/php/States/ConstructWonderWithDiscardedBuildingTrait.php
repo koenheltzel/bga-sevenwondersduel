@@ -23,18 +23,18 @@ trait ConstructWonderWithDiscardedBuildingTrait {
     }
 
     public function shouldSkipConstructWonderWithDiscardedBuilding() {
+        $activePlayer = Player::getActive();
         if (count($this->buildingDeck->getCardsInLocation('discard')) == 0) {
             $this->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} can\'t choose a discarded card to construct a Wonder with (Divinity “${divinityName}”)'),
                 [
-                    'player_name' => Player::getActive()->name,
+                    'player_name' => $activePlayer->name,
                     'divinityName' => Divinity::get(11)->name,
                 ]
             );
             return true;
         }
-        $activePlayer = Player::opponent();
         if (count($activePlayer->getWonders()->filterByConstructed(false)->array) == 0) {
             $this->notifyAllPlayers(
                 'message',
@@ -42,7 +42,7 @@ trait ConstructWonderWithDiscardedBuildingTrait {
                 [
                     'i18n' => ['divinityName'],
                     'divinityName' => Divinity::get(11)->name,
-                    'player_name' => Player::getActive()->name,
+                    'player_name' => $activePlayer->name,
                 ]
             );
             return true;
