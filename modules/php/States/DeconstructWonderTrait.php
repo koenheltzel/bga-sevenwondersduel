@@ -61,7 +61,7 @@ trait DeconstructWonderTrait {
     }
 
     public function shouldSkipDeconstructWonder() {
-        $activePlayer = Player::opponent();
+        $activePlayer = Player::getActive();
         if (count($activePlayer->getWonders()->filterByConstructed()->array) == 0 && count($activePlayer->getOpponent()->getWonders()->filterByConstructed()->array) == 0) {
             $this->notifyAllPlayers(
                 'message',
