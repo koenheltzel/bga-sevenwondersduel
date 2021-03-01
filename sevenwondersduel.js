@@ -6882,7 +6882,7 @@ define([
                     }
 
                     var progressToken = dojo.hasClass(e.target, 'progress_token') ? e.target : dojo.query(e.target).closest(".progress_token")[0];
-                    var progressTokenId = dojo.attr(progressToken[0], "data-progress-token-id");
+                    var progressTokenId = dojo.attr(progressToken, "data-progress-token-id");
 
                     this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionLockProgressToken.html", {
                             lock: true,
