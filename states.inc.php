@@ -74,7 +74,7 @@ $constructWonderTransitions = array_merge($militaryTokenTransitions, [
     SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_ID,
 ]);
 
-$divinityStateTransitions = [
+$divinityStateTransitions = array_merge($militaryTokenTransitions, [
     SevenWondersDuelPantheon::STATE_DECONSTRUCT_WONDER_NAME => SevenWondersDuelPantheon::STATE_DECONSTRUCT_WONDER_ID,
     SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_ID,
     SevenWondersDuelPantheon::STATE_PLACE_SNAKE_TOKEN_NAME => SevenWondersDuelPantheon::STATE_PLACE_SNAKE_TOKEN_ID,
@@ -88,7 +88,7 @@ $divinityStateTransitions = [
     SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_ID,
     SevenWondersDuelPantheon::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME => SevenWondersDuelPantheon::STATE_TAKE_UNCONSTRUCTED_WONDER_ID,
     SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID, // Mars, instant military victory
-];
+]);
 
 $conspiracyStateTransitions = [
     // Military conspiracy --> Military track tokens
