@@ -73,7 +73,9 @@
   <component name="ChangeListManager">
     <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/states.inc.php" beforeDir="false" afterPath="$PROJECT_DIR$/states.inc.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/php/Divinities.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/Divinities.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/php/Divinity.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/php/Divinity.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sevenwondersduel.js" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.js" afterDir="false" />
     </list>
     <ignored path="D:\wamp64\www\bga\sevenwondersduel\.idea\shelf/" />
     <ignored path="D:\wamp64\www\bga\pantheon\.idea\shelf/" />
@@ -112,10 +114,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="475">
+              <caret line="6876" lean-forward="true" selection-start-line="6876" selection-end-line="6876" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/states.inc.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="830">
-              <caret line="90" column="2" selection-start-line="90" selection-start-column="2" selection-end-line="90" selection-end-column="2" />
+            <state relative-caret-position="335">
+              <caret line="51" selection-start-line="51" selection-end-line="51" />
             </state>
           </provider>
         </entry>
@@ -132,6 +143,15 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/php/Divinities.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="294">
+              <caret line="104" column="9" selection-start-line="104" selection-start-column="9" selection-end-line="104" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -144,7 +164,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>testing option</find>
       <find>console.</find>
       <find>console.log</find>
       <find>emptya</find>
@@ -174,6 +193,7 @@
       <find>baal</find>
       <find>62</find>
       <find>STATE_CHOOSE_DIVINITY_FROM_DECK_ID</find>
+      <find>setEnkiProgressTokens</find>
     </findStrings>
     <replaceStrings>
       <replace>notif.args.divinityId</replace>
@@ -278,14 +298,14 @@
         <option value="$PROJECT_DIR$/modules/php/States/SwapBuildingTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/Player.php" />
         <option value="$PROJECT_DIR$/modules/php/States/NextAgeTrait.php" />
-        <option value="$PROJECT_DIR$/modules/php/Divinities.php" />
-        <option value="$PROJECT_DIR$/modules/php/Divinity.php" />
         <option value="$PROJECT_DIR$/modules/php/States/PlaceSnakeTokenTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/States/ConstructWonderWithDiscardedBuildingTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/States/DeconstructWonderTrait.php" />
         <option value="$PROJECT_DIR$/modules/php/Material.php" />
-        <option value="$PROJECT_DIR$/sevenwondersduel.js" />
         <option value="$PROJECT_DIR$/states.inc.php" />
+        <option value="$PROJECT_DIR$/sevenwondersduel.js" />
+        <option value="$PROJECT_DIR$/modules/php/Divinity.php" />
+        <option value="$PROJECT_DIR$/modules/php/Divinities.php" />
       </list>
     </option>
   </component>
@@ -315,6 +335,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -322,11 +343,21 @@
               <item name="pantheon" type="b2602c69:ProjectViewProjectNode" />
               <item name="pantheon" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="pantheon" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pantheon" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pantheon" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pantheon" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="php" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -471,14 +502,8 @@
       <workItem from="1614795428771" duration="2222000" />
       <workItem from="1614873063757" duration="324000" />
       <workItem from="1615379227451" duration="7000" />
-      <workItem from="1615467219946" duration="83000" />
-    </task>
-    <task id="LOCAL-00838" summary="Replaced setSynchronousDuration(0) with setSynchronousDuration(this.notification_safe_margin)">
-      <created>1611148830316</created>
-      <option name="number" value="00838" />
-      <option name="presentableId" value="LOCAL-00838" />
-      <option name="project" value="LOCAL" />
-      <updated>1611148830317</updated>
+      <workItem from="1615467219946" duration="932000" />
+      <workItem from="1615539123960" duration="991000" />
     </task>
     <task id="LOCAL-00839" summary="Replaced setSynchronousDuration(0) with setSynchronousDuration(this.notification_safe_margin)">
       <created>1611153085691</created>
@@ -816,11 +841,18 @@
       <option name="project" value="LOCAL" />
       <updated>1614632638332</updated>
     </task>
-    <option name="localTasksCounter" value="887" />
+    <task id="LOCAL-00887" summary="Allow military token transitions from activating a Divinity (Mars)">
+      <created>1615467366491</created>
+      <option name="number" value="00887" />
+      <option name="presentableId" value="LOCAL-00887" />
+      <option name="project" value="LOCAL" />
+      <updated>1615467366492</updated>
+    </task>
+    <option name="localTasksCounter" value="888" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2288651000" />
+    <option name="totallyTimeSpent" value="2290491000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -832,10 +864,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info id="Structure" order="0" sideWeight="0.46695557" side_tool="true" weight="0.22761194" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.5330444" visible="true" weight="0.24244833" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.5330444" visible="true" weight="0.24520256" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49946696" weight="0.31419286" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49840087" weight="0.49945828" />
@@ -844,14 +876,14 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.754372" weight="0.1543258" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="8" sideWeight="0.7526652" visible="true" weight="0.26218852" />
       <window_info anchor="bottom" id="Cacher" order="9" sideWeight="0.6098081" weight="0.3347779" />
-      <window_info anchor="bottom" id="File Transfer" order="10" sideWeight="0.58147854" visible="true" weight="0.2681216" />
+      <window_info anchor="bottom" id="File Transfer" order="10" sideWeight="0.58102345" weight="0.26760563" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
       <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.72121537" weight="0.46912244" />
       <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.49946696" weight="0.32936078" />
       <window_info anchor="bottom" id="Inspection Results" order="14" sideWeight="0.49946696" weight="0.32936078" />
-      <window_info anchor="bottom" id="Event Log" order="15" sideWeight="0.41852146" side_tool="true" visible="true" weight="0.2681216" />
+      <window_info anchor="bottom" id="Event Log" order="15" sideWeight="0.24733475" side_tool="true" visible="true" weight="0.26218852" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -946,7 +978,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Don't let the cost of divinity activation go below 0 when using offering tokens" />
     <MESSAGE value="Always clear selected offering tokens to prevent error &quot;you don't have the -3 offering token&quot;&#10;Clear offering tokens red border" />
     <MESSAGE value="Added rules text to Pantheon Wonders." />
     <MESSAGE value="Build Grand Temple cards for free with linking symbol Decree" />
@@ -971,7 +1002,8 @@
     <MESSAGE value="Readability improvement, no functional difference." />
     <MESSAGE value="Fixed Conspiracy Obscurantism bug introduced with a refactor." />
     <MESSAGE value="workspace.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="workspace.xml" />
+    <MESSAGE value="Allow military token transitions from activating a Divinity (Mars)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Allow military token transitions from activating a Divinity (Mars)" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/css/430 offeringTokens.css">
@@ -1257,13 +1289,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117011">
-          <caret line="6883" selection-start-line="6882" selection-end-line="6883" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/php/States/ConstructWonderWithDiscardedBuildingTrait.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
@@ -1299,13 +1324,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/php/Divinities.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="986">
-          <caret line="58" column="51" selection-start-line="58" selection-start-column="31" selection-end-line="58" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/php/Player.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
@@ -1320,6 +1338,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/states.inc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="51" selection-start-line="51" selection-end-line="51" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sevenwondersduel.game.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="335">
@@ -1330,10 +1355,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/states.inc.php">
+    <entry file="file://$PROJECT_DIR$/modules/php/Divinities.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="830">
-          <caret line="90" column="2" selection-start-line="90" selection-start-column="2" selection-end-line="90" selection-end-column="2" />
+        <state relative-caret-position="294">
+          <caret line="104" column="9" selection-start-line="104" selection-start-column="9" selection-end-line="104" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sevenwondersduel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="6876" lean-forward="true" selection-start-line="6876" selection-end-line="6876" />
         </state>
       </provider>
     </entry>

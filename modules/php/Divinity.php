@@ -171,10 +171,7 @@ class Divinity extends Item {
             case 1: // Enki
                 if (!$free) { // Enki when activated from the Pantheon, select Progress Tokens
                     // TODO: Remove this case 1 block. Keep now to already started games in alpha.
-                    $cards = SevenWondersDuelPantheon::get()->progressTokenDeck->getCardsInLocation('enki');
-                    if (count($cards) == 0) {
-                        Divinities::setEnkiProgressTokens();
-                    }
+                    Divinities::setEnkiProgressTokens();
                 }
                 break;
             case 4: // Astarte

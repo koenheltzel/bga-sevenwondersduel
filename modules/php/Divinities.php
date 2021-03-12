@@ -98,8 +98,11 @@ class Divinities extends Collection {
     }
 
     public static function setEnkiProgressTokens() {
-        SevenWondersDuelPantheon::get()->progressTokenDeck->shuffle('box');
-        SevenWondersDuelPantheon::get()->progressTokenDeck->pickCardsForLocation(2, 'box', 'enki');
+        $cards = SevenWondersDuelPantheon::get()->progressTokenDeck->getCardsInLocation('enki');
+        if (count($cards) == 0) {
+            SevenWondersDuelPantheon::get()->progressTokenDeck->shuffle('box');
+            SevenWondersDuelPantheon::get()->progressTokenDeck->pickCardsForLocation(2, 'box', 'enki');
+        }
     }
 
     public static function resetEnkiProgressTokens() {
