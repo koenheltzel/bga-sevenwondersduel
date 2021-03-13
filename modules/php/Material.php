@@ -637,7 +637,7 @@ class Material extends Base
             22 => 8, // Moon symbol
             42 => 5, // Sun symbol
             23 => 6, // Water drop symbol
-            46 => 7, // Greek building symbol
+            46 => 4, // Greek building symbol
             17 => 1, // Amphora (vase) symbol
             38 => 2, // Barrel symbol
         ];
