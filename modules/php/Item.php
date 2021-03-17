@@ -219,7 +219,7 @@ class Item extends Base
                         'i18n' => ['progressTokenName'],
                         'player_name' => $player->name,
                         'opponentName' => $opponent->name,
-                        'progressTokenName' => ProgressToken::get(15)->name,
+                        'progressTokenName' => ProgressToken::get(14)->name,
                         'coins' => count($payment->militaryPoliorceticsPositions),
                     ]
                 );
