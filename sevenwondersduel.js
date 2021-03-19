@@ -908,6 +908,11 @@ define([
                 let wondersCount = Math.max(4, count);
                 this.setCssVariable('--number-of-wonders', wondersCount , playerWonderContainer);
                 this.setCssVariable('--number-of-wonder-rows-landscape', Math.ceil(wondersCount / 2) , playerWonderContainer);
+                let portraitWondersCount = 4;
+                if (this.agora && this.pantheon) {
+                    portraitWondersCount = 5;
+                }
+                this.setCssVariable('--number-of-wonder-rows-portrait', Math.ceil(wondersCount / portraitWondersCount) , playerWonderContainer);
                 if (wondersCount > 4) {
                     dojo.style(dojo.query('.player_wonders.player' + playerId + ' > div:nth-of-type(5)')[0], 'display', wondersCount > 4 ? 'inline-block' : 'none');
                 }

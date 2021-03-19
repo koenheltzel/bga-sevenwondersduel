@@ -316,23 +316,6 @@
     --element-scale: 0.85;
 }
 
-#swd_wrap.square .player_wonders {
-    width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
-    height: calc(var(--number-of-wonders) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonders) - 1) * var(--gutter));
-}
-
-#swd_wrap.landscape .player_wonders {
-    width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
-    height: calc(var(--number-of-wonder-rows-landscape) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonder-rows-landscape) - 1) * var(--gutter));
-}
-
-#swd_wrap.portrait .player_wonders {
-    min-width: calc(4 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 3 * var(--gutter));
-    height: calc(var(--wonder-small-scale) * var(--wonder-height));
-
-    align-content: center;
-}
-
 .player_wonders {
     position: relative;
 
@@ -341,13 +324,31 @@
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
+#swd_wrap.square .player_wonders {
+    width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
+    height: calc(var(--number-of-wonders) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonders) - 1) * var(--gutter));
+}
+
 #swd_wrap.landscape .player_wonders {
+    width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
+    height: calc(var(--number-of-wonder-rows-landscape) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonder-rows-landscape) - 1) * var(--gutter));
     flex-direction: row;
     align-content: space-between;
 }
 
+#swd_wrap.portrait .player_wonders {
+    min-width: calc(4 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 3 * var(--gutter));
+    height: calc(var(--number-of-wonder-rows-portrait) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonder-rows-portrait) - 1) * var(--gutter));
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: center;
+}
+
+
 #swd_wrap.portrait .player_wonders > div:not(:last-child) {
     margin-right: var(--gutter);
+    flex-direction: row;
 }
 
 .player_wonders > div:nth-of-type(5) {
