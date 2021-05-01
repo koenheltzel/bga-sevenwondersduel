@@ -144,7 +144,7 @@ class Building extends Item {
         }
         elseif ($conspiracyTreason) {
             $message = clienttranslate('${player_name} constructed building “${buildingName}” for free (Conspiracy “${conspiracyName}”)');
-            $conspiracyName = Conspiracy::get(16)->name;
+            $conspiracyName = Conspiracy::get(8)->name;
         }
         elseif ($this->type == Building::TYPE_SENATOR) {
             if ($player->hasProgressToken(11)) {
