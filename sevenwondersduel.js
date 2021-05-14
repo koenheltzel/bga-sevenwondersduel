@@ -3698,7 +3698,6 @@ define([
                 if (this.debug) console.log('notif_activateDivinity', notif);
 
                 this.clearDivinityBorder();
-                this.clearRedBorder(); // Clear offering tokens red border
                 this.autoUpdateScale();
 
                 // Divinities from the Pantheon
@@ -3779,6 +3778,8 @@ define([
                         ]);
                     }
                 }
+
+                this.setClientState("dummy"); // So #activate_divinity is hidden.
 
                 dojo.connect(coinAnimation, 'onEnd', dojo.hitch(this, function (node) {
                     var newDivinityContainerNode = dojo.place(this.getDivinityDivHtml(notif.args.divinityId, notif.args.divinityType, false), 'player_conspiracies_' + notif.args.playerId);
