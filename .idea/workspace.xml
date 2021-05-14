@@ -71,9 +71,9 @@
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Opponent Building" line="3980" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="Support STATE_CHOOSE_AND_PLACE_DIVINITY_NAME transition from STATE_CHOOSE_DIVINITY_FROM_DECK_ID state (when a Mythology token is collected after constructing the Wonder)">
+    <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/states.inc.php" beforeDir="false" afterPath="$PROJECT_DIR$/states.inc.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/205 activateDivinity.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/205 activateDivinity.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -347,7 +347,7 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="reference.settings.deploy.options" />
+    <property name="settings.editor.selected.configurable" value="settings.saveactions" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -475,21 +475,8 @@
       <workItem from="1619871746530" duration="13000" />
       <workItem from="1619871780669" duration="828000" />
       <workItem from="1620032221777" duration="536000" />
-      <workItem from="1620917644926" duration="3847000" />
-    </task>
-    <task id="LOCAL-00846" summary="Keep building that is still not revealed a secret in the notification.">
-      <created>1611923908703</created>
-      <option name="number" value="00846" />
-      <option name="presentableId" value="LOCAL-00846" />
-      <option name="project" value="LOCAL" />
-      <updated>1611923908704</updated>
-    </task>
-    <task id="LOCAL-00847" summary="Fixed (uncommitted &amp; untested) refactoring bug">
-      <created>1611923954643</created>
-      <option name="number" value="00847" />
-      <option name="presentableId" value="LOCAL-00847" />
-      <option name="project" value="LOCAL" />
-      <updated>1611923954644</updated>
+      <workItem from="1620917644926" duration="5813000" />
+      <workItem from="1620980393813" duration="1642000" />
     </task>
     <task id="LOCAL-00848" summary="Fixed Progress Token 15 not being included">
       <created>1611923977281</created>
@@ -820,7 +807,21 @@
       <option name="project" value="LOCAL" />
       <updated>1620974896059</updated>
     </task>
-    <option name="localTasksCounter" value="895" />
+    <task id="LOCAL-00895" summary="Loosened mid-game state transition definitions due to edge cases with Pantheon + Agora being unmanagable.">
+      <created>1620977828745</created>
+      <option name="number" value="00895" />
+      <option name="presentableId" value="LOCAL-00895" />
+      <option name="project" value="LOCAL" />
+      <updated>1620977828745</updated>
+    </task>
+    <task id="LOCAL-00896" summary="workspace.xml">
+      <created>1620977846552</created>
+      <option name="number" value="00896" />
+      <option name="presentableId" value="LOCAL-00896" />
+      <option name="project" value="LOCAL" />
+      <updated>1620977846552</updated>
+    </task>
+    <option name="localTasksCounter" value="897" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -936,7 +937,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="z-index tweaks" />
     <MESSAGE value="Fixed preEnter state of next player turn not being called when coming from ChooseConspireRemnantPosition state" />
     <MESSAGE value="Made pantheon_board_container absolute positioned to prevent it from being wrapped below the other boards during the game (for some unknown reason)." />
     <MESSAGE value="Removed some dev code and TODO comment tags" />
@@ -957,11 +957,12 @@
     <MESSAGE value="Removed beta flag for expansion Agora" />
     <MESSAGE value="Rostrum --&gt; Senate used the wrong linking symbol." />
     <MESSAGE value="Fixed #36348: &quot;INCORRECT LOG WHEN USING POLIORCETICS&quot;" />
-    <MESSAGE value="workspace.xml" />
     <MESSAGE value="Support 5 or 6 wonders in portrait mode (becomes a 2nd row)." />
     <MESSAGE value="Support STATE_CHOOSE_AND_PLACE_DIVINITY_NAME transition from STATE_CHOOSE_DIVINITY_FROM_DECK_ID state (when a Mythology token is collected after constructing &quot;The Divine Theater&quot;)." />
     <MESSAGE value="Added Support STATE_CHOOSE_AND_PLACE_DIVINITY_NAME transitions (Bug report #41061)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Support STATE_CHOOSE_AND_PLACE_DIVINITY_NAME transitions (Bug report #41061)" />
+    <MESSAGE value="Loosened mid-game state transition definitions due to edge cases with Pantheon + Agora being unmanagable." />
+    <MESSAGE value="workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="workspace.xml" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/css/245 chooseDivinityDeck.css">
