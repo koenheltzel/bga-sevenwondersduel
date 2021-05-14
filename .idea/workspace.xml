@@ -71,23 +71,17 @@
     <bookmark url="file://$PROJECT_DIR$/sevenwondersduel.js" description="State Choose Opponent Building" line="3980" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="">
+    <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="Support STATE_CHOOSE_AND_PLACE_DIVINITY_NAME transition from STATE_CHOOSE_DIVINITY_FROM_DECK_ID state (when a Mythology token is collected after constructing the Wonder)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/060 playerArea.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/060 playerArea.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sevenwondersduel.js" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/states.inc.php" beforeDir="false" afterPath="$PROJECT_DIR$/states.inc.php" afterDir="false" />
     </list>
-    <ignored path="D:\wamp64\www\bga\sevenwondersduel\.idea\shelf/" />
-    <ignored path="D:\wamp64\www\bga\pantheon\.idea\shelf/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ComposerSettings">
-    <execution>
-      <executable />
-    </execution>
+    <execution />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -109,19 +103,6 @@
       <favorite_root url="file://$PROJECT_DIR$/sevenwondersduel.js" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
       <favorite_root url="file://$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
     </favorites_list>
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/css/060 playerArea.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="452">
-              <caret line="343" column="33" selection-start-line="343" selection-start-column="33" selection-end-line="343" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -218,6 +199,14 @@
     </option>
     <option name="RESET_MODE" value="HARD" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/sevenwondersduel.js" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -287,15 +276,13 @@
   <component name="NamedScopeManager">
     <scope name="css folder recursively *.css" pattern="file[sevenwondersduel]:css//*.css" />
   </component>
-  <component name="PhpServers">
-    <servers />
-  </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-62" />
     <option name="y" value="-23" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
+  <component name="ProjectId" id="1rpoZeETz3rrlgWhCwV6FSnPYR3" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <showMembers ProjectPane="false" />
@@ -304,7 +291,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -332,7 +318,14 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
@@ -342,13 +335,20 @@
     <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="CSS&#10;JavaScript" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/modules/php/States" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="reference.settings.deploy.options" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -363,18 +363,7 @@
       <recent name="D:\wamp64\www\bga\sevenwondersduel" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="StructureViewFactory">
     <option name="AUTOSCROLL_MODE" value="false" />
   </component>
@@ -479,28 +468,14 @@
       <workItem from="1615467219946" duration="932000" />
       <workItem from="1615539123960" duration="991000" />
       <workItem from="1615977602302" duration="691000" />
-      <workItem from="1616157763131" duration="982000" />
-    </task>
-    <task id="LOCAL-00843" summary="ChooseEnkiProgressToken implementation">
-      <created>1611328519145</created>
-      <option name="number" value="00843" />
-      <option name="presentableId" value="LOCAL-00843" />
-      <option name="project" value="LOCAL" />
-      <updated>1611328519145</updated>
-    </task>
-    <task id="LOCAL-00844" summary="Fixed Progress Token animations from Enki&#10;Fixed long pause in activateDivinity animation for inactive player&#10;Added Nisaba &amp; Snake token building to scientific supremacy animation.&#10;Fixed state transitions for scientific supremacy with Enki/Nisaba">
-      <created>1611407844760</created>
-      <option name="number" value="00844" />
-      <option name="presentableId" value="LOCAL-00844" />
-      <option name="project" value="LOCAL" />
-      <updated>1611407844760</updated>
-    </task>
-    <task id="LOCAL-00845" summary="Activate Divinity with offering tokens WIP">
-      <created>1611503591968</created>
-      <option name="number" value="00845" />
-      <option name="presentableId" value="LOCAL-00845" />
-      <option name="project" value="LOCAL" />
-      <updated>1611503591968</updated>
+      <workItem from="1616157763131" duration="1735000" />
+      <workItem from="1616426061312" duration="599000" />
+      <workItem from="1616851159704" duration="603000" />
+      <workItem from="1619682452603" duration="1325000" />
+      <workItem from="1619871746530" duration="13000" />
+      <workItem from="1619871780669" duration="828000" />
+      <workItem from="1620032221777" duration="536000" />
+      <workItem from="1620917644926" duration="3847000" />
     </task>
     <task id="LOCAL-00846" summary="Keep building that is still not revealed a secret in the notification.">
       <created>1611923908703</created>
@@ -824,11 +799,32 @@
       <option name="project" value="LOCAL" />
       <updated>1615977695954</updated>
     </task>
-    <option name="localTasksCounter" value="892" />
+    <task id="LOCAL-00892" summary="Support 5 or 6 wonders in portrait mode (becomes a 2nd row).">
+      <created>1616158862458</created>
+      <option name="number" value="00892" />
+      <option name="presentableId" value="LOCAL-00892" />
+      <option name="project" value="LOCAL" />
+      <updated>1616158862459</updated>
+    </task>
+    <task id="LOCAL-00893" summary="Support STATE_CHOOSE_AND_PLACE_DIVINITY_NAME transition from STATE_CHOOSE_DIVINITY_FROM_DECK_ID state (when a Mythology token is collected after constructing &quot;The Divine Theater&quot;).">
+      <created>1619683009836</created>
+      <option name="number" value="00893" />
+      <option name="presentableId" value="LOCAL-00893" />
+      <option name="project" value="LOCAL" />
+      <updated>1619683009837</updated>
+    </task>
+    <task id="LOCAL-00894" summary="Added Support STATE_CHOOSE_AND_PLACE_DIVINITY_NAME transitions (Bug report #41061)">
+      <created>1620974896059</created>
+      <option name="number" value="00894" />
+      <option name="presentableId" value="LOCAL-00894" />
+      <option name="project" value="LOCAL" />
+      <updated>1620974896059</updated>
+    </task>
+    <option name="localTasksCounter" value="895" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2292794000" />
+    <option name="totallyTimeSpent" value="2294749000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -843,7 +839,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info id="Structure" order="0" sideWeight="0.46695557" side_tool="true" weight="0.22761194" />
-      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.5330444" visible="true" weight="0.2531983" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.5330444" visible="true" weight="0.1924307" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49946696" weight="0.31419286" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49840087" weight="0.49945828" />
@@ -852,7 +848,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="8" sideWeight="0.75" visible="true" weight="0.32719395" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="8" sideWeight="0.75" visible="true" weight="0.6088841" />
       <window_info anchor="bottom" id="Cacher" order="9" sideWeight="0.6098081" weight="0.3347779" />
       <window_info anchor="bottom" id="File Transfer" order="10" sideWeight="0.57995737" weight="0.26760563" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
@@ -895,15 +891,15 @@
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.History.Properties">
-    <option name="COLUMN_ORDER">
+    <option name="COLUMN_ID_ORDER">
       <list>
-        <option value="0" />
-        <option value="2" />
-        <option value="3" />
-        <option value="1" />
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
       </list>
     </option>
   </component>
@@ -912,22 +908,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
-              <option name="COLUMN_ORDER">
-                <list>
-                  <option value="0" />
-                  <option value="1" />
-                  <option value="2" />
-                  <option value="3" />
-                </list>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -952,11 +933,9 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Moved stat declaration" />
-    <MESSAGE value="Disabled console.log messages &amp; removed some dev console.log's" />
-    <MESSAGE value="Removed testDivinities test code" />
     <MESSAGE value="z-index tweaks" />
     <MESSAGE value="Fixed preEnter state of next player turn not being called when coming from ChooseConspireRemnantPosition state" />
     <MESSAGE value="Made pantheon_board_container absolute positioned to prevent it from being wrapped below the other boards during the game (for some unknown reason)." />
@@ -979,7 +958,10 @@
     <MESSAGE value="Rostrum --&gt; Senate used the wrong linking symbol." />
     <MESSAGE value="Fixed #36348: &quot;INCORRECT LOG WHEN USING POLIORCETICS&quot;" />
     <MESSAGE value="workspace.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="workspace.xml" />
+    <MESSAGE value="Support 5 or 6 wonders in portrait mode (becomes a 2nd row)." />
+    <MESSAGE value="Support STATE_CHOOSE_AND_PLACE_DIVINITY_NAME transition from STATE_CHOOSE_DIVINITY_FROM_DECK_ID state (when a Mythology token is collected after constructing &quot;The Divine Theater&quot;)." />
+    <MESSAGE value="Added Support STATE_CHOOSE_AND_PLACE_DIVINITY_NAME transitions (Bug report #41061)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Support STATE_CHOOSE_AND_PLACE_DIVINITY_NAME transitions (Bug report #41061)" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/css/245 chooseDivinityDeck.css">
@@ -1340,7 +1322,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/060 playerArea.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
+        <state relative-caret-position="147">
           <caret line="343" column="33" selection-start-line="343" selection-start-column="33" selection-end-line="343" selection-end-column="33" />
         </state>
       </provider>
