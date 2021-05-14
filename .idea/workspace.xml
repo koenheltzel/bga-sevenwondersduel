@@ -73,11 +73,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/205 activateDivinity.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/205 activateDivinity.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/430 offeringTokens.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/430 offeringTokens.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sevenwondersduel.js" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sevenwondersduel.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -484,14 +480,7 @@
       <workItem from="1620983089252" duration="129000" />
       <workItem from="1620983244005" duration="542000" />
       <workItem from="1620984161941" duration="72000" />
-      <workItem from="1620984267152" duration="8511000" />
-    </task>
-    <task id="LOCAL-00851" summary="Neptune second action was not applying the effect of losing the opponent's coins">
-      <created>1611934961106</created>
-      <option name="number" value="00851" />
-      <option name="presentableId" value="LOCAL-00851" />
-      <option name="project" value="LOCAL" />
-      <updated>1611934961106</updated>
+      <workItem from="1620984267152" duration="10787000" />
     </task>
     <task id="LOCAL-00852" summary="Don't show 0 points end game notification/animation for Grand Temple cards">
       <created>1611935923607</created>
@@ -829,7 +818,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621003412276</updated>
     </task>
-    <option name="localTasksCounter" value="900" />
+    <task id="LOCAL-00900" summary="Re-work of offering tokens in the activate_divinity div. Removed red/gray borders and grayscale trickery, makeing it more simple and readable.">
+      <created>1621005060841</created>
+      <option name="number" value="00900" />
+      <option name="presentableId" value="LOCAL-00900" />
+      <option name="project" value="LOCAL" />
+      <updated>1621005060841</updated>
+    </task>
+    <option name="localTasksCounter" value="901" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -945,7 +941,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Removed some dev code and TODO comment tags" />
     <MESSAGE value="Tiny png'd Pantheon sprites" />
     <MESSAGE value="Fixed Minerva discard fadeout not happening if no military steps were made." />
     <MESSAGE value="Disabled Agora testing options (Wonders/Progress Tokens). Left them in for Pantheon during Alpha testing." />
@@ -970,7 +965,8 @@
     <MESSAGE value="Fixed Progress Tokens being out of position when Enki is shown in the activate_divinity div" />
     <MESSAGE value="workspace.xml" />
     <MESSAGE value="Re-work of offering tokens in the activate_divinity div" />
-    <option name="LAST_COMMIT_MESSAGE" value="Re-work of offering tokens in the activate_divinity div" />
+    <MESSAGE value="Re-work of offering tokens in the activate_divinity div. Removed red/gray borders and grayscale trickery, makeing it more simple and readable." />
+    <option name="LAST_COMMIT_MESSAGE" value="Re-work of offering tokens in the activate_divinity div. Removed red/gray borders and grayscale trickery, makeing it more simple and readable." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/css/245 chooseDivinityDeck.css">
