@@ -75,6 +75,7 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
         $this->tpl['USE_OFFERING_TOKENS_TITLE'] = self::_('Do you want to use Offering token(s) to help pay for the activation?');
         $this->tpl['COST'] = self::_('Cost');
         $this->tpl['PAYMENT'] = self::_('Payment');
+        $this->tpl['TOKENS'] = self::_('Token(s)');
         $this->tpl['ACTIVATE'] = self::_('Activate');
         // Agora
         $this->tpl['PREPARE_CONSPIRACY'] = self::_("Prepare a Conspiracy");

@@ -411,11 +411,11 @@ define([
                             dojo.hitch(this, "onChooseEnkiProgressTokenClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-client-state=client_activateDivinity] .player_info.me .offering_token.red_border:click",
+                        .on("#swd[data-client-state=client_activateDivinity] #activate_divinity_tokens .offering_token:click",
                             dojo.hitch(this, "onActivityDivinityOfferingTokenAddClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-client-state=client_activateDivinity] #activate_divinity_payment_steps .offering_token.red_border:click",
+                        .on("#swd[data-client-state=client_activateDivinity] #activate_divinity_payment_steps .offering_token:click",
                             dojo.hitch(this, "onActivityDivinityOfferingTokenRemoveClick")
                         );
 
@@ -1921,6 +1921,7 @@ define([
                     })
                 );
 
+
                 // Add tooltips to buildings everywhere.
                 this.customTooltips.push(
                     new dijit.Tooltip({
@@ -2053,6 +2054,24 @@ define([
                             var id = dojo.attr(node, "data-offering-token-id");
                             return this.getOfferingTokenTooltip(id, node);
                         })
+                    })
+                );
+
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '#activate_divinity_tokens_container div[data-offering-token-id]',
+                        showDelay: this.toolTipDelay,
+                        label: _('Click to use this Offering Token')
+                    })
+                );
+
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '#activate_divinity_payment_steps div[data-offering-token-id]',
+                        showDelay: this.toolTipDelay,
+                        label: _('Click to return this Offering Token')
                     })
                 );
 
@@ -3586,20 +3605,25 @@ define([
                 dojo.empty(stepsCostContainer);
                 dojo.place(this.getCostDivHtml(cost, this.getPlayerCoins(this.me_id, true)), stepsCostContainer);
 
+                let tokensContainer = $('activate_divinity_tokens_container');
                 let stepsContainer = $('activate_divinity_payment_steps');
+                dojo.empty(tokensContainer);
                 dojo.empty(stepsContainer);
                 Object.values(this.gamedatas.offeringTokensSituation[this.me_id]).forEach(dojo.hitch(this, function (offeringToken) {
                     let offeringTokenNode = dojo.query('.player_info.me .offering_token[data-offering-token-id="' + offeringToken.id + '"]')[0];
                     dojo.removeClass(offeringTokenNode, 'red_border');
-                    if (this.activateDivinityOfferingTokenIds.indexOf(offeringToken.id) == -1) {
-                        dojo.addClass(offeringTokenNode, 'red_border');
-                    }
-                    else {
-                        let selectedOfferingTokenContainerNode = dojo.place(this.getOfferingTokenHtml(offeringToken.id), stepsContainer);
-                        let selectedOfferingTokenNode = dojo.query('.offering_token', selectedOfferingTokenContainerNode)[0];
-                        dojo.addClass(selectedOfferingTokenNode, 'red_border');
+                    let activated = this.activateDivinityOfferingTokenIds.indexOf(offeringToken.id) > -1;
+
+                    let selectedOfferingTokenContainerNode = dojo.place(this.getOfferingTokenHtml(offeringToken.id), activated ? stepsContainer : tokensContainer);
+                    let selectedOfferingTokenNode = dojo.query('.offering_token', selectedOfferingTokenContainerNode)[0];
+
+                    if (activated) {
+                        dojo.addClass(selectedOfferingTokenNode, 'gray_border');
                         cost -= parseInt(offeringToken.type);
                         cost = Math.max(0, cost);
+                    }
+                    else {
+                        dojo.addClass(selectedOfferingTokenNode, 'red_border');
                     }
                 }));
                 dojo.place(this.getCostDivHtml(cost, this.getPlayerCoins(this.me_id, true)), stepsContainer);

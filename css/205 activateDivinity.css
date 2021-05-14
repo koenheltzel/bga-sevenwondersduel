@@ -1,16 +1,17 @@
 
 #activate_divinity {
     display: none;
+    min-width: calc(560px * var(--scale));
 }
 
 .current_player_is_active #swd[data-client-state=client_activateDivinity] #activate_divinity {
     display: block;
 }
 
-.current_player_is_active #swd[data-client-state=client_activateDivinity] .player_info.me .offering_token.red_border {
+.current_player_is_active #swd[data-client-state=client_activateDivinity] #activate_divinity_tokens .offering_token.red_border {
     cursor: pointer;
 }
-.current_player_is_active #swd[data-client-state=client_activateDivinity] #activate_divinity_payment_steps .offering_token.red_border {
+.current_player_is_active #swd[data-client-state=client_activateDivinity] #activate_divinity_payment_steps .offering_token.gray_border {
     cursor: pointer;
 }
 
@@ -27,14 +28,28 @@
     display: inline-block;
 }
 
-#activate_divinity_flexbox, #activate_divinity_payment, #activate_divinity_payment_steps {
+#activate_divinity_tokens_container .offering_token {
+    --grayscale: 50%;
+}
+
+#activate_divinity_flexbox, #activate_divinity_tokens_container, #activate_divinity_payment, #activate_divinity_payment_steps {
     display: flex;
     gap: calc(2 * var(--gutter));
     align-items: center;
     text-align: left;
 }
 
-#activate_divinity_payment .offering_token, #activate_divinity_payment .offering_token_outline {
+#activate_divinity_info table tr td {
+    vertical-align: center;
+    padding-top: var(--gutter);
+    padding-bottom: var(--gutter);
+}
+
+#activate_divinity_info table tr td:nth-of-type(2) {
+    padding-left: var(--gutter);
+}
+
+#activate_divinity_info .offering_token, #activate_divinity_info .offering_token_outline {
     --element-scale: 1.5;
 }
 

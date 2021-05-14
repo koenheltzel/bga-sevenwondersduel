@@ -90,23 +90,34 @@
                                 <div id="activate_divinity_flexbox">
                                     <div id="activate_divinity_container"></div>
                                     <div id="activate_divinity_info">
-                                        <div id="activate_divinity_cost">
-                                            <h3>{COST}:</h3> <div id="activate_divinity_cost_container"><div class="coin "><span style="color: black !important">6</span></div></div>
-                                        </div>
-                                        <div id="activate_divinity_payment">
-                                            <div>
-                                                <h3>{PAYMENT}:</h3>
-                                            </div>
-                                            <div id="activate_divinity_payment_steps">
-                                                <div class="offering_token_outline">        <div data-offering-token-id="2" class="offering_token offering_token2 offering_token_small">        </div>    </div>
-                                                <div class="offering_token_outline">        <div data-offering-token-id="3" class="offering_token offering_token3 offering_token_small">        </div>    </div>
-                                                <div class="coin "><span style="color: black !important">3</span></div>
-                                                <!-- Free <div class="coin cost_free"><span style="color: #008000 !important">✓</span></div> -->
-                                            </div>
-                                            <div>
-                                                <a href="#" id="activate_divinity_confirm" class="action_button bgabutton bgabutton_blue">{ACTIVATE}</a>
-                                            </div>
-                                        </div>
+                                        <table>
+                                            <tr>
+                                                <td><h3>{COST}:</h3></td>
+                                                <td id="activate_divinity_cost">
+                                                    <div id="activate_divinity_cost_container"><div class="coin "><span style="color: black !important">6</span></div></div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><h3>{TOKENS}:</h3></td>
+                                                <td id="activate_divinity_tokens">
+                                                    <div id="activate_divinity_tokens_container"></div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><h3>{PAYMENT}:</h3></td>
+                                                <td id="activate_divinity_payment">
+                                                    <div id="activate_divinity_payment_steps">
+                                                        <div class="offering_token_outline">        <div data-offering-token-id="2" class="offering_token offering_token2 offering_token_small">        </div>    </div>
+                                                        <div class="offering_token_outline">        <div data-offering-token-id="3" class="offering_token offering_token3 offering_token_small">        </div>    </div>
+                                                        <div class="coin "><span style="color: black !important">3</span></div>
+                                                        <!-- Free <div class="coin cost_free"><span style="color: #008000 !important">✓</span></div> -->
+                                                    </div>
+                                                    <div>
+                                                        <a href="#" id="activate_divinity_confirm" class="action_button bgabutton bgabutton_blue">{ACTIVATE}</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
