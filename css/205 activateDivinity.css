@@ -19,7 +19,7 @@
 }
 
 #activate_divinity .divinity {
-    position: initial;
+    position: relative;
     --element-scale: 1.5;
 }
 
