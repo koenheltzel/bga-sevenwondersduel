@@ -64,6 +64,8 @@ $constructBuildingTransitions = array_merge($militaryTokenTransitions, [
     SevenWondersDuelPantheon::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_CONSPIRATOR_ACTION_ID,
     // Politician
     SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_ID,
+    // Mythology Token
+    SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
 ]);
 
 $constructWonderTransitions = array_merge($militaryTokenTransitions, [
@@ -455,6 +457,7 @@ $machinestates = [
             [
                 SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID,
                 SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_ID, // Symbol pair of Law and Ishtar.
+                SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
                 SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
                 SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
             ]
