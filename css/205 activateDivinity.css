@@ -8,10 +8,10 @@
     display: block;
 }
 
-.current_player_is_active #swd[data-client-state=client_activateDivinity] #activate_divinity_tokens .offering_token.red_border {
+.current_player_is_active #swd[data-client-state=client_activateDivinity] #activate_divinity_tokens .offering_token {
     cursor: pointer;
 }
-.current_player_is_active #swd[data-client-state=client_activateDivinity] #activate_divinity_payment_steps .offering_token.gray_border {
+.current_player_is_active #swd[data-client-state=client_activateDivinity] #activate_divinity_payment_steps .offering_token {
     cursor: pointer;
 }
 
@@ -28,10 +28,6 @@
     display: inline-block;
 }
 
-#activate_divinity_tokens_container .offering_token {
-    --grayscale: 50%;
-}
-
 #activate_divinity_flexbox, #activate_divinity_tokens_container, #activate_divinity_payment, #activate_divinity_payment_steps {
     display: flex;
     gap: calc(2 * var(--gutter));
@@ -39,6 +35,9 @@
     text-align: left;
 }
 
+#activate_divinity_info table tr:not(:nth-of-type(1)) td {
+    height: calc(var(--offering-token-height) * var(--offering-token-small-scale) * 1.5)
+}
 #activate_divinity_info table tr td {
     vertical-align: center;
     padding-top: var(--gutter);

@@ -98,7 +98,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td><h3>{TOKENS}:</h3></td>
+                                                <td><h3>{YOUR_TOKENS}:</h3></td>
                                                 <td id="activate_divinity_tokens">
                                                     <div id="activate_divinity_tokens_container"></div>
                                                 </td>

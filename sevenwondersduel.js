@@ -3611,19 +3611,16 @@ define([
                 dojo.empty(stepsContainer);
                 Object.values(this.gamedatas.offeringTokensSituation[this.me_id]).forEach(dojo.hitch(this, function (offeringToken) {
                     let offeringTokenNode = dojo.query('.player_info.me .offering_token[data-offering-token-id="' + offeringToken.id + '"]')[0];
-                    dojo.removeClass(offeringTokenNode, 'red_border');
                     let activated = this.activateDivinityOfferingTokenIds.indexOf(offeringToken.id) > -1;
 
                     let selectedOfferingTokenContainerNode = dojo.place(this.getOfferingTokenHtml(offeringToken.id), activated ? stepsContainer : tokensContainer);
                     let selectedOfferingTokenNode = dojo.query('.offering_token', selectedOfferingTokenContainerNode)[0];
 
                     if (activated) {
-                        dojo.addClass(selectedOfferingTokenNode, 'gray_border');
                         cost -= parseInt(offeringToken.type);
                         cost = Math.max(0, cost);
                     }
                     else {
-                        dojo.addClass(selectedOfferingTokenNode, 'red_border');
                     }
                 }));
                 dojo.place(this.getCostDivHtml(cost, this.getPlayerCoins(this.me_id, true)), stepsContainer);

@@ -74,6 +74,10 @@
     <list default="true" id="8d2e2636-1204-4078-b0e7-7956aa2a83b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/205 activateDivinity.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/205 activateDivinity.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/430 offeringTokens.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/430 offeringTokens.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sevenwondersduel.js" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sevenwondersduel.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/sevenwondersduel_sevenwondersduel.tpl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -476,28 +480,11 @@
       <workItem from="1619871780669" duration="828000" />
       <workItem from="1620032221777" duration="536000" />
       <workItem from="1620917644926" duration="5813000" />
-      <workItem from="1620980393813" duration="1642000" />
-    </task>
-    <task id="LOCAL-00848" summary="Fixed Progress Token 15 not being included">
-      <created>1611923977281</created>
-      <option name="number" value="00848" />
-      <option name="presentableId" value="LOCAL-00848" />
-      <option name="project" value="LOCAL" />
-      <updated>1611923977281</updated>
-    </task>
-    <task id="LOCAL-00849" summary="PlayerTurn: pass offeringTokensSituation To update the javascript offeringTokensSituation so the player gets the prompt when activating a Divinity">
-      <created>1611930037614</created>
-      <option name="number" value="00849" />
-      <option name="presentableId" value="LOCAL-00849" />
-      <option name="project" value="LOCAL" />
-      <updated>1611930037614</updated>
-    </task>
-    <task id="LOCAL-00850" summary="Actually &quot;use&quot; up the offering token both server and client side&#10;Set Enki Progress Tokens when activated from the Pantheon&#10;Hide cost/arrows when there is no payment plan for a Pantheon space.">
-      <created>1611930249356</created>
-      <option name="number" value="00850" />
-      <option name="presentableId" value="LOCAL-00850" />
-      <option name="project" value="LOCAL" />
-      <updated>1611930249356</updated>
+      <workItem from="1620980393813" duration="1791000" />
+      <workItem from="1620983089252" duration="129000" />
+      <workItem from="1620983244005" duration="542000" />
+      <workItem from="1620984161941" duration="72000" />
+      <workItem from="1620984267152" duration="8511000" />
     </task>
     <task id="LOCAL-00851" summary="Neptune second action was not applying the effect of losing the opponent's coins">
       <created>1611934961106</created>
@@ -821,7 +808,28 @@
       <option name="project" value="LOCAL" />
       <updated>1620977846552</updated>
     </task>
-    <option name="localTasksCounter" value="897" />
+    <task id="LOCAL-00897" summary="Fixed Progress Tokens being out of position when Enki is shown in the activate_divinity div">
+      <created>1620982634158</created>
+      <option name="number" value="00897" />
+      <option name="presentableId" value="LOCAL-00897" />
+      <option name="project" value="LOCAL" />
+      <updated>1620982634159</updated>
+    </task>
+    <task id="LOCAL-00898" summary="workspace.xml">
+      <created>1620982659292</created>
+      <option name="number" value="00898" />
+      <option name="presentableId" value="LOCAL-00898" />
+      <option name="project" value="LOCAL" />
+      <updated>1620982659292</updated>
+    </task>
+    <task id="LOCAL-00899" summary="Re-work of offering tokens in the activate_divinity div">
+      <created>1621003412276</created>
+      <option name="number" value="00899" />
+      <option name="presentableId" value="LOCAL-00899" />
+      <option name="project" value="LOCAL" />
+      <updated>1621003412276</updated>
+    </task>
+    <option name="localTasksCounter" value="900" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -937,8 +945,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed preEnter state of next player turn not being called when coming from ChooseConspireRemnantPosition state" />
-    <MESSAGE value="Made pantheon_board_container absolute positioned to prevent it from being wrapped below the other boards during the game (for some unknown reason)." />
     <MESSAGE value="Removed some dev code and TODO comment tags" />
     <MESSAGE value="Tiny png'd Pantheon sprites" />
     <MESSAGE value="Fixed Minerva discard fadeout not happening if no military steps were made." />
@@ -961,8 +967,10 @@
     <MESSAGE value="Support STATE_CHOOSE_AND_PLACE_DIVINITY_NAME transition from STATE_CHOOSE_DIVINITY_FROM_DECK_ID state (when a Mythology token is collected after constructing &quot;The Divine Theater&quot;)." />
     <MESSAGE value="Added Support STATE_CHOOSE_AND_PLACE_DIVINITY_NAME transitions (Bug report #41061)" />
     <MESSAGE value="Loosened mid-game state transition definitions due to edge cases with Pantheon + Agora being unmanagable." />
+    <MESSAGE value="Fixed Progress Tokens being out of position when Enki is shown in the activate_divinity div" />
     <MESSAGE value="workspace.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="workspace.xml" />
+    <MESSAGE value="Re-work of offering tokens in the activate_divinity div" />
+    <option name="LAST_COMMIT_MESSAGE" value="Re-work of offering tokens in the activate_divinity div" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/css/245 chooseDivinityDeck.css">
