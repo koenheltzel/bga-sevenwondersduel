@@ -269,7 +269,10 @@ class Senate extends Base
             $payment = null;
             $decrees = Decrees::getChamberDecrees($chamber);
             foreach ($decrees as $id => $card) {
-                $payment = self::handleDecreeControlChange($id, $newController, $chamber, $senateAction);
+                $tmpPayment = self::handleDecreeControlChange($id, $newController, $chamber, $senateAction);
+                if ($tmpPayment) { // In case there are 2 decrees in 1 chamber, we need the payment of Decree 9 (only one returning a payment).
+                    $payment = $tmpPayment;
+                }
             }
 
             SevenWondersDuel::get()->notifyAllPlayers(
