@@ -3410,7 +3410,7 @@ define([
                     bgagame.CoinAnimator.get().getAnimation(
                         this.getPlayerCoinContainer(notif.args.playerId),
                         coinNode,
-                        position.cost - notif.args.payment.economyProgressTokenCoins,
+                        notif.args.payment.cost - notif.args.payment.economyProgressTokenCoins,
                         notif.args.playerId
                     ),
                     // Economy Progress Token
