@@ -78,7 +78,7 @@
                             <div id="progress_token_from_box" class="whiteblock">
                                 <h3></h3>
                                 <div id="progress_token_from_box_container">
-                                    <div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div>
+                                    <div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div>
                                 </div>
                             </div>
                             <div id="choose_and_place_divinity" class="whiteblock">
