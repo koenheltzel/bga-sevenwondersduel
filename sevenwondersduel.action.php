@@ -25,7 +25,7 @@ use SWD\OfferingTokens;
  */
 
 
-class action_sevenwondersduelpantheon extends APP_GameAction
+class action_sevenwondersduel extends APP_GameAction
 {
     // Constructor: please do not modify
     public function __default() {
