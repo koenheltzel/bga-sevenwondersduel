@@ -40,7 +40,7 @@ define([
             LAYOUT_PORTRAIT: 'portrait',
 
             // Show console.log messages
-            debug: 1,
+            debug: 0,
             pantheon: 0,
             agora: 0,
             expansion: 0,
