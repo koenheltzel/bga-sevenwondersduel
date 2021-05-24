@@ -38,7 +38,7 @@ trait PlaceSnakeTokenTrait {
             throw new \BgaUserException( clienttranslate("The building you selected is not a green card.") );
         }
 
-        $this->setGameStateValue(\SevenWondersDuelPantheon::VALUE_SNAKE_TOKEN_BUILDING_ID, $buildingId);
+        $this->setGameStateValue(\SevenWondersDuel::VALUE_SNAKE_TOKEN_BUILDING_ID, $buildingId);
 
         $this->notifyAllPlayers(
             'placeSnakeToken',

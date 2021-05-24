@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 
 class Building extends Item {
 
@@ -97,8 +97,8 @@ class Building extends Item {
                 $this->typeDescription = clienttranslate('Military Building');
                 break;
             case self::TYPE_PURPLE:
-                $this->typeColor = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON) ? '#41499a' : '#6f488b';
-                $this->typeDescription = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON) ? clienttranslate('Grand Temple') : clienttranslate('Guild');
+                $this->typeColor = (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_PANTHEON) ? '#41499a' : '#6f488b';
+                $this->typeDescription = (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_PANTHEON) ? clienttranslate('Grand Temple') : clienttranslate('Guild');
                 break;
             case self::TYPE_SENATOR:
                 $this->typeColor = '#000000';
@@ -110,8 +110,8 @@ class Building extends Item {
     }
 
     public function checkBuildingAvailable($dontAllowCoveredBuildings=true) {
-        $age = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
-        $cards = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
+        $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         if (!array_key_exists($this->id, $cards)) {
             throw new \BgaUserException( clienttranslate("The building you selected is not available.") );
         }
@@ -122,7 +122,7 @@ class Building extends Item {
     }
 
     public function checkBuildingLastRow() {
-        $currentAge = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
+        $currentAge = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
         $rowColumn = Draftpool::getBuildingRowCol($currentAge, $this->id);
         if ($rowColumn[0] != 1) {
             throw new \BgaUserException( clienttranslate("The building you selected is not on the last row.") );
@@ -137,7 +137,7 @@ class Building extends Item {
     public function construct(Player $player, $building = null, $discardedCard = false, $conspiracyTreason = false) {
         $payment = parent::construct($player, $building, $discardedCard || $conspiracyTreason);
 
-        SevenWondersDuelPantheon::get()->buildingDeck->insertCardOnExtremePosition($this->id, $player->id, true);
+        SevenWondersDuel::get()->buildingDeck->insertCardOnExtremePosition($this->id, $player->id, true);
 
         // We want to send this notification first, before the detailed "effects" notifications.
         // However, the Payment object passed in this notification is by reference and this will contain
@@ -165,7 +165,7 @@ class Building extends Item {
         else {
             $message = clienttranslate('${player_name} constructed building “${buildingName}” for ${cost} ${costUnit}');
         }
-        SevenWondersDuelPantheon::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'constructBuilding',
             $message,
             [
@@ -187,32 +187,32 @@ class Building extends Item {
 
         switch ($this->type) {
             case self::TYPE_BROWN:
-                SevenWondersDuelPantheon::get()->incStat(1, SevenWondersDuelPantheon::STAT_BROWN_CARDS, $player->id);
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_BROWN_CARDS, $player->id);
                 break;
             case self::TYPE_GREY:
-                SevenWondersDuelPantheon::get()->incStat(1, SevenWondersDuelPantheon::STAT_GREY_CARDS, $player->id);
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_GREY_CARDS, $player->id);
                 break;
             case self::TYPE_YELLOW:
-                SevenWondersDuelPantheon::get()->incStat(1, SevenWondersDuelPantheon::STAT_YELLOW_CARDS, $player->id);
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_YELLOW_CARDS, $player->id);
                 break;
             case self::TYPE_RED:
-                SevenWondersDuelPantheon::get()->incStat(1, SevenWondersDuelPantheon::STAT_RED_CARDS, $player->id);
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_RED_CARDS, $player->id);
                 break;
             case self::TYPE_BLUE:
-                SevenWondersDuelPantheon::get()->incStat(1, SevenWondersDuelPantheon::STAT_BLUE_CARDS, $player->id);
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_BLUE_CARDS, $player->id);
                 break;
             case self::TYPE_GREEN:
-                SevenWondersDuelPantheon::get()->incStat(1, SevenWondersDuelPantheon::STAT_GREEN_CARDS, $player->id);
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_GREEN_CARDS, $player->id);
                 break;
             case self::TYPE_PURPLE:
-                SevenWondersDuelPantheon::get()->incStat(1, SevenWondersDuelPantheon::STAT_PURPLE_CARDS, $player->id);
+                SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_PURPLE_CARDS, $player->id);
                 break;
             case self::TYPE_SENATOR:
                 if ($this->subType == self::SUBTYPE_POLITICIAN) {
-                    SevenWondersDuelPantheon::get()->incStat(1, SevenWondersDuelPantheon::STAT_POLITICIAN_CARDS, $player->id);
+                    SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_POLITICIAN_CARDS, $player->id);
                 }
                 else {
-                    SevenWondersDuelPantheon::get()->incStat(1, SevenWondersDuelPantheon::STAT_CONSPIRATOR_CARDS, $player->id);
+                    SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_CONSPIRATOR_CARDS, $player->id);
                 }
                 break;
         }
@@ -240,7 +240,7 @@ class Building extends Item {
             $payment->urbanismAward = 4;
             $player->increaseCoins($payment->urbanismAward);
 
-            SevenWondersDuelPantheon::get()->notifyAllPlayers(
+            SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} gets 4 coins (Progress token “${progressTokenName}”)'),
                 [
@@ -258,7 +258,7 @@ class Building extends Item {
                 $payment->coinReward = $buildingsCount * $this->coinsPerBuildingOfType[1];
                 $player->increaseCoins($payment->coinReward);
 
-                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
                     clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerBuilding} for each ${buildingType} building in their city'),
                     [
@@ -285,7 +285,7 @@ class Building extends Item {
                 $payment->coinReward = $maxBuildingsCount;
                 $player->increaseCoins($payment->coinReward);
 
-                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
                     clienttranslate('${player_name} gets ${coins} coin(s), 1 for each ${buildingType} building in the city which has the most of them (${mostPlayerName}\'s)'),
                     [
@@ -306,7 +306,7 @@ class Building extends Item {
                 $payment->coinReward = $constructedWondersCount * $this->coinsPerWonder;
                 $player->increaseCoins($payment->coinReward);
 
-                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
                     clienttranslate('${player_name} gets ${coins} coin(s), ${coinsPerWonder} for each constructed Wonder in their city'),
                     [
@@ -321,13 +321,13 @@ class Building extends Item {
         $colorDecree = [Building::TYPE_BLUE => 1, Building::TYPE_GREEN => 2, Building::TYPE_YELLOW => 3, Building::TYPE_RED => 4];
         if (isset($colorDecree[$this->type]) && ($player->hasDecree($colorDecree[$this->type]) || $opponent->hasDecree($colorDecree[$this->type]))) {
             $payment->decreeCoinRewardDecreeId = $colorDecree[$this->type];
-            $payment->decreeCoinReward = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
+            $payment->decreeCoinReward = (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
             $decreePlayer = $player->hasDecree($colorDecree[$this->type]) ? $player : $opponent;
 
             $payment->decreeCoinRewardPlayerId = $decreePlayer->id;
             $decreePlayer->increaseCoins($payment->decreeCoinReward);
 
-            SevenWondersDuelPantheon::get()->notifyAllPlayers(
+            SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} gets ${coins} coin(s) (as many as the current Age) because a ${buildingType} Building was constructed and he controls the Decree in Chamber ${chamber}'),
                 [
@@ -341,9 +341,9 @@ class Building extends Item {
         }
 
         if ($this->type == Building::TYPE_SENATOR && $this->subType == Building::SUBTYPE_CONSPIRATOR && $player->hasDecree(16)) {
-            SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_EXTRA_TURN_THROUGH_DECREE, 1);
+            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_DECREE, 1);
 
-            SevenWondersDuelPantheon::get()->notifyAllPlayers(
+            SevenWondersDuel::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} gets an extra turn after this one (Decree in Chamber ${chamber})'),
                 [
@@ -388,8 +388,8 @@ class Building extends Item {
             $player->increaseCoins($discardGain);
         }
 
-        SevenWondersDuelPantheon::get()->buildingDeck->insertCardOnExtremePosition($this->id, 'discard', true);
-        SevenWondersDuelPantheon::get()->incStat(1, SevenWondersDuelPantheon::STAT_DISCARDED_CARDS, $player->id);
+        SevenWondersDuel::get()->buildingDeck->insertCardOnExtremePosition($this->id, 'discard', true);
+        SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_DISCARDED_CARDS, $player->id);
 
         return $discardGain;
     }

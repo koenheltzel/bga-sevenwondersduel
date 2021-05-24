@@ -4,7 +4,7 @@
 namespace SWD;
 
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 
 class Draftpool extends Base
 {
@@ -74,7 +74,7 @@ class Draftpool extends Base
     public static function getTokenRowCol($age, $location) {
         $tokensArray = [];
         $ageArray = [];
-        if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA)) {
+        if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
             $tokensArray = self::$agoraPantheonAgeTokens;
             $ageArray = self::$agoraAges;
         }
@@ -94,7 +94,7 @@ class Draftpool extends Base
     }
 
     public static function getBuildingRowCol($age, $buildingId) {
-        $cards = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
 
         $rows = self::getRows($age);
@@ -117,12 +117,12 @@ class Draftpool extends Base
     }
 
     public static function buildingAvailable($buildingId) {
-        $ids = SevenWondersDuelPantheon::get()->getAvailableCardIds();
+        $ids = SevenWondersDuel::get()->getAvailableCardIds();
         return in_array((int)$buildingId, $ids);
     }
 
     public static function buildingRevealable($age, $buildingId) {
-        $cards = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
 
         $rows = self::getRows($age);
@@ -156,9 +156,9 @@ class Draftpool extends Base
     }
 
     public static function get($revealCards = false) {
-        $actualAge = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
+        $actualAge = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
         $age = $actualAge;
-        if ($actualAge == 0 && SevenWondersDuelPantheon::get()->expansionActive()) {
+        if ($actualAge == 0 && SevenWondersDuel::get()->expansionActive()) {
             $age = 1;
         }
 
@@ -172,10 +172,10 @@ class Draftpool extends Base
         ];
 
         if ($age > 0) { // Check needed for Agora Wonders which trigger game states outside of the wonder selection realm
-            $cards = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation("age{$age}");
+            $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
             $cards = arrayWithPropertyAsKeys($cards, 'location_arg');
 
-            $availableCardIds = SevenWondersDuelPantheon::get()->getAvailableCardIds();
+            $availableCardIds = SevenWondersDuel::get()->getAvailableCardIds();
             if (!$revealCards && count($availableCardIds) == 0 && count($cards) > 0) {
                 // Needed during the launch of this update when running games don't have the revealed cards value yet.
                 $revealCards = true;
@@ -184,7 +184,7 @@ class Draftpool extends Base
             $activePlayer = Player::getActive();
             // Check for Mythology and Offering tokens
             $tokenCards = [];
-            if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON)) {
+            if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_PANTHEON)) {
                 if ($age == 1) $tokenCards = MythologyTokens::getDeckCardsSorted('board');
                 if ($age == 2) $tokenCards = OfferingTokens::getDeckCardsSorted('board');
 
@@ -272,7 +272,7 @@ class Draftpool extends Base
             }
 
             if ($revealCards) {
-                SevenWondersDuelPantheon::get()->setAvailableCardIds($availableCardIds);
+                SevenWondersDuel::get()->setAvailableCardIds($availableCardIds);
             }
         }
 
@@ -280,8 +280,8 @@ class Draftpool extends Base
     }
 
     public static function countCardsInCurrentAge() {
-        $age = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
-        $cards = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
+        $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         return count($cards);
     }
 
@@ -290,7 +290,7 @@ class Draftpool extends Base
      */
     public static function getRows($age): array {
         if ($age > 0) {
-            if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA)) {
+            if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
                 return self::$agoraAges[$age];
             }
             return self::$ages[$age];
@@ -302,8 +302,8 @@ class Draftpool extends Base
     }
 
     public static function getLastRowBuildings() {
-        $age = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
-        $cards = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $age = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
+        $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         $rows = self::getRows($age);
 
         $maxLocationArg = count($rows[0]) - 1;

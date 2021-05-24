@@ -2,7 +2,7 @@
 
 namespace SWD\States;
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 use SWD\Building;
 use SWD\Conspiracy;
 use SWD\Player;
@@ -82,7 +82,7 @@ trait SwapBuildingTrait {
                 $tmpPlayer = $pair[0];
                 $tmpBuilding = $pair[1];
                 if ($tmpBuilding->id == $snakeTokenBuilding->id) {
-                    $this->setGameStateValue(\SevenWondersDuelPantheon::VALUE_SNAKE_TOKEN_BUILDING_ID, 0);
+                    $this->setGameStateValue(\SevenWondersDuel::VALUE_SNAKE_TOKEN_BUILDING_ID, 0);
                     $this->notifyAllPlayers(
                         'message',
                         clienttranslate('${player_name}\'s Snake token is discarded'),

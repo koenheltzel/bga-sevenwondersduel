@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 
 /**
  * @property Wonder[] $array
@@ -22,7 +22,7 @@ class Wonders extends Collection {
     }
 
     public static function getSituation() {
-        $selectionRound = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_WONDER_SELECTION_ROUND);
+        $selectionRound = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_WONDER_SELECTION_ROUND);
         return [
             'selection' => self::getDeckCardsSorted("selection{$selectionRound}"),
             Player::me()->id => Player::me()->getWondersData(),
@@ -31,7 +31,7 @@ class Wonders extends Collection {
     }
 
     public static function getDeckCardsSorted($location): array {
-        $cards = SevenWondersDuelPantheon::get()->wonderDeck->getCardsInLocation($location);
+        $cards = SevenWondersDuel::get()->wonderDeck->getCardsInLocation($location);
         usort($cards, function($a, $b) {return (int)$a['location_arg'] > (int)$b['location_arg'];});
         return $cards;
     }

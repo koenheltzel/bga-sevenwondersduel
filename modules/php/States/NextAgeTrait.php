@@ -2,7 +2,7 @@
 
 namespace SWD\States;
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 use SWD\Divinities;
 use SWD\Draftpool;
 use SWD\OfferingTokens;
@@ -38,7 +38,7 @@ trait NextAgeTrait
 
         if ($age == 1) {
             if (!$this->expansionActive()) {
-                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                SevenWondersDuel::get()->notifyAllPlayers(
                     'nextAgeDraftpoolReveal',
                     '',
                     [
@@ -59,7 +59,7 @@ trait NextAgeTrait
             else{
                 $message = clienttranslate('${player_name} must choose who begins Age ${ageRoman} (because of weaker military position)');
                 // In case the pawn is NOT in the middle, the player that has the pawn on his side becomes the player to decide the start player.
-                $gameStartPlayerId = SevenWondersDuelPantheon::get()->getGameStartPlayerId();
+                $gameStartPlayerId = SevenWondersDuel::get()->getGameStartPlayerId();
                 $decisionPlayerId = $conflictPawnPosition < 0 ? $gameStartPlayerId : Player::opponent($gameStartPlayerId)->id;
                 $this->gamestate->changeActivePlayer($decisionPlayerId);
             }
@@ -70,7 +70,7 @@ trait NextAgeTrait
                 'draftpool' => Draftpool::get(),
                 'playersSituation' => Players::getSituation(), // Mostly so the science symbol count is updated.
             ];
-            if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON) && $age == 2) {
+            if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_PANTHEON) && $age == 2) {
                 // Add the gate to the Pantheon
                 $doorSpace = -1;
                 for ($space = 1; $space <= 6; $space++) {
@@ -93,7 +93,7 @@ trait NextAgeTrait
                 $data['doorSpace'] = $doorSpace;
             }
 
-            SevenWondersDuelPantheon::get()->notifyAllPlayers(
+            SevenWondersDuel::get()->notifyAllPlayers(
                 'nextAgeDraftpoolReveal',
                 $message,
                 $data

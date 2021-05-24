@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 
 class PaymentPlan extends Base
 {
@@ -221,13 +221,13 @@ class PaymentPlan extends Base
 
         $opponent = $player->getOpponent();
 
-        if ($this instanceof Payment && SevenWondersDuelPantheon::get()->gamestate->state()['name'] == SevenWondersDuelPantheon::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
+        if ($this instanceof Payment && SevenWondersDuel::get()->gamestate->state()['name'] == SevenWondersDuel::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
             // Player can build a building from the last row for free
             // No need to construct a payment plan.
         }
         elseif ($this->item instanceof Divinity) {
             $space = $this->item->getSpace();
-            $startPlayer = $player->id == SevenWondersDuelPantheon::get()->getGameStartPlayerId();
+            $startPlayer = $player->id == SevenWondersDuel::get()->getGameStartPlayerId();
             $cost = 0;
             switch ($space) {
                 case 1:

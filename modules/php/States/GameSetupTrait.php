@@ -4,7 +4,7 @@
 namespace SWD\States;
 
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 use SWD\Material;
 use SWD\Player;
 

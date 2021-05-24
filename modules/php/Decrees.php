@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 
 /**
  * @property Decree[] $array
@@ -32,7 +32,7 @@ class Decrees extends Collection {
     }
 
     public static function getDeckCardsSorted($location): array {
-        $cards = SevenWondersDuelPantheon::get()->decreeDeck->getCardsInLocation($location);
+        $cards = SevenWondersDuel::get()->decreeDeck->getCardsInLocation($location);
         usort($cards, function($a, $b) {return (int)$a['location_arg'] > (int)$b['location_arg'];});
         return $cards;
     }

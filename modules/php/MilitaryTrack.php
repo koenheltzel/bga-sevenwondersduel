@@ -4,7 +4,7 @@
 namespace SWD;
 
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 
 class MilitaryTrack extends Base
 {
@@ -15,16 +15,16 @@ class MilitaryTrack extends Base
         $divinityNeptune = $payment->getItem() instanceof Divinity && $payment->getItem()->id == 15;
         if ($divinityNeptune) {
             $payment->militarySteps = 1; // Not actually but this set off the animation
-            $payment->militaryOldPosition = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION);
+            $payment->militaryOldPosition = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
             $payment->militaryNewPosition = $payment->militaryOldPosition;
             $number = $payment->getItem()->neptuneMilitaryTokenNumber;
-            $value = SevenWondersDuelPantheon::get()->takeMilitaryToken($number);
+            $value = SevenWondersDuel::get()->takeMilitaryToken($number);
             $token = [
                 'number' => $number,
                 'value' => $value,
-                'tokenToPlayerId' => SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) ? $player->id : $player->getOpponent()->id,
+                'tokenToPlayerId' => SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA) ? $player->id : $player->getOpponent()->id,
             ];
-            if (!SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA)) {
+            if (!SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
                 $token['militaryOpponentPays'] = min($value, $opponent->getCoins());
                 $opponent->increaseCoins(-$token['militaryOpponentPays']);
             }
@@ -36,12 +36,12 @@ class MilitaryTrack extends Base
                 $shields += 1;
             }
 
-            SevenWondersDuelPantheon::get()->incStat($shields, SevenWondersDuelPantheon::STAT_SHIELDS, $player->id);
+            SevenWondersDuel::get()->incStat($shields, SevenWondersDuel::STAT_SHIELDS, $player->id);
 
-            $direction = $player->id == SevenWondersDuelPantheon::get()->getGameStartPlayerId() ? 1 : -1;
+            $direction = $player->id == SevenWondersDuel::get()->getGameStartPlayerId() ? 1 : -1;
 
-            $currentPosition = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION);
-            $minervaPosition = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_MINERVA_PAWN_POSITION);
+            $currentPosition = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
+            $minervaPosition = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_MINERVA_PAWN_POSITION);
             $targetPosition = max(-9, min(9, $currentPosition + $shields * $direction));
 
             $i = $currentPosition;
@@ -51,7 +51,7 @@ class MilitaryTrack extends Base
 
                 if ($i == $minervaPosition) {
                     $payment->militaryRemoveMinerva = true;
-                    SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_MINERVA_PAWN_POSITION, -999);
+                    SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_MINERVA_PAWN_POSITION, -999);
                     break; // Stop the pawn movement.
                 }
 
@@ -61,7 +61,7 @@ class MilitaryTrack extends Base
                     $opponent->increaseCoins(-1);
                 }
 
-                SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION, $i);
+                SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION, $i);
                 $newPosition = $i;
 
                 list($militaryTokenNumber, $militaryTokenValue) = MilitaryTrack::getMilitaryToken();
@@ -69,9 +69,9 @@ class MilitaryTrack extends Base
                     $token = [
                         'number' => $militaryTokenNumber,
                         'value' => $militaryTokenValue,
-                        'tokenToPlayerId' => SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) ? $player->id : $player->getOpponent()->id,
+                        'tokenToPlayerId' => SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA) ? $player->id : $player->getOpponent()->id,
                     ];
-                    if (!SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA)) {
+                    if (!SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
                         $token['militaryOpponentPays'] = min($militaryTokenValue, $opponent->getCoins());
                         $opponent->increaseCoins(-$token['militaryOpponentPays']);
                     }
@@ -87,8 +87,8 @@ class MilitaryTrack extends Base
     
     public static function getVictoryPoints(Player $player) {
         $points = 0;
-        $currentPosition = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION);
-        if ($player->id <> SevenWondersDuelPantheon::get()->getGameStartPlayerId()) $currentPosition *= -1;
+        $currentPosition = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
+        if ($player->id <> SevenWondersDuel::get()->getGameStartPlayerId()) $currentPosition *= -1;
         if ($currentPosition > 0) {
             switch (abs($currentPosition)) {
                 case 1:
@@ -111,7 +111,7 @@ class MilitaryTrack extends Base
     }
 
     public static function getMilitaryToken() {
-        $position = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION);
+        $position = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION);
         $number = 0;
         if ($position >= -8 && $position <= -6) {
             $number = 1;
@@ -127,7 +127,7 @@ class MilitaryTrack extends Base
         }
         $value = 0;
         if ($number > 0) {
-            $value = SevenWondersDuelPantheon::get()->takeMilitaryToken($number);
+            $value = SevenWondersDuel::get()->takeMilitaryToken($number);
             if ($value == 0) {
                 $number = 0;
             }
@@ -138,15 +138,15 @@ class MilitaryTrack extends Base
     public static function getData() {
         $data = [
             'tokens' => [
-                1 => SevenWondersDuelPantheon::get()->getMilitaryTokenValue(1),
-                2 => SevenWondersDuelPantheon::get()->getMilitaryTokenValue(2),
-                3 => SevenWondersDuelPantheon::get()->getMilitaryTokenValue(3),
-                4 => SevenWondersDuelPantheon::get()->getMilitaryTokenValue(4),
+                1 => SevenWondersDuel::get()->getMilitaryTokenValue(1),
+                2 => SevenWondersDuel::get()->getMilitaryTokenValue(2),
+                3 => SevenWondersDuel::get()->getMilitaryTokenValue(3),
+                4 => SevenWondersDuel::get()->getMilitaryTokenValue(4),
             ],
-            'conflictPawn' => SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CONFLICT_PAWN_POSITION)
+            'conflictPawn' => SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CONFLICT_PAWN_POSITION)
         ];
-        if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON)) {
-            $data['minervaPawn'] = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_MINERVA_PAWN_POSITION);
+        if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_PANTHEON)) {
+            $data['minervaPawn'] = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_MINERVA_PAWN_POSITION);
         }
         return $data;
     }

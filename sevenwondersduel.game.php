@@ -2,13 +2,13 @@
  /**
   *------
   * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
-  * SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
-  * 
+  * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
+  *
   * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
   * See http://en.boardgamearena.com/#!doc/Studio for more information.
   * -----
-  * 
-  * sevenwondersduelpantheon.game.php
+  *
+  * sevenwondersduel.game.php
   *
   * This is the main file for your game logic.
   *
@@ -57,7 +57,7 @@ else {
 }
 
 
-class SevenWondersDuelPantheon extends Table
+class SevenWondersDuel extends Table
 {
 
     use SWD\States\ChooseDiscardedBuildingTrait;
@@ -107,29 +107,29 @@ class SevenWondersDuelPantheon extends Table
     use SWD\States\PlayerSwitchTrait;
 
     /**
-     * @var SevenWondersDuelPantheon
+     * @var SevenWondersDuel
      */
     public static $instance;
 
     // Game state ids & names
     const STATE_GAME_SETUP_ID = 1;
     const STATE_GAME_SETUP_NAME = "gameSetup";
-    
+
     const STATE_SELECT_WONDER_ID = 5;
     const STATE_SELECT_WONDER_NAME = "selectWonder";
-    
+
     const STATE_WONDER_SELECTED_ID = 10;
     const STATE_WONDER_SELECTED_NAME = "wonderSelected";
-    
+
     const STATE_NEXT_AGE_ID = 15;
     const STATE_NEXT_AGE_NAME = "nextAge";
-    
+
     const STATE_SELECT_START_PLAYER_ID = 20;
     const STATE_SELECT_START_PLAYER_NAME = "selectStartPlayer";
-    
+
     const STATE_START_PLAYER_SELECTED_ID = 25;
     const STATE_START_PLAYER_SELECTED_NAME = "startPlayerSelected";
-    
+
     const STATE_PLAYER_TURN_ID = 30;
     const STATE_PLAYER_TURN_NAME = "playerTurn";
 
@@ -287,7 +287,7 @@ class SevenWondersDuelPantheon extends Table
     const OPTION_AGORA = "option_agora";
     const OPTION_AGORA_WONDERS = "option_agora_wonders";
     const OPTION_AGORA_PROGRESS_TOKENS = "option_agora_progress_tokens";
-    
+
     const OPTION_PANTHEON = "option_pantheon";
     const OPTION_PANTHEON_WONDERS = "option_pantheon_wonders";
     const OPTION_PANTHEON_PROGRESS_TOKENS = "option_pantheon_progress_tokens";
@@ -388,7 +388,7 @@ class SevenWondersDuelPantheon extends Table
     public $influenceCubeDeck;
 
     public static function get() {
-        // We can assume self::$instance exists since SevenWondersDuelPantheon's constructor is the entry point for SWD code.
+        // We can assume self::$instance exists since SevenWondersDuel's constructor is the entry point for SWD code.
 
         // To support paymenttester.php
         if (!self::$instance) {
@@ -525,7 +525,7 @@ class SevenWondersDuelPantheon extends Table
     public function setAvailableCardIds($cardIds) {
         // First check what ids are in the draftpool, so we can remove ids that have been used already.
         $age = $this->getGameStateValue(self::VALUE_CURRENT_AGE);
-        $allAgeCards = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $allAgeCards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
         $allAgeCards = arrayWithPropertyAsKeys($allAgeCards, 'id');
         $allAgeCardIds = array_keys($allAgeCards);
         $intersected = array_intersect($allAgeCardIds, $cardIds);
@@ -546,24 +546,24 @@ class SevenWondersDuelPantheon extends Table
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
-        return "sevenwondersduelpantheon";
+        return "sevenwondersduel";
     }
 
     /*
         setupNewGame:
-        
+
         This method is called only once, when a new game is launched.
         In this method, you must setup the game according to the game rules, so that
         the game is ready to be played.
     */
     protected function setupNewGame( $players, $options = array() )
-    {    
+    {
         // Set the colors of the players with HTML color code
         // The default below is red/green/blue/orange/brown
         // The number of colors defined here must correspond to the maximum number of players allowed for the gams
         $gameinfos = self::getGameinfos();
         $default_colors = $gameinfos['player_colors'];
- 
+
         // Create players
         // Note: if you added some extra field on "player" table in the database (dbmodel.sql), you can initialize it there.
         $sql = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar) VALUES ";
@@ -577,7 +577,7 @@ class SevenWondersDuelPantheon extends Table
         self::DbQuery( $sql );
         self::reattributeColorsBasedOnPreferences( $players, $gameinfos['player_colors'] );
         self::reloadPlayersBasicInfos();
-        
+
         /************ Start the game initialization *****/
 
         // Init global values with their initial values
@@ -670,10 +670,10 @@ class SevenWondersDuelPantheon extends Table
     }
 
     /*
-        getAllDatas: 
-        
+        getAllDatas:
+
         Gather all informations about current game situation (visible by the current player).
-        
+
         The method is called each time the game interface is displayed to a player, ie:
         _ when the game starts
         _ when a player refreshes the game page (F5)
@@ -683,7 +683,7 @@ class SevenWondersDuelPantheon extends Table
         $result = array();
 
         $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
-    
+
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
         $sql = "SELECT player_id id, player_score_total score FROM player ";
@@ -702,10 +702,10 @@ class SevenWondersDuelPantheon extends Table
 
         $me = Player::me();
         $opponent = Player::opponent();
-        $result['discardedBuildings'] = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
+        $result['discardedBuildings'] = SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
         $result['playerBuildings'] = [
-            $me->id => SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation($me->id, null, 'card_location_arg'),
-            $opponent->id => SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation($opponent->id, null, 'card_location_arg'),
+            $me->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($me->id, null, 'card_location_arg'),
+            $opponent->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($opponent->id, null, 'card_location_arg'),
         ];
         $result['playersSituation'] = Players::getSituation((int)$this->getGameStateValue(self::VALUE_END_GAME_CONDITION) != 0);
         $result['buildings'] = Material::get()->buildings->array;
@@ -782,12 +782,12 @@ class SevenWondersDuelPantheon extends Table
 
     /*
         getGameProgression:
-        
+
         Compute and return the current game progression.
         The number returned must be an integer beween 0 (=the game just started) and
         100 (= the game is finished or almost finished).
-    
-        This method is called each time we are in a game state with the "updateGameProgression" property set to true 
+
+        This method is called each time we are in a game state with the "updateGameProgression" property set to true
         (see states.inc.php)
     */
     function getGameProgression()
@@ -819,7 +819,7 @@ class SevenWondersDuelPantheon extends Table
 
 //////////////////////////////////////////////////////////////////////////////
 //////////// Utility functions
-////////////    
+////////////
 
     /*
         In this space, you can put any utility methods useful for your game logic
@@ -833,7 +833,7 @@ class SevenWondersDuelPantheon extends Table
 
     /*
         Each time a player is doing some game action, one of the methods below is called.
-        (note: each method below must match an input method in sevenwondersduelpantheon.action.php)
+        (note: each method below must match an input method in sevenwondersduel.action.php)
     */
 
     /*
@@ -859,10 +859,10 @@ class SevenWondersDuelPantheon extends Table
         ) );
 
     }
-    
+
     */
 
-    
+
 //////////////////////////////////////////////////////////////////////////////
 //////////// Game state arguments
 ////////////
@@ -874,20 +874,20 @@ class SevenWondersDuelPantheon extends Table
     */
 
     /*
-    
+
     Example for game state "MyGameState":
-    
+
     function argMyGameState()
     {
         // Get some values from the current game situation in database...
-    
+
         // return values:
         return array(
             'variable1' => $value1,
             'variable2' => $value2,
             ...
         );
-    }    
+    }
     */
 
 //////////////////////////////////////////////////////////////////////////////
@@ -918,15 +918,15 @@ class SevenWondersDuelPantheon extends Table
 
     /*
         zombieTurn:
-        
+
         This method is called each time it is the turn of a player who has quit the game (= "zombie" player).
         You can do whatever you want in order to make sure the turn of this player ends appropriately
         (ex: pass).
-        
+
         Important: your zombie code will be called when the player leaves the game. This action is triggered
         from the main site and propagated to the gameserver from a server, not from a browser.
         As a consequence, there is no current player associated to this action. In your zombieTurn function,
-        you must _never_ use getCurrentPlayerId() or getCurrentPlayerName(), otherwise it will fail with a "Not logged" error message. 
+        you must _never_ use getCurrentPlayerId() or getCurrentPlayerName(), otherwise it will fail with a "Not logged" error message.
     */
 
     function zombieTurn( $state, $active_player )
@@ -955,28 +955,28 @@ class SevenWondersDuelPantheon extends Table
                 throw new feException( "Zombie mode not supported at this game state: ".$state['name'] );
         }
     }
-    
+
 ///////////////////////////////////////////////////////////////////////////////////:
 ////////// DB upgrade
 //////////
 
     /*
         upgradeTableDb:
-        
+
         You don't have to care about this until your game has been published on BGA.
         Once your game is on BGA, this method is called everytime the system detects a game running with your old
         Database scheme.
         In this case, if you change your Database scheme, you just have to apply the needed changes in order to
         update the game database and allow the game to continue to run with your new version.
-    
+
     */
-    
+
     function upgradeTableDb( $from_version )
     {
         // $from_version is the current version of this game database, in numerical form.
         // For example, if the game was running with a release of your game named "140430-1345",
         // $from_version is equal to 1404301345
-        
+
         // Example:
 //        if( $from_version <= 1404301345 )
 //        {

@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 
 class Divinity extends Item {
 
@@ -50,15 +50,15 @@ class Divinity extends Item {
     }
 
     public function place($space) {
-        SevenWondersDuelPantheon::get()->divinityDeck->moveCard($this->id, "space{$space}");
+        SevenWondersDuel::get()->divinityDeck->moveCard($this->id, "space{$space}");
 
-        $remainingCard = SevenWondersDuelPantheon::get()->divinityDeck->getCardOnTop('selection');
-        SevenWondersDuelPantheon::get()->divinityDeck->insertCardOnExtremePosition($remainingCard['id'], "mythology{$this->type}", true);
+        $remainingCard = SevenWondersDuel::get()->divinityDeck->getCardOnTop('selection');
+        SevenWondersDuel::get()->divinityDeck->insertCardOnExtremePosition($remainingCard['id'], "mythology{$this->type}", true);
 
         $player = Player::getActive();
 
         // Text notification to all
-        SevenWondersDuelPantheon::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'message',
             clienttranslate('${player_name} chose a Divinity (${divinityType}) and placed it in the Pantheon'),
             [
@@ -70,7 +70,7 @@ class Divinity extends Item {
         );
 
         // Send divinity id to active player
-        SevenWondersDuelPantheon::get()->notifyPlayer($player->id,
+        SevenWondersDuel::get()->notifyPlayer($player->id,
             'placeDivinity',
             '',
             [
@@ -82,7 +82,7 @@ class Divinity extends Item {
         );
 
         // Don't send divinity id to the other player / spectators, only the picked divinity's position in the deck's player location
-        SevenWondersDuelPantheon::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'placeDivinity',
             '',
             [
@@ -123,7 +123,7 @@ class Divinity extends Item {
             }
         }
 
-        SevenWondersDuelPantheon::get()->divinityDeck->insertCardOnExtremePosition($this->id, $player->id, true);
+        SevenWondersDuel::get()->divinityDeck->insertCardOnExtremePosition($this->id, $player->id, true);
 
         $message = '';
         $offeringTokenString = '';
@@ -135,7 +135,7 @@ class Divinity extends Item {
                 $parts[] = "“-{$offeringToken->discount}”";
                 $offeringTokenIds[] = $offeringToken->id;
 
-                SevenWondersDuelPantheon::get()->offeringTokenDeck->moveCard($offeringToken->id, 'box');
+                SevenWondersDuel::get()->offeringTokenDeck->moveCard($offeringToken->id, 'box');
             }
             $offeringTokenString = implode(' and ', $parts);
 
@@ -145,7 +145,7 @@ class Divinity extends Item {
         }
 
         // Text notification to all
-        SevenWondersDuelPantheon::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->notifyAllPlayers(
             'activateDivinity',
             $message,
             [
@@ -175,9 +175,9 @@ class Divinity extends Item {
                 }
                 break;
             case 4: // Astarte
-                SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_ASTARTE_COINS, 7);
+                SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_ASTARTE_COINS, 7);
 
-                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                SevenWondersDuel::get()->notifyAllPlayers(
                     'message',
                     clienttranslate('${player_name} places 7 coins from the bank on Divinity “${divinityName}”'),
                     [
@@ -189,21 +189,21 @@ class Divinity extends Item {
                 break;
         }
 
-        SevenWondersDuelPantheon::get()->incStat(1, SevenWondersDuelPantheon::STAT_DIVINITIES_ACTIVATED, $player->id);
+        SevenWondersDuel::get()->incStat(1, SevenWondersDuel::STAT_DIVINITIES_ACTIVATED, $player->id);
 
         if ($payment->selectProgressToken) {
-            SevenWondersDuelPantheon::get()->prependStateStackAndContinue([SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
+            SevenWondersDuel::get()->prependStateStackAndContinue([SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
         }
         else {
-            SevenWondersDuelPantheon::get()->setStateStack(array_merge($payment->militarySenateActions, $this->actionStates));
-            SevenWondersDuelPantheon::get()->stateStackNextState();
+            SevenWondersDuel::get()->setStateStack(array_merge($payment->militarySenateActions, $this->actionStates));
+            SevenWondersDuel::get()->stateStackNextState();
         }
 
         return $payment;
     }
 
     public function getSpace() {
-        $location = SevenWondersDuelPantheon::get()->divinityDeck->getCard($this->id)['location'];
+        $location = SevenWondersDuel::get()->divinityDeck->getCard($this->id)['location'];
         if (strstr($location, 'space')) {
             return (int)substr($location, strlen('space'));
         }
@@ -211,11 +211,11 @@ class Divinity extends Item {
     }
 
     public function getPosition(Player $player) {
-        return (int)SevenWondersDuelPantheon::get()->divinityDeck->getCard($this->id)['location_arg'];
+        return (int)SevenWondersDuel::get()->divinityDeck->getCard($this->id)['location_arg'];
     }
 
     protected function getScoreCategory() {
-        return SevenWondersDuelPantheon::SCORE_DIVINITIES;
+        return SevenWondersDuel::SCORE_DIVINITIES;
     }
 
 }

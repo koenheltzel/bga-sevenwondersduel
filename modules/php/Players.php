@@ -4,7 +4,7 @@
 namespace SWD;
 
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 
 class Players extends Base
 {
@@ -24,7 +24,7 @@ class Players extends Base
                 'coins' => $player->getCoins(),
                 'scienceSymbolCount' => $player->getScientificSymbolCount(),
             ];
-            if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON)) {
+            if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_PANTHEON)) {
                 if ($player->hasDivinity(4)) {
                     $data[$player->id]['astarteCoins'] = $player->getAstarteCoins();
                 }
@@ -33,7 +33,7 @@ class Players extends Base
                 }
 
             }
-            if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA)) {
+            if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
                 $data[$player->id]['cubes'] = $player->getCubes();
             }
 
@@ -49,7 +49,7 @@ class Players extends Base
             }
         }
         if ($endGameScoring) {
-            $data['endGameCondition'] = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_END_GAME_CONDITION);
+            $data['endGameCondition'] = (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_END_GAME_CONDITION);
             if ($winner) {
                 $data['winner'] = $winner;
             }

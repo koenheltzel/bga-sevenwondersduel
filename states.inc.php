@@ -2,7 +2,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
+ * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -10,7 +10,7 @@
  *
  * states.inc.php
  *
- * SevenWondersDuelPantheon game states description
+ * SevenWondersDuel game states description
  *
  */
 
@@ -59,62 +59,62 @@ $midGameTransitions = [
     // definitions (that would require to have a lot of game logic checks in this file, basically the
     // "possibleactions" implementations).
     
-    SevenWondersDuelPantheon::STATE_WONDER_SELECTED_NAME => SevenWondersDuelPantheon::STATE_WONDER_SELECTED_ID,
-    SevenWondersDuelPantheon::STATE_SELECT_START_PLAYER_NAME => SevenWondersDuelPantheon::STATE_SELECT_START_PLAYER_ID,
-    SevenWondersDuelPantheon::STATE_START_PLAYER_SELECTED_NAME => SevenWondersDuelPantheon::STATE_START_PLAYER_SELECTED_ID,
-    SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
-    SevenWondersDuelPantheon::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_CONSPIRATOR_ACTION_ID,
-    SevenWondersDuelPantheon::STATE_CONSPIRE_NAME => SevenWondersDuelPantheon::STATE_CONSPIRE_ID,
-    SevenWondersDuelPantheon::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_ID,
-    SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_NAME => SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_ID,
-    SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_ID,
-    SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID,
-    SevenWondersDuelPantheon::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_REMOVE_INFLUENCE_ID,
-    SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME => SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID,
-    SevenWondersDuelPantheon::STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME => SevenWondersDuelPantheon::STATE_CONSTRUCT_BUILDING_FROM_BOX_ID,
-    SevenWondersDuelPantheon::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CONSTRUCT_LAST_ROW_BUILDING_ID,
-    SevenWondersDuelPantheon::STATE_DESTROY_CONSTRUCTED_WONDER_NAME => SevenWondersDuelPantheon::STATE_DESTROY_CONSTRUCTED_WONDER_ID,
-    SevenWondersDuelPantheon::STATE_DISCARD_AVAILABLE_CARD_NAME => SevenWondersDuelPantheon::STATE_DISCARD_AVAILABLE_CARD_ID,
-    SevenWondersDuelPantheon::STATE_LOCK_PROGRESS_TOKEN_NAME => SevenWondersDuelPantheon::STATE_LOCK_PROGRESS_TOKEN_ID,
-    SevenWondersDuelPantheon::STATE_MOVE_DECREE_NAME => SevenWondersDuelPantheon::STATE_MOVE_DECREE_ID,
-    SevenWondersDuelPantheon::STATE_SWAP_BUILDING_NAME => SevenWondersDuelPantheon::STATE_SWAP_BUILDING_ID,
-    SevenWondersDuelPantheon::STATE_TAKE_BUILDING_NAME => SevenWondersDuelPantheon::STATE_TAKE_BUILDING_ID,
-    SevenWondersDuelPantheon::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME => SevenWondersDuelPantheon::STATE_TAKE_UNCONSTRUCTED_WONDER_ID,
-    SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID,
-    SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
-    SevenWondersDuelPantheon::STATE_DECONSTRUCT_WONDER_NAME => SevenWondersDuelPantheon::STATE_DECONSTRUCT_WONDER_ID,
-    SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_ID,
-    SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_ID,
-    SevenWondersDuelPantheon::STATE_PLACE_SNAKE_TOKEN_NAME => SevenWondersDuelPantheon::STATE_PLACE_SNAKE_TOKEN_ID,
-    SevenWondersDuelPantheon::STATE_DISCARD_AGE_CARD_NAME => SevenWondersDuelPantheon::STATE_DISCARD_AGE_CARD_ID,
-    SevenWondersDuelPantheon::STATE_PLACE_MINERVA_TOKEN_NAME => SevenWondersDuelPantheon::STATE_PLACE_MINERVA_TOKEN_ID,
-    SevenWondersDuelPantheon::STATE_DISCARD_MILITARY_TOKEN_NAME => SevenWondersDuelPantheon::STATE_DISCARD_MILITARY_TOKEN_ID,
-    SevenWondersDuelPantheon::STATE_APPLY_MILITARY_TOKEN_NAME => SevenWondersDuelPantheon::STATE_APPLY_MILITARY_TOKEN_ID,
-    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_ID,
-    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_ID,
-    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_DECK_ID,
-    SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_ID,
-    SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_ID,
-    SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
-    SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_ID,
-    SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
-    SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID,
-    SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+    SevenWondersDuel::STATE_WONDER_SELECTED_NAME => SevenWondersDuel::STATE_WONDER_SELECTED_ID,
+    SevenWondersDuel::STATE_SELECT_START_PLAYER_NAME => SevenWondersDuel::STATE_SELECT_START_PLAYER_ID,
+    SevenWondersDuel::STATE_START_PLAYER_SELECTED_NAME => SevenWondersDuel::STATE_START_PLAYER_SELECTED_ID,
+    SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
+    SevenWondersDuel::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME => SevenWondersDuel::STATE_CHOOSE_CONSPIRATOR_ACTION_ID,
+    SevenWondersDuel::STATE_CONSPIRE_NAME => SevenWondersDuel::STATE_CONSPIRE_ID,
+    SevenWondersDuel::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME => SevenWondersDuel::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_ID,
+    SevenWondersDuel::STATE_SENATE_ACTIONS_NAME => SevenWondersDuel::STATE_SENATE_ACTIONS_ID,
+    SevenWondersDuel::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuel::STATE_PLACE_INFLUENCE_ID,
+    SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME => SevenWondersDuel::STATE_MOVE_INFLUENCE_ID,
+    SevenWondersDuel::STATE_REMOVE_INFLUENCE_NAME => SevenWondersDuel::STATE_REMOVE_INFLUENCE_ID,
+    SevenWondersDuel::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME => SevenWondersDuel::STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID,
+    SevenWondersDuel::STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME => SevenWondersDuel::STATE_CONSTRUCT_BUILDING_FROM_BOX_ID,
+    SevenWondersDuel::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME => SevenWondersDuel::STATE_CONSTRUCT_LAST_ROW_BUILDING_ID,
+    SevenWondersDuel::STATE_DESTROY_CONSTRUCTED_WONDER_NAME => SevenWondersDuel::STATE_DESTROY_CONSTRUCTED_WONDER_ID,
+    SevenWondersDuel::STATE_DISCARD_AVAILABLE_CARD_NAME => SevenWondersDuel::STATE_DISCARD_AVAILABLE_CARD_ID,
+    SevenWondersDuel::STATE_LOCK_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_LOCK_PROGRESS_TOKEN_ID,
+    SevenWondersDuel::STATE_MOVE_DECREE_NAME => SevenWondersDuel::STATE_MOVE_DECREE_ID,
+    SevenWondersDuel::STATE_SWAP_BUILDING_NAME => SevenWondersDuel::STATE_SWAP_BUILDING_ID,
+    SevenWondersDuel::STATE_TAKE_BUILDING_NAME => SevenWondersDuel::STATE_TAKE_BUILDING_ID,
+    SevenWondersDuel::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME => SevenWondersDuel::STATE_TAKE_UNCONSTRUCTED_WONDER_ID,
+    SevenWondersDuel::STATE_PLAYER_SWITCH_NAME => SevenWondersDuel::STATE_PLAYER_SWITCH_ID,
+    SevenWondersDuel::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME => SevenWondersDuel::STATE_CHOOSE_AND_PLACE_DIVINITY_ID,
+    SevenWondersDuel::STATE_DECONSTRUCT_WONDER_NAME => SevenWondersDuel::STATE_DECONSTRUCT_WONDER_ID,
+    SevenWondersDuel::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME => SevenWondersDuel::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_ID,
+    SevenWondersDuel::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_ID,
+    SevenWondersDuel::STATE_PLACE_SNAKE_TOKEN_NAME => SevenWondersDuel::STATE_PLACE_SNAKE_TOKEN_ID,
+    SevenWondersDuel::STATE_DISCARD_AGE_CARD_NAME => SevenWondersDuel::STATE_DISCARD_AGE_CARD_ID,
+    SevenWondersDuel::STATE_PLACE_MINERVA_TOKEN_NAME => SevenWondersDuel::STATE_PLACE_MINERVA_TOKEN_ID,
+    SevenWondersDuel::STATE_DISCARD_MILITARY_TOKEN_NAME => SevenWondersDuel::STATE_DISCARD_MILITARY_TOKEN_ID,
+    SevenWondersDuel::STATE_APPLY_MILITARY_TOKEN_NAME => SevenWondersDuel::STATE_APPLY_MILITARY_TOKEN_ID,
+    SevenWondersDuel::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_NAME => SevenWondersDuel::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_ID,
+    SevenWondersDuel::STATE_CHOOSE_DIVINITY_DECK_NAME => SevenWondersDuel::STATE_CHOOSE_DIVINITY_DECK_ID,
+    SevenWondersDuel::STATE_CHOOSE_DIVINITY_FROM_DECK_NAME => SevenWondersDuel::STATE_CHOOSE_DIVINITY_FROM_DECK_ID,
+    SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID,
+    SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_NAME => SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_ID,
+    SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID,
+    SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_NAME => SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_ID,
+    SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
+    SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID,
+    SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
 ]; 
     
 $machinestates = [
 
     // The initial state. Please do not modify.
-    SevenWondersDuelPantheon::STATE_GAME_SETUP_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_GAME_SETUP_NAME,
+    SevenWondersDuel::STATE_GAME_SETUP_ID => [
+        "name" => SevenWondersDuel::STATE_GAME_SETUP_NAME,
         "description" => "",
         "type" => "manager",
         "action" => "enterStateGameSetup",
-        "transitions" => ["" => SevenWondersDuelPantheon::STATE_SELECT_WONDER_ID]
+        "transitions" => ["" => SevenWondersDuel::STATE_SELECT_WONDER_ID]
     ],
 
-    SevenWondersDuelPantheon::STATE_SELECT_WONDER_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_SELECT_WONDER_NAME,
+    SevenWondersDuel::STATE_SELECT_WONDER_ID => [
+        "name" => SevenWondersDuel::STATE_SELECT_WONDER_NAME,
         "description" => clienttranslate('${actplayer} must choose a wonder'),
         "descriptionmyturn" => clienttranslate('${you} must choose a wonder'),
         "type" => "activeplayer",
@@ -124,40 +124,40 @@ $machinestates = [
             "actionSelectWonder",
         ],
         "transitions" => [
-            SevenWondersDuelPantheon::STATE_WONDER_SELECTED_NAME => SevenWondersDuelPantheon::STATE_WONDER_SELECTED_ID,
-            SevenWondersDuelPantheon::STATE_CONSPIRE_NAME => SevenWondersDuelPantheon::STATE_CONSPIRE_ID,
-            SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_ID,
+            SevenWondersDuel::STATE_WONDER_SELECTED_NAME => SevenWondersDuel::STATE_WONDER_SELECTED_ID,
+            SevenWondersDuel::STATE_CONSPIRE_NAME => SevenWondersDuel::STATE_CONSPIRE_ID,
+            SevenWondersDuel::STATE_PLACE_INFLUENCE_NAME => SevenWondersDuel::STATE_PLACE_INFLUENCE_ID,
         ]
     ],
 
-    SevenWondersDuelPantheon::STATE_WONDER_SELECTED_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_WONDER_SELECTED_NAME,
+    SevenWondersDuel::STATE_WONDER_SELECTED_ID => [
+        "name" => SevenWondersDuel::STATE_WONDER_SELECTED_NAME,
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
         "action" => "enterStateWonderSelected",
         "updateGameProgression" => true,
         "transitions" => [
-            SevenWondersDuelPantheon::STATE_SELECT_WONDER_NAME => SevenWondersDuelPantheon::STATE_SELECT_WONDER_ID,
-            SevenWondersDuelPantheon::STATE_NEXT_AGE_NAME => SevenWondersDuelPantheon::STATE_NEXT_AGE_ID
+            SevenWondersDuel::STATE_SELECT_WONDER_NAME => SevenWondersDuel::STATE_SELECT_WONDER_ID,
+            SevenWondersDuel::STATE_NEXT_AGE_NAME => SevenWondersDuel::STATE_NEXT_AGE_ID
         ]
     ],
 
-    SevenWondersDuelPantheon::STATE_NEXT_AGE_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_NEXT_AGE_NAME,
+    SevenWondersDuel::STATE_NEXT_AGE_ID => [
+        "name" => SevenWondersDuel::STATE_NEXT_AGE_NAME,
         "description" => clienttranslate('Preparing Age ${ageRoman}...'),
         "descriptionmyturn" => clienttranslate('Preparing Age ${ageRoman}...'),
         "type" => "game",
         "action" => "enterStateNextAge",
         "args" => "argNextAge",
         "transitions" => [
-            SevenWondersDuelPantheon::STATE_SELECT_START_PLAYER_NAME => SevenWondersDuelPantheon::STATE_SELECT_START_PLAYER_ID,
-            SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID
+            SevenWondersDuel::STATE_SELECT_START_PLAYER_NAME => SevenWondersDuel::STATE_SELECT_START_PLAYER_ID,
+            SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID
         ]
     ],
 
-    SevenWondersDuelPantheon::STATE_SELECT_START_PLAYER_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_SELECT_START_PLAYER_NAME,
+    SevenWondersDuel::STATE_SELECT_START_PLAYER_ID => [
+        "name" => SevenWondersDuel::STATE_SELECT_START_PLAYER_NAME,
         "description" => clienttranslate('${actplayer} must choose who begins Age ${ageRoman}'),
         "descriptionmyturn" => clienttranslate('${you} must choose who begins Age ${ageRoman}'),
         "type" => "activeplayer",
@@ -167,22 +167,22 @@ $machinestates = [
             "actionSelectStartPlayer",
         ],
         "transitions" => [
-            SevenWondersDuelPantheon::STATE_START_PLAYER_SELECTED_NAME => SevenWondersDuelPantheon::STATE_START_PLAYER_SELECTED_ID
+            SevenWondersDuel::STATE_START_PLAYER_SELECTED_NAME => SevenWondersDuel::STATE_START_PLAYER_SELECTED_ID
         ]
     ],
 
-    SevenWondersDuelPantheon::STATE_START_PLAYER_SELECTED_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_START_PLAYER_SELECTED_NAME,
+    SevenWondersDuel::STATE_START_PLAYER_SELECTED_ID => [
+        "name" => SevenWondersDuel::STATE_START_PLAYER_SELECTED_NAME,
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
         "action" => "enterStateStartPlayerSelected",
         "transitions" => [
-            SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
+            SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
         ]
     ],
-    SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME,
+    SevenWondersDuel::STATE_PLAYER_TURN_ID => [
+        "name" => SevenWondersDuel::STATE_PLAYER_TURN_NAME,
         "description" => '', // Set in onEnterPlayerTurn
         "descriptionmyturn" => '', // Set in onEnterPlayerTurn
         "type" => "activeplayer",
@@ -199,8 +199,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_CHOOSE_CONSPIRATOR_ACTION_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME,
+    SevenWondersDuel::STATE_CHOOSE_CONSPIRATOR_ACTION_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_CONSPIRATOR_ACTION_NAME,
         "description" => clienttranslate('${actplayer} must choose to place an Influence cube or to Conspire'),
         "descriptionmyturn" => clienttranslate('${you} must choose to place an Influence cube or to Conspire'),
         "type" => "activeplayer",
@@ -213,8 +213,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_CONSPIRE_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CONSPIRE_NAME,
+    SevenWondersDuel::STATE_CONSPIRE_ID => [
+        "name" => SevenWondersDuel::STATE_CONSPIRE_NAME,
         "description" => clienttranslate('${actplayer} must choose a Conspiracy'),
         "descriptionmyturn" => clienttranslate('${you} must choose a Conspiracy'),
         "type" => "activeplayer",
@@ -226,8 +226,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME,
+    SevenWondersDuel::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_CONSPIRE_REMNANT_POSITION_NAME,
         "description" => clienttranslate('${actplayer} must choose to place the other Conspiracy card on the top or the bottom of the deck'),
         "descriptionmyturn" => clienttranslate('${you} must choose to place the other Conspiracy card on the top or the bottom of the deck'),
         "type" => "activeplayer",
@@ -239,8 +239,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_SENATE_ACTIONS_NAME,
+    SevenWondersDuel::STATE_SENATE_ACTIONS_ID => [
+        "name" => SevenWondersDuel::STATE_SENATE_ACTIONS_NAME,
         "description" => clienttranslate('${actplayer} must choose a Senate action (${senateActionsLeft} left)'),
         "descriptionmyturn" => clienttranslate('${you} must choose a Senate action (${senateActionsLeft} left)'),
         "type" => "activeplayer",
@@ -254,8 +254,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_NAME,
+    SevenWondersDuel::STATE_PLACE_INFLUENCE_ID => [
+        "name" => SevenWondersDuel::STATE_PLACE_INFLUENCE_NAME,
         "description" => clienttranslate('${actplayer} must choose a Senate chamber to add an Influence cube to'),
         "descriptionmyturn" => clienttranslate('${you} must choose a Senate chamber to add an Influence cube to'),
         "type" => "activeplayer",
@@ -267,8 +267,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME,
+    SevenWondersDuel::STATE_MOVE_INFLUENCE_ID => [
+        "name" => SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME,
         "description" => clienttranslate('${actplayer} may choose a Senate chamber to move an Influence cube from'),
         "descriptionmyturn" => clienttranslate('${you} may choose a Senate chamber to move an Influence cube from'),
         "type" => "activeplayer",
@@ -281,8 +281,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_REMOVE_INFLUENCE_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_REMOVE_INFLUENCE_NAME,
+    SevenWondersDuel::STATE_REMOVE_INFLUENCE_ID => [
+        "name" => SevenWondersDuel::STATE_REMOVE_INFLUENCE_NAME,
         "description" => clienttranslate('${actplayer} must choose one of the opponent\'s Influence cubes to remove'),
         "descriptionmyturn" => clienttranslate('${you} must choose a Senate chamber to remove one of your opponent\'s Influence cubes from'),
         "type" => "activeplayer",
@@ -294,8 +294,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME,
+    SevenWondersDuel::STATE_TRIGGER_UNPREPARED_CONSPIRACY_ID => [
+        "name" => SevenWondersDuel::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME,
         "description" => clienttranslate('${actplayer} may choose to trigger an unprepared Conspiracy'),
         "descriptionmyturn" => clienttranslate('${you} may choose to trigger an unprepared Conspiracy'),
         "type" => "activeplayer",
@@ -308,8 +308,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME,
+    SevenWondersDuel::STATE_CHOOSE_AND_PLACE_DIVINITY_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_AND_PLACE_DIVINITY_NAME,
         "description" => clienttranslate('${actplayer} must choose a Divinity and place it face down in the Pantheon'),
         "descriptionmyturn" => clienttranslate('${you} must choose a Divinity and place it face down in the Pantheon'),
         "type" => "activeplayer",
@@ -321,8 +321,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_DECONSTRUCT_WONDER_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_DECONSTRUCT_WONDER_NAME,
+    SevenWondersDuel::STATE_DECONSTRUCT_WONDER_ID => [
+        "name" => SevenWondersDuel::STATE_DECONSTRUCT_WONDER_NAME,
         "description" => clienttranslate('${actplayer} must choose a constructed Wonder to discard the Age card from'),
         "descriptionmyturn" => clienttranslate('${you} must choose a constructed Wonder to discard the Age card from'),
         "type" => "activeplayer",
@@ -334,8 +334,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME,
+    SevenWondersDuel::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_ID => [
+        "name" => SevenWondersDuel::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME,
         "description" => clienttranslate('${actplayer} must choose a discarded card and construct a Wonder for free using that card'),
         "descriptionmyturn" => clienttranslate('${you} must choose a discarded card and construct a Wonder for free using that card'),
         "type" => "activeplayer",
@@ -347,8 +347,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME,
+    SevenWondersDuel::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME,
         "description" => clienttranslate('${actplayer} must choose one of the two Progress Tokens on Enki'),
         "descriptionmyturn" => clienttranslate('${you} must choose one of the two Progress Tokens on Enki'),
         "type" => "activeplayer",
@@ -360,8 +360,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_PLACE_SNAKE_TOKEN_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_PLACE_SNAKE_TOKEN_NAME,
+    SevenWondersDuel::STATE_PLACE_SNAKE_TOKEN_ID => [
+        "name" => SevenWondersDuel::STATE_PLACE_SNAKE_TOKEN_NAME,
         "description" => clienttranslate('${actplayer} must place the Snake token on an opponent\'s green card'),
         "descriptionmyturn" => clienttranslate('${you} must place the Snake token on an opponent\'s green card'),
         "type" => "activeplayer",
@@ -373,8 +373,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_DISCARD_AGE_CARD_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_DISCARD_AGE_CARD_NAME,
+    SevenWondersDuel::STATE_DISCARD_AGE_CARD_ID => [
+        "name" => SevenWondersDuel::STATE_DISCARD_AGE_CARD_NAME,
         "description" => clienttranslate('${actplayer} must discard a card (face up or down) from the structure'),
         "descriptionmyturn" => clienttranslate('${you} must discard a card (face up or down) from the structure'),
         "type" => "activeplayer",
@@ -386,8 +386,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_PLACE_MINERVA_TOKEN_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_PLACE_MINERVA_TOKEN_NAME,
+    SevenWondersDuel::STATE_PLACE_MINERVA_TOKEN_ID => [
+        "name" => SevenWondersDuel::STATE_PLACE_MINERVA_TOKEN_NAME,
         "description" => clienttranslate('${actplayer} must place the Minerva pawn on any space of the Military Track'),
         "descriptionmyturn" => clienttranslate('${you} must place the Minerva pawn on any space of the Military Track'),
         "type" => "activeplayer",
@@ -399,8 +399,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_DISCARD_MILITARY_TOKEN_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_DISCARD_MILITARY_TOKEN_NAME,
+    SevenWondersDuel::STATE_DISCARD_MILITARY_TOKEN_ID => [
+        "name" => SevenWondersDuel::STATE_DISCARD_MILITARY_TOKEN_NAME,
         "description" => clienttranslate('${actplayer} must choose and discard a Military token without applying its effect'),
         "descriptionmyturn" => clienttranslate('${you} must choose and discard a Military token without applying its effect'),
         "type" => "activeplayer",
@@ -412,8 +412,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_APPLY_MILITARY_TOKEN_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_APPLY_MILITARY_TOKEN_NAME,
+    SevenWondersDuel::STATE_APPLY_MILITARY_TOKEN_ID => [
+        "name" => SevenWondersDuel::STATE_APPLY_MILITARY_TOKEN_NAME,
         "description" => clienttranslate('${actplayer} must choose and apply the effect of another Military token, then discard it'),
         "descriptionmyturn" => clienttranslate('${you} must choose and apply the effect of another Military token, then discard it'),
         "type" => "activeplayer",
@@ -425,8 +425,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_NAME,
+    SevenWondersDuel::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_NAME,
         "description" => clienttranslate('${actplayer} must choose a Divinity card and activate it for free'),
         "descriptionmyturn" => clienttranslate('${you} must choose a Divinity card and activate it for free'),
         "type" => "activeplayer",
@@ -438,8 +438,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_NAME,
+    SevenWondersDuel::STATE_CHOOSE_DIVINITY_DECK_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_DIVINITY_DECK_NAME,
         "description" => clienttranslate('${actplayer} must choose a Divinity deck to reveal and choose a Divinity from'),
         "descriptionmyturn" => clienttranslate('${you} must choose a Divinity deck to reveal and choose a Divinity from'),
         "type" => "activeplayer",
@@ -449,13 +449,13 @@ $machinestates = [
             "actionChooseDivinityDeck",
         ],
         "transitions" => [
-            SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_DECK_NAME => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_DECK_ID,
-            SevenWondersDuelPantheon::ZOMBIE_PASS => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID,
+            SevenWondersDuel::STATE_CHOOSE_DIVINITY_FROM_DECK_NAME => SevenWondersDuel::STATE_CHOOSE_DIVINITY_FROM_DECK_ID,
+            SevenWondersDuel::ZOMBIE_PASS => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID,
         ]
     ],
 
-    SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_DECK_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_DECK_NAME,
+    SevenWondersDuel::STATE_CHOOSE_DIVINITY_FROM_DECK_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_DIVINITY_FROM_DECK_NAME,
         "description" => clienttranslate('${actplayer} must choose a Divinity from the ${mythologyType} Mythology deck and activate it for free'),
         "descriptionmyturn" => clienttranslate('${you} must choose a Divinity from the ${mythologyType} Mythology deck and activate it for free'),
         "type" => "activeplayer",
@@ -467,8 +467,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_ID => [
-    "name" => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_NAME,
+    SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_ID => [
+    "name" => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_NAME,
     "description" => clienttranslate('${actplayer} must choose a progress token'),
     "descriptionmyturn" => clienttranslate('${you} must choose a progress token'),
     "type" => "activeplayer",
@@ -480,8 +480,8 @@ $machinestates = [
     "transitions" => $midGameTransitions
 ],
 
-    SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_NAME,
+    SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_NAME,
         "description" => clienttranslate('${actplayer} must choose one of the opponent\'s ${buildingTypeTranslatable} cards to discard'),
         "descriptionmyturn" => clienttranslate('${you} must choose one of the opponent\'s ${buildingTypeTranslatable} cards to discard'),
         "type" => "activeplayer",
@@ -494,8 +494,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME,
+    SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME,
         "description" => clienttranslate('${actplayer} must choose a progress token from the box'),
         "descriptionmyturn" => clienttranslate('${you} must choose a progress token from the box'),
         "type" => "activeplayer",
@@ -507,8 +507,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_NAME,
+    SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_ID => [
+        "name" => SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_NAME,
         "description" => clienttranslate('${actplayer} must choose a discarded building to construct'),
         "descriptionmyturn" => clienttranslate('${you} must choose a discarded building to construct'),
         "type" => "activeplayer",
@@ -521,8 +521,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_CONSTRUCT_BUILDING_FROM_BOX_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME,
+    SevenWondersDuel::STATE_CONSTRUCT_BUILDING_FROM_BOX_ID => [
+        "name" => SevenWondersDuel::STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME,
         "description" => clienttranslate('${actplayer} must choose a Building removed from the game up to the current Age to play for free'),
         "descriptionmyturn" => clienttranslate('${you} must choose a Building removed from the game up to the current Age to play for free'),
         "type" => "activeplayer",
@@ -534,8 +534,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_CONSTRUCT_LAST_ROW_BUILDING_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME,
+    SevenWondersDuel::STATE_CONSTRUCT_LAST_ROW_BUILDING_ID => [
+        "name" => SevenWondersDuel::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME,
         "description" => clienttranslate('${actplayer} must choose a Building from the last row of the Age structure (excluding Senators) and construct it for free'),
         "descriptionmyturn" => clienttranslate('${you} must choose a Building from the last row of the Age structure (excluding Senators) and construct it for free'),
         "type" => "activeplayer",
@@ -547,8 +547,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_DESTROY_CONSTRUCTED_WONDER_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_DESTROY_CONSTRUCTED_WONDER_NAME,
+    SevenWondersDuel::STATE_DESTROY_CONSTRUCTED_WONDER_ID => [
+        "name" => SevenWondersDuel::STATE_DESTROY_CONSTRUCTED_WONDER_NAME,
         "description" => clienttranslate('${actplayer} must choose one of the opponent\'s constructed Wonders and return it to the box'),
         "descriptionmyturn" => clienttranslate('${you} must choose one of the opponent\'s constructed Wonders and return it to the box'),
         "type" => "activeplayer",
@@ -560,8 +560,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_DISCARD_AVAILABLE_CARD_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_DISCARD_AVAILABLE_CARD_NAME,
+    SevenWondersDuel::STATE_DISCARD_AVAILABLE_CARD_ID => [
+        "name" => SevenWondersDuel::STATE_DISCARD_AVAILABLE_CARD_NAME,
         "description" => '', // Set in onEnterDiscardAvailableCard
         "descriptionmyturn" => '', // Set in onEnterDiscardAvailableCard
         "type" => "activeplayer",
@@ -574,8 +574,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_LOCK_PROGRESS_TOKEN_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_LOCK_PROGRESS_TOKEN_NAME,
+    SevenWondersDuel::STATE_LOCK_PROGRESS_TOKEN_ID => [
+        "name" => SevenWondersDuel::STATE_LOCK_PROGRESS_TOKEN_NAME,
         "description" => clienttranslate('${actplayer} must choose a Progress token from the board, his opponent or the box and lock it away for the rest of the game'),
         "descriptionmyturn" => clienttranslate('${you} must choose a Progress token from the board, your opponent or the box and lock it away for the rest of the game'),
         "type" => "activeplayer",
@@ -587,8 +587,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_MOVE_DECREE_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_MOVE_DECREE_NAME,
+    SevenWondersDuel::STATE_MOVE_DECREE_ID => [
+        "name" => SevenWondersDuel::STATE_MOVE_DECREE_NAME,
         "description" => clienttranslate('${actplayer} must choose a Decree token to move to a Chamber of his choice, under the existing Decree'),
         "descriptionmyturn" => clienttranslate('${you} must choose a Decree token to move to a Chamber of your choice, under the existing Decree'),
         "type" => "activeplayer",
@@ -600,8 +600,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_SWAP_BUILDING_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_SWAP_BUILDING_NAME,
+    SevenWondersDuel::STATE_SWAP_BUILDING_ID => [
+        "name" => SevenWondersDuel::STATE_SWAP_BUILDING_NAME,
         "description" => clienttranslate('${actplayer} must choose 1 Blue or Green card of his opponent and in exchange give them 1 of his cards of the same color'),
         "descriptionmyturn" => clienttranslate('${you} must choose 1 Blue or Green card of your opponent and in exchange give them 1 of your cards of the same color'),
         "type" => "activeplayer",
@@ -613,8 +613,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_TAKE_BUILDING_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_TAKE_BUILDING_NAME,
+    SevenWondersDuel::STATE_TAKE_BUILDING_ID => [
+        "name" => SevenWondersDuel::STATE_TAKE_BUILDING_NAME,
         "description" => clienttranslate('${actplayer} must choose 1 Brown or Grey card from his opponent and add it to his city'),
         "descriptionmyturn" => clienttranslate('${you} must choose 1 Brown or Grey card from your opponent and add it to your city'),
         "type" => "activeplayer",
@@ -626,8 +626,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_TAKE_UNCONSTRUCTED_WONDER_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME,
+    SevenWondersDuel::STATE_TAKE_UNCONSTRUCTED_WONDER_ID => [
+        "name" => SevenWondersDuel::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME,
         "description" => clienttranslate('${actplayer} must take one of the opponent\'s unconstructed Wonders and add it to his city'),
         "descriptionmyturn" => clienttranslate('${you} must take one of the opponent\'s unconstructed Wonders and add it to your city'),
         "type" => "activeplayer",
@@ -639,8 +639,8 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME,
+    SevenWondersDuel::STATE_PLAYER_SWITCH_ID => [
+        "name" => SevenWondersDuel::STATE_PLAYER_SWITCH_NAME,
         "description" => '',
         "descriptionmyturn" => '',
         "type" => "game",
@@ -648,23 +648,23 @@ $machinestates = [
         "transitions" => $midGameTransitions
     ],
 
-    SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_NEXT_PLAYER_TURN_NAME,
+    SevenWondersDuel::STATE_NEXT_PLAYER_TURN_ID => [
+        "name" => SevenWondersDuel::STATE_NEXT_PLAYER_TURN_NAME,
         "description" => clienttranslate('End of game victory points count...'),
         "descriptionmyturn" => clienttranslate('End of game victory points count...'),
         "type" => "game",
         "action" => "enterStateNextPlayerTurn",
         "updateGameProgression" => true,
         "transitions" => [
-            SevenWondersDuelPantheon::STATE_PLAYER_TURN_NAME => SevenWondersDuelPantheon::STATE_PLAYER_TURN_ID,
-            SevenWondersDuelPantheon::STATE_NEXT_AGE_NAME => SevenWondersDuelPantheon::STATE_NEXT_AGE_ID,
-            SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID,
-            SevenWondersDuelPantheon::STATE_GAME_END_NAME => SevenWondersDuelPantheon::STATE_GAME_END_ID
+            SevenWondersDuel::STATE_PLAYER_TURN_NAME => SevenWondersDuel::STATE_PLAYER_TURN_ID,
+            SevenWondersDuel::STATE_NEXT_AGE_NAME => SevenWondersDuel::STATE_NEXT_AGE_ID,
+            SevenWondersDuel::STATE_GAME_END_DEBUG_NAME => SevenWondersDuel::STATE_GAME_END_DEBUG_ID,
+            SevenWondersDuel::STATE_GAME_END_NAME => SevenWondersDuel::STATE_GAME_END_ID
         ]
     ],
 
-    SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_GAME_END_DEBUG_NAME,
+    SevenWondersDuel::STATE_GAME_END_DEBUG_ID => [
+        "name" => SevenWondersDuel::STATE_GAME_END_DEBUG_NAME,
         "description" => clienttranslate("Debug End of game"),
         "descriptionmyturn" => clienttranslate('Debug End of game'),
         "type" => "activeplayer",
@@ -675,14 +675,14 @@ $machinestates = [
         ],
         "transitions" => [
             // Comment out the following line to prevent a Studio game from finishing.
-            SevenWondersDuelPantheon::STATE_GAME_END_NAME => SevenWondersDuelPantheon::STATE_GAME_END_ID
+            SevenWondersDuel::STATE_GAME_END_NAME => SevenWondersDuel::STATE_GAME_END_ID
         ]
     ],
 
     // Final state.
     // Please do not modify (and do not overload action/args methods).
-    SevenWondersDuelPantheon::STATE_GAME_END_ID => [
-        "name" => SevenWondersDuelPantheon::STATE_GAME_END_NAME,
+    SevenWondersDuel::STATE_GAME_END_ID => [
+        "name" => SevenWondersDuel::STATE_GAME_END_NAME,
         "description" => clienttranslate("End of game"),
         "type" => "manager",
         "action" => "stGameEnd",

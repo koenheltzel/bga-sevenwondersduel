@@ -2,13 +2,13 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
+ * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  *
- * sevenwondersduelpantheon.view.php
+ * sevenwondersduel.view.php
  *
  * This is your "view" file.
  *
@@ -17,7 +17,7 @@
  * _ when a player refreshes the game page (F5)
  *
  * "build_page" method allows you to dynamically modify the HTML generated for the game interface. In
- * particular, you can set here the values of variables elements defined in sevenwondersduelpantheon_sevenwondersduelpantheon.tpl (elements
+ * particular, you can set here the values of variables elements defined in sevenwondersduel_sevenwondersduel.tpl (elements
  * like {MY_VARIABLE_ELEMENT}), and insert HTML block elements (also defined in your HTML template file)
  *
  * Note: if the HTML of your game interface is always the same, you don't have to place anything here.
@@ -34,10 +34,10 @@ use SWD\Wonder;
 
 require_once(APP_BASE_PATH . "view/common/game.view.php");
 
-class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
+class view_sevenwondersduel_sevenwondersduel extends game_view
 {
     function getGameName() {
-        return "sevenwondersduelpantheon";
+        return "sevenwondersduel";
     }
 
     function build_page($viewArgs) {
@@ -93,29 +93,29 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
 
         /*********** Place your code below:  ************/
 
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board_player_row_info");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board_player_row_progress_tokens");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board_player_row");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board_player");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "influence_cube");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "influence_container");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "military_token");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "military_position");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "pantheon_cost");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "pantheon_space");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "board_column_block");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "list_of_cards_page1");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "list_of_cards_page2");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row_info");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row_progress_tokens");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player_row");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_player");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "influence_cube");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "influence_container");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "military_token");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "military_position");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "pantheon_cost");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "pantheon_space");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "board_column_block");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "list_of_cards_page1");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "list_of_cards_page2");
 
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", 'player_buildings');
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "draftpool");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "end_game_category_header");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "end_game_category_player");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "end_game_player");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "end_game");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "middle_column_block");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "player_wonders");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", 'player_buildings');
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "draftpool");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_category_header");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_category_player");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game_player");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "end_game");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "middle_column_block");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "player_wonders");
 
         $boardPlayerClasses = ["board_player_left", "board_player_right"];
         $index = 0;
@@ -146,19 +146,19 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
                     $this->page->insert_block("influence_container");
                 }
 
-                $spaces = $playerId == SevenWondersDuelPantheon::get()->getGameStartPlayerId() ? [1,2,3,4,5,6] : [6,5,4,3,2,1];
+                $spaces = $playerId == SevenWondersDuel::get()->getGameStartPlayerId() ? [1,2,3,4,5,6] : [6,5,4,3,2,1];
                 foreach ($spaces as $space) {
                     $this->page->insert_block("pantheon_cost", ["SPACE" => $space]);
                     $this->page->insert_block("pantheon_space", ["SPACE" => $space]);
                 }
 
-                $tokenNumbers = $playerId == SevenWondersDuelPantheon::get()->getGameStartPlayerId() ? [4,3,2,1] : [1,2,3,4];
+                $tokenNumbers = $playerId == SevenWondersDuel::get()->getGameStartPlayerId() ? [4,3,2,1] : [1,2,3,4];
                 foreach ($tokenNumbers as $tokenNumber) {
                     $this->page->insert_block("military_token", ["NUMBER" => $tokenNumber]);
                 }
 
                 $positions = [9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9];
-                if ($playerId != SevenWondersDuelPantheon::get()->getGameStartPlayerId()) $positions = array_reverse($positions);
+                if ($playerId != SevenWondersDuel::get()->getGameStartPlayerId()) $positions = array_reverse($positions);
 
                 $militaryVisualIndex = 0;
                 foreach ($positions as $position) {
@@ -294,12 +294,12 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
 
 
         // The "catalog". For testing spritesheets / tooltips.
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "block_catalog_wonder");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "block_catalog_conspiracy");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "block_catalog_conspiracy_compact");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "block_catalog_building");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "block_catalog_progress_token");
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "block_catalog");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_wonder");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_conspiracy");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_conspiracy_compact");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_building");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog_progress_token");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "block_catalog");
         if (0) {
             $this->page->reset_subblocks('block_catalog_building');
             for ($id = 1; $id <= 82; $id++) {
@@ -366,21 +366,21 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
             $this->page->insert_block("block_catalog");
         }
 
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "admin");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "admin");
         global $g_user;
-        if (in_array($g_user->get_id(), SevenWondersDuelPantheon::adminPlayerIds)) {
-            $this->tpl['AVAILABLE_CARDS'] = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_AVAILABLE_CARDS);
+        if (in_array($g_user->get_id(), SevenWondersDuel::adminPlayerIds)) {
+            $this->tpl['AVAILABLE_CARDS'] = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_AVAILABLE_CARDS);
             $this->page->insert_block("admin");
         }
 
-        $this->page->begin_block("sevenwondersduelpantheon_sevenwondersduelpantheon", "swd");
+        $this->page->begin_block("sevenwondersduel_sevenwondersduel", "swd");
         $this->page->insert_block("swd", [
-            "AGORA" => (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA),
-            "PANTHEON" => (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON),
-            "EXPANSION" => (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) || (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON), // Any expansion, add || Pantheon in the future
+            "AGORA" => (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA),
+            "PANTHEON" => (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_PANTHEON),
+            "EXPANSION" => (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA) || (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_PANTHEON), // Any expansion, add || Pantheon in the future
             "PLAYER_ME_ID" => Player::me()->id,
             "PLAYER_OPPONENT_ID" => Player::opponent()->id,
-            "INVERT_MILITARY_POSITIONS" => ($playerId == SevenWondersDuelPantheon::get()->getGameStartPlayerId()) ? -1 : 1,
+            "INVERT_MILITARY_POSITIONS" => ($playerId == SevenWondersDuel::get()->getGameStartPlayerId()) ? -1 : 1,
         ]);
 
         /*
@@ -407,7 +407,7 @@ class view_sevenwondersduelpantheon_sevenwondersduelpantheon extends game_view
         //      <!-- END myblock --> 
         
 
-        $this->page->begin_block( "sevenwondersduelpantheon_sevenwondersduelpantheon", "myblock" );
+        $this->page->begin_block( "sevenwondersduel_sevenwondersduel", "myblock" );
         foreach( $players as $player )
         {
             $this->page->insert_block( "myblock", array( 

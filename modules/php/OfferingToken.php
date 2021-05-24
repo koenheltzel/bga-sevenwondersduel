@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 
 class OfferingToken extends Item {
 
@@ -25,8 +25,8 @@ class OfferingToken extends Item {
     }
 
     public function take($player, $building) {
-        SevenWondersDuelPantheon::get()->offeringTokenDeck->insertCardOnExtremePosition($this->id, $player->id, true);
-        SevenWondersDuelPantheon::get()->notifyAllPlayers(
+        SevenWondersDuel::get()->offeringTokenDeck->insertCardOnExtremePosition($this->id, $player->id, true);
+        SevenWondersDuel::get()->notifyAllPlayers(
             'takeToken',
             clienttranslate('${player_name} takes a Offering token (-${discount})'),
 //            clienttranslate('${player_name} takes a Offering token (-${discount}) before flipping over “${buildingName}”'),
@@ -43,7 +43,7 @@ class OfferingToken extends Item {
     }
 
 //    public function getPosition(Player $player) {
-//        return (int)SevenWondersDuelPantheon::get()->mythologyTokenDeck->getCard($this->id)['location_arg'];
+//        return (int)SevenWondersDuel::get()->mythologyTokenDeck->getCard($this->id)['location_arg'];
 //    }
 
 }

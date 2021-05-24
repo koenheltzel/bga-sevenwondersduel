@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 
 /**
  * @property Divinity[] $array
@@ -44,7 +44,7 @@ class Divinities extends Collection {
     }
 
     public static function getSituation() {
-        $age = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
+        $age = (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
         $spaces = [];
         for ($space = 1; $space <= 6; $space++) {
             $cards = Divinities::getDeckCardsSorted("space{$space}");
@@ -56,7 +56,7 @@ class Divinities extends Collection {
                 ];
                 if ($age >= 2) {
                     if($card['id'] == 1) {
-                        $data['enkiProgressTokenIds'] = array_keys(SevenWondersDuelPantheon::get()->progressTokenDeck->getCardsInLocation('enki'));
+                        $data['enkiProgressTokenIds'] = array_keys(SevenWondersDuel::get()->progressTokenDeck->getCardsInLocation('enki'));
                     }
                     foreach (Players::get() as $player) {
                         $payment = $player->getPaymentPlan(Divinity::get($card['id']));
@@ -79,7 +79,7 @@ class Divinities extends Collection {
     }
 
     public static function typesInSelection() {
-        $cards = SevenWondersDuelPantheon::get()->divinityDeck->getCardsInLocation('selection');
+        $cards = SevenWondersDuel::get()->divinityDeck->getCardsInLocation('selection');
         $types = [];
         foreach($cards as $card) {
             $types[] = $card['type'];
@@ -88,7 +88,7 @@ class Divinities extends Collection {
     }
 
     public static function enkiInSelection() {
-        $cards = SevenWondersDuelPantheon::get()->divinityDeck->getCardsInLocation('selection');
+        $cards = SevenWondersDuel::get()->divinityDeck->getCardsInLocation('selection');
         foreach($cards as $card) {
             if ($card['id'] == 1) {
                 return true;
@@ -98,25 +98,25 @@ class Divinities extends Collection {
     }
 
     public static function setEnkiProgressTokens() {
-        $cards = SevenWondersDuelPantheon::get()->progressTokenDeck->getCardsInLocation('enki');
+        $cards = SevenWondersDuel::get()->progressTokenDeck->getCardsInLocation('enki');
         if (count($cards) == 0) {
-            SevenWondersDuelPantheon::get()->progressTokenDeck->shuffle('box');
-            SevenWondersDuelPantheon::get()->progressTokenDeck->pickCardsForLocation(2, 'box', 'enki');
+            SevenWondersDuel::get()->progressTokenDeck->shuffle('box');
+            SevenWondersDuel::get()->progressTokenDeck->pickCardsForLocation(2, 'box', 'enki');
         }
     }
 
     public static function resetEnkiProgressTokens() {
-        SevenWondersDuelPantheon::get()->progressTokenDeck->moveAllCardsInLocation('enki', 'box');
+        SevenWondersDuel::get()->progressTokenDeck->moveAllCardsInLocation('enki', 'box');
     }
 
     public static function getDeckCardsSorted($location): array {
-        $cards = SevenWondersDuelPantheon::get()->divinityDeck->getCardsInLocation($location);
+        $cards = SevenWondersDuel::get()->divinityDeck->getCardsInLocation($location);
         usort($cards, function($a, $b) {return (int)$a['location_arg'] > (int)$b['location_arg'];});
         return $cards;
     }
 
     public static function getDeckCardsLocationArgAsKeys($location): array {
-        $cards = SevenWondersDuelPantheon::get()->divinityDeck->getCardsInLocation($location);
+        $cards = SevenWondersDuel::get()->divinityDeck->getCardsInLocation($location);
         $result = [];
         foreach($cards as $card) {
             $result[$card['location_arg']] = $card;

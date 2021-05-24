@@ -4,7 +4,7 @@
 namespace SWD;
 
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 
 class Material extends Base
 {
@@ -99,7 +99,7 @@ class Material extends Base
         $this->wonders[5] = (new Wonder(5, clienttranslate("The Mausoleum")))
             ->setCost([PAPYRUS => 1, GLASS => 2, CLAY => 2])
             ->setConstructDiscardedBuilding()
-            ->addActionState(SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_NAME)
+            ->addActionState(SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_NAME)
             ->setVictoryPoints(2);
 
         $this->wonders[6] = (new Wonder(6, clienttranslate("The Great Library")))
@@ -151,7 +151,7 @@ class Material extends Base
             ->addText(clienttranslate('Draw 2 Conspiracy cards. Choose 1 to place in front of you face down and put the other one on the top or bottom of the deck (you choose).'))
             ->addText(clienttranslate('When you construct this Wonder:'), false)
             ->setCost([PAPYRUS => 1, GLASS => 1, CLAY => 1, WOOD => 1, STONE => 1])
-            ->addActionState(SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME)
+            ->addActionState(SevenWondersDuel::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME)
             ->setCoins(6)
             ->setExtraTurn();
 
@@ -160,8 +160,8 @@ class Material extends Base
             ->addText(clienttranslate('Place 1 Influence cube in a Chamber of your choice.'))
             ->addText(clienttranslate('When you construct this Wonder:'), false)
             ->setCost([GLASS => 2, CLAY => 1, WOOD => 1, STONE => 1])
-            ->addActionState(SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_NAME)
-            ->addActionState(SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME)
+            ->addActionState(SevenWondersDuel::STATE_PLACE_INFLUENCE_NAME)
+            ->addActionState(SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME)
             ->setVictoryPoints(3);
 
         $this->wonders[15] = (new Wonder(15, clienttranslate("The Sanctuary")))
@@ -171,7 +171,7 @@ class Material extends Base
 
         $this->wonders[16] = (new Wonder(16, clienttranslate("The Divine Theater")))
             ->setCost([PAPYRUS => 2, GLASS => 1, WOOD => 2])
-            ->addActionState(SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_DECK_NAME)
+            ->addActionState(SevenWondersDuel::STATE_CHOOSE_DIVINITY_DECK_NAME)
             ->addText(clienttranslate('Reveal all of the cards from a Mythology deck of your choice. Choose one of the Divinities revealed this way and activate it for free. Then return the unused cards in the order of your choice.'))
             ->setVictoryPoints(2);
         
@@ -766,7 +766,7 @@ class Material extends Base
 
         $this->divinities[1] = (new Divinity(1, clienttranslate("Enki"), Divinity::TYPE_GREEN))
             ->addText(clienttranslate("When Enki is revealed, randomly draw 2 Progress tokens from those discarded at the beginning of the game. These tokens are placed face-up on Enki’s card. When you invoke Enki, choose one of these two Progress tokens and gain it. The other token is returned to the box with those discarded at the beginning of the game."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME);
+            ->addActionState(SevenWondersDuel::STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME);
 
         $this->divinities[2] = (new Divinity(2, clienttranslate("Ishtar"), Divinity::TYPE_GREEN))
             ->addText(clienttranslate("This Divinity grants the shown scientific symbol (identical to that of the Law Progress token)."))
@@ -774,14 +774,14 @@ class Material extends Base
 
         $this->divinities[3] = (new Divinity(3, clienttranslate("Nisaba"), Divinity::TYPE_GREEN))
             ->addText(clienttranslate("Place the Snake token on an opponent’s green card. Nisaba is worth the scientific symbol shown on the card."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_PLACE_SNAKE_TOKEN_NAME);
+            ->addActionState(SevenWondersDuel::STATE_PLACE_SNAKE_TOKEN_NAME);
 
         $this->divinities[4] = (new Divinity(4, clienttranslate("Astarte"), Divinity::TYPE_YELLOW))
             ->addText(clienttranslate("Place 7 coins from the bank on Astarte’s card. These are not part of your City’s Treasury, and so are thus protected against coin losses. It’s possible to spend them normally. At the end of the game, each coin still present on Astarte’s card is worth 1 victory point for you."));
 
         $this->divinities[5] = (new Divinity(5, clienttranslate("Baal"), Divinity::TYPE_YELLOW))
             ->addText(clienttranslate("Steal a brown or grey card built by your opponent, it is added to the cards of your City."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_TAKE_BUILDING_NAME);
+            ->addActionState(SevenWondersDuel::STATE_TAKE_BUILDING_NAME);
 
         $this->divinities[6] = (new Divinity(6, clienttranslate("Tanit"), Divinity::TYPE_YELLOW))
             ->setCoins(12);
@@ -791,42 +791,42 @@ class Material extends Base
 
         $this->divinities[8] = (new Divinity(8, clienttranslate("Hades"), Divinity::TYPE_BLUE))
             ->addText(clienttranslate("You take all cards discarded since the beginning of the game, choose one, and construct it for free."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_CHOOSE_DISCARDED_BUILDING_NAME);
+            ->addActionState(SevenWondersDuel::STATE_CHOOSE_DISCARDED_BUILDING_NAME);
 
         $this->divinities[9] = (new Divinity(9, clienttranslate("Zeus"), Divinity::TYPE_BLUE))
             ->addText(clienttranslate("Put in the discard pile a card of your choice (face up or down) from the structure, as well as any tokens which may be present on that card."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_DISCARD_AGE_CARD_NAME);
+            ->addActionState(SevenWondersDuel::STATE_DISCARD_AGE_CARD_NAME);
 
         $this->divinities[10] = (new Divinity(10, clienttranslate("Anubis"), Divinity::TYPE_GREY))
             ->addText(clienttranslate("Discard a card previously used to construct a Wonder (an opposing one or one of your own). The affected player doesn’t lose the instant effects previously granted by that Wonder (shields, coins, progress tokens, constructed or discarded card, replay effect)."), false)
             ->addText(clienttranslate("It is possible to rebuild this Wonder and thus apply its effects once again."), false)
-            ->addActionState(SevenWondersDuelPantheon::STATE_DECONSTRUCT_WONDER_NAME);
+            ->addActionState(SevenWondersDuel::STATE_DECONSTRUCT_WONDER_NAME);
 
         $this->divinities[11] = (new Divinity(11, clienttranslate("Isis"), Divinity::TYPE_GREY))
             ->addText(clienttranslate("Choose a card from the discard pile and construct one of your Wonders for free using that card."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME);
+            ->addActionState(SevenWondersDuel::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME);
 
         $this->divinities[12] = (new Divinity(12, clienttranslate("Ra"), Divinity::TYPE_GREY))
             ->addText(clienttranslate("Steal an opponent’s Wonder which has not yet been constructed; it is added to your own Wonders."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME);
+            ->addActionState(SevenWondersDuel::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME);
 
         $this->divinities[13] = (new Divinity(13, clienttranslate("Mars"), Divinity::TYPE_RED))
             ->setMilitary(2);
 
         $this->divinities[14] = (new Divinity(14, clienttranslate("Minerva"), Divinity::TYPE_RED))
             ->addText(clienttranslate("Place the Minerva pawn on any space of the Military Track. If the Conflict pawn would enter the space which contains the Minerva pawn, it instead stops moving and its movement ends. Then discard the Minerva pawn."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_PLACE_MINERVA_TOKEN_NAME);
+            ->addActionState(SevenWondersDuel::STATE_PLACE_MINERVA_TOKEN_NAME);
 
         $this->divinities[15] = (new Divinity(15, clienttranslate("Neptune"), Divinity::TYPE_RED))
             ->addText(clienttranslate("Choose and discard a Military token without applying its effect. Then choose and apply the effect of another Military token (which is then discarded)."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_DISCARD_MILITARY_TOKEN_NAME)
-            ->addActionState(SevenWondersDuelPantheon::STATE_APPLY_MILITARY_TOKEN_NAME);
+            ->addActionState(SevenWondersDuel::STATE_DISCARD_MILITARY_TOKEN_NAME)
+            ->addActionState(SevenWondersDuel::STATE_APPLY_MILITARY_TOKEN_NAME);
 
         $this->divinities[16] = (new Divinity(16, clienttranslate("Gate"), Divinity::TYPE_GATE))
             ->addText(clienttranslate("The activation cost of the Gate corresponds to twice the normal activation cost of its space (BGA will calculate and show the final cost)."))
             ->addText(clienttranslate("Reveal the top Divinity card from each Mythology deck."))
             ->addText(clienttranslate("Then choose one of the revealed Divinities and activate it for free. Finally, place the other Divinities face down on their respective decks."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_NAME);
+            ->addActionState(SevenWondersDuel::STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_NAME);
 
         $this->mythologyTokens = new MythologyTokens();
         for($divinityNr = 1; $divinityNr <= 5; $divinityNr++) {
@@ -875,55 +875,55 @@ class Material extends Base
 
         $this->conspiracies[1] = (new Conspiracy(1, clienttranslate("Extortion")))
             ->addText(clienttranslate("Take 1 unconstructed Wonder card of your choice from your opponent and add it to your City."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME)
-            ->addActionState(SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME);
+            ->addActionState(SevenWondersDuel::STATE_TAKE_UNCONSTRUCTED_WONDER_NAME)
+            ->addActionState(SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[2] = (new Conspiracy(2, clienttranslate("Blackmail")))
             ->addText(clienttranslate("Take half of your opponent’s Coins (rounded up) and add them to your Treasure."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME);
+            ->addActionState(SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[3] = (new Conspiracy(3, clienttranslate("Expropriation")))
             ->addText(clienttranslate("Place 1 Blue card of your choice constructed by your opponent in the discard."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_NAME)
-            ->addActionState(SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME);
+            ->addActionState(SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_NAME)
+            ->addActionState(SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[4] = (new Conspiracy(4, clienttranslate("Swindle")))
             ->addText(clienttranslate("Place 1 Yellow card of your choice constructed by your opponent in the discard."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_CHOOSE_OPPONENT_BUILDING_NAME)
-            ->addActionState(SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME);
+            ->addActionState(SevenWondersDuel::STATE_CHOOSE_OPPONENT_BUILDING_NAME)
+            ->addActionState(SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[5] = (new Conspiracy(5, clienttranslate("Obscurantism")))
             ->addText(clienttranslate("Choose 1 Progress on the board or that your opponent has or out of game and place it face down on this Conspiracy. No one can use it during this game."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_LOCK_PROGRESS_TOKEN_NAME);
+            ->addActionState(SevenWondersDuel::STATE_LOCK_PROGRESS_TOKEN_NAME);
 
         $this->conspiracies[6] = (new Conspiracy(6, clienttranslate("Coup")))
             ->setMilitary(2);
 
         $this->conspiracies[7] = (new Conspiracy(7, clienttranslate("Property Fraud")))
             ->addText(clienttranslate("Take 1 Building card placed at the end of the structure and build it for free. Senator cards cannot be chosen."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME);
+            ->addActionState(SevenWondersDuel::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME);
 
         $this->conspiracies[8] = (new Conspiracy(8, clienttranslate("Treason")))
             ->addText(clienttranslate("In Age I, take the 3 cards removed from Age I."))
             ->addText(clienttranslate("In Age II, take the 6 cards removed from Ages I and II (3 per Age)."))
             ->addText(clienttranslate("In Age III, take the 9 cards removed from Ages I, II and III (3 per Age)."))
             ->addText(clienttranslate("From these cards, choose 1 to play for free."), false)
-            ->addActionState(SevenWondersDuelPantheon::STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME);
+            ->addActionState(SevenWondersDuel::STATE_CONSTRUCT_BUILDING_FROM_BOX_NAME);
 
         $this->conspiracies[9] = (new Conspiracy(9, clienttranslate("Political Maneuver")))
-            ->addActionState(SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_NAME)
-            ->addActionState(SevenWondersDuelPantheon::STATE_REMOVE_INFLUENCE_NAME)
-            ->addActionState(SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME);
+            ->addActionState(SevenWondersDuel::STATE_PLACE_INFLUENCE_NAME)
+            ->addActionState(SevenWondersDuel::STATE_REMOVE_INFLUENCE_NAME)
+            ->addActionState(SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[10] = (new Conspiracy(10, clienttranslate("Espionage")))
             ->addText(clienttranslate("Take all the Progress tokens removed at the beginning of the game and choose 1 to play."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
+            ->addActionState(SevenWondersDuel::STATE_CHOOSE_PROGRESS_TOKEN_FROM_BOX_NAME);
 
         $this->conspiracies[11] = (new Conspiracy(11, clienttranslate("Turn Of Events")))
             ->addText(clienttranslate("Place 1 available card in the structure in the discard. You can immediately repeat this action a second time."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_DISCARD_AVAILABLE_CARD_NAME)
-            ->addActionState(SevenWondersDuelPantheon::STATE_DISCARD_AVAILABLE_CARD_NAME)
-            ->addActionState(SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME);
+            ->addActionState(SevenWondersDuel::STATE_DISCARD_AVAILABLE_CARD_NAME)
+            ->addActionState(SevenWondersDuel::STATE_DISCARD_AVAILABLE_CARD_NAME)
+            ->addActionState(SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[12] = (new Conspiracy(12, clienttranslate("Embezzlement")))
             ->addText(clienttranslate("Gain as many Coins as Influence cubes you have in the Senate."))
@@ -933,21 +933,21 @@ class Material extends Base
 
         $this->conspiracies[13] = (new Conspiracy(13, clienttranslate("Foreclosure")))
             ->addText(clienttranslate("Take 1 Brown or Grey card of your choice from your opponent and add it to your City."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_TAKE_BUILDING_NAME);
+            ->addActionState(SevenWondersDuel::STATE_TAKE_BUILDING_NAME);
 
         $this->conspiracies[14] = (new Conspiracy(14, clienttranslate("Coercion")))
             ->addText(clienttranslate("Take 1 Blue or Green card of your choice from your opponent and add it to your City. In exchange, give them 1 of your cards of the same color."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_SWAP_BUILDING_NAME)
-            ->addActionState(SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME);
+            ->addActionState(SevenWondersDuel::STATE_SWAP_BUILDING_NAME)
+            ->addActionState(SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[15] = (new Conspiracy(15, clienttranslate("Insider Influence")))
             ->addText(clienttranslate("Choose 1 Decree in the Senate and place it in a Chamber of your choice, under the existing Decree."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_MOVE_DECREE_NAME)
-            ->addActionState(SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME);
+            ->addActionState(SevenWondersDuel::STATE_MOVE_DECREE_NAME)
+            ->addActionState(SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME);
 
         $this->conspiracies[16] = (new Conspiracy(16, clienttranslate("Sabotage")))
             ->addText(clienttranslate("Choose 1 Wonder constructed by your opponent and return it to the box. It will no longer be used for this game and the lasting effects of this Wonder are lost (lasting effects are Victory Points and Resource Choices)."))
-            ->addActionState(SevenWondersDuelPantheon::STATE_DESTROY_CONSTRUCTED_WONDER_NAME);
+            ->addActionState(SevenWondersDuel::STATE_DESTROY_CONSTRUCTED_WONDER_NAME);
 
         //  ____
         // |  _ \  ___  ___ _ __ ___  ___  ___

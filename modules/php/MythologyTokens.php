@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 
 /**
  * @property MythologyToken[] $array
@@ -22,8 +22,8 @@ class MythologyTokens extends Collection {
     }
 
     public static function getBoardTokens() {
-        $age = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
-        if ($age == 0 && SevenWondersDuelPantheon::get()->expansionActive()) {
+        $age = (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
+        if ($age == 0 && SevenWondersDuel::get()->expansionActive()) {
             $age = 1;
         }
 
@@ -48,13 +48,13 @@ class MythologyTokens extends Collection {
     }
 
     public static function getDeckCardsSorted($location): array {
-        $cards = SevenWondersDuelPantheon::get()->mythologyTokenDeck->getCardsInLocation($location);
+        $cards = SevenWondersDuel::get()->mythologyTokenDeck->getCardsInLocation($location);
         usort($cards, function($a, $b) {return (int)$a['location_arg'] > (int)$b['location_arg'];});
         return $cards;
     }
 
     public static function getDeckCardsLocationArgAsKeys($location): array {
-        $cards = SevenWondersDuelPantheon::get()->mythologyTokenDeck->getCardsInLocation($location);
+        $cards = SevenWondersDuel::get()->mythologyTokenDeck->getCardsInLocation($location);
         $result = [];
         foreach($cards as $card) {
             $result[$card['location_arg']] = $card;

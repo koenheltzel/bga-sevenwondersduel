@@ -2,7 +2,7 @@
 
 namespace SWD\States;
 
-use SevenWondersDuelPantheon;
+use SevenWondersDuel;
 use SWD\Building;
 use SWD\Conspiracies;
 use SWD\Conspiracy;
@@ -41,7 +41,7 @@ trait PlayerTurnTrait {
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             $this->addConspiraciesSituation($data);
             $data['senateSituation'] = Senate::getSituation();
-            $data['mayTriggerConspiracy'] = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_MAY_TRIGGER_CONSPIRACY);
+            $data['mayTriggerConspiracy'] = (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_MAY_TRIGGER_CONSPIRACY);
         }
         return $data;
     }
@@ -58,7 +58,7 @@ trait PlayerTurnTrait {
 
         $player = Player::getActive();
         $building = Building::get($buildingId);
-        if (SevenWondersDuelPantheon::get()->gamestate->state()['name'] == SevenWondersDuelPantheon::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
+        if (SevenWondersDuel::get()->gamestate->state()['name'] == SevenWondersDuel::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
             $building->checkBuildingLastRow();
         }
         else {
@@ -170,7 +170,7 @@ trait PlayerTurnTrait {
         $building = Building::get($buildingId);
 
         $discardedBuilding = false;
-        if (SevenWondersDuelPantheon::get()->gamestate->state()['name'] == SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME) {
+        if (SevenWondersDuel::get()->gamestate->state()['name'] == SevenWondersDuel::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME) {
             $card = $this->buildingDeck->getCard($buildingId);
             if ($card['location'] != 'discard') {
                 throw new \BgaUserException( clienttranslate("The building you selected is not in the discard pile.") );
@@ -257,7 +257,7 @@ trait PlayerTurnTrait {
 
         $player = Player::getActive();
 
-        $card = SevenWondersDuelPantheon::get()->divinityDeck->getCard($divinityId);
+        $card = SevenWondersDuel::get()->divinityDeck->getCard($divinityId);
         if (!strstr($card['location'], 'space')) {
             throw new \BgaUserException( clienttranslate("The Divinity you selected is not available.") );
         }
@@ -328,7 +328,7 @@ trait PlayerTurnTrait {
 
         $payment = $conspiracy->trigger($player);
 
-        SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_MAY_TRIGGER_CONSPIRACY, 0);
+        SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_MAY_TRIGGER_CONSPIRACY, 0);
 
         $this->incStat(1, self::STAT_CONSPIRACIES_TRIGGERED, $player->id);
 
