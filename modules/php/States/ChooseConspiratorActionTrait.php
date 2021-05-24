@@ -2,8 +2,9 @@
 
 namespace SWD\States;
 
-use SevenWondersDuel;
+use SevenWondersDuelPantheon;
 use SWD\Conspiracies;
+use SWD\Divinities;
 use SWD\Draftpool;
 use SWD\Material;
 use SWD\Player;
@@ -24,6 +25,9 @@ trait ChooseConspiratorActionTrait {
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
         ];
+        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+            $data['divinitiesSituation'] = Divinities::getSituation();
+        }
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         return $data;
     }
@@ -58,7 +62,7 @@ trait ChooseConspiratorActionTrait {
             $cardIds = [];
             for ($i = 0; $i < 2; $i++) {
                 $card = array_pop($cards);
-                SevenWondersDuel::get()->conspiracyDeck->insertCardOnExtremePosition($card['id'], Player::getActive()->id, true);
+                SevenWondersDuelPantheon::get()->conspiracyDeck->insertCardOnExtremePosition($card['id'], Player::getActive()->id, true);
                 $cardIds[] = $card['id'];
             }
 

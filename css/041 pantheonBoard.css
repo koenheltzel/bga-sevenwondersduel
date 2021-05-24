@@ -1,0 +1,161 @@
+
+#pantheon_board_container {
+    position: absolute;
+    display: inline-block;
+    align-self: flex-end;
+    left: calc(var(--scale) * -82px); /* To clear the decrees (with possible double stack) */
+}
+
+.pantheon_board, #pantheon_board_container {
+    width: calc(var(--pantheon-board-width) * var(--pantheon-board-scale));
+    height: calc(var(--pantheon-board-height) * var(--pantheon-board-scale));
+}
+#pantheon_board_container {
+    left: calc(165.5px * var(--pantheon-board-scale));
+}
+#swd[data-agora="1"] #pantheon_board_container {
+    left: calc(413px * var(--pantheon-board-scale));
+}
+
+.pantheon_board {
+    background-image: url('img/pantheon_board.png');
+    background-size: calc(var(--pantheon-board-width) * var(--pantheon-board-scale)) calc(var(--pantheon-board-height) * var(--pantheon-board-scale));
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+    position: absolute;
+    display: inline-block;
+}
+
+.pantheon_space_containers {
+
+}
+.pantheon_space_containers .divinity_small {
+    position: absolute;
+    display: block;
+}
+.pantheon_space_containers > div {
+    position: absolute;
+    transform-origin: 50% 0%;
+    z-index:20; /* Don't know why but this div level specifically needs the z-index set. (Goal is to have the decrees over the age cards if they are stacked 3 deep) */
+    width: calc(var(--divinity-compact-width) * var(--divinity-small-scale));
+    height: calc(var(--divinity-compact-height) * var(--divinity-small-scale));
+    border-radius: 10px;
+    border: none;
+}
+.pantheon_space_containers > div:nth-of-type(1) {
+    transform: rotate(36deg);
+    left: calc(var(--pantheon-board-scale) * 28px);
+    top: calc(var(--pantheon-board-scale) * 26px);
+}
+.pantheon_space_containers > div:nth-of-type(2) {
+    transform: rotate(63deg);
+    left: calc(var(--pantheon-board-scale) * 164.5px);
+    top: calc(var(--pantheon-board-scale) * 183.5px);
+}
+.pantheon_space_containers > div:nth-of-type(3) {
+    transform: rotate(88.5deg);
+    left: calc(var(--pantheon-board-scale) * 211px);
+    top: calc(var(--pantheon-board-scale) * 385px);
+}
+.pantheon_space_containers > div:nth-of-type(4) {
+    transform: rotate(91.5deg);
+    left: calc(var(--pantheon-board-scale) * 211px);
+    top: calc(var(--pantheon-board-scale) * 564px);
+}
+.pantheon_space_containers > div:nth-of-type(5) {
+    transform: rotate(117deg);
+    left: calc(var(--pantheon-board-scale) * 164px);
+    top: calc(var(--pantheon-board-scale) * 765px);
+}
+.pantheon_space_containers > div:nth-of-type(6) {
+    transform: rotate(144deg);
+    left: calc(var(--pantheon-board-scale) * 27px);
+    top: calc(var(--pantheon-board-scale) * 923px);
+}
+
+.current_player_is_active .pantheon_space_containers .divinity.divinity_border[data-activatable="1"] {
+    cursor: pointer;
+}
+
+
+.pantheon_cost_containers > div, .pantheon_cost_containers > div > div {
+    position: absolute;
+}
+.pantheon_cost_containers .coin {
+    --element-scale: 0.85;
+}
+
+.pantheon_cost_arrow {
+    --element-scale: 0.60;
+    position: absolute;
+    background-position: 81.224% 40.554%;
+    background-size: 2043.243%;
+    background-image: url('img/pantheon_sprites.png');
+    width: calc(var(--pantheon-board-scale) * 37px * var(--element-scale));
+    height: calc(var(--pantheon-board-scale) * 39px * var(--element-scale));
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1px) #00000088);
+}
+.pantheon_cost_arrow.opponent {
+    transform: scaleX(-1);
+    top: calc(var(--pantheon-board-scale) * -17px) !important;
+    left: calc(var(--pantheon-board-scale) * 6.5px) !important;
+    z-index: -1;
+}
+.pantheon_cost_arrow.me {
+    transform: scaleY(-1);
+    top: calc(var(--pantheon-board-scale) * 27px) !important;
+    left: calc(var(--pantheon-board-scale) * 6px) !important;
+    z-index: -1;
+}
+.pantheon_cost_containers > div:nth-of-type(1) {
+    left: calc(var(--pantheon-board-scale) * 17px);
+    top: calc(var(--pantheon-board-scale) * 105px);
+}
+.pantheon_cost_containers > div:nth-of-type(1) .me {
+    left: calc(var(--pantheon-board-scale) * 31px);
+    top: calc(var(--pantheon-board-scale) * 16px);
+}
+
+.pantheon_cost_containers > div:nth-of-type(2) {
+    left: calc(var(--pantheon-board-scale) * 117px);
+    top: calc(var(--pantheon-board-scale) * 205px);
+}
+.pantheon_cost_containers > div:nth-of-type(2) .me {
+    left: calc(var(--pantheon-board-scale) * 17px);
+    top: calc(var(--pantheon-board-scale) * 30px);
+}
+
+.pantheon_cost_containers > div:nth-of-type(3) {
+    left: calc(var(--pantheon-board-scale) * 158px);
+    top: calc(var(--pantheon-board-scale) * 359px);
+}
+.pantheon_cost_containers > div:nth-of-type(3) .me {
+    left: calc(var(--pantheon-board-scale) * 1px);
+    top: calc(var(--pantheon-board-scale) * 35px);
+}
+
+.pantheon_cost_containers > div:nth-of-type(4) {
+    left: calc(var(--pantheon-board-scale) * 159px);
+    top: calc(var(--pantheon-board-scale) * 529px);
+}
+.pantheon_cost_containers > div:nth-of-type(4) .me {
+    left: calc(var(--pantheon-board-scale) * -1px);
+    top: calc(var(--pantheon-board-scale) * 35px);
+}
+
+.pantheon_cost_containers > div:nth-of-type(5) {
+    left: calc(var(--pantheon-board-scale) * 134px);
+    top: calc(var(--pantheon-board-scale) * 678px);
+}
+.pantheon_cost_containers > div:nth-of-type(5) .me {
+    left: calc(var(--pantheon-board-scale) * -17px);
+    top: calc(var(--pantheon-board-scale) * 30px);
+}
+
+.pantheon_cost_containers > div:nth-of-type(6) {
+    left: calc(var(--pantheon-board-scale) * 46px);
+    top: calc(var(--pantheon-board-scale) * 796px);
+}
+.pantheon_cost_containers > div:nth-of-type(6) .me {
+    left: calc(var(--pantheon-board-scale) * -31px);
+    top: calc(var(--pantheon-board-scale) * 16px);
+}

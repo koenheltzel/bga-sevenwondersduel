@@ -1,15 +1,15 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
+ * SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  *
- * sevenwondersduel.js
+ * sevenwondersduelpantheon.js
  *
- * SevenWondersDuel user interface script
+ * SevenWondersDuelPantheon user interface script
  *
  * In this file, you are describing the logic of your user interface, in Javascript language.
  *
@@ -30,7 +30,7 @@ define([
         g_gamethemeurl + "modules/js/MilitaryTrackAnimator.js",
     ],
     function (dojo, declare, on, dom, cookie) {
-        return declare("bgagame.sevenwondersduel", ebg.core.gamegui, {
+        return declare("bgagame.sevenwondersduelpantheon", ebg.core.gamegui, {
 
             instance: null,
 
@@ -41,6 +41,7 @@ define([
 
             // Show console.log messages
             debug: 0,
+            pantheon: 0,
             agora: 0,
             expansion: 0,
 
@@ -66,6 +67,13 @@ define([
             playerTurnNode: null,
             currentAge: 0,
             myConspiracies: [],
+            // Pantheon
+            activateDivinityNode: null,
+            activateDivinityId: 0,
+            activateDivinitySpace: 0,
+            activateDivinityOfferingTokenIds: [],
+            chooseDivinityFromDeckAmount: 0,
+            chooseDivinityFromDeckId: 0,
             // Agora
             senateActionsSection: 0,
             moveInfluenceFrom: 0,
@@ -78,6 +86,8 @@ define([
             windowResizeTimeoutId: null,
             autoUpdateScaleTimeoutId: null,
             previousAvailableDimensions: null,
+            playerTurnDescription: null,
+            playerTurnDescriptionMyTurn: null,
 
             // Animation durations
             constructBuildingAnimationDuration: 1000,
@@ -96,9 +106,11 @@ define([
             conspire_duration: 1000,
             construct_conspiracy_duration: 1600,
             choose_conspire_remnant_position_duration: 1600,
+            place_divinity_duration: 1200,
+            activate_divinity_duration: 1000,
 
             constructor: function () {
-                bgagame.sevenwondersduel.instance = this;
+                bgagame.sevenwondersduelpantheon.instance = this;
 
                 // Tooltip settings
                 // dijit.Tooltip.defaultPosition = ["above-centered", "below-centered"];
@@ -119,13 +131,13 @@ define([
 
             setup: function (gamedatas) {
                 if (this.debug) console.log("setup(gamedatas)", gamedatas);
-
-                dojo.destroy('debug_output'); // TODO: Remove? See http://en.doc.boardgamearena.com/Tools_and_tips_of_BGA_Studio#Speed_up_game_re-loading_by_disabling_Input.2FOutput_debug_section
+                if (this.debug) dojo.destroy('debug_output'); // See http://en.doc.boardgamearena.com/Tools_and_tips_of_BGA_Studio#Speed_up_game_re-loading_by_disabling_Input.2FOutput_debug_section
 
                 this.gamedatas = gamedatas;
 
                 this.agora = this.gamedatas.agora;
-                this.expansion = this.agora;
+                this.pantheon = this.gamedatas.pantheon;
+                this.expansion = this.agora || this.pantheon;
 
                 // Because of spectators we can't assume everywhere that this.player_id is one of the two players.
                 this.me_id = parseInt(this.gamedatas.me_id); // me = alias for the player on the bottom
@@ -164,11 +176,11 @@ define([
 
                 if (this.quality == '2x') {
                     this.dontPreloadImage('board.png');
-                    this.dontPreloadImage('buildings_v2.jpg');
-                    this.dontPreloadImage('linked-building-icons.jpg');
-                    this.dontPreloadImage('progress_tokens_v2.jpg');
+                    this.dontPreloadImage('buildings_v3.jpg');
+                    this.dontPreloadImage('linked-building-icons.png');
+                    this.dontPreloadImage('progress_tokens_v3.jpg');
                     this.dontPreloadImage('sprites.png');
-                    this.dontPreloadImage('wonders_v2.jpg');
+                    this.dontPreloadImage('wonders_v3.jpg');
                 }
                 if (!this.agora) {
                     this.dontPreloadImage('agora_senate_tooltips.png');
@@ -179,20 +191,30 @@ define([
                     this.dontPreloadImage('agora_senate.png');
                     this.dontPreloadImage('agora_sprites.png');
                 }
+                if (this.quality == '2x' || !this.pantheon) {
+                    this.dontPreloadImage('pantheon_sprites.png');
+                    this.dontPreloadImage('pantheon_board.png');
+                    this.dontPreloadImage('pantheon_divinities.png');
+                }
 
                 if (this.quality == '1x') {
                     this.dontPreloadImage('board@2X.png');
-                    this.dontPreloadImage('buildings_v2@2X.jpg');
-                    this.dontPreloadImage('linked-building-icons@2X.jpg');
-                    this.dontPreloadImage('progress_tokens_v2@2X.jpg');
+                    this.dontPreloadImage('buildings_v3@2X.jpg');
+                    this.dontPreloadImage('linked-building-icons@2X.png');
+                    this.dontPreloadImage('progress_tokens_v3@2X.jpg');
                     this.dontPreloadImage('sprites@2X.png');
-                    this.dontPreloadImage('wonders_v2@2X.jpg');
+                    this.dontPreloadImage('wonders_v3@2X.jpg');
                 }
                 if (this.quality == '1x' || !this.agora) {
                     this.dontPreloadImage('agora_conspiracies@2X.jpg');
                     this.dontPreloadImage('agora_decrees@2X.png');
                     this.dontPreloadImage('agora_senate@2X.png');
                     this.dontPreloadImage('agora_sprites@2X.png');
+                }
+                if (this.quality == '1x' || !this.pantheon) {
+                    this.dontPreloadImage('pantheon_sprites@2X.png');
+                    this.dontPreloadImage('pantheon_board@2X.png');
+                    this.dontPreloadImage('pantheon_divinities@2X.png');
                 }
 
                 // Setup game situation.
@@ -201,6 +223,11 @@ define([
                 this.updateProgressTokensSituation(this.gamedatas.progressTokensSituation);
                 this.updateMilitaryTrack(this.gamedatas.militaryTrack);
                 this.updateDiscardedBuildings(this.gamedatas.discardedBuildings);
+                if (this.pantheon) {
+                    this.updateMythologyTokensSituation(this.gamedatas.mythologyTokensSituation);
+                    this.updateOfferingTokensSituation(this.gamedatas.offeringTokensSituation);
+                    this.updateDivinitiesSituation(this.gamedatas.divinitiesSituation);
+                }
                 if (this.agora) {
                     this.updateDecreesSituation(this.gamedatas.decreesSituation);
                     this.updateConspiracyDeckCount(this.gamedatas.conspiraciesSituation['deckCount']);
@@ -236,6 +263,13 @@ define([
 
                     this.updatePlayerWonders(player_id, this.gamedatas.wondersSituation[player_id]);
                     this.updatePlayerBuildings(player_id, this.gamedatas.playerBuildings[player_id]);
+
+                    if (this.pantheon) {
+                        // For Pantheon, only show 1 instead of 3 Progress Token outline placeholders (because we have placeholders for Mythology & Offering tokens too), so delete the last 2.
+                        let outlineNodes = dojo.query('.player_info.' + this.getPlayerAlias(player_id) + ' .player_area_progress_tokens .progress_token_outline:empty');
+                        dojo.destroy(outlineNodes[2]);
+                        dojo.destroy(outlineNodes[1]);
+                    }
                     this.updatePlayerProgressTokens(player_id, this.gamedatas.progressTokensSituation[player_id]);
                 }
                 // After updatePlayerProgressTokens so we can highlight the Law progress token for the endgameanimation.
@@ -310,6 +344,97 @@ define([
                 dojo.query("#setting_quality").on("change", dojo.hitch(this, "onSettingQualityChange"));
                 dojo.query("#setting_opponent_cost").on("change", dojo.hitch(this, "onSettingOpponentCostChange"));
 
+                if (this.pantheon) {
+                    // Pantheon click handlers using event delegation:
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseAndPlaceDivinity] #choose_and_place_divinity .divinity_small :click",
+                            dojo.hitch(this, "onChooseDivinityClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseAndPlaceDivinity] .pantheon_space_containers .red_border :click",
+                            dojo.hitch(this, "onPlaceDivinityClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=playerTurn] .pantheon_space_containers .divinity.divinity_border :click",
+                            dojo.hitch(this, "onActivateDivinityClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=discardMilitaryToken] .military_token.red_border :click",
+                            dojo.hitch(this, "onDiscardMilitaryTokenClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=applyMilitaryToken] .military_token.red_border :click",
+                            dojo.hitch(this, "onApplyMilitaryTokenClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=constructWonderWithDiscardedBuilding] #discarded_cards_container .building_small:click",
+                            dojo.hitch(this, "onConstructWonderWithDiscardedBuildingClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=constructWonderWithDiscardedBuilding] #player_wonders_" + this.me_id + " .wonder_small:click",
+                            dojo.hitch(this, "onConstructWonderWithDiscardedBuildingWonderClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=deconstructWonder] .player_wonders .red_border:click",
+                            dojo.hitch(this, "onDeconstructWonderClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=placeMinervaToken] #board_container .military_position.red_stroke:click",
+                            dojo.hitch(this, "onPlaceMinervaTokenClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=discardAgeCard] #draftpool .building_small:click",
+                            dojo.hitch(this, "onDiscardAgeCardClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=placeSnakeToken] .player_building_column.red_border .building_header_small:click",
+                            dojo.hitch(this, "onPlaceSnakeTokenClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseDivinityFromTopCards] #choose_divinity_from_top_cards .divinity :click",
+                            dojo.hitch(this, "onChooseDivinityFromTopCardsClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseDivinityDeck] #mythology_decks_container .divinity.red_border :click",
+                            dojo.hitch(this, "onChooseDivinityDeckClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseDivinityFromDeck][data-client-state=] #choose_divinity_from_deck .divinity :click",
+                            dojo.hitch(this, "onChooseDivinityFromDeckClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseDivinityFromDeck][data-client-state=client_chooseDivinityForTopOfDeck] #choose_divinity_from_deck .top_of_deck_button :click",
+                            dojo.hitch(this, "onChooseDivinityFromDeckTopClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=chooseEnkiProgressToken] .player_conspiracies .divinity_compact[data-divinity-id=1] .progress_token.red_border :click",
+                            dojo.hitch(this, "onChooseEnkiProgressTokenClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-client-state=client_activateDivinity] #activate_divinity_tokens .offering_token:click",
+                            dojo.hitch(this, "onActivityDivinityOfferingTokenAddClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-client-state=client_activateDivinity] #activate_divinity_payment_steps .offering_token:click",
+                            dojo.hitch(this, "onActivityDivinityOfferingTokenRemoveClick")
+                        );
+
+
+                    // Pantheon click handlers without event delegation:
+                    dojo.query("#activate_divinity_confirm").on("click", dojo.hitch(this, "onActivateDivinityConfirmClick"));
+
+                }
+                // Click handlers shared between Agora and Pantheon:
+                if (this.agora || this.pantheon) {
+                    dojo.query('body')
+                        .on("#swd[data-state=takeBuilding] .player_building_column.red_border .building_header_small:click",
+                            dojo.hitch(this, "onTakeBuildingClick")
+                        );
+                    dojo.query('body')
+                        .on("#swd[data-state=takeUnconstructedWonder] .wonder.red_border:click",
+                            dojo.hitch(this, "onTakeUnconstructedWonderClick")
+                        );
+                }
                 if (this.agora) {
                     // Agora click handlers using event delegation:
                     dojo.query('body')
@@ -368,10 +493,6 @@ define([
                             dojo.hitch(this, "onConstructLastRowBuildingClick")
                         );
                     dojo.query('body')
-                        .on("#swd[data-state=takeUnconstructedWonder] .wonder.red_border:click",
-                            dojo.hitch(this, "onTakeUnconstructedWonderClick")
-                        );
-                    dojo.query('body')
                         .on("#swd[data-state=destroyConstructedWonder] .wonder.red_border:click",
                             dojo.hitch(this, "onDestroyConstructedWonderClick")
                         );
@@ -394,10 +515,6 @@ define([
                     dojo.query('body')
                         .on("#swd[data-client-state=client_moveDecreeTo] .decree_containers .gray_border:click",
                             dojo.hitch(this, "onMoveDecreeCancelClick")
-                        );
-                    dojo.query('body')
-                        .on("#swd[data-state=takeBuilding] .player_building_column.red_border .building_header_small:click",
-                            dojo.hitch(this, "onTakeBuildingClick")
                         );
                     dojo.query('body')
                         .on("#swd[data-state=swapBuilding] .player_building_column.red_border .building_header_small:click",
@@ -452,7 +569,7 @@ define([
                 In this method, you associate each of your game notifications with your local method to handle it.
 
                 Note: game notification names correspond to "notifyAllPlayers" and "notifyPlayer" calls in
-                      your sevenwondersduel.game.php file.
+                      your sevenwondersduelpantheon.game.php file.
 
             */
             setupNotifications: function () {
@@ -505,6 +622,35 @@ define([
 
                 dojo.subscribe('endGameCategoryUpdate', this, "notif_endGameCategoryUpdate");
                 this.notifqueue.setSynchronous('endGameCategoryUpdate');
+
+                // Pantheon
+
+                dojo.subscribe('takeToken', this, "notif_takeToken");
+                this.notifqueue.setSynchronous('takeToken');
+
+                dojo.subscribe('placeDivinity', this, "notif_placeDivinity");
+                this.notifqueue.setSynchronous('placeDivinity');
+
+                dojo.subscribe('activateDivinity', this, "notif_activateDivinity");
+                this.notifqueue.setSynchronous('activateDivinity');
+
+                dojo.subscribe('discardMilitaryToken', this, "notif_discardMilitaryToken");
+                this.notifqueue.setSynchronous('discardMilitaryToken');
+
+                dojo.subscribe('applyMilitaryToken', this, "notif_applyMilitaryToken");
+                this.notifqueue.setSynchronous('applyMilitaryToken');
+
+                dojo.subscribe('deconstructWonder', this, "notif_deconstructWonder");
+                this.notifqueue.setSynchronous('deconstructWonder');
+
+                dojo.subscribe('placeMinervaToken', this, "notif_placeMinervaToken");
+                this.notifqueue.setSynchronous('placeMinervaToken');
+
+                dojo.subscribe('placeSnakeToken', this, "notif_placeSnakeToken");
+                this.notifqueue.setSynchronous('placeSnakeToken');
+
+                dojo.subscribe('returnDivinities', this, "notif_returnDivinities");
+                this.notifqueue.setSynchronous('returnDivinities');
 
                 // Agora
 
@@ -575,18 +721,25 @@ define([
                         this.updatePlayersSituation(args.args.playersSituation);
                     }
 
-                    if (args.args.draftpool) {
-                        // Wait for loading screen (for Agora, when Age I draftpool gets revealed at the start of the game).
-                        this.callFunctionAfterLoading(dojo.hitch(this, "updateDraftpool"), [args.args.draftpool]);
+                    if (args.args.divinitiesSituation) {
+                        let enkiProgressTokenIds = (args.args._private && args.args._private.enkiProgressTokenIds) ? args.args._private.enkiProgressTokenIds : null;
+                        this.updateDivinitiesSituation(args.args.divinitiesSituation, enkiProgressTokenIds);
                     }
                     if (args.args.wondersSituation) this.updateWondersSituation(args.args.wondersSituation);
                     if (args.args._private && args.args._private.myConspiracies) this.myConspiracies = args.args._private.myConspiracies;
                     if (args.args.conspiraciesSituation) this.updateConspiraciesSituation(args.args.conspiraciesSituation);
+                    if (args.args.mythologyTokensSituation) this.updateMythologyTokensSituation(args.args.mythologyTokensSituation);
+                    if (args.args.offeringTokensSituation) this.updateOfferingTokensSituation(args.args.offeringTokensSituation);
                     if (args.args.senateSituation) this.updateSenateSituation(args.args.senateSituation);
                     if (args.args.wonderSelectionRound) {
                         $('wonder_selection_block_title').innerText = dojo.string.substitute(_("Wonders selection - round ${round} of 2"), {
                             round: args.args.wonderSelectionRound
                         });
+                    }
+
+                    if (args.args.draftpool) {
+                        // Wait for loading screen (for Agora, when Age I draftpool gets revealed at the start of the game).
+                        this.callFunctionAfterLoading(dojo.hitch(this, "updateDraftpool"), [args.args.draftpool]);
                     }
 
                     this.updateLayout(); // Because of added height of action button divs being auto shown/hidden because of the state change, it's a good idea to update the layout here.
@@ -697,7 +850,8 @@ define([
             /*
             Transition (3D flip) from old node to new node. Destroy old node afterwards.
              */
-            twistAnimation: function (oldNode, newNode) {
+            twistAnimation: function (oldNode, newNode, autoPlay=true, delay=0, duration=-1) {
+                if (duration == -1) duration = this.twistCoinDuration;
                 if (!oldNode || dojo.style(oldNode, 'display') == 'none' || oldNode.outerHTML != newNode.outerHTML) {
                     var displayValue = dojo.style(newNode, 'display'); // probably inline-block or block.
                     dojo.style(newNode, 'display', 'none');
@@ -707,7 +861,8 @@ define([
                         dojo.place(oldNode, newNode.parentElement);
                         var oldNodeAnim = dojo.animateProperty({
                             node: oldNode,
-                            duration: this.twistCoinDuration / 2,
+                            delay: delay,
+                            duration: duration / 2,
                             easing: dojo.fx.easing.linear,
                             properties: {
                                 propertyTransform: {start: 0, end: 90}
@@ -724,7 +879,7 @@ define([
 
                     var newNodeAnim = dojo.animateProperty({
                         node: newNode,
-                        duration: this.twistCoinDuration / 2,
+                        duration: duration / 2,
                         easing: dojo.fx.easing.linear,
                         properties: {
                             propertyTransform: {start: -90, end: 0}
@@ -741,7 +896,8 @@ define([
                     anims.push(newNodeAnim);
 
                     var anim = dojo.fx.chain(anims);
-                    anim.play();
+                    if (autoPlay) anim.play();
+                    return anim;
                 } else {
                     dojo.destroy(oldNode);
                 }
@@ -752,8 +908,16 @@ define([
                 let wondersCount = Math.max(4, count);
                 this.setCssVariable('--number-of-wonders', wondersCount , playerWonderContainer);
                 this.setCssVariable('--number-of-wonder-rows-landscape', Math.ceil(wondersCount / 2) , playerWonderContainer);
-                if (wondersCount == 5) {
+                let portraitWondersCount = 4;
+                if (this.agora && this.pantheon) {
+                    portraitWondersCount = 5;
+                }
+                this.setCssVariable('--number-of-wonder-rows-portrait', Math.ceil(wondersCount / portraitWondersCount) , playerWonderContainer);
+                if (wondersCount > 4) {
                     dojo.style(dojo.query('.player_wonders.player' + playerId + ' > div:nth-of-type(5)')[0], 'display', wondersCount > 4 ? 'inline-block' : 'none');
+                }
+                if (wondersCount > 5) {
+                    dojo.style(dojo.query('.player_wonders.player' + playerId + ' > div:nth-of-type(6)')[0], 'display', wondersCount > 5 ? 'inline-block' : 'none');
                 }
                 this.autoUpdateScale();
             },
@@ -770,7 +934,7 @@ define([
 
                     var oldNode = dojo.query('.wonder_container', container)[0];
 
-                    var wonderDivHtml = this.getWonderDivHtml(row.wonder, row.constructed == 0, row.cost, this.gamedatas.playersSituation[playerId].coins);
+                    var wonderDivHtml = this.getWonderDivHtml(row.wonder, row.constructed == 0, row.cost, this.getPlayerCoins(playerId, true));
                     var newNode = dojo.place(wonderDivHtml, container);
                     if (row.constructed > 0) {
                         var data = {
@@ -845,6 +1009,7 @@ define([
                 }
 
                 let realAgeOrExpansion = (draftpool.age > 0 || this.expansion);
+                let maxRow = 0;
 
                 dojo.style('draftpool_container', 'display', realAgeOrExpansion ? 'flex' : 'none');
 
@@ -858,6 +1023,7 @@ define([
                     var animationDelay = 100; // Have some initial delay, so this function can finish updating the DOM.
                     for (var i = 0; i < draftpool.cards.length; i++) {
                         var position = draftpool.cards[i];
+                        if (position.row > maxRow) maxRow = position.row;
 
                         var oldNodes = dojo.query('#draftpool .row' + position.row + '.column' + position.column);
                         if (oldNodes.length > 1) {
@@ -873,6 +1039,7 @@ define([
                             jsType: '',
                             jsRow: position.row,
                             jsColumn: position.column,
+                            jsLocation: position.location,
                             jsX: position.spriteXY[0],
                             jsY: position.spriteXY[1],
                             jsZindex: position.row,
@@ -895,21 +1062,27 @@ define([
                             data.jsType = buildingData.type;
                             if (position.available) {
                                 data.jsDisplayCostMe = position.available ? 'block' : 'none',
-                                data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.gamedatas.playersSituation[this.me_id].coins),
+                                data.jsCostColorMe = this.getCostColor(position.cost[this.me_id], this.getPlayerCoins(this.me_id, true)),
                                 data.jsCostMe = this.getCostValue(position.cost[this.me_id]);
                                 data.jsCostMeClass = isNaN(data.jsCostMe) ? 'cost_free' : '';
 
                                 data.jsDisplayCostOpponent = position.available ? 'block' : 'none',
-                                data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.gamedatas.playersSituation[this.opponent_id].coins),
+                                data.jsCostColorOpponent = this.getCostColor(position.cost[this.opponent_id], this.getPlayerCoins(this.opponent_id, true)),
                                 data.jsCostOpponent = this.getCostValue(position.cost[this.opponent_id]);
                                 data.jsCostOpponentClass = isNaN(data.jsCostOpponent) ? 'cost_free' : '';
                             }
 
                             // Linked building symbol
                             linkedBuildingId = buildingData.linkedBuilding;
-                            if (linkedBuildingId > 0) {
+                            if (linkedBuildingId != 0) {
                                 var spritesheetColumns = 9;
-                                var linkedBuildingSpriteId = this.gamedatas.buildingIdsToLinkIconId[linkedBuildingId];
+                                var linkedBuildingSpriteId = 0;
+                                if (linkedBuildingId < 0) {
+                                    linkedBuildingSpriteId = 18 + Math.abs(linkedBuildingId);
+                                }
+                                else {
+                                    linkedBuildingSpriteId = this.gamedatas.buildingIdsToLinkIconId[linkedBuildingId];
+                                }
                                 data.jsLinkX = (linkedBuildingSpriteId - 1) % spritesheetColumns;
                                 data.jsLinkY = Math.floor((linkedBuildingSpriteId - 1) / spritesheetColumns);
                             }
@@ -998,9 +1171,37 @@ define([
                         }
                     }
 
+                    // Mythology tokens
+                    if (this.pantheon) {
+                        if (draftpool.mythologyTokens) {
+                            for (let i = 0; i < draftpool.mythologyTokens.length; i++) {
+                                let card = draftpool.mythologyTokens[i];
+                                let row = card.rowCol[0];
+                                let col = card.rowCol[1];
+                                let node = dojo.query('#draftpool #' + row + '_' + col)[0];
+                                let tokenNode = dojo.query('.mythology_token', node);
+                                if (!tokenNode[0]) {
+                                    dojo.place( this.getMythologyTokenHtml(card.id, card.type, false), node);
+                                }
+                            }
+                        }
+                        if (draftpool.offeringTokens) {
+                            for (let i = 0; i < draftpool.offeringTokens.length; i++) {
+                                let card = draftpool.offeringTokens[i];
+                                let row = card.rowCol[0];
+                                let col = card.rowCol[1];
+                                let node = dojo.query('#draftpool #' + row + '_' + col)[0];
+                                let tokenNode = dojo.query('.offering_token', node);
+                                if (!tokenNode[0]) {
+                                    dojo.place( this.getOfferingTokenHtml(card.id, card.type, false), node);
+                                }
+                            }
+                        }
+                    }
+
                     // Adjust the height of the age divs based on the age cards absolutely positioned within.
                     var rows = draftpool.age == 3 ? 7 : 5;
-                    dojo.query('.draftpool').style("height", "calc(var(--building-height) * var(--building-small-scale) + " + (rows - 1) + ".35 * var(--draftpool-row-height))");
+                    dojo.query('.draftpool').style("height", "calc(var(--building-height) * var(--building-small-scale) + " + (maxRow - 1) + ".35 * var(--draftpool-row-height))");
 
                     this.updateLayout();
 
@@ -1029,6 +1230,7 @@ define([
                     jsId: buildingId,
                     jsName: _(building.name),
                     jsType: building.type,
+                    jsLocation: -1,
                     jsRow: '',
                     jsColumn: '',
                     jsX: building.spriteXY[0],
@@ -1070,7 +1272,7 @@ define([
 
             updateProgressTokensSituation: function (progressTokensSituation) {
                 if (this.debug) console.log('updateProgressTokensSituation: ', progressTokensSituation);
-                this.progressTokensSituation = progressTokensSituation;
+                this.gamedatas.progressTokensSituation = progressTokensSituation;
 
                 dojo.query("#board_progress_tokens>div").forEach(dojo.empty);
 
@@ -1080,6 +1282,17 @@ define([
                     var position = parseInt(progressTokensSituation.board[i].location_arg);
                     var container = dojo.query('#board_progress_tokens>div:nth-of-type(' + (position + 1) + ')')[0];
                     dojo.place(this.getProgressTokenDivHtml(progressToken.id), container);
+                }
+            },
+
+            getNewProgressTokenContainer: function(playerId) {
+                let tokensContainer = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens')[0];
+                let outlineNodes = dojo.query('.progress_token_outline:empty', tokensContainer);
+                if (outlineNodes[0]) {
+                    return outlineNodes[0];
+                }
+                else {
+                    return dojo.place(this.format_block('jstpl_progress_token_outline', {}), tokensContainer);
                 }
             },
 
@@ -1099,22 +1312,251 @@ define([
             updatePlayerProgressTokens: function (playerId, deckCards) {
                 if (this.debug) console.log('updatePlayerProgressTokens', playerId, deckCards);
 
+                let tokensContainer = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens')[0];
                 Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
-                    var container = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + (parseInt(index) + 1) + ')')[0]; // parseInt(index) is apparently necessary?
-                    dojo.empty(container);
                     var deckCard = deckCards[index];
-                    dojo.place(this.getProgressTokenDivHtml(deckCard.id), container);
+                    let node = dojo.query('div[data-progress-token-id=' + deckCard.id + ']', tokensContainer)[0];
+                    if (!node) {
+                        let result = dojo.place(this.getProgressTokenDivHtml(deckCard.id), this.getNewProgressTokenContainer(playerId));
+                    }
                 }));
-                this.maybeShowSecondRowProgressTokens(playerId);
             },
 
-            maybeShowSecondRowProgressTokens: function (playerId) {
-                var nodes = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div>div');
-                var containers = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens>div');
-                for (var i = 4; i <= 5; i++) {
-                    dojo.style(containers[i - 1], 'display', nodes.length >= 3 ? 'inline-block' : 'none');
+            //  ____  _       _       _ _   _
+            // |  _ \(_)_   _(_)_ __ (_) |_(_) ___  ___
+            // | | | | \ \ / / | '_ \| | __| |/ _ \/ __|
+            // | |_| | |\ V /| | | | | | |_| |  __/\__ \
+            // |____/|_| \_/ |_|_| |_|_|\__|_|\___||___/
+
+            updateDivinitiesSituation: function (divinitiesSituation, enkiProgressTokenIds = null) {
+                if (this.debug) console.log('updateDivinitiesSituation: ', divinitiesSituation, enkiProgressTokenIds);
+                this.gamedatas.divinitiesSituation = divinitiesSituation;
+
+                // Hide all cost/arrows
+                dojo.query('.pantheon_cost_containers .pantheon_space').style('visibility', 'hidden');
+
+                // Pantheon spaces
+                let tokensContainer = dojo.query('.pantheon_space_containers')[0];
+                let costContainer = dojo.query('.pantheon_cost_containers')[0];
+                Object.keys(divinitiesSituation.spaces).forEach(dojo.hitch(this, function (space) {
+                    let spaceData = divinitiesSituation.spaces[space];
+                    let emptySpace = dojo.query('div[data-space=' + space + ']:empty', tokensContainer)[0];
+                    if (emptySpace) {
+                        let result = dojo.place(this.getDivinityDivHtml(spaceData.id, spaceData.type, false, spaceData.id == 1 ? spaceData.enkiProgressTokenIds : null), emptySpace);
+                    }
+                    let divinityNode = dojo.query('div[data-space=' + space + '] .divinity', tokensContainer)[0];
+
+                    for (var playerId in this.gamedatas.players) {
+                        if (playerId == this.player_id && spaceData.activatable) {
+                            dojo.attr(divinityNode, 'data-activatable', spaceData.activatable[playerId]);
+                        }
+                        let alias = this.getPlayerAlias(playerId);
+                        // dojo.style(dojo.query('div[data-space=' + space + '] .' + alias + ' .pantheon_cost_arrow', costContainer)[0], 'display', spaceData.payment ? 'block' : 'none');
+                        if (spaceData.payment) {
+                            let container = dojo.query('div[data-space=' + space + '] .' + alias + ' .cost', costContainer)[0];
+
+                            // Show cost/arrows for this space
+                            dojo.query(container).closest('.pantheon_space').style('visibility', 'visible');
+
+                            let oldNode = dojo.query('.coin', container)[0];
+                            let newNode = dojo.place( this.getCostDivHtml(spaceData.cost[playerId], this.getPlayerCoins(playerId, true, true)), container, 'first');
+                            if (oldNode && newNode) {
+                                this.twistAnimation(oldNode, newNode);
+                            }
+                            else {
+                                // This fadein doesn't work.. why?
+                                dojo.style(newNode, 'opacity', 0);
+                                let anim = dojo.fadeIn({node: newNode, duration: 0.5 });
+                                anim.play();
+                            }
+                        }
+                    }
+                }));
+
+                // Deck counts
+                Object.keys(divinitiesSituation.deckCounts).forEach(dojo.hitch(this, function (type) {
+                    let span = dojo.query('#mythology_decks_container #mythology' + type + ' .divinity_deck_count')[0];
+                    span.innerHTML = divinitiesSituation.deckCounts[type];
+                }));
+
+                // Player divinities
+                for (var playerId in this.gamedatas.players) {
+                    for (let i = 0; i < divinitiesSituation[playerId].length; i++) {
+                        let divinityData = divinitiesSituation[playerId][i];
+                        let container = $('player_conspiracies_' + playerId);
+                        let divinityNode = dojo.query('div[data-divinity-id="' + divinityData.id + '"]', container)[0];
+                        if (divinityNode && divinityData.id == 1 && enkiProgressTokenIds) {
+                            dojo.destroy(divinityNode.parentElement);
+                            divinityNode = null;
+                        }
+                        if (!divinityNode) {
+                            let divinityType = this.gamedatas.divinities[divinityData.id].type;
+                            let newNode = dojo.place( this.getDivinityDivHtml(divinityData.id, divinityType, false, divinityData.id == 1 ? enkiProgressTokenIds : null), container, 'first');
+                        }
+                    }
                 }
-                dojo.style(containers[6 - 1], 'display', nodes.length >= 5 ? 'inline-block' : 'none');
+            },
+
+            divinitiesRevealAnimation: function(doorSpace, divinitiesSituation) {
+                let movementDuration = 650;
+                let delay = 0;
+                for (let space = 1; space <= 6; space++) {
+                    if (space != doorSpace) {
+                        let spaceNode = dojo.query('.pantheon_space_containers div[data-space=' + space + ']')[0];
+                        let oldNode = dojo.query('.divinity_container', spaceNode)[0];
+                        let divinityData = divinitiesSituation.spaces[space];
+                        let newNode = dojo.place(this.getDivinityDivHtml(divinityData.id, divinityData.type, false, divinityData.id == 1 ? divinityData.enkiProgressTokenIds : null), spaceNode);
+                        this.twistAnimation(oldNode, newNode, true, delay, movementDuration);
+                        delay += movementDuration * 0.75;
+                    }
+                }
+                // delay += this.turnAroundCardDuration;
+
+                let spaceNode = dojo.query('.pantheon_space_containers div[data-space=' + doorSpace + ']')[0];
+                let gateContainerNode = dojo.place(this.getDivinityDivHtml(16, 6, false), spaceNode);
+                let gateNode = dojo.query('.divinity', gateContainerNode)[0];
+                dojo.style(gateNode, 'opacity', 0);
+
+                let gateAnim = dojo.animateProperty({ // Standard fadeOut started of at opacity 0 (?!?)
+                    node: gateNode,
+                    duration: movementDuration,
+                    delay: delay,
+                    // easing: dojo.fx.easing.linear,
+                    properties: {
+                        opacity: {
+                            start: 0,
+                            end: 1
+                        },
+                        top: {
+                            start: -50,
+                            end: 0
+                        }
+                    },
+                    onAnimate: function (values) {
+                        dojo.style(gateNode, 'top', 'calc(var(--scale) * ' + values.top + ')');
+                    },
+                });
+                gateAnim.play();
+                delay += movementDuration;
+
+                return delay;
+            },
+
+            getDivinityDivHtml: function (divinityId, divinityType, full=false, enkiProgressTokenIds=null) {
+                let hidden = divinityId == 0;
+                let spriteId = hidden ? (16 + divinityType) : divinityId;
+                var divinity = this.gamedatas.divinities[divinityId];
+                var data = {
+                    jsId: divinityId,
+                    jsType: divinityType,
+                    jsName: hidden ? '' : _(divinity.name),
+                    jsDivinityBack: hidden ? 'divinity_back' : '',
+                    jsYOffset: hidden ? '.6562' : '.7012',
+                    jsEnkiProgressTokensHtml: '',
+                };
+                if (divinityId == 1 && enkiProgressTokenIds && enkiProgressTokenIds.length == 2) {
+                    let enkiProgressTokensHtml = '';
+                    enkiProgressTokensHtml += '<div>' + this.getProgressTokenDivHtml(enkiProgressTokenIds[0]) + '</div>';
+                    enkiProgressTokensHtml += '<div>' + this.getProgressTokenDivHtml(enkiProgressTokenIds[1]) + '</div>';
+                    data.jsEnkiProgressTokensHtml = enkiProgressTokensHtml;
+                }
+
+                var spritesheetColumns = 6;
+                data.jsX = (spriteId - 1) % spritesheetColumns;
+                data.jsY = Math.floor((spriteId - 1) / spritesheetColumns);
+                return this.format_block(full ? 'jstpl_divinity_full' : 'jstpl_divinity', data);
+            },
+
+            getCostDivHtml: function (cost, playerCoins) {
+                var data = {
+                    jsCost: this.getCostValue(cost),
+                    jsCostColor: this.getCostColor(cost, playerCoins),
+                };
+                data.jsCostClass = isNaN(data.jsCost) ? 'cost_free' : '';
+                return this.format_block('jstpl_cost', data);
+            },
+
+            //  __  __       _   _           _                     _____     _
+            // |  \/  |_   _| |_| |__   ___ | | ___   __ _ _   _  |_   _|__ | | _____ _ __  ___
+            // | |\/| | | | | __| '_ \ / _ \| |/ _ \ / _` | | | |   | |/ _ \| |/ / _ \ '_ \/ __|
+            // | |  | | |_| | |_| | | | (_) | | (_) | (_| | |_| |   | | (_) |   <  __/ | | \__ \
+            // |_|  |_|\__, |\__|_| |_|\___/|_|\___/ \__, |\__, |   |_|\___/|_|\_\___|_| |_|___/
+            //         |___/                         |___/ |___/
+
+            getMythologyTokenHtml: function (id, type, full=false) {
+                var data = {
+                    jsId: id,
+                    jsType: type,
+                };
+                return this.format_block('jstpl_mythology_token', data);
+            },
+
+            updateMythologyTokensSituation: function (situation) {
+                if (this.debug) console.log('updateMythologyTokensSituation', situation);
+                this.gamedatas.mythologyTokensSituation = situation;
+
+                for (var player_id in this.gamedatas.players) {
+                    this.updatePlayerMythologyTokens(player_id, situation[player_id]);
+                }
+            },
+
+            updatePlayerMythologyTokens: function (playerId, deckCards) {
+                if (this.debug) console.log('updatePlayerMythologyTokens', playerId, deckCards);
+
+                let tokensContainer = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens')[0];
+                Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
+                    let deckCard = deckCards[index];
+                    let nodeExists = dojo.query('.mythology_token[data-mythology-token-id=' + deckCard.id + ']', tokensContainer)[0];
+                    if (!nodeExists) {
+                        // Destroy first outline node if it exists
+                        dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens .mythology_token_outline:empty')[0]);
+
+                        dojo.place(this.getMythologyTokenHtml(deckCard.id, deckCard.type), tokensContainer);
+                    }
+                }));
+            },
+
+            //   ___   __  __           _               _____     _
+            //  / _ \ / _|/ _| ___ _ __(_)_ __   __ _  |_   _|__ | | _____ _ __  ___
+            // | | | | |_| |_ / _ \ '__| | '_ \ / _` |   | |/ _ \| |/ / _ \ '_ \/ __|
+            // | |_| |  _|  _|  __/ |  | | | | | (_| |   | | (_) |   <  __/ | | \__ \
+            //  \___/|_| |_|  \___|_|  |_|_| |_|\__, |   |_|\___/|_|\_\___|_| |_|___/
+            //                                  |___/
+
+            getOfferingTokenHtml: function (id, full=false) {
+                var data = {
+                    jsId: id
+                };
+                return this.format_block('jstpl_offering_token', data);
+            },
+
+            getSnakeTokenHtml: function () {
+                return this.format_block('jstpl_snake_token', []);
+            },
+
+            updateOfferingTokensSituation: function (situation) {
+                if (this.debug) console.log('updateOfferingTokensSituation', situation);
+                this.gamedatas.offeringTokensSituation = situation;
+
+                for (var player_id in this.gamedatas.players) {
+                    this.updatePlayerOfferingTokens(player_id, situation[player_id]);
+                }
+            },
+
+            updatePlayerOfferingTokens: function (playerId, deckCards) {
+                if (this.debug) console.log('updatePlayerOfferingTokens', playerId, deckCards);
+
+                let tokensContainer = dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens')[0];
+                Object.keys(deckCards).forEach(dojo.hitch(this, function (index) {
+                    let deckCard = deckCards[index];
+                    let nodeExists = dojo.query('.offering_token[data-offering-token-id=' + deckCard.id + ']', tokensContainer)[0];
+                    if (!nodeExists) {
+                        // Destroy first outline node if it exists
+                        dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(playerId) + ' .player_area_progress_tokens .offering_token_outline:empty')[0]);
+
+                        dojo.place(this.getOfferingTokenHtml(deckCard.id, deckCard.type), tokensContainer);
+                    }
+                }));
             },
 
             //  ____                   _
@@ -1153,7 +1595,7 @@ define([
 
             updateDecreesSituation: function (decreesSituation) {
                 if (this.debug) console.log('updateDecreesSituation: ', decreesSituation);
-                this.decreesSituation = decreesSituation;
+                this.gamedatas.decreesSituation = decreesSituation;
 
                 dojo.query(".decree_containers>div>div").forEach(dojo.empty);
 
@@ -1195,13 +1637,15 @@ define([
                     // Military Track animation (pawn movement, token handling)
                     let anim = bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment, "agora");
 
-                    // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                    dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                    }));
 
                     anim.play();
                 }
                 else {
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }
             },
 
@@ -1251,7 +1695,8 @@ define([
                 if (this.debug) console.log('updatePlayerConspiracies', playerId, rows);
 
                 let container = $('player_conspiracies_' + playerId);
-                dojo.empty(container);
+                dojo.query(".conspiracy_container", container).forEach(dojo.destroy);
+
                 Object.keys(rows).forEach(dojo.hitch(this, function (index) {
                     var row = rows[index];
                     let id = row.conspiracy;
@@ -1293,7 +1738,10 @@ define([
                     }
                 }
 
-                this.setCssVariable('--conflict-pawn-position', this.me_id == this.gamedatas.startPlayerId ? -militaryTrack.conflictPawn : militaryTrack.conflictPawn);
+                this.setCssVariable('--conflict-pawn-position', militaryTrack.conflictPawn);
+                if (typeof militaryTrack.minervaPawn !== 'undefined') {
+                    this.setCssVariable('--minerva-pawn-position', militaryTrack.minervaPawn);
+                }
             },
 
             //   _____           _ _   _
@@ -1339,6 +1787,9 @@ define([
 
                 this.addTooltipToClass('expansion_icon_container_agora',
                     _('Column for Senators (Agora expansion)'), '', this.toolTipDelay);
+
+                this.addTooltipToClass('expansion_icon_container_pantheon',
+                    _('Column for Grand Temples (Pantheon expansion)'), '', this.toolTipDelay);
 
                 this.addTooltipToClass('science_progress',
                     _('If you gather 6 different scientific symbols, you immediately win the game (Scientific Supremacy)'), '', this.toolTipDelay);
@@ -1470,6 +1921,7 @@ define([
                     })
                 );
 
+
                 // Add tooltips to buildings everywhere.
                 this.customTooltips.push(
                     new dijit.Tooltip({
@@ -1538,6 +1990,20 @@ define([
                     })
                 );
 
+                // Add tooltips to conspiracies everywhere.
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: 'div[data-divinity-id]',
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            var id = dojo.attr(node, "data-divinity-id");
+                            var type = dojo.attr(node, "data-divinity-type");
+                            return this.getDivinityTooltip(id, type, node);
+                        })
+                    })
+                );
+
                 // Add tooltips to decrees everywhere.
                 this.customTooltips.push(
                     new dijit.Tooltip({
@@ -1561,6 +2027,62 @@ define([
                         getContent: dojo.hitch(this, function (node) {
                             var id = dojo.attr(node, "data-conspiracy-id");
                             return this.getConspiracyTooltip(id, node);
+                        })
+                    })
+                );
+
+                // Add tooltips to Mythology tokens everywhere.
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: 'div[data-mythology-token-id]',
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            var id = dojo.attr(node, "data-mythology-token-id");
+                            return this.getMythologyTokenTooltip(id, node);
+                        })
+                    })
+                );
+
+                // Add tooltips to Offering tokens everywhere.
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: 'div[data-offering-token-id]',
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            var id = dojo.attr(node, "data-offering-token-id");
+                            return this.getOfferingTokenTooltip(id, node);
+                        })
+                    })
+                );
+
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '#activate_divinity_tokens_container div[data-offering-token-id]',
+                        showDelay: this.toolTipDelay,
+                        label: _('Click to use this Offering Token')
+                    })
+                );
+
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '#activate_divinity_payment_steps div[data-offering-token-id]',
+                        showDelay: this.toolTipDelay,
+                        label: _('Click to return this Offering Token')
+                    })
+                );
+
+                // Add tooltips to Snake token
+                this.customTooltips.push(
+                    new dijit.Tooltip({
+                        connectId: "game_play_area",
+                        selector: '.building_header_small_container .snake_token',
+                        showDelay: this.toolTipDelay,
+                        getContent: dojo.hitch(this, function (node) {
+                            return this.getSnakeTokenTooltip();
                         })
                     })
                 );
@@ -1604,9 +2126,11 @@ define([
                             ageRoman: this.ageRoman(building.age)
                         });
                     } else if(building.age == 4) {
-                        data.cardType = _("Guild card");
+                        data.cardType = _(""); // Guild card, but that's already the typeDescription, so leave empty.
                     } else if(building.age == 5) {
                         data.cardType = ""; // Senator, but that's already the typeDescription, so leave empty.
+                    } else if(building.age == 6) {
+                        data.cardType = _(""); // Grand Temple card, but that's already the typeDescription, so leave empty.
                     }
 
                     if (data.cardType != "") {
@@ -1754,6 +2278,65 @@ define([
                 return false;
             },
 
+            getDivinityTooltip: function (id, type, node) {
+                let hidden = id == 0;
+                let spriteId = hidden ? (16 + type) : id;
+
+                var divinity = this.gamedatas.divinities[id];
+
+                var spritesheetColumns = 6;
+
+                var data = {};
+                data.translateDivinity = hidden ? _("Face down Divinity") : _("Divinity");
+                data.jsName = hidden ? '' : '“' + _(divinity.name) + '”';
+                data.jsNameOnCard = hidden ? '' : _(divinity.name);
+                data.jsDivinityType = _(this.gamedatas.divinityTypeNames[type]);
+                data.jsDivinityColor = this.gamedatas.divinityTypeColors[type];
+
+                let text = [...divinity.text];
+                if (id == 4) {
+                    let coins = null;
+                    if (typeof this.gamedatas.playersSituation[this.me_id].astarteCoins != 'undefined') {
+                        coins = this.gamedatas.playersSituation[this.me_id].astarteCoins;
+                    }
+                    if (typeof this.gamedatas.playersSituation[this.opponent_id].astarteCoins != 'undefined') {
+                        coins = this.gamedatas.playersSituation[this.opponent_id].astarteCoins;
+                    }
+                    if(coins != null) {
+                        text.push([_('There are currently ${coins} coin(s) present on Astarte.'), true, {coins: coins}]);
+                    }
+                }
+
+                data.jsText = this.getTextHtml(text);
+                data.jsBackX = ((spriteId - 1) % spritesheetColumns);
+                data.jsBackY = Math.floor((spriteId - 1) / spritesheetColumns);
+
+                data.jsCostMe = '';
+                data.jsCostOpponent = '';
+                var spaceNode = dojo.query(node).closest(".pantheon_space")[0];
+                if (spaceNode) {
+                    let space = dojo.attr(spaceNode, 'data-space');
+                    if (this.gamedatas.divinitiesSituation.spaces[space] && this.gamedatas.divinitiesSituation.spaces[space].payment) {
+                        meCoinHtml = dojo.query('.pantheon_cost_containers div[data-space=' + space + '] .me .coin')[0].outerHTML;
+                        data.jsCostMe = this.format_block('jstpl_tooltip_cost_me', {
+                            translateCurrentCost: _("Current activation cost for you"),
+                            translateTotal: _("Total"),
+                            jsCoinHtml: meCoinHtml,
+                            jsPayment: this.getPaymentPlan(this.gamedatas.divinitiesSituation.spaces[space].payment[this.me_id])
+                        });
+
+                        opponentCoinHtml = dojo.query('.pantheon_cost_containers div[data-space=' + space + '] .opponent .coin')[0].outerHTML;
+                        data.jsCostOpponent = this.format_block('jstpl_tooltip_cost_opponent', {
+                            translateCurrentCost: _("Current activation cost for opponent"),
+                            translateTotal: _("Total"),
+                            jsCoinHtml: opponentCoinHtml,
+                            jsPayment: this.getPaymentPlan(this.gamedatas.divinitiesSituation.spaces[space].payment[this.opponent_id])
+                        });
+                    }
+                }
+                return this.format_block('jstpl_divinity_tooltip', data);
+            },
+
             getDecreeTooltip: function (id) {
                 var decree = this.gamedatas.decrees[id];
 
@@ -1768,6 +2351,43 @@ define([
                 data.jsBackX = ((id - 1) % spritesheetColumns);
                 data.jsBackY = Math.floor((id - 1) / spritesheetColumns);
                 return this.format_block('jstpl_decree_tooltip', data);
+            },
+
+            getMythologyTokenTooltip: function (id) {
+                var token = this.gamedatas.mythologyTokens[id];
+
+                var data = {};
+                data.jsId = id;
+                data.jsType = token.type;
+                data.translateToken = _("Mythology token");
+                data.jsDivinityType = _(this.gamedatas.divinityTypeNames[token.type]);
+                data.jsDivinityColor = this.gamedatas.divinityTypeColors[token.type];
+                data.jsText = this.getTextHtml(token.text);
+                return this.format_block('jstpl_mythology_token_tooltip', data);
+            },
+
+            getOfferingTokenTooltip: function (id) {
+                var token = this.gamedatas.offeringTokens[id];
+
+                var data = {};
+                data.jsId = id;
+                data.jsDiscount = token.discount;
+                data.translateToken = _("Offering token");
+                data.jsText = this.getTextHtml(token.text);
+                return this.format_block('jstpl_offering_token_tooltip', data);
+            },
+
+            getSnakeTokenTooltip: function () {
+                let text = [];
+                text.push([_('This Snake token is worth the scientific symbol shown on the card for the owner of Divinity “Nisaba”.'), true]);
+                if (this.agora) {
+                    text.push([_('If the green card is traded with Conspiracy “Coercion” the snake token loses its effect and is returned to the box.'), true]);
+                }
+
+                var data = {};
+                data.jsTitle = _("Snake token");
+                data.jsText = this.getTextHtml(text);
+                return this.format_block('jstpl_snake_token_tooltip', data);
             },
 
             getConspiracyTooltip: function (id, node) {
@@ -1857,17 +2477,49 @@ define([
             //  |_|   |_|\__,_|\__, |\___|_|  |___/ |___|_| |_|_|  \___/
             //                 |___/
 
-            getPlayerCoins: function (playerId) {
-                return this.gamedatas.playersSituation[playerId].coins;
+            getPlayerCoins: function (playerId, includingAstarteCoins=false, includeOfferingTokensDiscount=false) {
+                let coins = this.gamedatas.playersSituation[playerId].coins;
+                if (includingAstarteCoins && typeof this.gamedatas.playersSituation[playerId].astarteCoins != 'undefined') {
+                    coins += this.gamedatas.playersSituation[playerId].astarteCoins;
+                }
+                if (includeOfferingTokensDiscount) {
+                    Object.values(this.gamedatas.offeringTokensSituation[playerId]).forEach(dojo.hitch(this, function (offeringToken) {
+                        coins += parseInt(offeringToken.type);
+                    }));
+                }
+                return coins;
             },
 
+            getPlayerNodeCoins: function (playerId) {
+                return parseInt($('player_area_' + playerId + '_coins').innerHTML);
+            },
             increasePlayerCoins: function (playerId, coins) {
-                $('player_area_' + playerId + '_coins').innerHTML = parseInt($('player_area_' + playerId + '_coins').innerHTML) + coins;
+                $('player_area_' + playerId + '_coins').innerHTML = this.getPlayerNodeCoins(playerId) + coins;
+            },
+            changeMythologyDeckCount: function (type, change) {
+                let spanNode = dojo.query('#mythology' + type + ' span')[0];
+                spanNode.innerHTML = parseInt(spanNode.innerHTML) + change;
+            },
+
+            increaseAstarteCoins: function (playerId, coins) {
+                let divinityNode = dojo.query('#player_conspiracies_' + playerId + ' .divinity_small[data-divinity-id=4] .coin span')[0];
+                divinityNode.innerHTML = parseInt(divinityNode.innerHTML) + coins;
             },
 
             increasePlayerCubes: function (playerId, cubes) {
                 $('player_area_' + playerId + '_cubes').innerHTML = parseInt($('player_area_' + playerId + '_cubes').innerHTML) + cubes;
                 if (this.debug) console.log('increasePlayerCubes', $('player_area_' + playerId + '_cubes'), cubes);
+            },
+
+            getSnakeTokenBuildingId: function (situation) {
+                if (this.pantheon) {
+                    for (var playerId in this.gamedatas.players) {
+                        if (typeof this.gamedatas.playersSituation[playerId].snakeTokenBuildingId != 'undefined') {
+                            return this.gamedatas.playersSituation[playerId].snakeTokenBuildingId;
+                        }
+                    }
+                }
+                return -1;
             },
 
             updatePlayersSituation: function (situation) {
@@ -1877,6 +2529,21 @@ define([
                     $('player_area_' + playerId + '_coins').innerHTML = situation[playerId].coins;
                     $('player_area_' + playerId + '_score').innerHTML = situation[playerId].score;
                     $('player_area_' + playerId + '_cubes').innerHTML = situation[playerId].cubes;
+                    if (typeof situation[playerId].snakeTokenBuildingId != 'undefined') {
+                        let buildingNode = dojo.query('.player_buildings .building_header_small[data-building-id="' + situation[playerId].snakeTokenBuildingId + '"]')[0];
+                        dojo.style(buildingNode, 'z-index', 20);
+                        let snakeNodeContainer = dojo.query('.snake_token_container', buildingNode);
+                        if (snakeNodeContainer.length == 0) {
+                            dojo.place(this.getSnakeTokenHtml(), buildingNode);
+                        }
+                    }
+                    if (typeof situation[playerId].astarteCoins != 'undefined') {
+                        let divinityNode = dojo.query('#player_conspiracies_' + playerId + ' .divinity_small[data-divinity-id=4]')[0];
+                        dojo.query(".coin", divinityNode).forEach(dojo.destroy);
+                        let coinDiv = this.getCostDivHtml(situation[playerId].astarteCoins, 999999);
+                        dojo.place(coinDiv, divinityNode);
+                    }
+
                     if (typeof situation[playerId].winner != "undefined" && this.scoreCtrl[playerId]) {
                         this.scoreCtrl[playerId].setValue(situation[playerId].winner);
                     }
@@ -1904,6 +2571,12 @@ define([
                     }
                 }
             },
+
+            //  ____                    ____                        ____  _        _
+            // | __ )  __ _ ___  ___   / ___| __ _ _ __ ___   ___  / ___|| |_ __ _| |_ ___  ___
+            // |  _ \ / _` / __|/ _ \ | |  _ / _` | '_ ` _ \ / _ \ \___ \| __/ _` | __/ _ \/ __|
+            // | |_) | (_| \__ \  __/ | |_| | (_| | | | | | |  __/  ___) | || (_| | ||  __/\__ \
+            // |____/ \__,_|___/\___|  \____|\__,_|_| |_| |_|\___| |____/ \__\__,_|\__\___||___/
 
             //  __        __              _                      _           _   _
             //  \ \      / /__  _ __   __| | ___ _ __   ___  ___| | ___  ___| |_(_) ___  _ __
@@ -1982,16 +2655,16 @@ define([
                 dojo.stopEvent(e);
 
                 if (this.isCurrentPlayerActive()) {
-                    var wonder = dojo.hasClass(e.target, 'wonder') ? dojo.query(e.target) : dojo.query(e.target).closest(".wonder");
+                    var wonderNode = dojo.hasClass(e.target, 'wonder') ? e.target : dojo.query(e.target).closest(".wonder")[0];
 
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
                     if (!this.checkAction('actionSelectWonder')) {
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSelectWonder.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionSelectWonder.html", {
                             lock: true,
-                            wonderId: wonder.attr('data-wonder-id')
+                            wonderId: dojo.attr(wonderNode, 'data-wonder-id')
                         },
                         this, function (result) {
                             // What to do after the server call if it succeeded
@@ -2045,10 +2718,13 @@ define([
                     }),
                     this.slideToObjectPos(wonderNode, targetNode, 0, 0, this.selectWonderAnimationDuration),
                 ]);
-                anim.play();
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
+
+                anim.play();
             },
 
             //   ____  _                         _____
@@ -2060,6 +2736,21 @@ define([
 
             onEnterPlayerTurn: function (args) {
                 if (this.debug) console.log('in onEnterPlayerTurn', args);
+
+                let activatable = 0;
+                let nodes = dojo.query('.pantheon_space_containers .divinity[data-activatable=1]');
+                if (this.isCurrentPlayerActive()) {
+                    nodes.addClass('divinity_border');
+                    activatable = nodes.length;
+                }
+
+                if (this.pantheon && this.currentAge >= 2) {
+                    Object.keys(this.gamedatas.divinitiesSituation.spaces).forEach(dojo.hitch(this, function (space) {
+                        if (this.gamedatas.divinitiesSituation.spaces[space]) {
+                            activatable += 1;
+                        }
+                    }));
+                }
 
                 let triggerable = 0;
                 if (this.agora) {
@@ -2076,15 +2767,39 @@ define([
                 }
 
                 if (this.agora && triggerable > 0) {
-                    this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must play an Age card or trigger a Conspiracy first');
-                    this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must play an Age card or trigger a Conspiracy first');
-                    this.updatePageTitle();
+                    if (activatable > 0) {
+                        this.playerTurnDescription = _('Age ${ageRoman}: ${actplayer} must play an Age card, activate a card from the Pantheon or trigger a Conspiracy first');
+                        this.playerTurnDescriptionMyTurn = _('Age ${ageRoman}: ${you} must play an Age card, activate a card from the Pantheon or trigger a Conspiracy first');
+                    }
+                    else {
+                        this.playerTurnDescription = _('Age ${ageRoman}: ${actplayer} must choose and use an age card or activate a card from the Pantheon');
+                        this.playerTurnDescriptionMyTurn = _('Age ${ageRoman}: ${you} must choose an age card, or activate a card from the Pantheon');
+                    }
                 }
                 else {
-                    this.gamedatas.gamestate.description = _('Age ${ageRoman}: ${actplayer} must choose and use an age card');
-                    this.gamedatas.gamestate.descriptionmyturn = _('Age ${ageRoman}: ${you} must choose an age card');
-                    this.updatePageTitle();
+                    if (activatable > 0) {
+                        this.playerTurnDescription = _('Age ${ageRoman}: ${actplayer} must choose and use an age card or activate a card from the Pantheon');
+                        this.playerTurnDescriptionMyTurn = _('Age ${ageRoman}: ${you} must choose an age card, or activate a card from the Pantheon');
+                    }
+                    else {
+                        this.playerTurnDescription = _('Age ${ageRoman}: ${actplayer} must choose and use an age card');
+                        this.playerTurnDescriptionMyTurn = _('Age ${ageRoman}: ${you} must choose an age card');
+                    }
                 }
+                this.updatePlayerTurnStateDescription();
+            },
+
+            updatePlayerTurnStateDescription: function() {
+                this.gamedatas.gamestate.description = this.playerTurnDescription;
+                this.gamedatas.gamestate.descriptionmyturn = this.playerTurnDescriptionMyTurn;
+                this.updatePageTitle();
+            },
+
+            cancelDraftpoolClick: function() {
+                this.clearPlayerTurnNodeGlow();
+                this.clearRedBorder();
+                dojo.setStyle('draftpool_actions', 'display', 'none');
+                this.updatePlayerTurnStateDescription();
             },
 
             onPlayerTurnDraftpoolClick: function (e) {
@@ -2095,6 +2810,7 @@ define([
                 if (this.isCurrentPlayerActive()) {
                     this.clearPlayerTurnNodeGlow();
                     this.clearRedBorder();
+                    this.autoUpdateScale();
 
                     var building = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
                     dojo.addClass(building, 'glow');
@@ -2105,7 +2821,7 @@ define([
                     var cardData = this.getDraftpoolCardData(this.playerTurnBuildingId);
                     dojo.query('#buttonDiscardBuilding .coin>span')[0].innerHTML = '+' + this.gamedatas.draftpool.discardGain[this.player_id];
 
-                    var playerCoins = this.gamedatas.playersSituation[this.player_id].coins;
+                    var playerCoins = this.getPlayerCoins(this.player_id, true);
 
                     var canAffordBuilding = cardData.cost[this.player_id] <= playerCoins;
                     dojo.removeClass($('buttonConstructBuilding'), 'bgabutton_blue');
@@ -2145,6 +2861,42 @@ define([
                 }
             },
 
+            notif_takeToken: function (notif) {
+                if (this.debug) console.log('notif_takeToken', notif);
+
+                let container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens')[0];
+                if (notif.args.type == 'mythology') {
+                    // Destroy first outline node if it exists
+                    dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens .mythology_token_outline:empty')[0]);
+
+                    newTokenContainerNode = dojo.place(this.getMythologyTokenHtml(notif.args.tokenId, Math.ceil(notif.args.tokenId / 2)), container);
+                    newTokenNode = dojo.query('.mythology_token', newTokenContainerNode)[0];
+                    oldTokenNode = dojo.query('#draftpool .mythology_token[data-mythology-token-id=' + notif.args.tokenId + ']')[0];
+                }
+                if (notif.args.type == 'offering') {
+                    // Destroy first outline node if it exists
+                    dojo.destroy(dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens .offering_token_outline:empty')[0]);
+
+                    newTokenContainerNode = dojo.place(this.getOfferingTokenHtml(notif.args.tokenId), container);
+                    newTokenNode = dojo.query('.offering_token', newTokenContainerNode)[0];
+                    oldTokenNode = dojo.query('#draftpool .offering_token[data-offering-token-id=' + notif.args.tokenId + ']')[0];
+                }
+                oldTokenContainerNode = oldTokenNode.parentElement;
+                this.placeOnObject(newTokenNode, oldTokenNode);
+                dojo.destroy(oldTokenContainerNode);
+
+                var anim = dojo.fx.chain([
+                    this.slideToObjectPos(newTokenNode, newTokenContainerNode, 0, 0, this.progressTokenDuration),
+                ]);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
+
+                anim.play();
+            },
+
             clearPlayerTurnNodeGlow: function () {
                 if (this.playerTurnNode) {
                     dojo.removeClass(this.playerTurnNode, 'glow');
@@ -2159,6 +2911,9 @@ define([
             },
             clearGrayBorder: function () {
                 dojo.query('.gray_border').removeClass("gray_border");
+            },
+            clearDivinityBorder: function () {
+                dojo.query('.divinity_border').removeClass("divinity_border");
             },
 
             //     _        _   _               _____     _                          ____                      _
@@ -2183,7 +2938,7 @@ define([
                     var conspiracyNode = dojo.hasClass(e.target, 'conspiracy') ? e.target : dojo.query(e.target).closest(".conspiracy")[0];
                     var conspiracyId = dojo.attr(conspiracyNode, "data-conspiracy-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionTriggerConspiracy.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionTriggerConspiracy.html", {
                             lock: true,
                             conspiracyId: conspiracyId,
                         },
@@ -2207,6 +2962,7 @@ define([
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
                 this.clearGreenBorder();
+                this.clearDivinityBorder();
 
                 let oldConspiracyNodeHtml = dojo.query('#player_conspiracies_' + notif.args.playerId + ' div[data-conspiracy-position="' + notif.args.conspiracyPosition + '"]')[0].outerHTML;
 
@@ -2257,7 +3013,6 @@ define([
                                 }
                             }),
                         ]),
-                        // TODO: conspiracy effects
                         // Military Track animation (pawn movement, token handling)
                         bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment, "agora"),
                         // Conspiracy Blackmail (coins going from opponent to player)
@@ -2292,10 +3047,10 @@ define([
                         dojo.style(conspiracyBackNode, 'z-index', 1);
                         dojo.style(conspiracyNode, 'z-index', 2);
                         dojo.style(conspiracyContainer, 'z-index', 10);
-                    }));
 
-                    // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                    }));
 
                     anim.play();
                 }
@@ -2320,7 +3075,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionConstructBuilding.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId
                         },
@@ -2352,6 +3107,7 @@ define([
 
                 this.clearRedBorder(); // For Conspiracy 7, Property Fraud
                 this.clearGreenBorder();
+                this.clearDivinityBorder();
 
                 var buildingNode = dojo.query(".building_small[data-building-id=" + notif.args.buildingId + "]")[0]; // Without the .building_small, the building might be selected from the (linked) buildings list.
                 var buildingNodeParent = null;
@@ -2385,8 +3141,7 @@ define([
                     dojo.connect(buildingMoveAnim, 'onEnd', dojo.hitch(this, function (node) {
                         var whiteblock = $('lower_divs_container');
                         dojo.removeClass(whiteblock, 'red_border');
-                        window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
-                        this.freezeLayout = 0;
+                        this.scrollBack();
                         dojo.destroy(buildingNodeParent); // Destroy old parent (container in discarded buildings block).
                     }));
                 }
@@ -2439,17 +3194,17 @@ define([
                     bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment),
                 ]);
 
-                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Stop the animation. If we don't do this, the onEnd of the last individual coin animation can trigger after this, causing the player coin total to be +1'ed after being updated by this.updatePlayersSituation.
                     anim.stop();
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
 
                     dojo.style(playerBuildingId, 'z-index', 15);
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
 
                 anim.play();
             },
@@ -2473,7 +3228,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionDiscardBuilding.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId
                         },
@@ -2497,41 +3252,82 @@ define([
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
                 this.clearGreenBorder();
+                this.clearDivinityBorder();
+                dojo.attr($('swd'), 'data-state', 'dummyState'); // Set dummy state so the draftpool row height is reset to normal.
 
-                var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
+                this.autoUpdateScale();
 
-                var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
-                    buildingNode,
-                    dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_coins')[0],
-                    notif.args.gain,
-                    notif.args.playerId
-                );
+                var buildingNode = dojo.query("#draftpool .building_small[data-building-id=" + notif.args.buildingId + "]")[0];
+                var oldBuildingNode = null;
+                if (!buildingNode && notif.args.buildingDomId) {
+                    oldBuildingNode = $(notif.args.buildingDomId);
+                    oldBuildingNode.id = 'oldBuildingNode';
 
-                // Set up a wrapper div so we can move the building to pos 0,0 of that wrapper
-                var discardedCardsContainer = $('discarded_cards_container');
-                var wrapperDiv = dojo.clone(dojo.query('.discarded_cards_cursor', discardedCardsContainer)[0]);
-                dojo.removeClass(wrapperDiv, 'discarded_cards_cursor');
-                dojo.place(wrapperDiv, discardedCardsContainer, discardedCardsContainer.children.length - 1);
+                    var buildingData = this.gamedatas.buildings[notif.args.buildingId];
+                    var data = {
+                        jsId: buildingData.id,
+                        jsName: _(buildingData.name),
+                        jsType: buildingData.type,
+                        jsRow: notif.args.buildingRow,
+                        jsColumn: notif.args.buildingColumn,
+                        jsLocation: -1,
+                        jsX: buildingData.spriteXY[0],
+                        jsY: buildingData.spriteXY[1],
+                        jsZindex: notif.args.buildingRow,
+                        jsAvailable: '',
+                        jsDisplayCostMe: 'none',
+                        jsCostColorMe: 'black',
+                        jsCostMe: -1,
+                        jsCostMeClass: '',
+                        jsDisplayCostOpponent: 'none',
+                        jsCostColorOpponent: 'black',
+                        jsCostOpponent: -1,
+                        jsCostOpponentClass: '',
+                        jsLinkX: 0,
+                        jsLinkY: 0,
+                    };
+                    buildingNode = dojo.place(this.format_block('jstpl_draftpool_building', data), 'draftpool');
+                }
 
-                buildingNode = this.attachToNewParent(buildingNode, wrapperDiv); // attachToNewParent creates and returns a new instance of the node (replacing the old one).
-                dojo.attr(buildingNode, 'id', ''); // Remove the draftpool specific id
-                dojo.query(".draftpool_building_cost", buildingNode).forEach(dojo.destroy); // Remove cost coins from building
+                var twistAnimation = this.emptyAnimation();
+                if (oldBuildingNode) {
+                    twistAnimation = this.twistAnimation(oldBuildingNode, buildingNode, false);
+                }
+                dojo.connect(twistAnimation, 'onEnd', dojo.hitch(this, function (node) {
+                    var coinAnimation = bgagame.CoinAnimator.get().getAnimation(
+                        buildingNode,
+                        dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_coins')[0],
+                        notif.args.gain,
+                        notif.args.playerId
+                    );
 
-                var moveAnim = this.slideToObjectPos(buildingNode, wrapperDiv, 0, 0, this.discardBuildingAnimationDuration);
+                    // Set up a wrapper div so we can move the building to pos 0,0 of that wrapper
+                    var discardedCardsContainer = $('discarded_cards_container');
+                    var wrapperDiv = dojo.clone(dojo.query('.discarded_cards_cursor', discardedCardsContainer)[0]);
+                    dojo.removeClass(wrapperDiv, 'discarded_cards_cursor');
+                    dojo.place(wrapperDiv, discardedCardsContainer, discardedCardsContainer.children.length - 1);
 
-                var anim = dojo.fx.chain([
-                    coinAnimation,
-                    moveAnim
-                ]);
+                    buildingNode = this.attachToNewParent(buildingNode, wrapperDiv); // attachToNewParent creates and returns a new instance of the node (replacing the old one).
+                    dojo.attr(buildingNode, 'id', ''); // Remove the draftpool specific id
+                    dojo.query(".draftpool_building_cost", buildingNode).forEach(dojo.destroy); // Remove cost coins from building
 
-                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                    if (notif.args.draftpool) this.updateDraftpool(notif.args.draftpool);
+                    var moveAnim = this.slideToObject(buildingNode, wrapperDiv, this.discardBuildingAnimationDuration);
+
+                    var anim = dojo.fx.chain([
+                        coinAnimation,
+                        moveAnim
+                    ]);
+
+                    dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                        if (notif.args.draftpool) this.updateDraftpool(notif.args.draftpool);
+
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                    }));
+
+                    anim.play();
                 }));
-
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
-
-                anim.play();
+                twistAnimation.play();
             },
 
             //    ____                _                   _    __        __              _
@@ -2551,7 +3347,7 @@ define([
                     Object.keys(this.gamedatas.wondersSituation[this.player_id]).forEach(dojo.hitch(this, function (index) {
                         var wonderData = this.gamedatas.wondersSituation[this.player_id][index];
                         if (!wonderData.constructed) {
-                            if (wonderData.cost <= this.gamedatas.playersSituation[this.player_id].coins) {
+                            if (wonderData.cost <= this.getPlayerCoins(this.player_id, true)) {
                                 dojo.addClass($('wonder_' + wonderData.wonder), 'red_border');
                             }
                         }
@@ -2578,7 +3374,7 @@ define([
                     var wonderNode = dojo.hasClass(e.target, 'wonder') ? e.target : dojo.query(e.target).closest(".wonder")[0];
                     var wonderId = dojo.attr(wonderNode, "data-wonder-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructWonder.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionConstructWonder.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId,
                             wonderId: wonderId,
@@ -2603,6 +3399,7 @@ define([
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
                 this.clearGreenBorder();
+                this.clearDivinityBorder();
 
                 var wonderContainer = dojo.query('#player_wonders_' + notif.args.playerId + ' #wonder_' + notif.args.wonderId + '_container')[0];
                 var coinNode = dojo.query('.player_wonder_cost', wonderContainer)[0];
@@ -2625,6 +3422,8 @@ define([
                     this.updateWondersSituation(notif.args.wondersSituation);
 
                     var buildingNode = dojo.query("[data-building-id=" + notif.args.buildingId + "]")[0];
+                    let discardedBuilding = dojo.query(buildingNode).closest('#discarded_cards_container').length > 0
+                    var buildingNodeParent = buildingNode.parentElement; // Only used when we are constructing with a discarded building (Divinity Isis)
 
                     // Animate age card towards wonder:
                     if (1) {
@@ -2659,7 +3458,7 @@ define([
                             [wonder.visualOpponentCoinLossPosition[0] * wonderNodePosition.w, wonder.visualOpponentCoinLossPosition[1] * wonderNodePosition.h]
                         );
 
-                        var eightWonderFadeOut = dojo.fx.combine([]);
+                        var eightWonderFadeOut = this.emptyAnimation();
                         if (notif.args.payment.eightWonderId) {
                             eightWonderFadeOut = dojo.fadeOut({
                                 node: $('wonder_' + notif.args.payment.eightWonderId + '_container'),
@@ -2740,14 +3539,302 @@ define([
                             dojo.style(ageCardNode, 'z-index', 1);
                             dojo.style(wonderNode, 'z-index', 2);
                             dojo.style(wonderContainer, 'z-index', 10);
-                        }));
 
-                        // Wait for animation before handling the next notification (= state change).
-                        this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                            this.clearRedBorder();
+                            if (discardedBuilding) {
+                                this.scrollBack();
+                                dojo.destroy(buildingNodeParent); // Destroy old parent (container in discarded buildings block).
+                            }
+
+                            // Wait for animation before handling the next notification (= state change).
+                            this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                        }));
 
                         anim.play();
                     }
 
+                }));
+                coinAnimation.play();
+            },
+
+            //     _        _   _            _                 ____  _       _       _ _
+            //    / \   ___| |_(_)_   ____ _| |_ ___    __ _  |  _ \(_)_   _(_)_ __ (_) |_ _   _
+            //   / _ \ / __| __| \ \ / / _` | __/ _ \  / _` | | | | | \ \ / / | '_ \| | __| | | |
+            //  / ___ \ (__| |_| |\ V / (_| | ||  __/ | (_| | | |_| | |\ V /| | | | | | |_| |_| |
+            // /_/   \_\___|\__|_| \_/ \__,_|\__\___|  \__,_| |____/|_| \_/ |_|_| |_|_|\__|\__, |
+            //                                                                             |___/
+
+            onActivateDivinityClick: function (e) {
+                if (this.debug) console.log('onActivateDivinityClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    this.activateDivinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
+                    this.activateDivinityId = dojo.attr(this.activateDivinityNode, 'data-divinity-id');
+                    this.activateDivinitySpace = dojo.query(this.activateDivinityNode).closest('.pantheon_space')[0].dataset.space;
+
+                    this.cancelDraftpoolClick();
+
+                    this.activateDivinityOfferingTokenIds = [];
+                    if (this.gamedatas.offeringTokensSituation[this.me_id].length > 0) {
+                        this.updateActivateDivinityDialog();
+
+                        this.setClientState("client_activateDivinity", {
+                            descriptionmyturn: _("${you} must choose the action for the age card, or select a different age card"),
+                        });
+                    }
+                    else {
+                        this.activateDivinity();
+                    }
+                }
+            },
+
+            updateActivateDivinityDialog: function() {
+                this.autoUpdateScale();
+
+                let divinityContainer = $('activate_divinity_container');
+                dojo.empty(divinityContainer);
+
+                let divinityNode = dojo.clone(this.activateDivinityNode);
+                dojo.removeClass(divinityNode, 'divinity_border');
+                dojo.place(divinityNode, divinityContainer);
+
+                let cost = this.gamedatas.divinitiesSituation.spaces[this.activateDivinitySpace].cost[this.me_id];
+                let stepsCostContainer = $('activate_divinity_cost_container');
+                dojo.empty(stepsCostContainer);
+                dojo.place(this.getCostDivHtml(cost, this.getPlayerCoins(this.me_id, true)), stepsCostContainer);
+
+                let tokensContainer = $('activate_divinity_tokens_container');
+                let stepsContainer = $('activate_divinity_payment_steps');
+                dojo.empty(tokensContainer);
+                dojo.empty(stepsContainer);
+                Object.values(this.gamedatas.offeringTokensSituation[this.me_id]).forEach(dojo.hitch(this, function (offeringToken) {
+                    let offeringTokenNode = dojo.query('.player_info.me .offering_token[data-offering-token-id="' + offeringToken.id + '"]')[0];
+                    let activated = this.activateDivinityOfferingTokenIds.indexOf(offeringToken.id) > -1;
+
+                    let selectedOfferingTokenContainerNode = dojo.place(this.getOfferingTokenHtml(offeringToken.id), activated ? stepsContainer : tokensContainer);
+                    let selectedOfferingTokenNode = dojo.query('.offering_token', selectedOfferingTokenContainerNode)[0];
+
+                    if (activated) {
+                        cost -= parseInt(offeringToken.type);
+                        cost = Math.max(0, cost);
+                    }
+                    else {
+                    }
+                }));
+                dojo.place(this.getCostDivHtml(cost, this.getPlayerCoins(this.me_id, true)), stepsContainer);
+
+                let confirmButtonNode = $('activate_divinity_confirm');
+                dojo.removeClass(confirmButtonNode, 'bgabutton_blue');
+                dojo.removeClass(confirmButtonNode, 'bgabutton_darkgray');
+                dojo.addClass(confirmButtonNode, cost <= this.getPlayerCoins(this.me_id, true) ? 'bgabutton_blue' : 'bgabutton_darkgray');
+            },
+
+            onActivityDivinityOfferingTokenAddClick: function (e) {
+                if (this.debug) console.log('onActivityDivinityOfferingTokenAddClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                let offeringTokenNode = dojo.hasClass(e.target, 'offering_token') ? e.target : dojo.query(e.target).closest(".offering_token")[0];
+                let offeringTokenId = dojo.attr(offeringTokenNode, 'data-offering-token-id');
+
+                if (this.activateDivinityOfferingTokenIds.indexOf(offeringTokenId) == -1) {
+                    this.activateDivinityOfferingTokenIds.push(offeringTokenId);
+                    this.updateActivateDivinityDialog();
+                }
+            },
+
+            onActivityDivinityOfferingTokenRemoveClick: function (e) {
+                if (this.debug) console.log('onActivityDivinityOfferingTokenRemoveClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                let offeringTokenNode = dojo.hasClass(e.target, 'offering_token') ? e.target : dojo.query(e.target).closest(".offering_token")[0];
+                let offeringTokenId = dojo.attr(offeringTokenNode, 'data-offering-token-id');
+
+                let index = this.activateDivinityOfferingTokenIds.indexOf(offeringTokenId)
+                if (index > -1) {
+                    this.activateDivinityOfferingTokenIds.splice(index, 1)
+                }
+
+                this.updateActivateDivinityDialog();
+            },
+
+            onActivateDivinityConfirmClick: function (e) {
+                if (this.debug) console.log('onActivateDivinityConfirmClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                this.activateDivinity();
+            },
+
+            activateDivinity: function () {
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionActivateDivinity')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionActivateDivinity.html", {
+                            divinityId: this.activateDivinityId,
+                            offeringTokenIds: this.activateDivinityOfferingTokenIds.join(),
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_activateDivinity: function (notif) {
+                if (this.debug) console.log('notif_activateDivinity', notif);
+
+                this.clearDivinityBorder();
+                this.autoUpdateScale();
+
+                // Divinities from the Pantheon
+                var oldDivinityNode = dojo.query('.pantheon_space_containers .divinity[data-divinity-id="' + notif.args.divinityId + '"]')[0];
+                if (!oldDivinityNode) {
+                    if (this.isCurrentPlayerActive()) {
+                        // Other divinities (ChooseDivinityFromTopCards, ChooseDivinityFromDeck)
+                        oldDivinityNode = dojo.query('#swd_wrap .divinity[data-divinity-id="' + notif.args.divinityId + '"]')[0];
+                    }
+                    else {
+                        // For the inactive player / spectator
+                        var playerBuildingsContainer = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                        oldDivinityContainerNode = dojo.place(this.getDivinityDivHtml(notif.args.divinityId, notif.args.divinityType, true), playerBuildingsContainer);
+                        oldDivinityNode = dojo.query('.divinity', oldDivinityContainerNode)[0];
+                        dojo.style(oldDivinityContainerNode, 'position', 'absolute');
+                        dojo.style(oldDivinityContainerNode, 'width', dojo.style(oldDivinityNode, 'width') + 'px');
+                        dojo.style(oldDivinityContainerNode, 'height', dojo.style(oldDivinityNode, 'height') + 'px');
+                        this.placeOnObject( oldDivinityContainerNode, playerBuildingsContainer ); // Center the card in the player buildingsContainer
+                        dojo.style(oldDivinityNode, 'opacity', '0');
+                        dojo.style(oldDivinityNode, 'z-index', '50');
+                    }
+                }
+                var oldDivinityFullSize = !dojo.hasClass(oldDivinityNode, 'divinity_compact');
+                var oldDivinityContainerNode = oldDivinityNode.parentElement;
+
+                let coinAnimation = null;
+                let spaceNode = null;
+                if (!oldDivinityFullSize) {
+                    spaceNode = dojo.query(oldDivinityNode).closest('.pantheon_space')[0];
+                    let space = dojo.attr(spaceNode, 'data-space');
+                    let coinNode = dojo.query('.pantheon_cost_containers .pantheon_space[data-space="' + space + '"] .' + this.getPlayerAlias(notif.args.playerId) + ' .coin')[0];
+
+                    let anims = [];
+                    var fadeDurationPercentage = 0.15;
+                    Object.values(notif.args.offeringTokenIds).forEach(dojo.hitch(this, function (offeringTokenId) {
+                        let offeringTokenNode = dojo.query('.player_area_progress_tokens .offering_token[data-offering-token-id="' + offeringTokenId + '"]')[0];
+                        anims.push(
+                            dojo.fx.combine([
+                                this.slideToObject(offeringTokenNode, oldDivinityNode, this.progressTokenDuration),
+                                dojo.animateProperty({
+                                    node: offeringTokenNode,
+                                    duration: this.progressTokenDuration * fadeDurationPercentage,
+                                    delay: (1 - fadeDurationPercentage) * this.progressTokenDuration,
+                                    easing: dojo.fx.easing.linear,
+                                    properties: {
+                                        opacity: {
+                                            start: 1,
+                                            end: 0
+                                        }
+                                    },
+                                    onEnd: dojo.hitch(this, function (node) {
+                                        dojo.destroy(node.parentElement);
+                                    })
+                                })
+                            ])
+                        );
+                    }));
+
+                    anims.push(bgagame.CoinAnimator.get().getAnimation(
+                        this.getPlayerCoinContainer(notif.args.playerId),
+                        coinNode,
+                        notif.args.cost,
+                        notif.args.playerId
+                    ));
+
+                    coinAnimation = dojo.fx.chain(anims);
+                }
+                else {
+                    if (this.isCurrentPlayerActive()) {
+                        coinAnimation = this.emptyAnimation();
+                    }
+                    else {
+                        coinAnimation = dojo.fx.chain([
+                            dojo.fadeIn({
+                                node: oldDivinityNode,
+                                duration: 250
+                            }),
+                        ]);
+                    }
+                }
+
+                this.setClientState("dummy"); // So #activate_divinity is hidden.
+
+                dojo.connect(coinAnimation, 'onEnd', dojo.hitch(this, function (node) {
+                    var newDivinityContainerNode = dojo.place(this.getDivinityDivHtml(notif.args.divinityId, notif.args.divinityType, false), 'player_conspiracies_' + notif.args.playerId);
+                    var newDivinityNode = dojo.query('.divinity', newDivinityContainerNode)[0];
+
+                    let enkiProgressTokensNode = dojo.query('.enki_progress_tokens', oldDivinityNode)[0];
+                    if (enkiProgressTokensNode) {
+                        dojo.place(enkiProgressTokensNode.outerHTML, newDivinityNode);
+                    }
+
+                    this.autoUpdateScale();
+
+                    var coinRewardAnimation = bgagame.CoinAnimator.get().getAnimation(
+                        newDivinityNode,
+                        this.getPlayerCoinContainer(notif.args.playerId),
+                        notif.args.payment.coinReward,
+                        notif.args.playerId,
+                    );
+
+                    this.placeOnObjectPos(newDivinityNode, oldDivinityNode, 0, oldDivinityFullSize ? (78 * this.getCssVariable('--scale')) : 0);
+                    let fadeoutAnim = dojo.fadeOut({
+                        node: oldDivinityContainerNode,
+                        duration: oldDivinityFullSize ? 500 : 0,
+                        onEnd: dojo.hitch(this, function (node) {
+                            dojo.destroy(node);
+                        })
+                    })
+
+                    let anim = dojo.fx.chain([
+                        fadeoutAnim,
+                        dojo.fx.combine([
+                            this.slideToObjectPos(newDivinityNode, newDivinityContainerNode, 0, 0, this.activate_divinity_duration),
+                            spaceNode ? dojo.animateProperty({
+                                node: newDivinityNode,
+                                // delay: this.constructWonderAnimationDuration / 6,
+                                duration: this.activate_divinity_duration * 0.6,
+                                properties: {
+                                    propertyTransform: {start: this.getCurrentRotation(spaceNode), end: 0}
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                }
+                            }) : this.emptyAnimation()
+                        ]),
+                        coinRewardAnimation,
+                        // Military Track animation (pawn movement, token handling)
+                        bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment),
+                    ]);
+
+                    dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                    }));
+
+                    anim.play();
                 }));
                 coinAnimation.play();
             },
@@ -2796,7 +3883,7 @@ define([
                     var conspiracyNode = dojo.hasClass(e.target, 'conspiracy') ? e.target : dojo.query(e.target).closest(".conspiracy")[0];
                     var conspiracyId = dojo.attr(conspiracyNode, "data-conspiracy-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionPrepareConspiracy.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionPrepareConspiracy.html", {
                             lock: true,
                             buildingId: this.playerTurnBuildingId,
                             conspiracyId: conspiracyId,
@@ -2821,6 +3908,7 @@ define([
                 this.clearPlayerTurnNodeGlow();
                 this.clearRedBorder();
                 this.clearGreenBorder();
+                this.clearDivinityBorder();
 
                 // Update the conspiracies situation, because now the conspiracy is prepared and the age card has been rendered.
                 this.updateConspiraciesSituation(notif.args.conspiraciesSituation);
@@ -2896,10 +3984,10 @@ define([
                         dojo.style(peekNode, 'z-index', null);
                         dojo.style(conspiracyContainer, 'z-index', 10);
                         dojo.removeClass(conspiracyContainer, 'animating');
-                    }));
 
-                    // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                    }));
 
                     anim.play();
                 }
@@ -2932,7 +4020,7 @@ define([
 
                     var buildingId = dojo.attr(e.target, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseOpponentBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseOpponentBuilding.html", {
                             lock: true,
                             buildingId: buildingId
                         },
@@ -2976,10 +4064,10 @@ define([
                     var buildingColumn = dojo.query(playerBuildingNode).closest(".player_building_column")[0];
                     dojo.removeClass(buildingColumn, 'red_border');
                     dojo.destroy(playerBuildingNode.parentNode);
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
 
                 anim.play();
             },
@@ -2993,14 +4081,8 @@ define([
 
             onEnterChooseDiscardedBuilding: function (args) {
                 if (this.isCurrentPlayerActive()) {
-                    var whiteblock = $('lower_divs_container');
-                    dojo.addClass(whiteblock, 'red_border');
-
-                    // Scroll so the discarded card whiteblock is visible (remember the scroll position so we can restore the view later).
-                    this.freezeLayout = 1;
-                    this.rememberScrollX = window.scrollX;
-                    this.rememberScrollY = window.scrollY;
-                    whiteblock.scrollIntoView(false);
+                    dojo.addClass($('discarded_cards_whiteblock'), 'red_border');
+                    this.scrollToLowerDivs();
                 }
             },
 
@@ -3018,7 +4100,7 @@ define([
 
                     var buildingId = dojo.attr(e.target, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseDiscardedBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseDiscardedBuilding.html", {
                             lock: true,
                             buildingId: buildingId
                         },
@@ -3059,10 +4141,10 @@ define([
                         return;
                     }
 
-                    var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
-                    var progressTokenId = progressToken.attr("data-progress-token-id");
+                    var progressTokenNode = dojo.hasClass(e.target, 'progress_token') ? e.target : dojo.query(e.target).closest(".progress_token")[0];
+                    var progressTokenId = dojo.attr(progressTokenNode, 'data-progress-token-id');
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseProgressToken.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseProgressToken.html", {
                             lock: true,
                             progressTokenId: progressTokenId
                         },
@@ -3082,9 +4164,9 @@ define([
             notif_progressTokenChosen: function (notif) {
                 if (this.debug) console.log('notif_progressTokenChosen', notif);
 
-                dojo.removeClass($('board_progress_tokens'), 'red_border');
+                this.clearRedBorder();
 
-                var container = dojo.query('.player_info.' + this.getPlayerAlias(notif.args.playerId) + ' .player_area_progress_tokens>div:nth-of-type(' + notif.args.progressTokenPosition + ')')[0];
+                let container = this.getNewProgressTokenContainer(notif.args.playerId);
                 var progressTokenNode = dojo.query("[data-progress-token-id=" + notif.args.progressTokenId + "]")[0];
                 if (progressTokenNode) {
                     progressTokenNode = this.attachToNewParent(progressTokenNode, container);
@@ -3099,6 +4181,15 @@ define([
                     else if (notif.args.source == 'conspiracy') {
                         this.placeOnObject(progressTokenNode, dojo.query('.conspiracy_compact[data-conspiracy-id="10"]')[0]);
                     }
+                    else if (notif.args.source == 'divinity') {
+                        this.placeOnObject(progressTokenNode, dojo.query('.divinity_compact[data-divinity-id="1"]')[0]);
+                    }
+                }
+
+                // Fade out 2nd progress token on Enki
+                let remainingEnkiProgressTokenNode = dojo.query('.player_conspiracies .divinity_compact[data-divinity-id="1"] .progress_token:not([data-progress-token-id="' + notif.args.progressTokenId + '"])')[0];
+                if (remainingEnkiProgressTokenNode) {
+                    this.fadeOutAndDestroy(remainingEnkiProgressTokenNode, 250, 0);
                 }
 
                 var anim = dojo.fx.chain([
@@ -3116,11 +4207,10 @@ define([
                     anim.stop();
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd)
                     dojo.query("#swd_wrap .coin.animated").forEach(dojo.destroy);
-                    this.maybeShowSecondRowProgressTokens(notif.args.playerId);
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
 
                 anim.play();
             },
@@ -3128,7 +4218,12 @@ define([
             notif_nextAgeDraftpoolReveal: function (notif) {
                 if (this.debug) console.log('notif_nextAgeDraftpoolReveal', notif);
 
+                if (notif.args.offeringTokensSituation) this.updateOfferingTokensSituation(notif.args.offeringTokensSituation); // Sets this.gamedatas.offeringTokensSituation so it can be used in this.updateDraftpool
                 var animationDuration = this.updateDraftpool(notif.args.draftpool, false, true);
+
+                if (notif.args.divinitiesSituation) {
+                    this.divinitiesRevealAnimation(notif.args.doorSpace, notif.args.divinitiesSituation);
+                }
 
                 // Wait for animation before handling the next notification (= state change).
                 this.notifqueue.setSynchronousDuration(animationDuration);
@@ -3182,7 +4277,7 @@ define([
 
                     var playerId = dojo.attr(e.target, "data-player-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSelectStartPlayer.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionSelectStartPlayer.html", {
                             lock: true,
                             playerId: playerId
                         },
@@ -3198,6 +4293,1254 @@ define([
                     );
                 }
             },
+
+            //  ____             _   _                        ____  _        _
+            // |  _ \ __ _ _ __ | |_| |__   ___  ___  _ __   / ___|| |_ __ _| |_ ___  ___
+            // | |_) / _` | '_ \| __| '_ \ / _ \/ _ \| '_ \  \___ \| __/ _` | __/ _ \/ __|
+            // |  __/ (_| | | | | |_| | | |  __/ (_) | | | |  ___) | || (_| | ||  __/\__ \
+            // |_|   \__,_|_| |_|\__|_| |_|\___|\___/|_| |_| |____/ \__\__,_|\__\___||___/
+
+            //   ____ _                               _              _   ____  _                  ____  _       _       _ _
+            //  / ___| |__   ___   ___  ___  ___     / \   _ __   __| | |  _ \| | __ _  ___ ___  |  _ \(_)_   _(_)_ __ (_) |_ _   _
+            // | |   | '_ \ / _ \ / _ \/ __|/ _ \   / _ \ | '_ \ / _` | | |_) | |/ _` |/ __/ _ \ | | | | \ \ / / | '_ \| | __| | | |
+            // | |___| | | | (_) | (_) \__ \  __/  / ___ \| | | | (_| | |  __/| | (_| | (_|  __/ | |_| | |\ V /| | | | | | |_| |_| |
+            //  \____|_| |_|\___/ \___/|___/\___| /_/   \_\_| |_|\__,_| |_|   |_|\__,_|\___\___| |____/|_| \_/ |_|_| |_|_|\__|\__, |
+            //                                                                                                                |___/
+
+            onEnterChooseAndPlaceDivinity: function (args) {
+                if (this.debug) console.log('onEnterChooseAndPlaceDivinity', args);
+
+                let anims = [];
+                if (this.isCurrentPlayerActive()) {
+                    let i = 1;
+                    Object.keys(args._private.divinities).forEach(dojo.hitch(this, function (divinityId) {
+                        var card = args._private.divinities[divinityId];
+                        let divinity = this.gamedatas.divinities[divinityId];
+                        var container = dojo.query('#choose_and_place_divinity>div:nth-of-type(' + (parseInt(card.location_arg) + 1) + ')')[0];
+                        dojo.empty(container);
+                        let divinityContainer = dojo.place(this.getDivinityDivHtml(divinityId, divinity.type,true), container);
+                        let divinityNode = dojo.query('.divinity', divinityContainer)[0];
+                        this.placeOnObject(divinityNode, $('mythology' + divinity.type));
+                        anims.push(this.slideToObjectPos( divinityNode, divinityContainer, 0, 0, this.conspire_duration, i * this.conspire_duration / 3));
+                        i++;
+                    }));
+                    this.updateLayout();
+                }
+                else {
+                    for (let i = 0; i <= 1; i++) {
+                        var container = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                        let node = dojo.place(this.getDivinityDivHtml(0, args.divinitiesType, true), container);
+                        dojo.style(node, 'z-index', 50);
+                        this.placeOnObject(node, $('mythology' + args.divinitiesType));
+                        let startDelay = i * this.conspire_duration / 3;
+
+                        anims.push(
+                            dojo.fx.combine([
+                                this.slideToObject( node, container, this.conspire_duration, i * this.conspire_duration / 3),
+                                dojo.fadeIn({
+                                    node: node,
+                                    duration: this.conspire_duration / 3
+                                }),
+                                dojo.fadeOut({
+                                    node: node,
+                                    delay: startDelay + this.conspire_duration / 3 * 2,
+                                    duration: this.conspire_duration / 3,
+                                    onEnd: dojo.hitch(this, function (node) {
+                                        dojo.destroy(node);
+                                    })
+                                }),
+                            ])
+                        );
+                    }
+                }
+                let anim = dojo.fx.combine(
+                    anims
+                );
+                anim.play();
+            },
+
+            onChooseDivinityClick: function (e) {
+                if (this.debug) console.log('onChooseDivinityClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    this.clearRedBorder();
+                    this.clearGrayBorder();
+
+                    var divinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
+                    dojo.addClass(divinityNode, 'gray_border');
+
+                    dojo.query('#swd .pantheon_space_containers > div:empty').addClass('red_border');
+
+                    this.chooseDivinityId = dojo.attr(divinityNode, 'data-divinity-id');
+                    this.chooseDivinityNode = divinityNode;
+                }
+            },
+
+            onPlaceDivinityClick: function (e) {
+                if (this.debug) console.log('onPlaceDivinityClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    let space = dojo.attr(e.target, 'data-space');
+
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseAndPlaceDivinity')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseAndPlaceDivinity.html", {
+                            divinityId: this.chooseDivinityId,
+                            space: space,
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_placeDivinity: function (notif) {
+                if (this.debug) console.log('notif_placeDivinity', notif);
+
+                let divinityId = notif.args.divinityId ? notif.args.divinityId : 0;
+                let divinityType = notif.args.divinityType;
+                let space = notif.args.space;
+
+                // Skip for the active player, who will get their own notification of the same type but with a real divinityId.
+                if (this.isCurrentPlayerActive() && divinityId == 0) {
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                    return;
+                }
+
+                let anims = [];
+                let startSlideAfterFlipPercentage = 0.5;
+
+                for (let iteration = 1; iteration <= 2; iteration++) {
+                    let targetNode = null;
+                    if (iteration == 1) {
+                        var spaceNode = dojo.query('.pantheon_space_containers div[data-space=' + space + ']')[0];
+                        var newDivinityContainerNode = dojo.place(this.getDivinityDivHtml(0, divinityType, false), spaceNode);
+                        var newDivinityNode = dojo.query('.divinity_compact', newDivinityContainerNode)[0];
+                        dojo.style(newDivinityContainerNode, 'opacity', 0);
+                        // Start: Correct position to match Mythology logo of full and compact nodes.
+                        dojo.style(newDivinityNode, 'top', 'calc(-192px * var(--scale))');
+                        if (!this.isCurrentPlayerActive()) {
+                            // Don't know why but this is neccessary to correct the position for the inactive player.
+                            dojo.style(newDivinityNode, 'left', 'calc(16px * var(--scale))');
+                        }
+                        targetNode = newDivinityNode;
+                    }
+                    else if (iteration == 2) {
+                        targetNode = dojo.query('#mythology_decks_container #mythology' + notif.args.divinityType + ' .divinity')[0];
+                    }
+
+                    this.autoUpdateScale();
+
+                    let flipAnims = [];
+                    let slideAnims = [];
+                    var backSideDivinityContainerNode = null;
+                    if (this.isCurrentPlayerActive()) {
+                        this.clearGrayBorder();
+                        this.clearRedBorder();
+
+                        // For the active player, turn the card first so the backside is visible.
+                        var oldDivinityNode = null;
+                        if (iteration == 1) {
+                            oldDivinityNode = dojo.query('#choose_and_place_divinity .divinity[data-divinity-id=' + divinityId + ']')[0];
+                        }
+                        else if (iteration == 2) {
+                            oldDivinityNode = dojo.query('#choose_and_place_divinity .divinity:not([data-divinity-id=' + divinityId + ']):not([data-divinity-id=0])')[0];
+                        }
+
+                        backSideDivinityContainerNode = dojo.place(this.getDivinityDivHtml(0, divinityType, true), oldDivinityNode.parentElement);
+                        let backSideDivinityNode = dojo.query('.divinity', backSideDivinityContainerNode)[0];
+
+                        dojo.style(backSideDivinityNode, 'transform', 'perspective(40em) rotateY(-180deg)'); // When delay > 0 this is necesarry to hide the new node.
+
+                        flipAnims.push(
+                            dojo.fx.combine([
+                                dojo.animateProperty({
+                                    node: oldDivinityNode,
+                                    duration: this.turnAroundCardDuration,
+                                    easing: dojo.fx.easing.linear,
+                                    properties: {
+                                        propertyTransform: {start: 0, end: 180}
+                                    },
+                                    onAnimate: function (values) {
+                                        dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    },
+                                    onEnd: dojo.hitch(this, function (node) {
+                                        dojo.destroy(node);
+                                    })
+                                }),
+                                dojo.animateProperty({
+                                    node: backSideDivinityNode,
+                                    duration: this.turnAroundCardDuration,
+                                    easing: dojo.fx.easing.linear,
+                                    properties: {
+                                        propertyTransform: {start: -180, end: 0}
+                                    },
+                                    onAnimate: function (values) {
+                                        dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    }
+                                }),
+                            ])
+                        );
+                    } else {
+                        // For the inactive player / spectator, fadein the backside of the divinity and slide towards the final place
+                        var playerBuildingsContainer = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                        backSideDivinityContainerNode = dojo.place(this.getDivinityDivHtml(0, divinityType, true), dojo.query('#pantheon_board_container')[0]);
+                        this.placeOnObject(backSideDivinityContainerNode, playerBuildingsContainer); // Center the card in the player buildingsContainer
+                        dojo.style(backSideDivinityContainerNode, 'opacity', 0);
+
+                        slideAnims.push(
+                            dojo.fx.combine([
+                                dojo.fadeIn({
+                                    node: backSideDivinityContainerNode,
+                                    delay: this.turnAroundCardDuration * startSlideAfterFlipPercentage,
+                                    duration: this.place_divinity_duration / 4
+                                }),
+                            ])
+                        );
+                    }
+                    dojo.style(backSideDivinityContainerNode, 'z-index', 100);
+
+                    if (iteration == 1) {
+                        slideAnims.push(this.slideToObject(backSideDivinityContainerNode, targetNode, this.place_divinity_duration, this.turnAroundCardDuration * startSlideAfterFlipPercentage));
+                    }
+                    else if (iteration == 2) {
+                        slideAnims.push(this.slideToObjectPos(backSideDivinityContainerNode, targetNode, 0, 0, this.place_divinity_duration, this.turnAroundCardDuration * startSlideAfterFlipPercentage));
+                    }
+
+                    if (iteration == 1) {
+                        // End: Correct position to match Mythology logo of full and compact nodes.
+                        dojo.style(newDivinityNode, 'top', '0px');
+                        dojo.style(newDivinityNode, 'left', '0px');
+
+                        slideAnims.push(
+                            dojo.animateProperty({
+                                node: backSideDivinityContainerNode,
+                                delay: this.turnAroundCardDuration * startSlideAfterFlipPercentage,
+                                duration: this.place_divinity_duration,
+                                easing: dojo.fx.easing.linear,
+                                properties: {
+                                    propertyTransform: {start: 0, end: this.getCurrentRotation(spaceNode)}
+                                },
+                                onAnimate: function (values) {
+                                    dojo.style(this.node, 'transform', 'rotate(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                }
+                            })
+                        );
+                    }
+
+                    let fadeOutParams = {
+                        node: backSideDivinityContainerNode,
+                        duration: this.place_divinity_duration / 4,
+                        onEnd: dojo.hitch(this, function (node) {
+                            dojo.destroy(node);
+                        })
+                    };
+                    if (iteration == 1) {
+                        fadeOutParams.onPlay = dojo.hitch(this, function (node) {
+                            // Show newDivinityContainerNode fully, since it's behind the backSideDivinityNode we don't have to fade it.
+                            dojo.style(newDivinityContainerNode, 'opacity', 1);
+                        });
+                    }
+                    let fadeOutAnim = dojo.fadeOut(fadeOutParams);
+
+                    anims.push(dojo.fx.chain([
+                        dojo.fx.combine(
+                            flipAnims.concat(slideAnims)
+                        ),
+                        fadeOutAnim
+                    ]));
+                }
+
+                let anim = dojo.fx.chain(anims);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
+
+                anim.play();
+            },
+
+            getCurrentRotation: function (el){
+                var st = window.getComputedStyle(el, null);
+                var tm = st.getPropertyValue("-webkit-transform") ||
+                    st.getPropertyValue("-moz-transform") ||
+                    st.getPropertyValue("-ms-transform") ||
+                    st.getPropertyValue("-o-transform") ||
+                    st.getPropertyValue("transform") ||
+                    "none";
+                if (tm != "none") {
+                    var values = tm.split('(')[1].split(')')[0].split(',');
+                    var angle = Math.round(Math.atan2(values[1],values[0]) * (180/Math.PI));
+                    return (angle < 0 ? angle + 360 : angle); //adding 360 degrees here when angle < 0 is equivalent to adding (2 * Math.PI) radians before
+                }
+                return 0;
+            },
+
+            //  ____                           _                   _    __        __              _
+            // |  _ \  ___  ___ ___  _ __  ___| |_ _ __ _   _  ___| |_  \ \      / /__  _ __   __| | ___ _ __
+            // | | | |/ _ \/ __/ _ \| '_ \/ __| __| '__| | | |/ __| __|  \ \ /\ / / _ \| '_ \ / _` |/ _ \ '__|
+            // | |_| |  __/ (_| (_) | | | \__ \ |_| |  | |_| | (__| |_    \ V  V / (_) | | | | (_| |  __/ |
+            // |____/ \___|\___\___/|_| |_|___/\__|_|   \__,_|\___|\__|    \_/\_/ \___/|_| |_|\__,_|\___|_|
+
+            onEnterDeconstructWonder: function (args) {
+                if (this.debug) console.log('onEnterDeconstructWonder', args);
+
+                let constructedWonders = dojo.query('.player_wonders .wonder[data-constructed="1"]');
+                constructedWonders.forEach(function(wonderNode){
+                    dojo.addClass(dojo.query('.age_card_container .building_small', wonderNode.parentElement)[0], 'red_border');
+                    dojo.addClass(wonderNode, 'red_border');
+                });
+            },
+
+            onDeconstructWonderClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onDeconstructWonderClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionDeconstructWonder')) {
+                        return;
+                    }
+
+                    var wonderNode = dojo.hasClass(e.target, 'wonder') ? e.target : dojo.query(e.target).closest(".wonder")[0];
+                    var wonderId = dojo.attr(wonderNode, "data-wonder-id");
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionDeconstructWonder.html", {
+                            lock: true,
+                            wonderId: wonderId,
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_deconstructWonder: function (notif) {
+                if (this.debug) console.log('notif_destroyConstructedWonder', notif);
+
+                this.clearRedBorder();
+
+                let wonderNode = $('wonder_' + notif.args.wonderId);
+                let wonderContainer = $('wonder_' + notif.args.wonderId + '_container');
+                let ageCardNode = dojo.query('.building_small', wonderContainer)[0];
+
+                var buildingNode = this.createDiscardedBuildingNode(notif.args.buildingId);
+                this.placeOnObjectPos(buildingNode, ageCardNode, 0, 0);
+                dojo.style(buildingNode, 'transform', 'rotate(-90deg) rotateY(-180deg) perspective(40em)'); // The rotateY(-90deg) affects the position the element will end up after the slide. Here's the place to apply it therefor, not before the animation instantiation.
+
+                dojo.style(ageCardNode, 'z-index', 20);
+                dojo.style(buildingNode, 'z-index', 20);
+
+                var anim = dojo.fx.chain([
+                    dojo.fx.combine([
+                        dojo.animateProperty({
+                            node: ageCardNode,
+                            duration: this.constructWonderAnimationDuration / 3,
+                            easing: dojo.fx.easing.linear,
+                            properties: {
+                                propertyXTransform: {start: -90, end: 0},
+                                propertyYTransform: {start: 0, end: 180}
+                            },
+                            onAnimate: function (values) {
+                                dojo.style(this.node, 'transform', 'perspective(40em) rotate(' + parseFloat(values.propertyXTransform.replace("px", "")) + 'deg) rotateY(' + parseFloat(values.propertyYTransform.replace("px", "")) + 'deg)');
+                            },
+                            onEnd: dojo.hitch(this, function (node) {
+                                dojo.destroy(node);
+                            })
+                        }),
+                        dojo.animateProperty({
+                            node: buildingNode,
+                            duration: this.constructWonderAnimationDuration / 3,
+                            easing: dojo.fx.easing.linear,
+                            properties: {
+                                propertyXTransform: {start: -90, end: 0},
+                                propertyYTransform: {start: -180, end: 0}
+                            },
+                            onAnimate: function (values) {
+                                dojo.style(this.node, 'transform', 'perspective(40em) rotate(' + parseFloat(values.propertyXTransform.replace("px", "")) + 'deg) rotateY(' + parseFloat(values.propertyYTransform.replace("px", "")) + 'deg)');
+                            }
+                        }),
+                    ]),
+                    dojo.animateProperty({
+                        node: buildingNode,
+                        duration: this.constructWonderAnimationDuration / 2,
+                        easing: dojo.fx.easing.linear,
+                        delay: this.constructWonderAnimationDuration / 4,
+                        properties: {
+                            top: 0,
+                            left: 0
+                        },
+                        onPlay: function (values) {
+                            dojo.style(this.node, 'z-index', 50);
+                        },
+                        onEnd: function (values) {
+                            dojo.style(this.node, 'z-index', 1);
+                        }
+                    }),
+                ]);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
+
+                anim.play();
+            },
+
+
+
+        //     if (notif.args.payment.discardedCard) {
+        //     dojo.connect(buildingMoveAnim, 'onEnd', dojo.hitch(this, function (node) {
+        //         var whiteblock = $('lower_divs_container');
+        //         dojo.removeClass(whiteblock, 'red_border');
+        //         window.scroll(this.rememberScrollX, this.rememberScrollY); // Scroll back to the position before this state.
+        //         this.freezeLayout = 0;
+        //         dojo.destroy(buildingNodeParent); // Destroy old parent (container in discarded buildings block).
+        //     }));
+        // }
+
+
+            //   ____                _                   _    __        __              _            __        ___ _   _       ____  _                       _          _   ____        _ _     _ _
+            //  / ___|___  _ __  ___| |_ _ __ _   _  ___| |_  \ \      / /__  _ __   __| | ___ _ __  \ \      / (_) |_| |__   |  _ \(_)___  ___ __ _ _ __ __| | ___  __| | | __ ) _   _(_) | __| (_)_ __   __ _
+            // | |   / _ \| '_ \/ __| __| '__| | | |/ __| __|  \ \ /\ / / _ \| '_ \ / _` |/ _ \ '__|  \ \ /\ / /| | __| '_ \  | | | | / __|/ __/ _` | '__/ _` |/ _ \/ _` | |  _ \| | | | | |/ _` | | '_ \ / _` |
+            // | |__| (_) | | | \__ \ |_| |  | |_| | (__| |_    \ V  V / (_) | | | | (_| |  __/ |      \ V  V / | | |_| | | | | |_| | \__ \ (_| (_| | | | (_| |  __/ (_| | | |_) | |_| | | | (_| | | | | | (_| |
+            //  \____\___/|_| |_|___/\__|_|   \__,_|\___|\__|    \_/\_/ \___/|_| |_|\__,_|\___|_|       \_/\_/  |_|\__|_| |_| |____/|_|___/\___\__,_|_|  \__,_|\___|\__,_| |____/ \__,_|_|_|\__,_|_|_| |_|\__, |
+            //                                                                                                                                                                                            |___/
+
+            onEnterConstructWonderWithDiscardedBuilding: function (args) {
+                if (this.debug) console.log('onEnterConstructWonderWithDiscardedBuilding', args);
+
+                if (this.isCurrentPlayerActive()) {
+                    dojo.addClass($('discarded_cards_whiteblock'), 'red_border');
+                    this.scrollToLowerDivs();
+                }
+            },
+
+            onConstructWonderWithDiscardedBuildingClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onConstructWonderWithDiscardedBuildingClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    var buildingNode = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
+
+                    this.clearRedBorder();
+                    dojo.addClass(buildingNode, 'red_border');
+                    var buildingId = dojo.attr(buildingNode, "data-building-id");
+
+                    dojo.query('#player_wonders_' + this.getActivePlayerId() + ' .wonder[data-constructed="0"]').addClass('red_border');
+
+                    this.deconstructWonderDiscardedBuildingId = buildingId;
+                }
+            },
+
+            onConstructWonderWithDiscardedBuildingWonderClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onConstructWonderWithDiscardedBuildingWonderClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionConstructWonder')) {
+                        return;
+                    }
+
+                    var wonderNode = dojo.hasClass(e.target, 'wonder') ? e.target : dojo.query(e.target).closest(".wonder")[0];
+                    var wonderId = dojo.attr(wonderNode, "data-wonder-id");
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionConstructWonder.html", {
+                            lock: true,
+                            buildingId: this.deconstructWonderDiscardedBuildingId,
+                            wonderId: wonderId,
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            //   ____ _                            _____       _    _   ____                                      _____     _
+            //  / ___| |__   ___   ___  ___  ___  | ____|_ __ | | _(_) |  _ \ _ __ ___   __ _ _ __ ___  ___ ___  |_   _|__ | | _____ _ __
+            // | |   | '_ \ / _ \ / _ \/ __|/ _ \ |  _| | '_ \| |/ / | | |_) | '__/ _ \ / _` | '__/ _ \/ __/ __|   | |/ _ \| |/ / _ \ '_ \
+            // | |___| | | | (_) | (_) \__ \  __/ | |___| | | |   <| | |  __/| | | (_) | (_| | | |  __/\__ \__ \   | | (_) |   <  __/ | | |
+            //  \____|_| |_|\___/ \___/|___/\___| |_____|_| |_|_|\_\_| |_|   |_|  \___/ \__, |_|  \___||___/___/   |_|\___/|_|\_\___|_| |_|
+            //                                                                          |___/
+
+            onEnterChooseEnkiProgressToken: function (args) {
+                if (this.debug) console.log('onEnterChooseEnkiProgressToken', args);
+
+                dojo.query('.player_conspiracies .divinity_compact[data-divinity-id="1"] .progress_token').addClass('red_border');
+            },
+
+            onChooseEnkiProgressTokenClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onChooseEnkiProgressTokenClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseEnkiProgressToken')) {
+                        return;
+                    }
+
+                    var progressTokenNode = dojo.hasClass(e.target, 'progress_token') ? e.target : dojo.query(e.target).closest(".progress_token")[0];
+                    var progressTokenId = dojo.attr(progressTokenNode, 'data-progress-token-id');
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseEnkiProgressToken.html", {
+                            lock: true,
+                            progressTokenId: progressTokenId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            //  ____  _                  ____              _          _____     _
+            // |  _ \| | __ _  ___ ___  / ___| _ __   __ _| | _____  |_   _|__ | | _____ _ __
+            // | |_) | |/ _` |/ __/ _ \ \___ \| '_ \ / _` | |/ / _ \   | |/ _ \| |/ / _ \ '_ \
+            // |  __/| | (_| | (_|  __/  ___) | | | | (_| |   <  __/   | | (_) |   <  __/ | | |
+            // |_|   |_|\__,_|\___\___| |____/|_| |_|\__,_|_|\_\___|   |_|\___/|_|\_\___|_| |_|
+
+            onEnterPlaceSnakeToken: function (args) {
+                if (this.debug) console.log('onEnterPlaceSnakeToken', args);
+
+                if (this.isCurrentPlayerActive()) {
+                    var opponentId = this.getOppositePlayerId(this.getActivePlayerId());
+                    var buildingColumn = dojo.query('.player' + opponentId + ' .player_building_column.Green')[0];
+                    dojo.addClass(buildingColumn, 'red_border');
+                }
+            },
+
+            onPlaceSnakeTokenClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onPlaceSnakeTokenClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionPlaceSnakeToken')) {
+                        return;
+                    }
+
+                    var buildingNode = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
+                    var buildingId = dojo.attr(buildingNode, "data-building-id");
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionPlaceSnakeToken.html", {
+                            lock: true,
+                            buildingId: buildingId
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_placeSnakeToken: function (notif) {
+                if (this.debug) console.log('notif_placeSnakeToken', notif);
+
+                this.clearRedBorder();
+                this.autoUpdateScale();
+
+                let buildingNode = dojo.query('.player_buildings .building_header_small[data-building-id="' + notif.args.buildingId + '"]')[0];
+                dojo.style(buildingNode, 'z-index', 20);
+                let snakeTokenContainerNode = dojo.place(this.getSnakeTokenHtml(), buildingNode);
+                let snakeTokenNode = dojo.query('.snake_token', snakeTokenContainerNode)[0];
+
+                var divinityNode = dojo.query('.divinity_small[data-divinity-id="3"]')[0];
+                this.placeOnObject(snakeTokenNode, divinityNode);
+
+                var anim = this.slideToObjectPos(snakeTokenNode, snakeTokenContainerNode, 0, 0, this.progressTokenDuration);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
+
+                anim.play();
+            },
+
+            //  ____  _                       _      _                 ____              _
+            // |  _ \(_)___  ___ __ _ _ __ __| |    / \   __ _  ___   / ___|__ _ _ __ __| |
+            // | | | | / __|/ __/ _` | '__/ _` |   / _ \ / _` |/ _ \ | |   / _` | '__/ _` |
+            // | |_| | \__ \ (_| (_| | | | (_| |  / ___ \ (_| |  __/ | |__| (_| | | | (_| |
+            // |____/|_|___/\___\__,_|_|  \__,_| /_/   \_\__, |\___|  \____\__,_|_|  \__,_|
+            //                                           |___/
+
+            onEnterDiscardAgeCard: function (args) {
+                if (this.debug) console.log('onEnterDiscardAgeCard', args);
+
+                if (this.isCurrentPlayerActive()) {
+                    dojo.query('#draftpool .building_small').addClass('red_border');
+                }
+            },
+
+            onDiscardAgeCardClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onDiscardAgeCardClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionDiscardAgeCard')) {
+                        return;
+                    }
+
+                    var building = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
+
+                    let location = dojo.attr(building, 'data-location');
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionDiscardAgeCard.html", {
+                            lock: true,
+                            location: location,
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            //  ____  _                  __  __ _                              _____     _
+            // |  _ \| | __ _  ___ ___  |  \/  (_)_ __   ___ _ ____   ____ _  |_   _|__ | | _____ _ __
+            // | |_) | |/ _` |/ __/ _ \ | |\/| | | '_ \ / _ \ '__\ \ / / _` |   | |/ _ \| |/ / _ \ '_ \
+            // |  __/| | (_| | (_|  __/ | |  | | | | | |  __/ |   \ V / (_| |   | | (_) |   <  __/ | | |
+            // |_|   |_|\__,_|\___\___| |_|  |_|_|_| |_|\___|_|    \_/ \__,_|   |_|\___/|_|\_\___|_| |_|
+
+            onEnterPlaceMinervaToken: function (args) {
+                if (this.debug) console.log('onEnterPlaceMinervaToken', args);
+
+                if (this.isCurrentPlayerActive()) {
+                    dojo.query('#board_container .military_position:not([data-position="' + args.militaryTrack.conflictPawn + '"])').addClass('red_stroke');
+                }
+            },
+
+            onPlaceMinervaTokenClick: function (e) {
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.debug) console.log('onPlaceMinervaTokenClick', e);
+
+                if (this.isCurrentPlayerActive()) {
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionPlaceMinervaToken')) {
+                        return;
+                    }
+
+                    var positionNode = dojo.hasClass(e.target, 'military_position') ? e.target : dojo.query(e.target).closest(".military_position")[0];
+                    var position = parseInt(dojo.attr(positionNode, "data-position"));
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionPlaceMinervaToken.html", {
+                            lock: true,
+                            position: position,
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_placeMinervaToken: function (notif) {
+                if (this.debug) console.log('notif_placeMinervaToken', notif);
+
+                dojo.query('#board_container .military_position').removeClass('red_stroke');
+
+                var divinityNode = dojo.query('.divinity_small[data-divinity-id="14"]')[0];
+                let minervaNode = $('minerva_pawn');
+                this.placeOnObject(minervaNode, divinityNode);
+
+                let positionNode = dojo.query("#board_container .military_position[data-position=" + notif.args.militaryTrack.minervaPawn + "]")[0];
+                dojo.style(minervaNode, 'z-index', 100);
+                var anim = this.slideToObject(minervaNode, positionNode, this.progressTokenDuration);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                    // As a fallback for the animation.
+                    this.updateMilitaryTrack(notif.args.militaryTrack);
+
+                    // Unset top/left attributes so the .minerva_pawn class takes over positioning the Minerva pawn
+                    dojo.style(minervaNode, 'top', '');
+                    dojo.style(minervaNode, 'left', '');
+
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
+
+                anim.play();
+            },
+
+            //  ____  _                       _   __  __ _ _ _ _                     _____     _
+            // |  _ \(_)___  ___ __ _ _ __ __| | |  \/  (_) (_) |_ __ _ _ __ _   _  |_   _|__ | | _____ _ __
+            // | | | | / __|/ __/ _` | '__/ _` | | |\/| | | | | __/ _` | '__| | | |   | |/ _ \| |/ / _ \ '_ \
+            // | |_| | \__ \ (_| (_| | | | (_| | | |  | | | | | || (_| | |  | |_| |   | | (_) |   <  __/ | | |
+            // |____/|_|___/\___\__,_|_|  \__,_| |_|  |_|_|_|_|\__\__,_|_|   \__, |   |_|\___/|_|\_\___|_| |_|
+            //                                                               |___/
+
+            onEnterDiscardMilitaryToken: function (args) {
+                if (this.debug) console.log('onEnterDiscardMilitaryToken', args);
+
+                if (this.isCurrentPlayerActive()) {
+                    dojo.query('#military_tokens .military_token').addClass('red_border');
+                }
+            },
+
+            onDiscardMilitaryTokenClick: function (e) {
+                if (this.debug) console.log('onDiscardMilitaryTokenClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    let militaryTokenNode = dojo.hasClass(e.target, 'military_token_container') ? e.target : dojo.query(e.target).closest(".military_token_container")[0];
+                    let militaryTokenNumber = dojo.attr(militaryTokenNode, 'data-military-token-number');
+
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionDiscardMilitaryToken')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionDiscardMilitaryToken.html", {
+                            lock: true,
+                            token: militaryTokenNumber
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        });
+                }
+            },
+
+            notif_discardMilitaryToken: function (notif) {
+                if (this.debug) console.log('notif_discardMilitaryToken', notif);
+
+                this.clearRedBorder();
+
+                let militaryTokenNode = dojo.query('.military_token_container[data-military-token-number="' + notif.args.token + '"] .military_token')[0];
+
+                let anim = dojo.fadeOut({
+                    node: militaryTokenNode,
+                    duration: this.constructBuildingAnimationDuration * 0.4,
+                    onEnd: dojo.hitch(this, function (node) {
+                        dojo.destroy(node);
+
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                    })
+                });
+
+                anim.play();
+            },
+
+            //     _                _         __  __ _ _ _ _                     _____     _
+            //    / \   _ __  _ __ | |_   _  |  \/  (_) (_) |_ __ _ _ __ _   _  |_   _|__ | | _____ _ __
+            //   / _ \ | '_ \| '_ \| | | | | | |\/| | | | | __/ _` | '__| | | |   | |/ _ \| |/ / _ \ '_ \
+            //  / ___ \| |_) | |_) | | |_| | | |  | | | | | || (_| | |  | |_| |   | | (_) |   <  __/ | | |
+            // /_/   \_\ .__/| .__/|_|\__, | |_|  |_|_|_|_|\__\__,_|_|   \__, |   |_|\___/|_|\_\___|_| |_|
+            //         |_|   |_|      |___/                              |___/
+
+            onEnterApplyMilitaryToken: function (args) {
+                if (this.debug) console.log('onEnterApplyMilitaryToken', args);
+
+                if (this.isCurrentPlayerActive()) {
+                    this.clearRedBorder();
+                    dojo.query('#military_tokens .military_token').addClass('red_border');
+                }
+            },
+
+            onApplyMilitaryTokenClick: function (e) {
+                if (this.debug) console.log('onApplyMilitaryTokenClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    let militaryTokenNode = dojo.hasClass(e.target, 'military_token_container') ? e.target : dojo.query(e.target).closest(".military_token_container")[0];
+                    let militaryTokenNumber = dojo.attr(militaryTokenNode, 'data-military-token-number');
+
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionApplyMilitaryToken')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionApplyMilitaryToken.html", {
+                            lock: true,
+                            token: militaryTokenNumber
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        });
+                }
+            },
+
+            notif_applyMilitaryToken: function (notif) {
+                if (this.debug) console.log('notif_applyMilitaryToken', notif);
+
+                this.clearRedBorder();
+
+                let anim = bgagame.MilitaryTrackAnimator.get().getAnimation(notif.args.playerId, notif.args.payment);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
+
+                anim.play();
+            },
+
+            //   ____ _                            ____  _       _       _ _           _____                      _____              ____              _
+            //  / ___| |__   ___   ___  ___  ___  |  _ \(_)_   _(_)_ __ (_) |_ _   _  |  ___| __ ___  _ __ ___   |_   _|__  _ __    / ___|__ _ _ __ __| |___
+            // | |   | '_ \ / _ \ / _ \/ __|/ _ \ | | | | \ \ / / | '_ \| | __| | | | | |_ | '__/ _ \| '_ ` _ \    | |/ _ \| '_ \  | |   / _` | '__/ _` / __|
+            // | |___| | | | (_) | (_) \__ \  __/ | |_| | |\ V /| | | | | | |_| |_| | |  _|| | | (_) | | | | | |   | | (_) | |_) | | |__| (_| | | | (_| \__ \
+            //  \____|_| |_|\___/ \___/|___/\___| |____/|_| \_/ |_|_| |_|_|\__|\__, | |_|  |_|  \___/|_| |_| |_|   |_|\___/| .__/   \____\__,_|_|  \__,_|___/
+            //                                                                 |___/                                       |_|
+
+            getDivinitiesToOpponentAnimation: function (types) {
+                let anims = [];
+                for (let i = 0; i < types.length; i++) {
+                    let type = types[i];
+                    var container = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                    let divinityContainerNode = dojo.place(this.getDivinityDivHtml(0, type, true), container);
+                    dojo.style(divinityContainerNode, 'position', 'absolute');
+                    this.placeOnObject(divinityContainerNode, container);
+                    let divinityNode = dojo.query('.divinity', divinityContainerNode)[0];
+                    dojo.style(divinityNode, 'z-index', 50 - type);
+
+                    // Offset the container so the divinities line up next to each other.
+                    let left = (-types.length / 2 + i) * dojo.style(divinityNode, 'width') * 1.1;
+                    let top = -dojo.style(divinityNode, 'height') / 2;
+
+                    this.placeOnObject(divinityNode, $('mythology' + type));
+
+                    let fadePeriod = 6;
+                    let startDelay = i * this.conspire_duration / fadePeriod;
+
+                    anims.push(
+                        dojo.fx.combine([
+                            this.slideToObjectPos( divinityNode, divinityContainerNode, left, top, this.conspire_duration, i * this.conspire_duration / fadePeriod),
+                            dojo.fadeIn({
+                                node: divinityNode,
+                                duration: this.conspire_duration / fadePeriod,
+                                // onEnd: dojo.hitch(this, function (node) {
+                                //     this.changeMythologyDeckCount(dojo.attr(node, 'data-divinity-type'), -1);
+                                // })
+                            }),
+                            dojo.fadeOut({
+                                node: divinityNode,
+                                delay: startDelay + this.conspire_duration / fadePeriod * (fadePeriod - 1),
+                                duration: this.conspire_duration / fadePeriod,
+                                onEnd: dojo.hitch(this, function (node) {
+                                    dojo.destroy(node.parentElement);
+                                })
+                            }),
+                        ])
+                    );
+                }
+                return dojo.fx.combine(
+                    anims
+                );
+            },
+
+            onEnterChooseDivinityFromTopCards: function (args) {
+                if (this.debug) console.log('onEnterChooseDivinityFromTopCards', args);
+
+                let anims = [];
+                if (this.isCurrentPlayerActive()) {
+                    let i = 1;
+                    Object.values(args._private.divinityIds).forEach(dojo.hitch(this, function (divinityId) {
+                        let divinity = this.gamedatas.divinities[divinityId];
+                        var container = dojo.query('#choose_divinity_from_top_cards>div:nth-of-type(' + (divinity.type) + ')')[0];
+                        dojo.empty(container);
+                        let divinityContainer = dojo.place(this.getDivinityDivHtml(divinityId, divinity.type,true, args._private.enkiProgressTokenIds), container);
+                        let divinityNode = dojo.query('.divinity', divinityContainer)[0];
+                        this.placeOnObject(divinityNode, $('mythology' + divinity.type));
+                        anims.push(this.slideToObjectPos( divinityNode, divinityContainer, 0, 0, this.conspire_duration, i * this.conspire_duration / 3));
+                        i++;
+                    }));
+                    this.updateLayout();
+                }
+                else {
+                    anims.push(this.getDivinitiesToOpponentAnimation(args.divinityTypes));
+                }
+                let anim = dojo.fx.combine(
+                    anims
+                );
+                anim.play();
+            },
+
+            onChooseDivinityFromTopCardsClick: function (e) {
+                if (this.debug) console.log('onChooseDivinityFromTopCardsClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    var divinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
+
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseDivinityFromTopCards')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseDivinityFromTopCards.html", {
+                            divinityId: dojo.attr(divinityNode, 'data-divinity-id'),
+                            lock: true
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        }
+                    );
+                }
+            },
+
+            notif_returnDivinities: function(notif) {
+                if (this.debug) console.log('notif_returnDivinities', notif);
+
+                let flipAnims = [];
+                let slideAnims = [];
+                let backSideDivinityNode = null;
+                let oldDivinityNode = null;
+                let delay = 0;
+                for (let i = 0; i < notif.args.types.length; i++) {
+                    let type = parseInt(notif.args.types[i]);
+
+                    if (this.isCurrentPlayerActive()) {
+                        // For the active player, turn the card first so the backside is visible.
+                        oldDivinityNode = dojo.query('#draftpool_container .divinity[data-divinity-type="' + type + '"]:not([data-divinity-id="' + notif.args.selectedDivinityId + '"]):not(.divinity_compact):not(.divinity_back)')[0];
+                        dojo.attr(oldDivinityNode, 'data-divinity-type', 'dummy');
+
+                        backSideDivinityNode = dojo.place(this.getDivinityDivHtml(0, type, true), oldDivinityNode.parentElement);
+
+                        dojo.style(backSideDivinityNode, 'transform', 'perspective(40em) rotateY(-180deg)'); // When delay > 0 this is necesarry to hide the new node.
+                        dojo.style(backSideDivinityNode, 'z-index', 50 - type);
+
+                        flipAnims.push(
+                            dojo.fx.combine([
+                                dojo.animateProperty({
+                                    node: oldDivinityNode,
+                                    delay: delay,
+                                    duration: this.turnAroundCardDuration,
+                                    easing: dojo.fx.easing.linear,
+                                    properties: {
+                                        propertyTransform: {start: 0, end: 180}
+                                    },
+                                    onAnimate: function (values) {
+                                        dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    },
+                                    onEnd: dojo.hitch(this, function (node) {
+                                        dojo.destroy(node);
+                                    })
+                                }),
+                                dojo.animateProperty({
+                                    node: backSideDivinityNode,
+                                    delay: delay,
+                                    duration: this.turnAroundCardDuration,
+                                    easing: dojo.fx.easing.linear,
+                                    properties: {
+                                        propertyTransform: {start: -180, end: 0}
+                                    },
+                                    onAnimate: function (values) {
+                                        dojo.style(this.node, 'transform', 'perspective(40em) rotateY(' + parseFloat(values.propertyTransform.replace("px", "")) + 'deg)');
+                                    }
+                                }),
+                            ])
+                        );
+                    }
+                    else {
+                        // For the inactive player / spectator, fadein the backside of the conspiracy and slide towards the final place
+                        var playerBuildingsContainer = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
+                        backSideDivinityContainerNode = dojo.place(this.getDivinityDivHtml(0, type, true), playerBuildingsContainer);
+                        backSideDivinityNode = dojo.query('.divinity', backSideDivinityContainerNode)[0];
+
+                        this.placeOnObject( backSideDivinityNode, playerBuildingsContainer ); // Center the card in the player buildingsContainer
+
+                        let divinityWidth = dojo.style(backSideDivinityNode, 'width');
+
+                        // Offset the container so the divinities line up next to each other.
+                        let left = (-notif.args.types.length / 2 + 0.5 + i) * divinityWidth * 1.1;
+                        dojo.style(backSideDivinityContainerNode, 'left', left + 'px');
+
+                        dojo.style(backSideDivinityNode, 'opacity', 0);
+                        dojo.style(backSideDivinityNode, 'z-index', 50 - type);
+
+                        flipAnims.push(
+                            dojo.fadeIn({
+                                node: backSideDivinityNode,
+                                delay: delay,
+                                duration: this.turnAroundCardDuration
+                            })
+                        );
+                    }
+                    delay += 100;
+
+                    let slideAnim = this.slideToObjectPos( backSideDivinityNode, 'mythology' + type, 0, 0, this.choose_conspire_remnant_position_duration, delay + this.turnAroundCardDuration);
+                    dojo.connect(slideAnim, 'onEnd', dojo.hitch(this, function (node) {
+                        let tmpNode = dojo.hasClass(node, 'divinity') ? node : dojo.query(".divinity", node)[0];
+                        this.changeMythologyDeckCount(dojo.attr(tmpNode, 'data-divinity-type'), 1);
+                        dojo.destroy(node.parentElement);
+                    }));
+
+                    slideAnims.push(slideAnim);
+                }
+
+                let anim = dojo.fx.chain([
+                    dojo.fx.combine(
+                        flipAnims
+                    ),
+                    dojo.fx.combine(
+                        slideAnims
+                    )
+                ]);
+
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
+
+                anim.play();
+            },
+
+            //   ____ _                            ____  _       _       _ _           ____            _
+            //  / ___| |__   ___   ___  ___  ___  |  _ \(_)_   _(_)_ __ (_) |_ _   _  |  _ \  ___  ___| | __
+            // | |   | '_ \ / _ \ / _ \/ __|/ _ \ | | | | \ \ / / | '_ \| | __| | | | | | | |/ _ \/ __| |/ /
+            // | |___| | | | (_) | (_) \__ \  __/ | |_| | |\ V /| | | | | | |_| |_| | | |_| |  __/ (__|   <
+            //  \____|_| |_|\___/ \___/|___/\___| |____/|_| \_/ |_|_| |_|_|\__|\__, | |____/ \___|\___|_|\_\
+            //                                                                 |___/
+
+            onEnterChooseDivinityDeck: function (args) {
+                if (this.debug) console.log('onEnterChooseDivinityDeck', args);
+
+                if (this.isCurrentPlayerActive()) {
+                    for (let type = 1; type <= 5; type++) {
+                        if (args.deckCounts[type] > 0) {
+                            dojo.addClass(dojo.query('#mythology' + type + ' .divinity')[0], 'red_border');
+                        }
+                    }
+                    this.scrollToLowerDivs();
+                }
+            },
+
+            onChooseDivinityDeckClick: function (e) {
+                if (this.debug) console.log('onChooseDivinityDeckClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    var divinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
+
+                    // Check that this action is possible (see "possibleactions" in states.inc.php)
+                    if (!this.checkAction('actionChooseDivinityDeck')) {
+                        return;
+                    }
+
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseDivinityDeck.html", {
+                            lock: true,
+                            type: dojo.attr(divinityNode, 'data-divinity-type')
+                        },
+                        this, function (result) {
+                            // What to do after the server call if it succeeded
+                            // (most of the time: nothing)
+
+                        }, function (is_error) {
+                            // What to do after the server call in anyway (success or failure)
+                            // (most of the time: nothing)
+
+                        });
+                }
+            },
+
+            //   ____ _                            ____  _       _       _ _           _____                      ____            _
+            //  / ___| |__   ___   ___  ___  ___  |  _ \(_)_   _(_)_ __ (_) |_ _   _  |  ___| __ ___  _ __ ___   |  _ \  ___  ___| | __
+            // | |   | '_ \ / _ \ / _ \/ __|/ _ \ | | | | \ \ / / | '_ \| | __| | | | | |_ | '__/ _ \| '_ ` _ \  | | | |/ _ \/ __| |/ /
+            // | |___| | | | (_) | (_) \__ \  __/ | |_| | |\ V /| | | | | | |_| |_| | |  _|| | | (_) | | | | | | | |_| |  __/ (__|   <
+            //  \____|_| |_|\___/ \___/|___/\___| |____/|_| \_/ |_|_| |_|_|\__|\__, | |_|  |_|  \___/|_| |_| |_| |____/ \___|\___|_|\_\
+            //                                                                 |___/
+
+            onEnterChooseDivinityFromDeck: function (args) {
+                if (this.debug) console.log('onEnterChooseDivinityFromDeck', args);
+
+                this.clearRedBorder();
+                this.scrollBack();
+
+                let anims = [];
+                if (this.isCurrentPlayerActive()) {
+                    this.chooseDivinityFromDeckAmount = Object.keys(args._private.divinities).length;
+
+                    let i = 1;
+                    Object.values(args._private.divinities).forEach(dojo.hitch(this, function (card) {
+                        var container = dojo.query('#choose_divinity_from_deck div[data-position="' + parseInt(card.location_arg) + '"]')[0];
+                        dojo.empty(container);
+                        let divinityContainer = dojo.place(this.getDivinityDivHtml(card.id, card.type,true, args._private.enkiProgressTokenIds), container);
+                        let divinityNode = dojo.query('.divinity', divinityContainer)[0];
+                        this.placeOnObject(divinityNode, $('mythology' + card.type));
+                        anims.push(this.slideToObjectPos( divinityNode, divinityContainer, 0, 0, this.conspire_duration, i * this.conspire_duration / 3));
+                        i++;
+                    }));
+                    this.updateLayout();
+                }
+                else {
+                    anims.push(this.getDivinitiesToOpponentAnimation(args.divinityTypes));
+                }
+                let anim = dojo.fx.combine(
+                    anims
+                );
+                anim.play();
+            },
+
+            onChooseDivinityFromDeckClick: function (e) {
+                if (this.debug) console.log('onChooseDivinityFromDeckClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                if (this.isCurrentPlayerActive()) {
+                    let divinityNode = dojo.hasClass(e.target, 'divinity') ? e.target : dojo.query(e.target).closest(".divinity")[0];
+                    let divinityId = dojo.attr(divinityNode, 'data-divinity-id');
+
+                    if (this.chooseDivinityFromDeckAmount > 2) {
+                        let position = dojo.attr(divinityNode.parentElement.parentElement, 'data-position');
+                        for (let i = 0; i <= 2; i++) {
+                            let buttonNode = dojo.query('#choose_divinity_from_deck .bgabutton[data-button-position="' + i + '"]')[0];
+                            let hideButton = i == position || i >= this.chooseDivinityFromDeckAmount;
+                            dojo.style(buttonNode, 'visibility', hideButton ? 'hidden' : 'visible');
+                        }
+
+                        this.chooseDivinityFromDeckId = divinityId;
+                        // First let the player decide which card goes to the top in a client state.
+                        this.setClientState("client_chooseDivinityForTopOfDeck", {
+                            descriptionmyturn: _("${you} must choose which of the remaining two Divinities goes on top of the ${mythologyType} Mythology deck"),
+                        });
+
+                        dojo.addClass(divinityNode, 'gray_border');
+                    }
+                    else {
+                        this.chooseDivinityFromDeck(divinityId);
+                    }
+                }
+            },
+
+            onChooseDivinityFromDeckTopClick: function (e) {
+                if (this.debug) console.log('onChooseDivinityFromDeckTopClick');
+                // Preventing default browser reaction
+                dojo.stopEvent(e);
+
+                let buttonNode = dojo.hasClass(e.target, 'top_of_deck_button') ? e.target : dojo.query(e.target).closest('top_of_deck_button')[0];
+                let position = dojo.attr(buttonNode, 'data-button-position');
+                let divinityNode = dojo.query('#choose_divinity_from_deck div[data-position="' + position + '"] .divinity')[0];
+                let divinityId = dojo.attr(divinityNode, 'data-divinity-id');
+
+                if (this.isCurrentPlayerActive()) {
+                    this.chooseDivinityFromDeck(this.chooseDivinityFromDeckId, divinityId);
+                }
+            },
+
+            chooseDivinityFromDeck: function(divinityId, divinityIdToTop=null) {
+                // Check that this action is possible (see "possibleactions" in states.inc.php)
+                if (!this.checkAction('actionChooseDivinityFromDeck')) {
+                    return;
+                }
+
+                this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseDivinityFromDeck.html", {
+                    lock: true,
+                    divinityId: divinityId,
+                    divinityIdToTop: divinityIdToTop,
+                },
+                this, function (result) {
+                    // What to do after the server call if it succeeded
+                    // (most of the time: nothing)
+
+                    dojo.attr($('swd'), 'data-client-state', '');
+                    this.clearGrayBorder();
+
+                }, function (is_error) {
+                    // What to do after the server call in anyway (success or failure)
+                    // (most of the time: nothing)
+
+                });
+
+            },
+
+            //     _                           ____  _        _
+            //    / \   __ _  ___  _ __ __ _  / ___|| |_ __ _| |_ ___  ___
+            //   / _ \ / _` |/ _ \| '__/ _` | \___ \| __/ _` | __/ _ \/ __|
+            //  / ___ \ (_| | (_) | | | (_| |  ___) | || (_| | ||  __/\__ \
+            // /_/   \_\__, |\___/|_|  \__,_| |____/ \__\__,_|\__\___||___/
+            //         |___/
 
             //   ____ _                                                                      _        _                 __                       _
             //  / ___| |__   ___   ___  ___  ___   _ __  _ __ ___   __ _ _ __ ___  ___ ___  | |_ ___ | | _____ _ __    / _|_ __ ___  _ __ ___   | |__   _____  __
@@ -3234,10 +5577,10 @@ define([
                     return;
                 }
 
-                var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
-                var progressTokenId = progressToken.attr("data-progress-token-id");
+                var progressTokenNode = dojo.hasClass(e.target, 'progress_token') ? e.target : dojo.query(e.target).closest(".progress_token")[0];
+                var progressTokenId = dojo.attr(progressTokenNode, 'data-progress-token-id');
 
-                this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseProgressTokenFromBox.html", {
+                this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseProgressTokenFromBox.html", {
                         lock: true,
                         progressTokenId: progressTokenId
                     },
@@ -3284,7 +5627,7 @@ define([
                                 return;
                             }
 
-                            this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConspire.html", {
+                            this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionConspire.html", {
                                     lock: true
                                 },
                                 this, function (result) {
@@ -3304,7 +5647,7 @@ define([
                                 return;
                             }
 
-                            this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseConspiratorActionPlaceInfluence.html", {
+                            this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseConspiratorActionPlaceInfluence.html", {
                                     lock: true
                                 },
                                 this, function (result) {
@@ -3350,7 +5693,8 @@ define([
                 else {
                     for (let i = 0; i <= 1; i++) {
                         var container = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
-                        let node = dojo.place(this.getConspiracyDivHtml(18, 18, true), container);
+                        let node = dojo.place(this.getConspiracyDivHtml(17, 17, true), container);
+                        dojo.style(node, 'z-index', 50);
                         this.placeOnObject(node, $('conspiracy_deck'));
                         let startDelay = i * this.conspire_duration / 3;
 
@@ -3385,8 +5729,8 @@ define([
 
                 if (this.debug) console.log('onChooseConspiratorActionClick', e);
 
-                var conspiracy = dojo.hasClass(e.target, 'conspiracy') ? dojo.query(e.target) : dojo.query(e.target).closest(".conspiracy");
-                var conspiracyId = conspiracy.attr("data-conspiracy-id");
+                var conspiracyNode = dojo.hasClass(e.target, 'conspiracy') ? e.target : dojo.query(e.target).closest(".conspiracy")[0];
+                var conspiracyId = dojo.attr(conspiracyNode, 'data-conspiracy-id');
 
                 if (this.isCurrentPlayerActive()) {
                     // Check that this action is possible (see "possibleactions" in states.inc.php)
@@ -3394,7 +5738,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseConspiracy.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseConspiracy.html", {
                             conspiracyId: conspiracyId,
                             lock: true
                         },
@@ -3418,7 +5762,7 @@ define([
 
                 // Skip for the active player, who will get their own notification of the same type but with a real progressTokenId.
                 if (this.isCurrentPlayerActive() && conspiracyIds[0] == 17) {
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     return;
                 }
 
@@ -3471,9 +5815,12 @@ define([
                     )
                 ]);
 
-                anim.play();
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
 
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                anim.play();
             },
 
             notif_constructConspiracy: function (notif) {
@@ -3483,7 +5830,7 @@ define([
 
                 // Skip for the active player, who will get their own notification of the same type but with a real conspiracyId.
                 if (this.isCurrentPlayerActive() && conspiracyId == 18) {
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     return;
                 }
 
@@ -3542,6 +5889,7 @@ define([
                     var playerBuildingsContainer = dojo.query('.player_buildings.player' + this.getActivePlayerId())[0];
                     backSideConspiracyNode = dojo.place(this.getConspiracyDivHtml(17, 17, true), playerBuildingsContainer);
                     this.placeOnObject( backSideConspiracyNode, playerBuildingsContainer ); // Center the card in the player buildingsContainer
+                    dojo.style(backSideConspiracyNode, 'z-index', 20);
                     dojo.style(backSideConspiracyNode, 'opacity', 0);
 
                     slideAnims.push(
@@ -3576,9 +5924,13 @@ define([
                         })
                     ])
                 ]);
-                anim.play();
 
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
+
+                anim.play();
             },
 
             //   ____ _                             ____                      _            ____                                  _     ____           _ _   _
@@ -3611,7 +5963,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionChooseConspireRemnantPosition.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionChooseConspireRemnantPosition.html", {
                             top: top,
                             lock: true
                         },
@@ -3712,13 +6064,14 @@ define([
                     )
                 ]);
 
-                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     dojo.destroy(backSideConspiracyNode);
+
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }));
 
                 anim.play();
-
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
             },
 
             //  ____                   _            _        _   _
@@ -3854,7 +6207,7 @@ define([
 
                     var chamber = dojo.attr(e.target, "data-chamber");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionPlaceInfluence.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionPlaceInfluence.html", {
                             chamber: chamber,
                             lock: true
                         },
@@ -3898,10 +6251,10 @@ define([
                         var chamberData = notif.args.senateAction.chambers[chamber];
                         this.updateSenateChamber(chamber, chamberData);
                     }));
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.twistCoinDuration + this.notification_safe_margin);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
 
                 anim.play();
             },
@@ -3983,7 +6336,7 @@ define([
 
                     var chamber = dojo.attr(e.target, "data-chamber");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionMoveInfluence.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionMoveInfluence.html", {
                             chamberFrom: this.moveInfluenceFrom,
                             chamberTo: chamber,
                             lock: true
@@ -4027,10 +6380,10 @@ define([
 
                     // Clean up any existing coin nodes (normally cleaned up by their onEnd).
                     dojo.query("#swd_wrap .agora_cube.animated").forEach(dojo.destroy);
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.twistCoinDuration + this.notification_safe_margin);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
 
                 anim.play();
             },
@@ -4047,7 +6400,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSkipMoveInfluence.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionSkipMoveInfluence.html", {
                             lock: true
                         },
                         this, function (result) {
@@ -4091,7 +6444,7 @@ define([
 
                     var chamber = dojo.attr(e.target, "data-chamber");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionRemoveInfluence.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionRemoveInfluence.html", {
                             chamber: chamber,
                             lock: true
                         },
@@ -4135,10 +6488,10 @@ define([
                         var chamberData = notif.args.senateAction.chambers[chamber];
                         this.updateSenateChamber(chamber, chamberData);
                     }));
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.twistCoinDuration + this.notification_safe_margin);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
 
                 anim.play();
             },
@@ -4174,7 +6527,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSkipTriggerUnpreparedConspiracy.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionSkipTriggerUnpreparedConspiracy.html", {
                             lock: true
                         },
                         this, function (result) {
@@ -4242,7 +6595,7 @@ define([
 
                     var buildingId = dojo.attr(e.target, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuildingFromBox.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionConstructBuildingFromBox.html", {
                             lock: true,
                             buildingId: buildingId
                         },
@@ -4285,7 +6638,7 @@ define([
                     var building = dojo.hasClass(e.target, 'building') ? e.target : dojo.query(e.target).closest(".building")[0];
                     var buildingId = dojo.attr(building, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionConstructBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionConstructBuilding.html", {
                             lock: true,
                             buildingId: buildingId
                         },
@@ -4327,7 +6680,7 @@ define([
 
                     var wonderId = dojo.attr(e.target, "data-wonder-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDestroyConstructedWonder.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionDestroyConstructedWonder.html", {
                             lock: true,
                             wonderId: wonderId
                         },
@@ -4413,8 +6766,10 @@ define([
                     }),
                 ]);
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
 
                 anim.play();
             },
@@ -4462,7 +6817,7 @@ define([
 
                     var buildingId = dojo.attr(building, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionDiscardAvailableCard.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionDiscardAvailableCard.html", {
                             lock: true,
                             buildingId: buildingId
                         },
@@ -4495,7 +6850,7 @@ define([
                         return;
                     }
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSkipDiscardAvailableCard.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionSkipDiscardAvailableCard.html", {
                             lock: true
                         },
                         this, function (result) {
@@ -4538,7 +6893,7 @@ define([
                 }
 
                 dojo.addClass($('board_progress_tokens'), 'red_border');
-                dojo.query('.player' + this.getOppositePlayerId(this.getActivePlayerId()) + ' .player_area_progress_tokens').addClass('red_border');
+                dojo.query('.player' + this.getOppositePlayerId(this.getActivePlayerId()) + ' .player_area_progress_tokens > .progress_token_outline:not(:empty)').addClass('red_border');
             },
 
             onLockProgressTokenClick: function (e) {
@@ -4553,10 +6908,10 @@ define([
                         return;
                     }
 
-                    var progressToken = dojo.hasClass(e.target, 'progress_token') ? dojo.query(e.target) : dojo.query(e.target).closest(".progress_token");
-                    var progressTokenId = dojo.attr(progressToken[0], "data-progress-token-id");
+                    var progressToken = dojo.hasClass(e.target, 'progress_token') ? e.target : dojo.query(e.target).closest(".progress_token")[0];
+                    var progressTokenId = dojo.attr(progressToken, "data-progress-token-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionLockProgressToken.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionLockProgressToken.html", {
                             lock: true,
                             progressTokenId: progressTokenId
                         },
@@ -4578,7 +6933,7 @@ define([
 
                 // Skip for the active player, who will get their own notification of the same type but with a real progressTokenId.
                 if (this.isCurrentPlayerActive() && notif.args.progressTokenId == 16) {
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                     return;
                 }
 
@@ -4591,19 +6946,18 @@ define([
                     var anim = this.slideToObject(progressTokenNode, conspiracyNode, this.progressTokenDuration);
 
                     dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
-                        // this.maybeShowSecondRowProgressTokens(notif.args.playerId);
                         dojo.destroy(progressTokenNode);
                         conspiracyNode.dataset.conspiracyProgressToken = 1;
-                    }));
 
-                    // Wait for animation before handling the next notification (= state change).
-                    this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                        // Wait for animation before handling the next notification (= state change).
+                        this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                    }));
 
                     anim.play();
                 }
                 else {
                     conspiracyNode.dataset.conspiracyProgressToken = 1;
-                    this.notifqueue.setSynchronousDuration(0);
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
                 }
 
             },
@@ -4698,7 +7052,7 @@ define([
 
                     var chamber = dojo.attr(e.target, "data-chamber");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionMoveDecree.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionMoveDecree.html", {
                             lock: true,
                             chamberFrom: this.moveDecreeFrom,
                             chamberTo: chamber,
@@ -4775,7 +7129,7 @@ define([
                     }
 
                     if (this.swapOpponentBuildingId > 0 && this.swapMeBuildingId > 0) {
-                        this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionSwapBuilding.html", {
+                        this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionSwapBuilding.html", {
                                 lock: true,
                                 opponentBuildingId: this.swapOpponentBuildingId,
                                 meBuildingId: this.swapMeBuildingId
@@ -4802,6 +7156,12 @@ define([
                 let buildingOpponentId = notif.args.buildingOpponentId;
                 let buildingPlayerId = notif.args.buildingPlayerId;
 
+                // Destroy snake token if its involved in the swap
+                let snakeTokenBuildingId = this.getSnakeTokenBuildingId();
+                if (buildingOpponentId == snakeTokenBuildingId || buildingPlayerId == snakeTokenBuildingId) {
+                    dojo.query('.player_buildings .snake_token_container').forEach(dojo.destroy);
+                }
+
                 var buildingPlayerNodeContainer = $('player_building_container_' + buildingPlayerId);
                 var buildingPlayerNode = dojo.query('.building' , buildingPlayerNodeContainer)[0];
                 var buildingOpponentNodeContainer = $('player_building_container_' + buildingOpponentId);
@@ -4813,7 +7173,7 @@ define([
 
                 let anim = dojo.fx.combine(anims);
 
-                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     var buildingOpponentNodeContainerCopy = dojo.clone(buildingOpponentNodeContainer);
                     var buildingPlayerNodeContainerCopy = dojo.clone(buildingPlayerNodeContainer);
 
@@ -4827,10 +7187,10 @@ define([
                     dojo.style(buildingOpponentNodeCopy, 'top', '0px');
 
                     this.clearRedBorder();
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration + this.notification_safe_margin);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
 
                 anim.play();
             },
@@ -4865,7 +7225,7 @@ define([
 
                     var buildingId = dojo.attr(e.target, "data-building-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionTakeBuilding.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionTakeBuilding.html", {
                             lock: true,
                             buildingId: buildingId
                         },
@@ -4908,10 +7268,10 @@ define([
                 dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
                     dojo.style(buildingNodeCopy, 'z-index', 5);
                     dojo.destroy(buildingNodeContainer);
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
 
                 anim.play();
             },
@@ -4940,7 +7300,7 @@ define([
 
                     var wonderId = dojo.attr(e.target, "data-wonder-id");
 
-                    this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionTakeUnconstructedWonder.html", {
+                    this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionTakeUnconstructedWonder.html", {
                             lock: true,
                             wonderId: wonderId
                         },
@@ -4977,13 +7337,13 @@ define([
                     this.slideToObjectPos(wonderContainerNode, newContainer, 0, 0, this.selectWonderAnimationDuration),
                 ]);
 
-                dojo.connect(anim, 'onEnd', dojo.hitch(this, function (node) {
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
                     // Update the wonders situation, so cost is updated for the new wonder owner.
                     this.updateWondersSituation(notif.args.wondersSituation);
-                }));
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
 
                 anim.play();
             },
@@ -5011,6 +7371,17 @@ define([
                     var progressTokenNode = dojo.query('.player_info.player' + playersSituation.winner + ' #progress_token_4')[0];
                     if (progressTokenNode) {
                         dojo.addClass(progressTokenNode, 'endgame_highlight');
+                    }
+                    var ishtarDivinityNode = dojo.query('#player_conspiracies_' + playersSituation.winner + ' .divinity[data-divinity-id="2"]')[0];
+                    if (ishtarDivinityNode) {
+                        dojo.addClass(ishtarDivinityNode, 'endgame_highlight');
+                    }
+                    var nisabaDivinityNode = dojo.query('#player_conspiracies_' + playersSituation.winner + ' .divinity[data-divinity-id="3"]')[0];
+                    if (nisabaDivinityNode) {
+                        dojo.addClass(nisabaDivinityNode, 'endgame_highlight');
+                        let opponentId = this.getOppositePlayerId(playersSituation.winner);
+                        var snakeTokenBuildingNode = dojo.query('.player' + opponentId + ' .snake_token').closest('.building')[0];
+                        dojo.addClass(snakeTokenBuildingNode, 'endgame_highlight');
                     }
 
                     // Unset endGameCondition to prevent an infinite loop.
@@ -5082,6 +7453,9 @@ define([
                 if (this.agora) {
                     categories.push('senate');
                 }
+                if (this.pantheon) {
+                    categories.splice(categories.indexOf('wonders'), 0, "divinities");
+                }
                 Object.keys(this.gamedatas.players).forEach(dojo.hitch(this, function (playerId) {
                     for (var i = 0; i < categories.length; i++) {
                         dojo.query('#end_game_container .end_game_' + categories[i] + '.player' + playerId)[0].innerHTML = this.gamedatas.playersSituation[playerId]['player_score_' + categories[i]];
@@ -5130,16 +7504,18 @@ define([
                 var anims = [];
 
                 var zIndex = 1;
-                if (notif.args.highlightId) {
+                if (notif.args.highlightQuery) {
                     if (notif.args.category == "senate") {
-                        for (let i = 0; i < notif.args.highlightId.length; i++) {
-                            $(notif.args.highlightId[i]).setAttribute("class",  "red_stroke");
+                        for (let i = 0; i < notif.args.highlightQuery.length; i++) {
+                            $(notif.args.highlightQuery[i]).setAttribute("class",  "red_stroke");
                         }
                     }
                     else {
-                        zIndex = dojo.style(notif.args.highlightId, 'z-index');
-                        dojo.style(notif.args.highlightId, 'z-index', 100);
-                        dojo.addClass(notif.args.highlightId, 'endgame_highlight');
+                        dojo.query(notif.args.highlightQuery).forEach(function (node) {
+                            zIndex = dojo.style(node, 'z-index');
+                            dojo.style(node, 'z-index', 100);
+                            dojo.addClass(node, 'endgame_highlight');
+                        });
                     }
                 }
 
@@ -5182,19 +7558,21 @@ define([
                         dojo.animateProperty({
                             node: 'swd',
                             duration: 400,
-                            onEnd: function (node) {
+                            onEnd: function () {
                                 if (!stickyCategory) {
                                     dojo.removeClass(categoryNode, 'endgame_highlight');
                                 }
-                                if (notif.args.highlightId) {
+                                if (notif.args.highlightQuery) {
                                     if (notif.args.category == "senate") {
-                                        for (let i = 0; i < notif.args.highlightId.length; i++) {
-                                            $(notif.args.highlightId[i]).setAttribute("class",  "");
+                                        for (let i = 0; i < notif.args.highlightQuery.length; i++) {
+                                            $(notif.args.highlightQuery[i]).setAttribute("class",  "");
                                         }
                                     }
                                     else {
-                                        dojo.style(notif.args.highlightId, 'z-index', zIndex);
-                                        dojo.removeClass(notif.args.highlightId, 'endgame_highlight');
+                                        dojo.query(notif.args.highlightQuery).forEach(function (node) {
+                                            dojo.style(node, 'z-index', zIndex);
+                                            dojo.removeClass(node, 'endgame_highlight');
+                                        });
                                     }
                                 }
                             }
@@ -5206,10 +7584,13 @@ define([
                     ]));
                 }
                 var anim = dojo.fx.combine(anims);
-                anim.play();
 
-                // Wait for animation before handling the next notification (= state change).
-                this.notifqueue.setSynchronousDuration(anim.duration);
+                dojo.connect(anim, 'onEnd', dojo.hitch(this, function () {
+                    // Wait for animation before handling the next notification (= state change).
+                    this.notifqueue.setSynchronousDuration(this.notification_safe_margin);
+                }));
+
+                anim.play();
             },
 
             //   ____  _           _               _____                 _   _
@@ -5432,6 +7813,21 @@ define([
                 }
             },
 
+            scrollToLowerDivs: function() {
+                // Scroll so the discarded card whiteblock is visible (remember the scroll position so we can restore the view later).
+                this.freezeLayout = 1;
+                this.rememberScrollX = window.scrollX;
+                this.rememberScrollY = window.scrollY;
+                var whiteblock = $('lower_divs_container');
+                whiteblock.scrollIntoView(false);
+            },
+
+            scrollBack: function() {
+                // Scroll back to the position before this state.
+                window.scroll(this.rememberScrollX, this.rememberScrollY);
+                this.freezeLayout = 0;
+            },
+
             //  ____       _   _   _
             // / ___|  ___| |_| |_(_)_ __   __ _ ___
             // \___ \ / _ \ __| __| | '_ \ / _` / __|
@@ -5545,7 +7941,7 @@ define([
 
                 var _function = e.target.id;
 
-                this.ajaxcall("/sevenwondersduel/sevenwondersduel/actionAdminFunction.html", {
+                this.ajaxcall("/sevenwondersduelpantheon/sevenwondersduelpantheon/actionAdminFunction.html", {
                         function: _function
                     },
                     this, function (result) {
@@ -5573,6 +7969,10 @@ define([
 
             getOppositePlayerId: function (playerId) {
                 return parseInt(playerId) == this.me_id ? this.opponent_id : this.me_id;
+            },
+
+            emptyAnimation: function() {
+                return dojo.fx.combine([]);
             },
 
             getCostValue: function (cost) {

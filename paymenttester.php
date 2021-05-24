@@ -4,6 +4,7 @@ require_once 'sevenwondersduel.game.php';
 // SWD namespace autoloader from /modules/php/ folder.
 use SWD\Building;
 use SWD\Decree;
+use SWD\MythologyToken;
 use SWD\Player;
 use SWD\ProgressToken;
 use SWD\Wonder;
@@ -77,6 +78,10 @@ if (!isset($_GET['opponent_decrees'])) $_GET['opponent_decrees'] = "";
             display: none;
             pointer-events: none;
         }
+        #mythology_tokens #buttonToMaterial {
+            display: none;
+            pointer-events: none;
+        }
         #plan {
             width: 100%;
             height: 900px;
@@ -90,6 +95,14 @@ if (!isset($_GET['opponent_decrees'])) $_GET['opponent_decrees'] = "";
             pointer-events: none;
         }
         .progress_token #buttonToSubject {
+            display: none;
+            pointer-events: none;
+        }
+        .mythology_token #buttonToOpponent {
+            display: none;
+            pointer-events: none;
+        }
+        .mythology_token #buttonToSubject {
             display: none;
             pointer-events: none;
         }
@@ -134,12 +147,9 @@ if (!isset($_GET['opponent_decrees'])) $_GET['opponent_decrees'] = "";
             <div id="buildings">
                 <?php foreach(\SWD\Material::get()->buildings->array as $building):
                     if (count($building->resources) > 0 || count($building->resourceChoice) > 0 || count($building->fixedPriceResources) > 0 || count($building->cost) > 0):
-                        $spritesheetColumns = 12;
-                        $x = ($building->id - 1) % $spritesheetColumns;
-                        $y = floor(($building->id - 1) / $spritesheetColumns);
                         ?><div id="<?= $building->id ?>" data-id="<?= $building->id ?>"
                              class="item building building_small"
-                             style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
+                             style="background-position: -<?= $building->spriteXY[0] ?>00% -<?= $building->spriteXY[1] ?>00%;"
                                title="<?= $building->name ?>"
                         ></div>
                     <?php endif ?>
@@ -160,7 +170,7 @@ if (!isset($_GET['opponent_decrees'])) $_GET['opponent_decrees'] = "";
             </div>
             <h3>Progress tokens:</h3>
             <div id="progress_tokens">
-                <?php foreach([ProgressToken::get(2), ProgressToken::get(5)] as $progressToken):
+                <?php foreach([ProgressToken::get(2), ProgressToken::get(5), ProgressToken::get(15)] as $progressToken):
                     $spritesheetColumns = 4;
                     $x = ($progressToken->id - 1) % $spritesheetColumns;
                     $y = floor(($progressToken->id - 1) / $spritesheetColumns);
@@ -179,6 +189,14 @@ if (!isset($_GET['opponent_decrees'])) $_GET['opponent_decrees'] = "";
                     ?><div id="<?= $decree->id ?>" data-id="<?= $decree->id ?>"
                            class="item decree decree_small"
                            style="background-position: -<?= $x ?>00% -<?= $y ?>00%;"
+                    ></div><?php endforeach ?>
+            </div>
+            <h3>Mythology tokens:</h3>
+            <div id="mythology_tokens">
+                <?php foreach([MythologyToken::get(1), MythologyToken::get(3), MythologyToken::get(5), MythologyToken::get(7), MythologyToken::get(9)] as $mythologyToken):
+                    ?><div id="<?= $mythologyToken->id ?>" data-id="<?= $mythologyToken->id ?>"
+                           class="item mythology_token mythology_token_small mythology_token<?= $mythologyToken->type ?>"
+                           style="display:inline-block"
                     ></div><?php endforeach ?>
             </div>
         </td>
@@ -265,6 +283,9 @@ if (!isset($_GET['opponent_decrees'])) $_GET['opponent_decrees'] = "";
             if (dojo.hasClass(node, 'decree')) {
                 container = 'decrees';
             }
+            if (dojo.hasClass(node, 'mythology_token')) {
+                container = 'mythology_tokens';
+            }
             dojo.place( node, container);
 
             // Sort material
@@ -330,7 +351,7 @@ if (!isset($_GET['opponent_decrees'])) $_GET['opponent_decrees'] = "";
     }
     function getTypeStrings(container) {
         var strings = {};
-        ['building', 'wonder', 'progress_token', 'decree'].forEach(function (type) {
+        ['building', 'wonder', 'progress_token', 'decree', 'mythology_token'].forEach(function (type) {
             strings[container + '_' + type + 's'] = this.getIdsString(container, type);
         });
         return strings;
@@ -347,10 +368,12 @@ if (!isset($_GET['opponent_decrees'])) $_GET['opponent_decrees'] = "";
         moveIdsToContainer([<?= $_GET['me_wonders'] ?>], 'wonders', 'me');
         moveIdsToContainer([<?= $_GET['me_progress_tokens'] ?>], 'progress_tokens', 'me');
         moveIdsToContainer([<?= $_GET['me_decrees'] ?>], 'decrees', 'me');
+        moveIdsToContainer([<?= $_GET['me_mythology_tokens'] ?>], 'mythology_tokens', 'me');
         moveIdsToContainer([<?= $_GET['opponent_buildings'] ?>], 'buildings', 'opponent');
         moveIdsToContainer([<?= $_GET['opponent_wonders'] ?>], 'wonders', 'opponent');
         moveIdsToContainer([<?= $_GET['opponent_progress_tokens'] ?>], 'progress_tokens', 'opponent');
         moveIdsToContainer([<?= $_GET['opponent_decrees'] ?>], 'decrees', 'opponent');
+        moveIdsToContainer([<?= $_GET['opponent_mythology_tokens'] ?>], 'mythology_tokens', 'opponent');
         moveIdsToContainer([<?= $_GET['subject_buildings'] ?>], 'buildings', 'subject');
         moveIdsToContainer([<?= $_GET['subject_wonders'] ?>], 'wonders', 'subject');
         updatePaymentPlan();

@@ -1,7 +1,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
+ * SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -39,7 +39,7 @@ define([
             },
 
             constructor: function () {
-                this.game = bgagame.sevenwondersduel.instance;
+                this.game = bgagame.sevenwondersduelpantheon.instance;
             },
 
             /**
@@ -61,6 +61,7 @@ define([
                     if (dojo.hasClass(sourceNode, 'player_area_coins') && dojo.query(sourceNode).closest(".opponent")[0]) sourceNodePlayerId = this.game.opponent_id;
                     if (dojo.hasClass(targetNode, 'player_area_coins') && dojo.query(targetNode).closest(".me")[0]) targetNodePlayerId = this.game.me_id;
                     if (dojo.hasClass(targetNode, 'player_area_coins') && dojo.query(targetNode).closest(".opponent")[0]) targetNodePlayerId = this.game.opponent_id;
+                    let astarteCoinNode = dojo.query('#player_conspiracies_' + playerId + ' .divinity_small[data-divinity-id=4] .coin')[0];
 
                     if (amount != 0) {
                         var html = this.game.format_block('jstpl_coin_animated');
@@ -69,7 +70,10 @@ define([
                             if (playerId == this.game.opponent_id) {
                                 dojo.addClass(node, 'opponent');
                             }
-                            this.game.placeOnObjectPos(node, sourceNode, sourcePosition[0], sourcePosition[1]);
+
+                            let astarteCoin = sourceNodePlayerId == playerId && (i + 1) > this.game.getPlayerCoins(playerId);
+                            let astarteDelay = astarteCoin ? this.coin_slide_duration : 0;
+                            this.game.placeOnObjectPos(node, astarteCoin ? astarteCoinNode : sourceNode, sourcePosition[0], sourcePosition[1]);
 
                             dojo.style(node, 'opacity', 0);
                             var fadeDurationPercentage = 0.15;
@@ -77,18 +81,23 @@ define([
                                 dojo.fadeIn({
                                     node: node,
                                     duration: this.coin_slide_duration * fadeDurationPercentage,
-                                    delay: i * this.coin_slide_delay,
-                                    onPlay: dojo.hitch(this, function (node) {
+                                    delay: astarteDelay + i * this.coin_slide_delay,
+                                    onPlay: dojo.hitch(this, function () {
                                         if (sourceNodePlayerId && sourcePosition[0] == 0 && sourcePosition[1] == 0) {
-                                            this.game.increasePlayerCoins(sourceNodePlayerId, -1);
+                                            if(this.game.getPlayerNodeCoins(playerId) > 0) {
+                                                this.game.increasePlayerCoins(sourceNodePlayerId, -1);
+                                            }
+                                            else{
+                                                this.game.increaseAstarteCoins(sourceNodePlayerId, -1);
+                                            }
                                         }
                                     }),
                                 }),
-                                this.game.slideToObjectPos(node, targetNode, targetPosition[0], targetPosition[1], this.coin_slide_duration, i * this.coin_slide_delay),
+                                this.game.slideToObjectPos(node, targetNode, targetPosition[0], targetPosition[1], this.coin_slide_duration, astarteDelay + i * this.coin_slide_delay),
                                 dojo.animateProperty({ // Standard fadeOut started of at opacity 0 (?!?)
                                     node: node,
                                     duration: this.coin_slide_duration * fadeDurationPercentage,
-                                    delay: (i * this.coin_slide_delay) + ((1 - fadeDurationPercentage) * this.coin_slide_duration),
+                                    delay: astarteDelay + (i * this.coin_slide_delay) + ((1 - fadeDurationPercentage) * this.coin_slide_duration),
                                     easing: dojo.fx.easing.linear,
                                     properties: {
                                         opacity: {

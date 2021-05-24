@@ -1,0 +1,41 @@
+
+
+.building_header_small_container .snake_token_container {
+    z-index: 20;
+    left: calc(var(--scale) * -10px);
+    top: calc(var(--scale) * -2.5px);
+    position: absolute;
+}
+.building_header_small_container .snake_token {
+    --element-scale: 0.35;
+    position: absolute;
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
+}
+.snake_token {
+    width: calc(var(--scale) * var(--element-scale) * 114px);
+    height: calc(var(--scale) * var(--element-scale) * 103px);
+
+    background-image: url('img/pantheon_sprites.png');
+    background-position: 63.551% 51.54%;
+    background-size: 663.158%;
+
+    display: inline-block;
+    filter: drop-shadow(2px 2px calc(var(--scale) * 5px) #000000aa);
+}
+
+.current_player_is_active #swd[data-state=deconstructWonder] .player_wonders .red_border {
+    cursor: pointer;
+}
+
+.current_player_is_active #swd[data-state=placeMinervaToken] #board_container .military_position.red_stroke {
+    cursor: pointer;
+}
+
+.current_player_is_active #swd[data-state=discardAgeCard] {
+    --draftpool-row-height-multiplier: 1.08 !important;
+    --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
+}
+
+.current_player_is_active #swd[data-state=discardAgeCard] #draftpool .building_small {
+    cursor: pointer;
+}

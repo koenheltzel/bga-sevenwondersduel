@@ -2,8 +2,10 @@
 
 namespace SWD\States;
 
-use SevenWondersDuel;
+use SevenWondersDuelPantheon;
+use SWD\Divinities;
 use SWD\Draftpool;
+use SWD\OfferingTokens;
 use SWD\Player;
 use SWD\Players;
 use SWD\Wonders;
@@ -36,7 +38,7 @@ trait NextAgeTrait
 
         if ($age == 1) {
             if (!$this->expansionActive()) {
-                SevenWondersDuel::get()->notifyAllPlayers(
+                SevenWondersDuelPantheon::get()->notifyAllPlayers(
                     'nextAgeDraftpoolReveal',
                     '',
                     [
@@ -57,19 +59,44 @@ trait NextAgeTrait
             else{
                 $message = clienttranslate('${player_name} must choose who begins Age ${ageRoman} (because of weaker military position)');
                 // In case the pawn is NOT in the middle, the player that has the pawn on his side becomes the player to decide the start player.
-                $gameStartPlayerId = SevenWondersDuel::get()->getGameStartPlayerId();
+                $gameStartPlayerId = SevenWondersDuelPantheon::get()->getGameStartPlayerId();
                 $decisionPlayerId = $conflictPawnPosition < 0 ? $gameStartPlayerId : Player::opponent($gameStartPlayerId)->id;
                 $this->gamestate->changeActivePlayer($decisionPlayerId);
             }
-            SevenWondersDuel::get()->notifyAllPlayers(
+
+            $data = [
+                'ageRoman' => ageRoman($age),
+                'player_name' => Player::getActive()->name,
+                'draftpool' => Draftpool::get(),
+                'playersSituation' => Players::getSituation(), // Mostly so the science symbol count is updated.
+            ];
+            if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON) && $age == 2) {
+                // Add the gate to the Pantheon
+                $doorSpace = -1;
+                for ($space = 1; $space <= 6; $space++) {
+                    $cards = Divinities::getDeckCardsSorted("space{$space}");
+                    if (count($cards) == 0) {
+                        $doorSpace = $space;
+                        $this->divinityDeck->moveCard(16, "space{$doorSpace}");
+                        break;
+                    }
+                }
+
+                $enkiCard = $this->divinityDeck->getCard(1);
+                if (strstr($enkiCard['location'], 'space')) {
+                    // Enki when revealed in the Pantheon, select Progress Tokens
+                    Divinities::setEnkiProgressTokens();
+                }
+
+                // Divinities reveal
+                $data['divinitiesSituation'] = Divinities::getSituation();
+                $data['doorSpace'] = $doorSpace;
+            }
+
+            SevenWondersDuelPantheon::get()->notifyAllPlayers(
                 'nextAgeDraftpoolReveal',
                 $message,
-                [
-                    'ageRoman' => ageRoman($age),
-                    'player_name' => Player::getActive()->name,
-                    'draftpool' => Draftpool::get(),
-                    'playersSituation' => Players::getSituation(), // Mostly so the science symbol count is updated.
-                ]
+                $data
             );
             $this->gamestate->nextState(self::STATE_SELECT_START_PLAYER_NAME);
         }

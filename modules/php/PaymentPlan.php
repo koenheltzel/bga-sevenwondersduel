@@ -2,12 +2,12 @@
 
 namespace SWD;
 
-use SevenWondersDuel;
+use SevenWondersDuelPantheon;
 
 class PaymentPlan extends Base
 {
 
-    private static $maskCombinations = null; // To prevent passing an array. // TODO check if this is more memory efficient.
+    private static $maskCombinations = null; // To prevent passing an array.
     private $item = null; // Private so it's not included to javascript.
     /**
      * @var PaymentPlanStep[] array
@@ -210,14 +210,65 @@ class PaymentPlan extends Base
         return $scenariosCalculated;
     }
 
-    public function calculate(Player $player, $print = false, $printChoices = false) {
+    /**
+     * @param Player $player
+     * @param bool $print
+     * @param bool $printChoices
+     * @param OfferingTokens $offeringTokens
+     */
+    public function calculate(Player $player, $print = false, $printChoices = false, $offeringTokens = null) {
         if($print) print "<PRE>Calculate cost for player to buy “{$this->item->name}\" card.</PRE>";
 
         $opponent = $player->getOpponent();
 
-        if ($this instanceof Payment && SevenWondersDuel::get()->gamestate->state()['name'] == SevenWondersDuel::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
+        if ($this instanceof Payment && SevenWondersDuelPantheon::get()->gamestate->state()['name'] == SevenWondersDuelPantheon::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
             // Player can build a building from the last row for free
             // No need to construct a payment plan.
+        }
+        elseif ($this->item instanceof Divinity) {
+            $space = $this->item->getSpace();
+            $startPlayer = $player->id == SevenWondersDuelPantheon::get()->getGameStartPlayerId();
+            $cost = 0;
+            switch ($space) {
+                case 1:
+                    $cost = $startPlayer ? 8 : 3;
+                    break;
+                case 2:
+                    $cost = $startPlayer ? 7 : 4;
+                    break;
+                case 3:
+                    $cost = $startPlayer ? 6 : 5;
+                    break;
+                case 4:
+                    $cost = $startPlayer ? 5 : 6;
+                    break;
+                case 5:
+                    $cost = $startPlayer ? 4 : 7;
+                    break;
+                case 6:
+                    $cost = $startPlayer ? 3 : 8;
+                    break;
+            }
+            if ($this->item->type == Divinity::TYPE_GATE) {
+                $cost *= 2;
+            }
+            $wonderSanctuary = Wonder::get(15);
+            if ($player->hasWonder($wonderSanctuary->id) && $wonderSanctuary->isConstructed()) {
+                // This is just for the consistency, this payment plan is never displayed.
+                $args = ['wonderName' => $wonderSanctuary->name];
+                $string = clienttranslate('Discount (Wonder “${wonderName}”)');
+                $this->addStep(COINS, -2, 0, null, null, $string, $args);
+                $cost -= 2;
+            }
+            if ($offeringTokens) {
+                foreach($offeringTokens->array as $offeringToken) {
+                    $string = clienttranslate('Player uses Offering token -${discount}');
+                    $cost -= $offeringToken->discount;
+                    $this->addStep(COINS, -$offeringToken->discount, 0, null, null, $string);
+                }
+            }
+            $string = clienttranslate('Pay ${costIcon}');
+            $this->addStep(COINS, $cost, $cost, null, null, $string);
         }
         elseif ($this->item instanceof Building && $this->item->type == Building::TYPE_SENATOR) {
             if ($player->hasProgressToken(11)) {
@@ -233,17 +284,32 @@ class PaymentPlan extends Base
             }
         }
         elseif ($this->item instanceof Building && $player->hasBuilding($this->item->linkedBuilding)) {
-            // Player has the linked building, so no building cost.
-            $linkedBuilding = Building::get($this->item->linkedBuilding);
-            $string = clienttranslate('Construction is free through linked building “${name}”');
-            $args = ['name' => $linkedBuilding->name];
-            $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string, $args);
+            if ($this->item->linkedBuilding < 0) {
+                // Grand Temple cards. linkedBuilding is Mythology type (but negative)
+                $string = clienttranslate('Construction is free because player has a ${mythologyType} Mythology Token');
+                $args = ['mythologyType' => Divinity::getTypeName(abs($this->item->linkedBuilding))];
+                $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string, $args);
+            }
+            else {
+                // Player has the linked building, so no building cost.
+                $linkedBuilding = Building::get($this->item->linkedBuilding);
+                $string = clienttranslate('Construction is free through linked building “${name}”');
+                $args = ['name' => $linkedBuilding->name];
+                $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string, $args);
+            }
         }
         elseif ($this->item instanceof Building && $player->hasDecree(15) && $opponent->hasBuilding($this->item->linkedBuilding)) {
-            // Opponent has the linked building, and the player has the Decree to take advantage of it.
-            $linkedBuilding = Building::get($this->item->linkedBuilding);
-            $string = clienttranslate('Construction is free through linked building “${name}” (enabled by controlling Decree in Chamber ${chamber})');
-            $args = ['name' => $linkedBuilding->name, 'chamber' => Decree::get(15)->getChamber()];
+            if ($this->item->linkedBuilding > 0) {
+                // Opponent has the linked building, and the player has the Decree to take advantage of it.
+                $linkedBuilding = Building::get($this->item->linkedBuilding);
+                $string = clienttranslate('Construction is free through linked building “${name}” (enabled by controlling Decree in Chamber ${chamber})');
+                $args = ['name' => $linkedBuilding->name, 'chamber' => Decree::get(15)->getChamber()];
+            }
+            else {
+                // Grand Temple cards. linkedBuilding is Mythology type (but negative)
+                $string = clienttranslate('Construction is free because opponent has a ${mythologyType} Mythology Token (enabled by controlling Decree in Chamber ${chamber})');
+                $args = ['mythologyType' => Divinity::getTypeName(abs($this->item->linkedBuilding)), 'chamber' => Decree::get(15)->getChamber()];
+            }
             $this->addStep(LINKED_BUILDING, 1, 0, Item::TYPE_BUILDING, $this->item->linkedBuilding, $string, $args);
         }
         else {
@@ -317,6 +383,15 @@ class PaymentPlan extends Base
             // Sort the steps so they match the card.
             $this->sortSteps($this->item->cost);
         }
+
+        if ($this->item instanceof Building && $this->item->linkedBuilding != 0 && $this->totalCost() > 1 && $player->hasProgressToken(15)) {
+            $this->steps = [];
+            $string = clienttranslate('Player can construct any card with a chaining symbol under the cost for 1 Coin (Progress Token “${progressTokenName}”)');
+            $args = ['progressTokenName' => ProgressToken::get(15)->name];
+            $this->addStep(COINS, 1, 1, null, null, $string, $args);
+        }
+
+
         $this->cost = $this->totalCost();
 
         if($print) {

@@ -7,7 +7,7 @@
     width: calc(var(--progress-token-width) * var(--scale));
     height: calc(var(--progress-token-height) * var(--scale));
     background-size: calc(var(--progress-token-spritesheet-width) * var(--scale)) calc(var(--progress-token-spritesheet-height) * var(--scale));
-    background-image: url('img/progress_tokens_v2.jpg');
+    background-image: url('img/progress_tokens_v3.jpg');
     border-radius: calc(var(--progress-token-width) * var(--scale) * 0.5);
     box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
     inset 0 0 0 calc(var(--scale) * 1px) #00000060;
@@ -20,10 +20,10 @@
 .progress_token_small {
     position: relative;
     z-index: 5;
-    width: calc(var(--progress-token-width) * var(--progress-token-small-scale) * var(--element-scale));
-    height: calc(var(--progress-token-height) * var(--progress-token-small-scale) * var(--element-scale));
-    background-size: calc(var(--progress-token-spritesheet-width) * var(--progress-token-small-scale) * var(--element-scale)) calc(var(--progress-token-spritesheet-height) * var(--progress-token-small-scale) * var(--element-scale));
-    border-radius: calc(var(--progress-token-width) * var(--progress-token-small-scale) * var(--element-scale) * 0.5);
+    width: calc(var(--progress-token-width) * var(--progress-token-small-scale) * var(--element-scale) * var(--element-scale2));
+    height: calc(var(--progress-token-height) * var(--progress-token-small-scale) * var(--element-scale) * var(--element-scale2));
+    background-size: calc(var(--progress-token-spritesheet-width) * var(--progress-token-small-scale) * var(--element-scale) * var(--element-scale2)) calc(var(--progress-token-spritesheet-height) * var(--progress-token-small-scale) * var(--element-scale) * var(--element-scale2));
+    border-radius: calc(var(--progress-token-width) * var(--progress-token-small-scale) * var(--element-scale) * var(--element-scale2) * 0.5);
     box-shadow: 0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0, 0, 0, 0.4),
     inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
 }

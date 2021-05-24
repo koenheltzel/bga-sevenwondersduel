@@ -1,7 +1,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
+ * SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -39,7 +39,7 @@ define([
             },
 
             constructor: function () {
-                this.game = bgagame.sevenwondersduel.instance;
+                this.game = bgagame.sevenwondersduelpantheon.instance;
             },
 
             delta: function(num1, num2) {
@@ -53,13 +53,16 @@ define([
                     // The military token animation always concerns the opponent of the active player.
                     let opponent_id = this.game.getOppositePlayerId(active_player_id);
 
-                    let startPosition = this.game.invertMilitaryTrack() ? -parseInt(payment.militaryOldPosition) : parseInt(payment.militaryOldPosition);
-                    let endPosition = this.game.invertMilitaryTrack() ? -parseInt(payment.militaryNewPosition) : parseInt(payment.militaryNewPosition);
+                    let startPosition = parseInt(payment.militaryOldPosition);
+                    let endPosition = parseInt(payment.militaryNewPosition);
                     let delta = this.delta(startPosition, endPosition);
                     let stepSize = delta / payment.militarySteps;
 
                     let position = startPosition;
-                    while(position != endPosition) {
+                    let divinationNeptune = position == endPosition && payment.militarySteps > 0;
+                    while(position != endPosition || divinationNeptune) {
+                        divinationNeptune = false;
+
                         // First animate a step
                         anims.push(dojo.animateProperty({
                             node: $('conflict_pawn'),
@@ -77,10 +80,21 @@ define([
 
                         position += stepSize;
 
-                        let realPosition = this.game.invertMilitaryTrack()? -position : position;
+                        // Then check if a Poliorcetics coin should be animated.
+                        if (payment.militaryPoliorceticsPositions[position]) {
+                            let opponentCoinsContainer = this.game.getPlayerCoinContainer(opponent_id);
+
+                            // Animate coins to fly from opponent coins total to conflict pawn
+                            anims.push(bgagame.CoinAnimator.get().getAnimation(
+                                opponentCoinsContainer,
+                                dojo.query('#board_container .military_position[data-position="' + position + '"]')[0],
+                                1,
+                                opponent_id,
+                            ));
+                        }
                         // Then check if a token was encountered (before performing the next step).
-                        if (payment.militaryTokens[realPosition]) {
-                            let token = payment.militaryTokens[realPosition];
+                        if (payment.militaryTokens[position]) {
+                            let token = payment.militaryTokens[position];
                             let tokenNumber = this.game.invertMilitaryTrack() ? (5 - token.number) : token.number;
                             let tokenNode = dojo.query('#military_tokens>div:nth-of-type(' + tokenNumber + ')>.military_token')[0];
 
@@ -139,7 +153,6 @@ define([
                                 ));
                             }
 
-
                             // Fade out military token.
                             anims.push(dojo.fadeOut({
                                 node: tokenNode,
@@ -150,9 +163,25 @@ define([
                             }));
                         }
                     }
+                }
+
+                if (payment.militaryRemoveMinerva) {
+                    // Fade out Minerva pawn.
+                    anims.push(dojo.fadeOut({
+                        node: $('minerva_pawn'),
+                        duration: this.militaryTokenAnimationDuration * 0.4,
+                        onEnd: dojo.hitch(this, function (node) {
+                            // dojo.destroy(node);
+                        })
+                    }));
+                }
+
+                if (anims.length > 0) {
                     return dojo.fx.chain(anims);
                 }
-                return dojo.fx.combine([]);
+                else {
+                    return this.game.emptyAnimation();
+                }
             },
         });
 

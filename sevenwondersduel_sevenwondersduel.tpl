@@ -3,13 +3,13 @@
 <!-- 
 --------
 -- BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
--- SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
+-- SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
 -- 
 -- This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
 -- See http://en.boardgamearena.com/#!doc/Studio for more information.
 -------
 
-    sevenwondersduel_sevenwondersduel.tpl
+    sevenwondersduelpantheon_sevenwondersduelpantheon.tpl
     
     This is the HTML template of your game.
     
@@ -25,16 +25,19 @@
     Please REMOVE this comment before publishing your game on BGA
 -->
 
+<!-- BEGIN swd -->
 <style>
     @import url("https://use.typekit.net/jim0ypy.css");
+    :root {
+        --invert-military-positions: {INVERT_MILITARY_POSITIONS}
+    }
 </style>
 
-<!-- BEGIN swd -->
 <div id="debugPlayArea" style="position: absolute; width: 20px; height: 20px;
     box-shadow: rgba(0, 0, 0, 1) 0px 0px 0px 10px inset;
     background-color: red;
     z-index: 50; opacity: 0.5; display: none"></div>
-<div id="swd" data-state="" data-client-state="" data-age="" data-quality="" data-show-opponent-cost="" data-agora="{AGORA}" data-expansion="{EXPANSION}">
+<div id="swd" data-state="" data-client-state="" data-age="" data-quality="" data-show-opponent-cost="" data-pantheon="{PANTHEON}" data-agora="{AGORA}" data-expansion="{EXPANSION}">
     <div id="swd_wrap" class="square" data-wonder-columns="1">
         <div id="player_wonders_mobile_container_{PLAYER_OPPONENT_ID}" class="player_wonders_mobile opponent whiteblock"></div>
         <div id="layout_flexbox">
@@ -42,6 +45,7 @@
                 <!-- BEGIN player_wonders -->
                 <div id="player_wonders_container_{PLAYER_ID}" class="player_wonders_container {PLAYER_ALIAS} whiteblock">
                     <div id="player_wonders_{PLAYER_ID}" class="player_wonders player{PLAYER_ID} {PLAYER_ALIAS}">
+                        <div class="card_outline"></div>
                         <div class="card_outline"></div>
                         <div class="card_outline"></div>
                         <div class="card_outline"></div>
@@ -74,7 +78,68 @@
                             <div id="progress_token_from_box" class="whiteblock">
                                 <h3></h3>
                                 <div id="progress_token_from_box_container">
-                                    <div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div>
+                                    <div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div><div class="progress_token_outline"></div>
+                                </div>
+                            </div>
+                            <div id="choose_and_place_divinity" class="whiteblock">
+                                <div></div>
+                                <div></div>
+                            </div>
+                            <div id="activate_divinity" class="whiteblock">
+                                <h3>{USE_OFFERING_TOKENS_TITLE}</h3>
+                                <div id="activate_divinity_flexbox">
+                                    <div id="activate_divinity_container"></div>
+                                    <div id="activate_divinity_info">
+                                        <table>
+                                            <tr>
+                                                <td><h3>{COST}:</h3></td>
+                                                <td id="activate_divinity_cost">
+                                                    <div id="activate_divinity_cost_container"><div class="coin "><span style="color: black !important">6</span></div></div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><h3>{YOUR_TOKENS}:</h3></td>
+                                                <td id="activate_divinity_tokens">
+                                                    <div id="activate_divinity_tokens_container"></div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><h3>{PAYMENT}:</h3></td>
+                                                <td id="activate_divinity_payment">
+                                                    <div id="activate_divinity_payment_steps">
+                                                        <div class="offering_token_outline">        <div data-offering-token-id="2" class="offering_token offering_token2 offering_token_small">        </div>    </div>
+                                                        <div class="offering_token_outline">        <div data-offering-token-id="3" class="offering_token offering_token3 offering_token_small">        </div>    </div>
+                                                        <div class="coin "><span style="color: black !important">3</span></div>
+                                                        <!-- Free <div class="coin cost_free"><span style="color: #008000 !important">✓</span></div> -->
+                                                    </div>
+                                                    <div>
+                                                        <a href="#" id="activate_divinity_confirm" class="action_button bgabutton bgabutton_blue">{ACTIVATE}</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="choose_divinity_from_top_cards" class="whiteblock"><div></div><div></div><div></div><div></div><div></div></div>
+                            <div id="choose_divinity_from_deck" class="whiteblock">
+                                <div>
+                                    <div data-position="0"></div>
+                                    <div>
+                                        <a href="#" data-button-position="0" class="action_button bgabutton bgabutton_blue top_of_deck_button"><span>{TOP_OF_DECK}</span></a>
+                                    </div>
+                                </div><!-- Collapse whitespace
+                                --><div>
+                                    <div data-position="1"></div>
+                                    <div>
+                                        <a href="#" data-button-position="1" class="action_button bgabutton bgabutton_blue top_of_deck_button"><span>{TOP_OF_DECK}</span></a>
+                                    </div>
+                                </div><!-- Collapse whitespace
+                                --><div>
+                                    <div data-position="2"></div>
+                                    <div>
+                                        <a href="#" data-button-position="2" class="action_button bgabutton bgabutton_blue top_of_deck_button"><span>{TOP_OF_DECK}</span></a>
+                                    </div>
                                 </div>
                             </div>
                             <div id="choose_conspirator_action" class="whiteblock">
@@ -126,29 +191,31 @@
                     </div>
                     <!-- END draftpool -->
                     <!-- BEGIN end_game -->
-                    <div id="end_game_container" class="whiteblock" style="display: none;">
-                        <table>
-                            <tr>
-                                <td></td>
-                                <!-- BEGIN end_game_category_header -->
-                                <td class="end_game_{CATEGORY}"><div class="end_game_icon end_game_card" /></td>
-                                <!-- END end_game_category_header -->
-                                <td></td>
-                            </tr>
-                            <!-- BEGIN end_game_player -->
-                            <tr>
-                                <td class="end_game_player_name" style="color:#{PLAYER_COLOR}">{PLAYER_NAME}</td>
-                                <!-- BEGIN end_game_category_player -->
-                                <td class="end_game_{CATEGORY} player{PLAYER_ID}">xx</td>
-                                <!-- END end_game_category_player -->
-                                <td style="overflow: initial">
-                                    <div class="end_game_total player{PLAYER_ID}">
+                    <div id="end_game_container" style="display: none;">
+                        <div class="whiteblock">
+                            <table>
+                                <tr>
+                                    <td></td>
+                                    <!-- BEGIN end_game_category_header -->
+                                    <td class="end_game_{CATEGORY}"><div class="end_game_icon end_game_card" /></td>
+                                    <!-- END end_game_category_header -->
+                                    <td></td>
+                                </tr>
+                                <!-- BEGIN end_game_player -->
+                                <tr>
+                                    <td class="end_game_player_name" style="color:#{PLAYER_COLOR}">{PLAYER_NAME}</td>
+                                    <!-- BEGIN end_game_category_player -->
+                                    <td class="end_game_{CATEGORY} player{PLAYER_ID}">xx</td>
+                                    <!-- END end_game_category_player -->
+                                    <td style="overflow: initial">
+                                        <div class="end_game_total player{PLAYER_ID}">
 
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- END end_game_player -->
-                        </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- END end_game_player -->
+                            </table>
+                        </div>
                     </div>
                     <!-- END end_game -->
                     <!-- BEGIN player_buildings -->
@@ -161,7 +228,11 @@
                         <div class="player_building_column Green">
                             <div class="building_header_small_container card_outline science_progress"><span></span></div>
                         </div>
-                        <div class="player_building_column Purple"></div>
+                        <div class="player_building_column Purple">
+                            <div class="building_header_small_container expansion_icon_container expansion_icon_container_pantheon">
+                                <div class="pantheon_icon pantheon"></div>
+                            </div>
+                        </div>
                         <div class="player_building_column Senator agora">
                             <div class="building_header_small_container expansion_icon_container expansion_icon_container_agora">
                                 <div class="agora_icon"></div>
@@ -224,8 +295,14 @@
                         </div>
                         <div id="board_container">
                             <div class="board"></div>
-                            <div id="capital_opponent" class="capital"></div>
-                            <div id="capital_me" class="capital"></div>
+                            <!-- BEGIN military_position -->
+                            <div id="{ID}" data-position="{POSITION}" class="military_position" style="--military-visual-index: {INDEX}">
+                                <svg viewBox="0 0 80 40">
+                                    <ellipse cx="40" cy="20" rx="37" ry="18"></ellipse>
+                                </svg>
+                            </div>
+                            <!-- END military_position -->
+                            <div id="minerva_pawn" class="minerva_pawn"></div>
                             <div id="conflict_pawn" class="pawn"></div>
                             <div id="board_progress_tokens">
                                 <div></div>
@@ -235,10 +312,32 @@
                                 <div></div>
                             </div>
                             <div id="military_tokens">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
+                                <!-- BEGIN military_token -->
+                                <div class="military_token_container" data-military-token-number="{NUMBER}"></div>
+                                <!-- END military_token -->
+                            </div>
+                        </div>
+                        <div id="pantheon_board_container" class="pantheon">
+                            <div class="pantheon_board">
+                                <div class="pantheon_cost_containers">
+                                    <!-- BEGIN pantheon_cost -->
+                                    <div class="pantheon_space" data-space="{SPACE}">
+                                        <div class="me">
+                                            <div class="pantheon_cost_arrow me"></div>
+                                            <div class="cost"></div>
+                                        </div>
+                                        <div class="opponent">
+                                            <div class="pantheon_cost_arrow opponent"></div>
+                                            <div class="cost"></div>
+                                        </div>
+                                    </div>
+                                    <!-- END pantheon_cost -->
+                                </div>
+                                <div class="pantheon_space_containers">
+                                    <!-- BEGIN pantheon_space -->
+                                    <div class="pantheon_space" data-space="{SPACE}"></div>
+                                    <!-- END pantheon_space -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -274,9 +373,8 @@
                                 <div class="progress_token_outline"></div>
                                 <div class="progress_token_outline"></div>
                                 <div class="progress_token_outline"></div>
-                                <div class="progress_token_outline"></div>
-                                <div class="progress_token_outline"></div>
-                                <div class="progress_token_outline"></div>
+                                <div class="mythology_token_outline pantheon"></div>
+                                <div class="offering_token_outline pantheon"></div>
                             </div>
                             <!-- END board_player_row_progress_tokens -->
                         <!-- END board_player_row -->
@@ -294,6 +392,39 @@
                 <div class="discarded_cards_cursor"></div>
             </div>
         </div>
+        <div id="mythology_decks_container" class="whiteblock pantheon">
+            <h3>{MYTHOLOGY_DECKS}</h3>
+            <div id="mythology1">
+                <div class="divinity_deck divinity divinity_small" data-divinity-type="1" style="background-position: -400% -200%;">
+                    <span class="divinity_deck_count">3</span>
+                </div>
+                <h3>{DIVINITY_TYPE_1}</h3>
+            </div>
+            <div id="mythology2">
+                <div class="divinity_deck divinity divinity_small" data-divinity-type="2" style="background-position: -500% -200%;">
+                    <span class="divinity_deck_count">3</span>
+                </div>
+                <h3>{DIVINITY_TYPE_2}</h3>
+            </div>
+            <div id="mythology3">
+                <div class="divinity_deck divinity divinity_small" data-divinity-type="3" style="background-position: -000% -300%;">
+                    <span class="divinity_deck_count">3</span>
+                </div>
+                <h3>{DIVINITY_TYPE_3}</h3>
+            </div>
+            <div id="mythology4">
+                <div class="divinity_deck divinity divinity_small" data-divinity-type="4" style="background-position: -100% -300%;">
+                    <span class="divinity_deck_count">3</span>
+                </div>
+                <h3>{DIVINITY_TYPE_4}</h3>
+            </div>
+            <div id="mythology5">
+                <div class="divinity_deck divinity divinity_small" data-divinity-type="5" style="background-position: -200% -300%;">
+                    <span class="divinity_deck_count">3</span>
+                </div>
+                <h3>{DIVINITY_TYPE_5}</h3>
+            </div>
+        </div>
         <div id="conspiracy_deck_container" class="whiteblock agora">
             <h3>{CONSPIRACY_DECK}</h3>
             <div id="conspiracy_deck" class="conspiracy conspiracy_small" style="background-position: -400% -200%;">
@@ -301,7 +432,6 @@
             </div>
         </div>
     </div>
-
 
     <div id="list_of_cards_flexbox">
         <div class="list_of_cards_whiteblock whiteblock">
@@ -473,6 +603,7 @@ var jstpl_draftpool_building = '\
     <div id="${jsRow}_${jsColumn}"\
         data-building-id="${jsId}"\
         data-building-type="${jsType}"\
+        data-location="${jsLocation}"\
         class="building building_small column${jsColumn} row${jsRow} ${jsAvailable}"\
         style="position: absolute; z-index: ${jsZindex}; background-position: -${jsX}00% -${jsY}00%;"\
     >\
@@ -525,6 +656,60 @@ var jstpl_wonder_age_card = '\
     >\
     </div>';
 
+var jstpl_mythology_token = '\
+    <div class="mythology_token_outline">\
+        <div\
+            data-mythology-token-id="${jsId}"\
+            class="mythology_token mythology_token_small mythology_token${jsType}">\
+        </div>\
+    </div>';
+
+var jstpl_offering_token = '\
+    <div class="offering_token_outline">\
+        <div\
+            data-offering-token-id="${jsId}"\
+            class="offering_token offering_token${jsId} offering_token_small">\
+        </div>\
+    </div>';
+
+var jstpl_snake_token = '\
+    <div class="snake_token_container">\
+        <div class="snake_token"></div>\
+    </div>';
+
+var jstpl_divinity = '\
+    <div class="divinity_container">\
+        <div\
+            data-divinity-id="${jsId}"\
+            data-divinity-type="${jsType}"\
+            class="divinity divinity_small divinity_compact ${jsDivinityBack}"\
+            style="background-position: calc(-${jsX}.0741 * var(--divinity-width) * var(--divinity-small-scale) * var(--element-scale)) calc(-${jsY}${jsYOffset} * var(--divinity-height) * var(--divinity-small-scale) * var(--element-scale));"\
+        >\
+            <span class="swd_title">${jsName}</span>\
+            <div class="enki_progress_tokens">\
+                ${jsEnkiProgressTokensHtml}\
+            </div>\
+        </div>\
+    </div>';
+
+var jstpl_divinity_full = '\
+    <div class="divinity_container">\
+        <div\
+            data-divinity-id="${jsId}"\
+            data-divinity-type="${jsType}"\
+            class="divinity divinity_small ${jsDivinityBack}"\
+            style="background-position: -${jsX}00% -${jsY}00%;"\
+        >\
+            <span class="swd_title">${jsName}</span>\
+            <div class="enki_progress_tokens">\
+                ${jsEnkiProgressTokensHtml}\
+            </div>\
+        </div>\
+    </div>';
+
+var jstpl_cost = '\
+        <div class="coin ${jsCostClass}"><span style="color: ${jsCostColor} !important">${jsCost}</span></div>';
+
 var jstpl_conspiracy = '\
     <div class="conspiracy_container">\
         <div \
@@ -559,6 +744,9 @@ var jstpl_conspiracy_full = '\
         <span class="swd_title">${jsName}</span>\
         <span class="deck_position"></span>\
     </div>';
+
+var jstpl_progress_token_outline = '\
+    <div class="progress_token_outline"></div>';
 
 var jstpl_progress_token = '\
     <div id="progress_token_${jsId}"\
@@ -658,6 +846,36 @@ var jstpl_progress_token_tooltip = '\
         <div class="clear"></div>\
     </div>';
 
+var jstpl_divinity_tooltip = '\
+    <div class="swd_tooltip">\
+        <div class="cardinfos">\
+            <strong>${translateDivinity} ${jsName} (<span style="color: ${jsDivinityColor}">${jsDivinityType}</span>)</strong>\
+            <hr\>\
+            <p>${jsText}</p>\
+            ${jsCostOpponent}\
+            ${jsCostMe}\
+        </div>\
+        <div>\
+            <div class="divinity tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;">\
+                <span class="swd_title">${jsNameOnCard}</span>\
+            </div>\
+        </div>\
+        <div class="clear"></div>\
+    </div>';
+
+var jstpl_snake_token_tooltip = '\
+    <div class="swd_tooltip">\
+        <div class="cardinfos">\
+            <strong>${jsTitle}</strong>\
+            <hr\>\
+            <p>${jsText}</p>\
+        </div>\
+        <div>\
+            <div class="snake_token tooltipWiggle"></div>\
+        </div>\
+        <div class="clear"></div>\
+    </div>';
+
 var jstpl_decree_tooltip = '\
     <div class="swd_tooltip decree_tooltip">\
         <div class="cardinfos">\
@@ -667,6 +885,32 @@ var jstpl_decree_tooltip = '\
         </div>\
         <div>\
             <div class="decree tooltipWiggle" style="float:right; background-position: -${jsBackX}00% -${jsBackY}00%;"></div>\
+        </div>\
+        <div class="clear"></div>\
+    </div>';
+
+var jstpl_mythology_token_tooltip = '\
+    <div class="swd_tooltip offering_token_tooltip">\
+        <div class="cardinfos">\
+            <strong>${translateToken} (<span style="color: ${jsDivinityColor}">${jsDivinityType}</span>)</strong>\
+            <hr\>\
+            <p>${jsText}</p>\
+        </div>\
+        <div>\
+            <div class="mythology_token mythology_token${jsType} tooltipWiggle" style="float:right;"></div>\
+        </div>\
+        <div class="clear"></div>\
+    </div>';
+
+var jstpl_offering_token_tooltip = '\
+    <div class="swd_tooltip offering_token_tooltip">\
+        <div class="cardinfos">\
+            <strong>${translateToken} (-${jsDiscount})</strong>\
+            <hr\>\
+            <p>${jsText}</p>\
+        </div>\
+        <div>\
+            <div class="offering_token offering_token${jsId} tooltipWiggle" style="float:right;"></div>\
         </div>\
         <div class="clear"></div>\
     </div>';

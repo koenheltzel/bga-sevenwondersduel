@@ -2,13 +2,13 @@
  /**
   *------
   * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
-  * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
+  * SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
   * 
   * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
   * See http://en.boardgamearena.com/#!doc/Studio for more information.
   * -----
   * 
-  * sevenwondersduel.game.php
+  * sevenwondersduelpantheon.game.php
   *
   * This is the main file for your game logic.
   *
@@ -20,9 +20,13 @@ use SWD\Conspiracies;
 use SWD\Conspiracy;
 use SWD\Decree;
 use SWD\Decrees;
+use SWD\Divinities;
+use SWD\Divinity;
 use SWD\Draftpool;
 use SWD\Material;
 use SWD\MilitaryTrack;
+use SWD\MythologyTokens;
+use SWD\OfferingTokens;
 use SWD\Player;
 use SWD\Players;
 use SWD\ProgressTokens;
@@ -53,7 +57,7 @@ else {
 }
 
 
-class SevenWondersDuel extends Table
+class SevenWondersDuelPantheon extends Table
 {
 
     use SWD\States\ChooseDiscardedBuildingTrait;
@@ -69,6 +73,19 @@ class SevenWondersDuel extends Table
     use SWD\States\SelectWonderTrait;
     use SWD\States\StartPlayerSelectedTrait;
     use SWD\States\WonderSelectedTrait;
+    // Pantheon
+    use SWD\States\ChooseAndPlaceDivinityTrait;
+    use SWD\States\DeconstructWonderTrait;
+    use SWD\States\ConstructWonderWithDiscardedBuildingTrait;
+    use SWD\States\ChooseEnkiProgressTokenTrait;
+    use SWD\States\PlaceSnakeTokenTrait;
+    use SWD\States\DiscardAgeCardTrait;
+    use SWD\States\PlaceMinervaTokenTrait;
+    use SWD\States\DiscardMilitaryTokenTrait;
+    use SWD\States\ApplyMilitaryTokenTrait;
+    use SWD\States\ChooseDivinityFromTopCardsTrait;
+    use SWD\States\ChooseDivinityDeckTrait;
+    use SWD\States\ChooseDivinityFromDeckTrait;
     // Agora
     use SWD\States\ChooseConspiratorActionTrait;
     use SWD\States\ConspireTrait;
@@ -90,7 +107,7 @@ class SevenWondersDuel extends Table
     use SWD\States\PlayerSwitchTrait;
 
     /**
-     * @var SevenWondersDuel
+     * @var SevenWondersDuelPantheon
      */
     public static $instance;
 
@@ -174,6 +191,46 @@ class SevenWondersDuel extends Table
 
     // End Agora
 
+    // Start Pantheon
+
+    const STATE_CHOOSE_AND_PLACE_DIVINITY_ID = 50;
+    const STATE_CHOOSE_AND_PLACE_DIVINITY_NAME = "chooseAndPlaceDivinity";
+
+    const STATE_DECONSTRUCT_WONDER_ID = 51;
+    const STATE_DECONSTRUCT_WONDER_NAME = "deconstructWonder";
+
+    const STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_ID = 52;
+    const STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME = "constructWonderWithDiscardedBuilding";
+
+    const STATE_CHOOSE_ENKI_PROGRESS_TOKEN_ID = 53;
+    const STATE_CHOOSE_ENKI_PROGRESS_TOKEN_NAME = "chooseEnkiProgressToken";
+
+    const STATE_PLACE_SNAKE_TOKEN_ID = 54;
+    const STATE_PLACE_SNAKE_TOKEN_NAME = "placeSnakeToken";
+
+    const STATE_DISCARD_AGE_CARD_ID = 55;
+    const STATE_DISCARD_AGE_CARD_NAME = "discardAgeCard";
+
+    const STATE_PLACE_MINERVA_TOKEN_ID = 56;
+    const STATE_PLACE_MINERVA_TOKEN_NAME = "placeMinervaToken";
+
+    const STATE_DISCARD_MILITARY_TOKEN_ID = 57;
+    const STATE_DISCARD_MILITARY_TOKEN_NAME = "discardMilitaryToken";
+
+    const STATE_APPLY_MILITARY_TOKEN_ID = 58;
+    const STATE_APPLY_MILITARY_TOKEN_NAME = "applyMilitaryToken";
+
+    const STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_ID = 59;
+    const STATE_CHOOSE_DIVINITY_FROM_TOP_CARDS_NAME = "chooseDivinityFromTopCards";
+
+    const STATE_CHOOSE_DIVINITY_DECK_ID = 61;
+    const STATE_CHOOSE_DIVINITY_DECK_NAME = "chooseDivinityDeck";
+
+    const STATE_CHOOSE_DIVINITY_FROM_DECK_ID = 62;
+    const STATE_CHOOSE_DIVINITY_FROM_DECK_NAME = "chooseDivinityFromDeck";
+
+    // End Pantheon
+
     const STATE_CHOOSE_PROGRESS_TOKEN_ID = 45;
     const STATE_CHOOSE_PROGRESS_TOKEN_NAME = "chooseProgressToken";
 
@@ -213,6 +270,10 @@ class SevenWondersDuel extends Table
     const VALUE_DISCARD_OPPONENT_BUILDING_WONDER = "discard_opponent_building_wonder";
     const VALUE_END_GAME_CONDITION = "end_game_condition";
     const VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY = "discard_opponent_building_conspiracy";
+    // Global value labels Pantheon
+    const VALUE_ASTARTE_COINS = "astarte_coins";
+    const VALUE_MINERVA_PAWN_POSITION = "minerva_pawn_position";
+    const VALUE_SNAKE_TOKEN_BUILDING_ID = "snake_token_building_id";
     // Global value labels Agora
     const VALUE_CONSPIRE_RETURN_STATE = "conspire_return_state";
     const VALUE_SENATE_ACTIONS_SECTION = "senate_actions_section";
@@ -226,8 +287,13 @@ class SevenWondersDuel extends Table
     const OPTION_AGORA = "option_agora";
     const OPTION_AGORA_WONDERS = "option_agora_wonders";
     const OPTION_AGORA_PROGRESS_TOKENS = "option_agora_progress_tokens";
+    
+    const OPTION_PANTHEON = "option_pantheon";
+    const OPTION_PANTHEON_WONDERS = "option_pantheon_wonders";
+    const OPTION_PANTHEON_PROGRESS_TOKENS = "option_pantheon_progress_tokens";
 
     // End game scoring categories
+    const SCORE_DIVINITIES = "divinities";
     const SCORE_WONDERS = "wonders";
     const SCORE_PROGRESSTOKENS = "progresstokens";
     const SCORE_COINS = "coins";
@@ -273,6 +339,9 @@ class SevenWondersDuel extends Table
     const STAT_EXTRA_TURNS = "extra_turns";
     const STAT_DISCARDED_CARDS = "discarded_cards";
     const STAT_CHAINED_CONSTRUCTIONS = "chained_constructions";
+    // Pantheon Statistics
+    const STAT_DIVINITIES_ACTIVATED = "divinities_activated";
+    const STAT_VP_DIVINITIES = "vp_divinities";
     // Agora Statistics
     const STAT_CONSPIRACIES_PREPARED = "conspiracies_prepared";
     const STAT_CONSPIRACIES_TRIGGERED = "conspiracies_triggered";
@@ -319,7 +388,13 @@ class SevenWondersDuel extends Table
     public $influenceCubeDeck;
 
     public static function get() {
-        // We can assume self::$instance exists since SevenWondersDuel's constructor is the entry point for SWD code.
+        // We can assume self::$instance exists since SevenWondersDuelPantheon's constructor is the entry point for SWD code.
+
+        // To support paymenttester.php
+        if (!self::$instance) {
+            self::$instance = new Table();
+        }
+
         return self::$instance;
     }
 
@@ -350,6 +425,10 @@ class SevenWondersDuel extends Table
                 self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER => 20,
                 self::VALUE_END_GAME_CONDITION => 21,
                 self::VALUE_AVAILABLE_CARDS => 23,
+                // Global variables Pantheon
+                self::VALUE_ASTARTE_COINS => 50,
+                self::VALUE_MINERVA_PAWN_POSITION => 51,
+                self::VALUE_SNAKE_TOKEN_BUILDING_ID => 52,
                 // Global variables Agora
                 self::VALUE_DISCARD_OPPONENT_BUILDING_CONSPIRACY => 22,
                 self::VALUE_CONSPIRE_RETURN_STATE => 33,
@@ -360,6 +439,9 @@ class SevenWondersDuel extends Table
                 self::VALUE_MAY_TRIGGER_CONSPIRACY => 38,
                 self::VALUE_DISCARD_AVAILABLE_CARD_ROUND => 39,
                 // Game variants
+                self::OPTION_PANTHEON => 105,
+                self::OPTION_PANTHEON_WONDERS => 106,
+                self::OPTION_PANTHEON_PROGRESS_TOKENS => 107,
                 self::OPTION_AGORA => 110,
                 self::OPTION_AGORA_WONDERS => 111,
                 self::OPTION_AGORA_PROGRESS_TOKENS => 112,
@@ -374,8 +456,20 @@ class SevenWondersDuel extends Table
         $this->progressTokenDeck = self::getNew( "module.common.deck" );
         $this->progressTokenDeck->init( "progress_token" );
 
+        // Start Pantheon
+        // Checking whether Pantheon is active isn't possible here. So create the deck objects anyway.
+        $this->divinityDeck = self::getNew( "module.common.deck" );
+        $this->divinityDeck->init( "divinity" );
+
+        $this->mythologyTokenDeck = self::getNew( "module.common.deck" );
+        $this->mythologyTokenDeck->init( "mythology_token" );
+
+        $this->offeringTokenDeck = self::getNew( "module.common.deck" );
+        $this->offeringTokenDeck->init( "offering_token" );
+        // End Pantheon
+
         // Start Agora
-        // Checking wether Agora is active isn't possible here. So create the deck objects anyway.
+        // Checking whether Agora is active isn't possible here. So create the deck objects anyway.
         $this->decreeDeck = self::getNew( "module.common.deck" );
         $this->decreeDeck->init( "decree" );
 
@@ -385,6 +479,7 @@ class SevenWondersDuel extends Table
         $this->influenceCubeDeck = self::getNew( "module.common.deck" );
         $this->influenceCubeDeck->init( "influence_cube" );
         // End Agora
+
 	}
 
     /**
@@ -430,7 +525,7 @@ class SevenWondersDuel extends Table
     public function setAvailableCardIds($cardIds) {
         // First check what ids are in the draftpool, so we can remove ids that have been used already.
         $age = $this->getGameStateValue(self::VALUE_CURRENT_AGE);
-        $allAgeCards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation("age{$age}");
+        $allAgeCards = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation("age{$age}");
         $allAgeCards = arrayWithPropertyAsKeys($allAgeCards, 'id');
         $allAgeCardIds = array_keys($allAgeCards);
         $intersected = array_intersect($allAgeCardIds, $cardIds);
@@ -445,13 +540,13 @@ class SevenWondersDuel extends Table
     }
 
     public function expansionActive() {
-        return $this->getGameStateValue(self::OPTION_AGORA);
+        return (int)$this->getGameStateValue(self::OPTION_AGORA) || (int)$this->getGameStateValue(self::OPTION_PANTHEON);
     }
 
     protected function getGameName( )
     {
 		// Used for translations and stuff. Please do not modify.
-        return "sevenwondersduel";
+        return "sevenwondersduelpantheon";
     }
 
     /*
@@ -500,6 +595,10 @@ class SevenWondersDuel extends Table
         self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, 0);
         self::setGameStateInitialValue( self::VALUE_STATE_STACK, json_encode([]));
         self::setGameStateInitialValue( self::VALUE_AVAILABLE_CARDS, json_encode([]));
+        // Pantheon
+        self::setGameStateInitialValue( self::VALUE_ASTARTE_COINS, 0);
+        self::setGameStateInitialValue( self::VALUE_MINERVA_PAWN_POSITION, -999);
+        self::setGameStateInitialValue( self::VALUE_SNAKE_TOKEN_BUILDING_ID, 0);
         // Agora
         self::setGameStateInitialValue( self::VALUE_CONSPIRE_RETURN_STATE, 0);
         self::setGameStateInitialValue( self::VALUE_SENATE_ACTIONS_SECTION, 0);
@@ -548,6 +647,11 @@ class SevenWondersDuel extends Table
         self::initStat('player', self::STAT_EXTRA_TURNS, 0);
         self::initStat('player', self::STAT_DISCARDED_CARDS, 0);
         self::initStat('player', self::STAT_CHAINED_CONSTRUCTIONS, 0);
+        // Pantheon
+        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+            self::initStat('player', self::STAT_VP_DIVINITIES, 0);
+            self::initStat('player', self::STAT_DIVINITIES_ACTIVATED, 0);
+        }
         // Agora
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             self::initStat('player', self::STAT_CONSPIRACIES_PREPARED, 0);
@@ -558,7 +662,7 @@ class SevenWondersDuel extends Table
             self::initStat('player', self::STAT_POLITICIAN_CARDS, 0);
             self::initStat('player', self::STAT_CONSPIRATOR_CARDS, 0);
         }
-        // TODO: setup the initial game situation here
+        // Setup the initial game situation here
 
         $this->enterStateGameSetup(); // This state function isn't called automatically apparently.
 
@@ -591,17 +695,17 @@ class SevenWondersDuel extends Table
             $result['playerIds'][] = $player['id'];
         }
 
-        // TODO: Gather all information about current game situation (visible by player $current_player_id).
+        // Gather all information about current game situation (visible by player $current_player_id).
 
         // Wonder selection stuff
         $result['wondersSituation'] = Wonders::getSituation();
 
         $me = Player::me();
         $opponent = Player::opponent();
-        $result['discardedBuildings'] = SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
+        $result['discardedBuildings'] = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation('discard', null, 'card_location_arg');
         $result['playerBuildings'] = [
-            $me->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($me->id, null, 'card_location_arg'),
-            $opponent->id => SevenWondersDuel::get()->buildingDeck->getCardsInLocation($opponent->id, null, 'card_location_arg'),
+            $me->id => SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation($me->id, null, 'card_location_arg'),
+            $opponent->id => SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation($opponent->id, null, 'card_location_arg'),
         ];
         $result['playersSituation'] = Players::getSituation((int)$this->getGameStateValue(self::VALUE_END_GAME_CONDITION) != 0);
         $result['buildings'] = Material::get()->buildings->array;
@@ -621,6 +725,32 @@ class SevenWondersDuel extends Table
             $opponent->id => json_decode(json_encode($opponent), true),
         ];
         $result['agora'] = (int)$this->getGameStateValue(self::OPTION_AGORA);
+        $result['pantheon'] = (int)$this->getGameStateValue(self::OPTION_PANTHEON);
+        if ($result['pantheon']) {
+            $result['mythologyTokensSituation'] = MythologyTokens::getSituation();
+            $result['offeringTokensSituation'] = OfferingTokens::getSituation();
+            $result['divinitiesSituation'] = Divinities::getSituation();
+            $result['mythologyTokens'] = Material::get()->mythologyTokens->array;
+            $result['offeringTokens'] = Material::get()->offeringTokens->array;
+            $result['divinities'] = Material::get()->divinities->array;
+            $result['divinities'][0] = new Divinity(0, '', 0); // To pass the generic explanation text to the tooltip.
+            $result['divinityTypeNames'] = [
+                1 => Divinity::getTypeName(1),
+                2 => Divinity::getTypeName(2),
+                3 => Divinity::getTypeName(3),
+                4 => Divinity::getTypeName(4),
+                5 => Divinity::getTypeName(5),
+                6 => Divinity::getTypeName(6),
+            ];
+            $result['divinityTypeColors'] = [
+                1 => '#008946',
+                2 => '#f79021',
+                3 => '#159fc7',
+                4 => '#58585a',
+                5 => '#d1232a',
+                6 => '#585858',
+            ];
+        }
         if ($result['agora']) {
             $result['conspiraciesSituation'] = Conspiracies::getSituation();
             $result['conspiracies'] = Material::get()->conspiracies->array;
@@ -703,7 +833,7 @@ class SevenWondersDuel extends Table
 
     /*
         Each time a player is doing some game action, one of the methods below is called.
-        (note: each method below must match an input method in sevenwondersduel.action.php)
+        (note: each method below must match an input method in sevenwondersduelpantheon.action.php)
     */
 
     /*

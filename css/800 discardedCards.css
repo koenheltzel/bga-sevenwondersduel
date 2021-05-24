@@ -23,28 +23,14 @@
     cursor: pointer;
 }
 
+.current_player_is_active #swd[data-state=constructWonderWithDiscardedBuilding] #discarded_cards_container .building_small {
+    cursor: pointer;
+}
+
 .discarded_cards_cursor {
     display: none !important;
 }
 
 #discarded_cards_whiteblock {
-    flex-grow: 2;
-}
-
-#conspiracy_deck_container {
-    margin-left: var(--gutter) !important;
-}
-
-#conspiracy_deck span {
-    font-family: cafeteria, sans-serif;
-    font-weight: 800;
-    font-style: normal;
-    font-size: calc(var(--scale) * 32px);
-    text-shadow: 0 0 calc(var(--scale) * 3px) black, 0 0 calc(var(--scale) * 3px) black;
-    color: white;
-    cursor: default;
-    position: relative;
-}
-#conspiracy_deck_container .conspiracy {
-    position: initial;
+    flex: auto;
 }

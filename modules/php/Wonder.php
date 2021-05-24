@@ -2,13 +2,12 @@
 
 namespace SWD;
 
-use SevenWondersDuel;
+use SevenWondersDuelPantheon;
 
 class Wonder extends Item {
 
     public $extraTurn = false;
     public $opponentCoinLoss = 0;
-    public $constructDiscardedBuilding = false;
     public $discardOpponentBuilding = false;
     public $progressTokenFromBox = false;
 
@@ -24,12 +23,12 @@ class Wonder extends Item {
      * @param Building $building
      * @return PaymentPlan
      */
-    public function construct(Player $player, $building = null, $discardedBuilding = false) {
+    public function construct(Player $player, $building = null, $discardedBuilding = false, $offeringTokens = null) {
         $payment = parent::construct($player, $building, $discardedBuilding);
 
-        SevenWondersDuel::get()->buildingDeck->moveCard($building->id, 'wonder' . $this->id);
+        SevenWondersDuelPantheon::get()->buildingDeck->moveCard($building->id, 'wonder' . $this->id);
 
-        SevenWondersDuel::get()->notifyAllPlayers(
+        SevenWondersDuelPantheon::get()->notifyAllPlayers(
             'constructWonder',
             clienttranslate('${player_name} constructed wonder “${wonderName}” for ${cost} ${costUnit} using building “${buildingName}”'),
             [
@@ -56,7 +55,7 @@ class Wonder extends Item {
             $eightWonder = array_shift($wondersUnconstructed);
 
             $payment->eightWonderId = $eightWonder->id;
-            SevenWondersDuel::get()->notifyAllPlayers(
+            SevenWondersDuelPantheon::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name}\'s Wonder “${wonderName}” is removed from the game because 7 Wonders have been constructed'),
                 [
@@ -65,7 +64,7 @@ class Wonder extends Item {
                     'wonderName' => $eightWonder->name,
                 ]
             );
-            SevenWondersDuel::get()->wonderDeck->moveCard($eightWonder->id, 'box');
+            SevenWondersDuelPantheon::get()->wonderDeck->moveCard($eightWonder->id, 'box');
         }
 
         $this->constructEffects($player, $payment);
@@ -85,10 +84,10 @@ class Wonder extends Item {
 
         // Set extra turn if the wonder provides it or if the player has progress token Theology.
         if ($this->extraTurn) {
-            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_NORMAL, 1);
+            SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_EXTRA_TURN_NORMAL, 1);
         }
         elseif($player->hasProgressToken(9)) {
-            SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 1);
+            SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 1);
         }
 
         if ($this->opponentCoinLoss > 0) {
@@ -97,7 +96,7 @@ class Wonder extends Item {
                 $payment->opponentCoinLoss = $opponentCoinLoss;
                 $opponent->increaseCoins(-$opponentCoinLoss);
 
-                SevenWondersDuel::get()->notifyAllPlayers(
+                SevenWondersDuelPantheon::get()->notifyAllPlayers(
                     'message',
                     clienttranslate('${player_name} loses ${coins} coin(s)'),
                     [
@@ -110,13 +109,13 @@ class Wonder extends Item {
 
         if ($player->hasDecree(14) || $opponent->hasDecree(14)) {
             $payment->decreeCoinRewardDecreeId = 14;
-            $payment->decreeCoinReward = (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_CURRENT_AGE);
+            $payment->decreeCoinReward = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_CURRENT_AGE);
             $decreePlayer = $player->hasDecree(14) ? $player : $opponent;
 
             $payment->decreeCoinRewardPlayerId = $decreePlayer->id;
             $decreePlayer->increaseCoins($payment->decreeCoinReward);
 
-            SevenWondersDuel::get()->notifyAllPlayers(
+            SevenWondersDuelPantheon::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} gets ${coins} coin(s) (as many as the current Age) because a Wonder was constructed and he controls the Decree in Chamber ${chamber}'),
                 [
@@ -140,7 +139,7 @@ class Wonder extends Item {
             return true;
         }
         else {
-            $cards = SevenWondersDuel::get()->buildingDeck->getCardsInLocation('wonder' . $this->id);
+            $cards = SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation('wonder' . $this->id);
             if (count($cards) > 0) {
                 $card = array_shift($cards);
                 return Building::get($card['id'])->age;
@@ -150,7 +149,7 @@ class Wonder extends Item {
     }
 
     protected function getScoreCategory() {
-        return SevenWondersDuel::SCORE_WONDERS;
+        return SevenWondersDuelPantheon::SCORE_WONDERS;
     }
 
     /**
@@ -178,11 +177,9 @@ class Wonder extends Item {
     }
 
     /**
-     * @param bool $constructDiscardedBuilding
      * @return static
      */
     public function setConstructDiscardedBuilding() {
-        $this->constructDiscardedBuilding = true;
         $this->addText(clienttranslate("Take all of the cards which have been discarded since the beginning of the game and immediately construct one of your choice for free."));
         return $this;
     }

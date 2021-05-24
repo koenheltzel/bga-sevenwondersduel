@@ -2,9 +2,10 @@
 
 namespace SWD\States;
 
-use SevenWondersDuel;
+use SevenWondersDuelPantheon;
 use SWD\Building;
 use SWD\Conspiracy;
+use SWD\Divinities;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Players;
@@ -34,6 +35,9 @@ trait ChooseOpponentBuildingTrait {
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
         ];
+        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+            $data['divinitiesSituation'] = Divinities::getSituation();
+        }
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         }
@@ -54,7 +58,7 @@ trait ChooseOpponentBuildingTrait {
         }
         // TODO check if selected building is actually of the type that is allowed to discard?
 
-        SevenWondersDuel::get()->buildingDeck->insertCardOnExtremePosition($buildingId, 'discard', true);
+        SevenWondersDuelPantheon::get()->buildingDeck->insertCardOnExtremePosition($buildingId, 'discard', true);
 
         $building = Building::get($buildingId);
         if ($this->getGameStateValue(self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER) > 0) {

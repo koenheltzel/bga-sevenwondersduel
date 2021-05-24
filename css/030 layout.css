@@ -45,9 +45,19 @@
     z-index: 2;
 }
 
-.player_conspiracies > div {
+.player_conspiracies > .conspiracy_container {
     width: calc(var(--conspiracy-width) * var(--conspiracy-small-scale));
     height: calc(var(--conspiracy-compact-height) * var(--conspiracy-small-scale) * var(--conspiracy-plus-age-card-scale));
+}
+
+.player_conspiracies > .divinity_container {
+    width: calc(var(--divinity-compact-width) * var(--divinity-small-scale) * var(--element-scale));
+    height: calc(var(--divinity-compact-height) * var(--divinity-small-scale) * var(--element-scale));
+    --element-scale: 1.2372;
+}
+#swd[data-agora="1"] .player_conspiracies > .divinity_container {
+    height: calc(var(--divinity-compact-height) * var(--divinity-small-scale) * var(--element-scale) * var(--divinity-plus-age-card-scale));
+    top: calc(21px * var(--scale));
 }
 
 #swd_wrap.landscape .player_conspiracies {
@@ -112,11 +122,7 @@
     flex-direction: column;
     justify-content: space-between;
     flex-wrap: wrap;
-}
-
-#swd_wrap.portrait #board_column {
-    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
-    width: calc(220px * var(--scale));
+    width: calc((var(--board-column-width) + var(--senate-board-column-width) + var(--pantheon-board-column-width)) * var(--board-scale));
 }
 
 #swd_wrap.square #wonder_column {
@@ -124,17 +130,6 @@
     align-items: flex-end;
 }
 
-#swd_wrap.square #board_column, #swd_wrap.landscape #board_column {
-    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
-    width: calc(225px * var(--scale));
-}
-
-#swd[data-agora="1"] #swd_wrap.portrait #board_column {
-    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
-    width: calc(395px * var(--scale));
-}
-
-#swd[data-agora="1"] #swd_wrap.square #board_column, #swd[data-agora="1"] #swd_wrap.landscape #board_column {
-    /* Specific width so layout_flexbox becomes the same width as player_wonders_mobile_container_ div. */
-    width: calc(395px * var(--scale));
+#board_middle_container {
+    position: relative; /* So the #pantheon_board_container can be positioned absolute */
 }

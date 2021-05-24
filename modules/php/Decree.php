@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuel;
+use SevenWondersDuelPantheon;
 
 class Decree extends Item {
 
@@ -37,7 +37,7 @@ class Decree extends Item {
             return 1337;
         }
         else {
-            $cardInfo = SevenWondersDuel::get()->decreeDeck->getCard($this->id);
+            $cardInfo = SevenWondersDuelPantheon::get()->decreeDeck->getCard($this->id);
             if ($cardInfo['location'] == "board") {
                 return (int)substr($cardInfo['location_arg'], 0, 1);
             }

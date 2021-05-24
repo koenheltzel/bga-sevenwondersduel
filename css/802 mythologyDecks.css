@@ -1,0 +1,62 @@
+
+#mythology_decks_container {
+    margin-left: var(--gutter) !important;
+    white-space: nowrap;
+}
+
+#mythology_deck span {
+    font-family: "Cafeteria-Black", Roboto, Arial, sans-serif;
+    font-size: calc(var(--scale) * 32px);
+    text-shadow: 0 0 calc(var(--scale) * 3px) black, 0 0 calc(var(--scale) * 3px) black;
+    color: white;
+    cursor: default;
+    position: relative;
+}
+/* MESOPOTAMIAN */
+#mythology_decks_container > div:nth-of-type(1) h3 span {
+    color: #008946;
+}
+/* PHOENICIAN */
+#mythology_decks_container > div:nth-of-type(2) h3 span {
+    color: #f79021;
+}
+/* GREEK */
+#mythology_decks_container > div:nth-of-type(3) h3 span {
+    color: #159fc7;
+}
+/* EGYPTIAN */
+#mythology_decks_container > div:nth-of-type(4) h3 span {
+    color: #58585a;
+}
+/* ROMAN */
+#mythology_decks_container > div:nth-of-type(5) h3 span {
+    color: #d1232a;
+}
+#mythology_decks_container > div {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+}
+
+#mythology_decks_container .divinity {
+    position: relative;
+}
+
+#divinity_deck_container {
+    margin-left: var(--gutter) !important;
+}
+
+.divinity_deck span {
+    font-family: cafeteria, sans-serif;
+    font-weight: 800;
+    font-style: normal;
+    font-size: calc(var(--scale) * 32px);
+    text-shadow: 0 0 calc(var(--scale) * 3px) black, 0 0 calc(var(--scale) * 3px) black;
+    color: white;
+    cursor: default;
+    position: relative;
+    top: calc(var(--scale) * 3px);
+}
+#divinity_deck_container .divinity {
+    position: initial;
+}

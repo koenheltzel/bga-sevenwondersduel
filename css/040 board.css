@@ -26,27 +26,41 @@
 
     width: calc(var(--scale) * 80px);
     height: calc(var(--scale) * 29px);
-    /*background-size: calc(var(--scale) * 80px) calc(var(--scale) * 29px);*/
     left: calc(var(--scale) * 45px);
-    top: calc((var(--military-track-header) + (var(--conflict-pawn-position) + 9) / 18 * var(--military-track-body)) * var(--board-height) * var(--board-scale));
-    /*border-radius: var(--small-border-radius);*/
+    top: calc((var(--military-track-header) + (var(--conflict-pawn-position) * var(--invert-military-positions) + 9) / 18 * var(--military-track-body)) * var(--board-height) * var(--board-scale));
     filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
     position: absolute;
     display: inline-block;
     z-index: 3;
 }
 
-.capital {
-    width: calc(var(--board-scale) * 74px);
-    height: calc(var(--board-scale) * 37px);
+.minerva_pawn {
+    background-image: url('img/pantheon_sprites.png');
+    background-position: 74.964% 39.81%;
+    background-size: 1374.545%;
+
+    width: calc(var(--scale) * 55px);
+    height: calc(var(--scale) * 30px);
+    left: calc(var(--scale) * 60px);
+    top: calc((var(--military-track-header) + (var(--minerva-pawn-position) * var(--invert-military-positions) + 9) / 18 * var(--military-track-body)) * var(--board-height) * var(--board-scale));
+    filter: drop-shadow(0px 0px calc(var(--scale) * 1.5px) #000000);
     position: absolute;
-    left: calc(var(--board-scale) * 78px);
+    display: inline-block;
+    z-index: 3;
 }
-#capital_opponent {
-    top: calc(var(--board-scale) * 44px);
+
+#board_container .military_position {
+    width: calc(var(--board-scale) * 80px);
+    height: calc(var(--board-scale) * 40px);
+    position: absolute;
+    left: calc(var(--board-scale) * 75px);
+    top: calc((var(--board-scale) * 42px) + (var(--military-visual-index) * var(--board-scale) * 45.8px));
 }
-#capital_me {
-    top: calc(var(--board-scale) * 868px);
+
+#board_container .military_position ellipse {
+    fill:#00000000;
+    width: calc(var(--board-scale) * 90px);
+    height: calc(var(--board-scale) * 45px);
 }
 
 

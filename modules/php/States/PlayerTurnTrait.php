@@ -2,12 +2,16 @@
 
 namespace SWD\States;
 
-use SevenWondersDuel;
+use SevenWondersDuelPantheon;
 use SWD\Building;
 use SWD\Conspiracies;
 use SWD\Conspiracy;
 use SWD\Decree;
+use SWD\Divinities;
+use SWD\Divinity;
 use SWD\Draftpool;
+use SWD\OfferingToken;
+use SWD\OfferingTokens;
 use SWD\Payment;
 use SWD\Player;
 use SWD\Players;
@@ -28,12 +32,16 @@ trait PlayerTurnTrait {
             'draftpool' => Draftpool::get(),
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
+            'offeringTokensSituation' => OfferingTokens::getSituation(), // To update the javascript offeringTokensSituation so the player gets the prompt when activating a Divinity
         ];
 
+        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+            $data['divinitiesSituation'] = Divinities::getSituation();
+        }
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             $this->addConspiraciesSituation($data);
             $data['senateSituation'] = Senate::getSituation();
-            $data['mayTriggerConspiracy'] = (int)SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_MAY_TRIGGER_CONSPIRACY);
+            $data['mayTriggerConspiracy'] = (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_MAY_TRIGGER_CONSPIRACY);
         }
         return $data;
     }
@@ -50,7 +58,7 @@ trait PlayerTurnTrait {
 
         $player = Player::getActive();
         $building = Building::get($buildingId);
-        if (SevenWondersDuel::get()->gamestate->state()['name'] == SevenWondersDuel::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
+        if (SevenWondersDuelPantheon::get()->gamestate->state()['name'] == SevenWondersDuelPantheon::STATE_CONSTRUCT_LAST_ROW_BUILDING_NAME) {
             $building->checkBuildingLastRow();
         }
         else {
@@ -160,8 +168,18 @@ trait PlayerTurnTrait {
 
         $player = Player::getActive();
         $building = Building::get($buildingId);
-        $building->checkBuildingAvailable();
 
+        $discardedBuilding = false;
+        if (SevenWondersDuelPantheon::get()->gamestate->state()['name'] == SevenWondersDuelPantheon::STATE_CONSTRUCT_WONDER_WITH_DISCARDED_BUILDING_NAME) {
+            $card = $this->buildingDeck->getCard($buildingId);
+            if ($card['location'] != 'discard') {
+                throw new \BgaUserException( clienttranslate("The building you selected is not in the discard pile.") );
+            }
+            $discardedBuilding = true;
+        }
+        else {
+            $building->checkBuildingAvailable();
+        }
 
         if (!in_array($wonderId, $player->getWonderIds())) {
             throw new \BgaUserException( clienttranslate("The wonder you selected is not available.") );
@@ -172,7 +190,7 @@ trait PlayerTurnTrait {
             throw new \BgaUserException( clienttranslate("The wonder you selected has already been constructed.") );
         }
 
-        $payment = $wonder->construct($player, $building);
+        $payment = $wonder->construct($player, $building, $discardedBuilding);
 
         $this->incStat(1, self::STAT_WONDERS_CONSTRUCTED, $player->id);
 
@@ -193,22 +211,6 @@ trait PlayerTurnTrait {
 
         // Handle some special rewards that possibly require going to a separate state. If not move on to the Next Player Turn.
         switch ($wonder->id) {
-            case 5: // Wonder The Mausoleum - Choose a discarded building and construct it for free.
-                if (count(SevenWondersDuel::get()->buildingDeck->getCardsInLocation('discard')) > 0) {
-                    $this->prependStateStack([self::STATE_CHOOSE_DISCARDED_BUILDING_NAME]);
-                }
-                else {
-                    $this->notifyAllPlayers(
-                        'message',
-                        clienttranslate('${player_name} can\'t choose a discarded card (Wonder “${wonderName}”)'),
-                        [
-                            'i18n' => ['wonderName'],
-                            'player_name' => $player->name,
-                            'wonderName' => $wonder->name
-                        ]
-                    );
-                }
-                break;
             case 6: // Wonder The Great Library - Randomly draw 3 Progress tokens from among those discarded at the beginning of the game. Choose one, play it, and return the other 2 to the box.
                 $this->notifyAllPlayers(
                     'message',
@@ -248,6 +250,29 @@ trait PlayerTurnTrait {
         }
 
         $this->stateStackNextState();
+    }
+
+    public function actionActivateDivinity($divinityId, OfferingTokens $offeringTokens = null) {
+        $this->checkAction("actionActivateDivinity");
+
+        $player = Player::getActive();
+
+        $card = SevenWondersDuelPantheon::get()->divinityDeck->getCard($divinityId);
+        if (!strstr($card['location'], 'space')) {
+            throw new \BgaUserException( clienttranslate("The Divinity you selected is not available.") );
+        }
+
+        /** @var OfferingToken $offeringToken */
+        if ($offeringTokens) {
+            foreach($offeringTokens->array as $offeringToken) {
+                if (!$player->hasOfferingToken($offeringToken->id)) {
+                    throw new \BgaUserException(sprintf(self::_("You don't have the -%s Offering token."), $offeringToken->discount));
+                }
+            }
+        }
+
+        $divinity = Divinity::get($divinityId);
+        $payment = $divinity->activate($player, false, $offeringTokens); // Also handles transition to next state
     }
 
     public function actionPrepareConspiracy($buildingId, $conspiracyId) {
@@ -303,7 +328,7 @@ trait PlayerTurnTrait {
 
         $payment = $conspiracy->trigger($player);
 
-        SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_MAY_TRIGGER_CONSPIRACY, 0);
+        SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_MAY_TRIGGER_CONSPIRACY, 0);
 
         $this->incStat(1, self::STAT_CONSPIRACIES_TRIGGERED, $player->id);
 

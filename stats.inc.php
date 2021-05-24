@@ -3,7 +3,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
+ * SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -11,7 +11,7 @@
  *
  * stats.inc.php
  *
- * SevenWondersDuel game statistics description
+ * SevenWondersDuelPantheon game statistics description
  *
  */
 
@@ -155,6 +155,11 @@ $stats_type = [
             "name" => totranslate("VP from purple cards"),
             "type" => "int"
         ],
+        "vp_divinities" => [
+            "id" => 95,
+            "name" => totranslate("VP from Divinities"),
+            "type" => "int"
+        ],
         "vp_wonders" => [
             "id" => 100,
             "name" => totranslate("VP from Wonders"),
@@ -253,6 +258,11 @@ $stats_type = [
         "chained_constructions" => [
             "id" => 270,
             "name" => totranslate("Chained constructions"),
+            "type" => "int"
+        ],
+        "divinities_activated" => [
+            "id" => 300,
+            "name" => totranslate("Divinities activated"),
             "type" => "int"
         ],
         "conspiracies_prepared" => [

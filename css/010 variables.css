@@ -2,12 +2,13 @@
 :root {
     --scale: 1.0;
     --element-scale: 1.0;
+    --element-scale2: 1.0;
     --gutter: calc(7.5px * var(--scale));
 
     --building-spritesheet-width: 1992px;
-    --building-spritesheet-height: 1792px;
+    --building-spritesheet-height: 2048px;
     --building-spritesheet-columns: 12;
-    --building-spritesheet-rows: 7;
+    --building-spritesheet-rows: 8;
     --building-spritesheet-scale: 1.253; /* Had to make the spritesheet smaller to support the @2X version at 4096 pixels high. */
     --building-width: calc(var(--building-spritesheet-width) / var(--building-spritesheet-columns) * var(--building-spritesheet-scale));
     --building-height: calc(var(--building-spritesheet-height) / var(--building-spritesheet-rows) * var(--building-spritesheet-scale));
@@ -18,14 +19,37 @@
     --building-columns-count: 7;
 
     --wonder-spritesheet-width: 1845px;
-    --wonder-spritesheet-height: 720px;
+    --wonder-spritesheet-height: 960px;
     --wonder-spritesheet-columns: 5;
-    --wonder-spritesheet-rows: 3;
+    --wonder-spritesheet-rows: 4;
     --wonder-width: calc(var(--wonder-spritesheet-width) / var(--wonder-spritesheet-columns));
     --wonder-height: calc(var(--wonder-spritesheet-height) / var(--wonder-spritesheet-rows));
     --wonder-border-radius: 15px;
     --wonder-small-scale: calc(0.58 * var(--scale));
     --wonder-plus-age-card-scale: 1.1;
+
+    --divinity-spritesheet-width: 1356px;
+    --divinity-spritesheet-height: 1660px;
+    --divinity-spritesheet-columns: 6;
+    --divinity-spritesheet-rows: 4;
+    --divinity-width: calc(var(--divinity-spritesheet-width) / var(--divinity-spritesheet-columns));
+    --divinity-height: calc(var(--divinity-spritesheet-height) / var(--divinity-spritesheet-rows));
+    --divinity-compact-width: calc(var(--divinity-spritesheet-width) / var(--divinity-spritesheet-columns) * (194/226));
+    --divinity-compact-height: calc(var(--divinity-spritesheet-height) / var(--divinity-spritesheet-rows) * (114/415));
+    --divinity-border-radius: 15px;
+    --divinity-small-scale: calc(0.58 * var(--scale));
+    --divinity-plus-age-card-scale: 1.25;
+
+    --pantheon-spritesheet-width: 756px;
+    --pantheon-spritesheet-height: 230px;
+
+    --mythology-token-width: 124px;
+    --mythology-token-height: 122px;
+    --mythology-token-small-scale: calc(0.484 * var(--scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
+
+    --offering-token-width: 100px;
+    --offering-token-height: 97px;
+    --offering-token-small-scale: calc(0.484 * var(--scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
 
     --conspiracy-spritesheet-width: 1440px;
     --conspiracy-spritesheet-height: 1107px;
@@ -56,22 +80,29 @@
     --decree-small-scale: calc(0.45 * var(--senate-scale)); /* (0.5 / 0.63) Because board used to be scale 0.63 and now is 0.5 */
 
     --linked-building-icon-spritesheet-width: 288px;
-    --linked-building-icon-spritesheet-height: 64px;
+    --linked-building-icon-spritesheet-height: 96px;
     --linked-building-icon-spritesheet-columns: 9;
-    --linked-building-icon-spritesheet-rows: 2;
+    --linked-building-icon-spritesheet-rows: 3;
     --linked-building-icon-width: calc(var(--linked-building-icon-spritesheet-width) / var(--linked-building-icon-spritesheet-columns));
     --linked-building-icon-height: calc(var(--linked-building-icon-spritesheet-height) / var(--linked-building-icon-spritesheet-rows));
-    --linked-building-icon-small-scale: calc(0.45 * var(--scale));
+    --linked-building-icon-small-scale: calc(0.52 * var(--scale));
 
     --board-width: 268px;
     --board-height: 949px;
     --board-scale: calc(0.75 * var(--scale));
     --military-token-scale: calc(0.5 * var(--scale));
+    --board-column-width: 293px;
+
+    --pantheon-board-width: 217px;
+    --pantheon-board-height: 949px;
+    --pantheon-board-scale: calc(0.75 * var(--scale));
+    --pantheon-board-column-width: 0px;
 
     --senate-width: 220px;
     --senate-height: 949px;
     --senate-scale: calc(0.75 * var(--scale));
     --cube-size: 30px;
+    --senate-board-column-width: 0px;
 
     --senate-tooltip-spritesheet-width: 1980px;
     --senate-tooltip-spritesheet-height: 315px;
@@ -91,13 +122,27 @@
     --military-track-header: 0.0434;
     --military-track-body: 0.87;
     --conflict-pawn-position: 0; /* -9 to 9 */
+    --minerva-pawn-position: -999; /* -9 to 9 */
 
     --list-of-cards-scale: calc(var(--scale) * 0.75);
+}
+
+#swd_wrap.square #board_column, #swd_wrap.landscape #board_column {
+    --board-column-width: 300px;
+}
+
+#swd[data-pantheon="1"] {
+    --pantheon-board-column-width: 175px;
+}
+
+#swd[data-pantheon="0"] .pantheon {
+    display: none;
 }
 
 #swd[data-agora="1"] {
     --building-columns-count: 8;
     --draftpool-column-count: 13;
+    --senate-board-column-width: 233px;
 }
 
 #swd[data-agora="0"] .agora {

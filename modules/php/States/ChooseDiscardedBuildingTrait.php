@@ -3,6 +3,7 @@
 namespace SWD\States;
 
 use SWD\Building;
+use SWD\Divinities;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Players;
@@ -23,6 +24,9 @@ trait ChooseDiscardedBuildingTrait
             'wondersSituation' => Wonders::getSituation(),
             'playersSituation' => Players::getSituation(),
         ];
+        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+            $data['divinitiesSituation'] = Divinities::getSituation();
+        }
         if ($this->getGameStateValue(self::OPTION_AGORA)) {
             $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         }
@@ -44,7 +48,20 @@ trait ChooseDiscardedBuildingTrait
         $building = Building::get($buildingId);
         $payment = $building->construct(Player::getActive(), null, true);
 
-
         $this->transitionAfterConstructBuilding($building, $payment);
+    }
+
+    public function shouldSkipDiscardedBuilding() {
+        if (count($this->buildingDeck->getCardsInLocation('discard')) == 0) {
+            $this->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} can\'t choose a discarded card'),
+                [
+                    'player_name' => Player::getActive()->name,
+                ]
+            );
+            return true;
+        }
+        return false;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace SWD\States;
 
-use SevenWondersDuel;
+use SevenWondersDuelPantheon;
 use SWD\Building;
 use SWD\Conspiracy;
 use SWD\Player;
@@ -76,6 +76,24 @@ trait SwapBuildingTrait {
             ]
         );
 
+        $snakeTokenBuilding = Player::snakeTokenBuilding();
+        if ($snakeTokenBuilding) {
+            foreach([[$player, $buildingOpponent], [$opponent, $buildingPlayer]] as $pair) { // This may look wrong but the Snake token is on your opponent's building
+                $tmpPlayer = $pair[0];
+                $tmpBuilding = $pair[1];
+                if ($tmpBuilding->id == $snakeTokenBuilding->id) {
+                    $this->setGameStateValue(\SevenWondersDuelPantheon::VALUE_SNAKE_TOKEN_BUILDING_ID, 0);
+                    $this->notifyAllPlayers(
+                        'message',
+                        clienttranslate('${player_name}\'s Snake token is discarded'),
+                        [
+                            'player_name' => $tmpPlayer->name
+                        ]
+                    );
+                }
+            }
+        }
+
         $prependStates = [];
 
         $playerPoints = $buildingOpponent->victoryPoints - $buildingPlayer->victoryPoints;
@@ -110,8 +128,7 @@ trait SwapBuildingTrait {
             }
 
             // Active player and or opponent can have completed a science symbol pair. Let active player go first, but both get to do the action before determining immediate win.
-            $buildings = $tmpPlayer->getBuildings()->filterByScientificSymbol($tmpBuilding->scientificSymbol);
-            if (count($buildings->array) == 2 && $tmpBuilding->gatheredSciencePairNotification($tmpPlayer)) {
+            if ($tmpPlayer->hasScientificSymbolPair($tmpBuilding->scientificSymbol) && $tmpBuilding->gatheredSciencePairNotification($tmpPlayer)) {
                 if ($tmpPlayer == Player::me()) {
                     $prependStates = array_merge([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME], $prependStates);
                 }

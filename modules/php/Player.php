@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuel;
+use SevenWondersDuelPantheon;
 
 class Player extends Base{
 
@@ -10,9 +10,12 @@ class Player extends Base{
     public $name = null;
     public $color = null;
     private $wonderIds = [];
+    private $mythologyTokenIds = [];
+    private $offeringTokenIds = [];
     private $conspiracyIds = [];
     private $buildingIds = [];
     public $progressTokenIds = [];
+    public $divinityIds = [];
     public $decreeIds = [];
 
     public static $instances = [];
@@ -34,8 +37,8 @@ class Player extends Base{
         if (isDevEnvironment()) {
             return self::get(1);
         } else {
-            $playerIds = array_keys(SevenWondersDuel::get()->loadPlayersBasicInfos());
-            $playerId = SevenWondersDuel::get()->getCurrentPlayerId(true); // pass true to prevent crash in zombie turn mode
+            $playerIds = array_keys(SevenWondersDuelPantheon::get()->loadPlayersBasicInfos());
+            $playerId = SevenWondersDuelPantheon::get()->getCurrentPlayerId(true); // pass true to prevent crash in zombie turn mode
             if (is_null($playerId) || !in_array($playerId, $playerIds)) {
                 // We are either in zombieTurn (server initiated), or a spectator. Take the first player as me.
                 $playerId = $playerIds[0];
@@ -52,7 +55,7 @@ class Player extends Base{
             return self::get(2);
         } else {
             if (is_null($meId)) $meId = Player::me()->id;
-            $players = SevenWondersDuel::get()->loadPlayersBasicInfos();
+            $players = SevenWondersDuelPantheon::get()->loadPlayersBasicInfos();
             $playerIds = array_keys($players);
             foreach ($playerIds as $playerId) {
                 // This is a 2-player game so we just look for a playerId not matching currentPlayerId.
@@ -67,7 +70,7 @@ class Player extends Base{
     private function __construct($id) {
         $this->id = $id;
         if (strstr($_SERVER['HTTP_HOST'], 'boardgamearena.com')) {
-            $basicInfo = SevenWondersDuel::get()->getPlayerBasicInfo($this->id);
+            $basicInfo = SevenWondersDuelPantheon::get()->getPlayerBasicInfo($this->id);
             $this->name = $basicInfo['player_name'];
             $this->color = $basicInfo['player_color'];
         }
@@ -84,25 +87,65 @@ class Player extends Base{
     /**
      * @return Player
      */
+    public static function getStartPlayer() {
+        return self::get(SevenWondersDuelPantheon::get()->getGameStartPlayerId());
+    }
+
+    /**
+     * @return Player
+     */
     public static function getActive() {
-        return self::get(SevenWondersDuel::get()->getActivePlayerId());
+        return self::get(SevenWondersDuelPantheon::get()->getActivePlayerId());
     }
 
     public function getAlias() {
         return $this->id == Player::me()->id ? 'me' : 'opponent';
     }
 
-    public function getCoins() {
-        return (int)$this->getValue("player_coins");
+    public function getAstarteCoins() {
+        if (self::hasDivinity(4)) {
+            return (int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_ASTARTE_COINS);
+        }
+        return 0;
+    }
+
+    public function getCoins($includeAstarteCoins=false, $includeOfferingTokensDiscount=false) {
+        $coins = (int)$this->getValue("player_coins");
+        if ($includeAstarteCoins) {
+            $coins += $this->getAstarteCoins();
+        }
+        if ($includeOfferingTokensDiscount) {
+            foreach($this->getOfferingTokens()->array as $offeringToken) {
+                $coins += $offeringToken->discount;
+            }
+        }
+        return $coins;
     }
 
     public function getCubes() {
-        return SevenWondersDuel::get()->influenceCubeDeck->countCardInLocation($this->id);
+        return SevenWondersDuelPantheon::get()->influenceCubeDeck->countCardInLocation($this->id);
     }
 
     public function increaseCoins($increase) {
         if ($increase < 0) {
+            $originalIncrease = $increase;
             $increase = max($increase, -$this->getCoins());
+            $astarteCoins = $this->getAstarteCoins();
+            if ($originalIncrease != $increase && $astarteCoins > 0) {
+                $astarteIncrease = max($originalIncrease - $increase, -$astarteCoins);
+                SevenWondersDuelPantheon::get()->setGameStateValue(SevenWondersDuelPantheon::VALUE_ASTARTE_COINS, $astarteCoins + $astarteIncrease);
+
+                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                    'message',
+                    clienttranslate('${player_name} used ${coins} coin(s) from Divinity “${divinityName}”'),
+                    [
+                        'i18n' => ['divinityName'],
+                        'player_name' => $this->name,
+                        'coins' => abs($astarteIncrease),
+                        'divinityName' => Divinity::get(4)->name,
+                    ]
+                );
+            }
         }
         return $this->increaseValue("player_coins", $increase);
     }
@@ -138,34 +181,37 @@ class Player extends Base{
                 $this->setValue('player_score_aux', $this->getValue($category_column));
             }
 
-            SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VICTORY_POINTS, $this->id);
+            SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VICTORY_POINTS, $this->id);
             switch (strtolower($category)) { // strtolower to be sure but shouldn't be necessary anymore.
                 case strtolower(Building::TYPE_BLUE):
-                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_BLUE, $this->id);
+                    SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VP_BLUE, $this->id);
                     break;
                 case strtolower(Building::TYPE_GREEN):
-                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_GREEN, $this->id);
+                    SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VP_GREEN, $this->id);
                     break;
                 case strtolower(Building::TYPE_YELLOW):
-                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_YELLOW, $this->id);
+                    SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VP_YELLOW, $this->id);
                     break;
                 case strtolower(Building::TYPE_PURPLE):
-                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_PURPLE, $this->id);
+                    SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VP_PURPLE, $this->id);
                     break;
-                case SevenWondersDuel::SCORE_WONDERS:
-                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_WONDERS, $this->id);
+                case SevenWondersDuelPantheon::SCORE_DIVINITIES:
+                    SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VP_DIVINITIES, $this->id);
                     break;
-                case SevenWondersDuel::SCORE_PROGRESSTOKENS:
-                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_PROGRESS_TOKENS, $this->id);
+                case SevenWondersDuelPantheon::SCORE_WONDERS:
+                    SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VP_WONDERS, $this->id);
                     break;
-                case SevenWondersDuel::SCORE_COINS:
-                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_COINS, $this->id);
+                case SevenWondersDuelPantheon::SCORE_PROGRESSTOKENS:
+                    SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VP_PROGRESS_TOKENS, $this->id);
                     break;
-                case SevenWondersDuel::SCORE_MILITARY:
-                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_MILITARY, $this->id);
+                case SevenWondersDuelPantheon::SCORE_COINS:
+                    SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VP_COINS, $this->id);
                     break;
-                case SevenWondersDuel::SCORE_SENATE:
-                    SevenWondersDuel::get()->incStat($increase, SevenWondersDuel::STAT_VP_SENATE, $this->id);
+                case SevenWondersDuelPantheon::SCORE_MILITARY:
+                    SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VP_MILITARY, $this->id);
+                    break;
+                case SevenWondersDuelPantheon::SCORE_SENATE:
+                    SevenWondersDuelPantheon::get()->incStat($increase, SevenWondersDuelPantheon::STAT_VP_SENATE, $this->id);
                     break;
             }
         }
@@ -185,9 +231,10 @@ class Player extends Base{
     }
 
     public function getScoreCategories() {
-        $agora_column = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA) ? ',`player_score_senate`' : '';
+        $agora_column = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) ? ',`player_score_senate`' : '';
+        $pantheon_column = SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_PANTHEON) ? ',`player_score_divinities`' : '';
 
-        return self::getCollectionFromDB("SELECT `player_score_blue`,`player_score_green`,`player_score_yellow`,`player_score_purple`,`player_score_wonders`,`player_score_progresstokens`,`player_score_coins`,`player_score_military` {$agora_column} FROM player WHERE player_id='{$this->id}'");
+        return self::getCollectionFromDB("SELECT `player_score_blue`,`player_score_green`,`player_score_yellow`,`player_score_purple`,`player_score_wonders`,`player_score_progresstokens`,`player_score_coins`,`player_score_military` {$pantheon_column} {$agora_column} FROM player WHERE player_id='{$this->id}'");
     }
 
     /**
@@ -230,6 +277,30 @@ class Player extends Base{
     /**
      * @return array
      */
+    public function getMythologyTokenIds(): array {
+        if (isDevEnvironment()) {
+            return $this->mythologyTokenIds;
+        }
+        else {
+            return array_column($this->getMythologyTokenDeckCards(), 'id');
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getOfferingTokenIds(): array {
+        if (isDevEnvironment()) {
+            return $this->offeringTokenIds;
+        }
+        else {
+            return array_column($this->getOfferingTokenDeckCards(), 'id');
+        }
+    }
+
+    /**
+     * @return array
+     */
     public function getWonderIds(): array {
         if (isDevEnvironment()) {
             return $this->wonderIds;
@@ -253,8 +324,16 @@ class Player extends Base{
         return Wonders::createByWonderIds($this->getWonderIds());
     }
 
+    public function getOfferingTokens(): OfferingTokens {
+        return OfferingTokens::createByOfferingTokenIds($this->getOfferingTokenIds());
+    }
+
     public function hasWonder($id) : bool {
         return in_array($id, $this->getWonderIds());
+    }
+
+    public function hasOfferingToken($id) : bool {
+        return in_array($id, $this->getOfferingTokenIds());
     }
 
     public function getWonderDeckCards(): array {
@@ -277,6 +356,31 @@ class Player extends Base{
             $rows[] = $row;
         }
         return $rows;
+    }
+
+    public function getMythologyTokenDeckCards(): array {
+        return MythologyTokens::getDeckCardsSorted($this->id);
+    }
+
+    /**
+     * @return MythologyTokens
+     */
+    public function getMythologyTokens(): MythologyTokens {
+        return MythologyTokens::createByMythologyTokenIds($this->getMythologyTokenIds());
+    }
+
+    public function hasMythologyToken($type) {
+        $tokens = $this->getMythologyTokens();
+        foreach($tokens as $token) {
+            if ($token->type == $type) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getOfferingTokenDeckCards(): array {
+        return OfferingTokens::getDeckCardsSorted($this->id);
     }
 
     /**
@@ -309,7 +413,7 @@ class Player extends Base{
             $conspiracy = Conspiracy::get($card['id']);
             $progressToken = 0;
             if ($conspiracy->id == 5) {
-                $progressToken = count(SevenWondersDuel::get()->progressTokenDeck->getCardsInLocation('conspiracy5'));
+                $progressToken = count(SevenWondersDuelPantheon::get()->progressTokenDeck->getCardsInLocation('conspiracy5'));
             }
             $row = [];
             $row['conspiracy'] = $conspiracy->isTriggered() ? $conspiracy->id : 18;
@@ -351,11 +455,42 @@ class Player extends Base{
     }
 
     public function hasBuilding($id) : bool {
-        return in_array($id, $this->getBuildingIds());
+        if ($id < 0) {
+            // Dirty, we use a negative id for mythology token linked buildings (Grand Temples from Pantheon)
+            $divinityType = abs($id);
+            $mythologyTokenId1 = (($divinityType - 1) * 2) + 1;
+            $mythologyTokenId2 = (($divinityType - 1) * 2) + 2;
+            $mythologyTokenIds = $this->getMythologyTokenIds();
+            return in_array($mythologyTokenId1, $mythologyTokenIds) || in_array($mythologyTokenId2, $mythologyTokenIds);
+        }
+        else {
+            return in_array($id, $this->getBuildingIds());
+        }
     }
 
     public function getBuildingDeckCards(): array {
-        return SevenWondersDuel::get()->buildingDeck->getCardsInLocation($this->id);
+        return SevenWondersDuelPantheon::get()->buildingDeck->getCardsInLocation($this->id);
+    }
+
+    public function hasScientificSymbolPair($symbol): bool {
+        if ($symbol < 1 || $symbol > 7) return false;
+
+        $buildings = $this->getBuildings()->filterByScientificSymbol($symbol);
+        $count = count($buildings->array);
+        switch ($symbol) {
+            case 2:
+                if ($this->hasProgressToken(4)) {
+                    $count++;
+                }
+                if ($this->hasDivinity(2)) {
+                    $count++;
+                }
+                break;
+        }
+        if ($this->hasSnakeToken() && Player::snakeTokenScientificSymbol() == $symbol) {
+            $count++;
+        }
+        return $count >= 2;
     }
 
     public function getScientificSymbolCount(): int {
@@ -369,7 +504,83 @@ class Player extends Base{
         if ($this->hasProgressToken(4)) {
             $symbols[] = ProgressToken::get(4)->scientificSymbol;
         }
+        if ($this->hasDivinity(2)) {
+            $divinity = Divinity::get(2);
+            if (!in_array($divinity->scientificSymbol, $symbols)) {
+                $symbols[] = $divinity->scientificSymbol;
+            }
+        }
+        if ($this->hasSnakeToken()) {
+            $symbol = Player::snakeTokenScientificSymbol();
+            if (!in_array($symbol, $symbols)) {
+                $symbols[] = $symbol;
+            }
+        }
         return count($symbols);
+    }
+
+    /**
+     * @return array
+     */
+    public function getDivinityIds(): array {
+        if (isDevEnvironment()) {
+            return $this->divinityIds;
+        }
+        else {
+            return array_column($this->getDivinityDeckCards(), 'id');
+        }
+    }
+
+    public function getDivinityDeckCards(): array {
+        return Divinities::getDeckCardsSorted($this->id);
+    }
+
+    public function getDivinitiesData(): array {
+        $cards = $this->getDivinityDeckCards();
+        $rows = [];
+        foreach($cards as $card) {
+            $row = [];
+            $row['id'] = $card['id'];
+            $row['position'] = $card['location_arg'];
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+
+    /**
+     * The player "has" the Snake token, meaning it's on one of his opponent's green cards.
+     * @return bool
+     */
+    public function hasSnakeToken() : bool {
+        $building = self::snakeTokenBuilding();
+        if ($building) {
+            $opponent = $this->getOpponent();
+            return $opponent->hasBuilding($building->id);
+        }
+        return false;
+    }
+
+    /**
+     * @return int|null
+     */
+    public static function snakeTokenScientificSymbol() : ?int {
+        $building = self::snakeTokenBuilding();
+        if ($building) {
+            return $building->scientificSymbol;
+        }
+        return null;
+    }
+
+    /**
+     * @return Building|null
+     */
+    public static function snakeTokenBuilding() : ?Building {
+        $building = Building::get((int)SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::VALUE_SNAKE_TOKEN_BUILDING_ID));
+        return $building;
+    }
+
+    public function hasDivinity($id) : int {
+        return in_array($id, $this->getDivinityIds());
     }
 
     /**
@@ -411,7 +622,7 @@ class Player extends Base{
             return in_array($id, $this->decreeIds);
         }
         else {
-            if (!SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
+            if (!SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA)) {
                 // Needed during launch of Agora expansion when running games don't have the Agora database tables yet.
                 return false;
             }

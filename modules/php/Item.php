@@ -2,7 +2,7 @@
 
 namespace SWD;
 
-use SevenWondersDuel;
+use SevenWondersDuelPantheon;
 
 class Item extends Base
 {
@@ -49,19 +49,19 @@ class Item extends Base
      * @param $cardId
      * @return PaymentPlan
      */
-    public function construct(Player $player, $building = null, $discardedCard = false) {
+    public function construct(Player $player, $building = null, $discardedCard = false, $offeringTokens = null) {
         if ($discardedCard) {
             $payment = new Payment($this);
             $payment->discardedCard = true;
         }
         else {
             $payment = new Payment($this);
-            $payment->calculate($player);
+            $payment->calculate($player, false, false, $offeringTokens);
         }
 
         $totalCost = $payment->totalCost();
-        if ($totalCost > $player->getCoins()) {
-            $itemType = $this instanceof Building ? self::_('Building') : self::_('Wonder');
+        if ($totalCost > $player->getCoins(true)) {
+            $itemType = self::_($this->getItemType());
             throw new \BgaUserException(sprintf(self::_("You can't afford the %s you selected."), $itemType));
         }
 
@@ -89,7 +89,7 @@ class Item extends Base
             if ($payment->economyProgressTokenCoins > 0) {
                 $player->getOpponent()->increaseCoins($payment->economyProgressTokenCoins);
 
-                SevenWondersDuel::get()->notifyAllPlayers(
+                SevenWondersDuelPantheon::get()->notifyAllPlayers(
                     'message',
                     clienttranslate('${coins} coin(s) of the cost for ${item_name} go to ${player_name} (“${progressTokenName}” Progress token)'),
                     [
@@ -106,7 +106,7 @@ class Item extends Base
         if ($this->victoryPoints > 0) {
             $player->increaseScore($this->victoryPoints, $this->getScoreCategory());
 
-            SevenWondersDuel::get()->notifyAllPlayers(
+            SevenWondersDuelPantheon::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} scores ${points} victory point(s)'),
                 [
@@ -119,7 +119,7 @@ class Item extends Base
             $payment->coinReward = $this->coins;
             $player->increaseCoins($payment->coinReward);
 
-            SevenWondersDuel::get()->notifyAllPlayers(
+            SevenWondersDuelPantheon::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} takes ${coins} coin(s) from the bank'),
                 [
@@ -128,41 +128,45 @@ class Item extends Base
                 ]
             );
         }
-        if ($this->military > 0) {
+        $divinityNeptune = $payment->getItem() instanceof Divinity && $payment->getItem()->id == 15;
+        if ($this->military > 0 || $divinityNeptune) {
             MilitaryTrack::movePawn($player, $this->military, $payment);
 
+            $message = null;
             if($payment->getItem() instanceof Decree) {
                 $message = clienttranslate('The Conflict pawn moves 1 space towards ${towards_player_name}\'s capital');
             }
             elseif($player->hasProgressToken(8) && $payment->getItem() instanceof Building) {
                 $message = clienttranslate('${player_name} moves the Conflict pawn ${steps} space(s) (+1 from Progress token “${progressTokenName}”)');
             }
-            else {
+            elseif (!$divinityNeptune) {
                 $message = clienttranslate('${player_name} moves the Conflict pawn ${steps} space(s)');
             }
 
-            SevenWondersDuel::get()->notifyAllPlayers(
-                'message',
-                $message,
-                [
-                    'i18n' => ['progressTokenName'],
-                    'player_name' => $player->name,
-                    'towards_player_name' => $player == Player::getActive() ? Player::getActive()->getOpponent()->name : Player::getActive()->name,
-                    'steps' => $payment->militarySteps,
-                    'progressTokenName' => ProgressToken::get(8)->name, //Strategy
-                ]
-            );
+            if ($message) {
+                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                    'message',
+                    $message,
+                    [
+                        'i18n' => ['progressTokenName'],
+                        'player_name' => $player->name,
+                        'towards_player_name' => $player == Player::getActive() ? Player::getActive()->getOpponent()->name : Player::getActive()->name,
+                        'steps' => $payment->militarySteps,
+                        'progressTokenName' => ProgressToken::get(8)->name, //Strategy
+                    ]
+                );
+            }
 
             $opponent = $player->getOpponent();
             $payment->militarySenateActions = [];
-            if ($player !== Player::getActive() && SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA) && count($payment->militaryTokens) > 0) {
-                $payment->militarySenateActions[] = SevenWondersDuel::STATE_PLAYER_SWITCH_NAME;
+            if ($player !== Player::getActive() && SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) && count($payment->militaryTokens) > 0) {
+                $payment->militarySenateActions[] = SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME;
             }
             foreach($payment->militaryTokens as &$token) {
-                if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA)) {
+                if (SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA)) {
                     if ($token['value'] == 2) {
-                        $payment->militarySenateActions[] = SevenWondersDuel::STATE_PLACE_INFLUENCE_NAME;
-                        SevenWondersDuel::get()->notifyAllPlayers(
+                        $payment->militarySenateActions[] = SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_NAME;
+                        SevenWondersDuelPantheon::get()->notifyAllPlayers(
                             'message',
                             clienttranslate('A small military token is removed, ${player_name} must place an Influence cube'),
                             [
@@ -171,9 +175,9 @@ class Item extends Base
                         );
                     }
                     if ($token['value'] == 5) {
-                        $payment->militarySenateActions[] = SevenWondersDuel::STATE_REMOVE_INFLUENCE_NAME;
-                        $payment->militarySenateActions[] = SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME;
-                        SevenWondersDuel::get()->notifyAllPlayers(
+                        $payment->militarySenateActions[] = SevenWondersDuelPantheon::STATE_REMOVE_INFLUENCE_NAME;
+                        $payment->militarySenateActions[] = SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME;
+                        SevenWondersDuelPantheon::get()->notifyAllPlayers(
                             'message',
                             clienttranslate('A large military token is removed, ${player_name} must remove an Influence cube and may move an Influence cube'),
                             [
@@ -183,22 +187,18 @@ class Item extends Base
                     }
                 }
                 else {
-                    $militaryOpponentPays = min($token['value'], $opponent->getCoins());
-                    $token['militaryOpponentPays'] = $militaryOpponentPays;
-                    if ($militaryOpponentPays > 0) {
-                        $opponent->increaseCoins(-$militaryOpponentPays);
-
-                        SevenWondersDuel::get()->notifyAllPlayers(
+                    if ($token['militaryOpponentPays'] > 0) {
+                        SevenWondersDuelPantheon::get()->notifyAllPlayers(
                             'message',
                             clienttranslate('A military “${value} coins” token is removed, ${player_name} discards ${coins} coin(s)'),
                             [
                                 'value' => $token['value'],
                                 'player_name' => $opponent->name,
-                                'coins' => $militaryOpponentPays,
+                                'coins' => $token['militaryOpponentPays'],
                             ]
                         );
                     } else {
-                        SevenWondersDuel::get()->notifyAllPlayers(
+                        SevenWondersDuelPantheon::get()->notifyAllPlayers(
                             'message',
                             clienttranslate('A military “${value} coins” token is removed, but ${player_name} can\'t discard any coins'),
                             [
@@ -207,11 +207,34 @@ class Item extends Base
                             ]
                         );
                     }
-                    $payment->militaryOpponentPays += $militaryOpponentPays;
                 }
             }
-            if ($player !== Player::getActive() && SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_AGORA) && count($payment->militaryTokens) > 0) {
-                $payment->militarySenateActions[] = SevenWondersDuel::STATE_PLAYER_SWITCH_NAME;
+
+
+            if (count($payment->militaryPoliorceticsPositions) > 0) {
+                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                    'message',
+                    clienttranslate('${opponentName} discarded ${coins} coin(s) for ${player_name}\'s Conflict pawn movement (Progress Token “${progressTokenName}”)'),
+                    [
+                        'i18n' => ['progressTokenName'],
+                        'player_name' => $player->name,
+                        'opponentName' => $opponent->name,
+                        'progressTokenName' => ProgressToken::get(14)->name,
+                        'coins' => count($payment->militaryPoliorceticsPositions),
+                    ]
+                );
+            }
+
+            if ($payment->militaryRemoveMinerva) {
+                SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                    'message',
+                    clienttranslate('The Conflict pawn movement ended because the Minerva pawn blocked it, the Minerva pawn was then discarded.'),
+                    []
+                );
+            }
+
+            if ($player !== Player::getActive() && SevenWondersDuelPantheon::get()->getGameStateValue(SevenWondersDuelPantheon::OPTION_AGORA) && count($payment->militaryTokens) > 0) {
+                $payment->militarySenateActions[] = SevenWondersDuelPantheon::STATE_PLAYER_SWITCH_NAME;
             }
         }
     }
@@ -224,7 +247,7 @@ class Item extends Base
         if ($this->victoryPoints > 0) {
             $player->increaseScore(-$this->victoryPoints, $this->getScoreCategory());
 
-            SevenWondersDuel::get()->notifyAllPlayers(
+            SevenWondersDuelPantheon::get()->notifyAllPlayers(
                 'message',
                 clienttranslate('${player_name} loses ${points} victory point(s)'),
                 [
@@ -232,6 +255,29 @@ class Item extends Base
                     'points' => $this->victoryPoints,
                 ]
             );
+        }
+    }
+
+    public static function gatheredSciencePairNotification($player) {
+        if (count(SevenWondersDuelPantheon::get()->progressTokenDeck->getCardsInLocation('board')) > 0) {
+            SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} gathered a pair of identical scientific symbols, and may now choose a Progress token'),
+                [
+                    'player_name' => $player->name,
+                ]
+            );
+            return true;
+        }
+        else {
+            SevenWondersDuelPantheon::get()->notifyAllPlayers(
+                'message',
+                clienttranslate('${player_name} gathered a pair of identical scientific symbols, but there are no Progress tokens left'),
+                [
+                    'player_name' => $player->name,
+                ]
+            );
+            return false;
         }
     }
 
@@ -247,6 +293,9 @@ class Item extends Base
         }
         if ($this instanceof Conspiracy) {
             return clienttranslate('Conspiracy');
+        }
+        if ($this instanceof Divinity) {
+            return clienttranslate('Divinity');
         }
     }
 
@@ -372,16 +421,16 @@ class Item extends Base
     public function addActionState($stateName) {
         $this->actionStates[] = $stateName;
         switch ($stateName) {
-            case SevenWondersDuel::STATE_PLACE_INFLUENCE_NAME:
+            case SevenWondersDuelPantheon::STATE_PLACE_INFLUENCE_NAME:
                 $this->addText(clienttranslate('Place 1 Influence cube in a Chamber of your choice.'));
                 break;
-            case SevenWondersDuel::STATE_MOVE_INFLUENCE_NAME:
+            case SevenWondersDuelPantheon::STATE_MOVE_INFLUENCE_NAME:
                 $this->addText(clienttranslate('You can move 1 of your Influence cubes to an adjacent Chamber.'));
                 break;
-            case SevenWondersDuel::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME:
+            case SevenWondersDuelPantheon::STATE_TRIGGER_UNPREPARED_CONSPIRACY_NAME:
                 $this->addText(clienttranslate('Trigger an unprepared Conspiracy in your possession (optional).'));
                 break;
-            case SevenWondersDuel::STATE_REMOVE_INFLUENCE_NAME:
+            case SevenWondersDuelPantheon::STATE_REMOVE_INFLUENCE_NAME:
                 $this->addText(clienttranslate('Remove 1 of your opponent\'s Influence cubes of your choice from the Senate.'));
                 break;
         }

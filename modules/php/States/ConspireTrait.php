@@ -4,6 +4,7 @@ namespace SWD\States;
 
 use SWD\Conspiracies;
 use SWD\Conspiracy;
+use SWD\Divinities;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Players;
@@ -28,6 +29,9 @@ trait ConspireTrait {
             'playersSituation' => Players::getSituation(),
             'wonderSelectionRound' => $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND),
         ];
+        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+            $data['divinitiesSituation'] = Divinities::getSituation();
+        }
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         return $data;
     }

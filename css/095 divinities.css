@@ -1,0 +1,132 @@
+
+.divinity {
+    width: calc(var(--divinity-width) * var(--scale));
+    height: calc(var(--divinity-height) * var(--scale));
+    background-size: calc(var(--divinity-spritesheet-width) * var(--scale)) calc(var(--divinity-spritesheet-height) * var(--scale));
+    background-image: url('img/pantheon_divinities.jpg');
+    border-radius: calc(var(--divinity-border-radius) * var(--scale));
+    box-shadow: calc(var(--scale) * 5px) calc(var(--scale) * 5px) calc(var(--scale) * 5px) 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px #00000060;
+    backface-visibility: hidden;
+
+    /* Temporary: */
+    display: inline-block;
+    position: inherit;
+}
+
+.divinity_small {
+    width: calc(var(--divinity-width) * var(--divinity-small-scale) * var(--element-scale));
+    height: calc(var(--divinity-height) * var(--divinity-small-scale) * var(--element-scale));
+    background-size: calc(var(--divinity-spritesheet-width) * var(--divinity-small-scale) * var(--element-scale)) calc(var(--divinity-spritesheet-height) * var(--divinity-small-scale) * var(--element-scale));
+    border-radius: calc(var(--divinity-border-radius) * var(--divinity-small-scale));
+    box-shadow: 0 0 calc(var(--scale) * 3px) calc(var(--scale) * 1px) rgba(0, 0, 0, 0.4),
+    inset 0 0 0 calc(var(--scale) * 0.5px) #00000060;
+    text-align: center;
+    position: absolute;
+    display: block;
+}
+.divinity_compact {
+    width: calc(var(--divinity-compact-width) * var(--divinity-small-scale) * var(--element-scale));
+    height: calc(var(--divinity-compact-height) * var(--divinity-small-scale) * var(--element-scale));
+    backface-visibility: hidden;
+}
+
+.divinity_compact.divinity_back {
+    box-shadow: 0 0 0px calc(var(--scale) * 4.5px) #001017 inset;
+}
+
+.player_conspiracies .divinity_container > .divinity {
+    /*top: calc(21px * var(--scale));*/
+}
+.divinity_container {
+    /*display: inline-block;*/
+    position: relative; /* Without this the divinity won't slide properly */
+    backface-visibility: hidden;
+}
+
+/* So during divinity selection, during the sliding animation the player wonder will be on top of the selection wonders. And when constructing a wonder the age card will be on top of the other draftpool cards. */
+.player_conspiracies .divinity {
+    z-index: 30;
+}
+
+.divinity > .swd_title {
+    position: relative;
+    top: 72%;
+    font-size: calc(16px * var(--scale));
+    display: block;
+}
+
+.divinity_small > .swd_title {
+    font-size: calc(16px * var(--divinity-small-scale) * var(--element-scale));
+}
+.divinity_small.divinity_compact .swd_title {
+    top: 7%;
+}
+/* Astarte coins */
+.divinity_small .coin {
+    --element-scale: 0.85;
+    position: absolute;
+    left: 81%;
+    top: 1%;
+}
+
+.divinity_compact .trigger, .divinity_compact .prepare, .divinity_small .deck_position {
+    font-family: cafeteria, sans-serif;
+    font-weight: 800;
+    font-style: normal;
+    font-size: calc(var(--scale) * 22px);
+    line-height: calc(var(--scale) * 22px);
+    color: red;
+    cursor: default;
+    position: relative;
+    display: none;
+    top: calc(var(--scale) * 3px);
+    z-index:4;
+    pointer-events: none;
+    animation: opacity_blink 0.5s infinite alternate;
+}
+.divinity_compact .trigger {
+    color: #078a00;
+}
+.divinity_small .deck_position {
+    color: white;
+    animation: none;
+    font-size: calc(var(--scale) * 18px);
+    top: calc(var(--scale) * 6px);
+}
+
+.divinity_small.divinity_compact .enki_progress_tokens {
+    left: 5.5%;
+    top: 28%;
+    --element-scale2: 0.72;
+}
+.divinity_small .enki_progress_tokens {
+    --element-scale2: 0.80;
+    top: 78%;
+    display: inline-block;
+    left: 7%;
+    position: absolute;
+    white-space: nowrap;
+}
+
+.divinity_small .enki_progress_tokens > div {
+    display: inline-block;
+    width: calc(var(--progress-token-width) * var(--progress-token-small-scale) * var(--element-scale) * var(--element-scale2));
+    height: calc(var(--progress-token-height) * var(--progress-token-small-scale) * var(--element-scale) * var(--element-scale2));
+}
+.divinity_small .enki_progress_tokens > div:nth-of-type(1) {
+    margin-right: calc(var(--scale) * var(--element-scale) * var(--element-scale2) * 12px);
+}
+
+.divinity_compact.green_border .trigger, .divinity_compact.red_border .prepare {
+    display: inline-block;
+}
+
+@keyframes opacity_blink {
+    from {
+        opacity: 0.4;
+    }
+    to {
+        outline-color: 1;
+    }
+}

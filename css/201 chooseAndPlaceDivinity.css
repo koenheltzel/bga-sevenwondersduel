@@ -1,0 +1,37 @@
+
+#choose_and_place_divinity {
+    display: none;
+}
+
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] {
+    --draftpool-row-height-multiplier: 0.35 !important;
+    --draftpool-row-height: calc(var(--building-height) * var(--building-small-scale) * var(--draftpool-row-height-multiplier));
+}
+
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] #choose_and_place_divinity {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] #choose_and_place_divinity > div:nth-of-type(1) {
+    margin-right: var(--gutter);
+}
+
+/* Hide/show second div */
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] #choose_and_place_divinity > div:nth-of-type(2) {
+    display: block;
+}
+
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] #choose_and_place_divinity .divinity_small {
+    cursor: pointer;
+}
+.current_player_is_active #swd[data-state=chooseAndPlaceDivinity] .pantheon_space_containers .red_border {
+    cursor: pointer;
+}
+
+#choose_and_place_divinity > div {
+    width: calc(var(--divinity-width) * var(--divinity-small-scale));
+    height: calc(var(--divinity-height) * var(--divinity-small-scale));
+    position: relative;
+}

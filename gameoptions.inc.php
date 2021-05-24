@@ -3,7 +3,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * SevenWondersDuel implementation : © Koen Heltzel <koenheltzel@gmail.com>
+ * SevenWondersDuelPantheon implementation : © Koen Heltzel <koenheltzel@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -11,14 +11,14 @@
  *
  * gameoptions.inc.php
  *
- * SevenWondersDuel game options description
+ * SevenWondersDuelPantheon game options description
  *
  * In this file, you can define your game options (= game variants).
  *
  * Note: If your game has no variant, you don't have to modify this file.
  *
  * Note²: All options defined in this file should have a corresponding "game state labels"
- *        with the same ID (see "initGameStateLabels" in sevenwondersduel.game.php)
+ *        with the same ID (see "initGameStateLabels" in sevenwondersduelpantheon.game.php)
  *
  * !! It is not a good idea to modify this file when a game is running !!
  *
@@ -49,6 +49,59 @@ $game_options = [
             )
 
     */
+
+    105 => [
+        'name' => totranslate('Expansion: Pantheon'),
+        'values' => [
+            0 => ['name' => totranslate('No')],
+            1 => [
+                'name' => totranslate('Yes'),
+                'tmdisplay' => totranslate('Expansion: Pantheon'),
+                'description' => totranslate('Pantheon offers players the ability to invoke powerful Divinities to benefit from their powers. During Age I, the players will choose the Divinities they will be able to invoke during Ages II and III.'),
+                'beta' => true,
+                'nobeginner' => true
+            ]
+        ],
+        'default' => 1
+    ],
+    106 => [
+        'name' => totranslate('Guarantee Pantheon Wonders (testing option)'),
+        'values' => [
+            0 => ['name' => totranslate('No')],
+            1 => [
+                'name' => totranslate('Yes'),
+                'description' => totranslate('Guarantees the inclusion of the 2 Pantheon Wonders for testing purposes.'),
+                'beta' => true,
+            ]
+        ],
+        'default' => 0,
+        'displaycondition' => [ // Note: do not display this option unless these conditions are met
+            [
+                'type' => 'otheroption',
+                'id' => 105,
+                'value' => 1
+            ]
+        ],
+    ],
+    107 => [
+        'name' => totranslate('Guarantee Pantheon Progress Tokens (testing option)'),
+        'values' => [
+            0 => ['name' => totranslate('No')],
+            1 => [
+                'name' => totranslate('Yes'),
+                'description' => totranslate('Guarantees the inclusion of the 3 Pantheon Progress Tokens for testing purposes.'),
+                'beta' => true,
+            ]
+        ],
+        'default' => 0,
+        'displaycondition' => [ // Note: do not display this option unless these conditions are met
+            [
+                'type' => 'otheroption',
+                'id' => 105,
+                'value' => 1
+            ]
+        ],
+    ],
 
     110 => [
         'name' => totranslate('Expansion: Agora'),

@@ -2,6 +2,7 @@
 
 namespace SWD\States;
 
+use SWD\Divinities;
 use SWD\Draftpool;
 use SWD\Player;
 use SWD\Senate;
@@ -17,6 +18,9 @@ trait PlaceInfluenceTrait {
         $data = [];
         $data['wonderSelectionRound'] = $this->getGameStateValue(self::VALUE_CURRENT_WONDER_SELECTION_ROUND);
         $data['draftpool'] = Draftpool::get(); // Normal & For F5 while selecting Curia Julia during Wonder Selection
+        if ($this->getGameStateValue(self::OPTION_PANTHEON)) {
+            $data['divinitiesSituation'] = Divinities::getSituation();
+        }
         $data['senateSituation'] = Senate::getSituation();
         $this->addConspiraciesSituation($data); // When refreshing the page in this state, the private information should be passed.
         return $data;

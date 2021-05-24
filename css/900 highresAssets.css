@@ -23,19 +23,39 @@
 }
 
 #swd[data-quality="2x"] .building, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .building {
-    background-image: url('img/buildings_v2@2X.jpg') !important;
+    background-image: url('img/buildings_v3@2X.jpg') !important;
 }
 
 #swd[data-quality="2x"] .wonder, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .wonder {
-    background-image: url('img/wonders_v2@2X.jpg') !important;
+    background-image: url('img/wonders_v3@2X.jpg') !important;
 }
 
 #swd[data-quality="2x"] .progress_token, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .progress_token {
-    background-image: url('img/progress_tokens_v2@2X.jpg') !important;
+    background-image: url('img/progress_tokens_v3@2X.jpg') !important;
 }
 
 #swd[data-quality="2x"] .linked_building_icon, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .linked_building_icon {
-    background-image: url('img/linked-building-icons@2X.jpg') !important;
+    background-image: url('img/linked-building-icons@2X.png') !important;
+}
+
+/* Pantheon */
+#swd[data-quality="2x"] .divinity, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .divinity {
+    background-image: url('img/pantheon_divinities@2X.jpg');
+}
+#swd[data-quality="2x"] .pantheon_board {
+    background-image: url('img/pantheon_board@2X.png');
+}
+#swd[data-quality="2x"] .mythology_token, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .mythology_token,
+#swd[data-quality="2x"] .offering_token, #ebd-body[data-swd-quality="2x"] .dijitTooltipContents .offering_token,
+#swd[data-quality="2x"] .mythology_token_outline,
+#swd[data-quality="2x"] .offering_token_outline,
+#swd[data-quality="2x"] .minerva_pawn,
+#swd[data-quality="2x"] .snake_token,
+#swd[data-quality="2x"][data-pantheon="1"] .end_game_purple .end_game_card,
+#swd[data-quality="2x"][data-pantheon="1"] .end_game_divinities .end_game_card,
+#swd[data-quality="2x"] .pantheon_icon,
+#swd[data-quality="2x"] .pantheon_cost_arrow {
+    background-image: url('img/pantheon_sprites@2X.png') !important;
 }
 
 /* Agora */

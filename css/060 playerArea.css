@@ -12,9 +12,15 @@
 .player_info.opponent {
     margin-bottom: var(--gutter) !important;
 }
+#swd[data-pantheon="1"] .player_info.opponent {
+    margin-bottom: calc(2 * var(--gutter)) !important;
+}
 
 .player_info.me {
     margin-top: var(--gutter) !important;
+}
+#swd[data-pantheon="1"] .player_info.me {
+    margin-top: calc(1.5 * var(--gutter)) !important;
 }
 
 #swd_wrap.portrait .player_info.opponent {
@@ -157,6 +163,10 @@
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6f488b+0,6f488b+100&0+0,0.4+100 */
     background: linear-gradient(to bottom, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
+#swd[data-pantheon="1"] .player_buildings.opponent .player_building_column.Purple {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6f488b+0,41499a+100&0+0,0.4+100 */
+    background: linear-gradient(to bottom,  rgba(111,72,139,0) 0%,rgba(65,73,154,0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
 
 .player_buildings.opponent .player_building_column.Senator {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#858680+0,858680+100&0+0,0.4+100 */
@@ -197,6 +207,10 @@
 .player_buildings.me .player_building_column.Purple {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6f488b+0,6f488b+100&0+0,0.4+100 */
     background: linear-gradient(to top, rgba(111, 72, 139, 0) 0%, rgba(111, 72, 139, 0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+#swd[data-pantheon="1"] .player_buildings.me .player_building_column.Purple {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6f488b+0,41499a+100&0+0,0.4+100 */
+    background: linear-gradient(to top,  rgba(111,72,139,0) 0%,rgba(65,73,154,0.4) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 .player_buildings.me .player_building_column.Senator {
@@ -302,23 +316,6 @@
     --element-scale: 0.85;
 }
 
-#swd_wrap.square .player_wonders {
-    width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
-    height: calc(var(--number-of-wonders) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonders) - 1) * var(--gutter));
-}
-
-#swd_wrap.landscape .player_wonders {
-    width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
-    height: calc(var(--number-of-wonder-rows-landscape) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonder-rows-landscape) - 1) * var(--gutter));
-}
-
-#swd_wrap.portrait .player_wonders {
-    min-width: calc(4 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 3 * var(--gutter));
-    height: calc(var(--wonder-small-scale) * var(--wonder-height));
-
-    align-content: center;
-}
-
 .player_wonders {
     position: relative;
 
@@ -327,16 +324,37 @@
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
+#swd_wrap.square .player_wonders {
+    width: calc(var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale));
+    height: calc(var(--number-of-wonders) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonders) - 1) * var(--gutter));
+}
+
 #swd_wrap.landscape .player_wonders {
+    width: calc(2 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 1 * var(--gutter));
+    height: calc(var(--number-of-wonder-rows-landscape) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonder-rows-landscape) - 1) * var(--gutter));
     flex-direction: row;
     align-content: space-between;
 }
 
+#swd_wrap.portrait .player_wonders {
+    min-width: calc(4 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 3 * var(--gutter));
+    height: calc(var(--number-of-wonder-rows-portrait) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonder-rows-portrait) - 1) * var(--gutter));
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: center;
+}
+
+
 #swd_wrap.portrait .player_wonders > div:not(:last-child) {
     margin-right: var(--gutter);
+    flex-direction: row;
 }
 
 .player_wonders > div:nth-of-type(5) {
+    display: none;
+}
+.player_wonders > div:nth-of-type(6) {
     display: none;
 }
 
@@ -354,25 +372,32 @@
 }
 
 .player_area_progress_tokens {
-    display: inline-block;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--gutter);
     position: relative;
-    z-index: 10;
+    z-index: 31;
 }
 
-.player_area_progress_tokens > div {
+.player_area_progress_tokens .progress_token_outline {
+    order: 1;
     display: inline-block;
     position: relative;
     width: calc(var(--progress-token-width) * var(--progress-token-small-scale));
     height: calc(var(--progress-token-height) * var(--progress-token-small-scale));
 }
-
-.player_area_progress_tokens > div:nth-of-type(4) > div, .player_area_progress_tokens > div:nth-of-type(5) > div, .player_area_progress_tokens > div:nth-of-type(6) > div {
-    margin-bottom: calc(-12px * var(--scale));
+.player_area_progress_tokens .mythology_token_outline {
+    order: 2;
+    width: calc(var(--mythology-token-width) * var(--mythology-token-small-scale));
+    height: calc(var(--mythology-token-height) * var(--mythology-token-small-scale));
 }
-
-.player_area_progress_tokens > div:nth-of-type(4), .player_area_progress_tokens > div:nth-of-type(5), .player_area_progress_tokens > div:nth-of-type(6) {
-    display: none;
+.player_area_progress_tokens .offering_token_outline {
+    order: 3;
+    width: calc(var(--offering-token-width) * var(--offering-token-small-scale));
+    height: calc(var(--offering-token-height) * var(--offering-token-small-scale));
 }
 
 .player_area_coins {

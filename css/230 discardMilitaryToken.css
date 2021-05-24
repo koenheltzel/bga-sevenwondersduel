@@ -1,0 +1,4 @@
+
+.current_player_is_active #swd[data-state=discardMilitaryToken] .military_token.red_border {
+    cursor: pointer;
+}
