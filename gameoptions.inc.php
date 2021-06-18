@@ -62,7 +62,7 @@ $game_options = [
                 'nobeginner' => true
             ]
         ],
-        'default' => 1
+        'default' => 0
     ],
 //    106 => [
 //        'name' => totranslate('Guarantee Pantheon Wonders (testing option)'),
