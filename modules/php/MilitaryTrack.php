@@ -49,7 +49,7 @@ class MilitaryTrack extends Base
             while ($i != $targetPosition) {
                 $i += $direction;
 
-                if ($i == $minervaPosition) {
+                if (SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::OPTION_PANTHEON) && $i == $minervaPosition) {
                     $payment->militaryRemoveMinerva = true;
                     SevenWondersDuel::get()->setGameStateValue(SevenWondersDuel::VALUE_MINERVA_PAWN_POSITION, -999);
                     break; // Stop the pawn movement.
