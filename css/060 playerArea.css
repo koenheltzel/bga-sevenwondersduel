@@ -323,6 +323,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: space-between;
+    gap: var(--gutter);
 }
 
 #swd_wrap.square .player_wonders {
@@ -347,7 +348,6 @@
 
 
 #swd_wrap.portrait .player_wonders > div:not(:last-child) {
-    margin-right: var(--gutter);
     flex-direction: row;
 }
 
