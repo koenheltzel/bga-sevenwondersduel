@@ -49,8 +49,12 @@ trait ChooseProgressTokenFromBoxTrait {
         // Return any remaining progress tokens in the active selection back to the box.
         $this->progressTokenDeck->moveAllCardsInLocation('selection', 'box');
 
-        // From Wonder 6 we go to next player turn, from Conspiracy 10 we go to player turn
-        $this->stateStackNextState(self::STATE_NEXT_PLAYER_TURN_NAME);
-
+        if ($payment->selectProgressToken) {
+            $this->prependStateStackAndContinue([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);
+        }
+        else {
+            // From Wonder 6 we go to next player turn, from Conspiracy 10 we go to player turn
+            $this->stateStackNextState(self::STATE_NEXT_PLAYER_TURN_NAME);
+        }
     }
 }
