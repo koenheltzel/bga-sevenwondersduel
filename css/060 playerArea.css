@@ -323,7 +323,6 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: var(--gutter);
 }
 
 #swd_wrap.square .player_wonders {
@@ -339,7 +338,7 @@
 }
 
 #swd_wrap.portrait .player_wonders {
-    min-width: calc(4 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 3 * var(--gutter));
+    min-width: calc(4 * var(--wonder-small-scale) * var(--wonder-width) * var(--wonder-plus-age-card-scale) + 3.1 * var(--gutter));
     height: calc(var(--number-of-wonder-rows-portrait) * var(--wonder-small-scale) * var(--wonder-height) + (var(--number-of-wonder-rows-portrait) - 1) * var(--gutter));
     flex-direction: row;
     align-content: space-between;
@@ -347,8 +346,8 @@
 }
 
 
-#swd_wrap.portrait .player_wonders > div:not(:last-child) {
-    flex-direction: row;
+#swd_wrap.portrait .player_wonders > div:not(:first-child) {
+    margin-left: var(--gutter);
 }
 
 .player_wonders > div:nth-of-type(5) {
