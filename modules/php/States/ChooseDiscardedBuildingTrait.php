@@ -51,7 +51,7 @@ trait ChooseDiscardedBuildingTrait
         $this->transitionAfterConstructBuilding($building, $payment);
     }
 
-    public function shouldSkipDiscardedBuilding() {
+    public function shouldSkipChooseDiscardedBuilding() {
         if (count($this->buildingDeck->getCardsInLocation('discard')) == 0) {
             $this->notifyAllPlayers(
                 'message',
