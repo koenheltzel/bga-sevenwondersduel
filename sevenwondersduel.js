@@ -7377,8 +7377,11 @@ define([
                     if (nisabaDivinityNode) {
                         dojo.addClass(nisabaDivinityNode, 'endgame_highlight');
                         let opponentId = this.getOppositePlayerId(playersSituation.winner);
-                        var snakeTokenBuildingNode = dojo.query('.player' + opponentId + ' .snake_token').closest('.building')[0];
-                        dojo.addClass(snakeTokenBuildingNode, 'endgame_highlight');
+                        let snakeTokenNode = dojo.query('.player' + opponentId + ' .snake_token');
+                        if (snakeTokenNode.length > 0) { // If Nisaba was played when the opponent had no green cards, the snake token will not be present, so we have to check.
+                            var snakeTokenBuildingNode = snakeTokenNode.closest('.building')[0];
+                            dojo.addClass(snakeTokenBuildingNode, 'endgame_highlight');
+                        }
                     }
 
                     // Unset endGameCondition to prevent an infinite loop.
