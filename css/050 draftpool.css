@@ -82,10 +82,6 @@
     float: right;
 }
 
-#buttonDiscardBuilding .coin > span {
-    font-weight: normal;
-}
-
 #draftpool .column1 {
     left: calc(var(--draftpool-column-width) * (1 - 1));
 }
