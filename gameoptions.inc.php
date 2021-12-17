@@ -58,7 +58,7 @@ $game_options = [
                 'name' => totranslate('Yes'),
                 'tmdisplay' => totranslate('Expansion: Pantheon'),
                 'description' => totranslate('Pantheon offers players the ability to invoke powerful Divinities to benefit from their powers. During Age I, the players will choose the Divinities they will be able to invoke during Ages II and III.'),
-                'beta' => true,
+                'beta' => false,
                 'nobeginner' => true
             ]
         ],
