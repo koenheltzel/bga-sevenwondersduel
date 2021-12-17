@@ -58,6 +58,10 @@ trait ChooseDivinityFromTopCardsTrait {
             if ($divinity->id != $divinityId) {
                 $this->divinityDeck->insertCardOnExtremePosition($divinity->id, "mythology{$divinity->type}", true);
                 $types[] = $divinity->type;
+                if ($divinity->id == 1) {
+                    // Enki: Return any remaining progress tokens in the active selection back to the box.
+                    Divinities::resetEnkiProgressTokens();
+                }
             }
         }
 

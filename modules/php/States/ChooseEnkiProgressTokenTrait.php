@@ -38,7 +38,7 @@ trait ChooseEnkiProgressTokenTrait {
         $payment = $progressToken->construct(Player::getActive());
 
         // Return any remaining progress tokens in the active selection back to the box.
-        $this->progressTokenDeck->moveAllCardsInLocation('enki', 'box');
+        Divinities::resetEnkiProgressTokens();
 
         if ($payment->selectProgressToken) {
             $this->prependStateStackAndContinue([self::STATE_CHOOSE_PROGRESS_TOKEN_NAME]);

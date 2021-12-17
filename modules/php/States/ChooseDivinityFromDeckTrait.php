@@ -55,6 +55,10 @@ trait ChooseDivinityFromDeckTrait {
                 }
                 $this->divinityDeck->moveCard($divinity->id, "mythology{$divinity->type}", $position);
                 $types[] = $divinity->type;
+                if ($divinity->id == 1) {
+                    // Enki: Return any remaining progress tokens in the active selection back to the box.
+                    Divinities::resetEnkiProgressTokens();
+                }
             }
         }
 
