@@ -2769,8 +2769,8 @@ define([
                         this.playerTurnDescriptionMyTurn = _('Age ${ageRoman}: ${you} must play an Age card, activate a card from the Pantheon or trigger a Conspiracy first');
                     }
                     else {
-                        this.playerTurnDescription = _('Age ${ageRoman}: ${actplayer} must choose and use an age card or activate a card from the Pantheon');
-                        this.playerTurnDescriptionMyTurn = _('Age ${ageRoman}: ${you} must choose an age card, or activate a card from the Pantheon');
+                        this.playerTurnDescription = _('Age ${ageRoman}: ${actplayer} must play an Age card or trigger a Conspiracy first');
+                        this.playerTurnDescriptionMyTurn = _('Age ${ageRoman}: ${you} must play an Age card or trigger a Conspiracy first');
                     }
                 }
                 else {
