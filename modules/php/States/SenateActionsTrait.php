@@ -128,7 +128,7 @@ trait SenateActionsTrait {
                     $this->{$shouldSkipMethod}()
                 ) {
                     // We now have skipped this state, save the state stack and continue the while loop.
-                    $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
+                    $this->setGlobalVarcharValue(self::GLOBAL_VARCHAR_STATE_STACK, json_encode($stack));
                 }
                 else {
                     //Call the preEnterState function for this state if it exists.
@@ -139,7 +139,7 @@ trait SenateActionsTrait {
                     }
                     else {
                         // Save the state stack first.
-                        $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
+                        $this->setGlobalVarcharValue(self::GLOBAL_VARCHAR_STATE_STACK, json_encode($stack));
                         // Skip method does not exist or result is false, we can go into this state.
                         $this->gamestate->nextState( $nextState );
                         return;
@@ -160,16 +160,16 @@ trait SenateActionsTrait {
     public function prependStateStack(Array $states) {
         $stack = $this->getStateStack();
         $stack = array_merge($states, $stack);
-        $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
+        $this->setGlobalVarcharValue(self::GLOBAL_VARCHAR_STATE_STACK, json_encode($stack));
     }
 
     public function getStateStack() {
-        $stack = json_decode($this->getGameStateValue(self::VALUE_STATE_STACK));
+        $stack = json_decode($this->getGlobalVarcharValue(self::GLOBAL_VARCHAR_STATE_STACK));
         if (!is_array($stack)) $stack = []; // Needed during launch of Agora expansion when running games don't have the state stack value yet.
         return $stack;
     }
 
     public function setStateStack($stack) {
-        $this->setGameStateValue(self::VALUE_STATE_STACK, json_encode($stack));
+        $this->setGlobalVarcharValue(self::GLOBAL_VARCHAR_STATE_STACK, json_encode($stack));
     }
 }

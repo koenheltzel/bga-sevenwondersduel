@@ -33,8 +33,10 @@
 -- Example 2: add a custom field to the standard "player" table
 -- ALTER TABLE `player` ADD `player_my_custom_field` INT UNSIGNED NOT NULL DEFAULT '0';
 
-ALTER TABLE `global`
-    CHANGE COLUMN `global_value` `global_value` VARCHAR(255);
+CREATE TABLE `global_varchar` (
+  `global_id` int(10) UNSIGNED NOT NULL,
+  `global_value` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 ALTER TABLE `player`
     ADD COLUMN `player_coins` SMALLINT UNSIGNED NOT NULL DEFAULT '7',

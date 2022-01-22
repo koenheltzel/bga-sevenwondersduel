@@ -369,7 +369,7 @@ class view_sevenwondersduel_sevenwondersduel extends game_view
         $this->page->begin_block("sevenwondersduel_sevenwondersduel", "admin");
         global $g_user;
         if (in_array($g_user->get_id(), SevenWondersDuel::adminPlayerIds)) {
-            $this->tpl['AVAILABLE_CARDS'] = SevenWondersDuel::get()->getGameStateValue(SevenWondersDuel::VALUE_AVAILABLE_CARDS);
+            $this->tpl['AVAILABLE_CARDS'] = SevenWondersDuel::get()->getGlobalVarcharValue(SevenWondersDuel::GLOBAL_VARCHAR_AVAILABLE_CARDS);
             $this->page->insert_block("admin");
         }
 

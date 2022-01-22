@@ -278,10 +278,11 @@ class SevenWondersDuel extends Table
     const VALUE_CONSPIRE_RETURN_STATE = "conspire_return_state";
     const VALUE_SENATE_ACTIONS_SECTION = "senate_actions_section";
     const VALUE_SENATE_ACTIONS_LEFT = "senate_actions_left";
-    const VALUE_STATE_STACK = "state_stack";
     const VALUE_MAY_TRIGGER_CONSPIRACY = "may_trigger_conspiracy";
     const VALUE_DISCARD_AVAILABLE_CARD_ROUND = "discard_available_card_round";
-    const VALUE_AVAILABLE_CARDS = "available_cards";
+
+    const GLOBAL_VARCHAR_AVAILABLE_CARDS = 23;
+    const GLOBAL_VARCHAR_STATE_STACK = 36;
 
     // Game options (variants)
     const OPTION_AGORA = "option_agora";
@@ -424,7 +425,6 @@ class SevenWondersDuel extends Table
                 self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY => 19,
                 self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER => 20,
                 self::VALUE_END_GAME_CONDITION => 21,
-                self::VALUE_AVAILABLE_CARDS => 23,
                 // Global variables Pantheon
                 self::VALUE_ASTARTE_COINS => 50,
                 self::VALUE_MINERVA_PAWN_POSITION => 51,
@@ -434,7 +434,6 @@ class SevenWondersDuel extends Table
                 self::VALUE_CONSPIRE_RETURN_STATE => 33,
                 self::VALUE_SENATE_ACTIONS_SECTION => 34,
                 self::VALUE_SENATE_ACTIONS_LEFT => 35,
-                self::VALUE_STATE_STACK => 36,
                 self::VALUE_EXTRA_TURN_THROUGH_DECREE => 37,
                 self::VALUE_MAY_TRIGGER_CONSPIRACY => 38,
                 self::VALUE_DISCARD_AVAILABLE_CARD_ROUND => 39,
@@ -517,7 +516,7 @@ class SevenWondersDuel extends Table
     }
 
     public function getAvailableCardIds() {
-        $revealedCardIds = json_decode($this->getGameStateValue(self::VALUE_AVAILABLE_CARDS));
+        $revealedCardIds = json_decode($this->getGlobalVarcharValue(self::GLOBAL_VARCHAR_AVAILABLE_CARDS));
         if (!is_array($revealedCardIds)) $revealedCardIds = [];
         return $revealedCardIds;
     }
@@ -531,11 +530,11 @@ class SevenWondersDuel extends Table
         $intersected = array_intersect($allAgeCardIds, $cardIds);
         $checkedIds = array_values($intersected);
 
-        $currentValue = $this->getGameStateValue(self::VALUE_AVAILABLE_CARDS);
+        $currentValue = $this->getGlobalVarcharValue(self::GLOBAL_VARCHAR_AVAILABLE_CARDS);
         $newValue = json_encode($checkedIds);
         if ($currentValue !== $newValue) {
             // Only update if value is different to what is in the database, in an attempt to reduce deadlocks.
-            $this->setGameStateValue(self::VALUE_AVAILABLE_CARDS, $newValue);
+            $this->setGlobalVarcharValue(self::GLOBAL_VARCHAR_AVAILABLE_CARDS, $newValue);
         }
     }
 
@@ -593,8 +592,9 @@ class SevenWondersDuel extends Table
         self::setGameStateInitialValue( self::VALUE_EXTRA_TURN_THROUGH_THEOLOGY, 0);
         self::setGameStateInitialValue( self::VALUE_DISCARD_OPPONENT_BUILDING_WONDER, 0);
         self::setGameStateInitialValue( self::VALUE_END_GAME_CONDITION, 0);
-        self::setGameStateInitialValue( self::VALUE_STATE_STACK, json_encode([]));
-        self::setGameStateInitialValue( self::VALUE_AVAILABLE_CARDS, json_encode([]));
+        // Init global varchar values with their initial values
+        self::setGlobalVarcharInitialValue( self::GLOBAL_VARCHAR_STATE_STACK, json_encode([]));
+        self::setGlobalVarcharInitialValue( self::GLOBAL_VARCHAR_AVAILABLE_CARDS, json_encode([]));
         // Pantheon
         self::setGameStateInitialValue( self::VALUE_ASTARTE_COINS, 0);
         self::setGameStateInitialValue( self::VALUE_MINERVA_PAWN_POSITION, -999);
@@ -1044,12 +1044,67 @@ class SevenWondersDuel extends Table
             ";
             self::applyDbUpgradeToAllDB($sql);
         }
+        if ($from_version <= 2112172037) {
+            // Ditch the 2 varchar value in the `global` table, as it was not allowed to modify this columns type from int to varchar.
+            // Now creating a separate global_varchar table to store these values. For a game in progress, copy those values from `global` to `global_varchar` and delete them in `global.
 
+            $sql = "
+                CREATE TABLE `global_varchar` (
+                  `global_id` int(10) UNSIGNED NOT NULL,
+                  `global_value` varchar(255) DEFAULT NULL
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            ";
+            self::applyDbUpgradeToAllDB($sql);
 
+            $sql = "
+                INSERT INTO `global_varchar`
+                SELECT * FROM `global`
+                WHERE global_id IN (23, 36);
+            ";
+            self::applyDbUpgradeToAllDB($sql);
+
+            $sql = "
+                DELETE FROM `global`
+                WHERE global_id IN (23, 36);
+            ";
+            self::applyDbUpgradeToAllDB($sql);
+        }
     }
 
     public function getState($id) {
         return $this->gamestate->states[$id];
+    }
+
+    /**
+     * Init your global varchar value. Must be called before any use of your global, so you should call this method from your "setupNewGame" method.
+     *
+     * @param $value_label
+     * @param $value_value
+     */
+    protected function setGlobalVarcharInitialValue($global_id, $global_value)
+    {
+        self::DbQuery("INSERT INTO `global_varchar` (global_id, global_value) VALUES ({$global_id}, '{$this->escapeStringForDB($global_value)}')");
+    }
+
+    /**
+     * Retrieve the current value of a global varchar.
+     *
+     * @param $value_label
+     */
+    public function getGlobalVarcharValue($global_id, $default = NULL)
+    {
+        return self::getUniqueValueFromDB("SELECT `global_value` FROM `global_varchar` WHERE global_id = '{$global_id}'");
+    }
+
+    /**
+     * Set the current value of a global varchar.
+     *
+     * @param $value_label
+     * @param $value_value
+     */
+    public function setGlobalVarcharValue($global_id, $global_value)
+    {
+        self::DbQuery("UPDATE `global_varchar` SET `global_value` = '{$this->escapeStringForDB($global_value)}' WHERE global_id = '{$global_id}'");
     }
 
     /* Below we make some protected functions public, so the other SWD classes can use them. */
