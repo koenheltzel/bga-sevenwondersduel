@@ -1048,24 +1048,62 @@ class SevenWondersDuel extends Table
             // Ditch the 2 varchar value in the `global` table, as it was not allowed to modify this columns type from int to varchar.
             // Now creating a separate global_varchar table to store these values. For a game in progress, copy those values from `global` to `global_varchar` and delete them in `global.
 
+            try {
+                $sql = "
+                    CREATE TABLE `DBPREFIX_global_varchar` (
+                    `global_id` int(10) UNSIGNED NOT NULL,
+                        `global_value` varchar(255) DEFAULT NULL
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+                ";
+                self::applyDbUpgradeToAllDB($sql);
+
+                $sql = "
+                    INSERT INTO `DBPREFIX_global_varchar`
+                    SELECT * FROM `global`
+                    WHERE global_id IN (23, 36);
+                ";
+                self::applyDbUpgradeToAllDB($sql);
+
+                $sql = "
+                    DELETE FROM `DBPREFIX_global`
+                    WHERE global_id IN (23, 36);
+                ";
+                self::applyDbUpgradeToAllDB($sql);
+            } catch (Exception $ex) {
+            }
+        }
+        if ($from_version <= 2203081624) {
+            try {
+                $sql = "CREATE TABLE DBPREFIX_new_global_varchar SELECT DISTINCT * FROM DBPREFIX_global_varchar;";
+                self::applyDbUpgradeToAllDB($sql);
+                $sql = "ALTER TABLE DBPREFIX_global_varchar RENAME DBPREFIX_old_global_varchar;";
+                self::applyDbUpgradeToAllDB($sql);
+                $sql = "ALTER TABLE DBPREFIX_new_global_varchar RENAME DBPREFIX_global_varchar;";
+                self::applyDbUpgradeToAllDB($sql);
+
+                $sql = "
+                    UPDATE `DBPREFIX_global`
+                    SET `global_value` = '0'
+                    WHERE global_id = 5 AND global_value = '';
+                ";
+                self::applyDbUpgradeToAllDB($sql);
+            } catch (Exception $ex) {
+            }
+        }
+        if ($from_version <= 2203081656) {
             $sql = "
-                CREATE TABLE `global_varchar` (
-                  `global_id` int(10) UNSIGNED NOT NULL,
-                  `global_value` varchar(255) DEFAULT NULL
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+                UPDATE `DBPREFIX_global`
+                SET `global_value` = '0'
+                WHERE global_id = 5 AND global_value = '';
             ";
             self::applyDbUpgradeToAllDB($sql);
 
+        }
+        if ($from_version <= 2203081702) {
             $sql = "
-                INSERT INTO `global_varchar`
-                SELECT * FROM `global`
-                WHERE global_id IN (23, 36);
-            ";
-            self::applyDbUpgradeToAllDB($sql);
-
-            $sql = "
-                DELETE FROM `global`
-                WHERE global_id IN (23, 36);
+                UPDATE `DBPREFIX_global`
+                SET `global_value` = '0'
+                WHERE global_id = 5 AND global_value IS null;
             ";
             self::applyDbUpgradeToAllDB($sql);
         }
